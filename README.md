@@ -22,9 +22,9 @@
 
 ##  将第三方静态资源独立出来，并且使用其压缩版本,比如：
   * js/
-        * libs/
-           * jquery-2.1.4.min.js
-           * jquery-weui.min.js
+      * libs/
+          * jquery-2.1.4.min.js
+          * jquery-weui.min.js
   * css/
       * common/
         * weui.min.css
