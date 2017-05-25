@@ -36,7 +36,7 @@
 ##  解决缓存问题以及css自动补全
 
 * 安装nodejs [下载nodejs](https://nodejs.org/en/)
-* 全局安装cnmp
+* 全局安装cnpm
 ```
 npm i cnpm -g
 ```
