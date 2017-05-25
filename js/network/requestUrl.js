@@ -1,0 +1,1 @@
+var RequestUrl = 'http://weixin-test.zj-hf.cn/';

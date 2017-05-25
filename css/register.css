@@ -1,0 +1,107 @@
+/*
+* @Author: DELL
+* @Date:   2017-05-19 10:39:39
+* @Last Modified by:   DELL
+* @Last Modified time: 2017-05-23 15:17:08
+*/
+.textBox{
+  position:relative;
+  width: 5.376rem;
+  margin:0.512rem auto 0;
+  vertical-align: bottom;
+
+}
+.textBox form label{
+  float: left;
+  width: 1.1rem;
+  font-size: 0.273rem;
+  color: #666666;
+  line-height: 0.273rem;
+  margin-right: 0.1rem;
+}
+/*输入框上间距 */
+.textBox form p{
+  display: block;
+  margin-top:0.29rem;
+  width: 100%;
+  height:0.48rem;
+}
+.textBox form p.JYM{
+  display: none;
+}
+input{
+  float: left;
+  font-family: PingFangSC-Light;
+  font-size: 0.224rem;
+  color: #999999;
+  width: 4.096rem;
+  border-color: #666; 
+  border-top-width: 0px;
+  border-right-width: 0px; 
+  border-bottom-width: 0.016rem;
+  border-left-width: 0px;
+  line-height: 0.224rem;
+
+}
+#imageCode,#code{
+  width: 2.219rem;
+}
+.getCode,.getVerifyCode{
+  position: relative;
+  float: right;
+  bottom: 0.2048rem;
+  width: 1.57rem;
+  height: 0.512rem;
+  line-height: 0.2048rem;
+  text-align: center;
+  background: #1D71BE;
+  color: #fff;
+  font-size: 0.2048rem;
+}
+.agreeSign i{
+  background: url(../img/check@2x.png) no-repeat;
+  float: left;
+  width: 0.192rem;
+  height: 0.192rem;
+  margin-right: 0.08rem;
+  background-size: 100% 100%;
+}
+.agreeSign i.on{
+  background-image: url(../img/checked@2x.png);
+}
+.agreeSign span{
+font-family: "PingFangSC-Regular";
+font-size: 0.192rem;
+color: #666666;
+line-height: 0.192rem;
+}
+.agreeSign a{
+  font-family: "PingFangSC-Regular";
+font-size: 0.192rem;
+color: #002F00;
+line-height: 0.192rem;
+}
+.signUp{
+  margin: 0 auto;
+  margin-top: 0.64rem;
+  width: 100%;
+  height: 0.64rem;
+  background: #b7b7b7;
+  box-shadow: 0 -0.016rem  0.096rem 0 #b7b7b7;
+  border-radius: 0.064rem;
+  color: #fff;
+  font-size: 0.256rem;
+  line-height: 0.256rem;
+}
+.login-btn{
+  margin-top: 0.32rem;
+  margin: 0 auto;
+  border: 0.016rem solid #1D71BE;
+  border-radius: 0.064rem;
+  height: 0.64rem;
+  line-height: 0.64rem;
+  text-align: center;
+  font-size: 0.256rem;
+  color: #1D71BE;
+
+}

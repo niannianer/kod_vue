@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>宝付授权</title>
+		<script src='js/jquery-2.1.4.js'></script>
+	</head>
+	<body>
+		<form action='http://paytest.baofoo.com/baofoo-custody/custody/inAccredit.do' method='post' id='submitForm'>
+			<input type='hidden' name='merchant_id' value='100000675'/>
+			<input type='hidden' name='terminal_id' value='100000701'/>
+			<input type='hidden' name='user_id' id='uid' value=''/>
+			<input type='hidden' name='service_url' value='http://218.240.154.251:6620/baofoo/notification/auth'>
+			<input type='hidden' name='page_url' value='http://218.240.154.251:6620/baofoo/h5/notification/auth'/>
+		</form>
+		<script type='text/javascript'>
+			window.onload=function(){
+				$('#uid').val(window.location.search.slice(1).split('=')[1]);
+				document.getElementById('submitForm').submit();
+			}
+		</script>
+	</body>
+</html>
