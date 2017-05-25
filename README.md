@@ -38,7 +38,7 @@
 * 安装nodejs [下载nodejs](https://nodejs.org/en/)
 * 全局安装cnpm
 ```
-npm i cnpm -g
+npm install -g cnpm –registry=https://registry.npm.taobao.org
 ```
 * 全局安装grunt-cli
 ```
