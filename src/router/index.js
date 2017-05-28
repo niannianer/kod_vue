@@ -9,17 +9,24 @@ let routes = [
     {
         path: '/index',
         name: 'index',
-        title: '首页',
+        meta: {
+            title: '首页'
+        },
         component: Index
     }, {
         path: '/financial',
         name: 'financial',
-        title: '理财',
+        meta: {
+            title: '理财'
+        },
+
         component: Financial
     }, {
         path: '/my',
         name: 'my',
-        title: '我的',
+        meta: {
+            title: '我的'
+        },
         component: My,
         beforeEnter: (to, from, next) => {
             // ...
@@ -29,7 +36,9 @@ let routes = [
     }, {
         path: '/login',
         name: 'login',
-        title: '登录',
+        meta: {
+            title: '登录'
+        },
         component: Login,
     }
 ];

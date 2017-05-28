@@ -3,6 +3,7 @@ import App from './App';
 import router from './router';
 
 import store from './store';
+import {setTitle} from './tools/operation';
 import 'flex.css/dist/flex.css';
 import './less/base.less';
 
@@ -17,5 +18,8 @@ router.beforeEach((to, from, next) => {
     next();
 });
 router.afterEach((to, from) => {
-    console.log(54321);
+    console.log(to);
+    let {meta} = to;
+    let {title} = meta;
+    setTitle(title);
 })

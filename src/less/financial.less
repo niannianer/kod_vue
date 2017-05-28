@@ -1,7 +1,58 @@
 @charset "UTF-8";
 @import "variables";
 
+@tab-active: #1D72C0;
 .financail {
+    position: relative;
     width: 100%;
     height: 100%;
+    .tabs {
+        height: 1.8rem;
+        .tab {
+            text-align: center;
+            cursor: pointer;
+            .tab-item{
+                color: @color-text-gray;
+                font-size: .8rem;
+                display: inline-block;
+                line-height: 1.8rem;
+                padding: 0 .2rem;
+                border-bottom: .1rem solid @bg-body;
+                &.active {
+                    color: @tab-active;
+                    border-bottom-color: @tab-active;
+                }
+            }
+        }
+    }
+    .list{
+        position: relative;
+        padding: .8rem;
+        margin-bottom: .4rem;
+        background-color: @bg-content;
+        .fund-name{
+            line-height: .8rem;
+            font-size: .8rem;
+            color: @color-text-secondary;
+        }
+        .fund-middle{
+            margin-top: .5rem;
+            margin-bottom: .2rem;
+            .rate,.cycle{
+                font-size: 1.2rem;
+                color: @color-interest;
+                line-height: 2.3rem;
+                .sub-text{
+                    font-size: .6rem;
+                    line-height: .6rem;
+                    color: @color-text-secondary;
+                }
+            }
+            .progress{
+                position: relative;
+                height: 2.3rem;
+                width: 2.3rem;
+            }
+        }
+    }
 }
