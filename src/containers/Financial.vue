@@ -21,7 +21,9 @@
                     <div>{{list.cycle}}</div>
                     <div class="sub-text">期限</div>
                 </div>
-                <div class="progress" flex-box="0"></div>
+                <div class="progress" flex-box="0">
+                    <cicle-progress :width-size="50" :progress="list.progress"></cicle-progress>
+                </div>
             </div>
         </div>
     </div>
@@ -29,8 +31,12 @@
 
 <script>
     import '../less/financial.less';
+    import CicleProgress from '../components/CicleProgress/CicleProgress';
     export default {
         name: 'financial',
+        components: {
+            CicleProgress
+        },
         data(){
             return {
                 tab: 'high',
@@ -39,14 +45,28 @@
                         name: '泰发基金汇通一号',
                         rate: '8.15',
                         cycle: '6个月',
-                        progress: '65',
+                        progress: 65,
                         type: '1'
                     },
                     {
                         name: '泰发基金汇通二号',
                         rate: '9.15',
                         cycle: '12个月',
-                        progress: '30',
+                        progress: 30,
+                        type: '2'
+                    },
+                    {
+                        name: '泰发基金汇通二号',
+                        rate: '9.15',
+                        cycle: '12个月',
+                        progress: 0,
+                        type: '2'
+                    },
+                    {
+                        name: '泰发基金汇通二号',
+                        rate: '9.15',
+                        cycle: '12个月',
+                        progress: 100,
                         type: '2'
                     }
                 ]
