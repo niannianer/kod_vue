@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+
 import store from './store';
 import 'flex.css/dist/flex.css';
 import './less/base.less';

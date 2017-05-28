@@ -1,44 +1,43 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Tabs from '../containers/Tabs';
-
 Vue.use(Router)
-const Position = resolve => require(['../containers/Position'], resolve);
-const Interview = resolve => require(['../containers/Interview'], resolve);
-const Message = resolve => require(['../containers/Message'], resolve);
+const Index = resolve => require(['../containers/Index'], resolve);
+const Financial = resolve => require(['../containers/Financial'], resolve);
 const My = resolve => require(['../containers/My'], resolve);
+const Login = resolve => require(['../containers/Login'], resolve);
+let routes = [
+    {
+        path: '/index',
+        name: 'index',
+        title: '首页',
+        component: Index
+    }, {
+        path: '/financial',
+        name: 'financial',
+        title: '理财',
+        component: Financial
+    }, {
+        path: '/my',
+        name: 'my',
+        title: '我的',
+        component: My,
+        beforeEnter: (to, from, next) => {
+            // ...
+            console.log('my');
+            next();
+        }
+    }, {
+        path: '/login',
+        name: 'login',
+        title: '登录',
+        component: Login,
+    }
+];
+routes.push({
+    path: '*',
+    redirect: '/index'
+});
 export default new Router({
     mode: 'history',
-    routes: [
-        {
-            path: '/tabs',
-            name: 'tabs',
-            component: Tabs,
-            children: [{
-                path: 'position',
-                name: 'position',
-                component: Position
-            }, {
-                path: 'interview',
-                name: 'interview',
-                component: Interview
-            }, {
-                path: 'message',
-                name: 'message',
-                component: Message
-            }, {
-                path: 'my',
-                name: 'my',
-                component: My,
-                beforeEnter: (to, from, next) => {
-                    // ...
-                    console.log('my');
-                    next();
-                }
-            }]
-        }, {
-            path: '*',
-            redirect: '/tabs/position'
-        }
-    ]
+    routes
 })

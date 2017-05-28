@@ -19,6 +19,7 @@ console.log(env);
 const config = {
     entry: {
         'ventor': ['vue', 'vue-router', 'vuex'],
+        'tools': ['promise-polyfill', 'whatwg-fetch', 'lodash/core'],
         'main': './src/main.js'
     },
     output: {
@@ -93,7 +94,7 @@ const config = {
     plugins: [
         new CleanWebpackPlugin(['./dist', './html']),
         new CommonsChunkPlugin({
-            name: ['ventor'],
+            names: ['ventor','tools'],
             minChunks: Infinity
         }),
         extractCSS,
@@ -101,9 +102,9 @@ const config = {
         new webpack.NoEmitOnErrorsPlugin(),
         new WebpackMd5Hash(),
         new HtmlWebpackPlugin({
-            title: 'webpack-vue',
+            title: '金疙瘩',
             favicon: './src/images/logo.png',
-            chunks: ['ventor', 'main'],
+            chunks: ['ventor','tools', 'main'],
             inject: 'body',
             filename: path.resolve(__dirname, 'html/index.html'),
             template: './index.ejs',

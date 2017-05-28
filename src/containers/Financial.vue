@@ -1,12 +1,12 @@
 <template>
     <div flex-box="1" flex="dir:top">
-        position {{count}}
+        financial {{count}}
     </div>
 </template>
 
 <script>
     export default {
-        name: 'position',
+        name: 'financial',
         computed: {
             count(){
                 return this.$store.state.count

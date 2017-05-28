@@ -1,13 +1,13 @@
 <template>
     <div flex="dir:top" flex-box="1">
         <input v-model="newname" @keyup="changeName()">
-        <div>interview {{username}}</div>
+        <div>index {{username}}</div>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'interview',
+        name: 'index',
         data(){
             return {
                 newname: '',
