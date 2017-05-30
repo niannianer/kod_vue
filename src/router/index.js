@@ -44,7 +44,7 @@ let routes = [
 ];
 routes.push({
     path: '*',
-    redirect: '/index'
+    redirect: '/financial'
 });
 export default new Router({
     mode: 'history',

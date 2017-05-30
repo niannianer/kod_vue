@@ -14,10 +14,10 @@ const devUrl = 'http://xxx.dev';
 const testUrl = 'https://xxx.test';
 const productionUrl = 'https://xxx.production';
 let serverUrl = devUrl;
-if (process.env.NODE_ENV == 'test') {
+if (process.env.kingold == 'test') {
     serverUrl = testUrl;
 }
-if (process.env.NODE_ENV == 'production') {
+if (process.env.kingold == 'production') {
     serverUrl = productionUrl;
 }
 let $query = (data) => {

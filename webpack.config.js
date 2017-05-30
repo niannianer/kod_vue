@@ -94,7 +94,7 @@ const config = {
     plugins: [
         new CleanWebpackPlugin(['./dist', './html']),
         new CommonsChunkPlugin({
-            names: ['ventor','tools'],
+            names: ['ventor', 'tools'],
             minChunks: Infinity
         }),
         extractCSS,
@@ -104,7 +104,7 @@ const config = {
         new HtmlWebpackPlugin({
             title: '金疙瘩',
             favicon: './src/images/logo.png',
-            chunks: ['ventor','tools', 'main'],
+            chunks: ['ventor', 'tools', 'main'],
             inject: 'body',
             filename: path.resolve(__dirname, 'html/index.html'),
             template: './index.ejs',
@@ -127,7 +127,8 @@ if (env == 'production' || env == 'test') {
     config.plugins = (config.plugins || []).concat([
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': '"production"'
+                'NODE_ENV': '"production"',
+                'kingold': JSON.stringify(env)
             }
         }),
         new webpack.optimize.UglifyJsPlugin({
