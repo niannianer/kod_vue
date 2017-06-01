@@ -9,10 +9,14 @@
     word-wrap: break-word;
     margin: 0;
     padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0;
+    vertical-align: baseline;
 }
 
 img {
-    vertical-align: middle;
+    border: 0 none;
+    vertical-align: top;
     display: inline-block;
     width: 100%;
     height: auto;
@@ -61,9 +65,13 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
+    margin: 0 auto;
+    min-width: 320px;
+    max-width: 640px;
     background: rgba(163, 163, 163, 0.1);
     color: @color-text-secondary;
     font-size: .7rem;
+    text-size-adjust: 100% !important
 }
 
 #app {
@@ -83,12 +91,14 @@ body {
     box-shadow: 0 1px 6px 0 #61B3FF;
     border-radius: 3px;
 }
-.ellipsis{
+
+.ellipsis {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-[v-cloak]{
+
+[v-cloak] {
     display: none;
 }
 
