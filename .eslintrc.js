@@ -13,9 +13,22 @@ module.exports = {
     plugins: [
         'html'
     ],
+    extends:[
+        "eslint:recommended",
+    ],
+    "globals":{
+        'require': true,
+        'fetch' : true,
+        'window':true,
+        'FastClick':true,
+        'process':true,
+        'document':true
+    },
     // add your custom rules here
     'rules': {
         // allow debugger during development
-        'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+        'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+        "no-console":0,
+        "no-unused-vars":0
     }
 }

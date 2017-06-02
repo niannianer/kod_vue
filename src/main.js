@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+import 'fastclick';
 
 import store from './store';
 import {setTitle} from './tools/operation';
@@ -22,4 +23,7 @@ router.afterEach((to, from) => {
     let {meta} = to;
     let {title} = meta;
     setTitle(title);
-})
+});
+window.onload = () => {
+    FastClick.attach(document.body);
+}

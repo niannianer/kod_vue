@@ -19,7 +19,7 @@ console.log(env);
 const config = {
     entry: {
         'ventor': ['vue', 'vue-router', 'vuex'],
-        'tools': ['promise-polyfill', 'whatwg-fetch', 'lodash/core'],
+        'tools': ['promise-polyfill', 'whatwg-fetch', 'lodash/core','fastclick'],
         'main': './src/main.js'
     },
     output: {
@@ -41,6 +41,7 @@ const config = {
                 test: /\.(js|vue)$/,
                 loader: 'eslint-loader',
                 enforce: 'pre',
+                exclude: [/node_modules/],
                 options: {
                     formatter: require('eslint-friendly-formatter')
                 }

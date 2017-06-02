@@ -34,6 +34,7 @@
     "eslint-plugin-html": "^2.0.3",
     "express": "^4.14.1",
     "extract-text-webpack-plugin": "^2.1.0",
+    "fastclick": "^1.0.6",
     "file-loader": "^0.11.1",
     "flex.css": "^1.1.6",
     "friendly-errors-webpack-plugin": "^1.1.3",
