@@ -8,6 +8,7 @@ import {setTitle} from './tools/operation';
 import 'flex.css/dist/flex.css';
 import './less/base.less';
 
+
 new Vue({
     el: '#app',
     router,
