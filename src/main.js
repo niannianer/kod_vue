@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import 'fastclick';
+import FastClick from 'fastclick';
 
 import store from './store';
 import {setTitle} from './tools/operation';

@@ -1,6 +1,6 @@
 <template>
     <div v-cloak class="financail" flex-box="1" flex="dir:top">
-        <div class="tabs" flex>
+        <div class="tabs" flex flex-box="0">
             <div flex-box="1" class="tab" @click.stop="changeTab('high')">
                 <div class="tab-item" :class="{'active':tab=='high'}">高端理财</div>
             </div>
@@ -9,23 +9,26 @@
 
             </div>
         </div>
-
-        <div class="list" v-for="(list,index) in lists" :key="index">
-            <div class="fund-name">{{list.name}}</div>
-            <div flex="dir:left" class="fund-middle">
-                <div class="rate" flex-box="1">
-                    <div>{{list.rate}}</div>
-                    <div class="sub-text">业绩基准</div>
-                </div>
-                <div class="cycle" flex-box="1">
-                    <div>{{list.cycle}}</div>
-                    <div class="sub-text">期限</div>
-                </div>
-                <div class="progress" flex-box="0">
-                    <cicle-progress :width-size="50" :progress="list.progress"></cicle-progress>
+        <div class="item-list" flex-box="1">
+            <div class="list" v-for="(list,index) in lists" :key="index">
+                <div class="fund-name">{{list.name}}</div>
+                <div flex="dir:left" class="fund-middle">
+                    <div class="rate" flex-box="1">
+                        <div>{{list.rate}}</div>
+                        <div class="sub-text">业绩基准</div>
+                    </div>
+                    <div class="cycle" flex-box="1">
+                        <div>{{list.cycle}}</div>
+                        <div class="sub-text">期限</div>
+                    </div>
+                    <div class="progress" flex-box="0">
+                        <cicle-progress :width-size="50" :progress="list.progress"></cicle-progress>
+                    </div>
                 </div>
             </div>
         </div>
+
+
     </div>
 </template>
 
@@ -55,6 +58,21 @@
                         progress: 30,
                         type: '2'
                     },
+                    {
+                        name: '泰发基金汇通二号',
+                        rate: '9.15',
+                        cycle: '12个月',
+                        progress: 0,
+                        type: '2'
+                    },
+                    {
+                        name: '泰发基金汇通二号',
+                        rate: '9.15',
+                        cycle: '12个月',
+                        progress: 100,
+                        type: '2'
+                    }
+                    ,
                     {
                         name: '泰发基金汇通二号',
                         rate: '9.15',
