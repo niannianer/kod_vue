@@ -10,19 +10,19 @@
             </div>
         </div>
         <div class="item-list" flex-box="1">
-            <div class="list" v-for="(list,index) in lists" :key="index">
-                <div class="fund-name">{{list.name}}</div>
+            <div class="item" v-for="(item,index) in lists" :key="index">
+                <div class="fund-name">{{item.name}}</div>
                 <div flex="dir:left" class="fund-middle">
                     <div class="rate" flex-box="1">
-                        <div>{{list.rate}}</div>
+                        <div>{{item.rate}}</div>
                         <div class="sub-text">业绩基准</div>
                     </div>
                     <div class="cycle" flex-box="1">
-                        <div>{{list.cycle}}</div>
+                        <div>{{item.cycle}}</div>
                         <div class="sub-text">期限</div>
                     </div>
                     <div class="progress" flex-box="0">
-                        <cicle-progress :width-size="50" :progress="list.progress"></cicle-progress>
+                        <cicle-progress :width-size="50" :progress="item.progress"></cicle-progress>
                     </div>
                 </div>
             </div>
