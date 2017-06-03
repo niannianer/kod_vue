@@ -3,7 +3,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 const Index = resolve => require(['../containers/Index'], resolve);
 const Financial = resolve => require(['../containers/Financial'], resolve);
-const My = resolve => require(['../containers/My'], resolve);
+const MyAssets = resolve => require(['../containers/MyAssets'], resolve);
 const Login = resolve => require(['../containers/Login'], resolve);
 let routes = [
     {
@@ -22,12 +22,12 @@ let routes = [
 
         component: Financial
     }, {
-        path: '/my',
-        name: 'my',
+        path: '/my-assets',
+        name: 'my-assets',
         meta: {
-            title: '我的'
+            title: '我的资产'
         },
-        component: My,
+        component: MyAssets,
         beforeEnter: (to, from, next) => {
             // ...
             console.log('my');

@@ -19,7 +19,10 @@
         },
         created(){
             console.log(_.clone($api));
-            $api.get('/dev');
+            $api.post('/login', {
+                investorMobile: '13936663194',
+                userLoginPassword: '123456'
+            });
 
         },
         computed: {},

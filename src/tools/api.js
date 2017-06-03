@@ -10,8 +10,8 @@ if (!window.Promise) {
 }
 
 import 'whatwg-fetch';
-const devUrl = 'http://xxx.dev';
-const testUrl = 'https://xxx.test';
+const devUrl = 'http://10.10.10.69:6620';
+const testUrl = 'http://weixin-test.zj-hf.cn';
 const productionUrl = 'https://xxx.production';
 let serverUrl = devUrl;
 if (process.env.kingold == 'test') {
@@ -34,6 +34,7 @@ let $query = (data) => {
     return str.join('&');
 };
 let get = (path, data = {}) => {
+    data.callSystemID = '1003';
     let t = new Date().getTime();
     let url = `${serverUrl + path}?t=${t}&${$query(data)}`
     return fetch(url, {
@@ -58,7 +59,7 @@ let get = (path, data = {}) => {
 let post = (path, data = {}) => {
 
     let t = new Date().getTime();
-    let url = `${serverUrl + path}?t=${t}`;
+    let url = `${serverUrl + path}?t=${t}&`;
 
     return fetch(url, {
         method: 'post',
