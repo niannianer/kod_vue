@@ -10,9 +10,8 @@ if (!window.Promise) {
 }
 
 import 'whatwg-fetch';
-const devUrl = 'http://10.10.10.69:6620';
-const testUrl = 'http://weixin-test.zj-hf.cn';
-const productionUrl = 'https://xxx.production';
+import {devUrl,testUrl,productionUrl} from './config';
+
 let serverUrl = devUrl;
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;

@@ -1,8 +1,9 @@
 <template>
     <div class="login">
-        <input v-model="username">
-        <input v-model="password">
+        <input v-model="username" style="height: 30px">
+        <input v-model="password" style="height: 30px">
         <div> {{username}}</div>
+        <button class="btn-primary" @click.stop="login">login</button>
     </div>
 </template>
 
@@ -13,19 +14,26 @@
         name: 'login',
         data(){
             return {
-                username: 'myname',
-                password: ''
+                username: '13381078657',
+                password: '123456'
             }
         },
         created(){
             console.log(_.clone($api));
-            $api.post('/login', {
-                investorMobile: '13936663194',
-                userLoginPassword: '123456'
-            });
+
 
         },
         computed: {},
-        methods: {}
+        methods: {
+            login(){
+                let investorMobile = this.username;
+                let userLoginPassword = this.password
+                $api.post('/login', {
+                    investorMobile,
+                    userLoginPassword
+                });
+            }
+
+        }
     }
 </script>

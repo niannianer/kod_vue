@@ -5,4 +5,111 @@
     position: relative;
     width: 100%;
     height: 100%;
+    .assets-body{
+        position: relative;
+        overflow-y: auto;
+        .assets{
+            background: #323232;
+            padding: 1.2rem .8rem .8rem;
+            .title{
+                font-size: 1rem;
+                color: #fff;
+                text-align: center;
+                line-height: 1rem;
+            }
+            .number{
+                padding-top: .8rem;
+                font-size: 1.8rem;
+                line-height: 1.8rem;
+                color: @color-progress;
+                text-align: center;
+            }
+            .profit-withdraw{
+                padding-top: 1.6rem;
+                .profit{
+                    width: 50%;
+                    text-align: center;
+                    .title{
+                        font-size: .8rem;
+                        text-align: center;
+                        line-height: .8rem;
+                        color: #fff;
+                    }
+                    .number{
+                        padding-top: .5rem;
+                        font-size: 1.2rem;
+                        line-height: 1.2rem;
+                        color: @color-progress;
+                    }
+                }
+            }
+        }
+        .item{
+            position: relative;
+            padding:  .7rem .8rem;
+            margin-top: .5rem;
+            background: #fff;
+            .item-left{
+                line-height: .8rem;
+                font-size: .8rem;
+                color: @color-text-secondary;
+            }
+            .item-right{
+                padding-right: .4rem;
+                line-height: .8rem;
+                font-size: .7rem;
+                color: @color-text-secondary;
+            }
+            &:after{
+                content: '';
+                background-image: url("../images/arrow-right.png");
+                width: .5rem;
+                height: .8rem;
+                background-size: cover;
+
+            }
+        }
+        .tel-info{
+            color: @color-text-gray;
+            font-size: .7rem;
+            padding: .8rem;
+            line-height: .8rem;
+            .span{
+                cursor: pointer;
+                color: @bg-primary;
+            }
+            &:before{
+                content: '!';
+                display: inline-block;
+                text-align: center;
+                margin-right: .25rem;
+                width: .8rem;
+                height: .8rem;
+                border-radius: 50%;
+                background-color: @bg-primary;
+                color: #fff;
+
+            }
+        }
+    }
+    .assets-footer{
+        position: relative;
+        height: 2.5rem;
+
+        .btn-recharge{
+            height: 100%;
+            background: #f3a334;
+            border-radius: 0;
+            color: #fff;
+            font-size: .8rem;
+        }
+        .btn-withdraw{
+            height: 100%;
+            background: #f63321;
+            border-radius: 0;
+            color: #fff;
+            font-size: .8rem;
+        }
+
+    }
 }
