@@ -1,0 +1,36 @@
+@charset "UTF-8";
+.alert-warp {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    z-index: 99;
+    background-color: rgba(0, 0, 0, .4);
+    .alert-content {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 84%;
+        border-radius: .25rem;
+        text-align: center;
+        background-color: #fff;
+        color: #fff;
+        transform: translate(-50%, -50%) scale(1);
+        .alert-title {
+            line-height: 40px;
+            color: #333;
+            font-size: .85rem;
+        }
+        .alert-main {
+            padding: .5rem .75rem;
+            color: #666;
+            border-bottom: 1px solid #eee;
+        }
+        .alert-btn-ok {
+            height: 40px;
+            color: #00beff;
+        }
+    }
+
+}

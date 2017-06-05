@@ -98,6 +98,7 @@
         methods: {
             changeTab(tab){
                 this.tab = tab;
+                this.$router.push('/index');
             }
         }
     }

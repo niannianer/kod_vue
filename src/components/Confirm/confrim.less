@@ -1,0 +1,41 @@
+@charset "UTF-8";
+.confirm-warp {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    z-index: 99;
+    background-color: rgba(0, 0, 0, .4);
+    .confirm-content {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 84%;
+        border-radius: .25rem;
+        text-align: center;
+        background-color: #fff;
+        color: #fff;
+        transform: translate(-50%, -50%) scale(1);
+        .confirm-title {
+            line-height: 40px;
+            color: #333;
+            font-size: .85rem;
+        }
+        .confirm-main {
+            padding: .5rem .75rem;
+            color: #666;
+            border-bottom: 1px solid #eee;
+        }
+        .confirm-btn-cancel {
+            height: 40px;
+            color: #666;
+            border-right: 1px solid #eee;
+        }
+        .confirm-btn-ok {
+            height: 40px;
+            color: #00beff;
+        }
+    }
+
+}
