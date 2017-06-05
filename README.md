@@ -17,8 +17,42 @@ webpack
 # 开发过程中, 打包代码
 cnpm run dev
 ```
+# nginx 配置
+```
+server {
+        listen       8080;
+      
+       server_name  localhost;
 
-访问 [localhost:8088](http://localhost:8088) 
+        location ~\.html {
+            root  /ZJ/kingold_weixin/build;
+			add_header Cache-Control 'no-store';
+            allow all;
+        }
+		
+		
+		 location / {
+			root /ZJ/kingold_vue/html;
+            add_header Cache-Control 'no-store';
+			index  index.html index.htm;
+
+			try_files $uri $uri/ /index.html =404;
+		  }
+		 location ~* ^.+dist.+\.(css|js|txt|xml|swf|wav|png|jpg|html|woff|ttf)$ {  
+					root   /ZJ/kingold_vue;
+					access_log   off;  
+					expires      24h;  
+				} 
+		 location ~* ^.+\.(css|js|txt|xml|swf|wav|png|jpg|html|woff|ttf)$ {  
+			root  /ZJ/kingold_weixin/build;
+			access_log   off;  
+			expires      24h;  
+		} 
+    }
+
+
+```
+访问 [localhost:8080/login](http://localhost:8080) 
 
 # 代码规范
 
