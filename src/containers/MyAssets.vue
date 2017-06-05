@@ -13,6 +13,14 @@
         },
         created(){
           $api.get('/getUserInfo')
+              .then(data=>{
+                  console.log(data);
+                  return data
+
+              })
+              .then(data=>{
+                  console.log("--->",data);
+              })
         }
     }
 </script>
