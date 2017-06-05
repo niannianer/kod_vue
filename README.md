@@ -52,7 +52,7 @@ server {
 
 
 ```
-访问 [localhost:8080/login](http://localhost:8080) 
+访问 [localhost:8080/login](http://localhost:8080/login) 
 
 # 代码规范
 
