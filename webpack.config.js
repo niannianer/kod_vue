@@ -26,7 +26,7 @@ const config = {
         path: path.resolve('./dist'),
         filename: '[name].js',
         chunkFilename: '[id].chunk.js',
-        publicPath: '/static/'
+        publicPath: '/dist/'
     },
     resolve: {
         extensions: ['.js', '.vue', '.json'],
