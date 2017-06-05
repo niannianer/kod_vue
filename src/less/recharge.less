@@ -1,0 +1,92 @@
+@charset "UTF-8";
+@import "variables";
+
+.recharge {
+    width: 100%;
+    height: 100%;
+    .body {
+        background-color: #fff;
+        .bank {
+            padding: .7rem .8rem .7rem 0;
+            margin-left: .8rem;
+            line-height: 2.25rem;
+            border-bottom: 1px solid @color-split;
+            .bank-logo {
+                width: 2.25rem;
+                height: 2.25rem;
+            }
+            .bank-name {
+                color: @color-text;
+                font-size: .9rem;
+                padding-left: .5rem;
+            }
+        }
+        .bank-info {
+            background-color: #fff;
+            padding: .6rem .8rem;
+            font-size: .7rem;
+            line-height: .7rem;
+            color: @color-text-gray;
+            .time-limit {
+                text-align: left;
+            }
+            .day-limit {
+                text-align: right;
+            }
+        }
+        .form {
+            padding: .7rem 0 .7rem 0;
+            margin-left: .8rem;
+            background-color: #fff;
+            .form-title {
+                font-size: .8rem;
+                color: @color-text;
+                line-height: .8rem;
+                padding-bottom: .4rem;
+            }
+            .form-input{
+                position: relative;
+                padding: .6rem .8rem .6rem 0;
+                font-size: 1.2rem;
+                line-height: 1.2rem;
+                border-bottom: 1px solid @color-split;
+                .money-chart{
+                    width: 1.2rem;
+                    height: 1.2rem;
+                }
+                .money-filter{
+                    padding-left: .5rem;
+                    height: 1.2rem;
+                    .money-show{
+                        font-size: 1.2rem;
+                        height: 1.2rem;
+                        color: @color-progress;
+                    }
+
+                }
+                .money-input{
+                    position: absolute;
+                    left:0;
+                    top: 0;
+                    width: 80%;
+                    height: 100%;
+                    z-index: 9;
+                    opacity: 0;
+                }
+                .form-close{
+                    width: 2rem;
+                    height: 1.2rem;
+                    position: relative;
+                    .close{
+                        position: absolute;
+                        right: 0;
+                        height: .9rem;
+                        width: .9rem;
+                        top: 50%;
+                        margin-top: -0.45rem;
+                    }
+                }
+            }
+        }
+    }
+}

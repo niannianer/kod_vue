@@ -5,6 +5,7 @@ const Index = resolve => require(['../containers/Index'], resolve);
 const Financial = resolve => require(['../containers/Financial'], resolve);
 const MyAssets = resolve => require(['../containers/MyAssets'], resolve);
 const Login = resolve => require(['../containers/Login'], resolve);
+const Recharge = resolve => require(['../containers/Recharge'], resolve);
 let routes = [
     {
         path: '/index',
@@ -40,6 +41,14 @@ let routes = [
             title: '登录'
         },
         component: Login,
+    }, {
+        path: '/recharge',
+        name: 'recharge',
+        meta: {
+            title: '充值'
+        },
+        component: Recharge
+
     }
 ];
 routes.push({
