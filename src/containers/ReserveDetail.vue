@@ -63,12 +63,9 @@
     import '../less/reserve-detail.less';
     export default {
         name: 'reserve-detail',
-        components: {
-           
-        },
+        components: {},
         data(){
-            return {
-                
+            return {}
         },
         computed: {
             count(){
