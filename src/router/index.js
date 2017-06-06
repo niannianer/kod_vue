@@ -9,6 +9,7 @@ const Recharge = resolve => require(['../containers/Recharge'], resolve);
 const Withdraw =resolve => require(['../containers/Withdraw'], resolve);
 const ReserveList =resolve => require(['../containers/ReserveList'], resolve);
 const ReserveDetail =resolve => require(['../containers/ReserveDetail'], resolve);
+const Reward = resolve => require(['../containers/Reward'], resolve);
 let routes = [
     {
         path: '/index',
@@ -76,6 +77,14 @@ let routes = [
             title: '预约单详情'
         },
         component: ReserveDetail
+
+    }, {
+        path: '/reward',
+        name: 'reward',
+        meta: {
+            title: '我的奖励'
+        },
+        component: Reward
 
     }
 ];
