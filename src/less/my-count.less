@@ -1,0 +1,53 @@
+@charset "UTF-8";
+@import "variables";
+.my-count{
+	position:relative;
+	width:100%;
+	height:100%;
+	font-size:.7rem;
+	.count-body{
+		position:relative;
+		overflow-y:hidden;
+		p{
+			padding:.6rem 0 .6rem .8rem;
+		}
+		.info{
+			padding-left:.8rem;
+			background-color:@bg-content;
+			.item1{
+				padding:.7rem .8rem .7rem 0;
+				border-bottom:1px solid @color-split;
+			}
+			.item2{
+				padding:.7rem .8rem .7rem 0;
+			}
+		}
+		.bank{
+			background-color:@bg-content;
+			padding: 0 .8rem;
+			.bank-name{
+				width:17.65rem;
+				height:5rem;
+				background-image:url(../images/card-bg.png);
+				background-size:100%;
+				.bank-logo{
+					width:1.8rem;
+					height:1.8rem;
+					margin:.8rem 0 0 .8rem;
+				}
+				.name{
+					display:inline-block;
+					margin-top:1.3rem;
+					color:#000;
+					font-size:.8rem;
+				}
+				.bank-info{
+					width:10.45rem;
+					height:0.9rem;
+					margin:.85rem auto;
+					color: #2E1702;
+				}
+			}
+		}
+	}
+}
