@@ -14,14 +14,12 @@
         name: 'login',
         data(){
             return {
-                username: '13381078657',
-                password: '123456'
+                username: '18511071698',
+                password: 'abc123'
             }
         },
         created(){
             console.log(_.clone($api));
-
-
         },
         computed: {},
         methods: {
