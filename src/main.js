@@ -32,6 +32,7 @@ router.afterEach((to, from) => {
 });
 store.dispatch('getUserVerifyStatus');
 store.dispatch('getAccountBaofoo');
+store.dispatch('getBankInfo')
 window.onload = () => {
     FastClick.attach(document.body);
 }
