@@ -17,3 +17,29 @@ export let setTitle = (title) => {
         document.body.appendChild(iframe);
     }, 0);
 };
+import {baofooTestUrl} from './config';
+export let submitRecharge = (params) => {
+    let {userUuid, orderBillCode, amount, additionalInfo, returnUrl} = params;
+    let form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', baofooTestUrl);
+    form.setAttribute('name', 'baofoo');
+    let input = document.createElement('input');
+    input.setAttribute('name','merchant_id')
+        .setAttribute('type','hidden').value('100000675');
+    form.appendChild(input);
+
+    input = document.createElement('input');
+    input.setAttribute('name','terminal_id')
+        .setAttribute('type','hidden').value('100000701');
+    form.appendChild(input);
+    let xml = '<?xml version="1.0" encoding="UTF-8"?><custody_req><merchant_id>100000675</merchant_id><user_id>'+
+        userUuid+'</user_id><order_id>'+orderBillCode+'</order_id><amount>'+amount+
+        '</amount><fee>0</fee><fee_taken_on>1</fee_taken_on><additional_info>'+additionalInfo+
+        '</additional_info><page_url>'+returnUrl+'</page_url><return_url>'+returnUrl+'</return_url></custody_req>';
+    input = document.createElement('input');
+    input.setAttribute('name','requestParams')
+        .setAttribute('type','hidden').value('100000701');
+    form.appendChild(input);
+
+};

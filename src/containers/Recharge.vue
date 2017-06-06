@@ -2,7 +2,7 @@
     <div class="recharge" flex="dir:top">
         <div class="body">
             <div class="bank">
-                <img class="bank-logo" :src= "bankImg"/>
+                <img class="bank-logo" :src="bankImg"/>
                 <span class="bank-name">{{bank_name}}（{{bankUserCardNo.substr(-4)}}）</span>
             </div>
             <div class="bank-info" flex>
@@ -41,14 +41,16 @@
 <script>
     import {mapState} from 'vuex';
     import Toast from '../components/Toast';
+    import $api from '../tools/api';
+    import {submitRecharge} from '../tools/operation';
     import {telNumber} from '../tools/config';
     import '../less/recharge.less';
-    let imgNames=['abchina','bankcomm','bankofshanghai',
-        'boc','ccb','cebbank','cgbchina','cib','cmbc',
-        'cmbchina','ecitic','hxb','icbc','pingan','psbc','spdb'];
-    let imgUrls={};
-    imgNames.map(url=>{
-        imgUrls[url] =require(`../images/bank/${url}.png`)
+    let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
+        'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
+        'cmbchina', 'ecitic', 'hxb', 'icbc', 'pingan', 'psbc', 'spdb'];
+    let imgUrls = {};
+    imgNames.map(url => {
+        imgUrls[url] = require(`../images/bank/${url}.png`)
     });
     export default {
         name: 'recharge',
@@ -56,7 +58,7 @@
             return {
                 rechargeMoney: '',
                 imgUrls,
-                bankImg:'',
+                bankImg: '',
                 telNumber
             }
         },
@@ -76,16 +78,34 @@
                 this.rechargeMoney = '';
             },
             postRecharge(){
-                if(!this.rechargeMoney){
+                if (!this.rechargeMoney) {
                     Toast('请输入充值金额');
+                    return false;
                 }
+                let param = {
+                    amount: this.rechargeMoney
+                }
+                $api.post('/trade/recharge', param)
+                    .then(data => {
+                        if (data.code == 200) {
+                            console.log(data);
+                            let params = data.data || {};
+                            params = {
+                                amount: this.rechargeMoney,
+                                userUuid: this.$store.state.userUuid
+                            }
+                            submitRecharge(params);
+                        } else {
+                            Toast(data.msg);
+                        }
+                    });
             }
         },
-        watch:{
+        watch: {
             bank_code(){
                 console.log(this.bank_code);
-                if(this.bank_code){
-                    this.bankImg =this.imgUrls[this.bank_code];
+                if (this.bank_code) {
+                    this.bankImg = this.imgUrls[this.bank_code];
                 }
 
             }

@@ -30,9 +30,9 @@ router.afterEach((to, from) => {
     let {title} = meta;
     setTitle(title);
 });
-store.dispatch('getUserVerifyStatus');
 store.dispatch('getAccountBaofoo');
-store.dispatch('getBankInfo')
+store.dispatch('getBankInfo');
+store.dispatch('getUserInfo');
 window.onload = () => {
     FastClick.attach(document.body);
 }

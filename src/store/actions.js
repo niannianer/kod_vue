@@ -13,21 +13,7 @@ actions.changeName = ({commit}, name) => {
 actions.increment = ({commit}, num) => {
     commit('increment', num)
 };
-// 认证信息
-let getUserVerifyStatus = () => {
-    return $api.get('/getUserVerifyStatus');
-};
-actions.getUserVerifyStatus = ({commit}) => {
-    return getUserVerifyStatus()
-        .then(data => {
-            if (data.code == 200) {
-                commit('setUserVerifyStatus', {userVerifyStatus: data.data});
-            } else {
-                commit('setUserVerifyStatus', {userVerifyStatus: 0});
-            }
 
-        });
-};
 //资产信息
 let getAccountBaofoo = () => {
     return $api.get('/getAccountBaofoo');
@@ -59,6 +45,19 @@ actions.getBankInfo = ({commit}) => {
                             commit('setBankInfo', data.data);
                         }
                     });
+            }
+        });
+};
+// 个人信息
+
+let getUserInfo = () => {
+    return $api.get('/getUserInfo');
+};
+actions.getUserInfo = ({commit}) => {
+    getUserInfo()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setUserInfo', data.data)
             }
         });
 };

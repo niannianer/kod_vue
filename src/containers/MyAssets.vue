@@ -38,12 +38,14 @@
             <button class="btn-recharge" flex-box="1" @click.stop="recharge">充值</button>
             <button class="btn-withdraw" flex-box="1" @click.stop="withdraw">提现</button>
         </div>
+        <modal></modal>
     </div>
 </template>
 <script>
     import $api from '../tools/api';
     import {mapState} from 'vuex';
     import {telNumber} from '../tools/config';
+    import Modal from '../components/Modal'
     import  '../less/my-assets.less';
 
     export default {
@@ -52,6 +54,9 @@
             return {
                 telNumber
             }
+        },
+        components:{
+            Modal
         },
         created(){
             $api.get('/getAccountBaofoo')
@@ -76,7 +81,7 @@
                     this.goStep();
                     return false;
                 }
-                window.sessionStorage.setItem('backUrl',window.location.href);
+                window.sessionStorage.setItem('backUrl',encodeURIComponent(window.location.href));
                 this.$router.push('/recharge');
 
             },
