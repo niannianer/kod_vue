@@ -20,7 +20,7 @@
         },
         created(){
             console.log(_.clone($api));
-
+        $api.get('/getUserInfo')
 
         },
         computed: {},

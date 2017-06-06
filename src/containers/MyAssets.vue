@@ -3,15 +3,16 @@
         <div class="assets-body" flex-box="1">
             <div class="assets">
                 <div class="title">总资产(元）</div>
-                <div class="number">7,000.00</div>
+                <div class="number">{{accountTotalAssets|currencyFormat}}</div>
                 <div class="profit-withdraw" flex>
                     <div class="profit" flex-box="0">
                         <div class="title">累计收益(元)</div>
-                        <div class="number">+12.34</div>
+                        <div class="number" v-if="accountTotalInterests>=0">+{{accountTotalInterests|currencyFormat}}</div>
+                        <div class="number" v-if="accountTotalInterests<0">-{{accountTotalInterests|currencyFormat}}</div>
                     </div>
                     <div class="profit" flex-box="0">
                         <div class="title">可提现金额(元)</div>
-                        <div class="number">6,543.00</div>
+                        <div class="number">{{accountCashAmount|currencyFormat}}</div>
                     </div>
 
                 </div>
@@ -41,6 +42,7 @@
 </template>
 <script>
     import $api from '../tools/api';
+    import {mapState} from 'vuex';
     import {telNumber} from '../tools/config';
     import  '../less/my-assets.less';
 
@@ -59,11 +61,11 @@
                 })
 
         },
-        computed: {
-            userVerifyStatus(){
-                return this.$store.state.userVerifyStatus
-            }
-        },
+        computed: mapState([
+            'userVerifyStatus',
+            'accountTotalAssets',
+            'accountTotalInterests',
+            'accountCashAmount']),
         methods: {
             goStep(){
                 console.log(this.userVerifyStatus);

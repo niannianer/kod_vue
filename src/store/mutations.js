@@ -9,7 +9,16 @@ mutations.changeName = (state, name = '') => {
 mutations.increment = (state, num = 1) => {
     state.count += num;
 };
+// 认证状态
 mutations.setUserVerifyStatus = (state, data) => {
-state.userVerifyStatus =data.userVerifyStatus;
+    state.userVerifyStatus = data.userVerifyStatus;
+};
+// 资产信息
+mutations.setAccountBaofoo = (state, data) => {
+    if (data.accountTotalAssets) {
+        state.accountTotalAssets = data.accountTotalAssets;
+        state.accountTotalInterests = data.accountTotalInterests;
+        state.accountCashAmount = data.accountCashAmount;
+    }
 };
 export default  mutations;
