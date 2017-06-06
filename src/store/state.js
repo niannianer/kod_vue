@@ -3,7 +3,8 @@
  */
 'use strict'
 const state = {
-  username: 'hkk',
-  count: 0
+    username: 'hkk',
+    count: 0,
+    userVerifyStatus: 0
 };
 export default state;

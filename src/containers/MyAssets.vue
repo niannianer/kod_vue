@@ -18,11 +18,14 @@
             </div>
             <div class="item" flex>
                 <div class="item-left" flex-box="1">我的银行卡</div>
-                <div class="item-right" flex-box="0">
+                <div class="item-right" flex-box="0" v-if="userVerifyStatus<3">
                     添加银行卡
                 </div>
+                <div class="item-right" flex-box="0" v-else>
+                    已绑定
+                </div>
             </div>
-            <div class="item" flex>
+            <div class="item" flex v-if="userVerifyStatus!=9" @click.stop="goStep">
                 <div class="item-left" flex-box="1">完成开户可随时随地投资</div>
                 <div class="item-right" flex-box="0"></div>
             </div>
@@ -31,8 +34,8 @@
             </div>
         </div>
         <div class="assets-footer" flex-box="0" flex>
-            <button class="btn-recharge" flex-box="1">充值</button>
-            <button class="btn-withdraw" flex-box="1">提现</button>
+            <button class="btn-recharge" flex-box="1" @click.stop="recharge">充值</button>
+            <button class="btn-withdraw" flex-box="1" @click.stop="withdraw">提现</button>
         </div>
     </div>
 </template>
@@ -51,11 +54,37 @@
         created(){
             $api.get('/getAccountBaofoo')
                 .then(data => {
-                    console.log(data);
                     return data
 
                 })
 
+        },
+        computed: {
+            userVerifyStatus(){
+                return this.$store.state.userVerifyStatus
+            }
+        },
+        methods: {
+            goStep(){
+                console.log(this.userVerifyStatus);
+            },
+            recharge(){
+                let {userVerifyStatus} = this;
+                if (userVerifyStatus != 9) {
+                    this.goStep();
+                    return false;
+                }
+                this.$router.push('/recharge');
+
+            },
+            withdraw(){
+                let {userVerifyStatus} = this;
+                if (userVerifyStatus != 9) {
+                    this.goStep();
+                    return false;
+                }
+                this.$router.push('/withdraw');
+            }
         }
     }
 </script>

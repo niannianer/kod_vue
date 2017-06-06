@@ -21,24 +21,39 @@
 
                     </div>
                     <input class="money-input" v-model="rechargeMoney"/>
-                    <div  flex-box="0" class="form-close">
+                    <div flex-box="0" class="form-close" @click.stop="clearInput">
                         <img class="close" src="../images/close.png"/>
                     </div>
 
                 </div>
             </div>
         </div>
+        <div class="sub-info">
+            若充值遇到问题请联系：<span class="span">{{telNumber}}</span>
+        </div>
+        <div class="recharge-ensure">
+            <button class="btn-primary btn-recharge">确认购买</button>
+        </div>
 
     </div>
 </template>
 
 <script>
+    import {telNumber} from '../tools/config';
     import '../less/recharge.less';
     export default {
         name: 'recharge',
         data(){
             return {
-                rechargeMoney:0
+                rechargeMoney: '',
+                telNumber
+            }
+        },
+        created(){
+        },
+        methods: {
+            clearInput(){
+                this.rechargeMoney = '';
             }
         }
     }

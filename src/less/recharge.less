@@ -44,40 +44,40 @@
                 line-height: .8rem;
                 padding-bottom: .4rem;
             }
-            .form-input{
+            .form-input {
                 position: relative;
                 padding: .6rem .8rem .6rem 0;
                 font-size: 1.2rem;
                 line-height: 1.2rem;
                 border-bottom: 1px solid @color-split;
-                .money-chart{
+                .money-chart {
                     width: 1.2rem;
                     height: 1.2rem;
                 }
-                .money-filter{
+                .money-filter {
                     padding-left: .5rem;
                     height: 1.2rem;
-                    .money-show{
+                    .money-show {
                         font-size: 1.2rem;
                         height: 1.2rem;
                         color: @color-progress;
                     }
 
                 }
-                .money-input{
+                .money-input {
                     position: absolute;
-                    left:0;
+                    left: 0;
                     top: 0;
                     width: 80%;
                     height: 100%;
                     z-index: 9;
                     opacity: 0;
                 }
-                .form-close{
+                .form-close {
                     width: 2rem;
                     height: 1.2rem;
                     position: relative;
-                    .close{
+                    .close {
                         position: absolute;
                         right: 0;
                         height: .9rem;
@@ -87,6 +87,38 @@
                     }
                 }
             }
+        }
+    }
+    .sub-info {
+        position: relative;
+        padding: .75rem .8rem;
+        line-height: 1rem;
+        font-size: .6rem;
+        .span {
+            cursor: pointer;
+            color: @bg-primary;
+        }
+        &:before {
+            content: '!';
+            display: inline-block;
+            text-align: center;
+            margin-right: .25rem;
+            width: .6rem;
+            height: .6rem;
+            line-height: .6rem;
+            border-radius: 50%;
+            background-color: @bg-primary;
+            color: #fff;
+
+        }
+    }
+    .recharge-ensure {
+        margin-top: 3rem;
+        text-align: center;
+        .btn-recharge {
+            margin: auto;
+            width: 80%;
+            height: 2.2rem;
         }
     }
 }

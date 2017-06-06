@@ -25,6 +25,7 @@ router.afterEach((to, from) => {
     let {title} = meta;
     setTitle(title);
 });
+store.dispatch('getUserVerifyStatus');
 window.onload = () => {
     FastClick.attach(document.body);
 }
