@@ -6,6 +6,7 @@ const Financial = resolve => require(['../containers/Financial'], resolve);
 const MyAssets = resolve => require(['../containers/MyAssets'], resolve);
 const Login = resolve => require(['../containers/Login'], resolve);
 const Recharge = resolve => require(['../containers/Recharge'], resolve);
+const Reward = resolve => require(['../containers/Reward'], resolve);
 let routes = [
     {
         path: '/index',
@@ -48,6 +49,14 @@ let routes = [
             title: '充值'
         },
         component: Recharge
+
+    }, {
+        path: '/reward',
+        name: 'reward',
+        meta: {
+            title: '我的奖励'
+        },
+        component: Reward
 
     }
 ];
