@@ -38,7 +38,7 @@
             <button class="btn-recharge" flex-box="1" @click.stop="recharge">充值</button>
             <button class="btn-withdraw" flex-box="1" @click.stop="withdraw">提现</button>
         </div>
-        <modal></modal>
+        <modal v-show="showModal" @callBack="callBack"></modal>
     </div>
 </template>
 <script>
@@ -52,7 +52,8 @@
         name: 'my-assets',
         data(){
             return {
-                telNumber
+                telNumber,
+                showModal:true
             }
         },
         components:{
@@ -92,6 +93,10 @@
                     return false;
                 }
                 this.$router.push('/withdraw');
+            },
+            callBack(result){
+                this.showModal=false;
+                console.log(result)
             }
         }
     }
