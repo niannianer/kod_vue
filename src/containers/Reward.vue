@@ -27,10 +27,10 @@
                 <p flex-box="1">邀请津贴</p>
                 <img flex-box="0" src="../images/arrow-right.png" alt="arrow">
             </router-link>
-            <!-- <div class='invite-subsidy' flex>
-                <router-link to='/invitation-allowance-list/direct' class='direct' flex-box="1">直接邀请津贴</router-link>
-                <router-link to='/invitation-allowance-list/indirect' class='indirect' flex-box="1">间接邀请津贴</router-link>
-            </div> -->
+            <div class='invite-subsidy' flex>
+                <p class='direct' flex-box="1">直接邀请津贴</p>
+                <p class='indirect' flex-box="1">间接邀请津贴</p>
+            </div>
         </div>
     </div>
 </template>
@@ -48,6 +48,7 @@
             }
         },
         created(){
+
             $api.get('/reward/sum')
                 .then(msg => {
                     if(msg.code != 401){

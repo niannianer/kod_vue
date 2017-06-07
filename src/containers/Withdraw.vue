@@ -120,11 +120,19 @@
                 }, 200);
             },
             getTradeFeeType(){
+                console.log(12345)
+                console.log(12345)
+                console.log(12345)
+                console.log(12345)
                 let amount = this.withdrawMount;
                 return $api.get('/tradeFeeType', {amount});
 
             },
             getWithdraw(){
+                console.log(12345)
+                console.log(12345)
+                console.log(12345)
+                console.log(12345)
                 this.getTradeFeeType()
                     .then(data => {
                         if (data.code == 200) {
