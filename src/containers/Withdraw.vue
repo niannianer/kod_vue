@@ -55,6 +55,7 @@
     import $api from '../tools/api';
     import {telNumber} from '../tools/config';
     import {currencyInputValidate} from '../tools/operation';
+    import Confirm from '../components/Confirm';
     import Alert from '../components/Alert';
     import Toast from '../components/Toast';
     import PasswordInput from '../components/PasswordInput';
@@ -140,9 +141,17 @@
                                 let amountAll = parseFloat(amount) + parseFloat(this.withdrawMount);
                                 if (this.accountCashAmount < amountAll) {
                                     Toast('您当前的账户余额不足支付手续费，无法提现');
-                                    return false;
-                                }
 
+                                }else {
+                                    let vm =this;
+                                    Confirm({
+                                        content:`本次提现需收取${amount}元手续费，请确认是否继续？`,
+                                        callback:(result)=>{
+                                            vm.confirmFun(result);
+                                        }
+                                    })
+                                }
+                                return false;
                             }
                             this.inputPassword = true;
 
@@ -151,6 +160,11 @@
 
                         }
                     })
+            },
+            confirmFun(result){
+                if(result){
+                    this.inputPassword = true;
+                }
             },
             callBack(password){
                 console.log(password);
