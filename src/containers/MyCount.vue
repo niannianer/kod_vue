@@ -6,22 +6,22 @@
                 <div class="item1" flex>
                     <div class="item-left" flex-box="1">真实姓名</div>
                     <div class="item-right" flex-box="0">
-                    *阳
+                    **{{investorRealName.substr(-1)}}
                     </div>
                 </div>
                 <div class="item2" flex>
                     <div class="item-left" flex-box="1">证件号码</div>
                     <div class="item-right" flex-box="0">
-                    120********90
+                    {{investorIdCardNo}}
                     </div>
                 </div>
             </div>
             <p>银行卡信息</p>
             <div class="bank">
                 <div class="bank-name">
-                    <img src="../images/bank/ecitic.png" class="bank-logo"/>
-                    <span class="name">中信银行</span>
-                    <div class = "bank-info">6221 6600 ＊＊＊＊ 1148</div>
+                    <img :src="bankImg" class="bank-logo"/>
+                    <span class="name">{{bank_name}}</span>
+                    <div class = "bank-info">123</div>
                 </div>
             </div>
             <div class="tel-info">
@@ -31,10 +31,17 @@
     </div>
 </template>
 <script>
+    import {mapState} from 'vuex';
     import $api from '../tools/api';
     import {telNumber} from '../tools/config';
     import  '../less/my-count.less';
-
+    let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
+        'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
+        'cmbchina', 'ecitic', 'hxb', 'icbc', 'pingan', 'psbc', 'spdb'];
+    let imgUrls = {};
+    imgNames.map(url => {
+        imgUrls[url] = require(`../images/bank/${url}.png`)
+    });
     export default {
         name: 'my-count',
         data(){
@@ -42,14 +49,17 @@
                 telNumber
             }
         },
-        created(){
-            $api.get('/getAccountBaofoo')
-                .then(data => {
-                    console.log(data);
-                    return data
+       computed: mapState([
+            'bankUserCardNo',
+            'bank_code',
+            'bank_name',
+            'investorRealName',
 
-                })
+            'investorIdCardNo',
+            'bankUserPhone']),
+        created(){
 
         }
     }
 </script>
+<!-- 替换银行卡中的其余位数为*的实现phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2'); 每隔四位一个空格 this.value = this.value.replace(/\D/g, '').replace(/....(?!$)/g, '$& ');-->
