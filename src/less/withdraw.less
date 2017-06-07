@@ -58,6 +58,11 @@
                 }
             }
         }
+        .over-hint{
+            font-size: .6rem;
+            color: @color-interest;
+            padding: 0 .8rem .7rem;
+        }
     }
     .sub-info{
         position: relative;
@@ -83,12 +88,31 @@
         }
     }
     .withdraw-ensure {
-        margin-top: 3rem;
+        margin-top: 1rem;
         text-align: center;
         .btn-withdraw {
             margin: auto;
             width: 80%;
             height: 2.2rem;
+            &:disabled{
+                color: #ccc;
+            }
+        }
+    }
+    .hint{
+        margin: 1rem .8rem;
+
+        .title{
+            font-size: .8rem;
+            color: @color-text;
+            text-align: center;
+
+        }
+        .subtitle{
+            margin-top: .5rem;
+            color: @color-text-gray;
+            font-size: .6rem;
+            line-height: 1rem;
         }
     }
 }
