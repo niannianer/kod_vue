@@ -46,6 +46,7 @@
                 提现过程中有疑问，请联系客服400-640-3606（工作时间：9:00—18:00）
             </div>
         </div>
+        <password-input v-show="inputPassword" title="购买产品" @callBack="callBack"></password-input>
     </div>
 </template>
 
@@ -56,6 +57,7 @@
     import {currencyInputValidate} from '../tools/operation';
     import Alert from '../components/Alert';
     import Toast from '../components/Toast';
+    import PasswordInput from '../components/PasswordInput';
     import '../less/withdraw.less';
     let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
         'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
@@ -66,16 +68,20 @@
     });
     let timer = null;
     export default {
-        name: 'recharge',
+        name: 'withdraw',
         data(){
             return {
                 withdrawMount: '',
                 telNumber,
                 bankImg: '',
                 btnDisabled: true,
-                overHint:false,
+                overHint: false,
+                inputPassword: false,
                 imgUrls
             }
+        },
+        components: {
+            PasswordInput
         },
         created(){
             if (this.bank_code) {
@@ -106,10 +112,10 @@
                     this.withdrawMount = currencyInputValidate(this.withdrawMount);
                     if (this.withdrawMount && this.withdrawMount > this.accountCashAmount) {
                         this.btnDisabled = true;
-                        this.overHint =true;
+                        this.overHint = true;
                         return false;
-                    }else {
-                        this.overHint =false;
+                    } else {
+                        this.overHint = false;
                     }
                     if (this.withdrawMount && this.withdrawMount <= this.accountCashAmount) {
                         this.btnDisabled = false;
@@ -129,17 +135,40 @@
                     .then(data => {
                         if (data.code == 200) {
                             console.log(data);
-                            let {amount} =data.data;
-                            let amountAll = parseFloat(amount) + parseFloat(this.withdrawMount);
-                            if(this.accountCashAmount<amountAll){
-                                Toast('您当前的账户余额不足支付手续费，无法提现')
+                            let {amount, feeType} = data.data;
+                            if (feeType == 2) {
+                                let amountAll = parseFloat(amount) + parseFloat(this.withdrawMount);
+                                if (this.accountCashAmount < amountAll) {
+                                    Toast('您当前的账户余额不足支付手续费，无法提现');
+                                    return false;
+                                }
+
                             }
+                            this.inputPassword = true;
+
                         } else {
-                            Alert({
-                                content: data.msg
-                            })
+                            Toast(data.msg)
+
                         }
                     })
+            },
+            callBack(password){
+                console.log(password);
+                this.tradeWithdraw(password);
+            },
+            tradeWithdraw(password){
+                let rechargeAmount = this.withdrawMount;
+                let userPayPassword = password;
+                $api.post('/trade/withdraw', {rechargeAmount, userPayPassword})
+                    .then(data => {
+                        if(data.code==200){
+                            Toast('提现成功');
+                            history.back();
+                            this.$store.dispatch('getAccountBaofoo');
+                        }else {
+                            Toast(data.msg);
+                        }
+                    });
             }
         }
     }
