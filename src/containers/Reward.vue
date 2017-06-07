@@ -19,18 +19,18 @@
             </ul>
         </div>
         <div class="body" flex-box="1">
-            <router-link to="/home" class='invite-award section' flex>
+            <router-link to="/invitation-reward-list" class='invite-award section' flex>
                 <p flex-box="1">邀请奖励</p>
                 <img flex-box="0" src="../images/arrow-right.png" alt="arrow">
             </router-link>
-            <router-link to='/dd' class='invite-award section' flex>
+            <router-link to='/invitation-allowance-list' class='invite-award section' flex>
                 <p flex-box="1">邀请津贴</p>
                 <img flex-box="0" src="../images/arrow-right.png" alt="arrow">
             </router-link>
-            <router-link to='ccc'class='invite-subsidy' flex>
-                <div class='direct' flex-box="1">直接邀请津贴</div>
-                <div class='indirect' flex-box="1">间接邀请津贴</div>
-            </router-link>
+            <!-- <div class='invite-subsidy' flex>
+                <router-link to='/invitation-allowance-list/direct' class='direct' flex-box="1">直接邀请津贴</router-link>
+                <router-link to='/invitation-allowance-list/indirect' class='indirect' flex-box="1">间接邀请津贴</router-link>
+            </div> -->
         </div>
     </div>
 </template>
@@ -42,7 +42,7 @@
         name: 'reward',
         data(){
             return {
-               paidWithTax:'23',
+               paidWithTax:'',
                unpaid:'',
                paid:''
             }
@@ -50,9 +50,11 @@
         created(){
             $api.get('/reward/sum')
                 .then(msg => {
-                    this.paidWithTax = msg.data.paidWithTax;
-                    this.unpaid = msg.data.unpaid;
-                    this.paid = msg.data.paid;
+                    if(msg.code != 401){
+                        this.paidWithTax = msg.data.paidWithTax;
+                        this.unpaid = msg.data.unpaid;
+                        this.paid = msg.data.paid;
+                    }
                     return msg
                 })
         }
