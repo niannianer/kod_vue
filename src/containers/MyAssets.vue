@@ -53,18 +53,13 @@
         data(){
             return {
                 telNumber,
-                showModal:true
+                showModal:false
             }
         },
         components:{
             Modal
         },
         created(){
-            $api.get('/getAccountBaofoo')
-                .then(data => {
-                    return data
-
-                })
 
         },
         computed: mapState([

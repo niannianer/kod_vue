@@ -8,6 +8,7 @@ const state = {
     userVerifyStatus: 0, //认证状态
     userVerifyStatusDesc:'',
     userUuid:'',// uid
+    userId:'',
     investorGender:'', //gender
     investorIdCardNo:'',// ID card
     investorMobile:'',// mobile
