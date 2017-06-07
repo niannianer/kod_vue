@@ -24,6 +24,7 @@ module.exports = {
         'process': true,
         'console': true,
         'Promise': true,
+        'history':true,
         'document': true
     },
     // add your custom rules here
