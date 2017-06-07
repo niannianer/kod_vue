@@ -46,7 +46,9 @@
         name: 'my-count',
         data(){
             return {
-                telNumber
+                bankImg:'',
+                telNumber,
+                imgUrls
             }
         },
        computed: mapState([
@@ -54,12 +56,19 @@
             'bank_code',
             'bank_name',
             'investorRealName',
-
             'investorIdCardNo',
             'bankUserPhone']),
         created(){
 
+        },
+        watch: {
+            bank_code(){
+                console.log(this.bank_code);
+                if (this.bank_code) {
+                    this.bankImg = this.imgUrls[this.bank_code];
+                }
+
+            }
         }
     }
 </script>
-<!-- 替换银行卡中的其余位数为*的实现phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2'); 每隔四位一个空格 this.value = this.value.replace(/\D/g, '').replace(/....(?!$)/g, '$& ');-->
