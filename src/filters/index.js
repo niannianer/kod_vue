@@ -32,4 +32,22 @@ export let transactionTime =(input)=>{
     }
     let output = input.replace(/-/g,'.').replace(/:/g,'.');
     return output.substr(5,11);
-}
+};
+export let idCardFormat =(input)=>{
+    if(!input){
+        return '';
+    }
+    return input.substr(0,2) +'***********'+input.substr(-2);
+};
+export let mobileFormat=(input)=>{
+    if(!input){
+        return '';
+    }
+    return input.substr(0,4) +'***'+input.substr(-4);
+};
+export let bankCardNoFormat=(input)=>{
+    if(!input){
+        return '';
+    }
+    return input.substr(0,4)+' '+input.substr(4,8) +'****'+input.substr(-4);
+};
