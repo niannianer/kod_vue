@@ -17,10 +17,10 @@
                 <div class="form-input" flex>
                     <img flex-box="0" class="money-chart" src="../images/money-chart.png"/>
                     <div flex-box="1" class="money-filter">
-                        <div class="money-show">{{rechargeMoney | currencyInput}}</div>
-
+                       <!-- <div class="money-show">{{rechargeMoney | currencyInput}}</div>-->
+                        <input @keyup="myKeyup" type="number" class="money-show" v-model.trim="rechargeMoney"/>
                     </div>
-                    <input type="number" class="money-input" v-model="rechargeMoney"/>
+
                     <div flex-box="0" class="form-close" @click.stop="clearInput">
                         <img class="close" src="../images/close.png"/>
                     </div>
@@ -40,9 +40,9 @@
 
 <script>
     import {mapState} from 'vuex';
-    import Toast from '../components/Toast';
+    import {Toast} from 'mint-ui';
     import $api from '../tools/api';
-    import {submitRecharge} from '../tools/operation';
+    import {submitRecharge,currencyInputValidate} from '../tools/operation';
     import {telNumber} from '../tools/config';
     import '../less/recharge.less';
     let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
@@ -52,6 +52,7 @@
     imgNames.map(url => {
         imgUrls[url] = require(`../images/bank/${url}.png`)
     });
+    let timer = null;
     export default {
         name: 'recharge',
         data(){
@@ -63,7 +64,9 @@
             }
         },
         created(){
-
+            if (this.bank_code) {
+                this.bankImg = this.imgUrls[this.bank_code];
+            }
         },
         computed: mapState([
             'bankUserCardNo',
@@ -76,6 +79,14 @@
         methods: {
             clearInput(){
                 this.rechargeMoney = '';
+            },
+            myKeyup(){
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    this.rechargeMoney = currencyInputValidate(this.rechargeMoney);
+                }, 200);
             },
             postRecharge(){
                 if (!this.rechargeMoney) {
@@ -90,10 +101,8 @@
                         if (data.code == 200) {
                             console.log(data);
                             let params = data.data || {};
-                            params = {
-                                amount: this.rechargeMoney,
-                                userUuid: this.$store.state.userUuid
-                            }
+                            params.amount =this.rechargeMoney;
+                            params.userId =this.$store.state.userId;
                             submitRecharge(params);
                         } else {
                             Toast(data.msg);

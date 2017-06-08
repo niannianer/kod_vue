@@ -3,23 +3,26 @@
         <div class="assets-body" flex-box="1">
             <div class="assets">
                 <div class="title">总资产(元）</div>
-                <div class="number">{{accountTotalAssets|currencyFormat}}</div>
+                <div class="number">{{accountTotalAssets | currencyFormat}}</div>
                 <div class="profit-withdraw" flex>
                     <div class="profit" flex-box="0">
                         <div class="title">累计收益(元)</div>
-                        <div class="number" v-if="accountTotalInterests>=0">+{{accountTotalInterests|currencyFormat}}</div>
-                        <div class="number" v-if="accountTotalInterests<0">-{{accountTotalInterests|currencyFormat}}</div>
+                        <div class="number" v-if="accountTotalInterests>=0">
+                            +{{accountTotalInterests | currencyFormat}}
+                        </div>
+                        <div class="number" v-if="accountTotalInterests<0">-{{accountTotalInterests | currencyFormat}}
+                        </div>
                     </div>
                     <div class="profit" flex-box="0">
                         <div class="title">可提现金额(元)</div>
-                        <div class="number">{{accountCashAmount|currencyFormat}}</div>
+                        <div class="number">{{accountCashAmount | currencyFormat}}</div>
                     </div>
 
                 </div>
             </div>
             <div class="item" flex>
-                <div class="item-left" flex-box="1">我的银行卡</div>
-                <div class="item-right" flex-box="0" v-if="userVerifyStatus<3">
+                <div class="item-left" flex-box="1" >我的银行卡</div>
+                <div class="item-right" flex-box="0" v-if="userVerifyStatus<3" @click.stop="addBankCard">
                     添加银行卡
                 </div>
                 <div class="item-right" flex-box="0" v-else>
@@ -38,7 +41,7 @@
             <button class="btn-recharge" flex-box="1" @click.stop="recharge">充值</button>
             <button class="btn-withdraw" flex-box="1" @click.stop="withdraw">提现</button>
         </div>
-        <modal></modal>
+        <modal v-show="showModal" @callBack="callBack"></modal>
     </div>
 </template>
 <script>
@@ -52,18 +55,14 @@
         name: 'my-assets',
         data(){
             return {
-                telNumber
+                telNumber,
+                showModal: false
             }
         },
-        components:{
+        components: {
             Modal
         },
         created(){
-            $api.get('/getAccountBaofoo')
-                .then(data => {
-                    return data
-
-                })
 
         },
         computed: mapState([
@@ -73,7 +72,25 @@
             'accountCashAmount']),
         methods: {
             goStep(){
-                console.log(this.userVerifyStatus);
+                let {userVerifyStatus} = this;
+                switch (userVerifyStatus) {
+                    case 0:
+                       window.location.href ='/realnameBased.html';
+                        break;
+                    case 1:
+                        window.location.href = '/baoFoo.html?uid=' +this.$store.state.userId;
+                        break;
+                    case 2:
+                        window.location.href ='/bindBankCard.html';
+                        break;
+                    case 3:
+                        window.location.href ='/setPayPassword.html';
+                        break;
+                    default:
+                }
+            },
+            addBankCard(){
+                this.goStep();
             },
             recharge(){
                 let {userVerifyStatus} = this;
@@ -81,7 +98,7 @@
                     this.goStep();
                     return false;
                 }
-                window.sessionStorage.setItem('backUrl',encodeURIComponent(window.location.href));
+                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href));
                 this.$router.push('/recharge');
 
             },
@@ -92,6 +109,10 @@
                     return false;
                 }
                 this.$router.push('/withdraw');
+            },
+            callBack(result){
+                this.showModal = false;
+                console.log(result)
             }
         }
     }

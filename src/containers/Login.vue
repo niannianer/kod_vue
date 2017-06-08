@@ -29,6 +29,13 @@
                 $api.post('/login', {
                     investorMobile,
                     userLoginPassword
+                }).then(data=>{
+                    if(data.code==200){
+                        this.$router.push('/my-assets');
+                        this.$store.dispatch('getAccountBaofoo');
+                        this.$store.dispatch('getBankInfo');
+                        this.$store.dispatch('getUserInfo');
+                    }
                 });
             }
 

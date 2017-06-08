@@ -14,8 +14,8 @@
             </div>
             <div class="modal-main">为保障您的资金安全请先开通第三方托管账户</div>
             <div flex="" class="btn-groups">
-                <button class="modal-btn-ok" flex-box="1" @click.stop="okAction">取消</button>
-                <button class="modal-btn-ok" flex-box="1" @click.stop="okAction">去开户</button>
+                <button class="modal-btn-ok" flex-box="1" @click.stop="okAction(0)">取消</button>
+                <button class="modal-btn-ok" flex-box="1" @click.stop="okAction(1)">去开户</button>
             </div>
         </div>
     </div>
@@ -31,8 +31,8 @@
         name: 'modal',
 
         methods: {
-            okAction(){
-                this.callback(1)
+            okAction(result){
+                this.$emit('callBack',result)
             }
         }
 
