@@ -1,7 +1,7 @@
 <template>
     <div flex="dir:top" flex-box="1" class="invest-detail" v-cloak>
         <div class='body' flex-box="1">
-            <div class='items' flex-box="0" v-for="(item,index) in lists" :key="index" flex="dir:top">
+            <div class='items' flex-box="0" v-for="(item,index) in lists|productType('FIXI')" :key="index" flex="dir:top">
                 <div :class="{'bl':index!=lists.length-1}" flex-box="1" flex>
                     <p flex-box="1">{{item.name}}</p>
                     <p flex-box="0">{{item.value}}</p>
@@ -13,6 +13,7 @@
 <script>
     import '../less/invest-detail.less';
     import $api from '../tools/api';
+
     export default {
         name: 'invest-detail',
         data(){
