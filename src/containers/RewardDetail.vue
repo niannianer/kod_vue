@@ -1,19 +1,22 @@
 <template>
-    <div flex="dir:top" flex-box="1" class="reward-detail">
-        <div class="header bl" flex-box="0" flex>
-            <ul flex>
-                <li  :class="{'left':true,'active':isActive}" flex-box="1" @click="rewardTab('FIXI')">定期理财</li>
-                <li  :class="{'right':true,'active':!isActive}" flex-box="1" @click="rewardTab('PRIF')">高端理财</li>
-            </ul>
-            <div class="title bl" flex="box:mean"  >
+    <div  class="reward-detail">
+        <div class="header" flex="dir:top">
+            <div flex-box="1" class="tab bl" flex>
+                <ul flex>
+                    <li  :class="{'left':true,'active':isActive}" flex-box="1" @click="rewardTab('FIXI')">定期理财</li>
+                    <li  :class="{'right':true,'active':!isActive}" flex-box="1" @click="rewardTab('PRIF')">高端理财</li>
+                </ul>
+            </div>
+            <div class="title bl" flex="box:mean"  flex-box="0">
                 <p>产品名称</p>
                 <p>投资金额（万元）</p>
                 <p>奖励比列（年化）</p>
             </div>
         </div>
-        <div class="body" style="height: 400px">
+        <div class="body" >
             <div style="height: 100%;overflow: auto">
-                <mt-loadmore :top-method="loadTop"  :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" >
+                <!--:bottom-method="loadBottom" :bottom-all-loaded="allLoaded"-->
+                <mt-loadmore :top-method="loadTop"  ref="loadmore" >
                     <ul>
                         <li class="item bl" flex="box:mean" v-for="(item,index) in lists" :key="index" >
                             <p flex="dir:top main:center" class="product-name">{{item.productAbbrName}}</p>
@@ -53,7 +56,6 @@
             </li>
         </ul>
     </div>-->
-
 </template>
 
 <script>
@@ -61,7 +63,6 @@
     import '../less/reward-detail.less';
     import $api from '../tools/api';
     import { Loadmore } from 'mint-ui';
-
     Vue.component(Loadmore.name, Loadmore);
     export default {
         name: 'reward',
@@ -74,30 +75,37 @@
             }
         },
         created(){
-                    $api.get('/product/reward/list',{
-                        'productType':this.tabMenu/*,
-                        startRow:'1',
-                        pageSize:'4'*/
-                    })
-                        .then(msg => {
-                            if(msg.code != 401){
-                               this.lists = msg.data.rewardList
-                            }
-                            return msg
-                        })
+            this.loadData(0,10)
         },
         methods:{
             loadTop(){
-                this.$refs.loadmore.onTopLoaded();
+                const _this = this;
+                this.loadData(0,10,function(){
+                    _this.$refs.loadmore.onTopLoaded();
+                });
             },
             rewardTab(string){
                 this.isActive = 'FIXI'== string?true:false;
                 this.tabMenu = string;
-            },
+                this.loadData(0,10);
+            }/*,
             loadBottom(){
                 console.log('loadBottom');
+            }*/
+            ,loadData(startRow,pageSize,fn){
+                $api.get('/product/reward/list',{
+                    'productType':this.tabMenu,
+                    startRow:startRow|'',
+                    pageSize:pageSize|10
+                })
+                    .then(msg => {
+                        if(msg.code == 200){
+                            this.lists = msg.data.rewardList;
+                            fn&&fn();
+                        }
+                        return msg
+                    })
             }
         }
-
     }
 </script>
