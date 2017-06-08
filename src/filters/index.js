@@ -49,5 +49,5 @@ export let bankCardNoFormat=(input)=>{
     if(!input){
         return '';
     }
-    return input.substr(0,4)+' '+input.substr(4,8) +'****'+input.substr(-4);
+    return input.substr(0,4)+' '+input.substr(4,4) +'****'+input.substr(-4);
 };
