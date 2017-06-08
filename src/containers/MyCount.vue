@@ -12,7 +12,7 @@
                 <div class="item2" flex>
                     <div class="item-left" flex-box="1">证件号码</div>
                     <div class="item-right" flex-box="0">
-                    {{investorIdCardNo}}
+                    {{investorIdCardNo|idCardFormat}}
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                 <div class="bank-name">
                     <img :src="bankImg" class="bank-logo"/>
                     <span class="name">{{bank_name}}</span>
-                    <div class = "bank-info">{{bankUserCardNo}}</div>
+                    <div class = "bank-info">{{bankUserCardNo|bankCardNoFormat}}</div>
                 </div>
             </div>
             <div class="tel-info">
