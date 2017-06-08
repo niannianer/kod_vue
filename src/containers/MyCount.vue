@@ -6,7 +6,7 @@
                 <div class="item1" flex>
                     <div class="item-left" flex-box="1">真实姓名</div>
                     <div class="item-right" flex-box="0">
-                    **{{investorRealName.substr(-1)}}
+                    {{investorRealName.replace(/.(?=.)/g, '*')}}
                     </div>
                 </div>
                 <div class="item2" flex>
@@ -21,7 +21,7 @@
                 <div class="bank-name">
                     <img :src="bankImg" class="bank-logo"/>
                     <span class="name">{{bank_name}}</span>
-                    <div class = "bank-info">123</div>
+                    <div class = "bank-info">{{bankUserCardNo}}</div>
                 </div>
             </div>
             <div class="tel-info">
@@ -54,12 +54,20 @@
             'bank_code',
             'bank_name',
             'investorRealName',
-
             'investorIdCardNo',
             'bankUserPhone']),
         created(){
+            if (this.bank_code) {
+                this.bankImg = this.imgUrls[this.bank_code];
+            }
+        },
+        watch: {
+            bank_code(){
+                if (this.bank_code) {
+                    this.bankImg = this.imgUrls[this.bank_code];
+                }
 
+            }
         }
     }
 </script>
-<!-- 替换银行卡中的其余位数为*的实现phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2'); 每隔四位一个空格 this.value = this.value.replace(/\D/g, '').replace(/....(?!$)/g, '$& ');-->

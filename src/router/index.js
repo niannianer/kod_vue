@@ -12,7 +12,7 @@ const ReserveDetail =resolve => require(['../containers/ReserveDetail'], resolve
 const Reward = resolve => require(['../containers/Reward'], resolve);
 const MyCount = resolve => require(['../containers/MyCount'], resolve);
 const InvitationRewardlist = resolve => require(['../containers/InvitationRewardlist'], resolve);
-
+const InvitationAllowanceList = resolve => require(['../containers/InvitationAllowanceList'], resolve);
 let routes = [
     {
         path: '/index',
@@ -166,7 +166,7 @@ let routes = [
         meta: {
             title: '邀请津贴列表'
         },
-        component: Index
+        component: InvitationAllowanceList
 
     }
 ];
