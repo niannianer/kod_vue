@@ -40,7 +40,7 @@
 
 <script>
     import {mapState} from 'vuex';
-    import Toast from '../components/Toast';
+    import {Toast} from 'mint-ui';
     import $api from '../tools/api';
     import {submitRecharge,currencyInputValidate} from '../tools/operation';
     import {telNumber} from '../tools/config';

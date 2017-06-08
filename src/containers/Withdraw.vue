@@ -55,9 +55,7 @@
     import $api from '../tools/api';
     import {telNumber} from '../tools/config';
     import {currencyInputValidate} from '../tools/operation';
-    import Confirm from '../components/Confirm';
-    import Alert from '../components/Alert';
-    import Toast from '../components/Toast';
+    import {Toast,MessageBox,Indicator} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
     import '../less/withdraw.less';
     let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
@@ -152,12 +150,11 @@
 
                                 }else {
                                     let vm =this;
-                                    Confirm({
-                                        content:`本次提现需收取${amount}元手续费，请确认是否继续？`,
-                                        callback:(result)=>{
-                                            vm.confirmFun(result);
-                                        }
-                                    })
+                                    MessageBox.confirm(`本次提现需收取${amount}元手续费，请确认是否继续？`,'提示').then(action=>{
+                                        console.log(action);
+                                        vm.confirmFun(action);
+                                    });
+
                                 }
                                 return false;
                             }
@@ -181,8 +178,10 @@
             tradeWithdraw(password){
                 let rechargeAmount = this.withdrawMount;
                 let userPayPassword = password;
+                Indicator.open('提交中...');
                 $api.post('/trade/withdraw', {rechargeAmount, userPayPassword})
                     .then(data => {
+                        Indicator.close();
                         if(data.code==200){
                             Toast('提现成功');
                             history.back();
@@ -192,6 +191,10 @@
                         }
                     });
             }
+        },
+        destroyed(){
+            Indicator.close();
+            MessageBox.close();
         }
     }
 </script>

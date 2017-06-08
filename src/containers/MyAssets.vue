@@ -3,16 +3,19 @@
         <div class="assets-body" flex-box="1">
             <div class="assets">
                 <div class="title">总资产(元）</div>
-                <div class="number">{{accountTotalAssets|currencyFormat}}</div>
+                <div class="number">{{accountTotalAssets | currencyFormat}}</div>
                 <div class="profit-withdraw" flex>
                     <div class="profit" flex-box="0">
                         <div class="title">累计收益(元)</div>
-                        <div class="number" v-if="accountTotalInterests>=0">+{{accountTotalInterests|currencyFormat}}</div>
-                        <div class="number" v-if="accountTotalInterests<0">-{{accountTotalInterests|currencyFormat}}</div>
+                        <div class="number" v-if="accountTotalInterests>=0">
+                            +{{accountTotalInterests | currencyFormat}}
+                        </div>
+                        <div class="number" v-if="accountTotalInterests<0">-{{accountTotalInterests | currencyFormat}}
+                        </div>
                     </div>
                     <div class="profit" flex-box="0">
                         <div class="title">可提现金额(元)</div>
-                        <div class="number">{{accountCashAmount|currencyFormat}}</div>
+                        <div class="number">{{accountCashAmount | currencyFormat}}</div>
                     </div>
 
                 </div>
@@ -53,10 +56,10 @@
         data(){
             return {
                 telNumber,
-                showModal:false
+                showModal: false
             }
         },
-        components:{
+        components: {
             Modal
         },
         created(){
@@ -69,7 +72,22 @@
             'accountCashAmount']),
         methods: {
             goStep(){
-                console.log(this.userVerifyStatus);
+                let {userVerifyStatus} = this;
+                switch (userVerifyStatus) {
+                    case 0:
+                       window.location.href ='/realnameBased.html';
+                        break;
+                    case 1:
+                        window.location.href = '/baoFoo.html?uid=' +this.$store.state.userId;
+                        break;
+                    case 2:
+                        window.location.href ='/bindBankCard.html';
+                        break;
+                    case 3:
+                        window.location.href ='/setPayPassword.html';
+                        break;
+                    default:
+                }
             },
             recharge(){
                 let {userVerifyStatus} = this;
@@ -77,7 +95,7 @@
                     this.goStep();
                     return false;
                 }
-                window.sessionStorage.setItem('backUrl',encodeURIComponent(window.location.href));
+                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href));
                 this.$router.push('/recharge');
 
             },
@@ -90,7 +108,7 @@
                 this.$router.push('/withdraw');
             },
             callBack(result){
-                this.showModal=false;
+                this.showModal = false;
                 console.log(result)
             }
         }
