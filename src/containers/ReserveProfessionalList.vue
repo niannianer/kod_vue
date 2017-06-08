@@ -12,22 +12,26 @@
             </div>
         </div>
         <div class="item-list" flex-box="1" v-show="num == option[status-1]" v-for="(every,num) in data" :key="num">
-            <ul class="item" v-for="(item,index) in every.reservationList" :key="index" @click.stop="$router.push('/reserve-detail?productReservationUuid='+item.productReservationUuid)">  
+            <ul class="item" v-for="(item,index) in every.reservationList" :key="index" >
                 <li flex>
-                    <div flex-box="0">客户姓名：</div>
-                    <div flex-box="0" class="width">{{item.customerName}}</div>
-                </li>
-                <li flex>
-                    <div flex-box="0">产品名称：</div>
-                    <div flex-box="0" class="width">{{item.reservationProductName}}</div>
+                    <div flex-box="0">预约单号：</div>
+                    <div flex-box="0" class="width">{{item.reservationBillCode}}</div>
                 </li>
                 <li flex>
                     <div flex-box="0">预约时间：</div>
                     <div flex-box="0" class="width">{{item.reservationTime}}</div>
                 </li>
                 <li flex>
-                    <div flex-box="0">客户保护期剩余：</div>
-                    <div flex-box="0" class="width">{{item.protectionPeriod}}</div>
+                    <div flex-box="0">产品名称：</div>
+                    <div flex-box="0" class="width">{{item.reservationProductName}}</div>
+                </li>
+                <li flex>
+                    <div flex-box="0">客户姓名：</div>
+                    <div flex-box="0" class="width">{{item.customerName}}</div>
+                </li>
+                <li flex>
+                    <div flex-box="0">客户联系方式：</div>
+                    <div flex-box="0" class="width">{{item.customerMobile}}</div>
                 </li>
             </ul>
         </div>
@@ -51,18 +55,13 @@
                 } 
             }
         },
-        mounted(){
-            this.git(1)
-            this.git(2)
-            this.git(3)
-        },
         methods: {
             changeTab(tab){
                 this.status = tab;
             },
             //分页未做
             git(status){
-                $api.get('/reservation/list',{status:status}).then(msg => {
+                $api.get('/reservation/professional/list',{status:status}).then(msg => {
                     if(msg.code == 200){
                         switch(status){
                             case 1 :
@@ -78,6 +77,11 @@
                     }
                 })
             }
+        },
+        mounted(){
+            this.git(1)
+            this.git(2)
+            this.git(3)
         }
     }
 </script>

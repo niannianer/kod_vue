@@ -34,12 +34,8 @@
 
 <script>
     import '../less/financial.less';
-    import CicleProgress from '../components/CicleProgress/CicleProgress';
     export default {
         name: 'financial',
-        components: {
-            CicleProgress
-        },
         data(){
             return {
                 tab: 'high',
