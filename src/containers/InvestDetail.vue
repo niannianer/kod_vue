@@ -17,67 +17,56 @@
         name: 'invest-detail',
         data(){
             return {
-               lists: [
-                {
-                    key:'orderBillCode',
-                    name:'订单号',
-                    value:'03911201929'
-                },
-                {
-                    key:'payedTime',
-                    name:'购买时间',
-                    value:'2017-03-02 18:00:00'
-                },
-                {
-                    key:'productAbbrName',
-                    name:'产品名称',
-                    value:'北斗一号'
-                },
-                {
-                    key:'orderAmount',
-                    name:'购买金额',
-                    value:'100，000元'
-                },
-                {
-                    key:'productAnnualInterestRate',
-                    name:'预期年化收益率',
-                    value:'4.5%'
-                },
-                {
-                    key:'expectedProfitAmount',
-                    name:'预期收益',
-                    value:'100.00元'
-                },
-                {
-                    key:'productPeriod',
-                    name:'产品期限',
-                    value:'270天'
-                },
-                {
-                    key:'productInterestDate',
-                    name:'起息日',
-                    value:'2017-03-21'
-                },
-                {
-                    key:'productExpiringDate',
-                    name:'到期日',
-                    value:'2017-04-12'
-                },
-                {
-                    key:'productPaymentDate',
-                    name:'预期收款日',
-                    value:'2017-04-12'
-                }
-            ]
+                   lists: [
+                    {
+                        key:'orderBillCode',
+                        name:'订单号',
+                        value:'03911201929'
+                    },{
+                        key:'payedTime',
+                        name:'购买时间',
+                        value:'2017-03-02 18:00:00'
+                    },{
+                        key:'productAbbrName',
+                        name:'产品名称',
+                        value:'北斗一号'
+                    },{
+                        key:'orderAmount',
+                        name:'购买金额',
+                        value:'100，000元'
+                    },{
+                        key:'productAnnualInterestRate',
+                        name:'预期年化收益率',
+                        value:'4.5%'
+                    },{
+                        key:'expectedProfitAmount',
+                        name:'预期收益',
+                        value:'100.00元'
+                    },{
+                        key:'productPeriod',
+                        name:'产品期限',
+                        value:'270天'
+                    },{
+                        key:'productInterestDate',
+                        name:'起息日',
+                        value:'2017-03-21'
+                    },{
+                        key:'productExpiringDate',
+                        name:'到期日',
+                        value:'2017-04-12'
+                    },{
+                        key:'productPaymentDate',
+                        name:'预期收款日',
+                        value:'2017-04-12'
+                    }
+                ]
             }
         },
         created(){
             $api.get('/investment/detail',{
                 orderBillCode:this.$route.query.orderBillCode
             }).then(msg => {
-                console.log()
                     if(msg.code != 401){
-                        console.log(msg.data)
                         for (var item of this.lists) {
                             item.value = msg.data[item.key]
                             if(item.key == 'orderAmount'){
