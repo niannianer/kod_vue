@@ -11,6 +11,8 @@ const ReserveList =resolve => require(['../containers/ReserveList'], resolve);
 const ReserveDetail =resolve => require(['../containers/ReserveDetail'], resolve);
 const Reward = resolve => require(['../containers/Reward'], resolve);
 const MyCount = resolve => require(['../containers/MyCount'], resolve);
+const RewardDetail = resolve => require(['../containers/RewardDetail'], resolve);
+const InvestDetail = resolve => require(['../containers/InvestDetail'], resolve);
 const InvitationRewardlist = resolve => require(['../containers/InvitationRewardlist'], resolve);
 const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
 let routes = [
@@ -121,7 +123,7 @@ let routes = [
         meta: {
             title: '投资详情'
         },
-        component: Index
+        component: InvestDetail
 
     },
     {
