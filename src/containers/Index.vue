@@ -6,19 +6,37 @@
         <button class="btn-primary" @click="toastFun">toast</button>
         <button class="btn-primary" @click="alertFun">alert</button>
         <button class="btn-primary" @click="confirmFun">confirm</button>
+        <button class="btn-primary" @click="sheetFun">confirm</button>
+       <!-- <mt-actionsheet
+            :actions="actions"
+            v-model="sheetVisible">
+        </mt-actionsheet>-->
     </div>
 </template>
 
 <script>
+    import Vue from 'vue';
     import Confirm from '../components/Confirm';
     import Toast from '../components/Toast';
     import Alert from '../components/Alert';
+   /* import {Actionsheet} from 'mint-ui';
+    Vue.component(Actionsheet.name, Actionsheet);*/
     export default {
         name: 'index',
         data(){
             return {
                 newname: '',
-                timer: null
+                timer: null,
+                sheetVisible: false,
+                actions: [{
+                    name: 'name1',
+                    method: () => {
+                    }
+                }, {
+                    name: 'name2',
+                    method: () => {
+                    }
+                }]
             }
         },
         created(){
@@ -65,6 +83,9 @@
                         console.log('callback', result)
                     }
                 })
+            },
+            sheetFun(){
+                this.sheetVisible = true;
             }
 
         },
