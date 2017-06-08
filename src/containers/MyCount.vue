@@ -46,7 +46,9 @@
         name: 'my-count',
         data(){
             return {
-                telNumber
+                bankImg:'',
+                telNumber,
+                imgUrls
             }
         },
        computed: mapState([
@@ -71,3 +73,4 @@
         }
     }
 </script>
+
