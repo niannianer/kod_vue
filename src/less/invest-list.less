@@ -1,0 +1,82 @@
+@charset "UTF-8";
+@import "variables";
+
+@tab-active: #1D72C0;
+ul{
+    list-style: none;
+}
+a{color:@color-text-secondary;text-decoration: none}
+.invest-list {
+    height:100%;
+    .tabs{
+        .tab{
+            text-align: center;position: relative;
+            .tab-item{
+                padding:.5rem 0 .5rem;
+                font-size:.8rem;line-height:1em;
+            }
+        }
+        .active:after{
+            content: "";
+            display: block;
+            width:4.9rem;height:.15rem;
+            background-color:@tab-active;
+            position: absolute;
+            bottom:0;
+            left:50%;
+            margin-left:-2.45rem;
+            .tab-item{
+                color:@tab-active;
+            }
+        }
+    }
+    .item-list{
+        overflow-y:auto;
+        .item{
+            padding:.65rem .8rem 0;
+            background-color: @bg-content;
+            margin-bottom:.5rem;
+            box-shadow: 0 1px 1px 0 rgba(0,0,0,0.11);
+            position: relative;
+            ul{
+                li{
+                    line-height: 1.5em;
+                    font-size: .7rem;
+                    padding-bottom: .65rem;
+                    div:last-child{
+                        color:#151515;
+                        margin-left:.1rem;
+                    }
+                    div.width{
+                        width:13rem;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        -o-text-overflow: ellipsis;
+                        -webkit-text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+                }
+            }
+            .icon{
+                position: absolute;
+                width:2rem;height:2rem;
+                top: 50%;right:1rem;
+                margin-top:-1rem;
+            }
+            .icon:before,.icon:after{
+                content: "";
+                display: block;
+                position: absolute;
+                width:1rem;
+                background: #999999;
+                border-radius: 1px;height:1px;
+                transform-origin:100% 100%;
+                transform: rotate(-40deg);
+                left:50%;top:50%;margin-left:.1rem;
+            }
+            .icon:after{
+                transform: rotate(40deg);
+            }
+        }
+    }
+}

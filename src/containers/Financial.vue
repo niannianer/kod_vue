@@ -98,7 +98,7 @@
         methods: {
             changeTab(tab){
                 this.tab = tab;
-                this.$router.push('/index');
+                this.$router.push('/index?callSystemID=1001&orderBillCode=POX201705181716328850524');
             }
         }
     }

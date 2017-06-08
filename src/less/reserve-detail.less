@@ -12,6 +12,7 @@
             background-color:@bg-content;
             padding:.65rem .8rem 0;
             margin-bottom:.5rem;
+            box-shadow: 0 1px 1px 0 rgba(0,0,0,0.11);
             li{
                 line-height: 1.5em;
                 font-size: .7rem;
@@ -21,7 +22,13 @@
                     margin-left:.1rem;
                 }
                 div.width{
-                    max-width:13.6rem;
+                    max-width:13.5rem;
+                    a{
+                        color:@tab-active;
+                        text-decoration: none;
+                    }
+                }div.color{
+                    color:@tab-active;
                 }
             }
         }
@@ -56,10 +63,17 @@
             right:-3.8rem;top:1.6rem;
         }
     }
-    .cancel{
-        background-image: url(../images/best/icon-cancel.png);
+    .ing,.spread{
+        background-image: url(../images/best/icon-ing.png);
+    }
+    .ing{
         i:after{
-            content: "已过期";
+            content: "预约中";
+        }
+    }
+    .spread{
+        i:after{
+            content: "已流转";
         }
     }
     .finish{
@@ -68,10 +82,29 @@
             content: "已完成";
         }
     }
-    .ing{
-        background-image: url(../images/best/icon-ing.png);
+    .cancel,.past{
+        background-image: url(../images/best/icon-cancel.png);
+    }
+    .cancel{
         i:after{
-            content: "已流转";
+            content: "已取消";
+        }
+    }
+    .past{
+        i:after{
+            content: "已过期";
+        }
+    }
+    .wait{
+        background-image: url(../images/best/icon-wait.png);
+        i:after{
+            content: "待结算";
+        }
+    }
+    .accounted{
+        background-image: url(../images/best/icon-finish.png);
+        i:after{
+            content: "已结算";
         }
     }
     .more {
@@ -80,6 +113,16 @@
         a{
             color:@tab-active;
             text-decoration: none;
+        }
+    }
+}
+.invitation{
+    .detail{
+        .detail-ul{
+            border-bottom:1px solid rgba(151,151,151,.5)
+        }
+        .detail-ul:last-child{
+            border-bottom:none;
         }
     }
 }

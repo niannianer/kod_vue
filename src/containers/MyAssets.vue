@@ -21,8 +21,8 @@
                 </div>
             </div>
             <div class="item" flex>
-                <div class="item-left" flex-box="1">我的银行卡</div>
-                <div class="item-right" flex-box="0" v-if="userVerifyStatus<3">
+                <div class="item-left" flex-box="1" >我的银行卡</div>
+                <div class="item-right" flex-box="0" v-if="userVerifyStatus<3" @click.stop="addBankCard">
                     添加银行卡
                 </div>
                 <div class="item-right" flex-box="0" v-else>
@@ -88,6 +88,9 @@
                         break;
                     default:
                 }
+            },
+            addBankCard(){
+                this.goStep();
             },
             recharge(){
                 let {userVerifyStatus} = this;

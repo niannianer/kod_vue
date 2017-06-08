@@ -9,15 +9,16 @@ const Recharge = resolve => require(['../containers/Recharge'], resolve);
 const Withdraw =resolve => require(['../containers/Withdraw'], resolve);
 const ReserveList =resolve => require(['../containers/ReserveList'], resolve);
 const ReserveDetail =resolve => require(['../containers/ReserveDetail'], resolve);
+const ReserveProfessionalList =resolve => require(['../containers/ReserveProfessionalList'], resolve);
 const Reward = resolve => require(['../containers/Reward'], resolve);
 const MyCount = resolve => require(['../containers/MyCount'], resolve);
+const InvitationRewardDetal = resolve => require(['../containers/InvitationRewardDetal'], resolve);
+const InvestList = resolve => require(['../containers/InvestList'], resolve);
 const RewardDetail = resolve => require(['../containers/RewardDetail'], resolve);
 const InvestDetail = resolve => require(['../containers/InvestDetail'], resolve);
 const InvitationRewardlist = resolve => require(['../containers/InvitationRewardlist'], resolve);
 const InvitationAllowanceList = resolve => require(['../containers/InvitationAllowanceList'], resolve);
-
 const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
-
 let routes = [
     {
         path: '/index',
@@ -86,6 +87,14 @@ let routes = [
         },
         component: ReserveDetail
 
+    },{
+        path: '/reserve-professional-list',
+        name: 'reserve-professional-list',
+        meta: {
+            title: '专职理财师预约单管理'
+        },
+        component: ReserveProfessionalList
+
     }, {
         path: '/reward',
         name: 'reward',
@@ -98,9 +107,9 @@ let routes = [
         path: '/reward-detail',
         name: 'reward-detail',
         meta: {
-            title: '奖励明细'
+            title: '奖励细则'
         },
-        component: Reward
+        component: RewardDetail
 
     }, {
         path: '/my-count',
@@ -115,10 +124,10 @@ let routes = [
         path: '/invest-list',
         name: 'invest-list',
         meta: {
-            title: '投资列表'
+            //投资列表
+            title: '定期理财列表'
         },
-        component: Index
-
+        component: InvestList
     },
     {
         path: '/invest-detail',
@@ -144,7 +153,7 @@ let routes = [
         meta: {
             title: '邀请奖励详情'
         },
-        component: Index
+        component: InvitationRewardDetal
 
     },
     {

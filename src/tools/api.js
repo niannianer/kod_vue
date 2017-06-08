@@ -11,7 +11,7 @@ if (!window.Promise) {
 
 import 'whatwg-fetch';
 import {devUrl,testUrl,productionUrl} from './config';
-let serverUrl = testUrl;
+let serverUrl = devUrl;
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;
 }

@@ -2,6 +2,10 @@
 @import "variables";
 
 @tab-active: #1D72C0 ;
+a{
+    text-decoration: none;
+    color:@color-text-secondary;
+}
 .reserve-list {
     width:100%;height:100%;position: relative;
     .tabs{
@@ -27,12 +31,12 @@
         
     }
     .item-list{
-        overflow-y:auto;
+        overflow-y:auto;overflow-x: hidden;
         .item{
             background-color:@bg-content;
             margin-bottom:.5rem;
             padding:.65rem .8rem 0;
-            
+            box-shadow: 0 1px 1px 0 rgba(0,0,0,0.11);
             li{
                 line-height: 1.5em;
                 font-size: .7rem;
@@ -42,7 +46,15 @@
                     margin-left:.1rem;
                 }
                 div.width{
-                    max-width:13.6rem;
+                    width:13.6rem;
+                }
+                div.widths{
+                    width:13rem;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    -o-text-overflow: ellipsis;
+                    -webkit-text-overflow: ellipsis;
+                    overflow: hidden;
                 }
             }
         }
