@@ -64,12 +64,9 @@
         },
         created(){
             $api.get('/investment/detail',{
-                orderBillCode:'orderBillCode'//this.$route.query.orderBillCode
+                orderBillCode:this.$route.query.orderBillCode
             }).then(msg => {
-                console.log(this.lists);
-                console.log(msg)
                     if(msg.code != 401){
-                        console.log(msg.data)
                         for (var item of this.lists) {
                             item.value = msg.data[item.key]
                             if(item.key == 'orderAmount'){
