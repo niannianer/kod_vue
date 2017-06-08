@@ -6,13 +6,13 @@
                 <div class="item1" flex>
                     <div class="item-left" flex-box="1">真实姓名</div>
                     <div class="item-right" flex-box="0">
-                    **{{investorRealName.substr(-1)}}
+                    {{investorRealName.replace(/.(?=.)/g, '*')}}
                     </div>
                 </div>
                 <div class="item2" flex>
                     <div class="item-left" flex-box="1">证件号码</div>
                     <div class="item-right" flex-box="0">
-                    {{investorIdCardNo}}
+                    {{investorIdCardNo|idCardFormat}}
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                 <div class="bank-name">
                     <img :src="bankImg" class="bank-logo"/>
                     <span class="name">{{bank_name}}</span>
-                    <div class = "bank-info">123</div>
+                    <div class = "bank-info">{{bankUserCardNo|bankCardNoFormat}}</div>
                 </div>
             </div>
             <div class="tel-info">
@@ -59,11 +59,12 @@
             'investorIdCardNo',
             'bankUserPhone']),
         created(){
-
+            if (this.bank_code) {
+                this.bankImg = this.imgUrls[this.bank_code];
+            }
         },
         watch: {
             bank_code(){
-                console.log(this.bank_code);
                 if (this.bank_code) {
                     this.bankImg = this.imgUrls[this.bank_code];
                 }
@@ -72,3 +73,4 @@
         }
     }
 </script>
+
