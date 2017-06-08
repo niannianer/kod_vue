@@ -98,9 +98,9 @@ let routes = [
         path: '/reward-detail',
         name: 'reward-detail',
         meta: {
-            title: '奖励明细'
+            title: '奖励细则'
         },
-        component: Reward
+        component: RewardDetail
 
     }, {
         path: '/my-count',
