@@ -12,7 +12,7 @@ const ReserveDetail =resolve => require(['../containers/ReserveDetail'], resolve
 const Reward = resolve => require(['../containers/Reward'], resolve);
 const MyCount = resolve => require(['../containers/MyCount'], resolve);
 const InvitationRewardlist = resolve => require(['../containers/InvitationRewardlist'], resolve);
-
+const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
 let routes = [
     {
         path: '/index',
@@ -143,12 +143,12 @@ let routes = [
 
     },
     {
-        path: '/account-detal',
-        name: 'account-detal',
+        path: '/account-detail',
+        name: 'account-detail',
         meta: {
             title: '账户明细'
         },
-        component: Index
+        component: AccountDetail
 
     },
     {
