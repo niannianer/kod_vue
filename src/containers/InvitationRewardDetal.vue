@@ -5,7 +5,7 @@
                 <li flex>
                     <div v-if="data.rewardStatus == 2">奖励金额（税后）：</div>
                     <div v-else>奖励金额（税前）：</div>
-                    <div>{{data.rewardAmount | currencyFormat}}元</div>
+                    <div class="color2"><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
                 </li>
                 <li flex>
                     <div>客户投资金额：</div>
@@ -36,8 +36,8 @@
             </ul>
             <ul class="detail-ul">
                 <li flex>
-                    <div>产品名称：</div>
-                    <div class="width color"><router-link :to="{path:'index',query:{orderBillCode:'00000'}}">{{data.productName}}</router-link></div>
+                    <div>投资产品：</div>
+                    <div class="width color"><span @click.stop="link(data.productUuid)">{{data.productName}}</span></div>
                 </li>
                 <li flex>
                     <div>投资时间：</div>
@@ -57,7 +57,7 @@
                 <li flex>
                     <div v-if="data.rewardStatus == 2">奖励金额（税后）：</div>
                     <div v-else>奖励金额（税前）：</div>
-                    <div>{{data.rewardAmount | currencyFormat}}元</div>
+                    <div><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
                 </li>
                 <li flex>
                     <div>客户投资金额：</div>
@@ -79,7 +79,7 @@
                 </li>
                 <li flex>
                     <div>投资产品：</div>
-                    <div class="color width"><router-link :to="{path:'index',query:{orderBillCode:'00000'}}">{{data.productName}}</router-link>0</div>
+                    <div class="color width"><span @click.stop="link(data.productUuid)">{{data.productName}}888888888</span></div>
                 </li>
                 <li flex>
                     <div>投资时间：</div>
@@ -107,6 +107,11 @@
                 productPeriodType:'',
                 classArr:['wait','wait','accounted'],
                 "data": {}
+            }
+        },
+        methods:{
+            link(productUuid){
+                window.location.href='/goodsDetail.html?u='+productUuid+'&t=FIXI';
             }
         },
         mounted(){

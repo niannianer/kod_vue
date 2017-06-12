@@ -69,8 +69,7 @@
 
 <script>
     import '../less/reserve-detail.less';
-    import Toast from '../components/Toast';
-    import Alert from '../components/Alert';
+    import {Toast,MessageBox} from 'mint-ui';
     import $api from '../tools/api';
     export default {
         name: 'reserve-detail',
@@ -84,18 +83,12 @@
         },
         methods:{
             link(productUuid){
-                //if 产品已下架
                 $api.get('/checkProductOnStatus',{productUuid:productUuid}).then(msg => {
                     if(msg.code == 200){
-                        window.location.href='/goodsDetail.html?u='+productUuid 
+                        //
+                        window.location.href='/goodsDetail.html?u='+productUuid+'&t=FIXI';
                     }else{
-                        this.alertInstance = Alert({
-                            title: '提示',
-                            content: '产品已下架，如想查看详情，请联系客服。',
-                            callback: (result) => {
-                                
-                            }
-                        });
+                        MessageBox.alert(`产品已下架，如想查看详情，请联系客服。`,'提示').then(action=>{});
                     }
                 });
             },
