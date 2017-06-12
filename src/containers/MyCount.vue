@@ -21,7 +21,7 @@
                 <div class="bank-name">
                     <img :src="bankImg" class="bank-logo"/>
                     <span class="name">{{bank_name}}</span>
-                    <div class = "bank-info">{{bankUserCardNo|bankCardNoFormat}}</div>
+                    <div class ="bank-info">{{bankUserCardNo|bankCardNoFormat}}</div>
                 </div>
             </div>
             <div class="tel-info">
