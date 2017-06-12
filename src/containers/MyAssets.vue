@@ -90,12 +90,12 @@
                 }
             },
             addBankCard(){
-                this.goStep();
+                this.showModal=true;
             },
             recharge(){
                 let {userVerifyStatus} = this;
                 if (userVerifyStatus != 9) {
-                    this.goStep();
+                    this.showModal=true;
                     return false;
                 }
                 window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href));
@@ -105,14 +105,17 @@
             withdraw(){
                 let {userVerifyStatus} = this;
                 if (userVerifyStatus != 9) {
-                    this.goStep();
+                    this.showModal=true;
                     return false;
                 }
                 this.$router.push('/withdraw');
             },
             callBack(result){
                 this.showModal = false;
-                console.log(result)
+                console.log(result);
+                if(result){
+                    this.goStep();
+                }
             }
         }
     }
