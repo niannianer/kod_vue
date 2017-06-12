@@ -66,7 +66,7 @@
                 hasMore: false,
                 types: ['全部'],
                 startRow: 0,
-                pageSize: 17,
+                pageSize: 20,
                 items: [
                     {
                         type: 'RCX',

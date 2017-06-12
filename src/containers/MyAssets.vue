@@ -2,11 +2,11 @@
     <div flex="dir:top" flex-box="1" class="my-assets">
         <div class="assets-body" flex-box="1">
             <div class="assets">
-                <div class="title">总资产(元）</div>
+                <div class="title">总资产(元）<router-link  class="account-list" :to="{path:'/account-detail'}">账单</router-link></div>
                 <div class="number">{{accountTotalAssets | currencyFormat}}</div>
                 <div class="profit-withdraw" flex>
                     <div class="profit" flex-box="0">
-                        <div class="title">累计收益(元)</div>
+                        <div class="title">累计收益(元) </div>
                         <div class="number" v-if="accountTotalInterests>=0">
                             +{{accountTotalInterests | currencyFormat}}
                         </div>
