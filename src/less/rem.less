@@ -14,7 +14,7 @@ html {
     font-size: @baseFont; //默认当做375px宽度的屏幕来处理
 }
 
-@bps: 375px, 400px, 414px, 480px ;
+@bps:320px, 360px, 375px, 400px, 414px, 480px ;
 
 .loop(@i: 1) when (@i <= length(@bps)) { //注意less数组是从1开始的
     @bp: extract(@bps, @i);
