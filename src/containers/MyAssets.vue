@@ -25,7 +25,7 @@
                 <div class="item-right" flex-box="0" v-if="userVerifyStatus<3" @click.stop="addBankCard">
                     添加银行卡
                 </div>
-                <div class="item-right" flex-box="0" v-else>
+                <div class="item-right" flex-box="0" v-else @click.stop="getBank">
                     已绑定
                 </div>
             </div>
@@ -91,6 +91,9 @@
             },
             addBankCard(){
                 this.showModal=true;
+            },
+            getBank(){
+                this.$router.push('/my-count')
             },
             recharge(){
                 let {userVerifyStatus} = this;
