@@ -61,7 +61,7 @@
                         'userUuid':this.userUuid
                     })
                         .then(msg => {
-                            if(msg.code != 401){
+                            if(msg.code == 200){
                                 this.paidWithTax = msg.data.paidWithTax;
                                 this.unpaid = msg.data.unpaid;
                                 this.paid = msg.data.paid;
