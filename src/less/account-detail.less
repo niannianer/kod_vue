@@ -80,49 +80,51 @@
 
             }
         }
-        .filter-warp {
-            position: fixed;
-            z-index: 2;
-            height: 100%;
-            width: 100%;
-            background-color: rgba(0, 0, 0, .51);
-            .filter-body {
-                position: relative;
-                background-color: #fff;
-                .filter-header {
-                    padding: .75rem 0 .75rem 0;
-                    margin-left: .8rem;
-                    font-size: .8rem;
-                    line-height: .8rem;
+
+    }
+    .filter-warp {
+        position: fixed;
+        top: 2.35rem;
+        bottom: 0;
+        z-index: 2;
+        width: 100%;
+        background-color: rgba(0, 0, 0, .51);
+        .filter-body {
+            position: relative;
+            background-color: #fff;
+            .filter-header {
+                padding: .75rem 0 .75rem 0;
+                margin-left: .8rem;
+                font-size: .8rem;
+                line-height: .8rem;
+                color: @color-text-secondary;
+                border-bottom: 1px solid @color-split;
+                &.toggle {
+                    color: @color-active;
+                }
+            }
+            .filter-items {
+                padding: .5rem .8rem;
+                .item {
+                    min-width: 20%;
                     color: @color-text-secondary;
-                    border-bottom: 1px solid @color-split;
-                    &.toggle {
+                    &.active{
                         color: @color-active;
                     }
                 }
-                .filter-items {
-                    padding: .5rem .8rem;
-                    .item {
-                        min-width: 20%;
-                        color: @color-text-secondary;
-                        &.active{
-                            color: @color-active;
-                        }
-                    }
+            }
+            .btn-warp {
+                text-align: center;
+                padding: .4rem 0 1rem;
+                .btn-ensure {
+                    margin: auto;
+                    height: 1.5rem;
+                    width: 4rem;
+                    color: #fff;
                 }
-                .btn-warp {
-                    text-align: center;
-                    padding: .4rem 0 1rem;
-                    .btn-ensure {
-                        margin: auto;
-                        height: 1.5rem;
-                        width: 4rem;
-                        color: #fff;
-                    }
-                }
-
             }
 
         }
+
     }
 }

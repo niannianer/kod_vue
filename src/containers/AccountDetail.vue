@@ -8,27 +8,28 @@
             <div class="header-item" flex-box="1">金额(元)</div>
             <div class="header-item" flex-box="1">时间</div>
         </div>
-        <div class="body" flex-box="1">
-            <div class="filter-warp" v-show="isRotate">
-                <div class="filter-body">
-                    <div class="filter-header" :class="{'toggle':toggleAll}" @click.stop="selectAll">
-                        全部
-                    </div>
-                    <div class="filter-items" flex="main:justify">
-                        <div class="item" :class="{'active':item.active||toggleAll}" @click.stop="selectItem(index)"
-                             v-for="(item,index) in items.slice(0,4)">{{item.name}}
-                        </div>
-                    </div>
-                    <div class="filter-items" flex="main:justify">
-                        <div class="item" :class="{'active':item.active||toggleAll}" @click.stop="selectItem(index+4)"
-                             v-for="(item,index) in items.slice(4,8)">{{item.name}}
-                        </div>
-                    </div>
-                    <div class="btn-warp">
-                        <button class="btn-primary btn-ensure" @click.stop="getByType">确定</button>
+        <div class="filter-warp" v-show="isRotate">
+            <div class="filter-body">
+                <div class="filter-header" :class="{'toggle':toggleAll}" @click.stop="selectAll">
+                    全部
+                </div>
+                <div class="filter-items" flex="main:justify">
+                    <div class="item" :class="{'active':item.active||toggleAll}" @click.stop="selectItem(index)"
+                         v-for="(item,index) in items.slice(0,4)">{{item.name}}
                     </div>
                 </div>
+                <div class="filter-items" flex="main:justify">
+                    <div class="item" :class="{'active':item.active||toggleAll}" @click.stop="selectItem(index+4)"
+                         v-for="(item,index) in items.slice(4,8)">{{item.name}}
+                    </div>
+                </div>
+                <div class="btn-warp">
+                    <button class="btn-primary btn-ensure" @click.stop="getByType">确定</button>
+                </div>
             </div>
+        </div>
+        <div class="body" flex-box="1">
+
             <ul class="infinite-scroll"
                 v-infinite-scroll="loadMore"
                 infinite-scroll-disabled="disLoad"
