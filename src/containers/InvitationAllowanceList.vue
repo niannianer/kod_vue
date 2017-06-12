@@ -23,7 +23,10 @@
                 </li>
             </ul>
         </div>
-        <div class="item-list" flex-box='1'>
+        <div class="item-list" flex-box='1'
+             v-infinite-scroll="loadMore"
+             infinite-scroll-disabled="disLoad"
+             infinite-scroll-distance="70">
             <div flex="dir:left" class="item" v-for="(item,index) in tabList">
                 <div class="left" flex-box="1">
                     <p class='info'>{{item.rewardAmount | currencyFormat}}元</p>
@@ -37,7 +40,7 @@
                         </li>
                         <li flex class="last">
                             <div flex-box="0">投资时间：</div>
-                            <div flex-box="0">{{item.createTime}}</div>
+                            <div flex-box="0">{{item.createTime | timeFormat}}</div>
                         </li>
                     </ul>
                     <span class="icon" :class='item.rewardStatus == 2 ? "finish" : "cancel"'>
@@ -45,6 +48,7 @@
                         </span>
                 </div>
             </div>
+            <p v-show="loading&&hasMore" class="loading">加载更多...</p>
         </div>
         <div flex="dir:top" flex-box="1" class="shade"  v-show="show">
             <div class="cancel" flex='main:right' flex-box='1'  @click="show=false">关闭</div>
@@ -66,19 +70,20 @@
     </div>
 </template>
 <script>
+    import Vue from 'vue';
     import '../less/invitation-allowance-list.less';
     import $api from '../tools/api';
-    import {Loadmore} from 'mint-ui';
+    import {InfiniteScroll, Toast} from 'mint-ui';
+    Vue.use(InfiniteScroll);
     export default {
         name: 'invitation-allowance-list',
         data(){
             return {
                 tab: 1,
                 pageSize: 10,
-                pageNo1: 1,
-                pageNo2: 1,
-                loading1: false,
-                loading2: false,
+                pageNo: 1,
+                hasMore: false,
+                loading: false,
                 sumData: {},
                 tabList: [],
                 show:false
@@ -86,43 +91,60 @@
             }
         },
         created(){
-            this.getRewardList();
+            this.getRewardList('refresh');
 
         },
         computed: {
-            count(){
-                return this.$store.state.count
-            },
+            disLoad(){
+                return this.loading || (!this.hasMore);
+            }
         },
         methods: {
             changeTab(tab){
                 this.tab = tab;
-                this.getRewardList()
+                this.pageNo=1;
+                this.getRewardList('refresh')
 
             },
-            getRewardList(){
+            loadMore(){
+                if (this.loading) {
+                    return false;
+                }
+                this.pageNo++;
+                this.getRewardList();
+            },
+            getRewardList(type){
                 let params = {
-                    pageSize: 10
+                    pageSize: 10,
+                    pageNo: this.pageNo
                 };
                 if (this.tab == 1) {
-                    params.pageNo = this.pageNo1;
                     params.rewardType = 2;
                 } else {
-                    params.pageNo = this.pageNo2;
                     params.rewardType = 3;
                 }
-
+                this.loading = true;
                 $api.get('/reward/list', params)
                     .then(data => {
-                        console.log(data);
+                        this.loading = false;
                         if (data.code == 200) {
-                            this.tabList = [];
-                            this.$set(this.sumData, 'unpaid', data.data.sumData.unpaid);
-                            this.$set(this.sumData, 'paidWithTax', data.data.sumData.paidWithTax);
+                            if (type == 'refresh') {
+                                this.tabList = [];
+                                this.$set(this.sumData, 'unpaid', data.data.sumData.unpaid);
+                                this.$set(this.sumData, 'paidWithTax', data.data.sumData.paidWithTax);
+                            }
                             data.data.rewardList.map(el => {
                                 this.tabList.push(el)
                             });
+                            if (this.tabList.length >= data.data.count) {
+                                this.hasMore = false;
+                            } else {
+                                this.hasMore = true;
+                            }
 
+                        } else {
+                            this.hasMore = false;
+                            Toast(data.msg);
                         }
 
                     })

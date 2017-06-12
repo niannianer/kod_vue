@@ -31,7 +31,7 @@
             </div>
             <ul class="infinite-scroll"
                 v-infinite-scroll="loadMore"
-                infinite-scroll-disabled="loading"
+                infinite-scroll-disabled="disLoad"
                 infinite-scroll-distance="70">
                 <li class="excharge" v-for="(excharge,index) in excharges" flex :key="index">
                     <span class="first" flex-box="0">{{excharge.tradeTypeDesc}}</span>
@@ -66,7 +66,7 @@
                 hasMore: false,
                 types: ['全部'],
                 startRow: 0,
-                pageSize: 17,
+                pageSize: 20,
                 items: [
                     {
                         type: 'RCX',
@@ -116,7 +116,11 @@
             this.getAccountTransactionList('refresh');
 
         },
-        computed: {},
+        computed: {
+            disLoad(){
+                return this.loading || (!this.hasMore);
+            }
+        },
         methods: {
             rotateTriangle(){
                 this.isRotate = !this.isRotate

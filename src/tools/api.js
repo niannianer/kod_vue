@@ -50,6 +50,11 @@ let get = (path, data = {}) => {
             return {};
         }
         return {};
+    }).then(data=>{
+        if(data.code=='401'){
+            window.location.href ='/login.html';
+        }
+        return data;
     }).catch(err => {
         console.error('error,--->', err);
     });
