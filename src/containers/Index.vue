@@ -10,8 +10,9 @@
         <div style="height: 400px">
             <div style="height: 100%;overflow: auto">
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
-                    <ul>
-                        <li v-for="item in 30" style="line-height: 30px">{{ item }}</li>
+                    <ul class="infinite-scroll" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="70">
+                        <li v-for="item in 70" style="line-height: 30px">{{ item }}</li>
+                        <p v-show="loading&&hasMore" class="loading">加载更多...</p>
                     </ul>
                 </mt-loadmore>
             </div>
@@ -25,8 +26,9 @@
     import Confirm from '../components/Confirm';
     import Toast from '../components/Toast';
     import Alert from '../components/Alert';
-    import {Loadmore } from 'mint-ui';
+    import {Loadmore,InfiniteScroll } from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
+    Vue.use(InfiniteScroll);
     export default {
         name: 'index',
         data(){
@@ -74,6 +76,11 @@
             },loadBottom(){
                 this.allLoaded = true;// 若数据已全部获取完毕
                 this.$refs.loadmore.onBottomLoaded();
+            },
+            loadMore(){
+                console.log('loading');
+                this.loading = true;
+                this.getAccountTransactionList('loadMore');
             }
 
         },

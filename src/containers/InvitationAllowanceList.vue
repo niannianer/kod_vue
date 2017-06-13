@@ -37,7 +37,7 @@
                         </li>
                         <li flex class="last">
                             <div flex-box="0">投资时间：</div>
-                            <div flex-box="0">{{item.createTime}}</div>
+                            <div flex-box="0">{{item.createTime |timeFormat}}</div>
                         </li>
                     </ul>
                     <span class="icon" :class='item.rewardStatus == 2 ? "finish" : "cancel"'>

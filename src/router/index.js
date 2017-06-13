@@ -16,7 +16,7 @@ const InvitationRewardDetal = resolve => require(['../containers/InvitationRewar
 const InvestList = resolve => require(['../containers/InvestList'], resolve);
 const RewardDetail = resolve => require(['../containers/RewardDetail'], resolve);
 const InvestDetail = resolve => require(['../containers/InvestDetail'], resolve);
-const InvitationRewardlist = resolve => require(['../containers/InvitationRewardlist'], resolve);
+const InvitationRewardList = resolve => require(['../containers/InvitationRewardList'], resolve);
 const InvitationAllowanceList = resolve => require(['../containers/InvitationAllowanceList'], resolve);
 const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
 let routes = [
@@ -144,7 +144,7 @@ let routes = [
         meta: {
             title: '邀请奖励列表'
         },
-        component: InvitationRewardlist
+        component: InvitationRewardList
 
     },
     {
