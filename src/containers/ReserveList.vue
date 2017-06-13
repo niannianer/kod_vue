@@ -33,7 +33,6 @@
         </div>
     </div>
 </template>
-
 <script>
     import '../less/reserve-list.less';
     import $api from '../tools/api';
