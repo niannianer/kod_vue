@@ -16,7 +16,7 @@ const InvitationRewardDetal = resolve => require(['../containers/InvitationRewar
 const InvestList = resolve => require(['../containers/InvestList'], resolve);
 const RewardDetail = resolve => require(['../containers/RewardDetail'], resolve);
 const InvestDetail = resolve => require(['../containers/InvestDetail'], resolve);
-const InvitationRewardlist = resolve => require(['../containers/InvitationRewardlist'], resolve);
+const InvitationRewardList = resolve => require(['../containers/InvitationRewardList'], resolve);
 const InvitationAllowanceList = resolve => require(['../containers/InvitationAllowanceList'], resolve);
 const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
 let routes = [
@@ -144,7 +144,7 @@ let routes = [
         meta: {
             title: '邀请奖励列表'
         },
-        component: InvitationRewardlist
+        component: InvitationRewardList
 
     },
     {
@@ -182,6 +182,89 @@ let routes = [
         },
         component: InvitationAllowanceList
 
+    },
+    {
+        path: '/pension-one',
+        name: 'pension-one',
+        meta: {
+            title: '养老理财规划'
+        },
+        component: Index
+
+    },
+    {
+        path: '/pension-two',
+        name: 'pension-two',
+        meta: {
+            title: '养老理财规划'
+        },
+        component: Index
+
+    }, {
+        path: '/pension-three',
+        name: 'pension-three',
+        meta: {
+            title: '养老理财规划'
+        },
+        component: Index
+
+    },
+    {
+        path: '/pension-four',
+        name: 'pension-four',
+        meta: {
+            title: '养老理财规划'
+        },
+        component: Index
+
+    },
+    {
+        path: '/pension-five',
+        name: 'pension-five',
+        meta: {
+            title: '养老理财规划'
+        },
+        component: Index
+    },
+    {
+        path: '/pension-share',
+        name: 'pension-share',
+        meta: {
+            title: '金疙瘩-懂你，懂理顾，更懂理财'
+        },
+        component: Index
+    },
+    {
+        path: '/house-one',
+        name: 'house-one',
+        meta: {
+            title: '住房理财规划'
+        },
+        component: Index
+    },
+    {
+        path: '/house-two',
+        name: 'house-two',
+        meta: {
+            title: '住房理财规划'
+        },
+        component: Index
+    },
+    {
+        path: '/house-three',
+        name: 'house-three',
+        meta: {
+            title: '住房理财规划'
+        },
+        component: Index
+    },
+    {
+        path: '/house-share',
+        name: 'house-share',
+        meta: {
+            title: '金疙瘩-懂你，懂理顾，更懂理财'
+        },
+        component: Index
     }
 ];
 routes.push({

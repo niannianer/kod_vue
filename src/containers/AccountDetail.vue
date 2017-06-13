@@ -172,6 +172,7 @@
                 let {startRow, pageSize} = this;
                 if (type == 'loadMore') {
                     startRow = this.excharges.length;
+                    console.log(startRow)
                 }
                 $api.get('/getAccountTransactionList', {
                     tradeTypeDescs,
@@ -182,6 +183,7 @@
                 })
                     .then(data => {
                         if (data.code == 200) {
+                            console.log(data.data);
                             let len = data.data.count;
                             if (type == 'refresh') {
                                 this.excharges = data.data.transactionList;
