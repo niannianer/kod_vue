@@ -13,10 +13,9 @@
                 <p>奖励比列（年化）</p>
             </div>
         </div>
-        <div class="body" >
+        <div class="body"  >
             <div style="height: 100%;overflow: auto">
-                <!--:bottom-method="loadBottom" :bottom-all-loaded="allLoaded"-->
-                <mt-loadmore :top-method="loadTop"  ref="loadmore" >
+                <mt-loadmore :top-method="loadTop"  :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :auto-fill="autoFill">
                     <ul>
                         <li class="item bl" flex="box:mean" v-for="(item,index) in lists" :key="index" >
                             <p flex="dir:top main:center" class="product-name">{{item.productAbbrName}}</p>
@@ -32,30 +31,6 @@
             </div>
         </div>
     </div>
-<!--    <div class="reward-detail">
-        <div class="header bl" flex-box="0" flex>
-            <ul flex>
-                <li  :class="{'left':true,'active':isActive}" flex-box="1" @click="rewardTab('FIXI')">定期理财</li>
-                <li  :class="{'right':true,'active':!isActive}" flex-box="1" @click="rewardTab('PRIF')">高端理财</li>
-            </ul>
-        </div>
-        <div class="title bl" flex="box:mean"  >
-            <p>产品名称</p>
-            <p>投资金额（万元）</p>
-            <p>奖励比列（年化）</p>
-        </div>
-        <ul>
-            <li class="item bl" flex="box:mean" v-for="(item,index) in lists" :key="index" >
-                <p flex="dir:top main:center" class="product-name">{{item.productAbbrName}}</p>
-                <ul flex="dir:top main:center">
-                    <li v-for="(itemRange,indexRange) in item.productAward" :key="indexRange">{{itemRange.range}}</li>
-                </ul>
-                <ul flex="dir:top main:center">
-                    <li v-for="(itemRate,indexRate) in item.productAward" :key="indexRate">{{itemRate.rate}}</li>
-                </ul>
-            </li>
-        </ul>
-    </div>-->
 </template>
 
 <script>
@@ -71,37 +46,50 @@
                 lists:[],
                 isActive:true,
                 tabMenu:'FIXI',
-                allLoaded:false
+                allLoaded:false,
+                autoFill:false,
+                currentPage:0,
+                pageSize:10
             }
         },
         created(){
-            this.loadData(0,10)
+            this.loadData()
         },
         methods:{
             loadTop(){
-                const _this = this;
-                this.loadData(0,10,function(){
-                    _this.$refs.loadmore.onTopLoaded();
+                this.lists = [];
+                this.currentPage = 0;
+                this.allLoaded=false;
+                this.loadData().then(() =>{
+                    this.$refs.loadmore.onTopLoaded();
                 });
             },
             rewardTab(string){
                 this.isActive = 'FIXI'== string?true:false;
                 this.tabMenu = string;
-                this.loadData(0,10);
-            }/*,
+                this.lists = [];
+                this.currentPage = 0;
+                this.loadData();
+            },
             loadBottom(){
-                console.log('loadBottom');
-            }*/
+                this.currentPage++;
+                this.loadData().then(() =>{
+                    this.$refs.loadmore.onBottomLoaded();
+                })
+
+            }
             ,loadData(startRow,pageSize,fn){
-                $api.get('/product/reward/list',{
+                return $api.get('/product/reward/list',{
                     'productType':this.tabMenu,
-                    startRow:startRow|'',
-                    pageSize:pageSize|10
+                    startRow:this.currentPage*this.pageSize,
+                    pageSize:this.pageSize
                 })
                     .then(msg => {
                         if(msg.code == 200){
-                            this.lists = msg.data.rewardList;
-                            fn&&fn();
+                            if(msg.data.rewardCount <= (this.currentPage*this.pageSize)){
+                                this.allLoaded=true;
+                            }
+                            this.lists = this.lists.concat(msg.data.rewardList);
                         }
                         return msg
                     })
