@@ -1,5 +1,6 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import store from '../store';
+import Router from 'vue-router';
 Vue.use(Router)
 const Index = resolve => require(['../containers/Index'], resolve);
 const Financial = resolve => require(['../containers/Financial'], resolve);
@@ -19,6 +20,30 @@ const InvestDetail = resolve => require(['../containers/InvestDetail'], resolve)
 const InvitationRewardList = resolve => require(['../containers/InvitationRewardList'], resolve);
 const InvitationAllowanceList = resolve => require(['../containers/InvitationAllowanceList'], resolve);
 const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
+let beforeEach = ((to, from, next) => {
+    console.log(12345);
+    let {meta} = to;
+    next();
+    if (meta.withoutLogin) {
+        next();
+    } else {
+        if (store.state.userId) {
+            next()
+        } else {
+            console.log(23456)
+            store.dispatch('getAccountBaofoo')
+                .then(data => {
+                    console.log(data);
+                    if (data.code == '401') {
+                        window.location.href = '/login.html';
+                    } else {
+                        next()
+                    }
+                });
+        }
+    }
+
+})
 let routes = [
     {
         path: '/index',
@@ -41,12 +66,7 @@ let routes = [
         meta: {
             title: '我的资产'
         },
-        component: MyAssets,
-        beforeEnter: (to, from, next) => {
-            // ...
-            console.log('my');
-            next();
-        }
+        component: MyAssets
     }, {
         path: '/login',
         name: 'login',
@@ -161,7 +181,8 @@ let routes = [
         path: '/account-detail',
         name: 'account-detail',
         meta: {
-            title: '账户明细'
+            title: '账户明细',
+            withoutLogin:true
         },
         component: AccountDetail
 
@@ -266,12 +287,28 @@ let routes = [
             title: '金疙瘩-懂你，懂理顾，更懂理财'
         },
         component: Index
+    },
+    {
+        path: '/personal-center',
+        name: 'personal-center',
+        meta: {
+            title: '个人中心',
+            withoutLogin: true
+
+        },
+        component: Index
     }
 ];
+routes.map(route => {
+    if (!route.meta.withoutLogin) {
+        route.beforeEnter = beforeEach;
+    }
+});
 routes.push({
     path: '*',
-    redirect: '/financial'
+    redirect: '/my-assets'
 });
+
 export default new Router({
     mode: 'history',
     routes

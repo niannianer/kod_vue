@@ -26,6 +26,7 @@ actions.getAccountBaofoo = ({commit}) => {
             } else {
                 commit('setAccountBaofoo', {});
             }
+            return data;
 
         });
 };
