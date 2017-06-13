@@ -48,18 +48,23 @@ export let mobileFormat=(input)=>{
     return input.substr(0,4) +'***'+input.substr(-4);
 };
 export let bankCardNoFormat=(input)=>{
-    let reg = /^\d{4}(\d+)\d{4}$/;
-    let res = reg.exec(input);
-    let endStar = input.replace(reg, ($1, $2)=>{
-        let len = $2.length;
-        let star = '';
-        for (let i = 0; i < len; i++) {
-            star = star.concat('*')
-        }
-        return star;
-    });
-    let str1 = input.replace(res[1], endStar);
-    return str1.replace(/\s/g, '').replace(/(.{4})/g, "$1 ");
+     if(!input){
+        return '';
+    }else{
+        let reg = /^\d{4}(\d+)\d{4}$/;
+        let res = reg.exec(input);
+        let endStar = input.replace(reg, ($1, $2)=>{
+            let len = $2.length;
+            let star = '';
+            for (let i = 0; i < len; i++) {
+                star = star.concat('*')
+            }
+            return star;
+        });
+        let str1 = input.replace(res[1], endStar);
+        return str1.replace(/\s/g, '').replace(/(.{4})/g, "$1 ");
+    }
+   
 };
 export let timeFormat = (input) => {
     if (!input) {
