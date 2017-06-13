@@ -19,6 +19,7 @@ const InvestDetail = resolve => require(['../containers/InvestDetail'], resolve)
 const InvitationRewardList = resolve => require(['../containers/InvitationRewardList'], resolve);
 const InvitationAllowanceList = resolve => require(['../containers/InvitationAllowanceList'], resolve);
 const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
+const PensionTwo = resolve => require(['../containers/PensionTwo'], resolve);
 let routes = [
     {
         path: '/index',
@@ -151,7 +152,8 @@ let routes = [
         path: '/invitation-reward-detal',
         name: 'invitation-reward-detal',
         meta: {
-            title: '邀请奖励详情'
+            title: '邀请奖励详情',
+            withoutLogin:true
         },
         component: InvitationRewardDetal
 
@@ -196,9 +198,10 @@ let routes = [
         path: '/pension-two',
         name: 'pension-two',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin:true
         },
-        component: Index
+        component: PensionTwo
 
     }, {
         path: '/pension-three',

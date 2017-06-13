@@ -26,7 +26,7 @@
                             <ul>
                                 <li flex>
                                      <div flex-box="0">客户：</div>
-                                     <div flex-box="0">{{item.userMobile.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')}}</div>
+                                     <div flex-box="0">{{item.beInvitedMobile.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')}}</div>
                                 </li>
                                 <li flex>
                                      <div flex-box="0">投资金额：</div>
@@ -38,7 +38,7 @@
                                 </li>
                                 <li flex class="last">
                                      <div flex-box="0">投资时间：</div>
-                                     <div flex-box="0">{{item.createTime|timeFormat}}</div>
+                                     <div flex-box="0">{{item.beInvitedInvestTime|timeFormat}}</div>
                                 </li>
                             </ul>
                             <span class="icon" :class='item.rewardStatus == 2 ? "finish" : "cancel"'>

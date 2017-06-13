@@ -36,7 +36,7 @@
                     <ul>
                         <li flex>
                             <div flex-box="0">理财师好友：</div>
-                            <div flex-box="0">{{item.userMobile | mobileFormat}}</div>
+                            <div flex-box="0">{{item.beInvitedMobile | mobileFormat}}</div>
                         </li>
                         <li flex class="last">
                             <div flex-box="0">投资时间：</div>
