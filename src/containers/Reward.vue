@@ -52,23 +52,31 @@
         methods:{
             allowance(num){
                 this.$router.push("/invitation-allowance-list?rewardType="+num+"");
+            },
+            getSum(){
+                $api.get('/reward/sum',{
+                    'userUuid':this.userUuid
+                })
+                    .then(msg => {
+                        if(msg.code == 200){
+                            this.paidWithTax = msg.data.paidWithTax;
+                            this.unpaid = msg.data.unpaid;
+                            this.paid = msg.data.paid;
+                        }
+                        return msg
+                    })
             }
         },
         watch: {
             userUuid(){
                 if (this.userUuid) {
-                    $api.get('/reward/sum',{
-                        'userUuid':this.userUuid
-                    })
-                        .then(msg => {
-                            if(msg.code == 200){
-                                this.paidWithTax = msg.data.paidWithTax;
-                                this.unpaid = msg.data.unpaid;
-                                this.paid = msg.data.paid;
-                            }
-                            return msg
-                        })
+                    this.getSum();
                 }
+            }
+        },
+        created(){
+            if (this.userUuid) {
+                this.getSum();
             }
         }
     }

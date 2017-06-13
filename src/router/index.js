@@ -266,7 +266,6 @@ let routes = [
         },
         component: Index
     }
-
 ];
 routes.push({
     path: '*',
