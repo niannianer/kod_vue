@@ -6,10 +6,10 @@ const Financial = resolve => require(['../containers/Financial'], resolve);
 const MyAssets = resolve => require(['../containers/MyAssets'], resolve);
 const Login = resolve => require(['../containers/Login'], resolve);
 const Recharge = resolve => require(['../containers/Recharge'], resolve);
-const Withdraw =resolve => require(['../containers/Withdraw'], resolve);
-const ReserveList =resolve => require(['../containers/ReserveList'], resolve);
-const ReserveDetail =resolve => require(['../containers/ReserveDetail'], resolve);
-const ReserveProfessionalList =resolve => require(['../containers/ReserveProfessionalList'], resolve);
+const Withdraw = resolve => require(['../containers/Withdraw'], resolve);
+const ReserveList = resolve => require(['../containers/ReserveList'], resolve);
+const ReserveDetail = resolve => require(['../containers/ReserveDetail'], resolve);
+const ReserveProfessionalList = resolve => require(['../containers/ReserveProfessionalList'], resolve);
 const Reward = resolve => require(['../containers/Reward'], resolve);
 const MyCount = resolve => require(['../containers/MyCount'], resolve);
 const InvitationRewardDetal = resolve => require(['../containers/InvitationRewardDetal'], resolve);
@@ -71,7 +71,7 @@ let routes = [
         },
         component: Withdraw
 
-    },{
+    }, {
         path: '/reserve-list',
         name: 'reserve-list',
         meta: {
@@ -79,7 +79,7 @@ let routes = [
         },
         component: ReserveList
 
-    },{
+    }, {
         path: '/reserve-detail',
         name: 'reserve-detail',
         meta: {
@@ -87,7 +87,7 @@ let routes = [
         },
         component: ReserveDetail
 
-    },{
+    }, {
         path: '/reserve-professional-list',
         name: 'reserve-professional-list',
         meta: {
@@ -120,7 +120,7 @@ let routes = [
         component: MyCount
 
     },
-     {
+    {
         path: '/invest-list',
         name: 'invest-list',
         meta: {
@@ -274,5 +274,14 @@ routes.push({
 });
 export default new Router({
     mode: 'history',
-    routes
+    routes,
+    scrollBehavior (to, from, savedPosition) {
+        // return 期望滚动到哪个的位置
+        let {meta} = to;
+        if (meta.keepAlive) {
+            return savedPosition;
+        } else {
+            return {x: 0, y: 0};
+        }
+    }
 })
