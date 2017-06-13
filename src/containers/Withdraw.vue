@@ -125,19 +125,12 @@
                 }, 200);
             },
             getTradeFeeType(){
-                console.log(12345)
-                console.log(12345)
-                console.log(12345)
-                console.log(12345)
+
                 let amount = this.withdrawMount;
                 return $api.get('/tradeFeeType', {amount});
 
             },
             getWithdraw(){
-                console.log(12345)
-                console.log(12345)
-                console.log(12345)
-                console.log(12345)
                 this.getTradeFeeType()
                     .then(data => {
                         if (data.code == 200) {
@@ -151,7 +144,6 @@
                                 }else {
                                     let vm =this;
                                     MessageBox.confirm(`本次提现需收取${amount}元手续费，请确认是否继续？`,'提示').then(action=>{
-                                        console.log(action);
                                         vm.confirmFun(action);
                                     });
 
@@ -172,13 +164,11 @@
                 }
             },
             callBack(password){
-                console.log(password);
                 this.tradeWithdraw(password);
             },
             tradeWithdraw(password){
                 let rechargeAmount = this.withdrawMount;
                 let userPayPassword = password;
-                Indicator.open('提交中...');
                 $api.post('/trade/withdraw', {rechargeAmount, userPayPassword})
                     .then(data => {
                         Indicator.close();
@@ -190,6 +180,7 @@
                             Toast(data.msg);
                         }
                     });
+                Indicator.open('提交中...');
             }
         },
         destroyed(){

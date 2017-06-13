@@ -2,11 +2,11 @@
     <div flex="dir:top" flex-box="1" class="my-assets">
         <div class="assets-body" flex-box="1">
             <div class="assets">
-                <div class="title">总资产(元）</div>
+                <div class="title">总资产(元）<router-link  class="account-list" :to="{path:'/account-detail'}">账单</router-link></div>
                 <div class="number">{{accountTotalAssets | currencyFormat}}</div>
                 <div class="profit-withdraw" flex>
                     <div class="profit" flex-box="0">
-                        <div class="title">累计收益(元)</div>
+                        <div class="title">累计收益(元) </div>
                         <div class="number" v-if="accountTotalInterests>=0">
                             +{{accountTotalInterests | currencyFormat}}
                         </div>
@@ -25,7 +25,7 @@
                 <div class="item-right" flex-box="0" v-if="userVerifyStatus<3" @click.stop="addBankCard">
                     添加银行卡
                 </div>
-                <div class="item-right" flex-box="0" v-else>
+                <div class="item-right" flex-box="0" v-else @click.stop="getBank">
                     已绑定
                 </div>
             </div>
@@ -90,12 +90,15 @@
                 }
             },
             addBankCard(){
-                this.goStep();
+                this.showModal=true;
+            },
+            getBank(){
+                this.$router.push('/my-count')
             },
             recharge(){
                 let {userVerifyStatus} = this;
                 if (userVerifyStatus != 9) {
-                    this.goStep();
+                    this.showModal=true;
                     return false;
                 }
                 window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href));
@@ -105,14 +108,17 @@
             withdraw(){
                 let {userVerifyStatus} = this;
                 if (userVerifyStatus != 9) {
-                    this.goStep();
+                    this.showModal=true;
                     return false;
                 }
                 this.$router.push('/withdraw');
             },
             callBack(result){
                 this.showModal = false;
-                console.log(result)
+                console.log(result);
+                if(result){
+                    this.goStep();
+                }
             }
         }
     }

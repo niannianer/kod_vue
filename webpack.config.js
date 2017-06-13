@@ -122,6 +122,7 @@ if (env == 'production' || env == 'test') {
     console.log('------->', env)
     config.devtool = '';
     if (env === 'production') {
+        config.publicPath ='/dist/';
     }
     config.output.filename = '[name].[chunkhash:8].js';
     config.output.chunkFilename = '[chunkhash:8].[id].chunk.js';
@@ -134,8 +135,10 @@ if (env == 'production' || env == 'test') {
         }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
+            comments:false,
             compress: {
-                warnings: false
+                warnings: false,
+                drop_console:true
             }
         }),
         new WebpackMd5Hash(),
