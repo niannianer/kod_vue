@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="item-list" flex-box="1" v-show="num == option[status-1]" v-for="(every,num) in data" :key="num">
-            <ul class="item" v-for="(item,index) in every.reservationList" :key="index" @click.stop="$router.push('/reserve-detail?productReservationUuid='+item.productReservationUuid)">  
+            <ul class="item" v-for="(item,index) in every.reservationList" :key="index" @click.stop="$router.push('/reserve-detail?productReservationUuid='+item.productReservationUuid)">
                 <li flex>
                     <div flex-box="0">客户姓名：</div>
                     <div flex-box="0" class="width">{{item.customerName}}</div>
@@ -48,7 +48,7 @@
                     pending:{},
                     processed:{},
                     canceled:{}
-                } 
+                }
             }
         },
         methods: {
@@ -58,6 +58,7 @@
             //分页未做
             git(status){
                 $api.get('/reservation/list',{status:status}).then(msg => {
+                    Toast(JSON.stringify(msg));
                     if(msg.code == 200){
                         Toast(JSON.stringify(msg.data));
                         switch(status){
