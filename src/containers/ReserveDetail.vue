@@ -3,10 +3,6 @@
         <div class="detail">
             <ul class="detail-ul">
                 <li flex>
-                    <div>客户保护期剩余：</div>
-                    <div>{{data.protectionPeriod}}</div>
-                </li>
-                <li flex>
                     <div>预约单号：</div>
                     <div>{{data.reservationBillCode}}</div>
                 </li>

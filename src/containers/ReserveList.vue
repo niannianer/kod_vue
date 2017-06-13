@@ -25,10 +25,6 @@
                     <div flex-box="0">预约时间：</div>
                     <div flex-box="0" class="width">{{item.reservationTime}}</div>
                 </li>
-                <li flex>
-                    <div flex-box="0">客户保护期剩余：</div>
-                    <div flex-box="0" class="width">{{item.protectionPeriod}}</div>
-                </li>
             </ul>
         </div>
     </div>
@@ -59,7 +55,6 @@
             git(status){
                 $api.get('/reservation/list',{status:status}).then(msg => {
                     if(msg.code == 200){
-                        Toast(JSON.stringify(msg.data));
                         switch(status){
                             case 1 :
                                 this.data.pending = msg.data;
