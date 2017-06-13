@@ -125,7 +125,8 @@ let routes = [
         name: 'invest-list',
         meta: {
             //投资列表
-            title: '定期理财列表'
+            title: '定期理财列表',
+            keepAlive: true
         },
         component: InvestList
     },

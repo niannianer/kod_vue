@@ -59,6 +59,7 @@
             git(status){
                 $api.get('/reservation/list',{status:status}).then(msg => {
                     if(msg.code == 200){
+                        Toast(JSON.stringify(msg.data));
                         switch(status){
                             case 1 :
                                 this.data.pending = msg.data;
