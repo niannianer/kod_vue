@@ -23,7 +23,6 @@ const AccountDetail = resolve => require(['../containers/AccountDetail'], resolv
 let beforeEach = ((to, from, next) => {
     console.log(12345);
     let {meta} = to;
-    next();
     if (meta.withoutLogin) {
         next();
     } else {
@@ -35,6 +34,7 @@ let beforeEach = ((to, from, next) => {
                 .then(data => {
                     console.log(data);
                     if (data.code == '401') {
+                       // next({ path: '/login' })
                         window.location.href = '/login.html';
                     } else {
                         next()
@@ -71,7 +71,8 @@ let routes = [
         path: '/login',
         name: 'login',
         meta: {
-            title: '登录'
+            title: '登录',
+            withoutLogin:true
         },
         component: Login,
     }, {
