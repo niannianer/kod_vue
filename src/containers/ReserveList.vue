@@ -37,6 +37,7 @@
 <script>
     import '../less/reserve-list.less';
     import $api from '../tools/api';
+    import { Toast} from 'mint-ui';
     export default {
         name: 'reserve-list',
         data(){
@@ -50,11 +51,6 @@
                     canceled:{}
                 } 
             }
-        },
-        mounted(){
-            this.git(1)
-            this.git(2)
-            this.git(3)
         },
         methods: {
             changeTab(tab){
@@ -75,9 +71,16 @@
                                 this.data.canceled = msg.data;
                             break;
                         }
+                    }else{
+                        Toast(msg.msg);
                     }
                 })
             }
+        },
+        mounted(){
+            this.git(1)
+            this.git(2)
+            this.git(3)
         }
     }
 </script>
