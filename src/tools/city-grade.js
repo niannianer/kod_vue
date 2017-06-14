@@ -11,19 +11,24 @@ let gradeTwo = `福州市、合肥市、郑州市、哈尔滨市、佛山市、�
 let gradeHot = `北京、上海、广州、深圳、天津`;
 let hotD = [{
     name: '北京',
-    value: 5766
+    value: 5766,
+    zip:'010'
 }, {
     name: '上海',
-    value: 6689
+    value: 6689,
+    zip:'021'
 }, {
     name: '广州',
-    value: 5374
+    value: 5374,
+    zip:'020'
 }, {
     name: '深圳',
-    value: 6284
+    value: 6284,
+    zip:'0755'
 }, {
     name: '天津',
-    value: 3870
+    value: 3870,
+    zip:'022'
 }];
 let hotE = [{
     name: '北京',
@@ -112,5 +117,5 @@ export let getValueG = (name = '') => {
 export  default {
     gradeOne,
     gradeTwo,
-    gradeHot
+    gradeHot,hotD
 };
