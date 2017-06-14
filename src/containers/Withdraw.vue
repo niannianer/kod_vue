@@ -46,7 +46,7 @@
                 提现过程中有疑问，请联系客服400-640-3606（工作时间：9:00—18:00）
             </div>
         </div>
-        <password-input v-show="inputPassword" title="购买产品" @callBack="callBack"></password-input>
+        <password-input v-show="inputPassword" title="提现" @callBack="callBack"></password-input>
     </div>
 </template>
 

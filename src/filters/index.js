@@ -64,7 +64,7 @@ export let bankCardNoFormat=(input)=>{
         let str1 = input.replace(res[1], endStar);
         return str1.replace(/\s/g, '').replace(/(.{4})/g, "$1 ");
     }
-   
+
 };
 export let timeFormat = (input) => {
     if (!input) {

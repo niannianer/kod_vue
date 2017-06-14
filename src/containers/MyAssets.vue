@@ -2,7 +2,9 @@
     <div flex="dir:top" flex-box="1" class="my-assets">
         <div class="assets-body" flex-box="1">
             <div class="assets">
-                <div class="title">总资产(元）<router-link  class="account-list" :to="{path:'/account-detail'}">账单</router-link></div>
+                <div class="title">总资产(元）
+                    <router-link class="account-list" :to="{path:'/account-detail'}">账单</router-link>
+                </div>
                 <div class="number">{{accountTotalAssets | currencyFormat}}</div>
                 <div class="profit-withdraw" flex>
                     <div class="profit" flex-box="0">
@@ -21,7 +23,7 @@
                 </div>
             </div>
             <div class="item" flex>
-                <div class="item-left" flex-box="1" >我的银行卡</div>
+                <div class="item-left" flex-box="1">我的银行卡</div>
                 <div class="item-right" flex-box="0" v-if="userVerifyStatus<3" @click.stop="addBankCard">
                     添加银行卡
                 </div>
@@ -56,6 +58,7 @@
         data(){
             return {
                 telNumber,
+                timer: null,
                 showModal: false
             }
         },
@@ -63,6 +66,9 @@
             Modal
         },
         created(){
+            this.timer = setInterval(() => {
+                this.$store.dispatch('getAccountBaofoo');
+            }, 3000);
 
         },
         computed: mapState([
@@ -75,22 +81,22 @@
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {
                     case 0:
-                       window.location.href ='/realnameBased.html';
+                        window.location.href = '/realnameBased.html';
                         break;
                     case 1:
-                        window.location.href = '/baoFoo.html?uid=' +this.$store.state.userId;
+                        window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
                         break;
                     case 2:
-                        window.location.href ='/bindBankCard.html';
+                        window.location.href = '/bindBankCard.html';
                         break;
                     case 3:
-                        window.location.href ='/setPayPassword.html';
+                        window.location.href = '/setPayPassword.html';
                         break;
                     default:
                 }
             },
             addBankCard(){
-                this.showModal=true;
+                this.showModal = true;
             },
             getBank(){
                 this.$router.push('/my-count')
@@ -98,17 +104,17 @@
             recharge(){
                 let {userVerifyStatus} = this;
                 if (userVerifyStatus != 9) {
-                    this.showModal=true;
+                    this.showModal = true;
                     return false;
                 }
-                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href));
+                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0]));
                 this.$router.push('/recharge');
 
             },
             withdraw(){
                 let {userVerifyStatus} = this;
                 if (userVerifyStatus != 9) {
-                    this.showModal=true;
+                    this.showModal = true;
                     return false;
                 }
                 this.$router.push('/withdraw');
@@ -116,10 +122,13 @@
             callBack(result){
                 this.showModal = false;
                 console.log(result);
-                if(result){
+                if (result) {
                     this.goStep();
                 }
             }
+        },
+        destroyed(){
+            clearInterval(this.timer);
         }
     }
 </script>

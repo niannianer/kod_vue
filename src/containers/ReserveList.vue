@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="item-list" flex-box="1" v-show="num == option[status-1]" v-for="(every,num) in data" :key="num">
-            <ul class="item" v-for="(item,index) in every.reservationList" :key="index" @click.stop="$router.push('/reserve-detail?productReservationUuid='+item.productReservationUuid)">  
+            <ul class="item" v-for="(item,index) in every.reservationList" :key="index" @click.stop="$router.push('/reserve-detail?productReservationUuid='+item.productReservationUuid)">
                 <li flex>
                     <div flex-box="0">客户姓名：</div>
                     <div flex-box="0" class="width">{{item.customerName}}</div>
@@ -25,18 +25,14 @@
                     <div flex-box="0">预约时间：</div>
                     <div flex-box="0" class="width">{{item.reservationTime}}</div>
                 </li>
-                <li flex>
-                    <div flex-box="0">客户保护期剩余：</div>
-                    <div flex-box="0" class="width">{{item.protectionPeriod}}</div>
-                </li>
             </ul>
         </div>
     </div>
 </template>
-
 <script>
     import '../less/reserve-list.less';
     import $api from '../tools/api';
+    import { Toast} from 'mint-ui';
     export default {
         name: 'reserve-list',
         data(){
@@ -48,13 +44,8 @@
                     pending:{},
                     processed:{},
                     canceled:{}
-                } 
+                }
             }
-        },
-        mounted(){
-            this.git(1)
-            this.git(2)
-            this.git(3)
         },
         methods: {
             changeTab(tab){
@@ -75,9 +66,16 @@
                                 this.data.canceled = msg.data;
                             break;
                         }
+                    }else{
+                        Toast(msg.msg);
                     }
                 })
             }
+        },
+        mounted(){
+            this.git(1)
+            this.git(2)
+            this.git(3)
         }
     }
 </script>

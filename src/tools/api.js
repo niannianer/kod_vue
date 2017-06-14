@@ -10,13 +10,15 @@ if (!window.Promise) {
 }
 
 import 'whatwg-fetch';
-import {devUrl,testUrl,productionUrl} from './config';
+import {devUrl, testUrl, productionUrl, nodeTestApi, nodeProductionApi} from './config';
 let serverUrl = testUrl;
+let nodeUrl = nodeTestApi;
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;
 }
 if (process.env.kingold == 'production') {
     serverUrl = productionUrl;
+    nodeUrl = nodeProductionApi;
 }
 let $query = (data) => {
     let str = [];
@@ -34,7 +36,13 @@ let $query = (data) => {
 let get = (path, data = {}) => {
     data.callSystemID = '1003';
     let t = new Date().getTime();
-    let url = `${serverUrl + path}?t=${t}&${$query(data)}`
+    let url = '';
+    if (/http/.test(path)) {
+        url = `${path}?t=${t}&${$query(data)}`
+    } else {
+        url = `${serverUrl + path}?t=${t}&${$query(data)}`
+    }
+
     return fetch(url, {
         method: 'get',
         credentials: 'include',
@@ -50,20 +58,25 @@ let get = (path, data = {}) => {
             return {};
         }
         return {};
-    }).then(data=>{
-        if(data.code=='401'){
-            window.location.href ='/login.html';
-        }
+    }).then(data => {
         return data;
     }).catch(err => {
         console.error('error,--->', err);
     });
 };
+let getNode = (path, data = {}) => {
+    let url = `${nodeUrl + path}`
+    return get(url, data);
+};
 let post = (path, data = {}) => {
 
     let t = new Date().getTime();
-    let url = `${serverUrl + path}?t=${t}&`;
-
+    let url = '';
+    if (/http/.test(path)) {
+        url = `${path}?t=${t}`;
+    } else {
+        url = `${serverUrl + path}?t=${t}&`;
+    }
     return fetch(url, {
         method: 'post',
         credentials: 'include',
@@ -84,9 +97,15 @@ let post = (path, data = {}) => {
         console.error('error,--->', err);
     });
 };
+let postNode = (path, data = {}) => {
+    let url = `${nodeUrl + path}`;
+    return post(url, data);
+};
 const $api = {
     get,
     post,
+    getNode,
+    postNode,
     serverUrl
 };
 export default $api;
