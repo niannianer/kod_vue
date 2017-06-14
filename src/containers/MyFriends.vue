@@ -4,11 +4,11 @@
             <div class="number"><span>{{ Number(levelOneCount)+ Number(levelTwoCount)}}</span>人</div>
             <div class="title">我的好友</div>
         </div>
-        <div class="item" flex @click.stop="FriendsListOne">
+        <div class="item" flex @click.stop="link(1)">
             <div flex-box='1' class="left">1度好友</div>
             <div flex-box='0' class="right">{{levelOneCount}}人</div>
         </div>
-        <div class="item" flex @click.stop="FriendsListTwo">
+        <div class="item" flex @click.stop="link(2)">
             <div flex-box='1' class="left">2度好友</div>
             <div flex-box='0' class="right">{{levelTwoCount}}人</div>
         </div>
@@ -33,8 +33,8 @@
           }
         },
         methods:{
-           link(rewardBillCode){
-                window.location.href='/friends-list?rewardBillCode='+rewardBillCode;
+           link(level){
+                window.location.href='/relation-list?level='+level;
             }
         },
         created(){
