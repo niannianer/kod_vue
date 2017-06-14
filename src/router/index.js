@@ -23,6 +23,7 @@ const AccountDetail = resolve => require(['../containers/AccountDetail'], resolv
 const PensionTwo = resolve => require(['../containers/PensionTwo'], resolve);
 const PensionFour = resolve => require(['../containers/PensionFour'], resolve);
 const PensionOne = resolve => require(['../containers/PensionOne'], resolve);
+const MyFriends = resolve => require(['../containers/MyFriends'], resolve);
 let beforeEach = ((to, from, next) => {
     console.log(12345);
     let {meta} = to;
@@ -294,6 +295,14 @@ let routes = [
             title: '金疙瘩-懂你，懂理顾，更懂理财'
         },
         component: Index
+    },
+    {
+        path: '/my-friends',
+        name: 'my-friends',
+        meta: {
+            title: '我的好友'
+        },
+        component: MyFriends
     }
 ];
 routes.push({
