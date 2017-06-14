@@ -59,9 +59,11 @@ input, textarea {
     resize: none;
 
 }
+
 input[placeholder], [placeholder] {
-    color:@color-text-gray !important;
+    color: @color-text-gray !important;
 }
+
 body {
     font-family: @font-family-default;
     position: absolute;
@@ -97,6 +99,11 @@ body {
     color: #fff;
 }
 
+.btn-default {
+    background-color: @bg-body;
+    border-radius: 3px;
+}
+
 .ellipsis {
     overflow: hidden;
     white-space: nowrap;
@@ -106,10 +113,12 @@ body {
 [v-cloak] {
     display: none;
 }
-[flex],[flex-box]{
+
+[flex], [flex-box] {
     overflow: hidden;
 }
-.mint-indicator-wrapper{
+
+.mint-indicator-wrapper {
     z-index: 10;
 }
 

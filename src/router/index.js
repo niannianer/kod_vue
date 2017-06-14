@@ -313,7 +313,7 @@ routes.map(route => {
 });
 routes.push({
     path: '*',
-    redirect: '/financial'
+    redirect: '/my-assets'
 });
 export default new Router({
     mode: 'history',
