@@ -26,7 +26,7 @@
                             <ul>
                                 <li flex>
                                      <div flex-box="0">客户：</div>
-                                     <div flex-box="0">{{item.userMobile|mobileFormat}}</div>
+                                     <div flex-box="0">{{item.beInvitedMobile|mobileFormat}}</div>
                                 </li>
                                 <li flex>
                                      <div flex-box="0">投资金额：</div>
