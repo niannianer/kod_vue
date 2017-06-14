@@ -11,7 +11,7 @@
         </div>
         <div class="item-list" v-show="status == 1" flex-box="1">
             <div class="item" v-for="(item,index) in underway.investmentList" :key="index">
-                <router-link :to="{path:'/invest-detail',query:{orderBillCode:item.orderBillCode}}">
+                <router-link :to="{path:'/invest-detail',query:{orderBillCode:item.orderBillCode,status:1}}">
                     <ul class="item-ul">
                         <li flex>
                             <div>产品名称：</div>
@@ -40,7 +40,7 @@
         </div>
         <div class="item-list" v-show="status == 2" flex-box="1">
             <div class="item" v-for="(item,index) in finished.investmentList" :key="index">
-                <router-link :to="{path:'/invest-detail',query:{orderBillCode:item.orderBillCode}}">
+                <router-link :to="{path:'/invest-detail',query:{orderBillCode:item.orderBillCode,status:2}}">
                     <ul class="item-ul">
                         <li flex>
                             <div>产品名称：</div>

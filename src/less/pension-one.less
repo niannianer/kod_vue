@@ -14,11 +14,14 @@
                 padding:0 .8rem .8rem .8rem;
                 .hot-city{
                     p{
-                        padding:.3rem 2.2rem;border:1px solid #D8BDAD;margin:.25rem 0.5rem;border-radius: 5px;
+                        padding:.3rem 2.2rem;border:1px solid #D8BDAD;margin:.25rem 0.5rem;border-radius: 5px;float:left;
                     }
                     .active{
                         border-color:@font-color-pension;color:@font-color-pension;
                     }
+                }
+                .hot-city:after{
+                    clear:both;content:'.';display:block;width: 0;height: 0;visibility:hidden;
                 }
             }
             .mint-indexlist{
