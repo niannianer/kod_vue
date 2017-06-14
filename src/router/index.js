@@ -23,6 +23,7 @@ const AccountDetail = resolve => require(['../containers/AccountDetail'], resolv
 const PensionTwo = resolve => require(['../containers/PensionTwo'], resolve);
 const PensionFour = resolve => require(['../containers/PensionFour'], resolve);
 const PensionOne = resolve => require(['../containers/PensionOne'], resolve);
+const PersonalCenter  = resolve => require(['../containers/PersonalCenter'], resolve);
 let beforeEach = ((to, from, next) => {
     console.log(12345);
     let {meta} = to;
@@ -294,8 +295,22 @@ let routes = [
             title: '金疙瘩-懂你，懂理顾，更懂理财'
         },
         component: Index
+    },
+    {
+        path:'/personal-center',
+        name:'personal-center',
+        component: PersonalCenter,
+        meta:{
+            title:'个人中心',
+            withoutLogin:true
+        }
     }
 ];
+routes.map(route => {
+    if (!route.meta.withoutLogin) {
+        route.beforeEnter = beforeEach;
+    }
+});
 routes.push({
     path: '*',
     redirect: '/financial'

@@ -46,12 +46,14 @@
                 提现过程中有疑问，请联系客服400-640-3606（工作时间：9:00—18:00）
             </div>
         </div>
-        <password-input v-show="inputPassword" title="提现" @callBack="callBack"></password-input>
+        <password-input v-show="inputPassword" title="提现"  @close="inputPassword=false"
+                        @callBack="callBack"></password-input>
     </div>
 </template>
 
 <script>
     import {mapState} from 'vuex';
+    import EventBus from  '../tools/event-bus';
     import $api from '../tools/api';
     import {telNumber} from '../tools/config';
     import {currencyInputValidate} from '../tools/operation';
@@ -174,10 +176,14 @@
                         Indicator.close();
                         if(data.code==200){
                             Toast('提现成功');
-                            history.back();
+                           // history.back();
+                            this.broadcast('password-input','clear')
                             this.$store.dispatch('getAccountBaofoo');
                         }else {
                             Toast(data.msg);
+                            if(data.code==1108){
+                                EventBus.$emit('clearInput');
+                            }
                         }
                     });
                 Indicator.open('提交中...');
