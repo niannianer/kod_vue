@@ -5,7 +5,8 @@
                 <li flex>
                     <div v-if="data.rewardStatus == 2">奖励金额（税后）：</div>
                     <div v-else>奖励金额（税前）：</div>
-                    <div class="color2"><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
+                    <div class="color2" v-if="data.rewardStatus == 2"><span class="color-red">{{data.payAmount | currencyFormat}}</span>元</div>
+                    <div class="color2" v-else ><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
                 </li>
                 <li flex>
                     <div>客户投资金额：</div>
@@ -57,7 +58,8 @@
                 <li flex>
                     <div v-if="data.rewardStatus == 2">奖励金额（税后）：</div>
                     <div v-else>奖励金额（税前）：</div>
-                    <div><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
+                    <div v-if="data.rewardStatus == 2"><span class="color-red">{{data.payAmount | currencyFormat}}</span>元</div>
+                    <div v-else ><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
                 </li>
                 <li flex>
                     <div>客户投资金额：</div>
@@ -79,7 +81,7 @@
                 </li>
                 <li flex>
                     <div>投资产品：</div>
-                    <div class="color width"><span @click.stop="link(data.productUuid)">{{data.productName}}888888888</span></div>
+                    <div class="color width"><span @click.stop="link(data.productUuid)">{{data.productName}}</span></div>
                 </li>
                 <li flex>
                     <div>投资时间：</div>
@@ -111,7 +113,7 @@
         },
         methods:{
             link(productUuid){
-                window.location.href='/goodsDetail.html?u='+productUuid+'&t=FIXI';
+                window.location.href='/goodsDetail.html?u='+productUuid+'&t='+this.data.productType;
             }
         },
         mounted(){
