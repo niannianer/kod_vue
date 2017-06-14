@@ -24,6 +24,8 @@ const PensionTwo = resolve => require(['../containers/PensionTwo'], resolve);
 const PensionFour = resolve => require(['../containers/PensionFour'], resolve);
 const PensionOne = resolve => require(['../containers/PensionOne'], resolve);
 const PersonalCenter  = resolve => require(['../containers/PersonalCenter'], resolve);
+const RiskAssessment  = resolve => require(['../containers/RiskAssessment'], resolve);
+
 let beforeEach = ((to, from, next) => {
     console.log(12345);
     let {meta} = to;
@@ -151,7 +153,8 @@ let routes = [
         meta: {
             //投资列表
             title: '定期理财列表',
-            keepAlive: true
+            keepAlive: true,
+            withoutLogin:true
         },
         component: InvestList
     },
@@ -177,8 +180,7 @@ let routes = [
         path: '/invitation-reward-detal',
         name: 'invitation-reward-detal',
         meta: {
-            title: '邀请奖励详情',
-            withoutLogin:true
+            title: '邀请奖励详情'
         },
         component: InvitationRewardDetal
 
@@ -187,8 +189,7 @@ let routes = [
         path: '/account-detail',
         name: 'account-detail',
         meta: {
-            title: '账户明细',
-            withoutLogin:true
+            title: '账户明细'
         },
         component: AccountDetail
 
@@ -303,6 +304,14 @@ let routes = [
         meta:{
             title:'个人中心',
             withoutLogin:true
+        }
+    },
+    {
+        path:'/risk-assessment',
+        name:'risk-assessment',
+        component: RiskAssessment,
+        meta:{
+            title:'风险测评'
         }
     }
 ];

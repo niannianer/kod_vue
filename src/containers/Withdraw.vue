@@ -176,8 +176,7 @@
                         Indicator.close();
                         if(data.code==200){
                             Toast('提现成功');
-                           // history.back();
-                            this.broadcast('password-input','clear')
+                            history.back();
                             this.$store.dispatch('getAccountBaofoo');
                         }else {
                             Toast(data.msg);
