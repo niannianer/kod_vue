@@ -20,6 +20,8 @@ const InvestDetail = resolve => require(['../containers/InvestDetail'], resolve)
 const InvitationRewardList = resolve => require(['../containers/InvitationRewardList'], resolve);
 const InvitationAllowanceList = resolve => require(['../containers/InvitationAllowanceList'], resolve);
 const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
+const PensionFour = resolve => require(['../containers/PensionFour'], resolve);
+const PensionOne = resolve => require(['../containers/PensionOne'], resolve);
 let beforeEach = ((to, from, next) => {
     console.log(12345);
     let {meta} = to;
@@ -210,9 +212,10 @@ let routes = [
         path: '/pension-one',
         name: 'pension-one',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin:true
         },
-        component: Index
+        component: PensionOne
 
     },
     {
@@ -238,7 +241,7 @@ let routes = [
         meta: {
             title: '养老理财规划'
         },
-        component: Index
+        component: PensionFour
 
     },
     {
