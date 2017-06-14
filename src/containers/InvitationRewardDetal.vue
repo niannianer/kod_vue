@@ -23,11 +23,11 @@
                 </li>
                 <li flex>
                     <div>联系电话：</div>
-                    <div>{{data.beInvitedMobile}}</div>
+                    <div>{{data.beInvitedMobile | mobileFormat}}</div>
                 </li>
                 <li flex>
                     <div>身份证号：</div>
-                    <div>{{data.beInvitedIdCardNo}}</div>
+                    <div>{{data.beInvitedIdCardNo | idCardFormat}}</div>
                 </li>
                 <li flex>
                     <div>地址：</div>
@@ -44,7 +44,7 @@
                     <div>{{data.createTime | timeFormat}}</div>
                 </li>
                 <li flex v-if="data.rewardStatus == 2">
-                    <div>结算时间：</div>
+                    <div>奖励结算时间：</div>
                     <div>{{data.clearTime | timeFormat}}</div>
                 </li>
             </ul>
@@ -75,7 +75,7 @@
             <ul class="detail-ul">
                 <li flex>
                     <div>联系电话：</div>
-                    <div>{{data.beInvitedMobile}}</div>
+                    <div>{{data.beInvitedMobile | mobileFormat}}</div>
                 </li>
                 <li flex>
                     <div>投资产品：</div>
@@ -86,7 +86,7 @@
                     <div>{{data.createTime | timeFormat}}</div>
                 </li>
                 <li flex v-if="data.rewardStatus == 2">
-                    <div>结算时间：</div>
+                    <div>奖励结算时间：</div>
                     <div>{{data.clearTime | timeFormat}}</div>
                 </li>
             </ul>
