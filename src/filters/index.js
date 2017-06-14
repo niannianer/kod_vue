@@ -45,7 +45,7 @@ export let mobileFormat=(input)=>{
     if(!input){
         return '';
     }
-    return input.substr(0,4) +'***'+input.substr(-4);
+    return input.substr(0,3) +'****'+input.substr(-4);
 };
 export let bankCardNoFormat=(input)=>{
      if(!input){
