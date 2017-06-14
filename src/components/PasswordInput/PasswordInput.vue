@@ -3,7 +3,10 @@
     <div class="password-input" flex="dir:top">
         <div class="input-content" flex-box="1" flex="main:center cross:center">
             <div class="input-body">
-                <div class="title">请输入交易密码</div>
+                <div class="title">
+                    请输入交易密码
+                    <span class="close" @click.stop="close">×</span>
+                </div>
                 <div class="props-info">{{title}}</div>
                 <div class="password-list" flex>
                     <div flex-box="1" v-for=" n in 6" class="password" :class="{active:n<=passwords.length}">
@@ -60,6 +63,7 @@
 </template>
 
 <script>
+    import EventBus from  '../../tools/event-bus';
     import './password-input.less';
     export default {
         name: 'password-input',
@@ -108,6 +112,11 @@
 
             }
         },
+        created(){
+            EventBus.$on('clearInput', () => {
+                this.passwords = [];
+            });
+        },
         methods: {
             addPassword(keyboad){
                 if (this.passwords.length < 6) {
@@ -119,6 +128,14 @@
             },
             deletePassword(){
                 this.passwords.pop();
+            },
+            close(){
+                this.$emit('close');
+            }
+        },
+        events: {
+            clear(){
+                console.log('clear');
             }
         }
 

@@ -29,14 +29,14 @@
              infinite-scroll-distance="70">
             <div flex="dir:left" class="item" v-for="(item,index) in tabList">
                 <div class="left" flex-box="1">
-                    <p class='info'>{{item.rewardAmount | currencyFormat}}元</p>
+                    <p class='info'>{{item.rewardStatus == 2 ? item.payAmount : item.rewardAmount | currencyFormat}}元</p>
                     <p class='tile'>奖励</p>
                 </div>
                 <div class="right" flex-box="2">
                     <ul>
                         <li flex>
                             <div flex-box="0">理财师好友：</div>
-                            <div flex-box="0">{{item.userMobile | mobileFormat}}</div>
+                            <div flex-box="0">{{item.beInvitedMobile | mobileFormat}}</div>
                         </li>
                         <li flex class="last">
                             <div flex-box="0">投资时间：</div>
@@ -127,6 +127,7 @@
                 $api.get('/reward/list', params)
                     .then(data => {
                         this.loading = false;
+                        // console.log(data)
                         if (data.code == 200) {
                             if (type == 'refresh') {
                                 this.tabList = [];

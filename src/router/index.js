@@ -20,6 +20,10 @@ const InvestDetail = resolve => require(['../containers/InvestDetail'], resolve)
 const InvitationRewardList = resolve => require(['../containers/InvitationRewardList'], resolve);
 const InvitationAllowanceList = resolve => require(['../containers/InvitationAllowanceList'], resolve);
 const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
+const PensionTwo = resolve => require(['../containers/PensionTwo'], resolve);
+const PensionFour = resolve => require(['../containers/PensionFour'], resolve);
+const PensionOne = resolve => require(['../containers/PensionOne'], resolve);
+const PersonalCenter  = resolve => require(['../containers/PersonalCenter'], resolve);
 let beforeEach = ((to, from, next) => {
     console.log(12345);
     let {meta} = to;
@@ -173,7 +177,8 @@ let routes = [
         path: '/invitation-reward-detal',
         name: 'invitation-reward-detal',
         meta: {
-            title: '邀请奖励详情'
+            title: '邀请奖励详情',
+            withoutLogin:true
         },
         component: InvitationRewardDetal
 
@@ -210,18 +215,20 @@ let routes = [
         path: '/pension-one',
         name: 'pension-one',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin:true
         },
-        component: Index
+        component: PensionOne
 
     },
     {
         path: '/pension-two',
         name: 'pension-two',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin:true
         },
-        component: Index
+        component: PensionTwo
 
     }, {
         path: '/pension-three',
@@ -290,14 +297,13 @@ let routes = [
         component: Index
     },
     {
-        path: '/personal-center',
-        name: 'personal-center',
-        meta: {
-            title: '个人中心',
-            withoutLogin: true
-
-        },
-        component: Index
+        path:'/personal-center',
+        name:'personal-center',
+        component: PersonalCenter,
+        meta:{
+            title:'个人中心',
+            withoutLogin:true
+        }
     }
 ];
 routes.map(route => {
@@ -309,7 +315,6 @@ routes.push({
     path: '*',
     redirect: '/my-assets'
 });
-
 export default new Router({
     mode: 'history',
     routes

@@ -12,7 +12,7 @@
                 <li flex-box="1">
                     <p class='info'>{{sumData.paidWithTax | currencyFormat}}元</p>
                     <p class='tile'>已结算（税后）</p>
-                </li> 
+                </li>
             </ul>
         </div>
         <div class="item-list"  flex-box="1">
@@ -87,7 +87,7 @@
                             this.rewardList = msg.data.rewardList;
                             fn&&fn();
                         }
-                        return msg 
+                        return msg
                     })
             },
             link(rewardBillCode){
@@ -97,5 +97,5 @@
         },
 
     }
-    
+
 </script>
