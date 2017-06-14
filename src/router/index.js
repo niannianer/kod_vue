@@ -291,28 +291,12 @@ let routes = [
             title: '金疙瘩-懂你，懂理顾，更懂理财'
         },
         component: Index
-    },
-    {
-        path: '/personal-center',
-        name: 'personal-center',
-        meta: {
-            title: '个人中心',
-            withoutLogin: true
-
-        },
-        component: Index
     }
 ];
-routes.map(route => {
-    if (!route.meta.withoutLogin) {
-        route.beforeEnter = beforeEach;
-    }
-});
 routes.push({
     path: '*',
-    redirect: '/my-assets'
+    redirect: '/financial'
 });
-
 export default new Router({
     mode: 'history',
     routes
