@@ -41,7 +41,9 @@ let beforeEach = ((to, from, next) => {
                 .then(data => {
                     if (data.code == '401') {
                         // next({ path: '/login' })
-                        window.location.href = '/login.html';
+                       // window.location.href = '/login.html';
+                        window.sessionStorage.setItem('logoutUrl',encodeURIComponent(window.location.href));
+                        window.location.replace('/login.html');
                     } else {
                         next()
                     }
