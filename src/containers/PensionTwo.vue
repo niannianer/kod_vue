@@ -48,6 +48,7 @@
 	Vue.component(Picker.name, Picker);
     import $api from '../tools/api';
     export default {
+    name: 'pension-two',
     methods: {
         onValuesChange(picker, values) {
           if (values[0] > values[1]) {
