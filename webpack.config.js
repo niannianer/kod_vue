@@ -4,10 +4,10 @@ const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const extractCSS = new ExtractTextPlugin('flex.css');
+const extractCSS = new ExtractTextPlugin('flex.[hash:8].css');
 const extractLESS = new ExtractTextPlugin('[name].[hash:8].css');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
-const WebpackMd5Hash = require('webpack-md5-hash');
+/*const WebpackMd5Hash = require('webpack-md5-hash');*/
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 let resolve = (dir) => {
@@ -101,7 +101,7 @@ const config = {
         extractCSS,
         extractLESS,
         new webpack.NoEmitOnErrorsPlugin(),
-        new WebpackMd5Hash(),
+       // new WebpackMd5Hash(),
         new HtmlWebpackPlugin({
             title: '金疙瘩',
             favicon: './src/images/logo.png',
@@ -141,7 +141,7 @@ if (env == 'production' || env == 'test') {
                 drop_console:true
             }
         }),
-        new WebpackMd5Hash(),
+     /*   new WebpackMd5Hash(),*/
         new webpack.LoaderOptionsPlugin({
             minimize: true
         })

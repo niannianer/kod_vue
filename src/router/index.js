@@ -25,6 +25,7 @@ import PensionFour from '../containers/PensionFour';
 import PensionOne from '../containers/PensionOne';
 import PersonalCenter from '../containers/PersonalCenter';
 import RiskAssessment from '../containers/RiskAssessment';
+import AssessmentResult from '../containers/AssessmentResult';
 import RelationList from '../containers/RelationList';
 import Relation from '../containers/Relation';
 let beforeEach = ((to, from, next) => {
@@ -39,7 +40,7 @@ let beforeEach = ((to, from, next) => {
             store.dispatch('getAccountBaofoo')
                 .then(data => {
                     if (data.code == '401') {
-                       // next({ path: '/login' })
+                        // next({ path: '/login' })
                         window.location.href = '/login.html';
                     } else {
                         next()
@@ -75,7 +76,7 @@ let routes = [
         name: 'login',
         meta: {
             title: '登录',
-            withoutLogin:true
+            withoutLogin: true
         },
         component: Login,
     }, {
@@ -142,8 +143,8 @@ let routes = [
         meta: {
             //投资列表
             title: '定期理财列表',
-            /*keepAlive: true,
-            withoutLogin:true*/
+            keepAlive: true,
+            withoutLogin: true
         },
         component: InvestList
     },
@@ -200,7 +201,7 @@ let routes = [
         name: 'pension-one',
         meta: {
             title: '养老理财规划',
-            withoutLogin:true
+            withoutLogin: true
         },
         component: PensionOne
     },
@@ -209,7 +210,7 @@ let routes = [
         name: 'pension-two',
         meta: {
             title: '养老理财规划',
-            withoutLogin:true
+            withoutLogin: true
         },
         component: PensionTwo
     }, {
@@ -277,20 +278,27 @@ let routes = [
         component: Index
     },
     {
-        path:'/personal-center',
-        name:'personal-center',
+        path: '/personal-center',
+        name: 'personal-center',
         component: PersonalCenter,
-        meta:{
-            title:'个人中心',
-            withoutLogin:true
+        meta: {
+            title: '个人中心',
+            withoutLogin: true
         }
     },
     {
-        path:'/risk-assessment',
-        name:'risk-assessment',
+        path: '/risk-assessment/:type',
+        name: 'risk-assessment',
         component: RiskAssessment,
-        meta:{
-            title:'风险测评'
+        meta: {
+            title: '风险测评'
+        }
+    }, {
+        path: '/assessment-result',
+        name: 'assessment-result',
+        component: AssessmentResult,
+        meta: {
+            title: '测评结果'
         }
     },
     {
@@ -310,6 +318,7 @@ let routes = [
         }
     }
 ];
+
 routes.map(route => {
     if (!route.meta.withoutLogin) {
         route.beforeEnter = beforeEach;
