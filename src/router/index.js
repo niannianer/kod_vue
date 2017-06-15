@@ -25,6 +25,7 @@ import PensionFour from '../containers/PensionFour';
 import PensionOne from '../containers/PensionOne';
 import PersonalCenter from '../containers/PersonalCenter';
 import RiskAssessment from '../containers/RiskAssessment';
+import MyFriends from '../containers/MyFriends';
 import RelationList from '../containers/RelationList';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
@@ -141,8 +142,8 @@ let routes = [
         meta: {
             //投资列表
             title: '定期理财列表',
-            keepAlive: true,
-            withoutLogin:true
+            /*keepAlive: true,
+            withoutLogin:true*/
         },
         component: InvestList
     },
@@ -305,7 +306,7 @@ let routes = [
         name:'relation-list',
         component: RelationList,
         meta:{
-            title:'1度好友'
+            title:'好友列表'
         }
     }
 ];

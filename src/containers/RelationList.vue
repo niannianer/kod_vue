@@ -21,13 +21,14 @@
     import '../less/relation-list.less';
     import Vue from 'vue';
     import $api from '../tools/api';
+    import $operation from '../tools/operation';
     import {Loadmore } from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
     export default {
         name: 'financial',
         data(){
             return {
-                level:this.$route.query.level,
+                level:this.$route.query.level || 1,
                 startRow:1,
                 pageSize:20,
                 autoFill:false,
@@ -46,7 +47,6 @@
                 this.$refs.loadmore.onBottomLoaded();
             },
             get(startRow,type){
-                console.log(this.level,startRow,this.pageSize)
                 $api.get('/relation/list',{level:this.level,startRow:startRow,pageSize:this.pageSize}).then(msg => {
                     if(msg.code == 200){
                         if(type == 'top'){
@@ -65,6 +65,7 @@
             }
         },
         created(){
+            $operation.setTitle(this.level+'度好友');
             this.get(this.startRow,'top');
         }
     }
