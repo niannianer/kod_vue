@@ -294,12 +294,13 @@ let routes = [
         }
     },
     {
-        path:'/relation-list',
-        name:'relation-list',
+        path: '/relation-list',
+        name: 'relation-list',
         component: RelationList,
-        meta:{
-            title:'1度好友'
-        },
+        meta: {
+            title: '1度好友'
+        }
+    },
     {
         path:'/relation',
         name:'relation',
