@@ -10,6 +10,7 @@ if (!window.Promise) {
 }
 
 import 'whatwg-fetch';
+import store from '../store';
 import {devUrl, testUrl, productionUrl, nodeTestApi, nodeProductionApi} from './config';
 let serverUrl = testUrl;
 let nodeUrl = nodeTestApi;
@@ -59,6 +60,11 @@ let get = (path, data = {}) => {
         }
         return {};
     }).then(data => {
+        if(data.code==401){
+            store.dispatch('getAccountBaofoo');
+            store.dispatch('getBankInfo');
+            store.dispatch('getUserInfo');
+        }
         return data;
     }).catch(err => {
         console.error('error,--->', err);
@@ -92,7 +98,15 @@ let post = (path, data = {}) => {
         if (response.status == 503) {
             return {};
         }
+
         return {};
+    }).then(data => {
+        if(data.code==401){
+            store.dispatch('getAccountBaofoo');
+            store.dispatch('getBankInfo');
+            store.dispatch('getUserInfo');
+        }
+        return data;
     }).catch(err => {
         console.error('error,--->', err);
     });
