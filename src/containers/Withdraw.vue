@@ -9,7 +9,7 @@
         <div class="body">
             <div class="withdraw-count" flex>
                 <span flex-box="1" class="left">单笔可提现金额</span>
-                <span flex-box="1" class="right">{{single_limit_value | currencyFormat}}</span>
+                <span flex-box="1" class="right">{{500000 | currencyFormat}}</span>
             </div>
             <div class="withdraw-count" flex>
                 <span flex-box="1" class="left">当前可提(元)</span>
