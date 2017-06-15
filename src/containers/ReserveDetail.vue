@@ -63,7 +63,7 @@
                 <i></i>
             </span>
         </div>
-        <div class="more"><a href="javascript:;" @click.stop="link(productReservationUuid)">查看产品详情</a></div>
+        <div class="more"><a href="javascript:;" @click.stop="link(data.productUuid)">查看产品详情</a></div>
     </div>
 </template>
 
@@ -104,5 +104,8 @@
             this.productReservationUuid = this.$route.query.productReservationUuid;
             this.git(this.productReservationUuid);
         },
+        destroyed(){
+            MessageBox.close();
+        }
     }
 </script>
