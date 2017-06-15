@@ -16,17 +16,17 @@
             </ul>
         </div>
         <div class="item-list"  flex-box="1">
-            <mt-loadmore :top-method="loadTop" ref="loadmore">
+            <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :auto-fill="autoFill">
                 <div flex="dir:left" class="item" v-for="(item,index) in rewardList"  @click.stop="link(item.rewardBillCode)">
                     <div class="left" flex="dir:top main:center" >
-                            <p class='info'>{{item.rewardAmount|currencyFormat}}元</p>
+                            <p class='info'>{{item.rewardStatus == 2 ? item.payAmount : item.rewardAmount | currencyFormat}}元</p>
                             <p class='tile'>奖励</p>
                     </div>
                     <div class="right" flex-box="2">
                             <ul>
                                 <li flex>
                                      <div flex-box="0">客户：</div>
-                                     <div flex-box="0">{{item.userMobile.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')}}</div>
+                                     <div flex-box="0">{{item.beInvitedMobile|mobileFormat}}</div>
                                 </li>
                                 <li flex>
                                      <div flex-box="0">投资金额：</div>
@@ -66,32 +66,50 @@
                 sumData:{},
                 rewardList:[],
                 allLoaded:false,
+                pageNo:1,
+                pageSize:10,
+                autoFill:false
             }
         },
         created(){
-           this.getRewardList(1,10);
+           this.getRewardList(this.pageNo,'top');
         },
         methods:{
              loadTop(){
-                const _this = this;
-                this.getRewardList(1,10,function(){
-                    _this.$refs.loadmore.onTopLoaded();
-                });
+                 this.getRewardList(1,"top");
+                 this.$refs.loadmore.onTopLoaded();
+                 this.allLoaded = false;
+            },loadBottom(){
+                 this.pageNo ++;
+                 this.getRewardList(this.pageNo,'bottom');
+                this.$refs.loadmore.onBottomLoaded();
             },
-            getRewardList(pageNo,pageSize,fn){
-                $api.get('/reward/list',{'rewardType':1,pageNo:pageNo|'',pageSize:pageSize|10})
+            getRewardList(pageNo,type){
+                $api.get('/reward/list',{'rewardType':1,pageNo:pageNo,pageSize:this.pageSize})
                     .then(msg => {
                             console.log(msg.data);
                         if(msg.code == 200){
                             this.sumData = msg.data.sumData;
-                            this.rewardList = msg.data.rewardList;
-                            fn&&fn();
+                            if(type == 'top'){
+                                this.rewardList = msg.data.rewardList;
+                            }else{
+                                msg.data.rewardList.map(el => {
+                                    this.rewardList.push(el)
+                                });
+                                if(this.rewardList.length >= msg.data.count){
+                                    this.allLoaded = true;
+                                }
+                            }
                         }
-                        return msg
                     })
             },
             link(rewardBillCode){
-                window.location.href='/invitation-reward-detal?rewardBillCode='+rewardBillCode;
+                this.$router.push({
+                    path:'/invitation-reward-detal',
+                    query:{
+                        rewardBillCode
+                    }
+                })
             }
 
         },

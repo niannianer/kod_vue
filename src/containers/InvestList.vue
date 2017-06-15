@@ -10,8 +10,9 @@
             </div>
         </div>
         <div class="item-list" v-show="status == 1" flex-box="1">
-            <div class="item" v-for="(item,index) in underway.investmentList" :key="index">
-                <router-link :to="{path:'/invest-detail',query:{orderBillCode:item.orderBillCode}}">
+            <mt-loadmore :top-method="loadTopLeft" :bottom-method="loadBottomLeft" :bottom-all-loaded="allLoadedLeft" ref="loadmoreLeft" :auto-fill="autoFill">
+                <div class="item" v-for="(item,index) in underway.investmentList"
+                    @click.stop="link(1,item.orderBillCode)" :key="index">
                     <ul class="item-ul">
                         <li flex>
                             <div>产品名称：</div>
@@ -35,12 +36,13 @@
                         </li>
                     </ul>
                     <div class="icon"></div>
-                </router-link>
-            </div>
+                </div>
+            </mt-loadmore>
         </div>
         <div class="item-list" v-show="status == 2" flex-box="1">
-            <div class="item" v-for="(item,index) in finished.investmentList" :key="index">
-                <router-link :to="{path:'/invest-detail',query:{orderBillCode:item.orderBillCode}}">
+            <mt-loadmore :top-method="loadTopRight" :bottom-method="loadBottomRight" :bottom-all-loaded="allLoadedRight" ref="loadmoreRight" :auto-fill="autoFill">
+                <div class="item" v-for="(item,index) in finished.investmentList" 
+                    @click.stop="link(2,item.orderBillCode)" :key="index">
                     <ul class="item-ul">
                         <li flex>
                             <div>产品名称：</div>
@@ -64,42 +66,125 @@
                         </li>
                     </ul>
                     <div class="icon"></div>
-                </router-link>
-            </div>
+                </div>
+            </mt-loadmore>
         </div>
     </div>
 </template>
 <script>
     import '../less/invest-list.less';
+    import Vue from 'vue';
     import $api from '../tools/api';
+    import {Loadmore } from 'mint-ui';
+    Vue.component(Loadmore.name, Loadmore);
     export default {
         name: 'invest-list',
         data(){
             return {
                 status: 1,
-                underway:{},
-                finished:{}
+                underway:{
+                    investmentCount:0,
+                    investmentList:[]
+                },
+                finished:{
+                    investmentCount:0,
+                    investmentList:[]
+                },
+                autoFill:false,
+                allLoadedLeft:false,
+                allLoadedRight:false,
+                startRowLeft:0,
+                startRowRight:0,
+                pageSize:20,
+                isRefreshing:false,
             }
         },
         methods: {
+            link(status,orderBillCode){
+                if(this.isRefreshing){
+                    return false;
+                }
+                console.log('refresh');
+                this.$router.push('/invest-detail?status='+status+'&orderBillCode='+orderBillCode);
+            },
             changeTab(status){
                 this.status = status;
             },
-            get(status){
-                $api.get('/investment/list',{status:status}).then(msg => {
+            get(status,startRow,type){
+               return $api.get('/investment/list',{status:status,startRow:startRow,pageSize:this.pageSize}).then(msg => {
                     if(msg.code == 200){
                         if(status == 1){
-                            this.underway = msg.data;
+                            this.underway.investmentCount = msg.data.investmentCount;
+                            if(type=='top'){
+                                this.underway.investmentList = msg.data.investmentList;
+                            }else{
+                                msg.data.investmentList.map(el => {
+                                    this.underway.investmentList.push(el);
+                                });
+                                if(this.underway.investmentList.length >= this.underway.investmentCount){
+                                    //加载完毕
+                                    this.allLoadedLeft = true;
+                                }
+                            }
                         }else if(status == 2){
-                            this.finished = msg.data;
+                            this.finished.investmentCount = msg.data.investmentCount;
+                            if(type=='top'){
+                                this.finished.investmentList = msg.data.investmentList;
+                            }else{
+                                console.log(msg.data.investmentList)
+                                msg.data.investmentList.map(el => {
+                                    this.finished.investmentList.push(el);
+                                    console.log(this.finished.investmentList.length)
+                                });
+                                if(this.finished.investmentList.length >= this.finished.investmentCount){
+                                    //加载完毕
+                                    this.allLoadedRight = true;
+                                }
+                            }
                         }
                     }
+                });
+            },
+            lock(){
+                this.isRefreshing=true;
+                setTimeout(()=>{
+                    this.isRefreshing =false;
+                },2000);
+            },
+            loadTopLeft(){
+                this.lock();
+                this.get(0,0,'top').then(()=>{
+                    this.$refs.loadmoreLeft.onTopLoaded();
+                });
+                this.allLoadedLeft = false;
+            },
+            loadBottomLeft(){
+                this.lock();
+                this.startRowLeft += 20;
+                let startRow = this.startRowLeft;
+                this.get(1,startRow,'bottom').then(()=>{
+                    this.$refs.loadmoreLeft.onBottomLoaded();
+                });
+            },
+            loadTopRight(){
+                this.lock();
+                this.get(0,0,'top').then(()=>{
+                    this.$refs.loadmoreRight.onTopLoaded();
+                });
+                this.allLoadedLeft = false;
+            },
+            loadBottomRight(){
+                this.lock();
+                this.startRowRight += 20;
+                let startRow = this.startRowRight;
+                this.get(2,startRow,'bottom').then(()=>{
+                    this.$refs.loadmoreRight.onBottomLoaded();
                 });
             }
         },
         mounted(){
-            this.get(1);
-            this.get(2);
+            this.get(1,this.startRowLeft,'top');
+            this.get(2,this.startRowRight,'top');
         }
     }
 </script>

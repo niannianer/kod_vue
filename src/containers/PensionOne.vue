@@ -8,17 +8,12 @@
                 <mt-index-list>
                     <div class="section">
                         <div class="title">热门</div>
-                        <div class="hot-city" flex="main:center">
-                            <p class="active" @click="clickHandle">北京</p>
-                            <p @click="clickHandle">上海</p>
-                        </div>
-                        <div class="hot-city" flex="main:center">
-                            <p @click="clickHandle">广州</p>
-                            <p @click="clickHandle">深圳</p>
+                        <div class="hot-city" >
+                            <p v-for="(item,index) in this.hotD" :key="index" @click="clickHandle(item)" :class="{active:item.zip==activeBtn}">{{item.name}}</p>
                         </div>
                     </div>
                     <mt-index-section :index="index" v-for="(city,index) in cityCopy" :key="index">
-                        <li class="item" v-for="(item,index) in city" @click="clickHandle">{{item.name}}</li>
+                        <li class="item" v-for="(item,index) in city" @click="clickHandle(item)" :key="index">{{item.name}}</li>
                     </mt-index-section>
                 </mt-index-list>
             </div>
@@ -33,14 +28,17 @@
 <script>
     import Vue from 'vue';
     import "../less/pension-one.less";
-    import citys from "../tools/citys.js";
+    import citys from "../tools/citys";
+    import cityGrade from "../tools/city-grade"
     import {IndexList, IndexSection} from 'mint-ui';
     Vue.component(IndexList.name, IndexList);
     Vue.component(IndexSection.name, IndexSection);
     export default{
         data(){
             return {
-                cityName:'北京'
+                cityName:'北京',
+                hotD:cityGrade.hotD,
+                activeBtn:'010'
             }
         },
         computed: {
@@ -58,13 +56,9 @@
             }
         },
         methods:{
-            clickHandle(ev){
-                let obj = ev.target;
-                this.cityName =obj.innerHTML;
-               console.log();
-               if(obj.nodeName=='P'){
-                   obj.className = "active";
-               }
+            clickHandle(item){
+                this.activeBtn = item.zip;
+                this.cityName = item.name;
             }
         }
     }

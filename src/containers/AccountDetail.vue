@@ -40,7 +40,7 @@
                           v-if="excharge.transactionAmount>=0">+{{excharge.transactionAmount | currencyFormat}}</span>
                     <span v-else="" class="second nagetive"
                           flex-box="1">{{excharge.transactionAmount | currencyFormat}}</span>
-                    <span class="third" flex-box="0">{{excharge.transactionTime | transactionTime}}</span>
+                    <span class="third" flex-box="0">{{excharge.transactionTime}}</span>
                 </li>
                 <p v-show="loading&&hasMore" class="loading">加载更多...</p>
             </ul>

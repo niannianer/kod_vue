@@ -9,10 +9,12 @@ const state = {
     userVerifyStatusDesc:'',
     userUuid:'',// uid
     userId:'',
+    investorRiskScore:0,
     investorGender:'', //gender
     investorIdCardNo:'',// ID card
     investorMobile:'',// mobile
     investorRealName:'',// realname
+    investorRiskType:0,
     investorRiskLevel:0, //
     investorRiskLevelDesc:'',
     investorType:'',

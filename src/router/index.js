@@ -2,30 +2,33 @@ import Vue from 'vue';
 import store from '../store';
 import Router from 'vue-router';
 Vue.use(Router)
-const Index = resolve => require(['../containers/Index'], resolve);
-const Financial = resolve => require(['../containers/Financial'], resolve);
-const MyAssets = resolve => require(['../containers/MyAssets'], resolve);
-const Login = resolve => require(['../containers/Login'], resolve);
-const Recharge = resolve => require(['../containers/Recharge'], resolve);
-const Withdraw = resolve => require(['../containers/Withdraw'], resolve);
-const ReserveList = resolve => require(['../containers/ReserveList'], resolve);
-const ReserveDetail = resolve => require(['../containers/ReserveDetail'], resolve);
-const ReserveProfessionalList = resolve => require(['../containers/ReserveProfessionalList'], resolve);
-const Reward = resolve => require(['../containers/Reward'], resolve);
-const MyCount = resolve => require(['../containers/MyCount'], resolve);
-const InvitationRewardDetal = resolve => require(['../containers/InvitationRewardDetal'], resolve);
-const InvestList = resolve => require(['../containers/InvestList'], resolve);
-const RewardDetail = resolve => require(['../containers/RewardDetail'], resolve);
-const InvestDetail = resolve => require(['../containers/InvestDetail'], resolve);
-const InvitationRewardList = resolve => require(['../containers/InvitationRewardList'], resolve);
-const InvitationAllowanceList = resolve => require(['../containers/InvitationAllowanceList'], resolve);
-const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
-const PensionTwo = resolve => require(['../containers/PensionTwo'], resolve);
-const PensionFour = resolve => require(['../containers/PensionFour'], resolve);
-const PensionOne = resolve => require(['../containers/PensionOne'], resolve);
-const PersonalCenter  = resolve => require(['../containers/PersonalCenter'], resolve);
+import Index from '../containers/Index';
+import Financial from '../containers/Financial';
+import MyAssets from '../containers/MyAssets';
+import Login from '../containers/Login';
+import Recharge from '../containers/Recharge';
+import Withdraw from '../containers/Withdraw';
+import ReserveList from '../containers/ReserveList';
+import ReserveDetail from '../containers/ReserveDetail';
+import ReserveProfessionalList from '../containers/ReserveProfessionalList';
+import Reward from '../containers/Reward';
+import MyCount from '../containers/MyCount';
+import InvitationRewardDetal from '../containers/InvitationRewardDetal';
+import InvestList from '../containers/InvestList';
+import RewardDetail from '../containers/RewardDetail';
+import InvestDetail from '../containers/InvestDetail';
+import InvitationRewardList from '../containers/InvitationRewardList';
+import InvitationAllowanceList from '../containers/InvitationAllowanceList';
+import AccountDetail from '../containers/AccountDetail';
+import PensionTwo from '../containers/PensionTwo';
+import PensionFour from '../containers/PensionFour';
+import PensionOne from '../containers/PensionOne';
+import PersonalCenter from '../containers/PersonalCenter';
+import RiskAssessment from '../containers/RiskAssessment';
+import AssessmentResult from '../containers/AssessmentResult';
+import RelationList from '../containers/RelationList';
+import Relation from '../containers/Relation';
 let beforeEach = ((to, from, next) => {
-    console.log(12345);
     let {meta} = to;
     if (meta.withoutLogin) {
         next();
@@ -36,9 +39,8 @@ let beforeEach = ((to, from, next) => {
             console.log(23456)
             store.dispatch('getAccountBaofoo')
                 .then(data => {
-                    console.log(data);
                     if (data.code == '401') {
-                       // next({ path: '/login' })
+                        // next({ path: '/login' })
                         window.location.href = '/login.html';
                     } else {
                         next()
@@ -46,7 +48,6 @@ let beforeEach = ((to, from, next) => {
                 });
         }
     }
-
 })
 let routes = [
     {
@@ -62,7 +63,6 @@ let routes = [
         meta: {
             title: '理财'
         },
-
         component: Financial
     }, {
         path: '/my-assets',
@@ -76,7 +76,7 @@ let routes = [
         name: 'login',
         meta: {
             title: '登录',
-            withoutLogin:true
+            withoutLogin: true
         },
         component: Login,
     }, {
@@ -86,7 +86,6 @@ let routes = [
             title: '充值'
         },
         component: Recharge
-
     }
     , {
         path: '/withdraw',
@@ -95,7 +94,6 @@ let routes = [
             title: '提现'
         },
         component: Withdraw
-
     }, {
         path: '/reserve-list',
         name: 'reserve-list',
@@ -103,7 +101,6 @@ let routes = [
             title: '预约单管理'
         },
         component: ReserveList
-
     }, {
         path: '/reserve-detail',
         name: 'reserve-detail',
@@ -111,7 +108,6 @@ let routes = [
             title: '预约单详情'
         },
         component: ReserveDetail
-
     }, {
         path: '/reserve-professional-list',
         name: 'reserve-professional-list',
@@ -119,7 +115,6 @@ let routes = [
             title: '专职理财师预约单管理'
         },
         component: ReserveProfessionalList
-
     }, {
         path: '/reward',
         name: 'reward',
@@ -127,7 +122,6 @@ let routes = [
             title: '我的奖励'
         },
         component: Reward
-
     }, {
         path: '/reward-detail',
         name: 'reward-detail',
@@ -135,7 +129,6 @@ let routes = [
             title: '奖励细则'
         },
         component: RewardDetail
-
     }, {
         path: '/my-count',
         name: 'my-count',
@@ -143,7 +136,6 @@ let routes = [
             title: '我的银行卡'
         },
         component: MyCount
-
     },
     {
         path: '/invest-list',
@@ -151,7 +143,8 @@ let routes = [
         meta: {
             //投资列表
             title: '定期理财列表',
-            keepAlive: true
+            keepAlive: true,
+            withoutLogin: true
         },
         component: InvestList
     },
@@ -162,7 +155,6 @@ let routes = [
             title: '投资详情'
         },
         component: InvestDetail
-
     },
     {
         path: '/invitation-reward-list',
@@ -171,27 +163,22 @@ let routes = [
             title: '邀请奖励列表'
         },
         component: InvitationRewardList
-
     },
     {
         path: '/invitation-reward-detal',
         name: 'invitation-reward-detal',
         meta: {
-            title: '邀请奖励详情',
-            withoutLogin:true
+            title: '邀请奖励详情'
         },
         component: InvitationRewardDetal
-
     },
     {
         path: '/account-detail',
         name: 'account-detail',
         meta: {
-            title: '账户明细',
-            withoutLogin:true
+            title: '账户明细'
         },
         component: AccountDetail
-
     },
     {
         path: '/invitation-allowance',
@@ -200,7 +187,6 @@ let routes = [
             title: '邀请津贴'
         },
         component: Index
-
     },
     {
         path: '/invitation-allowance-list',
@@ -209,27 +195,24 @@ let routes = [
             title: '邀请津贴列表'
         },
         component: InvitationAllowanceList
-
     },
     {
         path: '/pension-one',
         name: 'pension-one',
         meta: {
             title: '养老理财规划',
-            withoutLogin:true
+            withoutLogin: true
         },
         component: PensionOne
-
     },
     {
         path: '/pension-two',
         name: 'pension-two',
         meta: {
             title: '养老理财规划',
-            withoutLogin:true
+            withoutLogin: true
         },
         component: PensionTwo
-
     }, {
         path: '/pension-three',
         name: 'pension-three',
@@ -237,7 +220,6 @@ let routes = [
             title: '养老理财规划'
         },
         component: Index
-
     },
     {
         path: '/pension-four',
@@ -246,7 +228,6 @@ let routes = [
             title: '养老理财规划'
         },
         component: Index
-
     },
     {
         path: '/pension-five',
@@ -297,15 +278,47 @@ let routes = [
         component: Index
     },
     {
-        path:'/personal-center',
-        name:'personal-center',
+        path: '/personal-center',
+        name: 'personal-center',
         component: PersonalCenter,
+        meta: {
+            title: '个人中心',
+            withoutLogin: true
+        }
+    },
+    {
+        path: '/risk-assessment/:type',
+        name: 'risk-assessment',
+        component: RiskAssessment,
+        meta: {
+            title: '风险测评'
+        }
+    }, {
+        path: '/assessment-result',
+        name: 'assessment-result',
+        component: AssessmentResult,
+        meta: {
+            title: '测评结果'
+        }
+    },
+    {
+        path: '/relation-list',
+        name: 'relation-list',
+        component: RelationList,
+        meta: {
+            title: '1度好友'
+        }
+    },
+    {
+        path:'/relation',
+        name:'relation',
+        component: Relation,
         meta:{
-            title:'个人中心',
-            withoutLogin:true
+            title:'我的好友'
         }
     }
 ];
+
 routes.map(route => {
     if (!route.meta.withoutLogin) {
         route.beforeEnter = beforeEach;

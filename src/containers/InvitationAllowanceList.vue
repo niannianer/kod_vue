@@ -79,7 +79,7 @@
         name: 'invitation-allowance-list',
         data(){
             return {
-                tab: 1,
+                tab: this.$route.query.rewardType-1,
                 pageSize: 10,
                 pageNo: 1,
                 hasMore: false,
@@ -127,7 +127,7 @@
                 $api.get('/reward/list', params)
                     .then(data => {
                         this.loading = false;
-                        // console.log(data)
+                         console.log(data)
                         if (data.code == 200) {
                             if (type == 'refresh') {
                                 this.tabList = [];

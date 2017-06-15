@@ -84,9 +84,12 @@ export let currencyInputValidate = (input) => {
     if (isNaN(input)) {
         return ''
     }
-    return input.replace(/\.\d{3,}/, (match) => {
+    return t.replace(/\.\d{3,}/, (match) => {
         return match.substring(0, 3);
     })
 };
-
+let $operation = {
+    setTitle
+}
+export default $operation;
 

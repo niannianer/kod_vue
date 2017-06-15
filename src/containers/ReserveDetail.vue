@@ -3,6 +3,10 @@
         <div class="detail">
             <ul class="detail-ul">
                 <li flex>
+                    <div>客户保护期剩余：</div>
+                    <div>{{data.protectionPeriod}}</div>
+                </li>
+                <li flex>
                     <div>预约单号：</div>
                     <div>{{data.reservationBillCode}}</div>
                 </li>
@@ -16,11 +20,11 @@
                 </li>
                 <li flex v-if="data.reservationStatus == 4">
                     <div>取消时间：</div>
-                    <div>{{data.reservationFinishTime}}</div>
+                    <div>{{data.reservationCancelTime}}</div>
                 </li>
                 <li flex v-if="data.reservationStatus == 5">
                     <div>过期时间：</div>
-                    <div>{{data.reservationFinishTime}}</div>
+                    <div>{{data.reservationOverdueTime}}</div>
                 </li>
                 <li flex v-if="data.reservationStatus == 3">
                     <div>认购金额：</div>
@@ -47,7 +51,7 @@
                     <div class="width">{{data.reservationProductName}}</div>
                 </li>
                 <li flex>
-                    <div>业绩基准：</div>
+                    <div>业绩比较基准：</div>
                     <div>{{data.annualInterestRate}}</div>
                 </li>
                 <li flex>

@@ -12,22 +12,30 @@
             margin-left: .8rem;
             line-height: 2.25rem;
             border-bottom: 1px solid @color-split;
+            font-size: .8rem;
+            .right{
+                text-align: right;
+                color: @color-active;
+            }
             .bank-logo {
                 width: 2.25rem;
                 height: 2.25rem;
             }
             .bank-name {
-                color: @color-text;
+                color: @color-active;
                 font-size: .9rem;
                 padding-left: .5rem;
             }
         }
         .withdraw-count {
-            padding: .7rem .8rem .7rem 0;
+            padding: .6rem .8rem .6rem 0;
             margin-left: .8rem;
             font-size: .8rem;
-            line-height: .8rem;
             border-bottom: 1px solid @color-split;
+            &.last-item{
+                border-bottom: none;
+                font-size: .7rem
+            }
             .left {
                 color: @color-text-secondary;
             }
@@ -35,11 +43,16 @@
                 text-align: right;
                 color: @color-interest;
             }
+            .withdraw-all{
+                color: @color-active!important;
+            }
         }
         .withdraw-form {
-            padding: .6rem .8rem;
+            padding: .6rem .8rem .6rem 0;
+            margin-left: .8rem;
             font-size: .8rem;
             line-height: .9rem;
+            border-bottom: 1px solid @color-split;
             .left {
                 color: @color-text-secondary;
             }
@@ -58,61 +71,54 @@
                 }
             }
         }
-        .over-hint{
-            font-size: .6rem;
-            color: @color-interest;
-            padding: 0 .8rem .7rem;
-        }
-    }
-    .sub-info{
-        position: relative;
-        padding: .75rem .8rem;
-        line-height: 1rem;
-        font-size: .6rem;
-        .span{
-            cursor: pointer;
-            color: @bg-primary;
-        }
-        &:before{
-            content: '!';
-            display: inline-block;
-            text-align: center;
-            margin-right: .25rem;
-            width: .6rem;
-            height: .6rem;
-            line-height: .6rem;
-            border-radius: 50%;
-            background-color: @bg-primary;
-            color: #fff;
 
-        }
     }
-    .withdraw-ensure {
-        margin-top: 1rem;
-        text-align: center;
-        .btn-withdraw {
-            margin: auto;
+
+    .bottom{
+        position: relative;
+        padding: 3rem 0 1rem;
+        .over-hint{
+            position: absolute;
+            top: 1rem;
+            font-size: .8rem;
+            color:@color-active;
+            text-align: center;
+            width: 100%;
+        }
+        .withdraw-ensure {
+            margin-top: 1rem;
+            text-align: center;
+            .btn-withdraw {
+                margin: auto;
+                width: 80%;
+                height: 2.2rem;
+                &:disabled{
+                    color: #ccc;
+                }
+            }
+        }
+        .hint{
+            margin: 1rem auto;
+            padding: .5rem;
             width: 80%;
-            height: 2.2rem;
-            &:disabled{
-                color: #ccc;
+            border-radius: .25rem;
+            border: 2px solid #ccc;
+            .title{
+                font-size: .8rem;
+                color: @color-text;
+                text-align: center;
+
+            }
+            .subtitle{
+                margin-top: .5rem;
+                color: @color-text-gray;
+                font-size: .7rem;
+                line-height: 1rem;
+                span{
+                    color: @color-active;
+                }
             }
         }
     }
-    .hint{
-        margin: 1rem .8rem;
 
-        .title{
-            font-size: .8rem;
-            color: @color-text;
-            text-align: center;
-
-        }
-        .subtitle{
-            margin-top: .5rem;
-            color: @color-text-gray;
-            font-size: .6rem;
-            line-height: 1rem;
-        }
-    }
 }
