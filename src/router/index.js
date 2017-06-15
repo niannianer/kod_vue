@@ -11,7 +11,6 @@ import Withdraw from '../containers/Withdraw';
 import ReserveList from '../containers/ReserveList';
 import ReserveDetail from '../containers/ReserveDetail';
 import ReserveProfessionalList from '../containers/ReserveProfessionalList';
-
 import Reward from '../containers/Reward';
 import MyCount from '../containers/MyCount';
 import InvitationRewardDetal from '../containers/InvitationRewardDetal';
@@ -20,7 +19,6 @@ import RewardDetail from '../containers/RewardDetail';
 import InvestDetail from '../containers/InvestDetail';
 import InvitationRewardList from '../containers/InvitationRewardList';
 import InvitationAllowanceList from '../containers/InvitationAllowanceList';
-
 import AccountDetail from '../containers/AccountDetail';
 import PensionTwo from '../containers/PensionTwo';
 import PensionFour from '../containers/PensionFour';
@@ -28,6 +26,8 @@ import PensionOne from '../containers/PensionOne';
 import PersonalCenter from '../containers/PersonalCenter';
 import RiskAssessment from '../containers/RiskAssessment';
 import AssessmentResult from '../containers/AssessmentResult';
+import RelationList from '../containers/RelationList';
+import Relation from '../containers/Relation';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
     if (meta.withoutLogin) {
@@ -48,7 +48,6 @@ let beforeEach = ((to, from, next) => {
                 });
         }
     }
-
 })
 let routes = [
     {
@@ -64,7 +63,6 @@ let routes = [
         meta: {
             title: '理财'
         },
-
         component: Financial
     }, {
         path: '/my-assets',
@@ -88,7 +86,6 @@ let routes = [
             title: '充值'
         },
         component: Recharge
-
     }
     , {
         path: '/withdraw',
@@ -97,7 +94,6 @@ let routes = [
             title: '提现'
         },
         component: Withdraw
-
     }, {
         path: '/reserve-list',
         name: 'reserve-list',
@@ -105,7 +101,6 @@ let routes = [
             title: '预约单管理'
         },
         component: ReserveList
-
     }, {
         path: '/reserve-detail',
         name: 'reserve-detail',
@@ -113,7 +108,6 @@ let routes = [
             title: '预约单详情'
         },
         component: ReserveDetail
-
     }, {
         path: '/reserve-professional-list',
         name: 'reserve-professional-list',
@@ -121,7 +115,6 @@ let routes = [
             title: '专职理财师预约单管理'
         },
         component: ReserveProfessionalList
-
     }, {
         path: '/reward',
         name: 'reward',
@@ -129,7 +122,6 @@ let routes = [
             title: '我的奖励'
         },
         component: Reward
-
     }, {
         path: '/reward-detail',
         name: 'reward-detail',
@@ -137,7 +129,6 @@ let routes = [
             title: '奖励细则'
         },
         component: RewardDetail
-
     }, {
         path: '/my-count',
         name: 'my-count',
@@ -145,7 +136,6 @@ let routes = [
             title: '我的银行卡'
         },
         component: MyCount
-
     },
     {
         path: '/invest-list',
@@ -165,7 +155,6 @@ let routes = [
             title: '投资详情'
         },
         component: InvestDetail
-
     },
     {
         path: '/invitation-reward-list',
@@ -174,7 +163,6 @@ let routes = [
             title: '邀请奖励列表'
         },
         component: InvitationRewardList
-
     },
     {
         path: '/invitation-reward-detal',
@@ -183,7 +171,6 @@ let routes = [
             title: '邀请奖励详情'
         },
         component: InvitationRewardDetal
-
     },
     {
         path: '/account-detail',
@@ -192,7 +179,6 @@ let routes = [
             title: '账户明细'
         },
         component: AccountDetail
-
     },
     {
         path: '/invitation-allowance',
@@ -201,7 +187,6 @@ let routes = [
             title: '邀请津贴'
         },
         component: Index
-
     },
     {
         path: '/invitation-allowance-list',
@@ -210,7 +195,6 @@ let routes = [
             title: '邀请津贴列表'
         },
         component: InvitationAllowanceList
-
     },
     {
         path: '/pension-one',
@@ -220,7 +204,6 @@ let routes = [
             withoutLogin: true
         },
         component: PensionOne
-
     },
     {
         path: '/pension-two',
@@ -230,7 +213,6 @@ let routes = [
             withoutLogin: true
         },
         component: PensionTwo
-
     }, {
         path: '/pension-three',
         name: 'pension-three',
@@ -238,7 +220,6 @@ let routes = [
             title: '养老理财规划'
         },
         component: Index
-
     },
     {
         path: '/pension-four',
@@ -247,7 +228,6 @@ let routes = [
             title: '养老理财规划'
         },
         component: Index
-
     },
     {
         path: '/pension-five',
@@ -319,6 +299,22 @@ let routes = [
         component: AssessmentResult,
         meta: {
             title: '测评结果'
+        }
+    },
+    {
+        path: '/relation-list',
+        name: 'relation-list',
+        component: RelationList,
+        meta: {
+            title: '1度好友'
+        }
+    },
+    {
+        path:'/relation',
+        name:'relation',
+        component: Relation,
+        meta:{
+            title:'我的好友'
         }
     }
 ];
