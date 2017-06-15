@@ -21,14 +21,14 @@ _.forEach(filters, (fun, key) => {
     Vue.filter(key, fun);
 });
 router.afterEach((to, from) => {
+    console.log(from)
     let {meta} = to;
     let {title} = meta;
     setTitle(title);
-
 });
 store.dispatch('getAccountBaofoo');
 store.dispatch('getBankInfo');
 store.dispatch('getUserInfo');
 window.onload = () => {
     FastClick.attach(document.body);
-}
+};

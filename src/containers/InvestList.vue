@@ -12,66 +12,60 @@
         <div class="item-list" v-show="status == 1" flex-box="1">
             <mt-loadmore :top-method="loadTopLeft" :bottom-method="loadBottomLeft" :bottom-all-loaded="allLoadedLeft" ref="loadmoreLeft" :auto-fill="autoFill">
                 <div class="item" v-for="(item,index) in underway.investmentList"
-                     @click.stop="refresh" :key="index">
-                    <div>
-                        <ul class="item-ul">
-                            <li flex>
-                                <div>产品名称：</div>
-                                <div class="width">{{item.productAbbrName}}</div>
-                            </li>
-                            <li flex>
-                                <div>购买金额：</div>
-                                <div>{{item.orderAmount}}元</div>
-                            </li>
-                            <li flex>
-                                <div>预期年化收益率：</div>
-                                <div>{{item.productAnnualInterestRate}}</div>
-                            </li>
-                            <li flex>
-                                <div>到期日：</div>
-                                <div>{{item.productExpiringDate}}</div>
-                            </li>
-                            <li flex>
-                                <div>购买时间：</div>
-                                <div>{{item.payedTime}}</div>
-                            </li>
-                        </ul>
-                        <div class="icon"></div>
-                    </div>
-                   <!-- <router-link :to="{path:'/invest-detail',query:{orderBillCode:item.orderBillCode,status:1}}">
-
-                    </router-link>-->
+                    @click.stop="link(1,item.orderBillCode)" :key="index">
+                    <ul class="item-ul">
+                        <li flex>
+                            <div>产品名称：</div>
+                            <div class="width">{{item.productAbbrName}}</div>
+                        </li>
+                        <li flex>
+                            <div>购买金额：</div>
+                            <div>{{item.orderAmount}}元</div>
+                        </li>
+                        <li flex>
+                            <div>预期年化收益率：</div>
+                            <div>{{item.productAnnualInterestRate}}</div>
+                        </li>
+                        <li flex>
+                            <div>到期日：</div>
+                            <div>{{item.productExpiringDate}}</div>
+                        </li>
+                        <li flex>
+                            <div>购买时间：</div>
+                            <div>{{item.payedTime}}</div>
+                        </li>
+                    </ul>
+                    <div class="icon"></div>
                 </div>
             </mt-loadmore>
         </div>
         <div class="item-list" v-show="status == 2" flex-box="1">
             <mt-loadmore :top-method="loadTopRight" :bottom-method="loadBottomRight" :bottom-all-loaded="allLoadedRight" ref="loadmoreRight" :auto-fill="autoFill">
-                <div class="item" v-for="(item,index) in finished.investmentList" :key="index">
-                    <router-link :to="{path:'/invest-detail',query:{orderBillCode:item.orderBillCode,status:2}}">
-                        <ul class="item-ul">
-                            <li flex>
-                                <div>产品名称：</div>
-                                <div class="width">{{item.productAbbrName}}</div>
-                            </li>
-                            <li flex>
-                                <div>购买金额：</div>
-                                <div>{{item.orderAmount}}元</div>
-                            </li>
-                            <li flex>
-                                <div>预期年化收益率：</div>
-                                <div>{{item.productAnnualInterestRate}}</div>
-                            </li>
-                            <li flex>
-                                <div>到期日：</div>
-                                <div>{{item.productExpiringDate}}</div>
-                            </li>
-                            <li flex>
-                                <div>购买时间：</div>
-                                <div>{{item.payedTime}}</div>
-                            </li>
-                        </ul>
-                        <div class="icon"></div>
-                    </router-link>
+                <div class="item" v-for="(item,index) in finished.investmentList" 
+                    @click.stop="link(2,item.orderBillCode)" :key="index">
+                    <ul class="item-ul">
+                        <li flex>
+                            <div>产品名称：</div>
+                            <div class="width">{{item.productAbbrName}}</div>
+                        </li>
+                        <li flex>
+                            <div>购买金额：</div>
+                            <div>{{item.orderAmount}}元</div>
+                        </li>
+                        <li flex>
+                            <div>预期年化收益率：</div>
+                            <div>{{item.productAnnualInterestRate}}</div>
+                        </li>
+                        <li flex>
+                            <div>到期日：</div>
+                            <div>{{item.productExpiringDate}}</div>
+                        </li>
+                        <li flex>
+                            <div>购买时间：</div>
+                            <div>{{item.payedTime}}</div>
+                        </li>
+                    </ul>
+                    <div class="icon"></div>
                 </div>
             </mt-loadmore>
         </div>
@@ -106,11 +100,12 @@
             }
         },
         methods: {
-            refresh(){
+            link(status,orderBillCode){
                 if(this.isRefreshing){
                     return false;
                 }
                 console.log('refresh');
+                this.$router.push('/invest-detail?status='+status+'&orderBillCode='+orderBillCode);
             },
             changeTab(status){
                 this.status = status;
@@ -161,28 +156,30 @@
                 this.get(0,0,'top').then(()=>{
                     this.$refs.loadmoreLeft.onTopLoaded();
                 });
-                this.$refs.loadmoreLeft.onTopLoaded();
                 this.allLoadedLeft = false;
             },
             loadBottomLeft(){
                 this.lock();
                 this.startRowLeft += 20;
                 let startRow = this.startRowLeft;
-                this.get(1,startRow,'bottom');
-                this.$refs.loadmoreLeft.onBottomLoaded();
+                this.get(1,startRow,'bottom').then(()=>{
+                    this.$refs.loadmoreLeft.onBottomLoaded();
+                });
             },
             loadTopRight(){
                 this.lock();
-                this.get(0,0,'top');
-                this.$refs.loadmoreRight.onTopLoaded();
+                this.get(0,0,'top').then(()=>{
+                    this.$refs.loadmoreRight.onTopLoaded();
+                });
                 this.allLoadedLeft = false;
             },
             loadBottomRight(){
                 this.lock();
                 this.startRowRight += 20;
                 let startRow = this.startRowRight;
-                this.get(2,startRow,'bottom');
-                this.$refs.loadmoreRight.onBottomLoaded();
+                this.get(2,startRow,'bottom').then(()=>{
+                    this.$refs.loadmoreRight.onBottomLoaded();
+                });
             }
         },
         mounted(){
