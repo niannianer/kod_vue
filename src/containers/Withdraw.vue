@@ -119,7 +119,10 @@
                 timer = setTimeout(() => {
                     this.withdrawMount = currencyInputValidate(this.withdrawMount);
                     if (this.withdrawMount && this.withdrawMount > this.single_limit_value){
-                        Toast('提现金额超出单笔限制，请重新输入');
+                        Toast({
+                            position:'top',
+                            message:'提现金额超出单笔限制，请重新输入'
+                        });
                         return false;
                     }
                     if (this.withdrawMount && this.withdrawMount > this.accountCashAmount) {
@@ -176,6 +179,7 @@
             // 全部提取
             withdrawAll(){
                 this.withdrawMount=this.accountCashAmount;
+                this.myKeyup();
             },
             confirmFun(result){
                 if(result){

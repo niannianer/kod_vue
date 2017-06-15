@@ -13,13 +13,24 @@
         border-radius: .3rem;
         .qu-order{
             position: absolute;
-            right: -3rem;
-            top: -3rem;
-            width: 5rem;
-            height: 5rem;
-            color: #fff;
+            right: -1.5rem;
+            top: -1.5rem;
+            width: 4rem;
+            height: 4rem;
             background-color: @color-active;
             border-radius: 50%;
+            &.app{
+                background-color: #EECE83;
+                span{
+                    color: #7C4F2B;
+                }
+            }
+            span{
+                position: absolute;
+                color: #fff;
+                top: 2rem;
+                left: .45rem;
+            }
 
         }
         .title{
@@ -43,6 +54,11 @@
                 background-color: @color-active;
                 border: 1px solid @color-active;
                 color: #fff;
+                &.app{
+                    background-color: #fff;
+                    color: @color-text;
+                    border: 1px solid #7C4F2B;
+                }
             }
         }
         .last-item{
@@ -67,6 +83,9 @@
             margin: auto;
             &:disabled{
                 color: #aaa;
+            }
+            &.app{
+                background-image: linear-gradient(-1deg, #7C4F2B 0%, #8F6441 24%, #D8BD7E 70%, #EECE83 100%)!important;
             }
         }
     }

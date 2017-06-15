@@ -1,13 +1,15 @@
 <template>
     <div class="risk-assessment">
         <div class="content">
-            <div class="qu-order">
-                {{quIndex + 1}}{{quLen}}
+            <div class="qu-order" :class="{'app':isApp}">
+              <span>
+                    {{quIndex + 1}}/{{quLen}}
+              </span>
             </div>
             <div class="title">{{title}}</div>
 
             <div class="qu-title">{{quIndex + 1}}、{{question}}</div>
-            <div class="qu-item" :class="{'active':index==currentIndex}"
+            <div class="qu-item" :class="{'active':index==currentIndex,'app':isApp}"
                  @click.stop="selectItem(item,index)"
                  v-for="(item,index) in answers" :key="index">
                 {{item.title}}
@@ -15,7 +17,7 @@
             <div class="last-item" v-if="quIndex" @click.stop="getLast()">上一题</div>
         </div>
         <div class="submit" v-if="showSubmit">
-            <button class="btn-primary btn-submit"
+            <button class="btn-primary btn-submit" :class="{'app':isApp}"
                     @click.stop="updateUserInfo"
                     :disabled="disabled">提交
             </button>
@@ -45,7 +47,8 @@
         },
         created(){
             this.setIndex(0);
-            if(this.$route.name.indexOf('app')){
+            console.log(this.$route.name);
+            if(this.$route.path.indexOf('app')>-1){
                 this.isApp =true;
             }
         },
@@ -94,6 +97,18 @@
                     .then(data => {
                         if (data.code == 200) {
                             console.log(12);
+                            this.$store.dispatch('getUserInfo');
+                            if(this.isApp){
+                                this.$router.replace({
+                                    path:'/assessment-result',
+                                    query:{
+                                        score:investorRiskScore
+                                    }
+                                })
+                            }else {
+                                this.$router.replace('/assessment-result');
+                            }
+
                         }
                     });
             }
