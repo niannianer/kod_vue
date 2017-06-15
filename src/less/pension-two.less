@@ -24,52 +24,40 @@
     			-webkit-text-fill-color:transparent;
    				text-transform:uppercase;
 			}
-			ul{
-				padding:2.03rem 1.88rem 4.3rem;
-				li{
-					width: 4.76rem;
-					height: 3.52rem;
-					position: relative;
-					z-index: 9;
-					span{
-						position: absolute;
-						top: 1.35rem;
-						left: 3.5rem;
-						color:#979797;
-					}
-				}
-				li:nth-child(1){
-					background:url(../images/boy2@2x.png) no-repeat center center;
-					background-size: 4.75rem;
-				}
-				li:nth-child(2){
-					background:url(../images/girl2@2x.png) no-repeat center center;
-					background-size: 4.7rem;
-				}
-				li:nth-child(1).checked{
-					background:url(../images/boy1@2x.png) no-repeat center center;
-					background-size:  4.75rem;
-					span{
-						color: #fff;
-						background: -webkit-linear-gradient(top,#FDE7B3,#C7A371);
-		    			-webkit-background-clip:text;
-		    			-webkit-text-fill-color:transparent;
-		   				text-transform:uppercase;
-					}
-				}
-				li:nth-child(2).checked{
-					background:url(../images/girl1@2x.png) no-repeat center center;
-					background-size: 4.7rem;
-					span{
-						color: #fff;
-						background: -webkit-linear-gradient(top,#FDE7B3,#C7A371);
-		    			-webkit-background-clip:text;
-		    			-webkit-text-fill-color:transparent;
-		   				text-transform:uppercase;
-					}
-				}
-			}
-		}
+            .sex{
+                padding:2.03rem 1.88rem 4.3rem;
+                label{
+                    width: 4.76rem;
+                    height: 3.52rem;
+                    position: relative;
+                    z-index: 9;
+                    text-align: center;
+                    line-height: 3.52rem;
+                    font-size: 1rem;
+                    color: #979797;
+                    text-shadow: 0 2px 1px rgba(0,0,0,0.50);
+                }
+                input{
+                    display: none;
+                }
+                label:nth-child(1).checked{
+                    background:url(../images/boy1@2x.png) no-repeat center center;
+                    background-size: 4.75rem;
+                }
+                label:nth-child(3).checked{
+                    background:url(../images/girl1@2x.png) no-repeat center center;
+                    background-size: 4.7rem;
+                }
+                label:nth-child(1){
+                    background:url(../images/boy2@2x.png) no-repeat center center;
+                    background-size: 4.75rem;
+                }
+                label:nth-child(3){
+                    background:url(../images/girl2@2x.png) no-repeat center center;
+                    background-size: 4.7rem;
+                }
+            }
+            }
 			.box-shadows{
 				border-radius: 50%;
 				width:32rem;

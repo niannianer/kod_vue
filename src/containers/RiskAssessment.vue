@@ -40,7 +40,7 @@
                 quIndex: 0,
                 quLen: questions.length,
                 currentIndex: 99,
-                isApp:false,
+                isApp: false,
                 answers: [],
                 scores: []
             }
@@ -48,8 +48,8 @@
         created(){
             this.setIndex(0);
             console.log(this.$route.name);
-            if(this.$route.path.indexOf('app')>-1){
-                this.isApp =true;
+            if (this.$route.path.indexOf('app') > -1) {
+                this.isApp = true;
             }
         },
         computed: {
@@ -92,25 +92,32 @@
                 this.scores.map(score => {
                     investorRiskScore += score;
                 })
+                let investorRiskVersion = '1.0.0';
+                let investorRiskAnswer = this.scores.join('$$');
 
-                $api.post('/updateUserInfo', {investorRiskScore})
-                    .then(data => {
-                        if (data.code == 200) {
-                            console.log(12);
-                            this.$store.dispatch('getUserInfo');
-                            if(this.isApp){
-                                this.$router.replace({
-                                    path:'/assessment-result',
-                                    query:{
-                                        score:investorRiskScore
-                                    }
-                                })
-                            }else {
-                                this.$router.replace('/assessment-result');
-                            }
 
-                        }
-                    });
+                $api.post('/updateUserInfo', {
+                    investorRiskScore,
+                    investorRiskVersion,
+                    investorRiskAnswer
+                }).then(data => {
+                    if (data.code == 200) {
+                        console.log(12);
+                        this.$store.dispatch('getUserInfo');
+                        return;
+                        /*if (this.isApp) {
+                            this.$router.replace({
+                                path: '/assessment-result',
+                                query: {
+                                    score: investorRiskScore
+                                }
+                            })
+                        } else {
+                            this.$router.replace('/assessment-result');
+                        }*/
+
+                    }
+                });
             }
         },
         destroyed(){
