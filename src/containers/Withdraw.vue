@@ -1,51 +1,58 @@
 <template>
     <div class="withdraw" flex="dir:top">
         <div class="body">
-            <div class="bank">
-                <img class="bank-logo" :src="bankImg"/>
-                <span class="bank-name">{{bank_name}}（{{bankUserCardNo.substr(-4)}}）</span>
+            <div class="bank" flex>
+               <div flex-box="1">提现至银行卡</div>
+                <div flex-box="1" class="right">
+                    <img class="bank-logo" :src="bankImg"/>
+                    <span class="bank-name">{{bank_name}}({{bankUserCardNo.substr(-4)}})</span>
+                </div>
             </div>
         </div>
         <div class="body">
+
             <div class="withdraw-count" flex>
-                <span flex-box="1" class="left">单笔可提现金额</span>
-                <span flex-box="1" class="right">{{500000 | currencyFormat}}</span>
-            </div>
-            <div class="withdraw-count" flex>
-                <span flex-box="1" class="left">当前可提(元)</span>
+                <span flex-box="1" class="left">可提现金额(元)</span>
                 <span flex-box="1" class="right">{{accountCashAmount | currencyFormat}}</span>
             </div>
             <div class="withdraw-form" flex>
-                <div flex-box="1" class="left">提现金额</div>
+                <div flex-box="1" class="left">提现(元)</div>
                 <div class="right" flex-box="0" flex>
                     <img flex-box="0" class="money-chart" src="../images/money-chart.png"/>
                     <input type="number" v-model.trim="withdrawMount" class="input" flex-box="1" @keyup="myKeyup"
                            placeholder="请输入提现金额"/>
                 </div>
             </div>
+             <div class="withdraw-count last-item" flex>
+               <span flex-box="1" class="left">单笔可提现金额:50万</span>
+               <span flex-box="1" class="withdraw-all right" @click.stop="withdrawAll">全部提现</span>
+           </div>
+
+        </div>
+
+        <div class="bottom">
             <div v-if="overHint" class="over-hint">提现金额不能大于可提现金额，请重新输入</div>
-        </div>
-        <div class="sub-info">
-            <span class="span">持卡人需与投保人一致</span>
-            若有问题请联系：
-            <span class="span">{{telNumber}}</span>
-        </div>
+            <div class="withdraw-ensure">
+                <button class="btn-primary btn-withdraw"
+                        @click.stop="getWithdraw"
+                        :disabled="btnDisabled">立即提现
+                </button>
+            </div>
+            <div class="hint">
+                <div class="title">温馨提示</div>
+                <div class="subtitle">
+                    1.提现当月前三次免费，之后2元/笔。<br>
+                    <br>
+                    2.客户提交提现申请后的T+1个工作日内到账（周末、节假日顺延）
+                    <br>
+                    <br>
 
-        <div class="withdraw-ensure">
-            <button class="btn-primary btn-withdraw"
-                    @click.stop="getWithdraw"
-                    :disabled="btnDisabled">立即提现
-            </button>
-        </div>
-        <div class="hint">
-            <div class="title">温馨提示</div>
-            <div class="subtitle">
-                1.提现当月前三次免费，之后2元/笔。<br>
-                2.客户提交提现申请后的T+1个工作日内到账（周末、节假日顺延）<br>
-
-                提现过程中有疑问，请联系客服400-640-3606（工作时间：9:00—18:00）
+                    提现过程中有疑问，请联系客服<span>400-640-3606</span>（工作时间：9:00—18:00）
+                </div>
             </div>
         </div>
+
+
         <password-input v-show="inputPassword" title="提现"  @close="inputPassword=false"
                         @callBack="callBack"></password-input>
     </div>
@@ -78,6 +85,7 @@
                 btnDisabled: true,
                 overHint: false,
                 inputPassword: false,
+                single_limit_value:500000,
                 imgUrls
             }
         },
@@ -94,7 +102,6 @@
             'bank_code',
             'bank_name',
             'accountCashAmount',
-            'single_limit_value',
             'bankUserPhone']),
         watch: {
             bank_code(){
@@ -111,6 +118,10 @@
                 }
                 timer = setTimeout(() => {
                     this.withdrawMount = currencyInputValidate(this.withdrawMount);
+                    if (this.withdrawMount && this.withdrawMount > this.single_limit_value){
+                        Toast('提现金额超出单笔限制，请重新输入');
+                        return false;
+                    }
                     if (this.withdrawMount && this.withdrawMount > this.accountCashAmount) {
                         this.btnDisabled = true;
                         this.overHint = true;
@@ -126,12 +137,14 @@
                     }
                 }, 200);
             },
+            // 手续费
             getTradeFeeType(){
 
                 let amount = this.withdrawMount;
                 return $api.get('/tradeFeeType', {amount});
 
             },
+            // 提现
             getWithdraw(){
                 this.getTradeFeeType()
                     .then(data => {
@@ -159,6 +172,10 @@
 
                         }
                     })
+            },
+            // 全部提取
+            withdrawAll(){
+                this.withdrawMount=this.accountCashAmount;
             },
             confirmFun(result){
                 if(result){
