@@ -29,7 +29,7 @@
         data(){
             return {
                 level:this.$route.query.level || 1,
-                startRow:1,
+                startRow:0,
                 pageSize:20,
                 autoFill:false,
                 allLoaded:false,
@@ -59,7 +59,7 @@
                                 this.allLoaded = true;
                             }
                         }
-                        
+
                     }
                 });
             }
