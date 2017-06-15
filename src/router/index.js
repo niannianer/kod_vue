@@ -19,6 +19,7 @@ const InvestDetail = resolve => require(['../containers/InvestDetail'], resolve)
 const InvitationRewardList = resolve => require(['../containers/InvitationRewardList'], resolve);
 const InvitationAllowanceList = resolve => require(['../containers/InvitationAllowanceList'], resolve);
 const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
+const RelationList = resolve => require(['../containers/RelationList'], resolve);
 let routes = [
     {
         path: '/index',
@@ -266,6 +267,14 @@ let routes = [
             title: '金疙瘩-懂你，懂理顾，更懂理财'
         },
         component: Index
+    },
+    {
+        path: '/relation-list',
+        name: 'relation-list',
+        meta: {
+            title: '2度好友'
+        },
+        component: RelationList
     }
 ];
 routes.push({
