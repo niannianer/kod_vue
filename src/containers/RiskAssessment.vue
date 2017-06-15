@@ -98,7 +98,17 @@
                         if (data.code == 200) {
                             console.log(12);
                             this.$store.dispatch('getUserInfo');
-                            this.$router.replace('/assessment-result');
+                            if(this.isApp){
+                                this.$router.replace({
+                                    path:'/assessment-result',
+                                    query:{
+                                        score:investorRiskScore
+                                    }
+                                })
+                            }else {
+                                this.$router.replace('/assessment-result');
+                            }
+
                         }
                     });
             }
