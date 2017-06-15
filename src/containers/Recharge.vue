@@ -17,7 +17,7 @@
                 <div class="form-input" flex>
                     <img flex-box="0" class="money-chart" src="../images/money-chart.png"/>
                     <div flex-box="1" class="money-filter">
-                       <!-- <div class="money-show">{{rechargeMoney | currencyInput}}</div>-->
+                        <!-- <div class="money-show">{{rechargeMoney | currencyInput}}</div>-->
                         <input @keyup="myKeyup" type="number" class="money-show" v-model.trim="rechargeMoney"/>
                     </div>
 
@@ -32,7 +32,9 @@
             若充值遇到问题请联系：<span class="span">{{telNumber}}</span>
         </div>
         <div class="recharge-ensure">
-            <button class="btn-primary btn-recharge" @click.stop="postRecharge">确认购买</button>
+            <button class="btn-primary btn-recharge" :disabled="disabled"
+                    @click.stop="postRecharge">确认充值
+            </button>
         </div>
 
     </div>
@@ -42,7 +44,7 @@
     import {mapState} from 'vuex';
     import {Toast} from 'mint-ui';
     import $api from '../tools/api';
-    import {submitRecharge,currencyInputValidate} from '../tools/operation';
+    import {submitRecharge, currencyInputValidate} from '../tools/operation';
     import {telNumber} from '../tools/config';
     import '../less/recharge.less';
     let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
@@ -59,6 +61,7 @@
             return {
                 rechargeMoney: '',
                 imgUrls,
+                disabled: true,
                 bankImg: '',
                 telNumber
             }
@@ -86,6 +89,13 @@
                 }
                 timer = setTimeout(() => {
                     this.rechargeMoney = currencyInputValidate(this.rechargeMoney);
+                    if (this.rechargeMoney) {
+                        this.disabled = false;
+                    }
+                    if (parseFloat(this.rechargeMoney) > this.single_limit_value) {
+                        Toast('充值金额不能大于单笔限额，请重新输入');
+                        this.disabled = true;
+                    }
                 }, 200);
             },
             postRecharge(){
@@ -101,8 +111,8 @@
                         if (data.code == 200) {
                             console.log(data);
                             let params = data.data || {};
-                            params.amount =this.rechargeMoney;
-                            params.userId =this.$store.state.userId;
+                            params.amount = this.rechargeMoney;
+                            params.userId = this.$store.state.userId;
                             submitRecharge(params);
                         } else {
                             Toast(data.msg);
