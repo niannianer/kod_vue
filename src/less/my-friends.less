@@ -1,0 +1,76 @@
+    @charset "UTF-8";
+    @import "variables";
+    .my-friends {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        .body{
+        	width: 100%;
+            background: #fff;
+            margin-top: .6rem;
+            height: 4.7rem;
+            /* padding: .5rem auto; */
+            .number{
+            	padding-top:.5rem;
+            	text-align: center;
+            	span{
+            		font-size: 1.8rem;
+            		color: #1D72C0;
+            	}
+
+            }
+            .title{
+            	width: 100%;
+            	text-align: center;
+            	font-size: .8rem;
+            	color: #666;
+            }
+        }
+        .item{
+        	position: relative;
+        	padding: .7rem .8rem;
+        	margin-top: .5rem;
+        	background: #fff;
+        	font-size: .8rem;
+        	color: #666;
+        	.left{
+        		font-size: .8rem;
+        	}
+        	.right{
+        		font-size: .7rem;
+        		padding-right:.4rem; 
+        	}
+        	&:after{
+                content: '';
+                margin-top: .1rem;
+                background-image: url("../images/arrow-right.png");
+                width: .5rem;
+                height: .8rem;
+                background-size: cover;
+            }
+        }
+        .code-info{
+        	margin-top: .8rem;
+        	text-align: center;
+        	font-size: .8rem;
+        	color: #666;
+        	.code{
+        		width: 6.15rem;
+        		height: 6.15rem;
+        		margin: .8rem auto 0;
+        	}
+        }
+        .btn{
+        	width: 15.65rem;
+        	background: #1D72C0;
+        	 margin:2.5rem auto;
+	        text-align: center;
+        	 button{
+        	 	margin: auto;
+        		height: 2.2rem;
+        	 	font-size: .8rem;
+	        	color: #fff;
+        		border-radius: 3px;
+        	 }
+        }
+    }

@@ -58,7 +58,7 @@ const config = {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 loader: 'url-loader',
                 options: {
-                    limit: 10000,
+                    limit: 4048,
                     name: '[name].[hash:8].[ext]'
                 }
             },

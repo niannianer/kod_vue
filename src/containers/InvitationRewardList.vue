@@ -12,21 +12,21 @@
                 <li flex-box="1">
                     <p class='info'>{{sumData.paidWithTax | currencyFormat}}元</p>
                     <p class='tile'>已结算（税后）</p>
-                </li> 
+                </li>
             </ul>
         </div>
         <div class="item-list"  flex-box="1">
             <mt-loadmore :top-method="loadTop" ref="loadmore">
                 <div flex="dir:left" class="item" v-for="(item,index) in rewardList"  @click.stop="link(item.rewardBillCode)">
                     <div class="left" flex="dir:top main:center" >
-                            <p class='info'>{{item.rewardAmount|currencyFormat}}元</p>
+                            <p class='info'>{{item.rewardStatus == 2 ? item.payAmount : item.rewardAmount | currencyFormat}}元</p>
                             <p class='tile'>奖励</p>
                     </div>
                     <div class="right" flex-box="2">
                             <ul>
                                 <li flex>
                                      <div flex-box="0">客户：</div>
-                                     <div flex-box="0">{{item.userMobile.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')}}</div>
+                                     <div flex-box="0">{{item.beInvitedMobile|mobileFormat}}</div>
                                 </li>
                                 <li flex>
                                      <div flex-box="0">投资金额：</div>
@@ -87,7 +87,7 @@
                             this.rewardList = msg.data.rewardList;
                             fn&&fn();
                         }
-                        return msg 
+                        return msg
                     })
             },
             link(rewardBillCode){
@@ -97,5 +97,5 @@
         },
 
     }
-    
+
 </script>
