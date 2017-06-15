@@ -1,5 +1,5 @@
 <template>
-    <div flex="dir:top" flex-box="1" class="my-friends">
+    <div flex="dir:top" flex-box="1" class="relation">
         <div class="body">
             <div class="number"><span>{{ Number(levelOneCount)+ Number(levelTwoCount)}}</span>人</div>
             <div class="title">我的好友</div>
@@ -22,10 +22,10 @@
     </div>
 </template>
 <script>
-    import '../less/my-friends.less';
+    import '../less/relation.less';
     import $api from '../tools/api';
     export default {
-        name:'my-friends',
+        name:'relation',
         data() {
             return {
                 levelOneCount:'',
