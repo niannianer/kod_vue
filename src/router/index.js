@@ -27,7 +27,6 @@ import PensionFour from '../containers/PensionFour';
 import PensionOne from '../containers/PensionOne';
 import PersonalCenter from '../containers/PersonalCenter';
 import RiskAssessment from '../containers/RiskAssessment';
-import {Indicator} from 'mint-ui';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
     if (meta.withoutLogin) {
@@ -37,12 +36,8 @@ let beforeEach = ((to, from, next) => {
             next()
         } else {
             console.log(23456)
-            Indicator.open('请求中...');
             store.dispatch('getAccountBaofoo')
                 .then(data => {
-                    setTimeout(()=>{
-                        Indicator.close();
-                    },200)
                     if (data.code == '401') {
                        // next({ path: '/login' })
                         window.location.href = '/login.html';
