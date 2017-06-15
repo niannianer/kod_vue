@@ -20,10 +20,20 @@ new Vue({
 _.forEach(filters, (fun, key) => {
     Vue.filter(key, fun);
 });
+import {Toast} from 'mint-ui';
 router.afterEach((to, from) => {
+    console.log(from)
     let {meta} = to;
     let {title} = meta;
     setTitle(title);
+    if(!from.name){
+        store.dispatch('getAccountBaofoo')
+            .then(data=>{
+                Toast(JSON.stringify(data));
+            });
+        store.dispatch('getBankInfo');
+        store.dispatch('getUserInfo');
+    }
 
 });
 store.dispatch('getAccountBaofoo');
