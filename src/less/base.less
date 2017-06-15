@@ -59,9 +59,11 @@ input, textarea {
     resize: none;
 
 }
+
 input[placeholder], [placeholder] {
-    color:@color-text-gray !important;
+    color: @color-text-gray !important;
 }
+
 body {
     font-family: @font-family-default;
     position: absolute;
@@ -95,6 +97,14 @@ body {
     box-shadow: 0 1px 6px 0 #61B3FF;
     border-radius: 3px;
     color: #fff;
+    &:disabled{
+        color: #aaa;
+    }
+}
+
+.btn-default {
+    background-color: @bg-body;
+    border-radius: 3px;
 }
 
 .ellipsis {
@@ -106,10 +116,12 @@ body {
 [v-cloak] {
     display: none;
 }
-[flex],[flex-box]{
+
+[flex], [flex-box] {
     overflow: hidden;
 }
-.mint-indicator-wrapper{
+
+.mint-indicator-wrapper {
     z-index: 10;
 }
 

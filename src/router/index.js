@@ -24,8 +24,10 @@ const PensionTwo = resolve => require(['../containers/PensionTwo'], resolve);
 const PensionFour = resolve => require(['../containers/PensionFour'], resolve);
 const PensionOne = resolve => require(['../containers/PensionOne'], resolve);
 const MyFriends = resolve => require(['../containers/MyFriends'], resolve);
+const PersonalCenter  = resolve => require(['../containers/PersonalCenter'], resolve);
+const RiskAssessment  = resolve => require(['../containers/RiskAssessment'], resolve);
+
 let beforeEach = ((to, from, next) => {
-    console.log(12345);
     let {meta} = to;
     if (meta.withoutLogin) {
         next();
@@ -36,7 +38,6 @@ let beforeEach = ((to, from, next) => {
             console.log(23456)
             store.dispatch('getAccountBaofoo')
                 .then(data => {
-                    console.log(data);
                     if (data.code == '401') {
                        // next({ path: '/login' })
                         window.location.href = '/login.html';
@@ -151,7 +152,8 @@ let routes = [
         meta: {
             //投资列表
             title: '定期理财列表',
-            keepAlive: true
+            keepAlive: true,
+            withoutLogin:true
         },
         component: InvestList
     },
@@ -177,8 +179,7 @@ let routes = [
         path: '/invitation-reward-detal',
         name: 'invitation-reward-detal',
         meta: {
-            title: '邀请奖励详情',
-            withoutLogin:true
+            title: '邀请奖励详情'
         },
         component: InvitationRewardDetal
 
@@ -187,8 +188,7 @@ let routes = [
         path: '/account-detail',
         name: 'account-detail',
         meta: {
-            title: '账户明细',
-            withoutLogin:true
+            title: '账户明细'
         },
         component: AccountDetail
 
@@ -303,11 +303,33 @@ let routes = [
             title: '我的好友'
         },
         component: MyFriends
+    },
+    {
+        path:'/personal-center',
+        name:'personal-center',
+        component: PersonalCenter,
+        meta:{
+            title:'个人中心',
+            withoutLogin:true
+        }
+    },
+    {
+        path:'/risk-assessment',
+        name:'risk-assessment',
+        component: RiskAssessment,
+        meta:{
+            title:'风险测评'
+        }
     }
 ];
+routes.map(route => {
+    if (!route.meta.withoutLogin) {
+        route.beforeEnter = beforeEach;
+    }
+});
 routes.push({
     path: '*',
-    redirect: '/financial'
+    redirect: '/my-assets'
 });
 export default new Router({
     mode: 'history',
