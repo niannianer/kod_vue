@@ -27,6 +27,7 @@ import PersonalCenter from '../containers/PersonalCenter';
 import RiskAssessment from '../containers/RiskAssessment';
 import MyFriends from '../containers/MyFriends';
 import RelationList from '../containers/RelationList';
+import Relation from '../containers/Relation';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
     if (meta.withoutLogin) {
@@ -277,14 +278,6 @@ let routes = [
         component: Index
     },
     {
-        path: '/my-friends',
-        name: 'my-friends',
-        meta: {
-            title: '我的好友'
-        },
-        component: MyFriends
-    },
-    {
         path:'/personal-center',
         name:'personal-center',
         component: PersonalCenter,
@@ -302,11 +295,19 @@ let routes = [
         }
     },
     {
-        path:'/relation-list',
-        name:'relation-list',
+        path: '/relation-list',
+        name: 'relation-list',
         component: RelationList,
+        meta: {
+            title: '1度好友'
+        }
+    },
+    {
+        path:'/relation',
+        name:'relation',
+        component: Relation,
         meta:{
-            title:'好友列表'
+            title:'我的好友'
         }
     }
 ];
