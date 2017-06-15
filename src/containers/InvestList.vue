@@ -11,8 +11,9 @@
         </div>
         <div class="item-list" v-show="status == 1" flex-box="1">
             <mt-loadmore :top-method="loadTopLeft" :bottom-method="loadBottomLeft" :bottom-all-loaded="allLoadedLeft" ref="loadmoreLeft" :auto-fill="autoFill">
-                <div class="item" v-for="(item,index) in underway.investmentList" :key="index">
-                    <router-link :to="{path:'/invest-detail',query:{orderBillCode:item.orderBillCode,status:1}}">
+                <div class="item" v-for="(item,index) in underway.investmentList"
+                     @click.stop="refresh" :key="index">
+                    <div>
                         <ul class="item-ul">
                             <li flex>
                                 <div>产品名称：</div>
@@ -36,7 +37,10 @@
                             </li>
                         </ul>
                         <div class="icon"></div>
-                    </router-link>
+                    </div>
+                   <!-- <router-link :to="{path:'/invest-detail',query:{orderBillCode:item.orderBillCode,status:1}}">
+
+                    </router-link>-->
                 </div>
             </mt-loadmore>
         </div>
@@ -97,15 +101,22 @@
                 allLoadedRight:false,
                 startRowLeft:0,
                 startRowRight:0,
-                pageSize:20
+                pageSize:20,
+                isRefreshing:false,
             }
         },
         methods: {
+            refresh(){
+                if(this.isRefreshing){
+                    return false;
+                }
+                console.log('refresh');
+            },
             changeTab(status){
                 this.status = status;
             },
             get(status,startRow,type){
-                $api.get('/investment/list',{status:status,startRow:startRow,pageSize:this.pageSize}).then(msg => {
+               return $api.get('/investment/list',{status:status,startRow:startRow,pageSize:this.pageSize}).then(msg => {
                     if(msg.code == 200){
                         if(status == 1){
                             this.underway.investmentCount = msg.data.investmentCount;
@@ -139,23 +150,35 @@
                     }
                 });
             },
+            lock(){
+                this.isRefreshing=true;
+                setTimeout(()=>{
+                    this.isRefreshing =false;
+                },2000);
+            },
             loadTopLeft(){
-                this.get(0,0,'top');
+                this.lock();
+                this.get(0,0,'top').then(()=>{
+                    this.$refs.loadmoreLeft.onTopLoaded();
+                });
                 this.$refs.loadmoreLeft.onTopLoaded();
                 this.allLoadedLeft = false;
             },
             loadBottomLeft(){
+                this.lock();
                 this.startRowLeft += 20;
                 let startRow = this.startRowLeft;
                 this.get(1,startRow,'bottom');
                 this.$refs.loadmoreLeft.onBottomLoaded();
             },
             loadTopRight(){
+                this.lock();
                 this.get(0,0,'top');
                 this.$refs.loadmoreRight.onTopLoaded();
                 this.allLoadedLeft = false;
             },
             loadBottomRight(){
+                this.lock();
                 this.startRowRight += 20;
                 let startRow = this.startRowRight;
                 this.get(2,startRow,'bottom');
