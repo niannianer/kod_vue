@@ -11,10 +11,6 @@
                     <div>{{data.reservationBillCode}}</div>
                 </li>
                 <li flex>
-                    <div>预约单号：</div>
-                    <div>{{data.reservationBillCode}}</div>
-                </li>
-                <li flex>
                     <div>预约时间：</div>
                     <div>{{data.reservationTime}}</div>
                 </li>
