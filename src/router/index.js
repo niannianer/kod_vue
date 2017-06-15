@@ -25,7 +25,6 @@ import PensionFour from '../containers/PensionFour';
 import PensionOne from '../containers/PensionOne';
 import PersonalCenter from '../containers/PersonalCenter';
 import RiskAssessment from '../containers/RiskAssessment';
-import MyFriends from '../containers/MyFriends';
 import RelationList from '../containers/RelationList';
 import Relation from '../containers/Relation';
 let beforeEach = ((to, from, next) => {
