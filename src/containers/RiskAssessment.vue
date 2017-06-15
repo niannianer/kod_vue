@@ -92,7 +92,7 @@
                 this.scores.map(score => {
                     investorRiskScore += score;
                 })
-                let investorRiskVersion = '1.0.0';
+                let investorRiskVersion = 1;
                 let investorRiskAnswer = this.scores.join('$$');
 
 

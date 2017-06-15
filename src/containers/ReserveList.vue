@@ -2,10 +2,10 @@
     <div v-cloak class="reserve-list" flex-box="1" flex="dir:top">
         <div class="tabs" flex flex-box="0">
             <div flex-box="1" class="tab" :class="{'tab-active':status==1}"  @click.stop="changeTab(1)">
-                <div class="tab-item">待处理</div>
+                <div class="tab-item">预约中</div>
             </div>
             <div flex-box="1" class="tab" :class="{'tab-active':status==2}" @click.stop="changeTab(2)">
-                <div class="tab-item">已处理</div>
+                <div class="tab-item">已完成</div>
             </div>
             <div flex-box="1" class="tab" :class="{'tab-active':status==3}" @click.stop="changeTab(3)">
                 <div class="tab-item">已取消</div>
