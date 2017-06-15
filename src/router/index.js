@@ -2,31 +2,31 @@ import Vue from 'vue';
 import store from '../store';
 import Router from 'vue-router';
 Vue.use(Router)
-const Index = resolve => require(['../containers/Index'], resolve);
-const Financial = resolve => require(['../containers/Financial'], resolve);
-const MyAssets = resolve => require(['../containers/MyAssets'], resolve);
-const Login = resolve => require(['../containers/Login'], resolve);
-const Recharge = resolve => require(['../containers/Recharge'], resolve);
-const Withdraw = resolve => require(['../containers/Withdraw'], resolve);
-const ReserveList = resolve => require(['../containers/ReserveList'], resolve);
-const ReserveDetail = resolve => require(['../containers/ReserveDetail'], resolve);
-const ReserveProfessionalList = resolve => require(['../containers/ReserveProfessionalList'], resolve);
-const Reward = resolve => require(['../containers/Reward'], resolve);
-const MyCount = resolve => require(['../containers/MyCount'], resolve);
-const InvitationRewardDetal = resolve => require(['../containers/InvitationRewardDetal'], resolve);
-const InvestList = resolve => require(['../containers/InvestList'], resolve);
-const RewardDetail = resolve => require(['../containers/RewardDetail'], resolve);
-const InvestDetail = resolve => require(['../containers/InvestDetail'], resolve);
-const InvitationRewardList = resolve => require(['../containers/InvitationRewardList'], resolve);
-const InvitationAllowanceList = resolve => require(['../containers/InvitationAllowanceList'], resolve);
-const AccountDetail = resolve => require(['../containers/AccountDetail'], resolve);
-const PensionTwo = resolve => require(['../containers/PensionTwo'], resolve);
-const PensionFour = resolve => require(['../containers/PensionFour'], resolve);
-const PensionOne = resolve => require(['../containers/PensionOne'], resolve);
-const MyFriends = resolve => require(['../containers/MyFriends'], resolve);
-const PersonalCenter  = resolve => require(['../containers/PersonalCenter'], resolve);
-const RiskAssessment  = resolve => require(['../containers/RiskAssessment'], resolve);
+import Index from '../containers/Index';
+import Financial from '../containers/Financial';
+import MyAssets from '../containers/MyAssets';
+import Login from '../containers/Login';
+import Recharge from '../containers/Recharge';
+import Withdraw from '../containers/Withdraw';
+import ReserveList from '../containers/ReserveList';
+import ReserveDetail from '../containers/ReserveDetail';
+import ReserveProfessionalList from '../containers/ReserveProfessionalList';
 
+import Reward from '../containers/Reward';
+import MyCount from '../containers/MyCount';
+import InvitationRewardDetal from '../containers/InvitationRewardDetal';
+import InvestList from '../containers/InvestList';
+import RewardDetail from '../containers/RewardDetail';
+import InvestDetail from '../containers/InvestDetail';
+import InvitationRewardList from '../containers/InvitationRewardList';
+import InvitationAllowanceList from '../containers/InvitationAllowanceList';
+
+import AccountDetail from '../containers/AccountDetail';
+import PensionTwo from '../containers/PensionTwo';
+import PensionFour from '../containers/PensionFour';
+import PensionOne from '../containers/PensionOne';
+import PersonalCenter from '../containers/PersonalCenter';
+import RiskAssessment from '../containers/RiskAssessment';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
     if (meta.withoutLogin) {
@@ -295,14 +295,6 @@ let routes = [
             title: '金疙瘩-懂你，懂理顾，更懂理财'
         },
         component: Index
-    },
-    {
-        path: '/my-friends',
-        name: 'my-friends',
-        meta: {
-            title: '我的好友'
-        },
-        component: MyFriends
     },
     {
         path:'/personal-center',
