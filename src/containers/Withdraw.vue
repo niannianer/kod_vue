@@ -179,6 +179,7 @@
             // 全部提取
             withdrawAll(){
                 this.withdrawMount=this.accountCashAmount;
+                this.myKeyup();
             },
             confirmFun(result){
                 if(result){
