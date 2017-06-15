@@ -31,7 +31,7 @@
                     <img src="../images/personal-center/record-manage.png"/>
                     <span>预约管理</span>
                 </div>
-                <div class="item" flex-box="1" @click.stop="getPath('/my-friend')">
+                <div class="item" flex-box="1" @click.stop="getPath('/relation')">
                     <img src="../images/personal-center/my-friend.png"/>
                     <span>我的好友</span>
                 </div>
