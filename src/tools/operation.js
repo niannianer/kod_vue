@@ -88,5 +88,8 @@ export let currencyInputValidate = (input) => {
         return match.substring(0, 3);
     })
 };
-
+let $operation = {
+    setTitle
+}
+export default $operation;
 
