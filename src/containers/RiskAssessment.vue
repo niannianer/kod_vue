@@ -1,6 +1,9 @@
 <template>
     <div class="risk-assessment">
         <div class="content">
+            <div class="qu-order">
+                {{quIndex + 1}}{{quLen}}
+            </div>
             <div class="title">{{title}}</div>
 
             <div class="qu-title">{{quIndex + 1}}、{{question}}</div>
@@ -35,12 +38,16 @@
                 quIndex: 0,
                 quLen: questions.length,
                 currentIndex: 99,
+                isApp:false,
                 answers: [],
                 scores: []
             }
         },
         created(){
             this.setIndex(0);
+            if(this.$route.name.indexOf('app')){
+                this.isApp =true;
+            }
         },
         computed: {
             showSubmit(){
