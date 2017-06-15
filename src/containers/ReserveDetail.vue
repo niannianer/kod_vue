@@ -86,7 +86,7 @@
                 $api.get('/checkProductOnStatus',{productUuid:productUuid}).then(msg => {
                     if(msg.code == 200){
                         //
-                        window.location.href='/goodsDetail.html?u='+productUuid+'&t=FIXI';
+                        window.location.href='/goodsDetail.html?u='+productUuid+'&t=PRIF';
                     }else{
                         MessageBox.alert(`产品已下架，如想查看详情，请联系客服。`,'提示').then(action=>{});
                     }

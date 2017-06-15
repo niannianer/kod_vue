@@ -100,7 +100,8 @@ let routes = [
         path: '/reserve-list',
         name: 'reserve-list',
         meta: {
-            title: '预约单管理'
+            title: '预约单管理',
+            keepAlive: true
         },
         component: ReserveList
     }, {
