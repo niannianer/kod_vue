@@ -276,6 +276,14 @@ let routes = [
         component: Index
     },
     {
+        path: '/my-friends',
+        name: 'my-friends',
+        meta: {
+            title: '我的好友'
+        },
+        component: MyFriends
+    },
+    {
         path:'/personal-center',
         name:'personal-center',
         component: PersonalCenter,
