@@ -5,9 +5,9 @@
               <div class="top" flex-box='1'>
               <div class="title" flex-box = '1'>请选择您的性别</div>
                   <div  flex = 'main:left' class="sex">
-                      <label for="man" flex-box="1" class="checked">男</label>
-                      <input type="radio" v-model="gender" value="男" id="man"/>
-                      <label for="woman" flex-box="1">女</label>
+                      <label for="man" flex-box="1" checked="checked"></label>
+                      <input type="radio" v-model="gender" value="男" id="man" checked = checked/>
+                      <label for="woman" flex-box="1"></label>
                       <input type="radio" v-model="gender" value="女" id="woman"/>
                   </div>'
             </div>
@@ -19,7 +19,7 @@
             <div class="age" flex-box='1'>
                 <mt-picker :slots="slots" @change="onValuesChange">
                 </mt-picker>
-                <slot>当前选择：<span class='sex'>{{gender}}</span><span class='age'></span></slot>
+                <slot>当前选择：<span class='sex'>{{gender || '男'}}</span><span class='age'></span></slot>
             </div>
         </div>
         <div class="bottom" flex-box="0" flex="main:justify">
@@ -41,7 +41,15 @@
                 if (values[0] > values[1]) {
                     picker.setSlotValue(2, values[0]);
                 }
-            }
+            },
+//            doGender(gender){
+//                if(gender == "男"){
+//                    gel
+//                }
+//            },
+//            gel(){
+//                return document
+//            }
         },
         data() {
             return {
