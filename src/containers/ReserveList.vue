@@ -196,7 +196,6 @@
                     this.allLoadedA = true;
                     this.$refs.loadmoreA.onBottomLoaded();
                 }else{
-                    this.startRow1 += this.pageSize;
                     this.get(1,'bottom').then(()=>{
                         this.$refs.loadmoreA.onBottomLoaded();
                     });
@@ -208,7 +207,6 @@
                     this.allLoadedB = true;
                     this.$refs.loadmoreB.onBottomLoaded();
                 }else{
-                    //this.startRow2 += this.pageSize;
                     this.get(2,'bottom').then(()=>{
                         this.$refs.loadmoreB.onBottomLoaded();
                     });
@@ -220,7 +218,6 @@
                     this.allLoadedC = true;
                     this.$refs.loadmoreC.onBottomLoaded();
                 }else{
-                    this.startRow3 += this.pageSize;
                     this.get(3,'bottom').then(()=>{
                         this.$refs.loadmoreC.onBottomLoaded();
                     });
