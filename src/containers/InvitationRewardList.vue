@@ -18,8 +18,6 @@
         <div class="item-list"  flex-box="1" v-infinite-scroll="loadMore"
              infinite-scroll-disabled="disLoad"
              infinite-scroll-distance="70">
-            <!--<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :auto-fill="autoFill">-->
-
                 <div flex="dir:left" class="item" v-for="(item,index) in rewardList"  @click.stop="link(item.rewardBillCode)">
                     <div class="left" flex="dir:top main:center" >
                             <p class='info'>{{item.rewardStatus == 2 ? item.payAmount : item.rewardAmount | currencyFormat}}元</p>
@@ -49,7 +47,6 @@
                             </span>
                     </div>
                 </div>
-            <!--</mt-loadmore>-->
             <p v-show="loading&&hasMore" class="loading">加载更多...</p>
         </div>
     </div>
@@ -102,6 +99,8 @@
                     .then(msg => {
                         this.loading = false;
                         if(msg.code == 200){
+                            this.sumData = msg.data.sumData;
+//                            console.log(msg)
                             if(type == 'refresh'){
                                 this.rewardList = msg.data.rewardList;
                             }
