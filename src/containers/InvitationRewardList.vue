@@ -69,14 +69,14 @@
                 paidWithTax:'',
                 sumData:{},
                 rewardList:[],
-                pageNo:0,
+                pageNo:1,
                 isRefreshing:false,
                 loading:false,
                 hasMore:false
             }
         },
         created(){
-           this.getRewardList("refresh");
+           this.getRewardList();
         },
         computed: {
             disLoad(){
@@ -101,7 +101,6 @@
                 $api.get('/reward/list',param)
                     .then(msg => {
                         this.loading = false;
-                        console.log(msg)
                         if(msg.code == 200){
                             if(type == 'refresh'){
                                 this.rewardList = msg.data.rewardList;
@@ -109,7 +108,6 @@
                             msg.data.rewardList.map(el => {
                                 this.rewardList.push(el);
                             });
-                            console.log(this.rewardList.length )
                             if(this.rewardList.length >= msg.data.count){
                                 this.hasMore = false;
                                 }else{
