@@ -15,8 +15,9 @@
                 </li>
             </ul>
         </div>
-        <div class="item-list"  flex-box="1">
-            <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :auto-fill="autoFill">
+        <div class="item-list"  flex-box="1" v-infinite-scroll="loadMore"
+             infinite-scroll-disabled="disLoad"
+             infinite-scroll-distance="70">
                 <div flex="dir:left" class="item" v-for="(item,index) in rewardList"  @click.stop="link(item.rewardBillCode)">
                     <div class="left" flex="dir:top main:center" >
                             <p class='info'>{{item.rewardStatus == 2 ? item.payAmount : item.rewardAmount | currencyFormat}}元</p>
@@ -46,7 +47,7 @@
                             </span>
                     </div>
                 </div>
-            </mt-loadmore>
+            <p v-show="loading&&hasMore" class="loading">加载更多...</p>
         </div>
     </div>
 </template>
@@ -55,8 +56,8 @@
     import Vue from 'vue';
     import '../less/invitation-reward-list.less';
     import $api from '../tools/api';
-    import {Loadmore} from 'mint-ui';
-    Vue.component(Loadmore.name, Loadmore);
+    import {InfiniteScroll, Toast} from 'mint-ui';
+    Vue.use(InfiniteScroll);
     export default {
         name: 'invitation-reward-list',
         data(){
@@ -65,48 +66,56 @@
                 paidWithTax:'',
                 sumData:{},
                 rewardList:[],
-                allLoaded:false,
                 pageNo:1,
-                pageSize:10,
-                autoFill:false,
                 isRefreshing:false,
+                loading:false,
+                hasMore:false
             }
         },
         created(){
-           this.getRewardList(this.pageNo,'top');
+           this.getRewardList();
+        },
+        computed: {
+            disLoad(){
+                return this.loading || (!this.hasMore);
+            }
         },
         methods:{
-             loadTop(){
-                this.getRewardList(1,"top").then(() => {
-                    this.$refs.loadmore.onTopLoaded();
-                    this.allLoaded = false;
-                });
-               
-            },loadBottom(){
-                this.pageNo ++;
-                this.allLoaded = true;
-                this.getRewardList(this.pageNo,'bottom').then(() => {
-                     this.$refs.loadmore.onBottomLoaded();
-                 });
-            },
-            getRewardList(pageNo,type){
-                return $api.get('/reward/list',{'rewardType':1,pageNo:pageNo,pageSize:this.pageSize})
+                loadMore(){
+                    if (this.loading) {
+                        return false;
+                    }
+                    this.pageNo++;
+                    this.getRewardList();
+                },
+            getRewardList(type){
+                    let param= {
+                        pageNo:this.pageNo,
+                        pageSize:10,
+                        rewardType:1
+                }
+                this.loading = true;
+                $api.get('/reward/list',param)
                     .then(msg => {
-                            console.log(msg.data);
+                        this.loading = false;
                         if(msg.code == 200){
                             this.sumData = msg.data.sumData;
-                            if(type == 'top'){
+//                            console.log(msg)
+                            if(type == 'refresh'){
                                 this.rewardList = msg.data.rewardList;
-                            }else{
-                                msg.data.rewardList.map(el => {
-                                    this.rewardList.push(el);
-                                });
-                                if(this.rewardList.length >= msg.data.count){
-                                    this.allLoaded = true;
-                                }else{
-                                     this.allLoaded = false;
-                                }
                             }
+                            msg.data.rewardList.map(el => {
+                                this.rewardList.push(el);
+                            });
+                            if(this.rewardList.length >= msg.data.count){
+                                this.hasMore = false;
+                                }else{
+                                this.hasMore = true;
+                                }
+                        }
+                        else{
+                            this.hasMore = false;
+                            Toast(msg.msg);
                         }
                     })
             },

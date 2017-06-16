@@ -127,7 +127,7 @@
                 $api.get('/reward/list', params)
                     .then(data => {
                         this.loading = false;
-                         console.log(data)
+//                         console.log(data)
                         if (data.code == 200) {
                             if (type == 'refresh') {
                                 this.tabList = [];
