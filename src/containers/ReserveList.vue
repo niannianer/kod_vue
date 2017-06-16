@@ -1,5 +1,5 @@
 <template>
-    <div v-cloak class="reserve-list" flex-box="1" flex="dir:top">
+    <div v-cloak class="reserve-list" flex-box="1" flex="dir:top" @touchmove="lock">
         <div class="tabs" flex flex-box="0">
             <div flex-box="1" class="tab" :class="{'tab-active':status==1}"  @click.stop="changeTab(1)">
                 <div class="tab-item">预约中</div>
@@ -119,7 +119,17 @@
                 }
                 this.$router.push('/reserve-detail?productReservationUuid='+uid);
             },
-            get(status,startRow,type){
+            get(status,type){
+                let startRow = 0;
+                if(type == 'bottom'){
+                    if(status == 1){
+                        startRow = this.pending.reservationList.length;
+                    }else if(status == 2){
+                        startRow = this.processed.reservationList.length;
+                    }else if(status == 3){
+                        startRow = this.canceled.reservationList.length;
+                    }
+                }
                 return $api.get('/reservation/list',{status:status,startRow:startRow,pageSize:this.pageSize}).then(msg => {
                     if(msg.code == 200){
                        switch(status){
@@ -154,25 +164,31 @@
                     }else{
                         Toast(msg.msg);
                     }
+                    return msg;
                 });
             },
             loadTopA(){
                 this.lock();
-                this.get(1,0,'top');
-                this.$refs.loadmoreA.onTopLoaded();
-                this.allLoadedA = false;
+                this.get(1,0,'top').then(()=>{
+                    this.$refs.loadmoreA.onTopLoaded();
+                    this.allLoadedA = false;
+                });
             },
             loadTopB(){
                 this.lock();
-                this.get(2,0,'top');
-                this.$refs.loadmoreB.onTopLoaded();
-                this.allLoadedB = false;
+                this.get(2,0,'top').then(()=>{
+                    this.$refs.loadmoreB.onTopLoaded();
+                    this.allLoadedB = false;
+                });
+                
             },
             loadTopC(){
                 this.lock();
-                this.get(3,0,'top');
-                this.$refs.loadmoreC.onTopLoaded();
-                this.allLoadedC = false;
+                this.get(3,0,'top').then(()=>{
+                    this.$refs.loadmoreC.onTopLoaded();
+                    this.allLoadedC = false;
+                });
+                
             },
             loadBottomA(){
                 this.lock();
@@ -181,7 +197,7 @@
                     this.$refs.loadmoreA.onBottomLoaded();
                 }else{
                     this.startRow1 += this.pageSize;
-                    this.get(1,this.startRow1,'bottom').then(()=>{
+                    this.get(1,'bottom').then(()=>{
                         this.$refs.loadmoreA.onBottomLoaded();
                     });
                 }
@@ -192,8 +208,8 @@
                     this.allLoadedB = true;
                     this.$refs.loadmoreB.onBottomLoaded();
                 }else{
-                    this.startRow2 += this.pageSize;
-                    this.get(2,this.startRow2,'bottom').then(()=>{
+                    //this.startRow2 += this.pageSize;
+                    this.get(2,'bottom').then(()=>{
                         this.$refs.loadmoreB.onBottomLoaded();
                     });
                 }
@@ -205,7 +221,7 @@
                     this.$refs.loadmoreC.onBottomLoaded();
                 }else{
                     this.startRow3 += this.pageSize;
-                    this.get(3,this.startRow3,'bottom').then(()=>{
+                    this.get(3,'bottom').then(()=>{
                         this.$refs.loadmoreC.onBottomLoaded();
                     });
                 }
@@ -218,9 +234,9 @@
             }
         },
         mounted(){
-            this.get(1,0,'top');
-            this.get(2,0,'top');
-            this.get(3,0,'top');
+            this.get(1,'top');
+            this.get(2,'top');
+            this.get(3,'top');
         }
     }
 </script>
