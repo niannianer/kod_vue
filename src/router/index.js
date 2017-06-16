@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import store from '../store';
 import Router from 'vue-router';
+import {logout} from '../tools/operation';
 Vue.use(Router)
 import Index from '../containers/Index';
 import Financial from '../containers/Financial';
@@ -36,16 +37,16 @@ let beforeEach = ((to, from, next) => {
         if (store.state.userId) {
             next()
         } else {
-            console.log(23456)
             store.dispatch('getAccountBaofoo')
                 .then(data => {
                     if (data.code == '401') {
-                        // next({ path: '/login' })
-                        window.location.href = '/login.html';
+                        logout();
                     } else {
                         next()
                     }
                 });
+            store.dispatch('getBankInfo');
+            store.dispatch('getUserInfo');
         }
     }
 })
@@ -98,7 +99,8 @@ let routes = [
         path: '/reserve-list',
         name: 'reserve-list',
         meta: {
-            title: '预约单管理'
+            title: '预约单管理',
+            keepAlive: true
         },
         component: ReserveList
     }, {

@@ -7,7 +7,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractCSS = new ExtractTextPlugin('flex.[hash:8].css');
 const extractLESS = new ExtractTextPlugin('[name].[hash:8].css');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
-/*const WebpackMd5Hash = require('webpack-md5-hash');*/
+const WebpackMd5Hash = require('webpack-md5-hash');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 let resolve = (dir) => {
@@ -107,6 +107,7 @@ const config = {
             favicon: './src/images/logo.png',
             chunks: ['ventor', 'tools', 'main'],
             inject: 'body',
+            hash:true,
             filename: path.resolve(__dirname, 'html/index.html'),
             template: './index.ejs',
             minify: {//压缩HTML文件
@@ -141,7 +142,7 @@ if (env == 'production' || env == 'test') {
                 drop_console:true
             }
         }),
-     /*   new WebpackMd5Hash(),*/
+        new WebpackMd5Hash(),
         new webpack.LoaderOptionsPlugin({
             minimize: true
         })

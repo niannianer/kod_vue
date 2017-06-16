@@ -84,9 +84,13 @@ export let currencyInputValidate = (input) => {
     if (isNaN(input)) {
         return ''
     }
-    return input.replace(/\.\d{3,}/, (match) => {
+    return t.replace(/\.\d{3,}/, (match) => {
         return match.substring(0, 3);
     })
+};
+export let logout = () => {
+    window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
+    window.location.replace('/login.html');
 };
 let $operation = {
     setTitle

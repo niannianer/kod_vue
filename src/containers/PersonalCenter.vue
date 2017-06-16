@@ -74,14 +74,16 @@
         ]),
         methods: {
             login(){
-                window.location.href = '/login.html';
+                window.sessionStorage.setItem('logoutUrl',encodeURIComponent(window.location.href));
+                window.location.replace('/login.html');
             },
             logout(){
                 $api.get('/logout')
                     .then(data => {
                         if (data.code == 200) {
                             console.log(data);
-                            window.location.href = '/login.html';
+                            window.sessionStorage.setItem('logoutUrl',encodeURIComponent(window.location.href));
+                            window.location.replace('/login.html');
                         } else {
                             Toast('退出登录失败');
                         }
