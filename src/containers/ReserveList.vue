@@ -90,9 +90,6 @@
                 allLoadedA:false,
                 allLoadedB:false,
                 allLoadedC:false,
-                startRow1:0,
-                startRow2:0,
-                startRow3:0,
                 pageSize:20,
                 pending:{
                     reservationCount:0,
@@ -169,14 +166,14 @@
             },
             loadTopA(){
                 this.lock();
-                this.get(1,0,'top').then(()=>{
+                this.get(1,'top').then(()=>{
                     this.$refs.loadmoreA.onTopLoaded();
                     this.allLoadedA = false;
                 });
             },
             loadTopB(){
                 this.lock();
-                this.get(2,0,'top').then(()=>{
+                this.get(2,'top').then(()=>{
                     this.$refs.loadmoreB.onTopLoaded();
                     this.allLoadedB = false;
                 });
@@ -184,7 +181,7 @@
             },
             loadTopC(){
                 this.lock();
-                this.get(3,0,'top').then(()=>{
+                this.get(3,'top').then(()=>{
                     this.$refs.loadmoreC.onTopLoaded();
                     this.allLoadedC = false;
                 });
