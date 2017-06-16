@@ -74,6 +74,7 @@ let getNode = (path, data = {}) => {
     let url = `${nodeUrl + path}`
     return get(url, data);
 };
+import  {logout} from './operation';
 let post = (path, data = {}) => {
 
     let t = new Date().getTime();
@@ -105,6 +106,7 @@ let post = (path, data = {}) => {
             store.dispatch('getAccountBaofoo');
             store.dispatch('getBankInfo');
             store.dispatch('getUserInfo');
+            logout();
         }
         return data;
     }).catch(err => {
