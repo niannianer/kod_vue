@@ -68,7 +68,8 @@
                 allLoaded:false,
                 pageNo:1,
                 pageSize:10,
-                autoFill:false
+                autoFill:false,
+                isRefreshing:false,
             }
         },
         created(){
@@ -76,16 +77,20 @@
         },
         methods:{
              loadTop(){
-                 this.getRewardList(1,"top");
-                 this.$refs.loadmore.onTopLoaded();
-                 this.allLoaded = false;
+                this.getRewardList(1,"top").then(() => {
+                    this.$refs.loadmore.onTopLoaded();
+                    this.allLoaded = false;
+                });
+               
             },loadBottom(){
-                 this.pageNo ++;
-                 this.getRewardList(this.pageNo,'bottom');
-                this.$refs.loadmore.onBottomLoaded();
+                this.pageNo ++;
+                this.allLoaded = true;
+                this.getRewardList(this.pageNo,'bottom').then(() => {
+                     this.$refs.loadmore.onBottomLoaded();
+                 });
             },
             getRewardList(pageNo,type){
-                $api.get('/reward/list',{'rewardType':1,pageNo:pageNo,pageSize:this.pageSize})
+                return $api.get('/reward/list',{'rewardType':1,pageNo:pageNo,pageSize:this.pageSize})
                     .then(msg => {
                             console.log(msg.data);
                         if(msg.code == 200){
@@ -94,16 +99,21 @@
                                 this.rewardList = msg.data.rewardList;
                             }else{
                                 msg.data.rewardList.map(el => {
-                                    this.rewardList.push(el)
+                                    this.rewardList.push(el);
                                 });
                                 if(this.rewardList.length >= msg.data.count){
                                     this.allLoaded = true;
+                                }else{
+                                     this.allLoaded = false;
                                 }
                             }
                         }
                     })
             },
             link(rewardBillCode){
+                if(this.isRefreshing){
+                    return false;
+                }
                 this.$router.push({
                     path:'/invitation-reward-detal',
                     query:{
