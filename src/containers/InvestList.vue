@@ -104,7 +104,6 @@
                 if(this.isRefreshing){
                     return false;
                 }
-                console.log('refresh');
                 this.$router.push('/invest-detail?status='+status+'&orderBillCode='+orderBillCode);
             },
             changeTab(status){
@@ -121,32 +120,22 @@
                                 msg.data.investmentList.map(el => {
                                     this.underway.investmentList.push(el);
                                 });
-                                if(this.underway.investmentList.length >= this.underway.investmentCount){
-                                    //加载完毕
-                                    this.allLoadedLeft = true;
-                                }
                             }
                         }else if(status == 2){
                             this.finished.investmentCount = msg.data.investmentCount;
                             if(type=='top'){
                                 this.finished.investmentList = msg.data.investmentList;
                             }else{
-                                console.log(msg.data.investmentList)
                                 msg.data.investmentList.map(el => {
                                     this.finished.investmentList.push(el);
-                                    console.log(this.finished.investmentList.length)
                                 });
-                                if(this.finished.investmentList.length >= this.finished.investmentCount){
-                                    //加载完毕
-                                    this.allLoadedRight = true;
-                                }
                             }
                         }
                     }
                 });
             },
             lock(){
-                this.isRefreshing=true;
+                this.isRefreshing = true;
                 setTimeout(()=>{
                     this.isRefreshing =false;
                 },2000);
@@ -160,11 +149,15 @@
             },
             loadBottomLeft(){
                 this.lock();
-                this.startRowLeft += 20;
-                let startRow = this.startRowLeft;
-                this.get(1,startRow,'bottom').then(()=>{
+                if(this.underway.investmentList.length >= this.underway.investmentCount){
+                    this.allLoadedLeft = true;
                     this.$refs.loadmoreLeft.onBottomLoaded();
-                });
+                }else{
+                    this.startRowLeft += this.pageSize;
+                    this.get(1,this.startRowLeft,'bottom').then(()=>{
+                        this.$refs.loadmoreLeft.onBottomLoaded();
+                    });
+                }
             },
             loadTopRight(){
                 this.lock();
@@ -175,11 +168,15 @@
             },
             loadBottomRight(){
                 this.lock();
-                this.startRowRight += 20;
-                let startRow = this.startRowRight;
-                this.get(2,startRow,'bottom').then(()=>{
+                if(this.finished.investmentList.length >= this.finished.investmentCount){
+                    this.allLoadedRight = true;
                     this.$refs.loadmoreRight.onBottomLoaded();
-                });
+                }else{
+                    this.startRowRight += this.pageSize;
+                    this.get(2,this.startRowRight,'bottom').then(()=>{
+                        this.$refs.loadmoreRight.onBottomLoaded();
+                    });
+                }
             }
         },
         mounted(){
