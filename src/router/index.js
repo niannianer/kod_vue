@@ -228,7 +228,7 @@ let routes = [
         meta: {
             title: '养老理财规划'
         },
-        component: Index
+        component: PensionFour
     },
     {
         path: '/pension-five',
