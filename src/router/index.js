@@ -212,7 +212,6 @@ let routes = [
         name: 'pension-two',
         meta: {
             title: '养老理财规划',
-            withoutLogin: true
         },
         component: PensionTwo
     }, {
