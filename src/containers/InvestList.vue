@@ -1,5 +1,5 @@
 <template>
-    <div v-cloak class="invest-list" id="invest-list" flex-box="1" flex="dir:top">
+    <div v-cloak class="invest-list" id="invest-list" flex-box="1" flex="dir:top" @touchmove="lock">
         <div class="tabs" flex flex-box="0">
             <div flex-box="1" class="tab" :class="{'active':status==1}" @click.stop="changeTab(1)">
                 <div class="tab-item">进行中（{{underway.investmentCount}}）</div>
@@ -75,7 +75,7 @@
     import '../less/invest-list.less';
     import Vue from 'vue';
     import $api from '../tools/api';
-    import {Loadmore } from 'mint-ui';
+    import {Loadmore,Toast} from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
     export default {
         name: 'invest-list',
@@ -96,7 +96,7 @@
                 startRowLeft:0,
                 startRowRight:0,
                 pageSize:20,
-                isRefreshing:false,
+                isRefreshing:false
             }
         },
         methods: {
@@ -109,29 +109,39 @@
             changeTab(status){
                 this.status = status;
             },
-            get(status,startRow,type){
-               return $api.get('/investment/list',{status:status,startRow:startRow,pageSize:this.pageSize}).then(msg => {
+            get(status,type){
+                let startRow = 0;
+                if(type == 'bottom'){
+                    if(status == 1){
+                        startRow = this.underway.investmentList.length;
+                    }else if(status == 2){
+                        startRow = this.finished.investmentList.length;
+                    }
+                }
+                return $api.get('/investment/list',{status:status,startRow:startRow,pageSize:this.pageSize}).then(msg => {
                     if(msg.code == 200){
+                        
                         if(status == 1){
-                            this.underway.investmentCount = msg.data.investmentCount;
-                            if(type=='top'){
-                                this.underway.investmentList = msg.data.investmentList;
-                            }else{
+                            if(type=='bottom'){
                                 msg.data.investmentList.map(el => {
                                     this.underway.investmentList.push(el);
                                 });
+                            }else{
+                                this.underway = msg.data;
                             }
                         }else if(status == 2){
-                            this.finished.investmentCount = msg.data.investmentCount;
-                            if(type=='top'){
-                                this.finished.investmentList = msg.data.investmentList;
-                            }else{
+                            if(type=='bottom'){
                                 msg.data.investmentList.map(el => {
                                     this.finished.investmentList.push(el);
                                 });
+                            }else{
+                                this.finished = msg.data;
                             }
                         }
+                    }else{
+                        Toast(msg.msg);
                     }
+                    return msg;
                 });
             },
             lock(){
@@ -142,10 +152,10 @@
             },
             loadTopLeft(){
                 this.lock();
-                this.get(0,0,'top').then(()=>{
+                this.get(1,'top').then(()=>{
                     this.$refs.loadmoreLeft.onTopLoaded();
+                    this.allLoadedLeft = false;
                 });
-                this.allLoadedLeft = false;
             },
             loadBottomLeft(){
                 this.lock();
@@ -153,18 +163,19 @@
                     this.allLoadedLeft = true;
                     this.$refs.loadmoreLeft.onBottomLoaded();
                 }else{
-                    this.startRowLeft += this.pageSize;
-                    this.get(1,this.startRowLeft,'bottom').then(()=>{
+                    //this.startRowLeft += this.pageSize;
+                    this.get(1,'bottom').then(()=>{
                         this.$refs.loadmoreLeft.onBottomLoaded();
                     });
                 }
             },
             loadTopRight(){
                 this.lock();
-                this.get(0,0,'top').then(()=>{
+                this.get(2,'top').then(()=>{
                     this.$refs.loadmoreRight.onTopLoaded();
+                    this.allLoadedRight = false;
                 });
-                this.allLoadedLeft = false;
+                
             },
             loadBottomRight(){
                 this.lock();
@@ -172,16 +183,16 @@
                     this.allLoadedRight = true;
                     this.$refs.loadmoreRight.onBottomLoaded();
                 }else{
-                    this.startRowRight += this.pageSize;
-                    this.get(2,this.startRowRight,'bottom').then(()=>{
+                    //this.startRowRight += this.pageSize;
+                    this.get(2,'bottom').then(()=>{
                         this.$refs.loadmoreRight.onBottomLoaded();
                     });
                 }
             }
         },
         mounted(){
-            this.get(1,this.startRowLeft,'top');
-            this.get(2,this.startRowRight,'top');
+            this.get(1,'top');
+            this.get(2,'top');
         }
     }
 </script>
