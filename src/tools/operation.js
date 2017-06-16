@@ -88,6 +88,10 @@ export let currencyInputValidate = (input) => {
         return match.substring(0, 3);
     })
 };
+export let logout = () => {
+    window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
+    window.location.replace('/login.html');
+};
 let $operation = {
     setTitle
 }
