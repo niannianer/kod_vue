@@ -12,7 +12,7 @@ if (!window.Promise) {
 import 'whatwg-fetch';
 import store from '../store';
 import {devUrl, testUrl, productionUrl, nodeTestApi, nodeProductionApi} from './config';
-let serverUrl = productionUrl;
+let serverUrl = testUrl;
 let nodeUrl = nodeTestApi;
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;
