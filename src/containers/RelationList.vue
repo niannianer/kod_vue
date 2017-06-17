@@ -5,7 +5,7 @@
             <div class="title-date" flex-box="1">绑定日期</div>
         </div>
         <div class="lists">
-            <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :auto-fill="autoFill">
+            <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore"  :bottomPullText="loadText" :auto-fill="autoFill">
                 <ul class="list-ul">
                     <li flex  v-for="(item,index) in data.list" :key="index">
                         <div flex-box="1">{{item.investorMobile}}</div>
@@ -29,10 +29,10 @@
         data(){
             return {
                 level:this.$route.query.level || 1,
-                startRow:0,
                 pageSize:20,
                 autoFill:false,
                 allLoaded:false,
+                loadText:'加载更多',
                 data:{
                     count:0,
                     list:[]
@@ -41,7 +41,7 @@
         },
         methods: {
             loadTop(){
-                this.get(0,'top').then(()=>{
+                this.get('top').then(()=>{
                     this.$refs.loadmore.onTopLoaded();
                     this.allLoaded = false;
                 });
@@ -51,22 +51,25 @@
                     this.allLoaded = true;
                     this.$refs.loadmore.onBottomLoaded();
                 }else{
-                    this.get(this.startRow,'bottom').then(()=>{
+                    this.get('bottom').then(()=>{
                         this.$refs.loadmore.onBottomLoaded();
                     });
                 }
             },
-            get(startRow,type){
+            get(type){
+                let startRow = 0;
+                if(type == 'bottom'){
+                    startRow = this.data.list.length;
+                }
                 return $api.get('/relation/list',{level:this.level,startRow:startRow,pageSize:this.pageSize}).then(msg => {
                     if(msg.code == 200){
                         if(type == 'top'){
                             this.data = msg.data;
                         }else{
                             msg.data.list.map(el => {
-                                this.list.push(el)
+                                this.data.list.push(el)
                             });
                         }
-
                     }else{
                         Toast(msg.msg);
                     }
@@ -76,7 +79,7 @@
         },
         created(){
             $operation.setTitle(this.level+'度好友');
-            this.get(0,'top');
+            this.get('top');
         }
     }
 </script>
