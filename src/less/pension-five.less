@@ -1,0 +1,126 @@
+@charset "UTF-8";
+@import "variables";
+
+@tab-active: #1D72C0;
+ul{
+    list-style: none;
+}
+.pension-five{
+    height:100%;
+    .wrapp{
+        .header{
+            text-align: center;
+            color:#fff;
+            height:11.5rem;
+            position: relative;
+            .box-shadows{
+                border-radius: 50%;width:32rem;height:16rem;background-color: #4E4E4E;box-shadow: 0 2px 4px 0 rgba(91,91,91,0.50);
+                position: absolute;
+                bottom: 0;
+                left:50%;margin-left: -16rem;
+                z-index: 6;
+            }
+            .main{
+                position: relative;
+                z-index: 7;
+                .tabs{
+                    .tab{
+                        height:1.9rem;line-height: 1.9rem;
+                        border:1px solid transparent;
+                        
+                    }
+                    .active{
+                        border: 1px solid #EACF9C;
+                        font-size: .9rem;
+                        background-color:rgba(255,255,255,.2);
+                    }
+                }
+                .content{
+                    .h-title{
+                        font-size: .9rem;
+                        background-image: -webkit-gradient(linear, 10 0, 0 bottom, from(rgba(253,231,179,1)), to(rgba(199,163,113,1)));
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        line-height: 1em;
+                        padding-top:1.45rem;
+                    }
+                    .pate{
+                        color:#fff;
+                        font-size: 1.4rem;
+                        padding:.8rem 0 .1rem;
+                    }
+                    .cont-div{
+                        font-size: .8rem;
+                        color:#fff;
+                        line-height: 1em;
+                        div{
+                            padding-top:.6rem;
+                            width:50%; 
+                        }
+                        div:first-child{
+                            text-align: right;
+                        }
+                        div:last-child{
+                            text-align: left;
+                            padding-left:.2rem;
+                        }
+                    }
+                }
+            }
+        }
+        .lists{
+            text-align: center;
+            .title{
+                font-size: 18px;
+                color: #333333;
+                font-weight: normal;line-height: 1em;
+                padding:1.3rem 0 .7rem;
+            }
+            .items-ul{
+                li{
+                    width:17.15rem;
+                    height:4.4rem;
+                    margin:0 auto .5rem;
+                    background:url(../images/best/pension-li-bg.png) no-repeat 0 0;
+                    -webkit-background-size:100%;
+                    background-size:100%;
+                    .item-div{
+                        >div{
+                            width:50%;line-height: 1em;
+                            padding-top:.5rem;
+                        }
+                        .div-left{
+                            text-align: right;
+                            padding-right: 1.5rem;
+                        }
+                        .div-right{
+                            text-align: left;
+                            padding-left: 1.5rem;
+                        }
+                    }
+                    .link{
+                        padding-top:.5rem;
+                        a{
+                            color: #88ACFF;
+                            text-decoration: none;
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    .button{
+        height:2.3rem;
+        font-size: 0;
+        button{
+            background-image: linear-gradient(-1deg, #7C4F2B 0%, #8F6441 24%, #D8BD7E 70%, #EECE83 100%);
+            font-size: 1rem;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            line-height: 1em;
+            width:100%;height:100%;
+        }
+    }
+}

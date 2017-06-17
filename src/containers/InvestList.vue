@@ -6,7 +6,6 @@
             </div>
             <div flex-box="1" class="tab" :class="{'active':status==2}" @click.stop="changeTab(2)">
                 <div class="tab-item">已结束（{{finished.investmentCount}}）</div>
-
             </div>
         </div>
         <div class="item-list" v-show="status == 1" flex-box="1">
@@ -93,8 +92,6 @@
                 autoFill:false,
                 allLoadedLeft:false,
                 allLoadedRight:false,
-                startRowLeft:0,
-                startRowRight:0,
                 pageSize:20,
                 isRefreshing:false
             }
@@ -163,7 +160,6 @@
                     this.allLoadedLeft = true;
                     this.$refs.loadmoreLeft.onBottomLoaded();
                 }else{
-                    //this.startRowLeft += this.pageSize;
                     this.get(1,'bottom').then(()=>{
                         this.$refs.loadmoreLeft.onBottomLoaded();
                     });
@@ -183,7 +179,6 @@
                     this.allLoadedRight = true;
                     this.$refs.loadmoreRight.onBottomLoaded();
                 }else{
-                    //this.startRowRight += this.pageSize;
                     this.get(2,'bottom').then(()=>{
                         this.$refs.loadmoreRight.onBottomLoaded();
                     });

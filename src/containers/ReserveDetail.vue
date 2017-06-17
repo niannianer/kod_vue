@@ -66,7 +66,6 @@
         <div class="more"><a href="javascript:;" @click.stop="link(data.productUuid)">查看产品详情</a></div>
     </div>
 </template>
-
 <script>
     import '../less/reserve-detail.less';
     import {Toast,MessageBox} from 'mint-ui';
