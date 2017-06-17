@@ -4,9 +4,9 @@
             <div class="title-phone" flex-box="1">手机号</div>
             <div class="title-date" flex-box="1">绑定日期</div>
         </div>
-        <div class="lists">
-            <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore"  :bottomPullText="loadText" :auto-fill="autoFill">
-                <ul class="list-ul">
+        <div class="lists" flex-box="1">
+            <mt-loadmore :top-method="loadTop"  ref="loadmore"  :auto-fill="autoFill">
+                <ul class="list-ul"  v-infinite-scroll="loadMore"  infinite-scroll-disabled="allLoaded"  infinite-scroll-distance="10">
                     <li flex  v-for="(item,index) in data.list" :key="index">
                         <div flex-box="1">{{item.investorMobile}}</div>
                         <div flex-box="1">{{item.registerTime}}</div>
@@ -16,23 +16,22 @@
         </div>
     </div>
 </template>
-
 <script>
     import '../less/relation-list.less';
     import Vue from 'vue';
     import $api from '../tools/api';
     import $operation from '../tools/operation';
-    import {Loadmore,Toast} from 'mint-ui';
+    import {Loadmore,InfiniteScroll,Toast} from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
+    Vue.use(InfiniteScroll);
     export default {
-        name: 'financial',
+        name: 'relation-list',
         data(){
             return {
                 level:this.$route.query.level || 1,
                 pageSize:20,
                 autoFill:false,
                 allLoaded:false,
-                loadText:'加载更多',
                 data:{
                     count:0,
                     list:[]
@@ -46,14 +45,11 @@
                     this.allLoaded = false;
                 });
             },
-            loadBottom(){
-                if(this.data.list.length >= this.data.count){
+            loadMore(){
+                if((this.data.list.length >= this.data.count) && (this.data.count != 0)){
                     this.allLoaded = true;
-                    this.$refs.loadmore.onBottomLoaded();
                 }else{
-                    this.get('bottom').then(()=>{
-                        this.$refs.loadmore.onBottomLoaded();
-                    });
+                    this.get('bottom');
                 }
             },
             get(type){
@@ -69,6 +65,7 @@
                             msg.data.list.map(el => {
                                 this.data.list.push(el)
                             });
+                            this.data.count = msg.data.count;
                         }
                     }else{
                         Toast(msg.msg);
@@ -79,7 +76,6 @@
         },
         created(){
             $operation.setTitle(this.level+'度好友');
-            this.get('top');
         }
     }
 </script>
