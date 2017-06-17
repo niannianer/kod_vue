@@ -12,7 +12,7 @@ if (!window.Promise) {
 import 'whatwg-fetch';
 import store from '../store';
 import {devUrl, testUrl, productionUrl, nodeTestApi, nodeProductionApi} from './config';
-let serverUrl = testUrl;
+let serverUrl = productionUrl;
 let nodeUrl = nodeTestApi;
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;
@@ -60,11 +60,6 @@ let get = (path, data = {}) => {
         }
         return {};
     }).then(data => {
-        if(data.code==401){
-            store.dispatch('getAccountBaofoo');
-            store.dispatch('getBankInfo');
-            store.dispatch('getUserInfo');
-        }
         return data;
     }).catch(err => {
         console.error('error,--->', err);
