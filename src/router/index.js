@@ -25,6 +25,7 @@ import PensionTwo from '../containers/PensionTwo';
 import PensionThree from '../containers/PensionThree';
 import PensionFour from '../containers/PensionFour';
 import PensionOne from '../containers/PensionOne';
+import PensionFive from '../containers/PensionFive';
 import PersonalCenter from '../containers/PersonalCenter';
 import RiskAssessment from '../containers/RiskAssessment';
 import AssessmentResult from '../containers/AssessmentResult';
@@ -230,7 +231,7 @@ let routes = [
         meta: {
             title: '养老理财规划'
         },
-        component: Index
+        component: PensionFour
     },
     {
         path: '/pension-five',
@@ -238,7 +239,7 @@ let routes = [
         meta: {
             title: '养老理财规划'
         },
-        component: Index
+        component: PensionFive
     },
     {
         path: '/pension-share',
