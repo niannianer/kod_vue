@@ -86,7 +86,7 @@
                     this.setIndex();
                     this.scores.push(item.score);
                     this.currentIndex = 99;
-                }, 2000)
+                }, 1000)
             },
             updateUserInfo(){
                 let investorRiskScore = 0;

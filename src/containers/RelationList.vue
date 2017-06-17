@@ -4,10 +4,10 @@
             <div class="title-phone" flex-box="1">手机号</div>
             <div class="title-date" flex-box="1">绑定日期</div>
         </div>
-        <div class="lists">
-            <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :auto-fill="autoFill">
-                <ul class="list-ul">
-                    <li flex  v-for="(item,index) in list" :key="index">
+        <div class="lists" flex-box="1">
+            <mt-loadmore :top-method="loadTop"  ref="loadmore"  :auto-fill="autoFill">
+                <ul class="list-ul"  v-infinite-scroll="loadMore"  infinite-scroll-disabled="allLoaded"  infinite-scroll-distance="10">
+                    <li flex  v-for="(item,index) in data.list" :key="index">
                         <div flex-box="1">{{item.investorMobile}}</div>
                         <div flex-box="1">{{item.registerTime}}</div>
                     </li>
@@ -16,57 +16,66 @@
         </div>
     </div>
 </template>
-
 <script>
     import '../less/relation-list.less';
     import Vue from 'vue';
     import $api from '../tools/api';
     import $operation from '../tools/operation';
-    import {Loadmore } from 'mint-ui';
+    import {Loadmore,InfiniteScroll,Toast} from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
+    Vue.use(InfiniteScroll);
     export default {
-        name: 'financial',
+        name: 'relation-list',
         data(){
             return {
                 level:this.$route.query.level || 1,
-                startRow:0,
                 pageSize:20,
                 autoFill:false,
                 allLoaded:false,
-                list:[]
+                data:{
+                    count:0,
+                    list:[]
+                }
             }
         },
         methods: {
             loadTop(){
-                this.get(0,'top');
-                this.$refs.loadmore.onTopLoaded();
-                this.allLoaded = false;
-            },loadBottom(){
-                this.startRow ++;
-                this.get(this.startRow,'bottom');
-                this.$refs.loadmore.onBottomLoaded();
+                this.get('top').then(()=>{
+                    this.$refs.loadmore.onTopLoaded();
+                    this.allLoaded = false;
+                });
             },
-            get(startRow,type){
-                $api.get('/relation/list',{level:this.level,startRow:startRow,pageSize:this.pageSize}).then(msg => {
+            loadMore(){
+                if((this.data.list.length >= this.data.count) && (this.data.count != 0)){
+                    this.allLoaded = true;
+                }else{
+                    this.get('bottom');
+                }
+            },
+            get(type){
+                let startRow = 0;
+                if(type == 'bottom'){
+                    startRow = this.data.list.length;
+                }
+                return $api.get('/relation/list',{level:this.level,startRow:startRow,pageSize:this.pageSize}).then(msg => {
                     if(msg.code == 200){
                         if(type == 'top'){
-                            this.list = msg.data.list;
+                            this.data = msg.data;
                         }else{
                             msg.data.list.map(el => {
-                                this.list.push(el)
+                                this.data.list.push(el)
                             });
-                            if(this.list.length >= msg.data.count){
-                                this.allLoaded = true;
-                            }
+                            this.data.count = msg.data.count;
                         }
-
+                    }else{
+                        Toast(msg.msg);
                     }
+                    return msg;
                 });
             }
         },
         created(){
             $operation.setTitle(this.level+'度好友');
-            this.get(this.startRow,'top');
         }
     }
 </script>

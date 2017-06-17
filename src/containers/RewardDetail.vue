@@ -9,14 +9,14 @@
             </div>
             <div class="title bl" flex="box:mean"  flex-box="0">
                 <p>产品名称</p>
-                <p>投资金额（万元）</p>
-                <p>奖励比列（年化）</p>
+                <p>投资金额（元）</p>
+                <p>奖励比例{{this.titleRate}}</p>
             </div>
         </div>
         <div class="body"  >
             <div style="height: 100%;overflow: auto">
-                <mt-loadmore :top-method="loadTop"  :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :auto-fill="autoFill">
-                    <ul>
+                <mt-loadmore :top-method="loadTop"  ref="loadmore" :auto-fill="autoFill">
+                    <ul v-infinite-scroll="loadMore"  infinite-scroll-disabled="loading"  infinite-scroll-distance="10">
                         <li class="item bl" flex="box:mean" v-for="(item,index) in lists" :key="index" >
                             <p flex="dir:top main:center" class="product-name">{{item.productAbbrName}}</p>
                             <ul flex="dir:top main:center">
@@ -32,13 +32,13 @@
         </div>
     </div>
 </template>
-
 <script>
     import Vue from 'vue';
     import '../less/reward-detail.less';
     import $api from '../tools/api';
-    import { Loadmore } from 'mint-ui';
+    import {Loadmore,InfiniteScroll } from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
+    Vue.use(InfiniteScroll);
     export default {
         name: 'reward',
         data(){
@@ -46,20 +46,18 @@
                 lists:[],
                 isActive:true,
                 tabMenu:'FIXI',
-                allLoaded:false,
                 autoFill:false,
                 currentPage:0,
-                pageSize:10
+                pageSize:10,
+                loading:false,
+                loadMoreFlag:true,
+                titleRate:'(年化)'
             }
-        },
-        created(){
-            this.loadData()
         },
         methods:{
             loadTop(){
                 this.lists = [];
                 this.currentPage = 0;
-                this.allLoaded=false;
                 this.loadData().then(() =>{
                     this.$refs.loadmore.onTopLoaded();
                 });
@@ -67,18 +65,12 @@
             rewardTab(string){
                 this.isActive = 'FIXI'== string?true:false;
                 this.tabMenu = string;
+                this.titleRate = this.tabMenu == 'FIXI'?'(年化)':''
                 this.lists = [];
                 this.currentPage = 0;
                 this.loadData();
             },
-            loadBottom(){
-                this.currentPage++;
-                this.loadData().then(() =>{
-                    this.$refs.loadmore.onBottomLoaded();
-                })
-
-            }
-            ,loadData(startRow,pageSize,fn){
+            loadData(){
                 return $api.get('/product/reward/list',{
                     'productType':this.tabMenu,
                     startRow:this.currentPage*this.pageSize,
@@ -86,13 +78,20 @@
                 })
                     .then(msg => {
                         if(msg.code == 200){
-                            if(msg.data.rewardCount <= (this.currentPage*this.pageSize)){
-                                this.allLoaded=true;
-                            }
                             this.lists = this.lists.concat(msg.data.rewardList);
+                            if(msg.data.rewardList.length<this.pageSize){
+                                this.loading = true;
+                            }else{
+                                this.loading = false;
+                            }
                         }
                         return msg
                     })
+            },
+            loadMore(){
+                this.loading = true;
+                this.currentPage++;
+                this.loadData();
             }
         }
     }
