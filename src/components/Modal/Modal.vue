@@ -8,8 +8,8 @@
                     <div class="logo-title">金疙瘩</div>
                 </div>
                 <div class="logo" flex-box="1">
-                    <img src="../../images/logo.png"/>
-                    <div class="logo-title">金疙瘩</div>
+                    <img src="../../images/baofoo-logo.png"/>
+                    <div class="logo-title">宝付</div>
                 </div>
             </div>
             <div class="modal-main">为保障您的资金安全请先开通第三方托管账户</div>
