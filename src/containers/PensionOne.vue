@@ -21,7 +21,7 @@
         </div>
         <div class="footer" flex-box="0" flex>
             <div flex-box="1" class="prev">上一步</div>
-            <div flex-box="1" class="next">下一步</div>
+            <div flex-box="1" class="next" @click.stop = "nextHandle">下一步</div>
         </div>
     </div>
 </template>
@@ -59,6 +59,10 @@
             clickHandle(item){
                 this.activeBtn = item.zip;
                 this.cityName = item.name;
+            },
+            nextHandle(){
+                sessionStorage.setItem("cityName",this.cityName);
+                sessionStorage.cityCode = this.cityName;
             }
         }
     }

@@ -123,7 +123,7 @@ if (env == 'production' || env == 'test') {
     console.log('------->', env)
     config.devtool = '';
     if (env === 'production') {
-        config.publicPath ='/dist/';
+        config.output.publicPath ='/dist/';
     }
     config.output.filename = '[name].[chunkhash:8].js';
     config.output.chunkFilename = '[chunkhash:8].[id].chunk.js';
