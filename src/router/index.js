@@ -22,6 +22,7 @@ import InvitationRewardList from '../containers/InvitationRewardList';
 import InvitationAllowanceList from '../containers/InvitationAllowanceList';
 import AccountDetail from '../containers/AccountDetail';
 import PensionTwo from '../containers/PensionTwo';
+import PensionThree from '../containers/PensionThree';
 import PensionFour from '../containers/PensionFour';
 import PensionOne from '../containers/PensionOne';
 import PersonalCenter from '../containers/PersonalCenter';
@@ -220,7 +221,8 @@ let routes = [
         meta: {
             title: '养老理财规划'
         },
-        component: Index
+        component: PensionThree,
+        // withoutLogin: true
     },
     {
         path: '/pension-four',

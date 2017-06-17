@@ -4,6 +4,7 @@
         <input v-model="password" style="height: 30px">
         <div> {{username}}</div>
         <button class="btn-primary" @click.stop="login">login</button>
+
     </div>
 </template>
 
