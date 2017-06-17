@@ -59,6 +59,7 @@
             return {
                 telNumber,
                 timer: null,
+                times:0,
                 showModal: false
             }
         },
@@ -67,6 +68,10 @@
         },
         created(){
             this.timer = setInterval(() => {
+                this.time++;
+                if(this.time>=3){
+                    clearInterval(this.timer);
+                }
                 this.$store.dispatch('getAccountBaofoo');
             }, 3000);
 
