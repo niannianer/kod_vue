@@ -85,7 +85,7 @@
                     this.setIndex();
                     this.scores.push(item.score);
                     this.currentIndex = 99;
-                }, 2000)
+                }, 1000)
             },
             updateUserInfo(){
                 let investorRiskScore = 0;
@@ -104,8 +104,7 @@
                     if (data.code == 200) {
                         console.log(12);
                         this.$store.dispatch('getUserInfo');
-                        return;
-                        /*if (this.isApp) {
+                        if (this.isApp) {
                             this.$router.replace({
                                 path: '/assessment-result',
                                 query: {
@@ -114,7 +113,7 @@
                             })
                         } else {
                             this.$router.replace('/assessment-result');
-                        }*/
+                        }
 
                     }
                 });
