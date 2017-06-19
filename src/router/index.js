@@ -35,6 +35,7 @@ import HouseTwo from '../containers/HouseTwo';
 import JulyActivity from '../containers/JulyActivity';
 const HouseOne =PensionOne;
 const HouseThree =PensionFive;
+import Register from '../containers/Register';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
     if (meta.withoutLogin) {
@@ -151,8 +152,8 @@ let routes = [
         meta: {
             //投资列表
             title: '定期理财列表',
-            keepAlive: true,
-            withoutLogin: true
+            keepAlive: true
+
         },
         component: InvestList
     },
@@ -258,7 +259,7 @@ let routes = [
         meta: {
             title: '住房理财规划'
         },
-        component: HouseOne
+        component: Index
     },
     {
         path: '/house-two',
@@ -266,7 +267,7 @@ let routes = [
         meta: {
             title: '住房理财规划'
         },
-        component: HouseTwo
+        component: Index
     },
     {
         path: '/house-three',
@@ -274,7 +275,7 @@ let routes = [
         meta: {
             title: '住房理财规划'
         },
-        component: HouseThree
+        component: Index
     },
     {
         path: '/house-share',
@@ -297,6 +298,38 @@ let routes = [
         path: '/risk-assessment/:type',
         name: 'risk-assessment',
         component: RiskAssessment,
+        beforeEnter:(to, from, next)=>{
+            if (store.state.investorRiskScore) {
+                if(to.query.retest){
+                    next();
+                }else {
+                    next({
+                        path:'/assessment-result'
+                    });
+                }
+
+            }else {
+                store.dispatch('getUserInfo')
+                    .then(data=>{
+                        if(data.code!=200){
+                            logout();
+                            return false;
+                        }
+                        if(data.data.investorRiskScore>0){
+                            if(to.query.retest){
+                                next();
+                            }else {
+                                next({
+                                    path:'/assessment-result'
+                                });
+                            }
+                        }else {
+                            next();
+                        }
+
+                    })
+            }
+        },
         meta: {
             title: '风险测评'
         }
@@ -330,6 +363,14 @@ let routes = [
         component: JulyActivity,
         meta:{
             title:'七一红盘有多红？等你神预测'
+        }
+    },
+    {
+        path:'/register',
+        name:'register',
+        component: Register,
+        meta:{
+            title:'注册'
         }
     }
 ];
