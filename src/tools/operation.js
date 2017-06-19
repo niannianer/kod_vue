@@ -21,17 +21,21 @@ export let setTitle = (title) => {
 
 
 import md5 from 'md5';
-import {testUrl, productionUrl, baofooTestUrl,baofooCallUrl,baofooProductUrl} from './config';
-let baofooRecharge =baofooTestUrl;
+import {testUrl, productionUrl, baofooTestUrl, baofooCallUrl, baofooProductUrl} from './config';
+let baofooRecharge = baofooTestUrl;
 let serverUrl = testUrl;
 let signMode = '~|~n725d5gsb7mlyzzw';
+let merchant_id = '100000675';
+let terminal_id = '100000701';
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;
 }
 if (process.env.kingold == 'production') {
     serverUrl = productionUrl;
     signMode = '~|~m2n7tf8jvz5klc2p';
-    baofooRecharge =baofooProductUrl;
+    baofooRecharge = baofooProductUrl;
+    merchant_id = '1172380';
+    terminal_id = '34865';
 }
 
 // baofoo 充值
@@ -42,7 +46,7 @@ export let submitRecharge = (params) => {
     let pageUrl = `${baofooCallUrl}/baofoo/h5/notification/recharge?backUrl=${backUrl}`;
     let form = document.createElement('form');
     form.setAttribute('method', 'post');
-    form.setAttribute('action', baofooRecharge+'cerPayRecharge.do');
+    form.setAttribute('action', baofooRecharge + 'cerPayRecharge.do');
     form.setAttribute('name', 'baofoo');
     let input = document.createElement('input');
     input.setAttribute('name', 'merchant_id');
