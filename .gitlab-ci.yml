@@ -1,13 +1,8 @@
 weixin-vue-test:
-  cache:
-    untracked: true
-    paths:
-    - node_modules/
   tags:
     - weixin-jq-tag
   script:
-    - cnpm install
-
+     - echo 'start...'
   only:
     - test
   after_script:
@@ -16,14 +11,10 @@ weixin-vue-test:
     - scp -r html/* web@47.93.35.76:/home/web/webhive/nginx/jq
 
 weixin-vue-build:
-  cache:
-    untracked: true
-    paths:
-    - node_modules/
   tags:
     - weixin-jq-tag
   script:
-    - cnpm install
+    - echo 'start...'
   only:
     - build
   after_script:
