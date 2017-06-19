@@ -297,9 +297,14 @@ let routes = [
         component: RiskAssessment,
         beforeEnter:(to, from, next)=>{
             if (store.state.investorRiskScore) {
-                next({
-                    path:'/assessment-result'
-                });
+                if(to.query.retest){
+                    next();
+                }else {
+                    next({
+                        path:'/assessment-result'
+                    });
+                }
+
             }else {
                 store.dispatch('getUserInfo')
                     .then(data=>{
@@ -308,9 +313,13 @@ let routes = [
                             return false;
                         }
                         if(data.data.investorRiskScore>0){
-                            next({
-                                path:'/assessment-result'
-                            });
+                            if(to.query.retest){
+                                next();
+                            }else {
+                                next({
+                                    path:'/assessment-result'
+                                });
+                            }
                         }else {
                             next();
                         }
