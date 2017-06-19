@@ -32,7 +32,7 @@ if (process.env.kingold == 'test') {
 }
 if (process.env.kingold == 'production') {
     serverUrl = productionUrl;
-    signMode = 'em9eq7synlpkg232';
+    signMode = '~|~em9eq7synlpkg232';
     baofooRecharge = baofooProductUrl;
     merchant_id = '1172380';
     terminal_id = '34865';
@@ -59,7 +59,7 @@ export let submitRecharge = (params) => {
     input.setAttribute('type', 'hidden');
     input.value = terminal_id;
     form.appendChild(input);
-    let xml = '<?xml version="1.0" encoding="UTF-8"?><custody_req><merchant_id>100000675</merchant_id><user_id>' +
+    let xml = '<?xml version="1.0" encoding="UTF-8"?><custody_req><merchant_id>'+merchant_id+'</merchant_id><user_id>' +
         userId + '</user_id><order_id>' + orderBillCode + '</order_id><amount>' + amount +
         '</amount><fee>0</fee><fee_taken_on>1</fee_taken_on><additional_info>' + additionalInfo +
         '</additional_info><page_url>' + pageUrl + '</page_url><return_url>' + returnUrl + '</return_url></custody_req>';
