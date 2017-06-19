@@ -31,7 +31,7 @@
                     已绑定
                 </div>
             </div>
-            <div class="item" flex v-if="userVerifyStatus!=9" @click.stop="goStep">
+            <div class="item" flex v-if="userVerifyStatus!=9" @click.stop="createUser">
                 <div class="item-left" flex-box="1">完成开户可随时随地投资</div>
                 <div class="item-right" flex-box="0"></div>
             </div>
@@ -52,13 +52,14 @@
     import {telNumber} from '../tools/config';
     import Modal from '../components/Modal'
     import  '../less/my-assets.less';
-
+    let times=0;
     export default {
         name: 'my-assets',
         data(){
             return {
                 telNumber,
                 timer: null,
+                times:0,
                 showModal: false
             }
         },
@@ -66,10 +67,7 @@
             Modal
         },
         created(){
-            this.timer = setInterval(() => {
-                this.$store.dispatch('getAccountBaofoo');
-            }, 3000);
-
+            this.getBaofoo()
         },
         computed: mapState([
             'userVerifyStatus',
@@ -77,6 +75,16 @@
             'accountTotalInterests',
             'accountCashAmount']),
         methods: {
+            getBaofoo(){
+                setTimeout(() => {
+                    times++;
+                    if(times>=3){
+                      return;
+                    }
+                    this.$store.dispatch('getAccountBaofoo');
+                    this.getBaofoo();
+                }, 3000);
+            },
             goStep(){
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {
@@ -118,6 +126,9 @@
                     return false;
                 }
                 this.$router.push('/withdraw');
+            },
+            createUser(){
+                this.showModal = true;
             },
             callBack(result){
                 this.showModal = false;

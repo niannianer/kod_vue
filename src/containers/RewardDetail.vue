@@ -10,7 +10,7 @@
             <div class="title bl" flex="box:mean"  flex-box="0">
                 <p>产品名称</p>
                 <p>投资金额（元）</p>
-                <p>奖励比列（年化）</p>
+                <p>奖励比例{{this.titleRate}}</p>
             </div>
         </div>
         <div class="body"  >
@@ -50,7 +50,8 @@
                 currentPage:0,
                 pageSize:10,
                 loading:false,
-                loadMoreFlag:true
+                loadMoreFlag:true,
+                titleRate:'(年化)'
             }
         },
         methods:{
@@ -64,6 +65,7 @@
             rewardTab(string){
                 this.isActive = 'FIXI'== string?true:false;
                 this.tabMenu = string;
+                this.titleRate = this.tabMenu == 'FIXI'?'(年化)':''
                 this.lists = [];
                 this.currentPage = 0;
                 this.loadData();

@@ -60,11 +60,6 @@ let get = (path, data = {}) => {
         }
         return {};
     }).then(data => {
-        if(data.code==401){
-            store.dispatch('getAccountBaofoo');
-            store.dispatch('getBankInfo');
-            store.dispatch('getUserInfo');
-        }
         return data;
     }).catch(err => {
         console.error('error,--->', err);
