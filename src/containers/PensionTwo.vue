@@ -16,6 +16,7 @@
             </div>
             <div class="age " flex-box='1' flex="'box:first dir:top">
                 <mt-picker :slots="slots" @change="onValuesChange" v-model="value" flex-box="2" >
+                    <div class="slot"  v-for="item in 100"></div>
                 </mt-picker>
             </div>
         </div>
@@ -65,8 +66,17 @@
                         defaultIndex:3,
                     }
                 ],
-                showToolbar: true, slot: 'valueKey',
+//                showToolbar: true, slot: 'valueKey',
             }
             },
+        methods:{
+            age(){
+                const arr = new Array(100);
+                const i= 0;
+                for( ; i<100;i++){
+                    arr=arr.join(i).split(',')
+                }
+            }
+        }
     }
 </script>

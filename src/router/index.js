@@ -32,6 +32,7 @@ import AssessmentResult from '../containers/AssessmentResult';
 import RelationList from '../containers/RelationList';
 import Relation from '../containers/Relation';
 import HouseTwo from '../containers/HouseTwo';
+import JulyActivity from '../containers/JulyActivity';
 const HouseOne =PensionOne;
 const HouseThree =PensionFive;
 let beforeEach = ((to, from, next) => {
@@ -321,6 +322,14 @@ let routes = [
         component: Relation,
         meta:{
             title:'我的好友'
+        }
+    },
+    {
+        path:'/july-activity',
+        name:'july-activity',
+        component: JulyActivity,
+        meta:{
+            title:'七一红盘有多红？等你神预测'
         }
     }
 ];
