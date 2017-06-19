@@ -31,6 +31,7 @@ import RiskAssessment from '../containers/RiskAssessment';
 import AssessmentResult from '../containers/AssessmentResult';
 import RelationList from '../containers/RelationList';
 import Relation from '../containers/Relation';
+import Register from '../containers/Register';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
     if (meta.withoutLogin) {
@@ -319,6 +320,14 @@ let routes = [
         component: Relation,
         meta:{
             title:'我的好友'
+        }
+    },
+    {
+        path:'/register',
+        name:'register',
+        component: Register,
+        meta:{
+            title:'注册'
         }
     }
 ];

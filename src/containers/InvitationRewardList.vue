@@ -15,7 +15,6 @@
                 </li>
             </ul>
         </div>
-        <mt-loadmore  :top-method="loadTop" @top-status-change = 'handleTopChange' :bottom-method="loadBottom" ref="loadmore">
         <div class="item-list"  flex-box="1" v-infinite-scroll="loadMore"
              infinite-scroll-disabled="disLoad"
              infinite-scroll-distance="70">
@@ -50,7 +49,6 @@
                 </div>
             <p v-show="loading&&hasMore" class="loading">加载更多...</p>
         </div>
-        </mt-loadmore>
     </div>
 </template>
 
@@ -58,12 +56,9 @@
     import Vue from 'vue';
     import '../less/invitation-reward-list.less';
     import $api from '../tools/api';
-    import {InfiniteScroll, Toast,Loadmore} from 'mint-ui';
-    import MtLoadmore from "../../node_modules/mint-ui/packages/loadmore/src/loadmore";
+    import {InfiniteScroll, Toast} from 'mint-ui';
     Vue.use(InfiniteScroll);
-    Vue.component(Loadmore.name, Loadmore);
     export default {
-        components: {MtLoadmore},
         name: 'invitation-reward-list',
         data(){
             return{
@@ -86,13 +81,6 @@
             }
         },
         methods:{
-            loadTop(){
-                this.rewardList = [];
-                this.pageNo = 1;
-                this.getRewardList().then(() => {
-                    this.$refs.loadmore.onTopLoaded();
-                });
-            },
                 loadMore(){
                     if (this.loading) {
                         return false;
