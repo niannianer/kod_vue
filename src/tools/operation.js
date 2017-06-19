@@ -51,13 +51,13 @@ export let submitRecharge = (params) => {
     let input = document.createElement('input');
     input.setAttribute('name', 'merchant_id');
     input.setAttribute('type', 'hidden');
-    input.value = '100000675';
+    input.value = merchant_id;
     form.appendChild(input);
 
     input = document.createElement('input');
     input.setAttribute('name', 'terminal_id');
     input.setAttribute('type', 'hidden');
-    input.value = '100000701';
+    input.value = terminal_id;
     form.appendChild(input);
     let xml = '<?xml version="1.0" encoding="UTF-8"?><custody_req><merchant_id>100000675</merchant_id><user_id>' +
         userId + '</user_id><order_id>' + orderBillCode + '</order_id><amount>' + amount +
