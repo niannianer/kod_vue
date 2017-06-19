@@ -1,30 +1,35 @@
 <template>
 	<div v-cloak class="pension-two" flex-box="1" flex="dir:top">
-        <div class="content" flex flex-box="1" flex="dir:top">
+        <div class="content" flex flex-box="2" flex="dir:top" v-show="show">
             <div class="box" flex-box='1'>
               <div class="top" flex-box='1'>
-              <div class="title" flex-box = '1'>请选择您的性别</div>
+                  <div class="title" flex-box = '1'>请选择您的性别</div>
                   <div  flex = 'main:left' class="sex">
-                      <label for="man" flex-box="1" checked="checked"></label>
-                      <input type="radio" v-model="gender" value="男" id="man" checked = checked/>
-                      <label for="woman" flex-box="1"></label>
-                      <input type="radio" v-model="gender" value="女" id="woman"/>
-                  </div>'
+                      <div class="man" flex-box="1"  :class = "{'checked':sex==1}" @click.stop=' toggle(1)'></div>
+                      <div class="woman" flex-box="1" :class = "{'checked':sex==2}"  @click.stop=' toggle(2)'></div>
+                  </div>
             </div>
              	<div class="box-shadows"></div>
             </div>
-            <div class="middel" flex flex-box='1'>
-  				<p>请选择您的年龄</p>
+            <div class="middel" >
+  				请选择您的年龄
             </div>
-            <div class="age" flex-box='1'>
-                <mt-picker :slots="slots" @change="onValuesChange">
+            <div class="age " flex-box='1' flex="'box:first dir:top">
+                <mt-picker :slots="slots" @change="onValuesChange" v-model="value" flex-box="2" >
                 </mt-picker>
                 <slot>当前选择：<span class='sex'>{{gender || '男'}}</span><span class='age'></span></slot>
             </div>
         </div>
+        <div class="salary" flex-box="2" v-show="hidden">
+            <div class="title">请输入您的税后工资（月）</div>
+            <div class="content"><input type="text"><span>元</span></div>
+        </div>
+        <div flex-box="1" class="check">
+            <p >当前选择：<span v-show="sex == 1" class='sex'>男，</span><span v-show="sex == 2" class='sex'>女，</span><span class='age'>{{value}}岁</span></p>
+        </div>
         <div class="bottom" flex-box="0" flex="main:justify">
-        	<div class="left" flex-box="1" >上一步</div>
-        	<div class="left" flex-box="1">下一步</div>
+        	<div class="left" flex-box="1" @click.stop="$router.push('/pension-one')" >上一步</div>
+        	<div class="left" flex-box="1" @click.stop="$router.push('/pnsion-three')">下一步</div>
         </div>
     </div>
 </template>
@@ -39,30 +44,30 @@
         methods: {
             onValuesChange(picker, values) {
                 if (values[0] > values[1]) {
-                    picker.setSlotValue(2, values[0]);
+                    picker.setSlotValue(1, values[0]);
                 }
+                return this.value = picker.getValues()[0];
             },
-//            doGender(gender){
-//                if(gender == "男"){
-//                    gel
-//                }
-//            },
-//            gel(){
-//                return document
-//            }
+           toggle(sex){
+                this.sex = sex
+           }
         },
+//默认为30岁，显示5条，中间的为选中
         data() {
             return {
-                gender:'',
+                show:true,
+                value:'',
+                sex:1,
                 slots: [
                     {
                         flex: 1,
-                        values: ['2015-01', '2015-02', '2015-03', '2015-04', '2015-05', '2015-06'],
-                        textAlign: 'center'
+                        values: ['18','19','20','21','22','23','24','25','26'],
+                        textAlign: 'center',
+                        defaultIndex:3,
                     }
                 ],
                 showToolbar: true, slot: 'valueKey',
             }
-        }
+            },
     }
 </script>
