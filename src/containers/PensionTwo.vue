@@ -1,6 +1,6 @@
 <template>
 	<div v-cloak class="pension-two" flex-box="1" flex="dir:top">
-        <div class="content" flex flex-box="2" flex="dir:top" v-show="show">
+        <div class="content" flex flex-box="1" flex="dir:top">
             <div class="box" flex-box='1'>
               <div class="top" flex-box='1'>
                   <div class="title" flex-box = '1'>请选择您的性别</div>
@@ -17,14 +17,13 @@
             <div class="age " flex-box='1' flex="'box:first dir:top">
                 <mt-picker :slots="slots" @change="onValuesChange" v-model="value" flex-box="2" >
                 </mt-picker>
-                <slot>当前选择：<span class='sex'>{{gender || '男'}}</span><span class='age'></span></slot>
             </div>
         </div>
-        <div class="salary" flex-box="2" v-show="hidden">
-            <div class="title">请输入您的税后工资（月）</div>
-            <div class="content"><input type="text"><span>元</span></div>
-        </div>
-        <div flex-box="1" class="check">
+        <!--<div class="salary" flex-box="1" v-show="hidden">-->
+            <!--<div class="title">请输入您的税后工资（月）</div>-->
+            <!--<div class="content"><input type="text"><span>元</span></div>-->
+        <!--</div>-->
+        <div flex-box="0.5" class="check">
             <p >当前选择：<span v-show="sex == 1" class='sex'>男，</span><span v-show="sex == 2" class='sex'>女，</span><span class='age'>{{value}}岁</span></p>
         </div>
         <div class="bottom" flex-box="0" flex="main:justify">
