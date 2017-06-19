@@ -32,7 +32,7 @@ if (process.env.kingold == 'test') {
 }
 if (process.env.kingold == 'production') {
     serverUrl = productionUrl;
-    signMode = '~|~m2n7tf8jvz5klc2p';
+    signMode = 'em9eq7synlpkg232';
     baofooRecharge = baofooProductUrl;
     merchant_id = '1172380';
     terminal_id = '34865';
