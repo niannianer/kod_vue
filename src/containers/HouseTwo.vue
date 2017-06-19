@@ -4,10 +4,13 @@
             <div class="header">
                 <div class="header-main">
                     <div>如果说婚姻是虚拟的家，那住房就是实体的家</div>
-                    <div class="house-price">根据国家统计局数据，【<span class="">{{cityName}}</span>】平均房价为<span>214567</span>元</div>
+                    <div class="house-price">根据国家统计局数据，【<span class="">{{cityName}}</span>】平均房价为<span>{{cityAveragePrice}}</span>元
+                    </div>
                     <div class="div-warp" flex>
                         <label flex-box="1">房产总价</label>
-                        <input flex-box="0"/>
+                        <input flex-box="0" type="number"
+                               v-model.trim="cityPrice"
+                               @keyup="inputKeyup"/>
                         <span flex-box="0">万元</span>
                     </div>
                     <div flex class="div-warp margin-rem">
@@ -39,34 +42,54 @@
             <button class="btn-overlook">查看推荐方案</button>
         </div>
 
+        <div class="year-picker"></div>
+
     </div>
 </template>
 
 <script>
+
+    import {getPrice} from '../tools/city-grade';
     import '../less/house-two.less';
+    let timer = null;
     export default {
         name: 'house-two',
         data(){
             return {
-                cityName:'北京',
-                cityCode:'',
-                houseTotal:'',
-                planYears:'',
-                loanFlag:0,
-                loanType:1,
-                loanClass:1,
-                investMoney:'',
-                firstPayments:0,
-                accumulationFundLoan:0,
-                businessLoan:0
-
+                cityName: '北京',
+                cityCode: '',
+                cityPrice: '',
+                houseTotal: '',
+                planYears: '',
+                loanFlag: 0,
+                loanType: 1,
+                loanClass: 1,
+                investMoney: '',
+                firstPayments: 0,
+                accumulationFundLoan: 0,
+                businessLoan: 0
             }
         },
         created(){
+
         },
         computed: {
+            cityAveragePrice(){
+                return getPrice(this.cityName);
+            }
         },
         methods: {
+            inputKeyup(){
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                let that = this;
+                timer = setTimeout(() => {
+                    that.cityPrice = that.cityPrice.toString();
+                    that.cityPrice = that.cityPrice.replace(/\D/g, '');
+                    that.cityPrice = that.cityPrice.substr(0, 5);
+                }, 200);
+            }
         },
         destroyed(){
 

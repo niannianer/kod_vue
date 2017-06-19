@@ -132,7 +132,7 @@ export let getValueG = (name = '') => {
 };
 export let getPrice=(name='')=>{
     if (!name) {
-        return 2.1;
+        return 610575;
     }
     for (let d in prices) {
         if (name.indexOf(prices[d].name) > -1) {
@@ -140,12 +140,12 @@ export let getPrice=(name='')=>{
         }
     }
     if (gradeOne.indexOf(name) > -1) {
-        return 1.9;
+        return 796509;
     }
     if (gradeTwo.indexOf(name) > -1) {
-        return 2;
+        return 762466;
     }
-    return 2.1;
+    return 610575;
 }
 export  default {
     gradeOne,
