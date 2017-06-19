@@ -148,8 +148,8 @@ let routes = [
         meta: {
             //投资列表
             title: '定期理财列表',
-            keepAlive: true,
-            withoutLogin: true
+            keepAlive: true
+
         },
         component: InvestList
     },
@@ -295,8 +295,41 @@ let routes = [
         path: '/risk-assessment/:type',
         name: 'risk-assessment',
         component: RiskAssessment,
+        beforeEnter:(to, from, next)=>{
+            if (store.state.investorRiskScore) {
+                if(to.query.retest){
+                    next();
+                }else {
+                    next({
+                        path:'/assessment-result'
+                    });
+                }
+
+            }else {
+                store.dispatch('getUserInfo')
+                    .then(data=>{
+                        if(data.code!=200){
+                            logout();
+                            return false;
+                        }
+                        if(data.data.investorRiskScore>0){
+                            if(to.query.retest){
+                                next();
+                            }else {
+                                next({
+                                    path:'/assessment-result'
+                                });
+                            }
+                        }else {
+                            next();
+                        }
+
+                    })
+            }
+        },
         meta: {
-            title: '风险测评'
+            title: '风险测评',
+            withoutLogin: true
         }
     }, {
         path: '/assessment-result',
