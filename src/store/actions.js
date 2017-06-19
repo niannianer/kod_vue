@@ -58,11 +58,12 @@ let getUserInfo = () => {
     return $api.get('/getUserInfo');
 };
 actions.getUserInfo = ({commit}) => {
-    getUserInfo()
+   return getUserInfo()
         .then(data => {
             if (data.code == 200) {
                 commit('setUserInfo', data.data)
             }
+            return data;
         });
 };
 export default actions;
