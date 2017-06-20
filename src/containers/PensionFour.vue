@@ -59,6 +59,7 @@
             </div>
         </div>
         <div class="footer" :class="{enable:clickable}" flex-box="0" @click.stop="nextHandle">查看推荐方案</div>
+        <KingoldPicker :list="list" :title="title" @back="callback" v-if="isPicking"></KingoldPicker>
     </div>
 </template>
 <script>
@@ -67,19 +68,27 @@
     import citys from '../tools/citys'
     import {Toast} from 'mint-ui'
     import $api from '../tools/api'
+    import KingoldPicker from '../components/KingoldPicker'
+    import Modal from '../components/Modal'
     import {currencyFormatInterger} from '../filters/index'
     import {getValueD, getValueE, getValueG} from "../tools/city-grade"
     export default{
         data(){
             return {
-                cityName: '',
+                cityName:'',
                 age: '',
                 gender: 2,
                 planAge: '85',
                 retirementAge: '',
                 wagesAfterTax: '',
-                inflation: ''
+                inflation: '',
+                list:[],
+                title:"请选择城市",
+                isPicking:false
             }
+        },
+        components: {
+            KingoldPicker
         },
         computed: {
             pensionStore(){
@@ -119,9 +128,9 @@
             }
         },
         created(){
-            /*    citys.map((city)=>{
-             this.slots[0].values.push(city.name)
-             });*/
+            citys.map((city)=>{
+             this.list.push(city.name)
+             });
             this.cityName = window.sessionStorage.getItem('cityName') || '北京';
             this.gender = window.sessionStorage.getItem('gender') || 2;
             this.age = window.sessionStorage.getItem('age') || 30;
@@ -130,6 +139,7 @@
             this.inflation = getValueG(this.cityName);//通货膨胀率
         },
         mounted(){
+           /* console.log(this.$refs.kpicker.result,'33333');*/
         },
         methods: {
             genderHandle(num){
@@ -137,7 +147,8 @@
                 this.retirementAge = this.gender == 1 ? '55' : '60'
             },
             pickHandle(){
-
+                console.log(this.isPicking);
+                this.isPicking=true;
             },
             nextHandle(){
                 if(this.clickable){
@@ -193,6 +204,12 @@
                     }
                     return false;
                 }
+            },
+            callback(result){
+                if(result){
+                    this.cityName = result;
+                }
+                this.isPicking = false;
             }
         }
     }
