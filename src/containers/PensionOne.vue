@@ -20,7 +20,7 @@
             <div class="tip">当前选择：<span>{{this.cityName}}</span></div>
         </div>
         <div class="footer" flex-box="0" flex>
-            <div flex-box="1" class="prev">上一步</div>
+            <div flex-box="1" class="prev" @click.stop="prevHandle">上一步</div>
             <div flex-box="1" class="next" @click.stop = "nextHandle">下一步</div>
         </div>
     </div>
@@ -61,8 +61,11 @@
                 this.cityName = item.name;
             },
             nextHandle(){
-                sessionStorage.setItem("cityName",this.cityName);
-                sessionStorage.cityCode = this.cityName;
+                window.sessionStorage.setItem("cityName",this.cityName);
+                this.$router.push('/pension-two');
+            },
+            prevHandle(){
+                window.history.back();
             }
         }
     }
