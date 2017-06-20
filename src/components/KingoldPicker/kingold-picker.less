@@ -13,18 +13,16 @@
         height: 100%;
         background-color: rgba(0, 0, 0, .36);
     }
-    .slide-enter-active, .slide-leave-active {
-        transition:  .5s;
-        transform: translateY(0%);
-    }
-    .slide-enter, .slide-leave /* .fade-leave-active in <2.1.8 */ {
-       transform: translateY(100%);
-    }
     .picker-warp {
         position: absolute;
         bottom: 0;
         width: 100%;
         background-color: #fff;
+        transform: translateY(100%);
+        transition: all .5s ease;
+        &.enter{
+            transform: translateY(0%);
+        }
         .picker-header {
             background-color: #eee;
             color: @color-text-secondary;
