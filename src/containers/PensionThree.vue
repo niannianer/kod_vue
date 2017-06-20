@@ -13,9 +13,13 @@
         </div>
     </div>
 </template>
+
 <script>
     import '../less/pension-three.less';
     export default {
         name: 'pension-three',
+        data(){
+
+        }
     }
 </script>

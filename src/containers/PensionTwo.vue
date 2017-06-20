@@ -1,6 +1,6 @@
 <template>
 	<div v-cloak class="pension-two" flex-box="1" flex="dir:top">
-        <div class="content" flex flex-box="1" flex="dir:top" v-show="false">
+        <div class="content" flex flex-box="1" flex="dir:top" >
             <div class="box" flex-box='1'>
               <div class="top" flex-box='1'>
                   <div class="title" flex-box = '1'>请选择您的性别</div>
@@ -50,8 +50,15 @@
            toggle(sex){
                 this.sex = sex
            },
+            age(n,m){
+               let arr1 =[];
+                for(let i = n;i < m; i++){
+                    arr1.push(i);
+                }
+              this.slots[0].values =  arr1;
+//                console.log(arr1);
+            },
         },
-//默认为30岁，显示5条，中间的为选中
         data() {
             return {
                 show:true,
@@ -60,12 +67,15 @@
                 slots: [
                     {
                         flex: 1,
-                        values: ['18','19','20','21','22','23','24','25','26'],
+                        values: [],
                         textAlign: 'center',
-                        defaultIndex:3,
+                        defaultIndex:12,
                     }
                 ],
             }
+        },
+        created(){
+            this.age(18,100)
         }
     }
 </script>
