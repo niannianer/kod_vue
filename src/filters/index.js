@@ -17,7 +17,9 @@ export let currencyFormat = (input) => {
     ouputs = ouputs.split('.');
     return ouputs[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,') + '.' + add0(ouputs[1]);
 };
-
+export let currencyFormatInterger = (input) => {
+    return Math.floor(input).toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+};
 export let currencyInput = (input) => {
     if (!input) {
         return '';
