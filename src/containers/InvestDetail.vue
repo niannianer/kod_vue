@@ -10,13 +10,13 @@
                     <p flex-box="1">购买时间</p>
                     <p flex-box="0">{{this.lists.payedTime}}</p>
                 </div>
-                <div class="bl" flex-box="1" flex>
-                    <p flex-box="1">产品名称</p>
-                    <p flex-box="0">{{this.lists.productAbbrName}}</p>
+                <div class="bl" flex-box="1" flex="box:first">
+                    <p>产品名称</p>
+                    <p class="product-name">{{this.lists.productAbbrName}}</p>
                 </div>
                 <div class="bl" flex-box="1" flex>
                     <p flex-box="1">购买金额</p>
-                    <p flex-box="0">{{this.lists.orderAmount}}</p>
+                    <p flex-box="0">{{this.lists.orderAmount|currencyInput}}元</p>
                 </div>
                 <div class="bl" flex-box="1" flex>
                     <p flex-box="1">预期年化收益率</p>

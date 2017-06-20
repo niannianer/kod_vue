@@ -19,7 +19,7 @@
                         </li>
                         <li flex>
                             <div>购买金额：</div>
-                            <div>{{item.orderAmount}}元</div>
+                            <div>{{item.orderAmount|currencyInput}}元</div>
                         </li>
                         <li flex>
                             <div>预期年化收益率：</div>
@@ -40,7 +40,7 @@
         </div>
         <div class="item-list" v-show="status == 2" flex-box="1">
             <mt-loadmore :top-method="loadTopRight" :bottom-method="loadBottomRight" :bottom-all-loaded="allLoadedRight" ref="loadmoreRight" :auto-fill="autoFill">
-                <div class="item" v-for="(item,index) in finished.investmentList" 
+                <div class="item" v-for="(item,index) in finished.investmentList"
                     @click.stop="link(2,item.orderBillCode)" :key="index">
                     <ul class="item-ul">
                         <li flex>
@@ -49,7 +49,7 @@
                         </li>
                         <li flex>
                             <div>购买金额：</div>
-                            <div>{{item.orderAmount}}元</div>
+                            <div>{{item.orderAmount|currencyInput}}元</div>
                         </li>
                         <li flex>
                             <div>预期年化收益率：</div>
@@ -74,6 +74,7 @@
     import '../less/invest-list.less';
     import Vue from 'vue';
     import $api from '../tools/api';
+    import {currencyInput} from '../filters/index'
     import {Loadmore,Toast} from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
     export default {
@@ -117,7 +118,7 @@
                 }
                 return $api.get('/investment/list',{status:status,startRow:startRow,pageSize:this.pageSize}).then(msg => {
                     if(msg.code == 200){
-                        
+
                         if(status == 1){
                             if(type=='bottom'){
                                 msg.data.investmentList.map(el => {
@@ -171,7 +172,7 @@
                     this.$refs.loadmoreRight.onTopLoaded();
                     this.allLoadedRight = false;
                 });
-                
+
             },
             loadBottomRight(){
                 this.lock();
