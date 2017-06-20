@@ -38,15 +38,17 @@ let get = (path, data = {}) => {
     data.callSystemID = '1003';
     let t = new Date().getTime();
     let url = '';
+    let credentials='include';
     if (/http/.test(path)) {
-        url = `${path}?t=${t}&${$query(data)}`
+        url = `${path}?t=${t}&${$query(data)}`;
+        let credentials='';
     } else {
         url = `${serverUrl + path}?t=${t}&${$query(data)}`
     }
 
     return fetch(url, {
         method: 'get',
-        credentials: 'include',
+        credentials,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -74,14 +76,16 @@ let post = (path, data = {}) => {
 
     let t = new Date().getTime();
     let url = '';
+    let credentials='include';
     if (/http/.test(path)) {
         url = `${path}?t=${t}`;
+        credentials='';
     } else {
         url = `${serverUrl + path}?t=${t}&`;
     }
     return fetch(url, {
         method: 'post',
-        credentials: 'include',
+        credentials,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded'
