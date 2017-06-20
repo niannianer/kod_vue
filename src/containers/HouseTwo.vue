@@ -13,9 +13,9 @@
                                @keyup="inputKeyup"/>
                         <span flex-box="0">万元</span>
                     </div>
-                    <div flex class="div-warp margin-rem">
+                    <div flex class="div-warp margin-rem" @click.stop="showPicker=true">
                         <label flex-box="1">预计几年实现买房目标？</label>
-                        <span flex-box="1"></span>
+                        <span flex-box="1">{{year}}</span>
                         <span flex-box="0">年</span>
                         <span flex-box="0" class="arrow-right" flex="main:right cross:center">
                             <img src="../images/house/arrow-right.png"/>
@@ -42,13 +42,14 @@
             <button class="btn-overlook">查看推荐方案</button>
         </div>
 
-        <div class="year-picker"></div>
+        <kingold-picker v-show="showPicker" :default-index="2" :visible="showPicker"
+                        title="选择年限" :list="years" @back="pickerBack"></kingold-picker>
 
     </div>
 </template>
 
 <script>
-
+    import KingoldPicker from '../components/KingoldPicker'
     import {getPrice} from '../tools/city-grade';
     import '../less/house-two.less';
     let timer = null;
@@ -60,22 +61,42 @@
                 cityCode: '',
                 cityPrice: '',
                 houseTotal: '',
-                planYears: '',
+                planYears: 0,
                 loanFlag: 0,
                 loanType: 1,
                 loanClass: 1,
                 investMoney: '',
                 firstPayments: 0,
                 accumulationFundLoan: 0,
-                businessLoan: 0
+                businessLoan: 0,
+                showPicker: false
             }
         },
         created(){
 
         },
+        components: {
+            KingoldPicker
+        },
         computed: {
             cityAveragePrice(){
                 return getPrice(this.cityName);
+            },
+            years(){
+                let array = [];
+                for (let i = 1; i <= 10; i++) {
+                    array.push({
+                        name: `${i} 年`,
+                        value: i
+                    })
+                }
+                return array;
+            },
+            year(){
+                if (this.planYears) {
+                    return this.planYears;
+                }
+                return '';
             }
         },
         methods: {
@@ -89,6 +110,12 @@
                     that.cityPrice = that.cityPrice.replace(/\D/g, '');
                     that.cityPrice = that.cityPrice.substr(0, 5);
                 }, 200);
+            },
+            pickerBack(result){
+                this.showPicker = false;
+                if (result) {
+                    this.planYears = result.value
+                }
             }
         },
         destroyed(){
