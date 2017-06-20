@@ -219,13 +219,15 @@ let routes = [
         name: 'pension-two',
         meta: {
             title: '养老理财规划',
+            withoutLogin: true
         },
         component: PensionTwo
     }, {
         path: '/pension-three',
         name: 'pension-three',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin: true
         },
         component: PensionThree
     },
@@ -233,7 +235,8 @@ let routes = [
         path: '/pension-four',
         name: 'pension-four',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin: true
         },
         component: PensionFour
     },
