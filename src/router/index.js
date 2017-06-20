@@ -31,6 +31,9 @@ import RiskAssessment from '../containers/RiskAssessment';
 import AssessmentResult from '../containers/AssessmentResult';
 import RelationList from '../containers/RelationList';
 import Relation from '../containers/Relation';
+import HouseTwo from '../containers/HouseTwo';
+const HouseOne =PensionOne;
+const HouseThree =PensionFive;
 import Register from '../containers/Register';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
@@ -215,22 +218,24 @@ let routes = [
         name: 'pension-two',
         meta: {
             title: '养老理财规划',
+            withoutLogin: true
         },
         component: PensionTwo
     }, {
         path: '/pension-three',
         name: 'pension-three',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin: true
         },
-        component: PensionThree,
-        // withoutLogin: true
+        component: PensionThree
     },
     {
         path: '/pension-four',
         name: 'pension-four',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin: true
         },
         component: PensionFour
     },
@@ -256,7 +261,7 @@ let routes = [
         meta: {
             title: '住房理财规划'
         },
-        component: Index
+        component: HouseOne
     },
     {
         path: '/house-two',
@@ -264,7 +269,7 @@ let routes = [
         meta: {
             title: '住房理财规划'
         },
-        component: Index
+        component: HouseTwo
     },
     {
         path: '/house-three',
@@ -272,7 +277,7 @@ let routes = [
         meta: {
             title: '住房理财规划'
         },
-        component: Index
+        component: HouseThree
     },
     {
         path: '/house-share',
@@ -328,8 +333,7 @@ let routes = [
             }
         },
         meta: {
-            title: '风险测评',
-            withoutLogin: true
+            title: '风险测评'
         }
     }, {
         path: '/assessment-result',
