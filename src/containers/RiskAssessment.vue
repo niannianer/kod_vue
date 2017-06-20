@@ -55,7 +55,7 @@
         },
         computed: {
             showSubmit(){
-                return (this.quIndex + 1 == quLen);
+                return (this.scores.length >= quLen-1);
             },
             disabled(){
                 return this.currentIndex == 99
@@ -69,23 +69,34 @@
                 this.answers = qu.answers;
             },
             getLast(){
+                if (quLen == this.scores.length) {
+                    this.scores.pop();
+                }
                 this.quIndex--;
                 this.setIndex();
                 this.scores.pop();
+                this.currentIndex = 99;
             },
             selectItem(item, index){
                 this.currentIndex = index;
-                if (quLen == this.quIndex + 1) {
+                if (quLen == this.scores.length) {
+                    this.scores.pop();
+                    this.scores.push(item.score);
                     return false;
                 }
                 if (timer) {
                     clearTimeout(timer);
                 }
                 timer = setTimeout(() => {
+                    this.scores.push(item.score);
+                    if (quLen > this.scores.length) {
+                        this.currentIndex = 99;
+                    }
+                    if(quLen == this.scores.length){
+                        return false;
+                    }
                     this.quIndex++;
                     this.setIndex();
-                    this.scores.push(item.score);
-                    this.currentIndex = 99;
                 }, 1000)
             },
             updateUserInfo(){
@@ -105,19 +116,19 @@
                     if (data.code == 200) {
                         console.log(12);
                         this.$store.dispatch('getUserInfo');
-                       // return;
+                        // return;
                         if (this.isApp) {
                             this.$router.replace({
                                 path: '/assessment-result',
                                 query: {
-                                    score: investorRiskScore
+                                    from: 'app'
                                 }
                             })
                         } else {
                             this.$router.replace('/assessment-result');
                         }
 
-                    }else {
+                    } else {
                         Toast('提交失败,稍后再试');
                     }
                 });

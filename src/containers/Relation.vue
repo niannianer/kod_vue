@@ -14,7 +14,10 @@
         </div>
         <div class="code-info" flex="dir:top">
             <div flex-box='1'>我的专属二维码</div>
-            <div class="code" flex-box='1'><img src="../images/code.png" ></div>
+            <div id="code" flex-box='1'>
+                <canvas id="canvas" flex-box='1' style="display: none"></canvas>
+                <img :src="imgSrc" alt="">
+            </div>
         </div>
         <div class="btn" @click.stop="link()">
             <button>邀请好友</button>
@@ -22,20 +25,39 @@
     </div>
 </template>
 <script>
+    import Vue from 'vue';
     import '../less/relation.less';
     import $api from '../tools/api';
+    import QRCode from 'qrcode';
+    import state from '../store/state.js';
+    Vue.use(QRCode)
     export default {
         name:'relation',
         data() {
             return {
                 levelOneCount:'',
-                levelTwoCount:''
+                levelTwoCount:'',
+                codes:'',
+                imgSrc:''
           }
         },
         methods:{
-           link(){
-                window.location.href='/share.html'
+            useqrcode(){
+               const canvas = document.getElementById('canvas');
+               const url = 'http://'+ window.location.host+'/share.html?investorMobile='+state.investorMobile;
+               QRCode.toCanvas(canvas,url,(error) => {
+                    if(error) console.log(error )
+//                    console.log(state.investorMobile);
+                    this.imgSrc=canvas.toDataURL("image/png");
+                });
+
+            },
+            link(){
+                window.location.href = '/share.html?investorMobile='+state.investorMobile;
             }
+        },
+        mounted(){
+            this.useqrcode();
         },
         created(){
             $api.get('/relation/count').then(data => {
@@ -47,3 +69,8 @@
         }
     }
 </script>
+
+
+
+
+

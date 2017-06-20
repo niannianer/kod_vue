@@ -32,7 +32,7 @@
             }
         },
         created(){
-            if (this.$route.query.score) {
+            if (this.$route.query.from=='app') {
                 this.isApp = true;
             }
         },
@@ -90,9 +90,19 @@
         methods: {
             reSubmit(){
                 if(this.isApp){
-                    this.$router.replace('/risk-assessment/app');
+                    this.$router.replace({
+                        path:'/risk-assessment/app',
+                        query:{
+                            retest:1
+                        }
+                    });
                 }else {
-                    this.$router.replace('/risk-assessment/wechat');
+                    this.$router.replace({
+                        path:'/risk-assessment/wechat',
+                        query:{
+                            retest:1
+                        }
+                    });
                 }
 
             }
