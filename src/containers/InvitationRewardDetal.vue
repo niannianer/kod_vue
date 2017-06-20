@@ -113,7 +113,11 @@
         },
         methods:{
             link(productUuid){
-                window.location.href='/goodsDetail.html?u='+productUuid+'&t='+this.data.productType;
+                if(this.data.productType == 'PRIF'){
+                    window.location.href='/goodsDetailPRIF.html?u='+productUuid+'&t='+this.data.productType;
+                }else{
+                    window.location.href='/goodsDetail.html?u='+productUuid+'&t='+this.data.productType;
+                }
             }
         },
         mounted(){

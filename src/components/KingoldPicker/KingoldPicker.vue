@@ -1,8 +1,7 @@
 <template>
     <div class="kingold-picker">
         <div class="shadow-warp"></div>
-        <transition name="slide">
-            <div class="picker-warp" v-show="visible">
+            <div class="picker-warp" :class="{'enter':visible}">
                 <div class="picker-header" flex="main:justify">
                     <span flex="0" @click.stop="cancel">取消</span>
                     <span flex="1" class="ellipsis">{{title}}</span>
@@ -11,9 +10,6 @@
                 <mt-picker :slots="array"
                            @change="onValuesChange" valueKey="name"></mt-picker>
             </div>
-        </transition>
-
-
     </div>
 </template>
 
@@ -24,20 +20,24 @@
     import './kingold-picker.less';
     export default {
         name: 'kingold-picker',
-        props: ['title', 'list','default-index','visible'],
+        props: ['title', 'list', 'default-index'],
         data(){
             return {
-                result: {}
+                result: {},
+                visible: false
             }
         },
         created(){
+           setTimeout(()=>{
+               this.visible = true;
+           },20)
         },
         computed: {
             array(){
                 return [{
                     textAlign: 'center',
                     values: this.list,
-                    defaultIndex:this.defaultIndex
+                    defaultIndex: this.defaultIndex
                 }]
             }
         },
@@ -46,10 +46,17 @@
                 this.result = values[0];
             },
             cancel(){
-                this.$emit('back', 0)
+                this.visible = false;
+                setTimeout(() => {
+                    this.$emit('back', 0)
+                }, 500);
+
             },
             ensure(){
-                this.$emit('back', this.result);
+                this.visible = false;
+                setTimeout(() => {
+                    this.$emit('back', this.result);
+                }, 500)
             }
         },
         destroyed(){

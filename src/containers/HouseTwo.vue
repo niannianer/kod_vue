@@ -4,7 +4,7 @@
             <div class="header">
                 <div class="header-main">
                     <div>如果说婚姻是虚拟的家，那住房就是实体的家</div>
-                    <div class="house-price">根据国家统计局数据，【<span class="">{{cityName}}</span>】平均房价为<span>{{cityAveragePrice}}</span>元
+                    <div class="house-price">根据国家统计局数据，【<span>{{cityName}}</span>】平均房价为<span>{{cityAveragePrice}}</span>元
                     </div>
                     <div class="div-warp" flex>
                         <label flex-box="1">房产总价</label>
@@ -13,7 +13,7 @@
                                @keyup="inputKeyup"/>
                         <span flex-box="0">万元</span>
                     </div>
-                    <div flex class="div-warp margin-rem" @click.stop="showPicker=true">
+                    <div flex class="div-warp margin-rem" @click.stop="showPicker=true;">
                         <label flex-box="1">预计几年实现买房目标？</label>
                         <span flex-box="1">{{year}}</span>
                         <span flex-box="0">年</span>
@@ -42,7 +42,7 @@
             <button class="btn-overlook">查看推荐方案</button>
         </div>
 
-        <kingold-picker v-show="showPicker" :default-index="2" :visible="showPicker"
+        <kingold-picker v-if="showPicker" :default-index="2"
                         title="选择年限" :list="years" @back="pickerBack"></kingold-picker>
 
     </div>
@@ -70,6 +70,7 @@
                 accumulationFundLoan: 0,
                 businessLoan: 0,
                 showPicker: false
+
             }
         },
         created(){
