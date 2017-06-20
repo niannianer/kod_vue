@@ -7,7 +7,7 @@
             </div>
             <div class="user-mobile">
                 <span v-if="investorMobile">{{investorMobile | mobileFormat}}</span>
-                <span v-else> 请登录</span>
+                <span v-else @click.stop="login"> 请登录</span>
             </div>
 
         </div>
