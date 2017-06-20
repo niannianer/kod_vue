@@ -1,29 +1,39 @@
 <template>
-    <div  class="reward-detail">
+    <div class="reward-detail">
         <div class="header" flex="dir:top">
             <div flex-box="1" class="tab bl" flex>
                 <ul flex>
-                    <li  :class="{'left':true,'active':isActive}" flex-box="1" @click="rewardTab('FIXI')">定期理财</li>
-                    <li  :class="{'right':true,'active':!isActive}" flex-box="1" @click="rewardTab('PRIF')">高端理财</li>
+                    <li :class="{'left':true,'active':isActive,'app':isApp}" flex-box="1" @click="rewardTab('FIXI')">
+                        定期理财
+                    </li>
+                    <li :class="{'right':true,'active':!isActive,'app':isApp}" flex-box="1" @click="rewardTab('PRIF')">
+                        高端理财
+                    </li>
                 </ul>
             </div>
-            <div class="title bl" flex="box:mean"  flex-box="0">
+            <div class="title bl" flex="box:mean" flex-box="0">
                 <p>产品名称</p>
                 <p>投资金额（元）</p>
                 <p>奖励比例{{this.titleRate}}</p>
             </div>
         </div>
-        <div class="body"  >
+        <div class="body">
             <div style="height: 100%;overflow: auto">
-                <mt-loadmore :top-method="loadTop"  ref="loadmore" :auto-fill="autoFill">
-                    <ul v-infinite-scroll="loadMore"  infinite-scroll-disabled="loading"  infinite-scroll-distance="10">
-                        <li class="item bl" flex="box:mean" v-for="(item,index) in lists" :key="index" >
-                            <p flex="dir:top main:center" class="product-name">{{item.productAbbrName}}</p>
+                <mt-loadmore :top-method="loadTop" ref="loadmore" :auto-fill="autoFill">
+                    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+                        <li class="item bl" flex="box:mean" v-for="(item,index) in lists" :key="index">
+                            <p flex="dir:top main:center"
+                               :class="{'app':isApp}"
+                               class="product-name">{{item.productAbbrName}}</p>
                             <ul flex="dir:top main:center">
-                                <li v-for="(itemRange,indexRange) in item.productAward" :key="indexRange">{{itemRange.range}}</li>
+                                <li v-for="(itemRange,indexRange) in item.productAward" :key="indexRange">
+                                    {{itemRange.range}}
+                                </li>
                             </ul>
                             <ul flex="dir:top main:center">
-                                <li v-for="(itemRate,indexRate) in item.productAward" :key="indexRate">{{itemRate.rate}}</li>
+                                <li v-for="(itemRate,indexRate) in item.productAward" :key="indexRate">
+                                    {{itemRate.rate}}
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -36,52 +46,58 @@
     import Vue from 'vue';
     import '../less/reward-detail.less';
     import $api from '../tools/api';
-    import {Loadmore,InfiniteScroll } from 'mint-ui';
+    import {Loadmore, InfiniteScroll} from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
     export default {
         name: 'reward',
         data(){
             return {
-                lists:[],
-                isActive:true,
-                tabMenu:'FIXI',
-                autoFill:false,
-                currentPage:0,
-                pageSize:10,
-                loading:false,
-                loadMoreFlag:true,
-                titleRate:'(年化)'
+                lists: [],
+                isActive: true,
+                tabMenu: 'FIXI',
+                autoFill: false,
+                currentPage: 0,
+                pageSize: 10,
+                loading: false,
+                loadMoreFlag: true,
+                titleRate: '(年化)',
+                isApp: false
             }
         },
-        methods:{
+        created(){
+            if (this.$route.query.from == 'app') {
+                this.isApp = true;
+            }
+        },
+        methods: {
             loadTop(){
                 this.lists = [];
                 this.currentPage = 0;
-                this.loadData().then(() =>{
+                this.loadData().then(() => {
                     this.$refs.loadmore.onTopLoaded();
                 });
             },
             rewardTab(string){
-                this.isActive = 'FIXI'== string?true:false;
+                this.isActive = 'FIXI' == string ? true : false;
                 this.tabMenu = string;
-                this.titleRate = this.tabMenu == 'FIXI'?'(年化)':''
+                this.titleRate = this.tabMenu == 'FIXI' ? '(年化)' : ''
                 this.lists = [];
                 this.currentPage = 0;
                 this.loadData();
             },
             loadData(){
-                return $api.get('/product/reward/list',{
-                    'productType':this.tabMenu,
-                    startRow:this.currentPage*this.pageSize,
-                    pageSize:this.pageSize
+                return $api.get('/product/reward/list', {
+                    'productType': this.tabMenu,
+                    startRow: this.currentPage * this.pageSize,
+                    pageSize: this.pageSize
                 })
                     .then(msg => {
-                        if(msg.code == 200){
+                        if (msg.code == 200) {
                             this.lists = this.lists.concat(msg.data.rewardList);
-                            if(msg.data.rewardList.length<this.pageSize){
+                            if (msg.data.rewardList.length < this.pageSize) {
                                 this.loading = true;
-                            }else{
+                            } else {
                                 this.loading = false;
                             }
                         }
