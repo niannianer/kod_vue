@@ -1,6 +1,6 @@
 <template>
 	<div v-cloak class="pension-two" flex-box="1" flex="dir:top">
-        <div class="content" flex flex-box="1" flex="dir:top" v-show="show">
+        <div class="content" flex flex-box="1" flex="dir:top" v-show="false">
             <div class="box" flex-box='1'>
               <div class="top" flex-box='1'>
                   <div class="title" flex-box = '1'>请选择您的性别</div>
@@ -19,16 +19,16 @@
                 </mt-picker>
             </div>
         </div>
-        <div class="salary" flex-box="1">
-            <div class="title">请输入您的税后工资（月）</div>
-            <div class="content"><input type="text"><span>元</span></div>
-        </div>
+        <!--<div class="salary" flex-box="1" flex="dir:top" v-if="">-->
+            <!--<div class="title" >请输入您的税后工资（月）</div>-->
+            <!--<div class="content" flex="main:left"><div class="num" ><input type="text"></div><span>元</span></div>-->
+        <!--</div>-->
         <div flex-box="0.5" class="check">
             <p >当前选择：<span v-show="sex == 1" class='sex'>男，</span><span v-show="sex == 2" class='sex'>女，</span><span class='age'>{{value}}岁</span></p>
         </div>
         <div class="bottom" flex-box="0" flex="main:justify">
         	<div class="left" flex-box="1" @click.stop="$router.push('/pension-one')" >上一步</div>
-        	<div class="left" flex-box="1" @click.stop="$router.push('/pnsion-three')">下一步</div>
+        	<div class="left" flex-box="1" @click.stop="$router.push('/pension-three')">下一步</div>
         </div>
     </div>
 </template>
@@ -49,7 +49,7 @@
             },
            toggle(sex){
                 this.sex = sex
-           }
+           },
         },
 //默认为30岁，显示5条，中间的为选中
         data() {
@@ -66,6 +66,6 @@
                     }
                 ],
             }
-            },
+        }
     }
 </script>

@@ -16,6 +16,6 @@
 <script>
     import '../less/pension-three.less';
     export default {
-        name: 'pension-two',
+        name: 'pension-three',
     }
 </script>
