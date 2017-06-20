@@ -13,6 +13,9 @@
             margin:.6rem auto;
             li{
                 padding:.45rem 1.4rem;border:1px solid @bg-button;color:@bg-button;
+                &.app{
+                    border:1px solid @app-color;color:@app-color;
+                }
 
             }
             .left{
@@ -27,6 +30,9 @@
             }
             .active{
                 background-color: @bg-button;color:@bg-content;
+                &.app{
+                    background-color: @app-color;color:#fff;
+                }
             }
         }
         .title{
@@ -39,7 +45,12 @@
         position:absolute;top:5.5rem;bottom:0;width:100%;
         .item{
             padding:.45rem 0;background-color: @bg-content;text-align:center;
-            .product-name{color:@bg-button}
+            .product-name{
+                color:@bg-button;
+                &.app{
+                    color: @app-color;
+                }
+            }
             li{
                 padding:.35rem 0;
             }

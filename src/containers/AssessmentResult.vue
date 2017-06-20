@@ -32,7 +32,7 @@
             }
         },
         created(){
-            if (this.$route.query.score) {
+            if (this.$route.query.from=='app') {
                 this.isApp = true;
             }
         },
