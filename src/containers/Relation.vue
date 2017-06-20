@@ -44,7 +44,7 @@
         methods:{
             useqrcode(){
                const canvas = document.getElementById('canvas');
-               const url = 'http://'+ window.location.host+'/share.html';
+               const url = 'http://'+ window.location.host+'/share.html?investorMobile='+state.investorMobile;
                QRCode.toCanvas(canvas,url,(error) => {
                     if(error) console.log(error )
 //                    console.log(state.investorMobile);
@@ -53,7 +53,7 @@
 
             },
             link(){
-                window.location.href = '/share.html';
+                window.location.href = '/share.html?investorMobile='+state.investorMobile;
             }
         },
         mounted(){
