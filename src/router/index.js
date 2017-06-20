@@ -258,7 +258,7 @@ let routes = [
         meta: {
             title: '住房理财规划'
         },
-        component: Index
+        component: HouseOne
     },
     {
         path: '/house-two',
@@ -266,7 +266,7 @@ let routes = [
         meta: {
             title: '住房理财规划'
         },
-        component: Index
+        component: HouseTwo
     },
     {
         path: '/house-three',
@@ -274,7 +274,7 @@ let routes = [
         meta: {
             title: '住房理财规划'
         },
-        component: Index
+        component: HouseThree
     },
     {
         path: '/house-share',
