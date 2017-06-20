@@ -4,101 +4,347 @@
             <div class="header">
                 <div class="main">
                     <div class="tabs" flex-box="0" flex>
-                        <div flex-box="1" class="tab" @click.stop="changeTab('a')" :class="{'active':tab=='a'}">
+                        <div flex-box="1" class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">
                             <div class="tab-item">方案A</div>
                         </div>
-                        <div flex-box="1" class="tab" @click.stop="changeTab('b')" :class="{'active':tab=='b'}">
+                        <div flex-box="1" class="tab" @click.stop="changeTab(2)" :class="{'active':tab==2}">
                             <div class="tab-item" >方案B</div>
 
                         </div>
-                        <div flex-box="1" class="tab" @click.stop="changeTab('c')" :class="{'active':tab=='c'}">
+                        <div flex-box="1" class="tab" @click.stop="changeTab(3)" :class="{'active':tab==3}">
                             <div class="tab-item">方案C</div>
                         </div>
                     </div>
                     <div class="content">
                         <p class="h-title">预期组合年化收益率</p>
-                        <p class="pate">6.5%</p>
-                        <div flex class="cont-div">
-                            <div>首次投资：</div>
-                            <div>10000元</div>
-                        </div>
-                        <div flex class="cont-div">
-                            <div>每期续投：</div>
-                            <div>2000元</div>
-                        </div>
+                        <p class="pate">{{k | translatePate}}</p>
+                        <div class="cont-div">首次投资：<i>{{q | currencyInputNo}}元</i></div>
+                        <div class="cont-div">单个产品每期续投：<i>{{z | currencyInputNo}}元</i></div>
                     </div>
                 </div>
                 <div class="box-shadows"></div>
             </div>
             <div class="lists">
                 <h6 class="title">配置详情</h6>
-                <ul class="items-ul">
+                <ul class="items-ul" v-show="tab== 1">
                     <li>
                         <div flex class="item-div">
-                            <div class="div-left">惠普1号普惠1号</div>
-                            <div class="div-right">推荐配比50%</div>
+                            <div class="div-left color ellipsis">{{lists.a.productName}}</div>
+                            <div class="div-right">推荐配比{{s1 | translatePate}}</div>
                         </div>
-                        <div flex class="item-div">
-                            <div class="div-left">产品期限：6个月</div>
-                            <div class="div-right">预期年化收益率：6%</div>
+                        <div flex class="item-div item-bott">
+                            <div class="div-left">产品期限<i>{{lists.a.productPeriod}}</i></div>
+                            <div class="div-right">预期年化收益率：<i>{{lists.a.annualInterestRate}}</i></div>
                         </div>
-                        <p class="link"><router-link :to="{path:'/invest-detail'}">查看详情</router-link></p>
+                        <p class="link"><span @click="link(lists.a.productUuid)">查看详情</span></p>
                     </li>
+                    <li v-for="(item,index) in data.b" :key="index" v-if="index==0">
+                        <div flex class="item-div">
+                            <div class="div-left color ellipsis">{{lists.b.productName}}</div>
+                            <div class="div-right">推荐配比{{s2 | translatePate}}</div>
+                        </div>
+                        <div flex class="item-div item-bott">
+                            <div class="div-left">产品期限<i>{{lists.b.productPeriod}}</i></div>
+                            <div class="div-right">预期年化收益率：<i>{{lists.b.annualInterestRate}}</i></div>
+                        </div>
+                        <p class="link"><span @click="link(lists.b.productUuid)">查看详情</span></p>
+                    </li>
+                </ul>
+                <ul class="items-ul" v-show="tab== 2">
                     <li>
                         <div flex class="item-div">
-                            <div class="div-left">惠普1号普惠1号</div>
-                            <div class="div-right">推荐配比50%</div>
+                            <div class="div-left color ellipsis">{{lists.b.productName}}</div>
+                            <div class="div-right">推荐配比{{s1 | translatePate}}</div>
                         </div>
+                        <div flex class="item-div item-bott">
+                            <div class="div-left">产品期限<i>{{lists.b.productPeriod}}</i></div>
+                            <div class="div-right">预期年化收益率：<i>{{lists.b.annualInterestRate}}</i></div>
+                        </div>
+                        <p class="link"><span @click="link(lists.b.productUuid)">查看详情</span></p>
+                    </li>
+                    <li v-for="(item,index) in data.c" :key="index" v-if="index==0">
                         <div flex class="item-div">
-                            <div class="div-left">产品期限：6个月</div>
-                            <div class="div-right">预期年化收益率：6%</div>
+                            <div class="div-left color ellipsis">{{lists.c.productName}}</div>
+                            <div class="div-right">推荐配比{{s2 | translatePate}}</div>
                         </div>
-                        <p class="link"><router-link :to="{path:'/invest-detail'}">查看详情</router-link></p>
+                        <div flex class="item-div item-bott">
+                            <div class="div-left">产品期限<i>{{lists.c.productPeriod}}</i></div>
+                            <div class="div-right">预期年化收益率：<i>{{lists.c.annualInterestRate}}</i></div>
+                        </div>
+                        <p class="link"><span @click="link(lists.c.productUuid)">查看详情</span></p>
+                    </li>
+                </ul>
+                <ul class="items-ul" v-show="tab== 3">
+                    <li>
+                        <div flex class="item-div">
+                            <div class="div-left color ellipsis">{{lists.a.productName}}</div>
+                            <div class="div-right">推荐配比{{s1 | translatePate}}</div>
+                        </div>
+                        <div flex class="item-div item-bott" >
+                            <div class="div-left">产品期限<i>{{lists.a.productPeriod}}</i></div>
+                            <div class="div-right">预期年化收益率：<i>{{lists.a.annualInterestRate}}</i></div>
+                        </div>
+                        <p class="link"><span @click="link(lists.a.productUuid)">查看详情</span></p>
+                    </li>
+                    <li v-for="(item,index) in data.c" :key="index" v-if="index==0">
+                        <div flex class="item-div">
+                            <div class="div-left color">{{lists.c.productName}}</div>
+                            <div class="div-right">推荐配比{{s2 | translatePate}}</div>
+                        </div>
+                        <div flex class="item-div item-bott">
+                            <div class="div-left">产品期限<i>{{lists.c.productPeriod}}</i></div>
+                            <div class="div-right">预期年化收益率：<i>{{lists.c.annualInterestRate}}</i></div>
+                        </div>
+                        <p class="link"><span @click="link(lists.c.productUuid)">查看详情</span></p>
                     </li>
                 </ul>
             </div>
-            <!-- <div class="item" v-for="(item,index) in lists" :key="index">
-                <div class="fund-name">{{item.name}}</div>
-                <div flex="dir:left" class="fund-middle">
-                    <div class="rate" flex-box="1">
-                        <div>{{item.rate}}</div>
-                        <div class="sub-text">业绩基准</div>
-                    </div>
-                    <div class="cycle" flex-box="1">
-                        <div>{{item.cycle}}</div>
-                        <div class="sub-text">期限</div>
-                    </div>
-                    <div class="progress" flex-box="0">
-                        <cicle-progress :width-size="50" :progress="item.progress"></cicle-progress>
-                    </div>
-                </div>
-            </div> -->
         </div>
         <div class="button" flex-box="0">
-            <button>返回修改</button>
+            <button @click="$router.go(-1)">返回修改</button>
         </div>
     </div>
 </template>
-
 <script>
     import '../less/pension-five.less';
+    import $api from '../tools/api';
+    import {Toast,MessageBox} from 'mint-ui';
     export default {
         name: 'pension-five',
+        components:{},
         data(){
             return {
-                tab: 'a',
-                lists: [
-                   ]
+                a:22,//实际年龄
+                b:60,//退休年龄
+                c:100,//预计寿命
+                d:6000,//税后月工资
+                e:200,//月平均养老金
+                g:0.014,//当地通货膨胀率
+                k:0,//预期组合年化收益率
+                tab:1,
+                pageSize:80,
+                length:0,
+                productType:'FIXI',
+                data:{
+                    'a':[],
+                    'b':[],
+                    'c':[],
+                    'd':[]
+                },
+                lists:{
+                    a:{},
+                    b:{},
+                    c:{}
+                },
+                isLast:{
+                    a:false,
+                    b:false,
+                    c:false
+                },
+                productUuid:'',
             };
         },
-        computed: {
-            
+        computed: {//养老金覆盖比例
+            f:function(){
+                return this.e/this.d
+            },
+            n:function(){
+                return parseInt(this.d*(1-this.f)*Math.pow(1+this.g,(this.b-this.a))*100)/100
+            },
+            l:function(){//预计养老金
+                return parseInt(12*this.n*(1+this.g)*[-1+Math.pow(1+this.g,this.c-this.b)]/this.g*100)/100
+            },
+            m1:function(){
+                if(this.tab == 1){
+                    if(this.isLast.a){
+                        return 12
+                    }
+                    return 1
+                }else if(this.tab == 2){
+                    if(this.isLast.b){
+                        return 12
+                    }
+                    return 3
+                }else if(this.tab == 3){
+                    if(this.isLast.a){
+                        return 12
+                    }
+                    return 1
+                }
+            },
+            m2:function(){
+                if(this.tab == 1){
+                    if(this.isLast.b){
+                        return 12
+                    }
+                    return 3
+                }else if(this.tab == 2){
+                    if(this.isLast.c){
+                        return 12
+                    }
+                    return 6
+                }else if(this.tab == 3){
+                    if(this.isLast.c){
+                        return 12
+                    }
+                    return 6
+                }
+            },
+            s1:function(){
+                let s = this.setT(this.m1)/(this.setT(this.m1)+this.setT(this.m2));
+                s = s.toFixed(4);
+                return s
+            },
+            s2:function(){
+                let s = this.setT(this.m2)/(this.setT(this.m1)+this.setT(this.m2));
+                s = s.toFixed(4);
+                return s
+            },
+            factor:function(){
+                return (this.setX(this.m1))*(this.setT(this.m1)*(this.setT(this.m1)+1)/2)+(this.setX(this.m2))*(this.setT(this.m2)*(this.setT(this.m2)+1)/2)
+            },
+            r:function(){//每期需投数
+                return this.l/this.factor
+            },
+            z:function(){//每期投资
+                let parm ;
+                if(this.tab == 1){
+                    parm = 4;
+                }else if(this.tab == 2){
+                    parm = 8;
+                }else if(this.tab == 3){
+                    parm = 10;
+                }
+                return parseInt((this.l-parm*this.r*(1+(this.b-this.a)*this.k))/this.factor)
+            },
+            q:function(){//首投
+                let parm,rmb;
+                if(this.tab == 1){
+                    parm = 4;
+                }else if(this.tab == 2){
+                    parm = 8;
+                }else if(this.tab == 3){
+                    parm = 10;
+                }
+                rmb = parm*this.r+2*this.z*2;
+                if(rmb >= 10000){
+                    rmb = parseInt(rmb/1000)*1000;
+                }else{
+                    rmb = parseInt(rmb/100)*100;
+                }
+                return rmb
+            }
         },
         methods: {
+            setX(m){
+                return this.k*m/12
+            },
+            setT(m){
+                return parseInt(12/m*this.b-this.a)
+            },
             changeTab(tab){
                 this.tab = tab;
-                
+                this.calculate()
+            },
+            get(){
+                $api.get('/product/getList',{startRow:this.length,pageSize:this.pageSize,productType:'FIXI'}).then(msg => {
+                    if(msg.code == 200){
+                        msg.data.productList.map(el => {
+                            if(el.productPeriod == '30天'){
+                                this.data.a.push(el)
+                                //test delet
+                                this.data.d.push(el)
+                            }else if(el.productPeriod == '90天'){
+                                this.data.b.push(el)
+                            }else if(el.roductPeriod == '180天'){
+                                this.data.c.push(el)
+                            }else if(el.roductPeriod == '360天'){
+                                this.data.d.push(el)
+                            }
+                        });
+                        this.length += msg.data.productList.length;
+                        if(this.length < msg.data.productCount){
+                            this.get();
+                        }else{
+                            if(this.data.a.length < 1){
+                                this.data.a = this.data.d;
+                                this.isLast.a = true;
+                            }
+                            if(this.data.b.length < 1){
+                                this.data.b = this.data.d;
+                                this.isLast.b = true;
+                            }
+                            if(this.data.c.length < 1){
+                                this.data.c = this.data.d;
+                                this.isLast.c = true;
+                            }
+                            this.lists.a = this.data.a[0];
+                            this.lists.b = this.data.b[0];
+                            this.lists.c = this.data.c[0];
+                            this.calculate();
+                        }
+                    }else{
+                        Toast(msg.msg);
+                    }
+                });
+            },
+            calculate(){
+                let x,y,z,o;
+                if(this.tab == 1){
+                    //A方案
+                    x = this.lists.a.annualInterestRate;
+                    y = this.lists.b.annualInterestRate;
+                    z = this.accMul(this.fun(x),this.s1) + this.accMul(this.fun(y),this.s2);
+                    this.k = z;
+                }else if(this.tab == 2){
+                    //B方案
+                    x = this.lists.b.annualInterestRate;
+                    y = this.lists.c.annualInterestRate;
+                    z = this.accMul(this.fun(x),this.s1) + this.accMul(this.fun(y),this.s2);
+                    this.k = z;
+                }else if(this.tab == 3){
+                    //C方案
+                    x = this.lists.a.annualInterestRate;
+                    y = this.lists.c.annualInterestRate;
+                    z = this.accMul(this.fun(x),this.s1) + this.accMul(this.fun(y),this.s2);
+                    this.k = z;
+                }
+            },
+            fun(a){
+                let x = Number(a.replace("%",""))/100;
+                return x;
+            },
+            //乘法
+            accMul(arg1,arg2){
+                let m=0,s1=arg1.toString(),s2=arg2.toString();
+                if(s1.split(".")[1]){
+                    m+=s1.split(".")[1].length;
+                }
+                if(s2.split(".")[1]){
+                    m+=s2.split(".")[1].length;
+                }
+                return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)
+            },
+            link(productUuid){
+                if(this.productType == 'PRIF'){
+                    window.location.href='/goodsDetailPRIF.html?u='+productUuid+'&t='+this.productType;
+                }else{
+                    window.location.href='/goodsDetail.html?u='+productUuid+'&t='+this.productType;
+                }
             }
+        },
+        created(){
+            this.get();
+        },
+        beforeRouteLeave (to, from, next){
+            MessageBox.confirm('退出理财规划将不会保存，确认退出？').then(action => {
+                next(()=>{
+                    this.$router.go(-1);
+                })
+            },cancel =>{
+
+            })
+            next(false)
         }
     }
 </script>
