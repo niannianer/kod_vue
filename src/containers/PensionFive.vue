@@ -101,7 +101,7 @@
             </div>
         </div>
         <div class="button" flex-box="0">
-            <button @click="$router.go(-1)">返回修改</button>
+            <button @click="back">返回修改</button>
         </div>
     </div>
 </template>
@@ -109,17 +109,12 @@
     import '../less/pension-five.less';
     import $api from '../tools/api';
     import {Toast,MessageBox} from 'mint-ui';
+    import {getValueE} from "../tools/city-grade"
     export default {
         name: 'pension-five',
         components:{},
         data(){
             return {
-                a:22,//实际年龄
-                b:60,//退休年龄
-                c:100,//预计寿命
-                d:6000,//税后月工资
-                e:200,//月平均养老金
-                g:0.014,//当地通货膨胀率
                 k:0,//预期组合年化收益率
                 tab:1,
                 pageSize:80,
@@ -142,9 +137,28 @@
                     c:false
                 },
                 productUuid:'',
+                isBack:false
             };
         },
         computed: {//养老金覆盖比例
+            a:function(){//实际年龄
+                return this.pension.age
+            },
+            b:function(){//退休年龄
+                return this.pension.retirementAge
+            },
+            c:function(){//预计寿命
+                return this.pension.planAge
+            },
+            d:function(){//税后月工资
+                return this.pension.wagesAfterTax
+            },
+            e:function(){//月平均养老金
+                return getValueE(this.pension.cityName)
+            },
+            g:function(){//当地通货膨胀率
+                return this.pension.inflation/100
+            },
             f:function(){
                 return this.e/this.d
             },
@@ -207,7 +221,7 @@
                 return this.l/this.factor
             },
             z:function(){//每期投资
-                let parm ;
+                let parm,rmb;
                 if(this.tab == 1){
                     parm = 4;
                 }else if(this.tab == 2){
@@ -215,7 +229,9 @@
                 }else if(this.tab == 3){
                     parm = 10;
                 }
-                return parseInt((this.l-parm*this.r*(1+(this.b-this.a)*this.k))/this.factor)
+                rmb = (this.l-parm*this.r*(1+(this.b-this.a)*this.k))/this.factor;
+                rmb < 0 ? rmb = 0 : '';
+                return parseInt(rmb)
             },
             q:function(){//首投
                 let parm,rmb;
@@ -227,12 +243,20 @@
                     parm = 10;
                 }
                 rmb = parm*this.r+2*this.z*2;
+                rmb < 0 ? rmb = 0 : '';
                 if(rmb >= 10000){
                     rmb = parseInt(rmb/1000)*1000;
-                }else{
+                }else if(rmb >= 1000){
                     rmb = parseInt(rmb/100)*100;
+                }else if(rmb >= 100){
+                    rmb = parseInt(rmb/10)*10;
+                }else{
+                    rmb = parseInt(rmb);
                 }
                 return rmb
+            },
+            pension:function(){
+                return JSON.parse(window.sessionStorage.getItem('pension'))
             }
         },
         methods: {
@@ -331,20 +355,30 @@
                 }else{
                     window.location.href='/goodsDetail.html?u='+productUuid+'&t='+this.productType;
                 }
+            },
+            back(){
+                this.isBack = true;
+                this.$router.go(-1)
             }
         },
         created(){
             this.get();
         },
         beforeRouteLeave (to, from, next){
-            MessageBox.confirm('退出理财规划将不会保存，确认退出？').then(action => {
+            if(this.isBack){
                 next(()=>{
-                    this.$router.go(-1);
+                    this.$router.go(-1)
                 })
-            },cancel =>{
+            }else{
+                MessageBox.confirm('退出理财规划将不会保存，确认退出？').then(action => {
+                    next(()=>{
+                        this.$router.push('/pension-four');
+                    })
+                },cancel =>{
 
-            })
-            next(false)
+                })
+                next(false)
+            }
         }
     }
 </script>
