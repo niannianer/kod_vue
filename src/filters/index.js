@@ -146,4 +146,11 @@ export let translatePate = (input) => {
     }
     return out+'%'
 };
-
+export let translatePateInt = (input) => {
+    if (!input) {
+        return '0%';
+    }
+    let inp = Number(input);
+    let out = (inp*100).toFixed(0)
+    return out+'%'
+};

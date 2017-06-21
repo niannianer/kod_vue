@@ -30,7 +30,7 @@
                     <li>
                         <div flex class="item-div">
                             <div class="div-left color ellipsis">{{lists.a.productName}}</div>
-                            <div class="div-right">推荐配比{{s1 | translatePate}}</div>
+                            <div class="div-right">推荐配比{{s1 | translatePateInt}}</div>
                         </div>
                         <div flex class="item-div item-bott">
                             <div class="div-left">产品期限<i>{{lists.a.productPeriod}}</i></div>
@@ -41,7 +41,7 @@
                     <li v-for="(item,index) in data.b" :key="index" v-if="index==0">
                         <div flex class="item-div">
                             <div class="div-left color ellipsis">{{lists.b.productName}}</div>
-                            <div class="div-right">推荐配比{{s2 | translatePate}}</div>
+                            <div class="div-right">推荐配比{{s2 | translatePateInt}}</div>
                         </div>
                         <div flex class="item-div item-bott">
                             <div class="div-left">产品期限<i>{{lists.b.productPeriod}}</i></div>
@@ -54,7 +54,7 @@
                     <li>
                         <div flex class="item-div">
                             <div class="div-left color ellipsis">{{lists.b.productName}}</div>
-                            <div class="div-right">推荐配比{{s1 | translatePate}}</div>
+                            <div class="div-right">推荐配比{{s1 | translatePateInt}}</div>
                         </div>
                         <div flex class="item-div item-bott">
                             <div class="div-left">产品期限<i>{{lists.b.productPeriod}}</i></div>
@@ -65,7 +65,7 @@
                     <li v-for="(item,index) in data.c" :key="index" v-if="index==0">
                         <div flex class="item-div">
                             <div class="div-left color ellipsis">{{lists.c.productName}}</div>
-                            <div class="div-right">推荐配比{{s2 | translatePate}}</div>
+                            <div class="div-right">推荐配比{{s2 | translatePateInt}}</div>
                         </div>
                         <div flex class="item-div item-bott">
                             <div class="div-left">产品期限<i>{{lists.c.productPeriod}}</i></div>
@@ -78,7 +78,7 @@
                     <li>
                         <div flex class="item-div">
                             <div class="div-left color ellipsis">{{lists.a.productName}}</div>
-                            <div class="div-right">推荐配比{{s1 | translatePate}}</div>
+                            <div class="div-right">推荐配比{{s1 | translatePateInt}}</div>
                         </div>
                         <div flex class="item-div item-bott" >
                             <div class="div-left">产品期限<i>{{lists.a.productPeriod}}</i></div>
@@ -89,7 +89,7 @@
                     <li v-for="(item,index) in data.c" :key="index" v-if="index==0">
                         <div flex class="item-div">
                             <div class="div-left color">{{lists.c.productName}}</div>
-                            <div class="div-right">推荐配比{{s2 | translatePate}}</div>
+                            <div class="div-right">推荐配比{{s2 | translatePateInt}}</div>
                         </div>
                         <div flex class="item-div item-bott">
                             <div class="div-left">产品期限<i>{{lists.c.productPeriod}}</i></div>
@@ -206,16 +206,16 @@
             },
             s1:function(){
                 let s = this.setT(this.m1)/(this.setT(this.m1)+this.setT(this.m2));
-                s = s.toFixed(4);
+                s = s.toFixed(2);
                 return s
             },
             s2:function(){
                 let s = this.setT(this.m2)/(this.setT(this.m1)+this.setT(this.m2));
-                s = s.toFixed(4);
+                s = s.toFixed(2);
                 return s
             },
-            factor:function(){
-                return (this.setX(this.m1))*(this.setT(this.m1)*(this.setT(this.m1)+1)/2)+(this.setX(this.m2))*(this.setT(this.m2)*(this.setT(this.m2)+1)/2)
+            factor:function(){//X1[T1/X1+T1(T1+1)/2]+X2[T2/X2+T2(T2+1)/2]
+                return this.setX(this.m1)*(this.setT(this.m1)/this.setX(this.m1)+this.setT(this.m1)*(this.setT(this.m1)+1)/2)+this.setX(this.m2)*(this.setT(this.m2)/this.setX(this.m2)+this.setT(this.m2)*(this.setT(this.m2)+1)/2)
             },
             r:function(){//每期需投数
                 return this.l/this.factor
