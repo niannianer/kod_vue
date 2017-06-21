@@ -2,41 +2,41 @@
 @import "variables";
 
 .house-two {
-    @price-color:#F71C1C;
+    @price-color: #F71C1C;
     position: relative;
     width: 100%;
     height: 100%;
-    .main{
+    .main {
         position: relative;
         overflow-y: auto;
-        .header{
+        .header {
             position: relative;
-            padding: 1.5rem  .8rem .75rem;
-            .header-main{
+            padding: 1.5rem .8rem .75rem;
+            .header-main {
                 position: relative;
                 z-index: 7;
-                color:#EDD7A8;
+                color: #EDD7A8;
                 font-size: .7rem;
                 text-align: center;
-                .house-price{
+                .house-price {
                     margin-top: 1rem;
-                    span{
+                    span {
                         color: @price-color;
                     }
                 }
-                .div-warp{
+                .div-warp {
                     margin: 1.5rem 0 .5rem;
                     line-height: 2rem;
                     font-size: .8rem;
-                    &.margin-rem{
+                    &.margin-rem {
                         margin-top: .5rem;
                     }
-                    label{
+                    label {
                         text-align: left;
                     }
-                    input{
+                    input {
                         background: #FFF7E6;
-                        box-shadow: inset 0 1px 1px 0 rgba(0,0,0,0.50);
+                        box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.50);
                         border-radius: .1rem;
                         height: 2.2rem;
                         line-height: 2rem;
@@ -44,45 +44,45 @@
                         font-size: 1rem;
                         width: 7rem;
                     }
-                    span{
+                    span {
                         margin-left: .2rem;
                         text-align: right;
                     }
-                    .arrow-right{
+                    .arrow-right {
                         position: relative;
                         width: 1rem;
                         color: #fff;
-                        img{
+                        img {
                             height: 1rem;
                             width: auto;
                         }
                     }
 
                 }
-                .box-warp{
+                .box-warp {
                     position: relative;
-                    .box{
+                    .box {
                         background-color: #979797;
                         padding: .1rem;
-                        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+                        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
                         border-radius: .4rem;
                         color: @color-text-gray;
                         height: 3rem;
                         width: 6rem;
                         margin: 1rem;
                         line-height: 2.8rem;
-                        .content{
+                        .content {
                             background-color: #4E4E4E;
                             border-radius: .3rem;
                         }
-                        &.active{
+                        &.active {
                             background: linear-gradient(to bottom, #EECE83, #7C4F2B);
                             color: #EECE83;
                         }
                     }
                 }
             }
-            .box-shadow{
+            .box-shadow {
                 position: absolute;
                 top: -2rem;
                 bottom: 0;
@@ -96,18 +96,117 @@
 
             }
         }
+        .loan {
+            position: relative;
+            margin-top: 1rem;
+
+            .loan-types {
+                background-color: #fff;
+                padding: .5rem;
+                .type {
+                    font-size: .8rem;
+                    height: 1rem;
+                    line-height: 1rem;
+                    text-align: center;
+                    color: @color-text-gray;
+                    &.active {
+                        color: #6E3018;
+                    }
+                    &:first-child {
+                        border-right: 1px solid #eee;
+                    }
+                }
+            }
+            .pay {
+                position: relative;
+                margin-top: .5rem;
+                background-color: #fff;
+                padding: .5rem 0rem;
+
+                .first-pay {
+                    padding-left: .8rem;
+                    width: 50%;
+                    font-size: .8rem;
+                    color: @color-text;
+                    line-height: 1.2rem;
+                    .price {
+                        color: @price-color
+                    }
+                }
+            }
+            .loan-class{
+                position: relative;
+                background-color: #fff;
+                margin-top: .5rem;
+                .loan-item{
+                    padding: .5rem .8rem;
+                    border-bottom: 1px solid @color-split;
+                    font-size: .8rem;
+                    color: @color-text;
+                    .right{
+                        text-align: right;
+                        color: @color-text-gray;
+                        input{
+                            height: 100%;
+                            width: 4rem;
+                            text-align: right;
+                        }
+                        &.arrow{
+                           padding-right: .8rem;
+                            position: relative;
+                          &:after{
+                              display: inline-block;
+                              position: absolute;
+                              right: 0;
+                              top: 50%;
+                              margin-top: -.4rem;
+                              content: '';
+                              height: .8rem;
+                              background-image: url("../images/arrow-right.png");
+                              background-size: cover;
+                              width: .5rem;
+
+                          }
+                        }
+                    }
+                    &:last-child{
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+        .center {
+            height: 4rem;
+            margin: 1rem .8rem;
+            padding-left: 2rem;
+            background-image: url("../images/house/bg.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #6E3018;
+            div {
+                line-height: 1rem;
+            }
+            span {
+                color: #F71C1C;
+                padding-left: 1.5rem;
+                font-size: .9rem;
+            }
+        }
     }
-    .footer{
+    .footer {
         height: 2.3rem;
-        .btn-overlook{
+        .btn-overlook {
             height: 100%;
             width: 100%;
             border-radius: 0;
-            background: linear-gradient(to bottom, #7C4F2B, #8F6441,#D8BD7E,#EECE83);
+            background: linear-gradient(to bottom, #7C4F2B, #8F6441, #D8BD7E, #EECE83);
             color: #fff;
             font-size: 1rem;
+            &:disabled {
+                color: #999;
+                background-image: linear-gradient(-1deg, #B1B1B1 0%, #B7B7B7 24%, #E9E9E9 70%, #EEEDED 100%) !important;
+            }
         }
     }
-
 
 }
