@@ -469,6 +469,7 @@
                 investMoney = this.R;
                 businessLoan = businessLoan * 10000;
                 accumulationFundLoan = accumulationFundLoan * 10000;
+                let year = this.year;
                 $api.postNode('/house/createHousing', {
                     cityName, houseTotal,
                     planYears, loanFlag, loanType,
@@ -480,7 +481,7 @@
                             path:'/house-three',
                             query:{
                                 payments:firstPayments,
-                                r:investMoney
+                                year
                             }
                         })
                     }
