@@ -41,7 +41,7 @@ let get = (path, data = {}) => {
     let credentials='include';
     if (/http/.test(path)) {
         url = `${path}?t=${t}&${$query(data)}`;
-        let credentials='';
+        credentials='';
     } else {
         url = `${serverUrl + path}?t=${t}&${$query(data)}`
     }
