@@ -121,7 +121,7 @@
                             this.$router.replace({
                                 path: '/assessment-result',
                                 query: {
-                                    score: investorRiskScore
+                                    from: 'app'
                                 }
                             })
                         } else {
