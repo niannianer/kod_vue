@@ -30,7 +30,7 @@ export let currencyInput = (input) => {
 };
 export let currencyInputNo = (input) => {
     if (!input) {
-        return '';
+        return '0';
     }
     let ouputs = input.toString();
     ouputs = ouputs.split('.');
