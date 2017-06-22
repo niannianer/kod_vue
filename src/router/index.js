@@ -254,7 +254,8 @@ let routes = [
         path: '/pension-five',
         name: 'pension-five',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin: true
         },
         component: PensionFive
     },
@@ -270,7 +271,8 @@ let routes = [
         path: '/house-one',
         name: 'house-one',
         meta: {
-            title: '住房理财规划'
+            title: '住房理财规划',
+            withoutLogin: true
         },
         component: HouseOne
     },
@@ -278,7 +280,8 @@ let routes = [
         path: '/house-two',
         name: 'house-two',
         meta: {
-            title: '住房理财规划'
+            title: '住房理财规划',
+            withoutLogin: true
         },
         component: HouseTwo
     },
@@ -286,7 +289,8 @@ let routes = [
         path: '/house-three',
         name: 'house-three',
         meta: {
-            title: '住房理财规划'
+            title: '住房理财规划',
+            withoutLogin: true
         },
         component: HouseThree
     },
