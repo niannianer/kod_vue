@@ -62,6 +62,22 @@ let hotG = [{
     name: '天津',
     value: 2.1
 }];
+let prices=[{
+    name: '北京',
+    value: 2151719
+}, {
+    name: '上海',
+    value: 1518384
+}, {
+    name: '广州',
+    value: 1507958
+}, {
+    name: '深圳',
+    value: 2851128
+}, {
+    name: '天津',
+    value: 942983
+}]
 export let getValueD = (name = '') => {
     if (!name) {
         return 3133;
@@ -84,8 +100,8 @@ export let getValueE = (name = '') => {
         return 1868;
     }
     for (let d in hotE) {
-        if (name.indexOf(hotD[d].name) > -1) {
-            return hotD[d].value
+        if (name.indexOf(hotE[d].name) > -1) {
+            return hotE[d].value
         }
     }
     if (gradeOne.indexOf(name) > -1) {
@@ -101,9 +117,9 @@ export let getValueG = (name = '') => {
     if (!name) {
         return 2.1;
     }
-    for (let d in hotE) {
-        if (name.indexOf(hotD[d].name) > -1) {
-            return hotD[d].value
+    for (let d in hotG) {
+        if (name.indexOf(hotG[d].name) > -1) {
+            return hotG[d].value
         }
     }
     if (gradeOne.indexOf(name) > -1) {
@@ -114,6 +130,23 @@ export let getValueG = (name = '') => {
     }
     return 2.1;
 };
+export let getPrice=(name='')=>{
+    if (!name) {
+        return 610575;
+    }
+    for (let d in prices) {
+        if (name.indexOf(prices[d].name) > -1) {
+            return prices[d].value
+        }
+    }
+    if (gradeOne.indexOf(name) > -1) {
+        return 796509;
+    }
+    if (gradeTwo.indexOf(name) > -1) {
+        return 762466;
+    }
+    return 610575;
+}
 export  default {
     gradeOne,
     gradeTwo,

@@ -31,6 +31,11 @@ import RiskAssessment from '../containers/RiskAssessment';
 import AssessmentResult from '../containers/AssessmentResult';
 import RelationList from '../containers/RelationList';
 import Relation from '../containers/Relation';
+import HouseTwo from '../containers/HouseTwo';
+import HouseThree from '../containers/HouseThree';
+import Planning from '../containers/Planning'
+const HouseOne = PensionOne;
+
 import Register from '../containers/Register';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
@@ -202,6 +207,15 @@ let routes = [
         component: InvitationAllowanceList
     },
     {
+        path: '/planning',
+        name: 'planning',
+        meta: {
+            title: '综合投资规划',
+            withoutLogin: true
+        },
+        component: Planning
+    },
+    {
         path: '/pension-one',
         name: 'pension-one',
         meta: {
@@ -215,22 +229,24 @@ let routes = [
         name: 'pension-two',
         meta: {
             title: '养老理财规划',
+            withoutLogin: true
         },
         component: PensionTwo
     }, {
         path: '/pension-three',
         name: 'pension-three',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin: true
         },
-        component: PensionThree,
-        // withoutLogin: true
+        component: PensionThree
     },
     {
         path: '/pension-four',
         name: 'pension-four',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin: true
         },
         component: PensionFour
     },
@@ -238,7 +254,8 @@ let routes = [
         path: '/pension-five',
         name: 'pension-five',
         meta: {
-            title: '养老理财规划'
+            title: '养老理财规划',
+            withoutLogin: true
         },
         component: PensionFive
     },
@@ -254,25 +271,28 @@ let routes = [
         path: '/house-one',
         name: 'house-one',
         meta: {
-            title: '住房理财规划'
+            title: '住房理财规划',
+            withoutLogin: true
         },
-        component: Index
+        component: HouseOne
     },
     {
         path: '/house-two',
         name: 'house-two',
         meta: {
-            title: '住房理财规划'
+            title: '住房理财规划',
+            withoutLogin: true
         },
-        component: Index
+        component: HouseTwo
     },
     {
         path: '/house-three',
         name: 'house-three',
         meta: {
-            title: '住房理财规划'
+            title: '住房理财规划',
+            withoutLogin: true
         },
-        component: Index
+        component: HouseThree
     },
     {
         path: '/house-share',
@@ -328,8 +348,7 @@ let routes = [
             }
         },
         meta: {
-            title: '风险测评',
-            withoutLogin: true
+            title: '风险测评'
         }
     }, {
         path: '/assessment-result',

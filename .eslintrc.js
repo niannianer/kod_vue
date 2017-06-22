@@ -25,7 +25,8 @@ module.exports = {
         'console': true,
         'Promise': true,
         'history':true,
-        'document': true
+        'document': true,
+        'Math':true
     },
     // add your custom rules here
     'rules': {
