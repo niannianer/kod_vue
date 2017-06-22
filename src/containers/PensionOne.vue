@@ -8,12 +8,15 @@
                 <mt-index-list>
                     <div class="section">
                         <div class="title">热门</div>
-                        <div class="hot-city" >
-                            <p v-for="(item,index) in this.hotD" :key="index" @click="clickHandle(item)" :class="{active:item.zip==activeBtn}">{{item.name}}</p>
+                        <div class="hot-city">
+                            <p v-for="(item,index) in this.hotD" :key="index" @click="clickHandle(item)"
+                               :class="{active:item.zip==activeBtn}">{{item.name}}</p>
                         </div>
                     </div>
                     <mt-index-section :index="index" v-for="(city,index) in cityCopy" :key="index">
-                        <li class="item" v-for="(item,index) in city" @click="clickHandle(item)" :key="index">{{item.name}}</li>
+                        <li class="item" v-for="(item,index) in city" @click="clickHandle(item)" :key="index">
+                            {{item.name}}
+                        </li>
                     </mt-index-section>
                 </mt-index-list>
             </div>
@@ -21,7 +24,7 @@
         </div>
         <div class="footer" flex-box="0" flex>
             <div flex-box="1" class="prev" @click.stop="prevHandle">上一步</div>
-            <div flex-box="1" class="next" @click.stop = "nextHandle">下一步</div>
+            <div flex-box="1" class="next" @click.stop="nextHandle">下一步</div>
         </div>
     </div>
 </template>
@@ -36,9 +39,9 @@
     export default{
         data(){
             return {
-                cityName:'北京',
-                hotD:cityGrade.hotD,
-                activeBtn:'010'
+                cityName: '北京',
+                hotD: cityGrade.hotD,
+                activeBtn: '010'
             }
         },
         computed: {
@@ -48,21 +51,26 @@
                     let letter = city.pinyin[0];
                     if (obj[letter]) {
                         obj[letter].push(city);
-                    }else {
-                        obj[letter]=[city]
+                    } else {
+                        obj[letter] = [city]
                     }
                 });
                 return obj;
             }
         },
-        methods:{
+        methods: {
             clickHandle(item){
                 this.activeBtn = item.zip;
                 this.cityName = item.name;
             },
             nextHandle(){
-                window.sessionStorage.setItem("cityName",this.cityName);
-                this.$router.push('/pension-two');
+                window.sessionStorage.setItem("cityName", this.cityName);
+                if (this.$route.name == 'house-one') {
+                    this.$router.push('/house-two');
+                } else {
+                    this.$router.push('/pension-two');
+                }
+
             },
             prevHandle(){
                 window.history.back();

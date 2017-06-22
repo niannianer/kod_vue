@@ -231,6 +231,9 @@
             }
         },
         created(){
+            if (window.sessionStorage.getItem('cityName')) {
+                this.cityName = window.sessionStorage.getItem('cityName');
+            }
 
         },
         components: {
@@ -476,11 +479,11 @@
                     loanClass, investMoney, firstPayments,
                     accumulationFundLoan, businessLoan
                 }).then(data => {
-                    if(data.code==200){
+                    if (data.code == 200) {
                         this.$router.push({
-                            path:'/house-three',
-                            query:{
-                                payments:firstPayments,
+                            path: '/house-three',
+                            query: {
+                                payments: firstPayments,
                                 year
                             }
                         })
