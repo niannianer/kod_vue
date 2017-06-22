@@ -10,7 +10,7 @@ weixin-vue-test:
     - cnpm run test
 
   only:
-    - /test$/
+    - /^.*test$/
   after_script:
     - scp -r dist/* web@47.93.35.76:/home/web/webhive/nginx/vue/dist
     - scp -r html/* web@47.93.35.76:/home/web/webhive/nginx/vue
