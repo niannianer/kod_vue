@@ -270,18 +270,18 @@
                 this.calculate()
             },
             get(){
+                let period ;
                 $api.get('/product/getList',{startRow:this.length,pageSize:this.pageSize,productType:'FIXI'}).then(msg => {
                     if(msg.code == 200){
                         msg.data.productList.map(el => {
-                            if(el.productPeriod == '30天'){
+                            period = parseInt(el.productPeriod);
+                            if(period <= 31){
                                 this.data.a.push(el)
-                                //test delet
-                                this.data.d.push(el)
-                            }else if(el.productPeriod == '90天'){
+                            }else if(period <= 93){
                                 this.data.b.push(el)
-                            }else if(el.roductPeriod == '180天'){
+                            }else if(period <= 186){
                                 this.data.c.push(el)
-                            }else if(el.roductPeriod == '360天'){
+                            }else if((period <= 366) && (period > 276)){
                                 this.data.d.push(el)
                             }
                         });
