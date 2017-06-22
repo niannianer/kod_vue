@@ -132,7 +132,10 @@
                 this.getAccountTransactionList('loadMore');
             },
             selectAll(){
-                this.toggleAll = true;
+                this.toggleAll = !this.toggleAll;
+                this.items.map(item => {
+                    item.active = this.toggleAll;
+                });
             },
             selectItem(index){
                 if (this.toggleAll) {
@@ -148,7 +151,6 @@
             getByType(){
                 this.isRotate = false;
                 if (this.toggleAll) {
-
                     this.types = ['全部'];
                     this.getAccountTransactionList('refresh');
                     return false;
@@ -162,9 +164,12 @@
                 });
                 if (types.length) {
                     this.types = types;
-                    this.getAccountTransactionList('refresh');
-                    return false;
+
+                }else {
+                    this.types = ['全部'];
                 }
+                this.getAccountTransactionList('refresh');
+                return false;
 
             },
             getAccountTransactionList(type){
