@@ -32,8 +32,9 @@ import AssessmentResult from '../containers/AssessmentResult';
 import RelationList from '../containers/RelationList';
 import Relation from '../containers/Relation';
 import HouseTwo from '../containers/HouseTwo';
+import HouseThree from '../containers/HouseThree';
 const HouseOne =PensionOne;
-const HouseThree =PensionFive;
+//const HouseThree =PensionFive;
 import Register from '../containers/Register';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
