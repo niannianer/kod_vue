@@ -82,7 +82,6 @@
                 retirementAge: '',
                 wagesAfterTax: '',
                 inflation: '',
-                list:[],
                 title:"请选择城市",
                 isPicking:false
             }
@@ -108,6 +107,9 @@
                 }
                 return pension
             },
+            list(){
+                return citys;
+            },
             pensionStoreString(){
               return currencyFormatInterger(this.pensionStore)
             },
@@ -128,9 +130,6 @@
             }
         },
         created(){
-            citys.map((city)=>{
-             this.list.push(city.name)
-             });
             this.cityName = window.sessionStorage.getItem('cityName') || '北京';
             this.gender = window.sessionStorage.getItem('gender') || 2;
             this.age = window.sessionStorage.getItem('age') || 30;
@@ -147,11 +146,11 @@
                 this.retirementAge = this.gender == 1 ? '55' : '60'
             },
             pickHandle(){
-                console.log(this.isPicking);
                 this.isPicking=true;
             },
             nextHandle(){
                 if(this.clickable){
+                    window.sessionStorage.setItem('pension',JSON.stringify(this.$data));
                     $api.postNode('/pension/createPension',{
                         age:this.age,
                         cityName:this.cityName,
@@ -207,7 +206,7 @@
             },
             callback(result){
                 if(result){
-                    this.cityName = result;
+                    this.cityName = result.name;
                 }
                 this.isPicking = false;
             }

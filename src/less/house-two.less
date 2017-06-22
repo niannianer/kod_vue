@@ -81,11 +81,23 @@
                         }
                     }
                 }
+                .arraw-up{
+                    text-align: center;
+                    margin-top: .4rem;
+                    img{
+                        width: 1.5rem;
+                        height: auto;
+                        transition: transform .25s ease;
+                        &.rotate{
+                              transform: rotate(180deg);
+                        }
+                    }
+                }
             }
             .box-shadow {
                 position: absolute;
                 top: -2rem;
-                bottom: 0;
+                bottom: 8px;
                 left: 50%;
                 margin-left: -16rem;
                 z-index: 6;
