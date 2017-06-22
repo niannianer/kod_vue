@@ -33,8 +33,9 @@ import RelationList from '../containers/RelationList';
 import Relation from '../containers/Relation';
 import HouseTwo from '../containers/HouseTwo';
 import HouseThree from '../containers/HouseThree';
-const HouseOne =PensionOne;
-//const HouseThree =PensionFive;
+import Planning from '../containers/Planning'
+const HouseOne = PensionOne;
+
 import Register from '../containers/Register';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
@@ -204,6 +205,15 @@ let routes = [
             title: '邀请津贴列表'
         },
         component: InvitationAllowanceList
+    },
+    {
+        path: '/planning',
+        name: 'planning',
+        meta: {
+            title: '综合投资规划',
+            withoutLogin: true
+        },
+        component: Planning
     },
     {
         path: '/pension-one',
