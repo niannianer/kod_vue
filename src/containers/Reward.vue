@@ -23,7 +23,7 @@
                 <p flex-box="1">邀请奖励</p>
                 <img flex-box="0" src="../images/arrow-right.png" alt="arrow">
             </router-link>
-            <router-link to='/invitation-allowance-list' class='invite-award section' flex>
+            <router-link to='/invitation-allowance-list?rewardType=2' class='invite-award section' flex>
                 <p flex-box="1">邀请津贴</p>
                 <img flex-box="0" src="../images/arrow-right.png" alt="arrow">
             </router-link>
