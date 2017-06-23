@@ -37,6 +37,7 @@ import Planning from '../containers/Planning'
 const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
+import {setTitle} from '../tools/operation';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
     if (meta.withoutLogin) {
@@ -385,9 +386,16 @@ let routes = [
 ];
 
 routes.map(route => {
-    if (!route.meta.withoutLogin) {
-        route.beforeEnter = beforeEach;
-    }
+    route.beforeEnter = (to, from, next)=>{
+        let {meta} = to;
+        let {title} = meta;
+        setTitle(title);
+        if (!route.meta.withoutLogin) {
+          return  beforeEach(to, from, next);
+        }else {
+            next();
+        }
+    };
 });
 routes.push({
     path: '*',
