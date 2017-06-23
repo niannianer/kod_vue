@@ -23,7 +23,7 @@
             <div class="tip">当前选择：<span>{{this.cityName}}</span></div>
         </div>
         <div class="footer" flex-box="0" flex>
-            <div flex-box="1" class="prev" @click.stop="prevHandle">上一步</div>
+            <div flex-box="1" class="prev" @click.stop="$router.back()">上一步</div>
             <div flex-box="1" class="next" @click.stop="nextHandle">下一步</div>
         </div>
     </div>
@@ -71,9 +71,6 @@
                     this.$router.push('/pension-two');
                 }
 
-            },
-            prevHandle(){
-                window.history.back();
             }
         }
     }
