@@ -23,7 +23,7 @@
             <p >当前选择：<span class="sex">{{genderString}},</span><span class='age'>{{age}}岁</span></p>
         </div>
         <div class="bottom" flex-box="0" flex="main:justify">
-        	<div class="left" flex-box="1" @click.stop="$router.push('/pension-one')" >上一步</div>
+        	<div class="left" flex-box="1" @click.stop="window.history.back()" >上一步</div>
         	<div class="left" flex-box="1" @click.stop="nextHandle">下一步</div>
         </div>
     </div>

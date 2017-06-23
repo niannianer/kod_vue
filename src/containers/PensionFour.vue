@@ -3,62 +3,67 @@
         <div class="title" flex-box="0">
             以下数据仅适用于您的所在城市【<span @click.stop="pickHandle">{{this.cityName}}</span>】
         </div>
-        <ul class="content" flex-box="1">
-            <li class="item" flex="box:mean">
-                <p>性别</p>
-                <div class="gender" flex="box:mean ">
-                    <div flex="main:center cross:center" @click.stop="genderHandle(2)">
-                        <i :class="{active:this.gender == 2}"><em></em></i>
-                        <span>男</span>
+        <div class="scroll-enable" flex-box="1"  style="overflow: auto" flex="dir:top box:justify">
+            <ul class="content" >
+                <li class="item" flex="box:mean">
+                    <p>性别</p>
+                    <div class="gender" flex="box:mean">
+                        <div flex="main:center cross:center" @click.stop="genderHandle(2)">
+                            <i :class="{active:this.gender == 2}"><em></em></i>
+                            <span>男</span>
+                        </div>
+                        <div flex="main:center cross:center" @click.stop="genderHandle(1)">
+                            <i :class="{active:this.gender == 1}"><em></em></i>
+                            <span>女</span>
+                        </div>
                     </div>
-                    <div flex="main:center cross:center" @click.stop="genderHandle(1)">
-                        <i :class="{active:this.gender == 1}"><em></em></i>
-                        <span>女</span>
+                </li>
+                <li class="item" flex="box:mean">
+                    <p class="info">年龄</p>
+                    <p flex>
+                        <input type="tel" maxlength="2" flex-box="1" v-model="age" @blur.stop="validate('age')"><span
+                        flex-box="0">岁</span>
+                    </p>
+                </li>
+                <li class="item" flex="box:mean">
+                    <p class="info">期望退休年龄</p>
+                    <p flex>
+                        <input type="tel" maxlength="2" flex-box="1" v-model="retirementAge"
+                               @blur.stop="validate('retirementAge')"><span flex-box="0">岁</span>
+                    </p>
+                </li>
+                <li class="item" flex="box:mean">
+                    <p class="info">预计寿命</p>
+                    <p flex>
+                        <input type="tel" maxlength="3" flex-box="1" v-model="planAge" @blur.stop="validate('planAge')"><span flex-box="0">岁</span>
+                    </p>
+                </li>
+                <li class="item" flex="box:mean">
+                    <p class="info">税后月工资</p>
+                    <p flex>
+                        <input type="tel" maxlength="6" flex-box="1" v-model="wagesAfterTax" @blur.stop="validate('wagesAfterTax')"><span
+                        flex-box="0">元</span>
+                    </p>
+                </li>
+                <li class="item" flex="box:mean">
+                    <p class="info">通货膨胀率</p>
+                    <p flex>
+                        <input type="tel" flex-box="1" v-model="inflation" @blur.stop="validate('inflation')"><span flex-box="0">%</span>
+                    </p>
+                </li>
+            </ul>
+            <div></div>
+            <div class="btm-part"   flex="dir:top">
+                <div class="round" flex-box="1">
+                    <div class="bg">
+                        <div class="tip">为满足您退休后保持现有收入水平,<br/>养老金至少需要储备</div>
+                        <div class="total">{{ pensionStoreString }}元</div>
+                        <div class="tip2">（*已除去社保养老金可覆盖部分）</div>
                     </div>
                 </div>
-            </li>
-            <li class="item" flex="box:mean">
-                <p class="info">年龄</p>
-                <p flex>
-                    <input type="tel" maxlength="2" flex-box="1" v-model="age" @blur.stop="validate('age')"><span
-                    flex-box="0">岁</span>
-                </p>
-            </li>
-            <li class="item" flex="box:mean">
-                <p class="info">期望退休年龄</p>
-                <p flex>
-                    <input type="tel" maxlength="2" flex-box="1" v-model="retirementAge"
-                           @blur.stop="validate('retirementAge')"><span flex-box="0">岁</span>
-                </p>
-            </li>
-            <li class="item" flex="box:mean">
-                <p class="info">预计寿命</p>
-                <p flex>
-                    <input type="tel" maxlength="3" flex-box="1" v-model="planAge" @blur.stop="validate('planAge')"><span flex-box="0">岁</span>
-                </p>
-            </li>
-            <li class="item" flex="box:mean">
-                <p class="info">税后月工资</p>
-                <p flex>
-                    <input type="tel" maxlength="6" flex-box="1" v-model="wagesAfterTax" @blur.stop="validate('wagesAfterTax')"><span
-                    flex-box="0">元</span>
-                </p>
-            </li>
-            <li class="item" flex="box:mean">
-                <p class="info">通货膨胀率</p>
-                <p flex>
-                    <input type="tel" flex-box="1" v-model="inflation" @blur.stop="validate('inflation')"><span flex-box="0">%</span>
-                </p>
-            </li>
-        </ul>
-        <div class="round" flex-box="0">
-            <div class="bg">
-                <div class="tip">为满足您退休后保持现有收入水平,<br/>养老金至少需要储备</div>
-                <div class="total">{{ pensionStoreString }}元</div>
-                <div class="tip2">（*已除去社保养老金可覆盖部分）</div>
+                <div class="footer" :class="{enable:clickable}"  flex-box="1" @click.stop="nextHandle">查看推荐方案</div>
             </div>
         </div>
-        <div class="footer" :class="{enable:clickable}" flex-box="0" @click.stop="nextHandle">查看推荐方案</div>
         <KingoldPicker :list="list" :title="title" @back="callback" v-if="isPicking"></KingoldPicker>
     </div>
 </template>
