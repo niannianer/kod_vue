@@ -26,9 +26,20 @@
 			background-color:@bg-content;
 			padding: 0 .8rem;
 			.bank-name{
+                position: relative;
 				height:5rem;
                 border-radius:.4rem ;
                 background: linear-gradient(to left, #aa6732,#fdcfa9, #aa6732);
+                &:after{
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    bottom: 0px;
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    background-image: url("../images/bank/bank-icon.png");
+                    background-size: cover;
+                }
 				.bank-logo{
 					width:1.8rem;
 					height:1.8rem;
