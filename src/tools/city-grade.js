@@ -93,7 +93,7 @@ export let getValueD = (name = '') => {
     if (gradeTwo.indexOf(name) > -1) {
         return 3702;
     }
-    return 3133;
+    return 3113;
 };
 export let getValueE = (name = '') => {
     if (!name) {

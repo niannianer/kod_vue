@@ -23,7 +23,7 @@
             <p >当前选择：<span class="sex">{{genderString}},</span><span class='age'>{{age}}岁</span></p>
         </div>
         <div class="bottom" flex-box="0" flex="main:justify">
-        	<div class="left" flex-box="1" @click.stop="$router.push('/pension-one')" >上一步</div>
+        	<div class="left" flex-box="1"  @click.stop="$router.back()">上一步</div>
         	<div class="left" flex-box="1" @click.stop="nextHandle">下一步</div>
         </div>
     </div>
@@ -54,15 +54,18 @@
                window.sessionStorage.setItem('age',this.age);
                window.sessionStorage.setItem('gender',this.gender);
                this.$router.push('/pension-three')
-           }
+           },
         },
         data() {
             return {
                 show:true,
                 age:'',
-                gender:1,
+                gender:2,
+                visibleItemCount:3,
+                itemHeight:12,
                 slots: [
                     {
+
                         flex: 1,
                         values: [],
                         textAlign: 'center',

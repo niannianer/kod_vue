@@ -1,13 +1,13 @@
 <template>
-    <div v-cloak class="pension-three" flex-box="1" flex="dir:top">
+    <div v-cloak class="pension-three" flex-box="1" flex="dir:top" ref="body" >
         <div class="salary" flex-box="1" flex="dir:top">
             <div class="title" >请输入您的税后工资（月）</div>
-            <div class="content" flex="main:left"><div class="num" ><input type="tel" v-model="wagesAfterTax" maxlength="6"></div><span>元</span></div>
+            <div class="content" flex="main:left"><div class="num" ><input type="tel" v-model="wagesAfterTax" maxlength="6" ></div><span>元</span></div>
         </div>
         <div flex-box="0" class="check">
             <p >当前选择：
-                <span class="sex">{{gender}}，</span>
-                <span class='age'>{{age}}岁</span></p>
+                <span>{{wagesAfterTax}}元</span>
+            </p>
         </div>
         <div class="bottom" flex-box="0" flex="main:justify">
             <div class="left" flex-box="1" @click.stop="$router.back()" >上一步</div>
@@ -23,7 +23,8 @@
         name: 'pension-three',
         data(){
             return{
-                wagesAfterTax:''
+                wagesAfterTax:'',
+                Height:''
             }
         },
         computed:{
@@ -38,10 +39,16 @@
             nextHandle(){
                 window.sessionStorage.setItem('wagesAfterTax',this.wagesAfterTax);
                 this.$router.push('/pension-four');
+            },
+            myKeyup(){
+
             }
         },
         created(){
-            this.wagesAfterTax =getValueD(window.sessionStorage.getItem('cityName'))
+            this.wagesAfterTax =getValueD(window.sessionStorage.getItem('cityName'));
+            console.log(this.$refs.body.clientHeight());
+            this.
+            console.log(document.documentElement.clientHeight);
         }
     }
 </script>
