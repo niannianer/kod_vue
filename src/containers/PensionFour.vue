@@ -48,7 +48,7 @@
                 <li class="item" flex="box:mean">
                     <p class="info">通货膨胀率</p>
                     <p flex>
-                        <input type="tel" flex-box="1" v-model="inflation" @blur.stop="validate('inflation')"><span flex-box="0">%</span>
+                        <input type="tel" flex-box="1" v-model="inflation" maxlength="3" @blur.stop="validate('inflation')"><span flex-box="0">%</span>
                     </p>
                 </li>
             </ul>
@@ -88,7 +88,7 @@
                 wagesAfterTax: '',
                 inflation: '',
                 title:"请选择城市",
-                isPicking:false
+                isPicking:false,
             }
         },
         components: {
@@ -96,6 +96,9 @@
         },
         computed: {
             pensionStore(){
+                if(this.clickable){
+                    return 0;
+                }
                 let A = this.age;
                 let B = this.retirementAge;
                 let C = this.planAge;
@@ -110,15 +113,18 @@
                 if (isNaN(pension) || pension <= 0) {
                     return 0;
                 }
-                return pension
+                return pension;
             },
             list(){
                 return citys;
             },
             pensionStoreString(){
-              return currencyFormatInterger(this.pensionStore)
+                return currencyFormatInterger(this.pensionStore)
             },
             clickable(){
+                if(this.inflationErro){
+                    return false;
+                }
                 if(!this.age||!this.retirementAge||!this.planAge||!this.wagesAfterTax||!this.inflation){
                     return false
                 }
@@ -132,6 +138,9 @@
                     return false;
                 }
                 return true;
+            },
+            inflationErro(){
+                return  /[^\d|.]/.test(this.inflation);
             }
         },
         created(){
@@ -143,7 +152,7 @@
             this.inflation = getValueG(this.cityName);//通货膨胀率
         },
         mounted(){
-           /* console.log(this.$refs.kpicker.result,'33333');*/
+            /* console.log(this.$refs.kpicker.result,'33333');*/
         },
         methods: {
             genderHandle(num){
@@ -170,6 +179,10 @@
                 }
             },
             validate(str){
+                this.age = (this.age+"").replace(/[^\d]/g,'');
+                this.retirementAge = (this.retirementAge+"").replace(/[^\d]/g,'');
+                this.planAge = (this.planAge+"").replace(/[^\d]/g,'');
+                this.wagesAfterTax = (this.wagesAfterTax+"").replace(/[^\d]/g,'');
                 if (str == 'age') {
                     if (this.age == '') {
                         Toast('请输入年龄');
@@ -205,6 +218,8 @@
                 if(str=='inflation'){
                     if (this.inflation == '') {
                         Toast('请输入通货膨胀率');
+                    }else if(this.inflationErro){
+                        Toast('请输入合法的通货膨胀率');
                     }
                     return false;
                 }
