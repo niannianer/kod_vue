@@ -80,7 +80,7 @@ let prices=[{
 }]
 export let getValueD = (name = '') => {
     if (!name) {
-        return 3133;
+        return 3113;
     }
     for (let d in hotD) {
         if (name.indexOf(hotD[d].name) > -1) {

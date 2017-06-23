@@ -1,21 +1,25 @@
 <template>
-    <div v-cloak class="pension-three" flex-box="1" flex="dir:top" ref="body" >
+    <div v-cloak class="pension-three" flex-box="1" flex="dir:top" ref='divh' v-bind:style="{height:height+'px'}">
         <div class="salary" flex-box="1" flex="dir:top">
             <div class="title" >请输入您的税后工资（月）</div>
-            <div class="content" flex="main:left"><div class="num" ><input type="tel" v-model="wagesAfterTax" maxlength="6" ></div><span>元</span></div>
+            <div class="content" flex="dir:left">
+                <div class="num" flex-box="1">
+                    <input type="tel" v-model="wagesAfterTax" maxlength="6" >
+                </div>
+                <span flex-box="1">元</span>
+            </div>
         </div>
         <div flex-box="0" class="check">
             <p >当前选择：
-                <span>{{wagesAfterTax}}元</span>
+                <span  v-if="wagesAfterTax">{{wagesAfterTax}}元</span>
             </p>
         </div>
         <div class="bottom" flex-box="0" flex="main:justify">
             <div class="left" flex-box="1" @click.stop="$router.back()" >上一步</div>
-            <div class="left" flex-box="1" @click.stop="nextHandle">下一步</div>
+            <div class="right" flex-box="1" @click.stop="nextHandle">下一步</div>
         </div>
     </div>
-</template>
-
+ </template>
 <script>
     import '../less/pension-three.less';
     import {getValueD} from "../tools/city-grade"
@@ -24,7 +28,7 @@
         data(){
             return{
                 wagesAfterTax:'',
-                Height:''
+                height:'',
             }
         },
         computed:{
@@ -46,9 +50,10 @@
         },
         created(){
             this.wagesAfterTax =getValueD(window.sessionStorage.getItem('cityName'));
-            console.log(this.$refs.body.clientHeight());
-            this.
-            console.log(document.documentElement.clientHeight);
+            this.wagesAfterTax =getValueD(window.sessionStorage.getItem('cityName'))
+        },
+        mounted(){
+            this.height = this.$refs.divh.offsetHeight
         }
     }
 </script>
