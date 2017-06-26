@@ -241,7 +241,7 @@ let routes = [
         meta: {
             title: '养老理财规划',
             withoutLogin: true,
-            keepAlive: true
+            // keepAlive: true
         },
         component: PensionThree
     },
