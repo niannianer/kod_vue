@@ -285,8 +285,8 @@
                 if (!this.year) {
                     return 0
                 }
-                let p1 = this.X1 * ((this.T1 / this.X1) + (this.T1 * (this.T1 + 1)) / 2);
-                let p2 = this.X2 * ((this.T2 / this.X2) + (this.T2 * (this.T2 + 1)) / 2);
+                let p1 = this.X1 * (((this.T1 / this.X1) + (this.T1 * (this.T1 + 1)) / 2));
+                let p2 = this.X2 * (((this.T2 / this.X2) + (this.T2 * (this.T2 + 1)) / 2));
                 let r = (this.houseTotal - this.accumulationFundLoan - this.businessLoan) * 10000 / (p1 + p2);
                 return r.toFixed(0);
             },

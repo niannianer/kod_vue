@@ -5,7 +5,7 @@
                 选择您所在的城市
             </div>
             <div class="content" flex-box="1" ref="content">
-                <mt-index-list :height="height" ref="mintList">
+                <mt-index-list ref="mintList">
                     <div class="section">
                         <div class="title">热门</div>
                         <div class="hot-city">
@@ -44,15 +44,7 @@
                 activeBtn: '010'
             }
         },
-        watch:{
-          height(){
-              console.log(this.height+'sss')
-          }
-        },
         computed: {
-            height(){
-                console.log(this.$refs)
-            },
             cityCopy(){
                 let obj = {};
                 citys.map(city => {

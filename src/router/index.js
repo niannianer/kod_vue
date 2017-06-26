@@ -383,7 +383,8 @@ let routes = [
         name:'register',
         component: Register,
         meta:{
-            title:'注册'
+            title:'注册',
+            withoutLogin: true
         }
     }
 ];

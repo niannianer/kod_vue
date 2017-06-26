@@ -7,16 +7,16 @@ import _ from 'lodash/core';
 import store from './store';
 import 'flex.css/dist/flex.css';
 import './less/base.less';
+_.forEach(filters, (fun, key) => {
+    Vue.filter(key, fun);
+});
+window.shareUrl = window.location.href;
 new Vue({
     el: '#app',
     router,
     store,
     render: h => h(App)
 });
-_.forEach(filters, (fun, key) => {
-    Vue.filter(key, fun);
-});
-window.shareUrl = window.location.href;
 store.dispatch('getAccountBaofoo');
 store.dispatch('getBankInfo');
 store.dispatch('getUserInfo');
