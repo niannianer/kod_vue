@@ -6,7 +6,6 @@
             </div>
             <div flex-box="1" class="tab" @click.stop="changeTab('regular')">
                 <div class="tab-item" :class="{'active':tab=='regular'}">定期理财</div>
-
             </div>
         </div>
         <div class="item-list" flex-box="1">
@@ -27,8 +26,17 @@
                 </div>
             </div>
         </div>
-
-
+        <!--遮罩层-->
+        <div class="mask">
+            <div class="content">
+                <h2  style="color:black;">合格投资者登记</h2>
+                <div class="main">
+                    根据《私募投资基金募集行为管理办法》之规定，金疙瘩只对“具有相应风险识别能力和风险承担能力，投资于单只私募基金的金额不低于100万元，且个人资产不低于300万元或者最近三年个人年均 收入不低于50万元”的特定合格投资者宣传、推介相关私募投资基金产品。请您详细阅读本提示并接受此个人资产不低于300万元或者最近三年个人年均 收入不低于50万元”的特定合格投资者宣传、推介相关私募投资基金产品。请您详细阅读本提示并接受此个人资产不低于300万元或者最近三年个人年均 收入不低于50万元”的特定合格投资者宣传、推介相关私募投资基金产品。请您详细阅读本提示并接受此个人资产不低于300万元或者最近三年个人年均 收入不低于50万元”的特定合格投资者宣传、推介相关私募投资基金产品。请您详细阅读本提示并接受此认定，方可获得金疙瘩私募投资基金产品宣传推介服务.
+                </div>
+                <p class="confirm"><i id='deal'></i>本人承诺符合上述合格投资者条件并完成调查问卷。</p>
+                <div class="btn disable" disabled="disabled">确认</div>
+            </div>
+        </div>
     </div>
 </template>
 
