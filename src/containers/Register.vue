@@ -36,7 +36,6 @@
                        v-model.trim="inviterPhone"
                        autocomplete="off" placeholder="请输入邀请人手机号（非必填）">
             </div>
-
         </div>
         <div class="agreement">
             <span class="box"></span>
