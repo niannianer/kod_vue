@@ -19,7 +19,7 @@ console.log(env);
 const config = {
     entry: {
         'ventor': ['vue', 'vue-router', 'vuex'],
-        'tools': ['promise-polyfill', 'whatwg-fetch', 'lodash/core','fastclick'],
+        'tools': ['promise-polyfill', 'whatwg-fetch', 'lodash/core', 'fastclick'],
         'main': './src/main.js'
     },
     output: {
@@ -101,13 +101,13 @@ const config = {
         extractCSS,
         extractLESS,
         new webpack.NoEmitOnErrorsPlugin(),
-       // new WebpackMd5Hash(),
+        // new WebpackMd5Hash(),
         new HtmlWebpackPlugin({
             title: '金疙瘩',
             favicon: './src/images/logo.png',
             chunks: ['ventor', 'tools', 'main'],
             inject: 'body',
-            hash:true,
+            hash: true,
             filename: path.resolve(__dirname, 'html/index.html'),
             template: './index.ejs',
             minify: {//压缩HTML文件
@@ -122,8 +122,9 @@ const config = {
 if (env == 'production' || env == 'test') {
     console.log('------->', env)
     config.devtool = '';
+    config.output.publicPath = 'http://static-test.zj-hf.cn/dist/';
     if (env === 'production') {
-        config.output.publicPath ='/dist/';
+        config.output.publicPath = 'http://zj-static.zj-hf.cn/dist/';
     }
     config.output.filename = '[name].[chunkhash:8].js';
     config.output.chunkFilename = '[chunkhash:8].[id].chunk.js';
@@ -136,10 +137,10 @@ if (env == 'production' || env == 'test') {
         }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
-            comments:false,
+            comments: false,
             compress: {
                 warnings: false,
-                drop_console:true
+                drop_console: true
             }
         }),
         new WebpackMd5Hash(),
