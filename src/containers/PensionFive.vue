@@ -263,7 +263,7 @@
                 return this.k*m/12
             },
             setT(m){
-                return parseInt(12/m*this.b-this.a)
+                return parseInt(12/m*(this.b-this.a))
             },
             changeTab(tab){
                 this.tab = tab;
