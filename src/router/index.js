@@ -241,7 +241,6 @@ let routes = [
         meta: {
             title: '养老理财规划',
             withoutLogin: true,
-            // keepAlive: true
         },
         component: PensionThree
     },
@@ -287,7 +286,7 @@ let routes = [
             title: '住房理财规划',
             withoutLogin: true
         },
-        component: HouseTwo
+        component: HouseTwo,
     },
     {
         path: '/house-three',
