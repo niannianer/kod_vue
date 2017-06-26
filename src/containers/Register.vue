@@ -39,7 +39,7 @@
         </div>
         <div class="agreement">
             <span class="box"></span>
-            <span>我已阅读并同意<a href="/registration-service-agreement.html">《中冀金服注册协议及用户协议》</a></span>
+            <span class="info">我已阅读并同意<a href="/registration-service-agreement.html">《中冀金服注册协议及用户协议》</a></span>
         </div>
     </div>
 </template>
