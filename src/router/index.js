@@ -402,7 +402,7 @@ routes.map(route => {
 });
 routes.push({
     path: '*',
-    redirect: '/my-assets'
+    redirect: '/personal-center'
 });
 export default new Router({
     mode: 'history',
