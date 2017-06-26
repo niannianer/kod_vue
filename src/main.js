@@ -16,6 +16,7 @@ new Vue({
 _.forEach(filters, (fun, key) => {
     Vue.filter(key, fun);
 });
+window.shareUrl = window.location.href;
 store.dispatch('getAccountBaofoo');
 store.dispatch('getBankInfo');
 store.dispatch('getUserInfo');
