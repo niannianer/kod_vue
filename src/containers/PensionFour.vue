@@ -71,13 +71,12 @@
     import Vue from 'vue';
     import "../less/pension-four.less"
     import citys from '../tools/citys'
-    import {Toast,Field} from 'mint-ui'
+    import {Toast} from 'mint-ui'
     import $api from '../tools/api'
     import KingoldPicker from '../components/KingoldPicker'
     import Modal from '../components/Modal'
     import {currencyFormatInterger} from '../filters/index'
     import {getValueD, getValueE, getValueG} from "../tools/city-grade"
-    Vue.component(Field.name, Field);
     export default{
         data(){
             return {
@@ -100,6 +99,7 @@
                 if(!this.clickable){
                     return 0;
                 }
+                this.replaceStr();
                 let A = this.age;
                 let B = this.retirementAge;
                 let C = this.planAge;
@@ -180,11 +180,14 @@
                     this.$router.push('/pension-five');
                 }
             },
-            validate(str){
+            replaceStr(){
                 this.age = (this.age+"").replace(/[^\d]/g,'');
                 this.retirementAge = (this.retirementAge+"").replace(/[^\d]/g,'');
                 this.planAge = (this.planAge+"").replace(/[^\d]/g,'');
                 this.wagesAfterTax = (this.wagesAfterTax+"").replace(/[^\d]/g,'');
+            },
+            validate(str){
+                this.replaceStr();
                 if (str == 'age') {
                     if (this.age == '') {
                         Toast('请输入年龄');
