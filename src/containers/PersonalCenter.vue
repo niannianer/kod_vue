@@ -107,9 +107,9 @@
                 let params = {
                     url: window.location.href
                 }
-                if ($device.ios) {
+                /*if ($device.ios) {
                     params.url = window.shareUrl;
-                }
+                }*/
                 $api.get('/wechat/shareInfo', params)
                     .then(data => {
                         if (data.code == 200) {
