@@ -17,7 +17,7 @@
                     </div>
                     <div class="content">
                         <p class="h-title">预期组合年化收益率</p>
-                        <p class="pate">{{k | translatePate}}</p>
+                        <p class="pate">{{u | translatePate}}</p>
                         <div class="cont-div">首次投资：<i>{{q | currencyInputNo}}元</i></div>
                         <div class="cont-div">单个产品每期续投：<i>{{z | currencyInputNo}}元</i></div>
                     </div>
@@ -114,7 +114,9 @@
         components:{},
         data(){
             return {
-                k:0,//预期组合年化收益率
+                u:0,//预期组合年化收益率
+                k1:0,
+                k2:0,
                 a:this.$route.query.payments,//房产总价
                 m:this.$route.query.year,//预计几年后买房
                 tab:1,
@@ -188,7 +190,7 @@
                 return s
             },
             factor:function(){//X1[T1/X1+T1(T1+1)/2]+X2[T2/X2+T2(T2+1)/2]
-                return this.setX(this.m1)*(this.setT(this.m1)/this.setX(this.m1)+this.setT(this.m1)*(this.setT(this.m1)+1)/2)+this.setX(this.m2)*(this.setT(this.m2)/this.setX(this.m2)+this.setT(this.m2)*(this.setT(this.m2)+1)/2)
+                return this.setX(this.m1,this.k1)*(this.setT(this.m1)/this.setX(this.m1,this.k1)+this.setT(this.m1)*(this.setT(this.m1)+1)/2)+this.setX(this.m2,this.k2)*(this.setT(this.m2)/this.setX(this.m2,this.k2)+this.setT(this.m2)*(this.setT(this.m2)+1)/2)
             },
             r:function(){//每期需投数
                 return this.a/this.factor
@@ -202,7 +204,7 @@
                 }else if(this.tab == 3){
                     parm = 10;
                 }
-                rmb = (this.a-parm*this.r*(1+this.m*this.k))/this.factor;
+                rmb = (this.a-parm*this.r*(1+this.m*this.u))/this.factor;
                 rmb < 0 ? rmb = 0 : '';
                 return parseInt(rmb)
             },
@@ -229,8 +231,8 @@
             }
         },
         methods: {
-            setX(m){
-                return this.k*m/12
+            setX(m,k){
+                return k*m/12
             },
             setT(m){
                 return parseInt(12/m*this.m)
@@ -285,22 +287,22 @@
                 let x,y,z;
                 if(this.tab == 1){
                     //A方案
-                    x = this.lists.a.annualInterestRate;
-                    y = this.lists.b.annualInterestRate;
-                    z = this.accMul(this.fun(x),this.s1) + this.accMul(this.fun(y),this.s2);
-                    this.k = z;
+                    this.k1 = x = this.fun(this.lists.a.annualInterestRate);
+                    this.k2 = y = this.fun(this.lists.b.annualInterestRate);
+                    z = this.accMul(x,this.s1) + this.accMul(y,this.s2);
+                    this.u = z;
                 }else if(this.tab == 2){
                     //B方案
-                    x = this.lists.b.annualInterestRate;
-                    y = this.lists.c.annualInterestRate;
-                    z = this.accMul(this.fun(x),this.s1) + this.accMul(this.fun(y),this.s2);
-                    this.k = z;
+                    this.k1 = x = this.fun(this.lists.b.annualInterestRate);
+                    this.k2 = y = this.fun(this.lists.c.annualInterestRate);
+                    z = this.accMul(x,this.s1) + this.accMul(y,this.s2);
+                    this.u = z;
                 }else if(this.tab == 3){
                     //C方案
-                    x = this.lists.a.annualInterestRate;
-                    y = this.lists.c.annualInterestRate;
-                    z = this.accMul(this.fun(x),this.s1) + this.accMul(this.fun(y),this.s2);
-                    this.k = z;
+                    this.k1 = x = this.fun(this.lists.a.annualInterestRate);
+                    this.k2 = y = this.fun(this.lists.c.annualInterestRate);
+                    z = this.accMul(x,this.s1) + this.accMul(y,this.s2);
+                    this.u = z;
                 }
             },
             fun(a){
