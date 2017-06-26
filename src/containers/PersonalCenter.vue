@@ -62,7 +62,7 @@
     import wx from '../tools/wx';
     import $device from '../tools/device';
     import '../less/personal-center.less';
-    const logo = require('../images/logo.png');
+    const logo = require('../images/share-icon.png');
     export default {
         name: 'personal-center',
         data(){
