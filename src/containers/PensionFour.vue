@@ -71,12 +71,13 @@
     import Vue from 'vue';
     import "../less/pension-four.less"
     import citys from '../tools/citys'
-    import {Toast} from 'mint-ui'
+    import {Toast,Field} from 'mint-ui'
     import $api from '../tools/api'
     import KingoldPicker from '../components/KingoldPicker'
     import Modal from '../components/Modal'
     import {currencyFormatInterger} from '../filters/index'
     import {getValueD, getValueE, getValueG} from "../tools/city-grade"
+    Vue.component(Field.name, Field);
     export default{
         data(){
             return {
@@ -104,7 +105,8 @@
                 let C = this.planAge;
                 let D = this.wagesAfterTax;
                 let E = getValueE(this.cityName);//当地月平均养老金
-                let F = E / D;
+                let Dfix = getValueD(this.cityName);
+                let F = E / Dfix;
                 let G = this.inflation / 100;
                 /*通货膨胀率*/
                 let N = Math.pow((1 + G), (B - A)) * D * (1 - F);
@@ -128,20 +130,19 @@
                 if(!this.age||!this.retirementAge||!this.planAge||!this.wagesAfterTax||!this.inflation){
                     return false
                 }
-                if(this.age>=this.retirementAge){//不能等于或大于预计退休年龄
+                if(!(this.age<this.retirementAge)){//不能等于或大于预计退休年龄
                     return false;
                 }
-                if(this.age >= this.planAge){
+                if(!(this.age < this.planAge)){
                     return false;
                 }
-                if(this.retirementAge >=this.planAge){
+                if(!(this.retirementAge <this.planAge)){
                     return false;
                 }
                 return true;
             },
             inflationUseful(){
-                return  /^\d$|^\d.\d$/.test(this.inflation);
-                /**/
+                return  /(^\d$)|(^\d\.\d$)/g.test(this.inflation);
             }
         },
         created(){
@@ -187,7 +188,7 @@
                 if (str == 'age') {
                     if (this.age == '') {
                         Toast('请输入年龄');
-                    } else if (this.age > this.retirementAge||this.age==this.retirementAge) {
+                    } else if (!(this.age < this.retirementAge)) {
                         Toast('年龄不能大于或等于期望退休年龄')
                     }else if(parseInt(this.age)<=0){
                         Toast('请输入正确的年龄');
@@ -197,7 +198,7 @@
                 if (str == 'retirementAge') {
                     if (this.retirementAge == '') {
                         Toast('请输入期望退休年龄');
-                    } else if (this.age > this.retirementAge||this.age==this.retirementAge) {
+                    } else if (!(this.age < this.retirementAge)) {
                         Toast('年龄不能大于或等于期望退休年龄')
                     }
                     return false;
@@ -205,9 +206,9 @@
                 if (str == 'planAge') {
                     if (this.planAge == '') {
                         Toast('请输入预计寿命');
-                    } else if (this.age > this.planAge||this.age==this.planAge) {
+                    } else if (!(this.age < this.planAge)) {
                         Toast('年龄不能大于或等于预计寿命')
-                    } else if(this.retirementAge >this.planAge||this.retirementAge==this.planAge){
+                    } else if(!(this.retirementAge <this.planAge)){
                         Toast('预计寿命不能小于或等于期望退休年龄')
                     }
                     return false;
