@@ -109,13 +109,14 @@
     import '../less/pension-five.less';
     import $api from '../tools/api';
     import {Toast} from 'mint-ui';
-    import {getValueE} from "../tools/city-grade"
     export default {
         name: 'pension-five',
         components:{},
         data(){
             return {
                 k:0,//预期组合年化收益率
+                a:this.$route.query.payments,//房产总价
+                m:this.$route.query.year,//预计几年后买房
                 tab:1,
                 pageSize:80,
                 length:0,
@@ -140,34 +141,7 @@
             };
         },
         computed: {//养老金覆盖比例
-            a:function(){//实际年龄
-                return this.pension.age
-            },
-            b:function(){//退休年龄
-                return this.pension.retirementAge
-            },
-            c:function(){//预计寿命
-                return this.pension.planAge
-            },
-            d:function(){//税后月工资
-                return this.pension.wagesAfterTax
-            },
-            e:function(){//月平均养老金
-                return getValueE(this.pension.cityName)
-            },
-            g:function(){//当地通货膨胀率
-                return this.pension.inflation/100
-            },
-            f:function(){
-                return this.e/this.d
-            },
-            n:function(){
-                return parseInt(this.d*(1-this.f)*Math.pow(1+this.g,(this.b-this.a))*100)/100
-            },
-            l:function(){//预计养老金
-                return parseInt(12*this.n*(1+this.g)*[-1+Math.pow(1+this.g,this.c-this.b)]/this.g*100)/100
-            },
-            m1:function(){
+            m1:function(){//方案1 的产品几个月
                 if(this.tab == 1){
                     if(this.isLast.a){
                         return 12
@@ -185,7 +159,7 @@
                     return 1
                 }
             },
-            m2:function(){
+            m2:function(){//方案2 的产品几个月
                 if(this.tab == 1){
                     if(this.isLast.b){
                         return 12
@@ -203,12 +177,12 @@
                     return 6
                 }
             },
-            s1:function(){
+            s1:function(){//产品1所占比例
                 let s = this.setT(this.m1)/(this.setT(this.m1)+this.setT(this.m2));
                 s = s.toFixed(2);
                 return s
             },
-            s2:function(){
+            s2:function(){//产品2所占比例
                 let s = this.setT(this.m2)/(this.setT(this.m1)+this.setT(this.m2));
                 s = s.toFixed(2);
                 return s
@@ -217,7 +191,7 @@
                 return this.setX(this.m1)*(this.setT(this.m1)/this.setX(this.m1)+this.setT(this.m1)*(this.setT(this.m1)+1)/2)+this.setX(this.m2)*(this.setT(this.m2)/this.setX(this.m2)+this.setT(this.m2)*(this.setT(this.m2)+1)/2)
             },
             r:function(){//每期需投数
-                return this.l/this.factor
+                return this.a/this.factor
             },
             z:function(){//每期投资
                 let parm,rmb;
@@ -228,20 +202,19 @@
                 }else if(this.tab == 3){
                     parm = 10;
                 }
-                rmb = (this.l-parm*this.r*(1+(this.b-this.a)*this.k))/this.factor;
+                rmb = (this.a-parm*this.r*(1+this.m*this.k))/this.factor;
                 rmb < 0 ? rmb = 0 : '';
                 return parseInt(rmb)
             },
             q:function(){//首投
-                let parm,rmb;
+                let rmb;
                 if(this.tab == 1){
-                    parm = 4;
+                    rmb = 4*this.r+2*this.z;
                 }else if(this.tab == 2){
-                    parm = 8;
+                    rmb = 8*this.r+this.z;
                 }else if(this.tab == 3){
-                    parm = 10;
+                    rmb = 10*this.r+this.z;
                 }
-                rmb = parm*this.r+2*this.z*2;
                 rmb < 0 ? rmb = 0 : '';
                 if(rmb >= 10000){
                     rmb = parseInt(rmb/1000)*1000;
@@ -253,9 +226,6 @@
                     rmb = parseInt(rmb);
                 }
                 return rmb
-            },
-            pension:function(){
-                return JSON.parse(window.sessionStorage.getItem('pension'))
             }
         },
         methods: {
@@ -263,7 +233,7 @@
                 return this.k*m/12
             },
             setT(m){
-                return parseInt(12/m*this.b-this.a)
+                return parseInt(12/m*this.m)
             },
             changeTab(tab){
                 this.tab = tab;
@@ -312,7 +282,7 @@
                 });
             },
             calculate(){
-                let x,y,z,o;
+                let x,y,z;
                 if(this.tab == 1){
                     //A方案
                     x = this.lists.a.annualInterestRate;

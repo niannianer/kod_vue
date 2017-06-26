@@ -8,5 +8,5 @@ export const baofooCallUrl = 'http://callme.zj-hf.cn';
 export const telNumber = '400-640-3606';
 export const baofooTestUrl = 'https://paytest.baofoo.com/baofoo-custody/custody/';
 export const baofooProductUrl = 'https://pm.baofoo.com/custody/';
-export const nodeTestApi = 'http://59.110.217.183:8081';
+export const nodeTestApi = 'http://market-test.zj-hf.cn';
 export const nodeProductionApi = 'http://59.110.217.183:8081';

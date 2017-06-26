@@ -17,7 +17,9 @@ export let currencyFormat = (input) => {
     ouputs = ouputs.split('.');
     return ouputs[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,') + '.' + add0(ouputs[1]);
 };
-
+export let currencyFormatInterger = (input) => {
+    return Math.floor(input).toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+};
 export let currencyInput = (input) => {
     if (!input) {
         return '';
@@ -25,6 +27,14 @@ export let currencyInput = (input) => {
     let ouputs = input.toString();
     ouputs = ouputs.split('.');
     return ouputs[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,') + '.' + add0(ouputs[1]);
+};
+export let currencyInputNo = (input) => {
+    if (!input) {
+        return '0';
+    }
+    let ouputs = input.toString();
+    ouputs = ouputs.split('.');
+    return ouputs[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
 };
 export let transactionTime =(input)=>{
     if(!input){
@@ -109,4 +119,38 @@ export let periodType = (input) => {
     }
     return ouputs;
 };
-
+export let translatePate = (input) => {
+    if (!input) {
+        return '0.00%';
+    }
+    let inp = Number(input);
+    function accMul(arg1,arg2){
+        let m=0,s1=arg1.toString(),s2=arg2.toString();
+        if(s1.split(".")[1]){
+            m+=s1.split(".")[1].length
+        }
+        if(s2.split(".")[1]){
+            m+=s2.split(".")[1].length
+        }
+        return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)
+    }
+    let out = parseInt(accMul(inp,10000))/100;
+    let xsd= out.toString().split(".");
+    if(xsd.length==1){
+        out = out.toString()+".00";
+    }
+    if(xsd.length>1){
+        if(xsd[1].length<2){
+            out = out.toString()+"0";
+        }
+    }
+    return out+'%'
+};
+export let translatePateInt = (input) => {
+    if (!input) {
+        return '0%';
+    }
+    let inp = Number(input);
+    let out = (inp*100).toFixed(0)
+    return out+'%'
+};
