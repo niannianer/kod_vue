@@ -1,5 +1,5 @@
 <template>
-    <div class="register">
+    <div class="find-password">
         <div class="form">
             <div class="form-item" flex>
                 <label class="label" for="phone" flex-box="0">手机号</label>
@@ -9,7 +9,7 @@
             </div>
             <div class="form-item" flex>
                 <label class="label" for="yzm" flex-box="0">验证码</label>
-                <input class="input" type="tel" name="yzm" id="yzm" flex-box="1"
+                <input class="input" type="text" name="yzm" id="yzm" flex-box="1"
                        v-model.trim="verifyCode"
                        autocomplete="off" placeholder="请输入验证码">
                 <button flex-box="0" class="btn-default btn-code" @click.stop="getVerify"
@@ -27,55 +27,43 @@
             </div>
 
             <div class="form-item" flex>
-                <label class="label" for="password" flex-box="0">设置密码</label>
+                <label class="label" for="password" flex-box="0">重设密码</label>
                 <input class="input" type="password" name="password" id="password" flex-box="1"
                        v-model.trim="userLoginPassword"
                        autocomplete="off" placeholder="请设置6-20位数字或字母密码">
             </div>
 
-            <div class="form-item" flex>
-                <label class="label" for="invitation" flex-box="0">邀请人</label>
-                <input class="input" type="tel" name="invitation" id="invitation" flex-box="1"
-                       v-model.trim="inviterPhone"
-                       autocomplete="off" placeholder="请输入邀请人手机号（非必填）">
-            </div>
-        </div>
-        <div class="agreement">
-            <!--  <span class="box" :class="{'active':ischecked}" @click.stop="ischecked=!ischecked"></span>-->
-            <span class="info">我已阅读并同意
-                <span class="link" @click.stop="seeAgreement">
-                    《中冀金服注册协议及用户协议》
-                </span>
-            </span>
+
         </div>
 
         <div class="btn-group">
-            <button class="btn-primary btn-register" @click.stop="register">注册</button>
+            <button class="btn-primary btn-register" @click.stop="resetPassword">重置</button>
 
-            <button class="btn-default btn-login" @click.stop="login">已有账号请登录</button>
         </div>
     </div>
 </template>
+
 <script>
     import {Toast} from 'mint-ui';
     import $api from '../tools/api';
-    import '../less/register.less';
-    export default{
-        name: 'register',
+    import '../less/find-password.less';
+    export default {
+        name: 'find-password',
         data(){
             return {
                 investorMobile: '',
                 verifyCode: '',
                 userLoginPassword: '',
-                inviterPhone: '',
                 inputCode: '',
                 imageCode: '',
                 verifyText: '获取验证码',
                 verifyTimeLeft: 0,
-                ischecked: true,
                 timer: null
             }
         },
+        created(){
+        },
+        computed: {},
         methods: {
             checkPhone(){
                 if (!this.investorMobile) {
@@ -129,7 +117,7 @@
                 }
                 let {investorMobile} = this;
                 let imageCode = this.inputCode;
-                let bussType = 0;
+                let bussType = 1;
                 this.verifyTimeLeft = 60;
                 this.timeCount();
                 this.verifyText = '重新发送';
@@ -150,11 +138,8 @@
                             this.imageCode = data.data.imageCode;
                             return false;
                         }
-                        if (data.code == 1113) {
-                            Toast('该手机号已注册，可直接登录!');
-                            return false;
-                        }
                         Toast(data.msg);
+
                     })
 
             },
@@ -172,10 +157,7 @@
                     clearTimeout(this.timer);
                 }
             },
-            login(){
-                this.$router.replace('/login');
-            },
-            register(){
+            resetPassword(){
                 if (!this.checkPhone()) {
                     return false;
                 }
@@ -186,15 +168,8 @@
                 if (!this.checkPassword()) {
                     return false;
                 }
-                if (this.inviterPhone && !this.checkInviter()) {
-                    return false;
-                }
                 let {investorMobile, verifyCode, userLoginPassword} = this;
-                let params = {investorMobile, verifyCode, userLoginPassword};
-                if (this.inviterPhone) {
-                    params.inviterPhone = this.inviterPhone;
-                }
-                $api.post('/regist', params)
+                $api.post('/resetUserPassword', {investorMobile, verifyCode, userLoginPassword})
                     .then(data => {
                         if (data.code == 200) {
                             let logoutUrl = window.sessionStorage.getItem('logoutUrl');
@@ -211,25 +186,19 @@
                             return false;
                         }
                         if (data.code == 1002) {
-                            Toast('短信验证码错误');
+                            Toast('验证码错误');
+                            return false;
                         }
-                        if (data.code == 1101) {
-                            Toast('注册人手机号已经存在,请直接登录');
+                        if (data.code == 1003) {
+                            Toast('注册人手机号不存在');
+                            return false;
                         }
-                        if (data.code == 1102) {
-                            Toast('邀请人手机号不存在');
-                        }
+                        Toast(data.msg);
                     });
-            },
-            seeAgreement(){
-                // this.$router.push('/register-agreement');
-
-                window.location.href = '/registration-service-agreement.html';
             }
-
         },
         destroyed(){
-            this.clearTimeCount();
+
         }
     }
 </script>

@@ -57,7 +57,7 @@
                 <div class="round" flex-box="1">
                     <div class="bg">
                         <div class="tip">为满足您退休后保持现有收入水平,<br/>养老金至少需要储备</div>
-                        <div class="total">{{ pensionStoreString }}元</div>
+                        <div class="total">{{ pensionStore|currencyFormatInterger }}元</div>
                         <div class="tip2">（*已除去社保养老金可覆盖部分）</div>
                     </div>
                 </div>
@@ -75,7 +75,6 @@
     import $api from '../tools/api'
     import KingoldPicker from '../components/KingoldPicker'
     import Modal from '../components/Modal'
-    import {currencyFormatInterger} from '../filters/index'
     import {getValueD, getValueE, getValueG} from "../tools/city-grade"
     export default{
         data(){
@@ -119,9 +118,6 @@
             },
             list(){
                 return citys;
-            },
-            pensionStoreString(){
-                return currencyFormatInterger(this.pensionStore)
             },
             clickable(){
                 if(!this.inflationUseful){
