@@ -3,59 +3,227 @@
         <div class="form">
             <div class="form-item" flex>
                 <label class="label" for="phone" flex-box="0">手机号</label>
-                <input class="input" type="tel" name="phone"  id="phone" flex-box="1"
+                <input class="input" type="tel" name="phone" id="phone" flex-box="1"
                        v-model.trim="investorMobile"
                        autocomplete="off" placeholder="请输入手机号">
             </div>
             <div class="form-item" flex>
                 <label class="label" for="yzm" flex-box="0">验证码</label>
-                <input class="input" type="tel" name="yzm"  id="yzm" flex-box="1"
+                <input class="input" type="tel" name="yzm" id="yzm" flex-box="1"
                        v-model.trim="verifyCode"
                        autocomplete="off" placeholder="请输入验证码">
-                <button flex-box="0" class="btn-default btn-code"></button>
+                <button flex-box="0" class="btn-default btn-code" @click.stop="getVerify"
+                        v-if="verifyTimeLeft<=0">{{verifyText}}
+                </button>
+                <button flex-box="0" class="btn-default btn-code" v-else>{{verifyTimeLeft}}</button>
             </div>
 
-            <div class="form-item" flex>
+            <div class="form-item" flex v-if="imageCode">
                 <label class="label" for="imageCode" flex-box="0">校验码</label>
-                <input class="input" type="text" name="imageCode"  id="imageCode" flex-box="1"
+                <input class="input" type="text" name="imageCode" id="imageCode" flex-box="1"
                        v-model="inputCode"
                        autocomplete="off" placeholder="请输入校验码">
-                <button flex-box="0" class="btn-default btn-code"></button>
+                <button flex-box="0" class="btn-default btn-code">{{imageCode}}</button>
             </div>
 
             <div class="form-item" flex>
                 <label class="label" for="password" flex-box="0">设置密码</label>
-                <input class="input" type="text" name="password"  id="password" flex-box="1"
+                <input class="input" type="password" name="password" id="password" flex-box="1"
                        v-model.trim="userLoginPassword"
                        autocomplete="off" placeholder="请设置6-20位数字或字母密码">
             </div>
 
             <div class="form-item" flex>
                 <label class="label" for="invitation" flex-box="0">邀请人</label>
-                <input class="input" type="tel" name="invitation"  id="invitation" flex-box="1"
+                <input class="input" type="tel" name="invitation" id="invitation" flex-box="1"
                        v-model.trim="inviterPhone"
                        autocomplete="off" placeholder="请输入邀请人手机号（非必填）">
             </div>
         </div>
         <div class="agreement">
-            <span class="box"></span>
-            <span class="info">我已阅读并同意<a href="/registration-service-agreement.html">《中冀金服注册协议及用户协议》</a></span>
+          <!--  <span class="box" :class="{'active':ischecked}" @click.stop="ischecked=!ischecked"></span>-->
+            <span class="info">我已阅读并同意
+                <a class="link" href="/registration-service-agreement.html">
+                    《中冀金服注册协议及用户协议》
+                </a>
+            </span>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-primary btn-register" @click.stop="register">注册</button>
+
+            <button class="btn-default btn-login" @click.stop="login">已有账号请登录</button>
         </div>
     </div>
 </template>
 <script>
+    import {Toast} from 'mint-ui';
+    import $api from '../tools/api';
     import '../less/register.less';
     export default{
-        name:'register',
+        name: 'register',
         data(){
             return {
-                investorMobile:'',
-                verifyCode:'',
-                userLoginPassword:'',
-                inviterPhone:'',
-                inputCode:'',
-                imageCode:''
+                investorMobile: '',
+                verifyCode: '',
+                userLoginPassword: '',
+                inviterPhone: '',
+                inputCode: '',
+                imageCode: '',
+                verifyText: '获取验证码',
+                verifyTimeLeft: 0,
+                ischecked: true,
+                timer: null
             }
+        },
+        methods: {
+            checkPhone(){
+                if (!this.investorMobile) {
+                    Toast('手机号不能为空');
+                    return false;
+                }
+                let reg = /^1[3|4|5|7|8]\d{9}$/;
+                if (!reg.test(this.investorMobile)) {
+                    Toast('请输入正确的手机号码');
+                    return false;
+                }
+                return true;
+            },
+            checkInviter(){
+                let reg = /^1[3|4|5|7|8]\d{9}$/;
+                if (!reg.test(this.inviterPhone)) {
+                    Toast('请输入正确的邀请人手机号');
+                    return false;
+                }
+                return true;
+            },
+            checkPassword(){
+                let regStr = /^[a-zA-Z0-9]{6,20}$/;
+                if (!this.userLoginPassword) {
+                    Toast('请输入密码');
+                    return false;
+                }
+                if (!regStr.test(this.userLoginPassword)) {
+                    Toast('请输入正确的登录密码（6~20位数字和字母）');
+                    return false;
+                }
+                let regD = /^\d*$/;
+                if (regD.test(this.userLoginPassword)) {
+                    Toast('请输入正确的登录密码（6~20位数字和字母）');
+                    return false;
+                }
+                let regW = /^[a-zA-Z]*$/;
+                if (regW.test(this.userLoginPassword)) {
+                    Toast('请输入正确的登录密码（6~20位数字和字母）');
+                    return false;
+                }
+                return true;
+            },
+            getVerify(){
+                if (!this.checkPhone()) {
+                    return false
+                }
+                if (this.imageCode && !this.inputCode) {
+                    Toast('请输入图形验证码');
+                    return false;
+                }
+                let {investorMobile} = this;
+                let imageCode = this.inputCode;
+                let bussType = 0;
+                this.verifyTimeLeft = 60;
+                this.timeCount();
+                this.verifyText = '重新发送';
+                $api.get('/sendVerifyCode', {investorMobile, imageCode, bussType})
+                    .then(data => {
+                        if (data.code == 200) {
+                            return false;
+                        }
+                        else {
+                            this.clearTimeCount();
+                        }
+                        if (data.code == 1001) {
+                            Toast('验证码错发送失败!');
+                        }
+                        if (data.code == 1004) {
+                            Toast('图片验证码错误!');
+                            this.imageCode = data.data.imageCode;
+                        }
+                        if (data.code == 1113) {
+                            Toast('该手机号已注册，可直接登录!')
+                        }
+                    })
+
+            },
+            timeCount(){
+                this.timer = setTimeout(() => {
+                    this.verifyTimeLeft = this.verifyTimeLeft - 1;
+                    if (this.verifyTimeLeft >= 1) {
+                        this.timeCount();
+                    }
+                },1000);
+            },
+            clearTimeCount(){
+                this.verifyTimeLeft = 0;
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
+            },
+            login(){
+                this.$router.replace('/login');
+            },
+            register(){
+                if (!this.checkPhone()) {
+                    return false;
+                }
+                if (!this.verifyCode) {
+                    Toast('请输入短信验证码');
+                    return false;
+                }
+                if (!this.checkPassword()) {
+                    return false;
+                }
+                if (this.inviterPhone && !this.checkInviter()) {
+                    return false;
+                }
+                if(!this.ischecked){
+                    Toast('请同意');
+                }
+
+                let {investorMobile, verifyCode, userLoginPassword} = this;
+                let params = {investorMobile, verifyCode, userLoginPassword};
+                if (this.inviterPhone) {
+                    params.inviterPhone = this.inviterPhone;
+                }
+                $api.post('/regist',params)
+                    .then(data=>{
+                        if(data.code==200){
+                            var logoutUrl = window.sessionStorage.getItem('logoutUrl');
+                            logoutUrl = decodeURIComponent(logoutUrl);
+                            if(logoutUrl&&/http/.test(logoutUrl)){
+                                window.location.replace(logoutUrl);
+                            }else {
+                                this.$router.replace('/personal-center');
+                                this.$store.dispatch('getAccountBaofoo');
+                                this.$store.dispatch('getBankInfo');
+                                this.$store.dispatch('getUserInfo');
+                            }
+                            return false;
+                        }
+                        if(data.code==1002){
+                            Toast('短信验证码错误');
+                        }
+                        if(data.code==1101){
+                            Toast('注册人手机号已经存在,请直接登录');
+                        }
+                        if(data.code==1102){
+                            Toast('邀请人手机号不存在');
+                        }
+                    });
+            }
+
+        },
+        destroyed(){
+            this.clearTimeCount();
         }
     }
 </script>

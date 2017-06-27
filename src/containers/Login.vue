@@ -45,8 +45,8 @@
         </div>
         <!--footer -->
       <div class="footer" flex>
-          <router-link class="link" flex-box="1" :to="{path:'/register'}">立即注册</router-link>
-          <router-link class="link" flex-box="1" :to="{path:'/forgot-password'}">忘记密码</router-link>
+          <router-link class="link" flex-box="1" :to="{path:'/register'}" replace>立即注册</router-link>
+          <router-link class="link" flex-box="1" :to="{path:'/forgot-password'}" replace>忘记密码</router-link>
       </div>
     </div>
 </template>
@@ -93,12 +93,12 @@
                     Toast('请输入正确的登录密码（6~20位数字和字母）');
                     return false;
                 }
-                let regD = /^\d$/;
+                let regD = /^\d*$/;
                 if (regD.test(this.password)) {
                     Toast('请输入正确的登录密码（6~20位数字和字母）');
                     return false;
                 }
-                let regW = /^[a-zA-Z]$/;
+                let regW = /^[a-zA-Z]*$/;
                 if (regW.test(this.password)) {
                     Toast('请输入正确的登录密码（6~20位数字和字母）');
                     return false;
