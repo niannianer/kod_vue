@@ -46,7 +46,7 @@
         <!--footer -->
       <div class="footer" flex>
           <router-link class="link" flex-box="1" :to="{path:'/register'}" replace>立即注册</router-link>
-          <router-link class="link" flex-box="1" :to="{path:'/forgot-password'}" replace>忘记密码</router-link>
+          <router-link class="link" flex-box="1" :to="{path:'/find-password'}" replace>忘记密码</router-link>
       </div>
     </div>
 </template>
@@ -133,7 +133,8 @@
                             return false;
                         }
                         if (data.code == 200) {
-                            var logoutUrl = window.sessionStorage.getItem('logoutUrl');
+                            let logoutUrl = window.sessionStorage.getItem('logoutUrl');
+                            window.sessionStorage.removeItem('logoutUrl');
                             logoutUrl = decodeURIComponent(logoutUrl);
                             if(logoutUrl&&/http/.test(logoutUrl)){
                                 window.location.replace(logoutUrl);

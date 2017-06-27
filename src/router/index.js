@@ -37,6 +37,7 @@ import Planning from '../containers/Planning'
 const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
+import FindPassword from '../containers/FindPassword';
 import {setTitle} from '../tools/operation';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
@@ -383,6 +384,15 @@ let routes = [
         component: Register,
         meta:{
             title:'注册',
+            withoutLogin: true
+        }
+    },
+    {
+        path:'/find-password',
+        name:'find-password',
+        component: FindPassword,
+        meta:{
+            title:'找回密码',
             withoutLogin: true
         }
     }

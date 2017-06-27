@@ -81,16 +81,13 @@
         ]),
         methods: {
             login(){
-                window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
-                window.location.replace('/login.html');
+                this.$router.replace('/login');
             },
             logout(){
                 $api.get('/logout')
                     .then(data => {
                         if (data.code == 200) {
-                            console.log(data);
-                            window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
-                            window.location.replace('/login.html');
+                            this.$router.replace('/login');
                         } else {
                             Toast('退出登录失败');
                         }
