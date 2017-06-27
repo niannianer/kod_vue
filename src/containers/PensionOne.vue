@@ -4,8 +4,8 @@
             <div class="title" flex-box="0">
                 选择您所在的城市
             </div>
-            <div class="content" flex-box="1">
-                <mt-index-list>
+            <div class="content" flex-box="1" ref="content">
+                <mt-index-list ref="mintList">
                     <div class="section">
                         <div class="title">热门</div>
                         <div class="hot-city">
@@ -33,7 +33,7 @@
     import "../less/pension-one.less";
     import citys from "../tools/citys";
     import cityGrade from "../tools/city-grade"
-    import {IndexList, IndexSection} from 'mint-ui';
+    import {IndexList, IndexSection,Toast} from 'mint-ui';
     Vue.component(IndexList.name, IndexList);
     Vue.component(IndexSection.name, IndexSection);
     export default{
@@ -57,6 +57,9 @@
                 });
                 return obj;
             }
+        },
+        mounted(){
+            this.$refs.mintList.currentHeight = this.$refs.content.clientHeight-20;
         },
         methods: {
             clickHandle(item){

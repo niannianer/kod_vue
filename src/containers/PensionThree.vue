@@ -4,7 +4,7 @@
             <div class="title" >请输入您的税后工资（月）</div>
             <div class="content" flex="dir:left">
                 <div class="num" flex-box="1">
-                    <input type="tel" v-model="wagesAfterTax" maxlength="6" >
+                    <input type="tel" v-model="wagesAfterTax" maxlength="6"  @blur.stop="checkwagesAfterTax">
                 </div>
                 <span flex-box="1">元</span>
             </div>
@@ -21,6 +21,8 @@
     </div>
  </template>
 <script>
+    import Vue from 'vue';
+    import {Toast} from 'mint-ui'
     import '../less/pension-three.less';
     import {getValueD} from "../tools/city-grade"
     export default {
@@ -32,21 +34,29 @@
             }
         },
         computed:{
-            gender(){
-                return window.sessionStorage.getItem('gender')==1?'女':'男';
-            },
-            age(){
-                return window.sessionStorage.getItem('age');
-            }
         },
         methods:{
             nextHandle(){
                 window.sessionStorage.setItem('wagesAfterTax',this.wagesAfterTax);
-                this.$router.push('/pension-four');
+                if(this.checkwagesAfterTax()){
+                    this.$router.push('/pension-four');
+                }
+               else {
+                    Toast('请输入正确工资');
+                }
             },
-            myKeyup(){
-
-            }
+            checkwagesAfterTax(){
+                if (!this.wagesAfterTax) {
+                    Toast('请输入工资');
+                    return false;
+                }
+                let reg = /^\d{1,6}$/;
+                if (!reg.test(this.wagesAfterTax)) {
+                    Toast('请输入正确工资');
+                    return false;
+                }
+                return true;
+            },
         },
         created(){
             this.wagesAfterTax =getValueD(window.sessionStorage.getItem('cityName'));
