@@ -38,7 +38,7 @@ let get = (path, data = {}) => {
     data.callSystemID = '1003';
     let t = new Date().getTime();
     let url = '';
-    let credentials='include';
+    let credentials = 'include';
     if (/http/.test(path)) {
         url = `${path}?t=${t}&${$query(data)}`;
     } else {
@@ -72,14 +72,14 @@ let getNode = (path, data = {}) => {
 };
 import  {logout} from './operation';
 let post = (path, data = {}) => {
-
+    data.callSystemID = '1003';
     let t = new Date().getTime();
     let url = '';
-    let credentials='include';
+    let credentials = 'include';
     if (/http/.test(path)) {
         url = `${path}?t=${t}`;
     } else {
-        url = `${serverUrl + path}?t=${t}&`;
+        url = `${serverUrl + path}`;
     }
     return fetch(url, {
         method: 'post',
@@ -99,7 +99,7 @@ let post = (path, data = {}) => {
 
         return {};
     }).then(data => {
-        if(data.code==401){
+        if (data.code == 401) {
             store.dispatch('getAccountBaofoo');
             store.dispatch('getBankInfo');
             store.dispatch('getUserInfo');
