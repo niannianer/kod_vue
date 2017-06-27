@@ -96,7 +96,7 @@ export let currencyInputValidate = (input) => {
 };
 export let logout = () => {
     window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
-    window.location.replace('/login.html');
+    window.location.replace('/login');
 };
 let $operation = {
     setTitle

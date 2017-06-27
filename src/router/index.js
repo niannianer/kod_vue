@@ -382,7 +382,8 @@ let routes = [
         name:'register',
         component: Register,
         meta:{
-            title:'注册'
+            title:'注册',
+            withoutLogin: true
         }
     }
 ];
@@ -401,7 +402,7 @@ routes.map(route => {
 });
 routes.push({
     path: '*',
-    redirect: '/my-assets'
+    redirect: '/personal-center'
 });
 export default new Router({
     mode: 'history',
