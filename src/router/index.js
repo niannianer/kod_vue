@@ -72,7 +72,8 @@ let routes = [
         path: '/financial',
         name: 'financial',
         meta: {
-            title: '理财'
+            title: '理财',
+            withoutLogin: true
         },
         component: Financial
     }, {
