@@ -81,15 +81,70 @@
         }
         .round-warp{
             position: relative;
+            .line-left{
+                position: absolute;
+                top: 50%;
+                left: 0;
+                right: 50%;
+                height: 1px;
+                background: @color-split;
+                z-index: 1;
+                &.red{
+                    background-color: @color-interest;
+                }
+            }
+            .line-right{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                right: 0;
+                height: 1px;
+                background: @color-split;
+                z-index: 1;
+                &.red{
+                    background-color: @color-interest;
+                }
+            }
+            .round{
+                position: relative;
+                background: rgba(219,219,219,0.5);
+                width: .8rem;
+                height: .8rem;
+                border-radius: 50%;
+                margin: auto;
+                z-index: 2;
+                &.active{
+                    background: rgba(255,109,0,0.5);
+                    .inner-round{
+                        background-color: @color-interest;
+                    }
+                }
+                .inner-round{
+                    border-radius: 50%;
+                    width: .5rem;
+                    height: .5rem;
+                    background: @color-split;
+                }
+            }
         }
-        .round{
-            position: relative;
-            background: rgba(219,219,219,0.5);
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            margin: auto;
-            overflow: visible;
+
+    }
+    .basic{
+        margin-top: .5rem;
+        background-color: #fff;
+        padding: .8rem;
+        .basic-title{
+            color: @color-text;
+            font-size: .8rem;
+        }
+        .content{
+            padding-top: .5rem;
+            color: @color-text-secondary;
+            font-size: .6rem;
+            .item{
+                position: relative;
+                line-height: 1.2rem;
+            }
         }
     }
 }
