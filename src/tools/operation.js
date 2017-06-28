@@ -21,8 +21,9 @@ export let setTitle = (title) => {
 
 
 import md5 from 'md5';
-import {testUrl, productionUrl, baofooTestUrl, baofooCallUrl, baofooProductUrl} from './config';
+import {testUrl, productionUrl, baofooTestUrl, baofooCallUrlProduct, baofooProductUrl,baofooCallUrlTest} from './config';
 let baofooRecharge = baofooTestUrl;
+let baofooCallUrl = baofooCallUrlTest;
 let serverUrl = testUrl;
 let signMode = '~|~n725d5gsb7mlyzzw';
 let merchant_id = '100000675';
@@ -32,16 +33,17 @@ if (process.env.kingold == 'test') {
 }
 if (process.env.kingold == 'production') {
     serverUrl = productionUrl;
+    baofooCallUrl = baofooCallUrlProduct;
     signMode = '~|~em9eq7synlpkg232';
     baofooRecharge = baofooProductUrl;
-    merchant_id = '1172380';
-    terminal_id = '34865';
+    merchant_id = '1177929';
+    terminal_id = '35265';
 }
 
 // baofoo 充值
 export let submitRecharge = (params) => {
     let {userId, orderBillCode, amount, additionalInfo, returnUrl} = params;
-    let backUrl = decodeURIComponent(window.sessionStorage.getItem('backUrl'));
+    let backUrl = window.sessionStorage.getItem('backUrl');
     let backUrlParams = window.sessionStorage.getItem('backUrlParams');
     let pageUrl = `${baofooCallUrl}/baofoo/h5/notification/recharge?backUrl=${backUrl}`;
     let form = document.createElement('form');

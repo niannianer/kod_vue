@@ -1,12 +1,13 @@
 @charset "UTF-8";
 @import "variables";
+
 @tab-active: #1D72C0;
 .financail {
     position: relative;
     width: 100%;
     height: 100%;
     .tabs {
-        height: 1.8rem;
+        /* height: 1.8rem;*/
         .tab {
             text-align: center;
             cursor: pointer;
@@ -32,10 +33,33 @@
             padding: 1rem;
             margin-bottom: .4rem;
             background-color: @bg-content;
+            overflow: hidden;
+            .status-code {
+                position: absolute;
+                top: .5rem;
+                right: -1.4rem;
+                transform: rotate(35deg);
+                width: 5.5rem;
+                height: 22px;
+                line-height: 22px;
+                color: #fff;
+                text-align: center;
+                &.hot {
+                    background-color: @color-active;
+                }
+                &.raise {
+                    background-color: @color-interest;
+                }
+                &.sell-out {
+                    background-color: @bg-sell-out;// 售罄
+                }
+            }
+
             .fund-name {
                 line-height: .8rem;
                 font-size: .8rem;
                 color: @color-text-secondary;
+                max-width: 80%;
             }
             .fund-middle {
                 margin-top: .5rem;
@@ -58,65 +82,77 @@
                 }
             }
             //固定收益
-            .fund-middle-fix{
+            .fund-middle-fix {
                 margin-top: .5rem;
                 margin-bottom: .2rem;
-                .rate,.cycle{
+                .rate, .cycle {
                     font-size: 1.2rem;
                     color: @color-interest;
                     //line-height: 1.2rem;
                     line-height: 50px;
-                    .sub-text{
-                        font-size:.7rem;
+                    .sub-text {
+                        font-size: .7rem;
                         color: @color-text-secondary;
                         line-height: .7rem;
                     }
                 }
-                .status span{
-                        width: 3.3rem;
-                        display: inline-block;
-                        height: 1.5rem;
-                        line-height: 1.5rem;
-                        background-color: #FF6D00;
-                        border-radius: 3px;
-                        text-align: center;
-                        color: #FFF;
-                        box-shadow: 0 0 10px #FF6D00;
+                .status span {
+                    width: 3.3rem;
+                    display: inline-block;
+                    height: 1.5rem;
+                    line-height: 1.5rem;
+                    border-radius: 3px;
+                    text-align: center;
+                    color: #FFF;
+
+                    &.hot {
+                        background-color: @color-active;
+                        box-shadow: 0 0 10px @color-active;
+                    }
+                    &.raise {
+                        background-color: @color-interest;
+                        box-shadow: 0 0 10px @color-interest;
+                    }
+                    &.sell-out {
+                        background-color: @bg-sell-out;// 售罄
+
+                        box-shadow: 0 0 10px @bg-sell-out;
                     }
                 }
-            .progress-line{
+            }
+            .progress-line {
                 width: 100%;
                 height: .2rem;
-                background:#F4F4F4 ;
-                margin:.6rem 0;
+                background: #F4F4F4;
+                margin: .6rem 0;
                 position: relative;
-                .done{
+                .done {
                     background: #FF6D00;
                     height: 100%;
                 }
-                .round{
+                .round {
                     position: absolute;
-                    background: rgba(255,109,0,0.5);
+                    background: rgba(255, 109, 0, 0.5);
                     width: .8rem;
                     height: .8rem;
                     border-radius: 50%;
                     top: -0.3rem;
-                    div{
+                    div {
                         border-radius: 50%;
                         width: .5rem;
                         height: .5rem;
                         background: #FF6D00;
                         position: absolute;
-                        top:.15rem;
+                        top: .15rem;
                         left: .15rem;
                     }
                 }
             }
-            .buttom{
+            .buttom {
                 font-size: .7rem;
                 position: relative;
-                padding:0 1rem;
-                &:before{
+                padding: 0 1rem;
+                &:before {
                     content: '';
                     position: absolute;
                     width: .75rem;
@@ -128,8 +164,8 @@
                     background-size: cover;
                 }
             }
-            }
-        .item.stat{
+        }
+        .item.stat {
             .fund-middle-fix {
                 .rate, .cycle {
                     color: #DBDBDB;
@@ -142,58 +178,58 @@
                     }
                 }
             }
-                .progress {
-                    .done {
+            .progress {
+                .done {
+                    background-color: #DBDBDB;
+                }
+                .round {
+                    background: rgba(219, 219, 219, 0.5);
+                    div {
                         background-color: #DBDBDB;
-                    }
-                    .round{
-                        background: rgba(219,219,219,0.5);
-                        div {
-                            background-color: #DBDBDB;
-                        }
                     }
                 }
             }
         }
-//遮罩层
-    .mask{
+    }
+    //遮罩层
+    .mask {
         //display:none;
         width: 100%;
         height: 100%;
         position: fixed;
         top: 0;
         left: 0;
-        background: rgba(0,0,0,0.7);
-        .content{
+        background: rgba(0, 0, 0, 0.7);
+        .content {
             overflow: hidden;
             height: 20rem;
             width: 84%;
-            padding-bottom:.75rem;
+            padding-bottom: .75rem;
             background: #fff;
             position: absolute;
             left: 8%;
-            top:50%;
-            margin-top:-10rem;
-            h2{
+            top: 50%;
+            margin-top: -10rem;
+            h2 {
                 text-align: center;
-                margin:1rem 0 1.4rem 0;
-                font-size:.8rem;
+                margin: 1rem 0 1.4rem 0;
+                font-size: .8rem;
                 font-weight: normal;
             }
-            .main{
+            .main {
                 box-sizing: border-box;
                 width: 93%;
-                padding:.25rem .4rem  2.5rem  .25rem;
-                height:11.45rem ;
+                padding: .25rem .4rem 2.5rem .25rem;
+                height: 11.45rem;
                 overflow: hidden;
                 overflow-y: auto;
-                margin:0 auto;
-                border:1px solid #666;
-                &::-webkit-scrollbar-track-piece{
-                    border-left:1px solid #666;
+                margin: 0 auto;
+                border: 1px solid #666;
+                &::-webkit-scrollbar-track-piece {
+                    border-left: 1px solid #666;
                 }
-                &::-webkit-scrollbar{
-                    width:.5rem ;
+                &::-webkit-scrollbar {
+                    width: .5rem;
                     height: .65rem;
                 }
                 &::-webkit-scrollbar-thumb {
@@ -202,28 +238,37 @@
                     min-height: 1.4rem;
                 }
             }
-            .confirm{
-                font-size:.6rem;
-                margin:.55rem 0 0  3%;
-                i{
-                  border:1px solid  #1D71BE;
-                    display:inline-block;
+            .confirm {
+                font-size: .6rem;
+                margin: .55rem 0 0 3%;
+                i {
+                    border: 1px solid #1D71BE;
+                    display: inline-block;
                     width: .65rem;
                     height: .65rem;
-                    margin-right:.25rem;
+                    margin-right: .25rem;
                     vertical-align: middle;
                 }
-                .active{
-                    background:url('../images/checked.png') no-repeat;background-size: 123%;background-position: -1px -1px;
+                .active {
+                    background: url('../images/checked.png') no-repeat;
+                    background-size: 123%;
+                    background-position: -1px -1px;
                 }
             }
         }
-        .btn{
-            width:35%;margin:19px auto;height:34px;line-height:34px;text-align:center;
-            background: #1D72C0;border-radius:4px;color:#FFF;
-        }
-        .disable{
-            background:#DBDBDB;box-shadow:0 0 5px #DBDBDB;
+        .btn {
+            width: 35%;
+            margin: 19px auto;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            background: #1D72C0;
+            border-radius: 4px;
+            color: #FFF;
+            &:disabled {
+                background: #DBDBDB;
+                box-shadow: 0 0 5px #DBDBDB;
+            }
         }
 
     }

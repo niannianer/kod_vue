@@ -13,7 +13,8 @@ const state = {
     investorGender:'', //gender
     investorIdCardNo:'',// ID card
     investorMobile:'',// mobile
-    investorRealName:'',// realname
+    investorRealName:'',// realname,
+    isEligibleInvestor:0,
     investorRiskType:0,
     investorRiskLevel:0, //
     investorRiskLevelDesc:'',
