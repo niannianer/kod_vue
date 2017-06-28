@@ -29,6 +29,12 @@
                             <cicle-progress :width-size="50" :progress="item.productProgress"></cicle-progress>
                         </div>
                     </div>
+                    <div class="status-code"
+                    :class="{'hot':item.productStatusCode==1,
+                    'raise':item.productStatusCode==2,
+                    'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                       {{item.productStatus}}
+                    </div>
                 </div>
             </div>
 
@@ -51,7 +57,10 @@
                             <div class="sub-text" flex="main:center">期限</div>
                         </div>
                         <div class="status" flex-box="0" flex="cross:center">
-                            <span>{{item.productStatus}}</span>
+                            <span  :class="{'hot':item.productStatusCode==1,
+                    'raise':item.productStatusCode==2,
+                    'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
+                            >{{item.productStatus}}</span>
                         </div>
                     </div>
                     <div class="progress-line">
@@ -149,7 +158,7 @@
             },
             getListWithLogin(){
                 if (this.userId) {
-                    this.getGoodsList();
+                    this.getGoodsList('refresh');
                 } else {
                     this.$store.dispatch('getAccountBaofoo')
                         .then(data => {
