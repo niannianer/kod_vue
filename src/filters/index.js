@@ -155,7 +155,7 @@ export let translatePateInt = (input) => {
     return out+'%'
 };
 
-export let htmlBr =(input)=>{
+export let textToHtml =(input)=>{
     if (!input) {
         return '';
     }

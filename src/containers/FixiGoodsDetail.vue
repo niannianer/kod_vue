@@ -100,7 +100,7 @@
 
                 <div class="item" flex="box:mean">
                     <span>是否可转</span>
-                    <span class="ellipsis">{{production.isTransferFlag?'可转':'不可转'}}</span>
+                    <span class="ellipsis">{{production.isTransferFlag ? '可转' : '不可转'}}</span>
                 </div>
 
                 <div class="item" flex="box:mean">
@@ -109,8 +109,18 @@
                 </div>
             </div>
         </div>
-        <div class="product-introduction" v-if="production.productIntroduction">
-            {{{production.productIntroduction | htmlBr}}}
+        <!--项目概况-->
+        <div class="basic"
+             v-if="production.productIntroduction">
+            <div class="basic-title">项目概况</div>
+            <div class="basic-content" v-html="productIntroduction"></div>
+
+        </div>
+        <!--投资方向-->
+        <div class="basic" v-for="(item,index) in productInformation">
+            <div class="basic-title">{{item.inforKey}}</div>
+            <div class="basic-content" v-html="item.inforValue"></div>
+
         </div>
 
     </div>
@@ -119,6 +129,7 @@
 <script>
     import {Toast} from 'mint-ui';
     import $api from '../tools/api';
+    import {textToHtml} from '../filters';
     import '../less/fixi-goods-detail.less';
     export default {
         name: 'fixi-goods-detail',
@@ -153,6 +164,20 @@
                 }
 
                 return 0;
+            },
+            productIntroduction(){
+                return textToHtml(this.production.productIntroduction);
+            },
+            productInformation(){
+                let information = [];
+                if (!this.production.productInformation) {
+                    return [];
+                }
+                this.production.productInformation.map(el => {
+                    el.inforValue = textToHtml(el.inforValue);
+                    information.push(el);
+                })
+                return information;
             }
         },
         methods: {
