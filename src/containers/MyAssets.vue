@@ -50,7 +50,7 @@
     import $api from '../tools/api';
     import {mapState} from 'vuex';
     import {telNumber} from '../tools/config';
-    import Modal from '../components/Modal'
+    import Modal from '../components/Modal';
     import  '../less/my-assets.less';
     let times=0;
     export default {
