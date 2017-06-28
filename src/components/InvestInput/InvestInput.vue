@@ -9,8 +9,15 @@
             <div class="account-text">账户余额</div>
             <div class="account-amount">0.59元</div>
             <div class="min-invest">起投金额1000元</div>
-
+            <div class="input-content" flex>
+                <div class="amount" flex-box="1" flex="main:jusitfy">
+                    <span flex-box="1">{{amount}} </span>
+                    <span flex-box="0">元</span>
+                </div>
+                <button class="btn-next" @click.stop="nextStep">下一步</button>
+            </div>
         </div>
+
 
         <div class="keyboad-body" flex-box="0">
             <div class="keyboad-list" flex="dir:left">
@@ -38,7 +45,7 @@
                 <div class="keyboad-bottom" flex-box="1">
                     <span></span>
                 </div>
-                <div class="keyboad-bottom" flex-box="1">
+                <div class="keyboad-bottom" flex-box="1" @click.stop="addPassword({val:0})">
                     <span>0</span>
                 </div>
                 <div class="keyboad-bottom" flex-box="1" @click.stop="deletePassword">
@@ -106,11 +113,20 @@
                 this.passwords = [];
             });
         },
+        computed: {
+            amount(){
+                if (this.passwords.length == 0) {
+                    return '请输入金额';
+                }
+                return this.passwords.join('');
+            }
+        },
         methods: {
             addPassword(keyboad){
-                if (this.passwords.length < 6) {
+                this.passwords.push(keyboad.val)
+               /* if (this.passwords.length < 6) {
                     this.passwords.push(keyboad.val)
-                }
+                }*/
                 if (this.passwords.length >= 6) {
                     this.$emit('callBack', this.passwords.join('').substr(0, 6));
                 }
@@ -120,11 +136,9 @@
             },
             close(){
                 this.$emit('close');
-            }
-        },
-        events: {
-            clear(){
-                console.log('clear');
+            },
+            nextStep(){
+
             }
         }
 
