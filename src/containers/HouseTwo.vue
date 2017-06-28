@@ -42,8 +42,8 @@
                         </div>
                     </div>
                     <div v-show="!rotate" flex="main:center">
-                        <div flex-box="1">总价：216万</div>
-                        <div flex-box="1">3年实现</div>
+                        <div flex-box="1">总价：{{houseTotal}}万</div>
+                        <div flex-box="1">{{year}}年实现</div>
                         <div flex-box="1">需贷款</div>
                     </div>
 
@@ -92,19 +92,19 @@
                     <div class="loan-item" flex="main:justify" v-if="loanClass==1">
                         <div flex-box="1">贷款金额（万）</div>
                         <div flex-box="1" class="right">
-                            <input v-model.trim="businessLoan" @blur="checkLoan"/>
+                            <input type="number" v-model.trim="businessLoan" @blur="checkLoan"/>
                         </div>
                     </div>
                     <div class="loan-item" flex="main:justify" v-if="loanClass==2">
                         <div flex-box="1">贷款金额（万）</div>
                         <div flex-box="1" class="right">
-                            <input v-model.trim="accumulationFundLoan" @blur="checkLoan" type="tel"/>
+                            <input v-model.trim="accumulationFundLoan" @blur="checkLoan" type="number"/>
                         </div>
                     </div>
                     <div class="loan-item" flex="main:justify" v-if="loanClass==3">
                         <div flex-box="1">商业贷款金额（万）</div>
                         <div flex-box="1" class="right">
-                            <input v-model.trim="businessLoan" @blur="checkLoan" type="tel"/>
+                            <input v-model.trim="businessLoan" @blur="checkLoan" type="number"/>
                         </div>
                     </div>
                     <div class="loan-item" flex="main:justify" v-if="loanClass==3">
@@ -240,7 +240,7 @@
         created(){
             if (window.sessionStorage.getItem('cityName')) {
                 this.cityName = window.sessionStorage.getItem('cityName');
-                this.houseTotal = Math.round(this.cityAveragePrice / 10000);
+                this.houseTotal = Math.ceil(this.cityAveragePrice / 10000);
             }
             if (window.sessionStorage.getItem('houseData')) {
                 let houseData = window.sessionStorage.getItem('houseData');
@@ -248,7 +248,6 @@
                     this[key] = data;
                 });
                 window.sessionStorage.removeItem('houseData');
-
             }
 
 

@@ -36,10 +36,12 @@ import Relation from '../containers/Relation';
 import HouseTwo from '../containers/HouseTwo';
 import HouseThree from '../containers/HouseThree';
 import Planning from '../containers/Planning'
+import GoodsDetailPRIF from '../containers/GoodsDetailPRIF'
 const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
 import FindPassword from '../containers/FindPassword';
+import FixiGoodsDetail from '../containers/FixiGoodsDetail';
 import {setTitle} from '../tools/operation';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
@@ -78,6 +80,14 @@ let routes = [
             withoutLogin: true
         },
         component: Financial
+    }, {
+        path: '/fixi-goods-detail',
+        name: 'fixi-goods-detail',
+        meta: {
+            title: '理财详情',
+            withoutLogin: true
+        },
+        component: FixiGoodsDetail
     }, {
         path: '/my-assets',
         name: 'my-assets',
@@ -412,6 +422,15 @@ let routes = [
         component: FindPassword,
         meta:{
             title:'找回密码',
+            withoutLogin: true
+        }
+    },
+    {
+        path:'/goods-detail-prif',
+        name:'goods-detail-prif',
+        component: GoodsDetailPRIF,
+        meta:{
+            title:'项目详情',
             withoutLogin: true
         }
     }
