@@ -101,7 +101,7 @@
             }
             this.productUuid = this.$route.query.u;
             this.amount = this.$route.query.a;
-            this.orderBillCode = this.$router.o;
+            this.orderBillCode = this.$route.query.o;
             let leastPay = (this.amount*100 - this.accountCashAmount*100)/100;
             this.rechargeNum = leastPay<1?'1':leastPay;
             $api.get('/product/getDetail',{
@@ -187,7 +187,6 @@
                     .then((msg)=>{
                         Indicator.close();
                         if(msg.code==200){
-                            console.log('购买成功')
                             window.sessionStorage.setItem('investInfo', encodeURIComponent(JSON.stringify(msg.data)));
                             this.$router.replace('invest-succ')
                         }else if(msg.code==1108||msg.code == 1119){

@@ -59,7 +59,7 @@
             }
         },
         created(){
-            let invsetInfo = decodeURIComponent(window.sessionStorage.getItem('investInfo'));
+            let invsetInfo = JSON.parse(decodeURIComponent(window.sessionStorage.getItem('investInfo')));
             this.orderBillCode = invsetInfo.orderBillCode;
             this.orderPayTime = invsetInfo.orderPayTime;
             this.productName = invsetInfo.productName;
@@ -67,12 +67,10 @@
             this.annualInterestRate = invsetInfo.annualInterestRate;
             this.productInterestDate = invsetInfo.productInterestDate;
             this.productExpiringDate = invsetInfo.productExpiringDate;
-            console.log(this.productName);
         },
         computed: {},
         methods: {},
         destroyed(){
-
         }
     }
 </script>
