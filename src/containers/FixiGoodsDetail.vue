@@ -27,22 +27,24 @@
             <div class="date-item" flex-box="1">
                 <div class="date-info">发布日</div>
                 <div class="round"></div>
-                <div class="date"></div>
+                <div class="date">{{production.productPublishDate}}</div>
             </div>
             <div class="date-item" flex-box="1">
-                <div class="date-info">发布日</div>
+                <div class="date-info">起息日</div>
                 <div class="round"></div>
-                <div class="date"></div>
+                <div class="date">{{production.productInterestDate}}</div>
             </div>
             <div class="date-item" flex-box="1">
-                <div class="date-info">发布日</div>
+                <div class="date-info">到期日</div>
                 <div class="round"></div>
-                <div class="date"></div>
+                <div class="date">{{production.productExpiringDate}}</div>
             </div>
             <div class="date-item" flex-box="1">
-                <div class="date-info">发布日</div>
-                <div class="round"></div>
-                <div class="date"></div>
+                <div class="date-info">预期收款日</div>
+                <div class="round-warp">
+
+                </div>
+                <div class="date">{{production.productPaymentDate}}</div>
             </div>
         </div>
 
