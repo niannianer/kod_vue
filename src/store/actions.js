@@ -40,7 +40,7 @@ actions.getBankInfo = ({commit}) => {
             if (data.code == 200) {
                 let {bankUserCardNo} = data.data;
                 commit('setBankUser', data.data);
-                if(!bankUserCardNo){
+                if (!bankUserCardNo) {
                     return false;
                 }
                 return $api.get('/getBankInfo', {bankNo: bankUserCardNo.substring(0, 6)})
@@ -58,12 +58,15 @@ let getUserInfo = () => {
     return $api.get('/getUserInfo');
 };
 actions.getUserInfo = ({commit}) => {
-   return getUserInfo()
+    return getUserInfo()
         .then(data => {
             if (data.code == 200) {
                 commit('setUserInfo', data.data)
             }
             return data;
         });
+};
+actions.setEligibleInvestor = ({commit},data) => {
+    commit('setEligibleInvestor',data);
 };
 export default actions;

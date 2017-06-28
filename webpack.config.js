@@ -122,9 +122,9 @@ const config = {
 if (env == 'production' || env == 'test') {
     console.log('------->', env)
     config.devtool = '';
-    config.output.publicPath = 'http://static-test.zj-hf.cn/dist/';
+    config.output.publicPath = 'https://static-test.zj-hf.cn/dist/';
     if (env === 'production') {
-        config.output.publicPath = 'http://zj-static.zj-hf.cn/dist/';
+        config.output.publicPath = 'https://zj-static.zj-hf.cn/dist/';
     }
     config.output.filename = '[name].[chunkhash:8].js';
     config.output.chunkFilename = '[chunkhash:8].[id].chunk.js';

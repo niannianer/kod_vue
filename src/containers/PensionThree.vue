@@ -34,12 +34,6 @@
             }
         },
         computed:{
-            gender(){
-                return window.sessionStorage.getItem('gender')==1?'女':'男';
-            },
-            age(){
-                return window.sessionStorage.getItem('age');
-            }
         },
         methods:{
             nextHandle(){
@@ -56,7 +50,7 @@
                     Toast('请输入工资');
                     return false;
                 }
-                let reg = /^[1-9][0-9]{0,6}/;
+                let reg = /^\d{1,6}$/;
                 if (!reg.test(this.wagesAfterTax)) {
                     Toast('请输入正确工资');
                     return false;

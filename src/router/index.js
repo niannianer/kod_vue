@@ -37,6 +37,7 @@ import Planning from '../containers/Planning'
 const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
+import FindPassword from '../containers/FindPassword';
 import {setTitle} from '../tools/operation';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
@@ -71,7 +72,8 @@ let routes = [
         path: '/financial',
         name: 'financial',
         meta: {
-            title: '理财'
+            title: '理财',
+            withoutLogin: true
         },
         component: Financial
     }, {
@@ -241,7 +243,6 @@ let routes = [
         meta: {
             title: '养老理财规划',
             withoutLogin: true,
-            // keepAlive: true
         },
         component: PensionThree
     },
@@ -287,7 +288,7 @@ let routes = [
             title: '住房理财规划',
             withoutLogin: true
         },
-        component: HouseTwo
+        component: HouseTwo,
     },
     {
         path: '/house-three',
@@ -386,6 +387,15 @@ let routes = [
             title:'注册',
             withoutLogin: true
         }
+    },
+    {
+        path:'/find-password',
+        name:'find-password',
+        component: FindPassword,
+        meta:{
+            title:'找回密码',
+            withoutLogin: true
+        }
     }
 ];
 
@@ -403,7 +413,7 @@ routes.map(route => {
 });
 routes.push({
     path: '*',
-    redirect: '/my-assets'
+    redirect: '/personal-center'
 });
 export default new Router({
     mode: 'history',
