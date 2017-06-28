@@ -2,9 +2,14 @@
     <div class="pension-four" flex="dir:top">
         <div class="title" flex-box="0">
             以下数据仅适用于您的所在城市【<span @click.stop="pickHandle">{{this.cityName}}</span>】
+            <select v-model="cityName" @change="changeCity">
+                <option v-for="option in cityList" v-bind:value="option.name">
+                    {{ option.name }}
+                </option>
+            </select>
         </div>
-        <div class="scroll-enable" flex-box="1"  style="overflow: auto" flex="dir:top box:justify">
-            <ul class="content" >
+        <div class="scroll-enable" flex-box="1" style="overflow: auto" flex="dir:top box:justify">
+            <ul class="content">
                 <li class="item" flex="box:mean">
                     <p>性别</p>
                     <div class="gender" flex="box:mean">
@@ -35,33 +40,36 @@
                 <li class="item" flex="box:mean">
                     <p class="info">预计寿命</p>
                     <p flex>
-                        <input type="tel" maxlength="3" flex-box="1" v-model="planAge" @blur.stop="validate('planAge')"><span flex-box="0">岁</span>
+                        <input type="tel" maxlength="3" flex-box="1" v-model="planAge" @blur.stop="validate('planAge')"><span
+                        flex-box="0">岁</span>
                     </p>
                 </li>
                 <li class="item" flex="box:mean">
                     <p class="info">税后月工资</p>
                     <p flex>
-                        <input type="tel" maxlength="6" flex-box="1" v-model="wagesAfterTax" @blur.stop="validate('wagesAfterTax')"><span
+                        <input type="tel" maxlength="6" flex-box="1" v-model="wagesAfterTax"
+                               @blur.stop="validate('wagesAfterTax')"><span
                         flex-box="0">元</span>
                     </p>
                 </li>
                 <li class="item" flex="box:mean">
                     <p class="info">通货膨胀率</p>
                     <p flex>
-                        <input type="number" flex-box="1" v-model="inflation"  @blur.stop="validate('inflation')"><span flex-box="0">%</span>
+                        <input type="number" flex-box="1" v-model="inflation" @blur.stop="validate('inflation')"><span
+                        flex-box="0">%</span>
                     </p>
                 </li>
             </ul>
             <div></div>
-            <div class="btm-part"   flex="dir:top">
+            <div class="btm-part" flex="dir:top">
                 <div class="round" flex-box="1">
                     <div class="bg">
                         <div class="tip">为满足您退休后保持现有收入水平,<br/>养老金至少需要储备</div>
-                        <div class="total">{{ pensionStore|currencyFormatInterger }}元</div>
+                        <div class="total">{{ pensionStore | currencyFormatInterger }}元</div>
                         <div class="tip2">（*已除去社保养老金可覆盖部分）</div>
                     </div>
                 </div>
-                <div class="footer" :class="{enable:clickable}"  flex-box="1" @click.stop="nextHandle">查看推荐方案</div>
+                <div class="footer" :class="{enable:clickable}" flex-box="1" @click.stop="nextHandle">查看推荐方案</div>
             </div>
         </div>
         <KingoldPicker :list="list" :title="title" @back="callback" v-if="isPicking"></KingoldPicker>
@@ -69,6 +77,7 @@
 </template>
 <script>
     import Vue from 'vue';
+    import _ from 'lodash/core';
     import "../less/pension-four.less"
     import citys from '../tools/citys'
     import {Toast} from 'mint-ui'
@@ -79,23 +88,26 @@
     export default{
         data(){
             return {
-                cityName:'',
+                cityName: '',
                 age: '',
                 gender: 2,
                 planAge: '85',
                 retirementAge: '',
                 wagesAfterTax: '',
                 inflation: '',
-                title:"请选择城市",
-                isPicking:false,
+                title: "请选择城市",
+                isPicking: false,
             }
         },
         components: {
             KingoldPicker
         },
         computed: {
+            cityList(){
+                return citys
+            },
             pensionStore(){
-                if(!this.clickable){
+                if (!this.clickable) {
                     return 0;
                 }
                 this.replaceStr();
@@ -120,25 +132,25 @@
                 return citys;
             },
             clickable(){
-                if(!this.inflationUseful){
+                if (!this.inflationUseful) {
                     return false;
                 }
-                if(!this.age||!this.retirementAge||!this.planAge||!this.wagesAfterTax||!this.inflation){
+                if (!this.age || !this.retirementAge || !this.planAge || !this.wagesAfterTax || !this.inflation) {
                     return false
                 }
-                if(!(this.age<this.retirementAge)){//不能等于或大于预计退休年龄
+                if (!(this.age < this.retirementAge)) {//不能等于或大于预计退休年龄
                     return false;
                 }
-                if(!(this.age < this.planAge)){
+                if (!(this.age < this.planAge)) {
                     return false;
                 }
-                if(!(this.retirementAge <this.planAge)){
+                if (!(this.retirementAge < this.planAge)) {
                     return false;
                 }
                 return true;
             },
             inflationUseful(){
-                return  /(^\d$)|(^\d\.\d$)/g.test(this.inflation);
+                return /(^\d$)|(^\d\.\d$)/g.test(this.inflation);
             }
         },
         created(){
@@ -147,6 +159,12 @@
             this.age = window.sessionStorage.getItem('age') || 30;
             this.wagesAfterTax = window.sessionStorage.getItem('wagesAfterTax') || getValueD(this.cityName);
             this.retirementAge = this.gender == 1 ? '55' : '60';
+            if (window.sessionStorage.getItem('pension')) {
+                let pension = window.sessionStorage.getItem('pension');
+                _.forEach(JSON.parse(pension), (data, key) => {
+                    this[key] = data;
+                });
+            }
             this.inflation = getValueG(this.cityName);//通货膨胀率
         },
         mounted(){
@@ -155,32 +173,33 @@
         methods: {
             genderHandle(num){
                 this.gender = num;
-                this.retirementAge = this.gender == 1 ? '55' : '60'
+                this.retirementAge = this.gender == 1 ? '55' : '60';
+                this.planAge = this.gender ==1?'80':'85';
             },
             pickHandle(){
-                this.isPicking=true;
+                this.isPicking = true;
             },
             nextHandle(){
-                if(this.clickable){
-                    window.sessionStorage.setItem('pension',JSON.stringify(this.$data));
-                    $api.postNode('/pension/createPension',{
-                        age:this.age,
-                        cityName:this.cityName,
-                        gender:this.gender,
-                        planAge:this.planAge,
-                        retirementAge:this.retirementAge,
-                        wagesAfterTax:this.wagesAfterTax,
-                        inflation:this.inflation,
-                        pensionStore:this.pensionStore,
+                if (this.clickable) {
+                    window.sessionStorage.setItem('pension', JSON.stringify(this.$data));
+                    $api.postNode('/pension/createPension', {
+                        age: this.age,
+                        cityName: this.cityName,
+                        gender: this.gender,
+                        planAge: this.planAge,
+                        retirementAge: this.retirementAge,
+                        wagesAfterTax: this.wagesAfterTax,
+                        inflation: this.inflation,
+                        pensionStore: this.pensionStore,
                     })
                     this.$router.push('/pension-five');
                 }
             },
             replaceStr(){
-                this.age = (this.age+"").replace(/[^\d]/g,'');
-                this.retirementAge = (this.retirementAge+"").replace(/[^\d]/g,'');
-                this.planAge = (this.planAge+"").replace(/[^\d]/g,'');
-                this.wagesAfterTax = (this.wagesAfterTax+"").replace(/[^\d]/g,'');
+                this.age = (this.age + "").replace(/[^\d]/g, '');
+                this.retirementAge = (this.retirementAge + "").replace(/[^\d]/g, '');
+                this.planAge = (this.planAge + "").replace(/[^\d]/g, '');
+                this.wagesAfterTax = (this.wagesAfterTax + "").replace(/[^\d]/g, '');
             },
             validate(str){
                 this.replaceStr();
@@ -189,7 +208,7 @@
                         Toast('请输入年龄');
                     } else if (!(this.age < this.retirementAge)) {
                         Toast('年龄不能大于或等于期望退休年龄')
-                    }else if(parseInt(this.age)<=0){
+                    } else if (parseInt(this.age) <= 0) {
                         Toast('请输入正确的年龄');
                     }
                     return false;
@@ -207,31 +226,35 @@
                         Toast('请输入预计寿命');
                     } else if (!(this.age < this.planAge)) {
                         Toast('年龄不能大于或等于预计寿命')
-                    } else if(!(this.retirementAge <this.planAge)){
+                    } else if (!(this.retirementAge < this.planAge)) {
                         Toast('预计寿命不能小于或等于期望退休年龄')
                     }
                     return false;
                 }
-                if(str=='wagesAfterTax'){
+                if (str == 'wagesAfterTax') {
                     if (this.wagesAfterTax == '') {
                         Toast('请输入税后月工资');
                     }
                     return false;
                 }
-                if(str=='inflation'){
+                if (str == 'inflation') {
                     if (this.inflation == '') {
                         Toast('请输入通货膨胀率');
-                    }else if(!this.inflationUseful){
+                    } else if (!this.inflationUseful) {
                         Toast('请输入正确的通货膨胀率');
                     }
                     return false;
                 }
             },
             callback(result){
-                if(result){
+                if (result) {
                     this.cityName = result.name;
                 }
                 this.isPicking = false;
+            },
+            changeCity(){
+                this.inflation = getValueG(this.cityName);//通货膨胀率
+                this.wagesAfterTax =  getValueD(this.cityName);
             }
         }
     }

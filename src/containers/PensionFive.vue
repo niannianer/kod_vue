@@ -4,14 +4,14 @@
             <div class="header">
                 <div class="main">
                     <div class="tabs" flex-box="0" flex>
-                        <div flex-box="1" class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">
+                        <div class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">
                             <div class="tab-item">方案A</div>
                         </div>
-                        <div flex-box="1" class="tab" @click.stop="changeTab(2)" :class="{'active':tab==2}">
+                        <div class="tab" @click.stop="changeTab(2)" :class="{'active':tab==2}">
                             <div class="tab-item" >方案B</div>
 
                         </div>
-                        <div flex-box="1" class="tab" @click.stop="changeTab(3)" :class="{'active':tab==3}">
+                        <div class="tab" @click.stop="changeTab(3)" :class="{'active':tab==3}">
                             <div class="tab-item">方案C</div>
                         </div>
                     </div>

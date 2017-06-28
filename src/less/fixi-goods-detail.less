@@ -1,0 +1,150 @@
+@charset "UTF-8";
+@import "variables";
+
+.fixi-goods-detail {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    .top{
+        background-image: linear-gradient(-180deg, #323232 25%, #1D72C0 100%);
+        padding: .8rem;
+        color: #fff;
+        .main-title{
+            text-align: center;
+            font-size: .8rem;
+            padding-top: 1rem;
+            font-weight: bold;
+        }
+        .sub-title{
+            text-align: center;
+            font-size: .65rem;
+            padding-top: 1rem;
+        }
+        .rate{
+            text-align: center;
+            color: @color-interest;
+            font-size: 2.4rem;
+        }
+        .items{
+            position: relative;
+            padding-top: .5rem;
+            .item{
+                text-align: center;
+            }
+            .item-text{
+                text-align: center;
+            }
+            .item-number{
+                text-align: center;
+                max-width: 8rem;
+                margin: auto;
+                font-size: 1rem;
+                padding-top: .5rem;
+                color: @color-interest;
+            }
+        }
+        .progress-warp{
+            color: @color-split;
+            margin-top: .5rem;
+            span{
+                margin: 0 .5rem;
+            }
+            .progress{
+                position: relative;
+                background-color: #fff;
+                .active{
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    background-color: @color-interest;
+                }
+            }
+        }
+
+    }
+    .date-warp{
+        margin-top: .5rem;
+        padding: .75rem .8rem;
+        background-color: #fff;
+        font-size: .6rem;
+        .date-item{
+            position: relative;
+        }
+        .date-info{
+            text-align: center;
+            padding-bottom: .5rem;
+        }
+        .date{
+            text-align: center;
+            padding-top: .5rem;
+        }
+        .round-warp{
+            position: relative;
+            .line-left{
+                position: absolute;
+                top: 50%;
+                left: 0;
+                right: 50%;
+                height: 1px;
+                background: @color-split;
+                z-index: 1;
+                &.red{
+                    background-color: @color-interest;
+                }
+            }
+            .line-right{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                right: 0;
+                height: 1px;
+                background: @color-split;
+                z-index: 1;
+                &.red{
+                    background-color: @color-interest;
+                }
+            }
+            .round{
+                position: relative;
+                background: rgba(219,219,219,0.5);
+                width: .8rem;
+                height: .8rem;
+                border-radius: 50%;
+                margin: auto;
+                z-index: 2;
+                &.active{
+                    background: rgba(255,109,0,0.5);
+                    .inner-round{
+                        background-color: @color-interest;
+                    }
+                }
+                .inner-round{
+                    border-radius: 50%;
+                    width: .5rem;
+                    height: .5rem;
+                    background: @color-split;
+                }
+            }
+        }
+
+    }
+    .basic{
+        margin-top: .5rem;
+        background-color: #fff;
+        padding: .8rem;
+        .basic-title{
+            color: @color-text;
+            font-size: .8rem;
+        }
+        .content{
+            padding-top: .5rem;
+            color: @color-text-secondary;
+            font-size: .6rem;
+            .item{
+                position: relative;
+                line-height: 1.2rem;
+            }
+        }
+    }
+}
