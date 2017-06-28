@@ -174,7 +174,7 @@
             genderHandle(num){
                 this.gender = num;
                 this.retirementAge = this.gender == 1 ? '55' : '60';
-                this.planAge = this.gender ==1?'80':'85';
+                this.planAge = this.gender == 1?'80' : '85';
             },
             pickHandle(){
                 this.isPicking = true;

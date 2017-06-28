@@ -20,6 +20,7 @@ import RewardDetail from '../containers/RewardDetail';
 import InvestDetail from '../containers/InvestDetail';
 import InvitationRewardList from '../containers/InvitationRewardList';
 import InvitationAllowanceList from '../containers/InvitationAllowanceList';
+import InvestSucc from '../containers/InvestSucc';
 import AccountDetail from '../containers/AccountDetail';
 import PensionTwo from '../containers/PensionTwo';
 import PensionThree from '../containers/PensionThree';
@@ -27,6 +28,7 @@ import PensionFour from '../containers/PensionFour';
 import PensionOne from '../containers/PensionOne';
 import PensionFive from '../containers/PensionFive';
 import PersonalCenter from '../containers/PersonalCenter';
+import ProductSubscription from '../containers/ProductSubscription'
 import RiskAssessment from '../containers/RiskAssessment';
 import AssessmentResult from '../containers/AssessmentResult';
 import RelationList from '../containers/RelationList';
@@ -291,6 +293,22 @@ let routes = [
             withoutLogin: true
         },
         component: HouseOne
+    },
+    {
+        path: '/product-subscription',
+        name: 'product-subscription',
+        meta: {
+            title: '认购信息确认'
+        },
+        component: ProductSubscription
+    },
+    {
+        path: '/invest-succ',
+        name: 'invest-succ',
+        meta: {
+            title: '购买成功'
+        },
+        component: InvestSucc
     },
     {
         path: '/house-two',
