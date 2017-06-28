@@ -12,10 +12,12 @@
                          active-class="tab-active"
                          replace flex-box="1">我的</router-link>
         </div>
+
     </div>
 </template>
 
 <script>
+    import Vue from 'vue'
     import '../less/tabs.less';
     export default {
         name: 'tabs'
