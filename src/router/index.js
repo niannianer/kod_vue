@@ -34,6 +34,7 @@ import Relation from '../containers/Relation';
 import HouseTwo from '../containers/HouseTwo';
 import HouseThree from '../containers/HouseThree';
 import Planning from '../containers/Planning'
+import GoodsDetailPRIF from '../containers/GoodsDetailPRIF'
 const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
@@ -393,6 +394,15 @@ let routes = [
         component: FindPassword,
         meta:{
             title:'找回密码',
+            withoutLogin: true
+        }
+    },
+    {
+        path:'/goods-detail-prif',
+        name:'goods-detail-prif',
+        component: GoodsDetailPRIF,
+        meta:{
+            title:'项目详情',
             withoutLogin: true
         }
     }

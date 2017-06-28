@@ -9,8 +9,8 @@
             </div>
         </div>
         <div class="item-list" flex-box="1" v-if="tab==1">
-            <div class="item" v-for="(item,index) in lists" :key="index">
-                <div class="fund-name">{{item.productName}}</div>
+            <div class="item" v-for="(item,index) in lists" :key="index" @clock.stop="link(item.productUuid)">
+                <div class="fund-name" @clock.stop="link(item.productUuid)">{{item.productName}}</div>
                 <div flex="dir:left" class="fund-middle">
                     <div class="rate" flex-box="1">
                         <div>{{item.annualInterestRate}}</div>
@@ -96,7 +96,7 @@
             getGoodsList(){
                 let params = {
                     pageSize: 10,
-                    startRow: 1,
+                    startRow: 50,
 //                    productType:tab
                 };
                 if(this.tab == 1){
@@ -109,6 +109,14 @@
                     console.log (msg);
                     this.lists = msg.data.productList;
                 });
+            },
+            link(productUuid){
+                this.$router.push({
+                    path:'/goods-detail-PRIF',
+                    query:{
+                        productUuid
+                    }
+                })
             }
         },
         created(){
