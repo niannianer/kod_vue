@@ -1,5 +1,5 @@
 <template>
-    <div v-cloak class="goods-detail-prif" flex-box="1" flex="dir:top">
+    <div v-cloak class="goods-detail-prif"  flex="dir:top">
         <div class="body" flex-box="1"  >
             <div class="title" flex-box="1"><h2>{{lists.productAbbrName}}</h2></div>
             <div class="item " flex-box="1">
@@ -211,6 +211,7 @@
             }
         },
         created(){
+            this.productUuid = this.$route.query.productUuid;
             this.getDetail();
         },
         computed: {
@@ -218,9 +219,8 @@
         methods: {
             getDetail(){
                 let params={
-//                    productUuid:this.this.$route.query.productUuid,
-                    productUuid:'fa0290f9ea5c4c2e80e07437e6f71470',
-//                    productUuid:'b0f6c70066734c4bac0e3b96b86e1449',
+                    productUuid:this.productUuid,
+//                    productUuid:'fa0290f9ea5c4c2e80e07437e6f71470',
                     productType:"PRIF"
 
                 }
@@ -251,12 +251,13 @@
               if(message == '预热中'){
                   Toast('产品在预热中，请稍后再尝试预约');
               }else if(message == '咨询预约'){
-                  this.$router.push({
-                      path:'/goods-detail-PRIF',
-                      query:{
-                          productUuid
-                      }
-                  })
+//                  this.$router.push({
+//                      path:'/goods-detail-prif',
+//                      query:{
+//                          productUuid
+//                      }
+//                  })
+                  window.location.href='/addClient.html?u='+productUuid;
               }else{
                   Toast(message);
               }

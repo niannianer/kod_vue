@@ -10,23 +10,11 @@
             </div>
         </div>
         <div class="item-list" flex-box="1" v-if="tab==1">
-<<<<<<< HEAD
-            <div class="item" v-for="(item,index) in lists" :key="index" @clock.stop="link(item.productUuid)">
-                <div class="fund-name" @clock.stop="link(item.productUuid)">{{item.productName}}</div>
-                <div flex="dir:left" class="fund-middle">
-                    <div class="rate" flex-box="1">
-                        <div>{{item.annualInterestRate}}</div>
-                        <div class="sub-text">业绩基准</div>
-                    </div>
-                    <div class="cycle" flex-box="1">
-                        <div flex="main:center">{{item.productPeriod}}</div>
-                        <div class="sub-text" flex="main:center">期限</div>
-=======
             <div class="infinite-scroll"
                  v-infinite-scroll="loadMore"
                  infinite-scroll-disabled="disLoad"
                  infinite-scroll-distance="70">
-                <div class="item" v-for="(item,index) in lists" :key="index">
+                <div class="item" v-for="(item,index) in lists" :key="index" @click.stop="getPrif(item)">
                     <div class="fund-name ellipsis">{{item.productName}}</div>
                     <div flex="dir:left" class="fund-middle">
                         <div class="rate" flex-box="1">
@@ -40,7 +28,6 @@
                         <div class="progress" flex-box="0">
                             <cicle-progress :width-size="50" :progress="item.productProgress"></cicle-progress>
                         </div>
->>>>>>> 493e8021e9a59748561b038b82b98d4de436b5e1
                     </div>
                     <div class="status-code"
                     :class="{'hot':item.productStatusCode==1,
@@ -193,14 +180,8 @@
             },
             getGoodsList(flag){
                 let params = {
-<<<<<<< HEAD
-                    pageSize: 10,
-                    startRow: 50,
-//                    productType:tab
-=======
                     pageSize: this.pageSize,
                     startRow: this.startRow
->>>>>>> 493e8021e9a59748561b038b82b98d4de436b5e1
                 };
                 if (this.tab == 1) {
                     params.productType = "PRIF"
@@ -208,24 +189,6 @@
                 else if (this.tab == 2) {
                     params.productType = "FIXI"
                 }
-<<<<<<< HEAD
-                $api.get('/product/getList', params).then( msg => {
-                    console.log (msg);
-                    this.lists = msg.data.productList;
-                });
-            },
-            link(productUuid){
-                this.$router.push({
-                    path:'/goods-detail-PRIF',
-                    query:{
-                        productUuid
-                    }
-                })
-            }
-        },
-        created(){
-//            this.getGoodsList();
-=======
                 $api.get('/product/getList', params).then(msg => {
                     console.log(msg);
                     if (msg.code == 200) {
@@ -244,7 +207,6 @@
                             this.lists = this.lists.concat(msg.data.productList);
                         }
                     }
->>>>>>> 493e8021e9a59748561b038b82b98d4de436b5e1
 
 
                 });
@@ -259,6 +221,14 @@
             getFixi(item){
                 this.$router.push({
                     path:'/fixi-goods-detail',
+                    query:{
+                        productUuid:item.productUuid
+                    }
+                })
+            },
+            getPrif(item){
+                this.$router.push({
+                    path:'/goods-detail-prif',
                     query:{
                         productUuid:item.productUuid
                     }
