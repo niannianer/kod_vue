@@ -7,7 +7,8 @@
                 <span class="close" @click.stop="close">×</span>
             </div>
             <div class="account-text">账户余额</div>
-            <div></div>
+            <div class="account-amount">0.59元</div>
+            <div class="min-invest">起投金额1000元</div>
 
         </div>
 
