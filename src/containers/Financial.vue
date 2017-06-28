@@ -14,7 +14,7 @@
                  v-infinite-scroll="loadMore"
                  infinite-scroll-disabled="disLoad"
                  infinite-scroll-distance="70">
-                <div class="item" v-for="(item,index) in lists" :key="index">
+                <div class="item" v-for="(item,index) in lists" :key="index" @click.stop="getPrif(item)">
                     <div class="fund-name ellipsis">{{item.productName}}</div>
                     <div flex="dir:left" class="fund-middle">
                         <div class="rate" flex-box="1">
@@ -221,6 +221,14 @@
             getFixi(item){
                 this.$router.push({
                     path:'/fixi-goods-detail',
+                    query:{
+                        productUuid:item.productUuid
+                    }
+                })
+            },
+            getPrif(item){
+                this.$router.push({
+                    path:'/goods-detail-prif',
                     query:{
                         productUuid:item.productUuid
                     }
