@@ -7,6 +7,8 @@
                 <span class="close" @click.stop="close">×</span>
             </div>
             <div class="account-text">账户余额</div>
+            <div></div>
+
         </div>
 
         <div class="keyboad-body" flex-box="0">
