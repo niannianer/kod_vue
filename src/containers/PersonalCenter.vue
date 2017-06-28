@@ -59,7 +59,10 @@
     import {Toast} from 'mint-ui';
     import {telNumber} from '../tools/config';
     import $api from '../tools/api';
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     import '../less/personal-center.less';
+    const logo = require('../images/share-icon.png');
     export default {
         name: 'personal-center',
         data(){
@@ -68,13 +71,17 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
+
         },
         computed: mapState([
             'investorMobile'
         ]),
         methods: {
             login(){
-                window.sessionStorage.setItem('logoutUrl',encodeURIComponent(window.location.href));
+                window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
                 window.location.replace('/login.html');
             },
             logout(){
@@ -82,7 +89,7 @@
                     .then(data => {
                         if (data.code == 200) {
                             console.log(data);
-                            window.sessionStorage.setItem('logoutUrl',encodeURIComponent(window.location.href));
+                            window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
                             window.location.replace('/login.html');
                         } else {
                             Toast('退出登录失败');
@@ -95,7 +102,35 @@
             },
             getLink(path){
                 window.location.href = path;
+            },
+            getShare(){
+                let params = {
+                    url: window.location.href
+                }
+                /*if ($device.ios) {
+                    params.url = window.shareUrl;
+                }*/
+                $api.get('/wechat/shareInfo', params)
+                    .then(data => {
+                        if (data.code == 200) {
+                            this.setShare(data.data.shareInfo);
+                        }
+                    });
+            },
+            setShare(config){
+                wx.config(config);
+                let content = {
+                    title: '金疙瘩——智能化定制理财服务平台',
+                    link: window.location.href,
+                    imgUrl: logo,
+                    desc: '我已经在这挖到了金疙瘩，你也来试试？'
+                }
+                wx.wx.ready(() => {
+                    wx.onMenuShareTimeline(content);
+                    wx.onMenuShareAppMessage(content);
+                });
             }
+
         },
         destroyed(){
 
