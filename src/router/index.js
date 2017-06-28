@@ -38,6 +38,7 @@ const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
 import FindPassword from '../containers/FindPassword';
+import FixiGoodsDetail from '../containers/FixiGoodsDetail';
 import {setTitle} from '../tools/operation';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
@@ -76,6 +77,14 @@ let routes = [
             withoutLogin: true
         },
         component: Financial
+    }, {
+        path: '/fixi-goods-detail',
+        name: 'fixi-goods-detail',
+        meta: {
+            title: '理财详情',
+            withoutLogin: true
+        },
+        component: FixiGoodsDetail
     }, {
         path: '/my-assets',
         name: 'my-assets',

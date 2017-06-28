@@ -42,8 +42,8 @@
                         </div>
                     </div>
                     <div v-show="!rotate" flex="main:center">
-                        <div flex-box="1">总价：216万</div>
-                        <div flex-box="1">3年实现</div>
+                        <div flex-box="1">总价：{{houseTotal}}万</div>
+                        <div flex-box="1">{{year}}年实现</div>
                         <div flex-box="1">需贷款</div>
                     </div>
 

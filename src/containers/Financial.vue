@@ -45,7 +45,9 @@
                  infinite-scroll-disabled="disLoad"
                  infinite-scroll-distance="70">
 
-                <div class="item" v-for="(item,index) in lists" :class="{'stat': item.productStatus =='已告罄'  }">
+                <div class="item" v-for="(item,index) in lists"
+                     @click.stop="getFixi(item)"
+                     :class="{'stat': item.productStatus =='已告罄'  }">
                     <div class="fund-name ellipsis">{{item.productName}}</div>
                     <div flex="dir:left" class="fund-middle-fix">
                         <div class="rate" flex-box="1">
@@ -215,6 +217,14 @@
                         this.$store.dispatch('setEligibleInvestor', 1);
                     });
 
+            },
+            getFixi(item){
+                this.$router.push({
+                    path:'/fixi-goods-detail',
+                    query:{
+                        productUuid:item.productUuid
+                    }
+                })
             }
         }
     }

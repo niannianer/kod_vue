@@ -1,0 +1,70 @@
+@charset "UTF-8";
+@import "variables";
+
+.fixi-goods-detail {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    .top{
+        background-image: linear-gradient(-180deg, #323232 25%, #1D72C0 100%);
+        padding: .8rem;
+        color: #fff;
+        .main-title{
+            text-align: center;
+            font-size: .8rem;
+            padding-top: 1rem;
+            font-weight: bold;
+        }
+        .sub-title{
+            text-align: center;
+            font-size: .65rem;
+            padding-top: 1rem;
+        }
+        .rate{
+            text-align: center;
+            color: @color-interest;
+            font-size: 2.4rem;
+        }
+        .items{
+            position: relative;
+            padding-top: .5rem;
+            .item{
+                text-align: center;
+            }
+            .item-text{
+                text-align: center;
+            }
+            .item-number{
+                text-align: center;
+                max-width: 8rem;
+                margin: auto;
+                font-size: 1rem;
+                padding-top: .5rem;
+                color: @color-interest;
+            }
+        }
+        .progress-warp{
+            color: @color-split;
+            margin-top: .5rem;
+            span{
+                margin: 0 .5rem;
+            }
+            .progress{
+                position: relative;
+                background-color: #fff;
+                .active{
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    background-color: @color-interest;
+                }
+            }
+        }
+        .date-warp{
+            margin-top: .5rem;
+            padding: .75rem .8rem;
+            background-color: #fff;
+        }
+    }
+}
