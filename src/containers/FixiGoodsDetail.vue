@@ -116,11 +116,31 @@
             <div class="basic-content" v-html="productIntroduction"></div>
 
         </div>
+        <div style="height: .5rem"></div>
         <!--投资方向-->
-        <div class="basic" v-for="(item,index) in productInformation">
-            <div class="basic-title">{{item.inforKey}}</div>
-            <div class="basic-content" v-html="item.inforValue"></div>
+        <div class="basic product-information" v-for="(item,index) in productInformation" :key="index">
+            <div class="basic-title" @click.stop="setExpend(index)">
+                {{item.inforKey}}
+                <div class="arrow" :class="{'up':item.expend}"></div>
+            </div>
+            <div class="basic-content" :class="{'outset':item.expend}"
+                 v-html="item.inforValue"></div>
 
+        </div>
+
+        <!--附件-->
+        <div class="basic product-information" v-if="productAttachment">
+            <div class="basic-title" @click.stop="expendAttachment()">
+                产品附件
+                <div class="arrow" :class="{'up':attachmentUp}"></div>
+            </div>
+
+            <div class="basic-content" :class="{'outset':attachmentUp}">
+                <div class="product-attachment"
+                     v-for="(productAttachment,index) in production.productAttachment">
+                    {{productAttachment.attachmentName}}
+                </div>
+            </div>
         </div>
 
     </div>
@@ -136,6 +156,7 @@
         data(){
             return {
                 productUuid: '',
+                attachmentUp: false,
                 production: {}
             }
         },
@@ -169,18 +190,20 @@
                 return textToHtml(this.production.productIntroduction);
             },
             productInformation(){
-                let information = [];
-                if (!this.production.productInformation) {
-                    return [];
-                }
-                this.production.productInformation.map(el => {
-                    el.inforValue = textToHtml(el.inforValue);
-                    information.push(el);
-                })
-                return information;
+                return this.production.productInformation;
+
+            },
+            productAttachment(){
+                return this.production.productAttachment && this.production.productAttachment.length > 0;
             }
         },
         methods: {
+            setExpend(index){
+                this.production.productInformation[index].expend = !this.production.productInformation[index].expend;
+            },
+            expendAttachment(){
+                this.attachmentUp = !this.attachmentUp;
+            },
             getGoodsDetail(){
                 let params = {
                     productType: 'FIXI',
@@ -189,6 +212,10 @@
                 $api.get('/product/getDetail', params)
                     .then(data => {
                         if (data.code == 200) {
+                            data.data.productInformation.map(el => {
+                                el.inforValue = textToHtml(el.inforValue);
+                                el.expend = false;
+                            })
                             this.production = data.data;
                         } else {
                             Toast(data.msg);
