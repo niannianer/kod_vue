@@ -4,16 +4,9 @@
             <div class="header">
                 <div class="main">
                     <div class="tabs" flex-box="0" flex>
-                        <div class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">
-                            <div class="tab-item">方案A</div>
-                        </div>
-                        <div class="tab" @click.stop="changeTab(2)" :class="{'active':tab==2}">
-                            <div class="tab-item" >方案B</div>
-
-                        </div>
-                        <div class="tab" @click.stop="changeTab(3)" :class="{'active':tab==3}">
-                            <div class="tab-item">方案C</div>
-                        </div>
+                        <div class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">方案A</div>
+                        <div class="tab" @click.stop="changeTab(2)" :class="{'active':tab==2}">方案B</div>
+                        <div class="tab" @click.stop="changeTab(3)" :class="{'active':tab==3}">方案C</div>
                     </div>
                     <div class="content">
                         <p class="h-title">预期组合年化收益率</p>
