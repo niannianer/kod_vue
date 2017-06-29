@@ -1,5 +1,5 @@
 <template>
-    <div class="register">
+    <div class="register" ref="register">
         <div class="form">
             <div class="form-item" flex>
                 <label class="label" for="phone" flex-box="0">手机号</label>
@@ -12,7 +12,7 @@
                 <input class="input" type="tel" name="yzm" id="yzm" flex-box="1"
                        v-model.trim="verifyCode"
                        autocomplete="off" placeholder="请输入验证码">
-                <button flex-box="0" class="btn-default btn-code" @click.stop="getVerify"
+                <button flex-box="0" class="btn-primary btn-code" @click.stop="getVerify"
                         v-if="verifyTimeLeft<=0">{{verifyText}}
                 </button>
                 <button flex-box="0" class="btn-default btn-code" v-else>{{verifyTimeLeft}}</button>
@@ -23,7 +23,7 @@
                 <input class="input" type="text" name="imageCode" id="imageCode" flex-box="1"
                        v-model="inputCode"
                        autocomplete="off" placeholder="请输入校验码">
-                <button flex-box="0" class="btn-default btn-code">{{imageCode}}</button>
+                <button flex-box="0" class="btn-default btn-text">{{imageCode}}</button>
             </div>
 
             <div class="form-item" flex>
@@ -231,6 +231,10 @@
                 window.location.href = '/registration-service-agreement.html';
             }
 
+        },
+        mounted(){
+            let heigth = window.innerHeight;
+            this.$refs.register.style.height = heigth+'px';
         },
         destroyed(){
             this.clearTimeCount();
