@@ -212,13 +212,17 @@
                         }
                         if (data.code == 1002) {
                             Toast('短信验证码错误');
+                            return false;
                         }
                         if (data.code == 1101) {
                             Toast('注册人手机号已经存在,请直接登录');
+                            return false;
                         }
                         if (data.code == 1102) {
                             Toast('邀请人手机号不存在');
+                            return false;
                         }
+                        Toast(data.msg);
                     });
             },
             seeAgreement(){
