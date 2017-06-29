@@ -199,7 +199,7 @@
     import {telNumber} from '../tools/config';
     import {Toast} from 'mint-ui';
     import $device from '../tools/device';
-    const logo = require('../images/logo.png');
+    const logo = require('../images/share-icon.png');
     export default {
         name: 'goods-detail-prif',
         data(){
