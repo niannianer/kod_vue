@@ -265,7 +265,7 @@
               }
             },
             linkpdf(pdfUrl){
-                window.location.href='./pdf/web/viewer.html?pdf='+ encodeURIComponent(pdfUrl);
+                window.location.href='/pdf/web/viewer.html?pdf='+ encodeURIComponent(pdfUrl);
             },
             getShare(){
                 $api.get('/wechat/shareInfo', {url: window.location.href})
