@@ -154,3 +154,10 @@ export let translatePateInt = (input) => {
     let out = (inp*100).toFixed(0)
     return out+'%'
 };
+
+export let textToHtml =(input)=>{
+    if (!input) {
+        return '';
+    }
+    return input.replace(/\n/g,'<br>');
+};

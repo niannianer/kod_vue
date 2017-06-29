@@ -6,7 +6,13 @@
                     <div v-show="rotate">
                         <div>如果说婚姻是虚拟的家，那住房就是实体的家</div>
                         <div class="house-price">根据国家统计局数据，【<span
-                            @click.stop="openCitys">{{cityName}}</span>】平均房价为<span>{{cityAveragePrice}}</span>元
+                           >{{cityName}}</span>】平均房价为<span>{{cityAveragePrice}}</span>元
+
+                            <select v-model="cityName" @change="changeCity">
+                                <option v-for="option in citys" v-bind:value="option.name">
+                                    {{ option.name }}
+                                </option>
+                            </select>
                         </div>
                         <div class="div-warp" flex>
                             <label flex-box="1">房产总价</label>
@@ -36,8 +42,8 @@
                         </div>
                     </div>
                     <div v-show="!rotate" flex="main:center">
-                        <div flex-box="1">总价：216万</div>
-                        <div flex-box="1">3年实现</div>
+                        <div flex-box="1">总价：{{houseTotal}}万</div>
+                        <div flex-box="1">{{year}}年实现</div>
                         <div flex-box="1">需贷款</div>
                     </div>
 
@@ -86,19 +92,19 @@
                     <div class="loan-item" flex="main:justify" v-if="loanClass==1">
                         <div flex-box="1">贷款金额（万）</div>
                         <div flex-box="1" class="right">
-                            <input v-model.trim="businessLoan" @blur="checkLoan"/>
+                            <input type="number" v-model.trim="businessLoan" @blur="checkLoan"/>
                         </div>
                     </div>
                     <div class="loan-item" flex="main:justify" v-if="loanClass==2">
                         <div flex-box="1">贷款金额（万）</div>
                         <div flex-box="1" class="right">
-                            <input v-model.trim="accumulationFundLoan" @blur="checkLoan" type="tel"/>
+                            <input v-model.trim="accumulationFundLoan" @blur="checkLoan" type="number"/>
                         </div>
                     </div>
                     <div class="loan-item" flex="main:justify" v-if="loanClass==3">
                         <div flex-box="1">商业贷款金额（万）</div>
                         <div flex-box="1" class="right">
-                            <input v-model.trim="businessLoan" @blur="checkLoan" type="tel"/>
+                            <input v-model.trim="businessLoan" @blur="checkLoan" type="number"/>
                         </div>
                     </div>
                     <div class="loan-item" flex="main:justify" v-if="loanClass==3">
@@ -151,9 +157,9 @@
 
 <script>
     import {Toast} from 'mint-ui';
+    import _ from 'lodash/core';
     import KingoldPicker from '../components/KingoldPicker'
     import {getPrice} from '../tools/city-grade';
-    import cityList from '../tools/citys';
     import $api from '../tools/api';
     import '../less/house-two.less';
     let timer = null;
@@ -214,6 +220,7 @@
                 cityName: '北京',
                 cityCode: '',
                 cityPrice: '',
+                cityList:[],
                 houseTotal: '',
                 planYears: 3,
                 loanFlag: 0,
@@ -231,9 +238,22 @@
             }
         },
         created(){
+            $api.getNode('/assets/getCities')
+                .then(data=>{
+                    this.cityList =data.data;
+                });
             if (window.sessionStorage.getItem('cityName')) {
                 this.cityName = window.sessionStorage.getItem('cityName');
+                this.houseTotal = Math.ceil(this.cityAveragePrice / 10000);
             }
+            if (window.sessionStorage.getItem('houseData')) {
+                let houseData = window.sessionStorage.getItem('houseData');
+                _.forEach(JSON.parse(houseData), (data, key) => {
+                    this[key] = data;
+                });
+                window.sessionStorage.removeItem('houseData');
+            }
+
 
         },
         components: {
@@ -260,7 +280,7 @@
                 return array;
             },
             citys: () => {
-                return cityList;
+                return this.cityList;
             },
             firstPayments(){
                 return (this.houseTotal - this.accumulationFundLoan - this.businessLoan) * 10000;
@@ -285,8 +305,8 @@
                 if (!this.year) {
                     return 0
                 }
-                let p1 = this.X1 * ((this.T1 / this.X1) + (this.T1 * (this.T1 + 1)) / 2);
-                let p2 = this.X2 * ((this.T2 / this.X2) + (this.T2 * (this.T2 + 1)) / 2);
+                let p1 = this.X1 * (((this.T1 / this.X1) + (this.T1 * (this.T1 + 1)) / 2));
+                let p2 = this.X2 * (((this.T2 / this.X2) + (this.T2 * (this.T2 + 1)) / 2));
                 let r = (this.houseTotal - this.accumulationFundLoan - this.businessLoan) * 10000 / (p1 + p2);
                 return r.toFixed(0);
             },
@@ -368,6 +388,9 @@
             }
         },
         methods: {
+            changeCity(){
+                this.houseTotal = Math.round(this.cityAveragePrice / 10000);
+            },
             inputKeyup(){
                 if (timer) {
                     clearTimeout(timer);
@@ -480,6 +503,7 @@
                     accumulationFundLoan, businessLoan
                 }).then(data => {
                     if (data.code == 200) {
+                        window.sessionStorage.setItem('houseData', JSON.stringify(this.$data))
                         this.$router.push({
                             path: '/house-three',
                             query: {

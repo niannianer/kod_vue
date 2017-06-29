@@ -21,8 +21,9 @@ export let setTitle = (title) => {
 
 
 import md5 from 'md5';
-import {devUrl,testUrl, productionUrl, baofooTestUrl, baofooCallUrl, baofooProductUrl} from './config';
+import {devUrl,testUrl, productionUrl, baofooTestUrl, baofooCallUrlProduct, baofooProductUrl,baofooCallUrlTest} from './config';
 let baofooRecharge = baofooTestUrl;
+let baofooCallUrl = baofooCallUrlTest;
 let serverUrl = testUrl;
 let signMode = '~|~n725d5gsb7mlyzzw';
 let merchant_id = '100000675';
@@ -35,16 +36,17 @@ if (process.env.kingold == 'test') {
 if (process.env.kingold == 'production') {
     serverUrl = productionUrl;
     RequestUrlBaofoo = baofooCallUrl;
-    signMode = '~|~em9eq7synlpkg232';
+    baofooCallUrl = baofooCallUrlProduct;
+    signMode = '~|~h6mrqmwkkcvmpdq5';
     baofooRecharge = baofooProductUrl;
-    merchant_id = '1172380';
-    terminal_id = '34865';
+    merchant_id = '1177929';
+    terminal_id = '35265';
 }
 
 // baofoo 充值
 export let submitRecharge = (params) => {
     let {userId, orderBillCode, amount, additionalInfo, returnUrl} = params;
-    let backUrl = decodeURIComponent(window.sessionStorage.getItem('backUrl'));
+    let backUrl = window.sessionStorage.getItem('backUrl');
     let backUrlParams = window.sessionStorage.getItem('backUrlParams');
     let pageUrl = `${baofooCallUrl}/baofoo/h5/notification/recharge?backUrl=${backUrl}`;
     let form = document.createElement('form');
@@ -80,7 +82,7 @@ export let submitRecharge = (params) => {
     form.submit();
 
 };
-// baofoo 充值
+// 
 export let submitAuthorization = (pUserId) => {
     let form = document.createElement('form');
     form.setAttribute('method', 'post');
@@ -139,7 +141,7 @@ export let currencyInputValidate = (input) => {
 };
 export let logout = () => {
     window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
-    window.location.replace('/login.html');
+    window.location.replace('/login');
 };
 let $operation = {
     setTitle

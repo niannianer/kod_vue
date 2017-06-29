@@ -3,9 +3,11 @@ import store from '../store';
 import Router from 'vue-router';
 import {logout} from '../tools/operation';
 Vue.use(Router)
+import AppointSucc from '../containers/AppointSucc';
 import Index from '../containers/Index';
 import Financial from '../containers/Financial';
 import MyAssets from '../containers/MyAssets';
+import MakeAppointment from '../containers/MakeAppointment';
 import Login from '../containers/Login';
 import Recharge from '../containers/Recharge';
 import Withdraw from '../containers/Withdraw';
@@ -20,6 +22,7 @@ import RewardDetail from '../containers/RewardDetail';
 import InvestDetail from '../containers/InvestDetail';
 import InvitationRewardList from '../containers/InvitationRewardList';
 import InvitationAllowanceList from '../containers/InvitationAllowanceList';
+import InvestSucc from '../containers/InvestSucc';
 import AccountDetail from '../containers/AccountDetail';
 import PensionTwo from '../containers/PensionTwo';
 import PensionThree from '../containers/PensionThree';
@@ -27,6 +30,7 @@ import PensionFour from '../containers/PensionFour';
 import PensionOne from '../containers/PensionOne';
 import PensionFive from '../containers/PensionFive';
 import PersonalCenter from '../containers/PersonalCenter';
+import ProductSubscription from '../containers/ProductSubscription'
 import RiskAssessment from '../containers/RiskAssessment';
 import AssessmentResult from '../containers/AssessmentResult';
 import RelationList from '../containers/RelationList';
@@ -39,9 +43,12 @@ import BindBankCard from '../containers/BindBankCard';
 import BankList from '../containers/BankList';
 import SetPayPassword from '../containers/SetPayPassword';
 import ResetPayPassword from '../containers/ResetPayPassword';
+import GoodsDetailPRIF from '../containers/GoodsDetailPRIF';
 const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
+import FindPassword from '../containers/FindPassword';
+import FixiGoodsDetail from '../containers/FixiGoodsDetail';
 import {setTitle} from '../tools/operation';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
@@ -66,6 +73,14 @@ let beforeEach = ((to, from, next) => {
 })
 let routes = [
     {
+        path: '/appoint-succ',
+        name: 'appoint-succ',
+        meta: {
+            title: '首页'
+        },
+        component: AppointSucc
+    },
+    {
         path: '/index',
         name: 'index',
         meta: {
@@ -76,9 +91,18 @@ let routes = [
         path: '/financial',
         name: 'financial',
         meta: {
-            title: '理财'
+            title: '理财',
+            withoutLogin: true
         },
         component: Financial
+    }, {
+        path: '/fixi-goods-detail',
+        name: 'fixi-goods-detail',
+        meta: {
+            title: '理财详情',
+            withoutLogin: true
+        },
+        component: FixiGoodsDetail
     }, {
         path: '/my-assets',
         name: 'my-assets',
@@ -86,6 +110,13 @@ let routes = [
             title: '我的资产'
         },
         component: MyAssets
+    }, {
+        path: '/make-appointment',
+        name: 'make-appointment',
+        meta: {
+            title: '添加预约客户'
+        },
+        component: MakeAppointment
     }, {
         path: '/login',
         name: 'login',
@@ -246,7 +277,6 @@ let routes = [
         meta: {
             title: '养老理财规划',
             withoutLogin: true,
-            keepAlive: true
         },
         component: PensionThree
     },
@@ -286,13 +316,29 @@ let routes = [
         component: HouseOne
     },
     {
+        path: '/product-subscription',
+        name: 'product-subscription',
+        meta: {
+            title: '认购信息确认'
+        },
+        component: ProductSubscription
+    },
+    {
+        path: '/invest-succ',
+        name: 'invest-succ',
+        meta: {
+            title: '购买成功'
+        },
+        component: InvestSucc
+    },
+    {
         path: '/house-two',
         name: 'house-two',
         meta: {
             title: '住房理财规划',
             withoutLogin: true
         },
-        component: HouseTwo
+        component: HouseTwo,
     },
     {
         path: '/house-three',
@@ -388,7 +434,8 @@ let routes = [
         name:'register',
         component: Register,
         meta:{
-            title:'注册'
+            title:'注册',
+            withoutLogin: true
         }
     },
     {
@@ -430,6 +477,24 @@ let routes = [
         meta:{
             title:'重置交易密码'
         }
+    },
+    {
+        path:'/find-password',
+        name:'find-password',
+        component: FindPassword,
+        meta:{
+            title:'找回密码',
+            withoutLogin: true
+        }
+    },
+    {
+        path:'/goods-detail-prif',
+        name:'goods-detail-prif',
+        component: GoodsDetailPRIF,
+        meta:{
+            title:'项目详情',
+            withoutLogin: true
+        }
     }
 ];
 
@@ -447,7 +512,7 @@ routes.map(route => {
 });
 routes.push({
     path: '*',
-    redirect: '/my-assets'
+    redirect: '/personal-center'
 });
 export default new Router({
     mode: 'history',

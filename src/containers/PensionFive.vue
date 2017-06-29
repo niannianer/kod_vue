@@ -4,20 +4,13 @@
             <div class="header">
                 <div class="main">
                     <div class="tabs" flex-box="0" flex>
-                        <div flex-box="1" class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">
-                            <div class="tab-item">方案A</div>
-                        </div>
-                        <div flex-box="1" class="tab" @click.stop="changeTab(2)" :class="{'active':tab==2}">
-                            <div class="tab-item" >方案B</div>
-
-                        </div>
-                        <div flex-box="1" class="tab" @click.stop="changeTab(3)" :class="{'active':tab==3}">
-                            <div class="tab-item">方案C</div>
-                        </div>
+                        <div class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">方案A</div>
+                        <div class="tab" @click.stop="changeTab(2)" :class="{'active':tab==2}">方案B</div>
+                        <div class="tab" @click.stop="changeTab(3)" :class="{'active':tab==3}">方案C</div>
                     </div>
                     <div class="content">
                         <p class="h-title">预期组合年化收益率</p>
-                        <p class="pate">{{k | translatePate}}</p>
+                        <p class="pate">{{m | translatePate}}</p>
                         <div class="cont-div">首次投资：<i>{{q | currencyInputNo}}元</i></div>
                         <div class="cont-div">单个产品每期续投：<i>{{z | currencyInputNo}}元</i></div>
                     </div>
@@ -115,7 +108,9 @@
         components:{},
         data(){
             return {
-                k:0,//预期组合年化收益率
+                m:0,//预期组合年化收益率
+                k1:0,
+                k2:0,
                 tab:1,
                 pageSize:80,
                 length:0,
@@ -165,7 +160,7 @@
                 return parseInt(this.d*(1-this.f)*Math.pow(1+this.g,(this.b-this.a))*100)/100
             },
             l:function(){//预计养老金
-                return parseInt(12*this.n*(1+this.g)*[-1+Math.pow(1+this.g,this.c-this.b)]/this.g*100)/100
+                return parseInt(12*this.n*(1+this.g)*(-1+Math.pow(1+this.g,this.c-this.b))/this.g*100)/100
             },
             m1:function(){
                 if(this.tab == 1){
@@ -261,7 +256,7 @@
                 }else if(this.tab == 3){
                     parm = 10;
                 }
-                rmb = (this.l-parm*this.r*(1+(this.b-this.a)*this.k))/this.factor;
+                rmb = (this.l-parm*this.r*(1+(this.b-this.a)*this.m))/this.factor;
                 rmb < 0 ? rmb = 0 : '';
                 return parseInt(rmb)
             },
@@ -274,7 +269,7 @@
                 }else if(this.tab == 3){
                     parm = 10;
                 }
-                rmb = parm*this.r+2*this.z*2;
+                rmb = parm*this.r+2*this.z;
                 rmb < 0 ? rmb = 0 : '';
                 if(rmb >= 10000){
                     rmb = parseInt(rmb/1000)*1000;
@@ -292,8 +287,8 @@
             }
         },
         methods: {
-            setX(m){
-                return this.k*m/12
+            setX(m,k){
+                return k*m/12
             },
             setT(m){
                 if(m == 0){
@@ -351,22 +346,22 @@
                 let x,y,z,o;
                 if(this.tab == 1){
                     //A方案
-                    x = this.lists.a.annualInterestRate;
-                    y = this.lists.b.annualInterestRate;
-                    z = this.accMul(this.fun(x),this.s1) + this.accMul(this.fun(y),this.s2);
-                    this.k = z;
+                    this.k1 = x = this.fun(this.lists.a.annualInterestRate);
+                    this.k2 = y = this.fun(this.lists.b.annualInterestRate);
+                    z = this.accMul(x,this.s1) + this.accMul(y,this.s2);
+                    this.m = z;
                 }else if(this.tab == 2){
                     //B方案
-                    x = this.lists.b.annualInterestRate;
-                    y = this.lists.c.annualInterestRate;
-                    z = this.accMul(this.fun(x),this.s1) + this.accMul(this.fun(y),this.s2);
-                    this.k = z;
+                    this.k1 = x = this.fun(this.lists.b.annualInterestRate);
+                    this.k2 = y = this.fun(this.lists.c.annualInterestRate);
+                    z = this.accMul(x,this.s1) + this.accMul(y,this.s2);
+                    this.m = z;
                 }else if(this.tab == 3){
                     //C方案
-                    x = this.lists.a.annualInterestRate;
-                    y = this.lists.c.annualInterestRate;
-                    z = this.accMul(this.fun(x),this.s1) + this.accMul(this.fun(y),this.s2);
-                    this.k = z;
+                    this.k1 = x = this.fun(this.lists.a.annualInterestRate);
+                    this.k2 = y = this.fun(this.lists.c.annualInterestRate);
+                    z = this.accMul(x,this.s1) + this.accMul(y,this.s2);
+                    this.m = z;
                 }
             },
             fun(a){
