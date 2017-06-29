@@ -450,7 +450,7 @@ let routes = [
             title:'项目详情',
             withoutLogin: true
         }
-    }
+    },
 ];
 
 routes.map(route => {
