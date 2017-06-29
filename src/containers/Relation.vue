@@ -1,7 +1,7 @@
 <template>
     <div flex="dir:top" flex-box="1" class="relation">
         <div class="body">
-            <div class="number"><span>{{ Number(levelOneCount)+ Number(levelTwoCount)}}</span>人</div>
+            <div class="number"><span>{{ Number(levelOneCount) + Number(levelTwoCount)}}</span>人</div>
             <div class="title">我的好友</div>
         </div>
         <div class="item" flex @click.stop="$router.push('/relation-list?level=1')">
@@ -26,46 +26,58 @@
 </template>
 <script>
     import Vue from 'vue';
+    import {mapState} from 'vuex';
     import '../less/relation.less';
     import $api from '../tools/api';
     import QRCode from 'qrcode';
-    import state from '../store/state.js';
     Vue.use(QRCode)
     export default {
-        name:'relation',
+        name: 'relation',
         data() {
             return {
-                levelOneCount:'',
-                levelTwoCount:'',
-                codes:'',
-                imgSrc:''
-          }
+                levelOneCount: '',
+                levelTwoCount: '',
+                codes: '',
+                imgSrc: ''
+            }
         },
-        methods:{
+        methods: {
             useqrcode(){
-               const canvas = document.getElementById('canvas');
-               const url = 'http://'+ window.location.host+'/share.html?investorMobile='+state.investorMobile;
-               QRCode.toCanvas(canvas,url,(error) => {
-                    if(error) console.log(error )
+                const canvas = document.getElementById('canvas');
+                const url = 'http://' + window.location.host + '/share.html?investorMobile=' + this.investorMobile;
+                QRCode.toCanvas(canvas, url, (error) => {
+                    if (error) console.log(error)
 //                    console.log(state.investorMobile);
-                    this.imgSrc=canvas.toDataURL("image/png");
+                    this.imgSrc = canvas.toDataURL("image/png");
                 });
 
             },
             link(){
-                window.location.href = '/share.html?investorMobile='+state.investorMobile;
+                window.location.href = '/share.html?investorMobile=' + this.investorMobile;
             }
         },
+        computed: {
+            ...mapState(['investorMobile'])
+
+        },
         mounted(){
-            this.useqrcode();
+            if(this.investorMobile){
+                this.useqrcode();
+            }else {
+                this.$store.dispatch('getUserInfo')
+                    .then(()=>{
+                        this.useqrcode();
+                    })
+            }
+
         },
         created(){
             $api.get('/relation/count').then(data => {
-                if(data.code == 200){
+                if (data.code == 200) {
                     this.levelOneCount = data.data.levelOneCount;
                     this.levelTwoCount = data.data.levelTwoCount;
                 }
-           })
+            })
         }
     }
 </script>

@@ -35,7 +35,7 @@
                     <img src="../images/personal-center/my-friend.png"/>
                     <span>我的好友</span>
                 </div>
-                <div class="item" flex-box="1" @click="getLink('/brand.html')">
+                <div class="item" flex-box="1" @click="getLink('/land-about-us.html')">
                     <img src="../images/personal-center/about-us.png"/>
                     <span>关于我们</span>
                 </div>
