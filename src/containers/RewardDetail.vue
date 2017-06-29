@@ -106,8 +106,8 @@
             },
             loadMore(){
                 this.loading = true;
-                this.currentPage++;
                 this.loadData();
+                this.currentPage++;
             }
         }
     }
