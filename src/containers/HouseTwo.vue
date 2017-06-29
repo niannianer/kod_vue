@@ -160,7 +160,6 @@
     import _ from 'lodash/core';
     import KingoldPicker from '../components/KingoldPicker'
     import {getPrice} from '../tools/city-grade';
-    import cityList from '../tools/citys';
     import $api from '../tools/api';
     import '../less/house-two.less';
     let timer = null;
@@ -221,6 +220,7 @@
                 cityName: '北京',
                 cityCode: '',
                 cityPrice: '',
+                cityList:[],
                 houseTotal: '',
                 planYears: 3,
                 loanFlag: 0,
@@ -238,6 +238,10 @@
             }
         },
         created(){
+            $api.getNode('/assets/getCities')
+                .then(data=>{
+                    this.cityList =data.data;
+                });
             if (window.sessionStorage.getItem('cityName')) {
                 this.cityName = window.sessionStorage.getItem('cityName');
                 this.houseTotal = Math.ceil(this.cityAveragePrice / 10000);
@@ -276,7 +280,7 @@
                 return array;
             },
             citys: () => {
-                return cityList;
+                return this.cityList;
             },
             firstPayments(){
                 return (this.houseTotal - this.accumulationFundLoan - this.businessLoan) * 10000;

@@ -31,6 +31,7 @@
 <script>
     import Vue from 'vue';
     import "../less/pension-one.less";
+    import $api from '../tools/api';
     import citys from "../tools/citys";
     import cityGrade from "../tools/city-grade"
     import {IndexList, IndexSection,Toast} from 'mint-ui';
@@ -41,13 +42,20 @@
             return {
                 cityName: '北京',
                 hotD: cityGrade.hotD,
-                activeBtn: '010'
+                activeBtn: '010',
+                citys:[]
             }
+        },
+        created(){
+            $api.getNode('/assets/getCities')
+                .then(data=>{
+                    this.citys =data.data;
+                });
         },
         computed: {
             cityCopy(){
                 let obj = {};
-                citys.map(city => {
+                this.citys.map(city => {
                     let letter = city.pinyin[0];
                     if (obj[letter]) {
                         obj[letter].push(city);
