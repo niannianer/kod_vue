@@ -1,5 +1,5 @@
 <template>
-    <div class="find-password">
+    <div class="find-password" ref="login">
         <div class="form">
             <div class="form-item" flex>
                 <label class="label" for="phone" flex-box="0">手机号</label>
@@ -23,7 +23,7 @@
                 <input class="input" type="text" name="imageCode" id="imageCode" flex-box="1"
                        v-model="inputCode"
                        autocomplete="off" placeholder="请输入校验码">
-                <button flex-box="0" class="btn-default btn-code">{{imageCode}}</button>
+                <button flex-box="0" class="btn-default btn-text">{{imageCode}}</button>
             </div>
 
             <div class="form-item" flex>
@@ -196,6 +196,10 @@
                         Toast(data.msg);
                     });
             }
+        },
+        mounted(){
+            let heigth = window.innerHeight;
+            this.$refs.login.style.height = heigth+'px';
         },
         destroyed(){
 

@@ -1,6 +1,6 @@
 <template>
-    <div class="login">
-        <div class="logo-warp">
+    <div class="login" ref="login">
+        <div class="logo-warp" >
             <img class="logo" src="../images/logo.png"/>
         </div>
         <div class="title">金疙瘩</div>
@@ -157,7 +157,8 @@
 
         },
         mounted(){
-
+            let heigth = window.innerHeight;
+            this.$refs.login.style.height = heigth+'px';
         }
     }
 </script>
