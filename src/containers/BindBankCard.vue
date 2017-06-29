@@ -161,7 +161,6 @@
                     Toast('请输入正确验证码')
                     return
                 }
-                this.$router.push('/set-pay-password')
                 $api.post('/bindBankCard',{userName:investorRealName,bankUserCardNo:bankUserCardNo,bankUserPhone:bankUserPhone,verifyCode:verifyCode}).then(msg=>{
                     if(msg.code == 200){
                         Toast('绑卡成功');
@@ -176,6 +175,11 @@
         },
         created(){
             this.transmit()
+        },
+        beforeRouteLeave(to, from, next) {
+            /*next(false)
+            console.log('999');
+            this.$router.push('/index')*/
         }
     }
 </script>

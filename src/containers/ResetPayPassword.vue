@@ -16,14 +16,23 @@
             <div class="verify-code" v-show="!verifyCard">
                 <div class="verify-title">
                     <p>短信验证码已发送到您的注册手机</p>
-                    <p><span v-show="mobileShow">{{investorMobile | mobileFormat}}</span></p>
+                    <p><span>{{investorMobile | mobileFormat}}</span></p>
                 </div>
-                <div class="verify-content">
-                    <ul flex="main:justify">
-                        <li>请输入短信验证码</li>
-                        <li flex="1"><input type="tel" placeholder="6位数字验证码" maxlength="6" v-model="verifyCode"></li>
-                        <li><span :class="{active:spanActive}" @click.stop="sendCode">{{spanText}}</span></li>
-                    </ul>
+                <div class="verify-box">
+                    <div class="verify-content verify-border" v-show="imgcodeShow">
+                        <ul flex="main:justify">
+                            <li>请输入校验码</li>
+                            <li flex="1"><input type="text" placeholder="4位验证码" maxlength="4" v-model="imageCode"></li>
+                            <li flex="main:right"><a>{{receiveCode}}</a></li>
+                        </ul>
+                    </div>
+                    <div class="verify-content">
+                        <ul flex="main:justify">
+                            <li>请输入短信验证码</li>
+                            <li flex="1"><input type="tel" placeholder="6位数字验证码" maxlength="6" v-model="verifyCode"></li>
+                            <li><span :class="{active:spanActive}" @click.stop="sendCode">{{spanText}}</span></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="reset-btn" flex="main:center">
                     <button :class="{active:verifyCode.length>=6}" @click.stop="next" >下一步</button>
@@ -63,12 +72,15 @@
             return {
                 idCardTail:'',
                 verifyCode:'',
+                imageCode:'',
+                receiveCode:'',
                 setPassword:false,
                 verifyCard:true,
                 nextActive:false,
                 spanActive:true,
                 spanText:'获取验证码',
-                mobileShow:false,
+                //mobileShow:false,
+                imgcodeShow:false,
                 flag:true,
 
                 //设置交易密码
@@ -91,23 +103,24 @@
         methods: {
             sendCode(){
                 if(this.spanActive){
-                    $api.get('/sendVerifyCode',{investorMobile:this.investorMobile,imageCode:this.imageCode,bussType:2}).then(msg=>{
-                        if(msg.code == 200){
-                            //显示提示
-                            this.mobileShow = true;
-                        }else if(msg.code == 1004){
-                            Toast(msg.msg);
-                        }
-                        else{
-                            Toast(msg.msg);
-                            this.spanText = '重新获取';
-                            this.spanActive = true;
-                            this.flag = false;
-                        }
-                    });
-                    this.send(60)
+                    this.getCode()
                 }
-            },//下发验证码
+            },
+            getCode(){
+                $api.get('/sendVerifyCode',{investorMobile:this.investorMobile,imageCode:this.imageCode,bussType:2}).then(msg=>{
+                    if(msg.code == 200){
+                        //隐藏图形验证
+                        this.imgcodeShow = false;
+                    }else if(msg.code == 1004){
+                        Toast(msg.msg);
+                        this.imgcodeShow = true;
+                        this.receiveCode = msg.data.imageCode;
+                        this.flag = false;
+                    }
+                });
+                this.send(60)
+            },
+            //下发验证码
             send(time){
                 this.spanActive = false;
                 this.flag = true;
@@ -123,17 +136,22 @@
                         }
                     }else{
                         clearTimeout(timer);
+                        this.spanText = '重新获取';
+                        this.spanActive = true;
                     }
                 };
                 recursion();
             },
             next(){
                 if(this.verifyCard){
+                    //test
+                    this.getCode(60);
+                    this.verifyCard = false;
                     if(this.idCardTail.length >= 4){
                         $api.post('/checkIdCard',{idCardTail:this.idCardTail}).then(msg=>{
                             if(msg.code == 200){
                                 this.verifyCard = false;
-                                this.send(60);
+                                this.getCode(60);
                             }else{
                                 Toast(msg.msg);
                             }
