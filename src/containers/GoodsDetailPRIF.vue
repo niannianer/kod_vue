@@ -264,8 +264,6 @@
                       }
                   })
 //                  window.location.href='/addClient.html?u='+productUuid;
-              }else{
-                  Toast(message);
               }
             },
             linkpdf(pdfUrl){

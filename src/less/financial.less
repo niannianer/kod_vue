@@ -90,33 +90,45 @@
                     color: @color-interest;
                     //line-height: 1.2rem;
                     line-height: 50px;
+                    &.hot{
+                        color:@color-active;
+                    }
+                    &.raise{
+                        color:@color-interest;
+                    }
+                    &.sell-out{
+                        color:@bg-sell-out;
+                    }
                     .sub-text {
                         font-size: .7rem;
                         color: @color-text-secondary;
                         line-height: .7rem;
                     }
                 }
-                .status span {
-                    width: 3.3rem;
-                    display: inline-block;
-                    height: 1.5rem;
-                    line-height: 1.5rem;
-                    border-radius: 3px;
-                    text-align: center;
-                    color: #FFF;
-
-                    &.hot {
-                        background-color: @color-active;
-                        box-shadow: 0 0 10px @color-active;
-                    }
-                    &.raise {
-                        background-color: @color-interest;
-                        box-shadow: 0 0 10px @color-interest;
-                    }
-                    &.sell-out {
-                        background-color: @bg-sell-out;// 售罄
-
-                        box-shadow: 0 0 10px @bg-sell-out;
+                .status.sell-out{
+                    transform: rotate(-30deg);
+                }
+                .status {
+                    margin-right: .1rem;
+                    span {
+                        width: 3.3rem;
+                        display: inline-block;
+                        height: 1.5rem;
+                        line-height: 1.5rem;
+                        border-radius: 3px;
+                        text-align: center;
+                        color: #FFF;
+                        &.hot {
+                            background-color: @color-active;
+                            box-shadow: 0 0 10px @color-active;
+                        }
+                        &.raise {
+                            background-color: @color-interest;
+                            box-shadow: 0 0 10px @color-interest;
+                        }
+                        &.sell-out {
+                            background-color: @bg-sell-out; // 售罄
+                        }
                     }
                 }
             }
@@ -129,6 +141,15 @@
                 .done {
                     background: #FF6D00;
                     height: 100%;
+                    &.hot {
+                        background-color: @color-active;
+                    }
+                    &.raise {
+                        background-color: @color-interest;
+                    }
+                    &.sell-out {
+                        background-color: @bg-sell-out;// 售罄
+                    }
                 }
                 .round {
                     position: absolute;
@@ -137,6 +158,9 @@
                     height: .8rem;
                     border-radius: 50%;
                     top: -0.3rem;
+                    &.sell-out {
+                        background: rgba(219,219,219,0.5);
+                    }
                     div {
                         border-radius: 50%;
                         width: .5rem;
@@ -145,6 +169,9 @@
                         position: absolute;
                         top: .15rem;
                         left: .15rem;
+                        &.sell-out {
+                            background-color: @bg-sell-out;// 售罄
+                        }
                     }
                 }
             }
@@ -162,31 +189,6 @@
                     margin-top: -.4rem;
                     background-image: url("../images/money-chart.png");
                     background-size: cover;
-                }
-            }
-        }
-        .item.stat {
-            .fund-middle-fix {
-                .rate, .cycle {
-                    color: #DBDBDB;
-                }
-                .status {
-                    transform: rotate(-30deg);
-                    span {
-                        background-color: #DBDBDB;
-                        box-shadow: none;
-                    }
-                }
-            }
-            .progress {
-                .done {
-                    background-color: #DBDBDB;
-                }
-                .round {
-                    background: rgba(219, 219, 219, 0.5);
-                    div {
-                        background-color: #DBDBDB;
-                    }
                 }
             }
         }
