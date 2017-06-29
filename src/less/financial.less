@@ -105,27 +105,30 @@
                         line-height: .7rem;
                     }
                 }
-                .status span {
-                    width: 3.3rem;
-                    display: inline-block;
-                    height: 1.5rem;
-                    line-height: 1.5rem;
-                    border-radius: 3px;
-                    text-align: center;
-                    color: #FFF;
-                    //transform: rotate(-30deg);
-                    &.hot {
-                        background-color: @color-active;
-                        box-shadow: 0 0 10px @color-active;
-                    }
-                    &.raise {
-                        background-color: @color-interest;
-                        box-shadow: 0 0 10px @color-interest;
-                    }
-                    &.sell-out {
-                        background-color: @bg-sell-out;// 售罄
-                        transform: rotate(-30deg);
-                        box-shadow: 0 0 10px @bg-sell-out;
+                .status.sell-out{
+                    transform: rotate(-30deg);
+                }
+                .status {
+                    margin-right: .1rem;
+                    span {
+                        width: 3.3rem;
+                        display: inline-block;
+                        height: 1.5rem;
+                        line-height: 1.5rem;
+                        border-radius: 3px;
+                        text-align: center;
+                        color: #FFF;
+                        &.hot {
+                            background-color: @color-active;
+                            box-shadow: 0 0 10px @color-active;
+                        }
+                        &.raise {
+                            background-color: @color-interest;
+                            box-shadow: 0 0 10px @color-interest;
+                        }
+                        &.sell-out {
+                            background-color: @bg-sell-out; // 售罄
+                        }
                     }
                 }
             }
@@ -155,19 +158,8 @@
                     height: .8rem;
                     border-radius: 50%;
                     top: -0.3rem;
-                    &.hot {
-                        background-color: @color-active;
-                        box-shadow: 0 0 10px @color-active;
-                        //opacity: .5;
-                    }
-                    &.raise {
-                        background-color: @color-interest;
-                        box-shadow: 0 0 10px @color-interest;
-                        //opacity: .5;
-                    }
                     &.sell-out {
-                        background-color: @bg-sell-out;// 售罄
-                        //opacity: .5;
+                        background: rgba(219,219,219,0.5);
                     }
                     div {
                         border-radius: 50%;
@@ -177,12 +169,6 @@
                         position: absolute;
                         top: .15rem;
                         left: .15rem;
-                        &.hot {
-                            background-color: @color-active;
-                        }
-                        &.raise {
-                            background-color: @color-interest;
-                        }
                         &.sell-out {
                             background-color: @bg-sell-out;// 售罄
                         }
@@ -203,31 +189,6 @@
                     margin-top: -.4rem;
                     background-image: url("../images/money-chart.png");
                     background-size: cover;
-                }
-            }
-        }
-        .item.stat {
-            .fund-middle-fix {
-                .rate, .cycle {
-                    color: #DBDBDB;
-                }
-                .status {
-                    transform: rotate(-30deg);
-                    span {
-                        background-color: #DBDBDB;
-                        box-shadow: none;
-                    }
-                }
-            }
-            .progress {
-                .done {
-                    background-color: #DBDBDB;
-                }
-                .round {
-                    background: rgba(219, 219, 219, 0.5);
-                    div {
-                        background-color: #DBDBDB;
-                    }
                 }
             }
         }

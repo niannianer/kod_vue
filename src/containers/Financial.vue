@@ -58,7 +58,7 @@
                             <div flex="main:center">{{item.productPeriod}}</div>
                             <div class="sub-text" flex="main:center">期限</div>
                         </div>
-                        <div class="status" flex-box="0" flex="cross:center">
+                        <div class="status" flex-box="0" flex="cross:center" :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                             <span  :class="{'hot':item.productStatusCode==1,
                     'raise':item.productStatusCode==2,
                     'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
