@@ -179,7 +179,7 @@
                 <div class="title" flex="main:justify"  :class = "{'change':tab4==true}" @click.stop='toggle(4)'><span>产品附件</span><i></i></div>
                 <div v-show="tab4" class="content"  >
                     <!--{{item.attachmentName}}-->
-                    <span style="color: #1D72C0;display: block" v-for="(item,index) in lists.productAttachment" :key="index" @click.stop="linkpdf(item.attachmentLink)">{{item.attachmentName}}</span>
+                    <span style="color: #1D72C0;display: block;padding-top: .5rem;" v-for="(item,index) in lists.productAttachment" :key="index" @click.stop="linkpdf(item.attachmentLink)">{{item.attachmentName}}</span>
                 </div>
             </div>
             <div style="margin: .5rem"></div>
@@ -198,6 +198,7 @@
     import $api from '../tools/api';
     import {telNumber} from '../tools/config';
     import {Toast} from 'mint-ui';
+    import $device from '../tools/device';
     const logo = require('../images/logo.png');
     export default {
         name: 'goods-detail-prif',
@@ -215,6 +216,9 @@
         created(){
             this.productUuid = this.$route.query.productUuid;
             this.getDetail();
+            if($device.isWeixin){
+                this.getShare();
+            }
         },
         computed: {
         },
@@ -253,13 +257,13 @@
               if(message == '预热中'){
                   Toast('产品在预热中，请稍后再尝试预约');
               }else if(message == '立即预约'){
-//                  this.$router.push({
-//                      path:'/goods-detail-prif',
-//                      query:{
-//                          productUuid
-//                      }
-//                  })
-                  window.location.href='/addClient.html?u='+productUuid;
+                  this.$router.push({
+                      path:'/make-appointment',
+                      query:{
+                          productUuid
+                      }
+                  })
+//                  window.location.href='/addClient.html?u='+productUuid;
               }else{
                   Toast(message);
               }

@@ -49,12 +49,12 @@
                      @click.stop="getFixi(item)"
                      :class="{'stat': item.productStatus =='已告罄'  }">
                     <div class="fund-name ellipsis">{{item.productName}}</div>
-                    <div flex="dir:left" class="fund-middle-fix">
-                        <div class="rate" flex-box="1">
+                    <div flex="dir:left" class="fund-middle-fix" :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                        <div class="rate" flex-box="1" :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                             <div>{{item.annualInterestRate}}</div>
                             <div class="sub-text">预计年化收益率</div>
                         </div>
-                        <div class="cycle" flex-box="3">
+                        <div class="cycle" flex-box="3" :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                             <div flex="main:center">{{item.productPeriod}}</div>
                             <div class="sub-text" flex="main:center">期限</div>
                         </div>
@@ -66,9 +66,9 @@
                         </div>
                     </div>
                     <div class="progress-line">
-                        <div class="done" :style="'width:' + item. productProgress+ '%'"></div>
-                        <div class="round" :style="'left:' +( item. productProgress-1) + '%'">
-                            <div></div>
+                        <div class="done" :style="'width:' + item. productProgress+ '%'" :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
+                        <div class="round" :style="'left:' +( item. productProgress-1) + '%'"  :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                            <div  :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
                         </div>
                     </div>
                     <div class="buttom">{{item.productMinInvestment}}</div>

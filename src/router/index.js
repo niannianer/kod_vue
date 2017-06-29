@@ -37,7 +37,6 @@ import HouseTwo from '../containers/HouseTwo';
 import HouseThree from '../containers/HouseThree';
 import Planning from '../containers/Planning'
 import GoodsDetailPRIF from '../containers/GoodsDetailPRIF'
-import Tabs from '../containers/Tabs'
 const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
@@ -430,15 +429,6 @@ let routes = [
         path:'/goods-detail-prif',
         name:'goods-detail-prif',
         component: GoodsDetailPRIF,
-        meta:{
-            title:'项目详情',
-            withoutLogin: true
-        }
-    },
-    {
-        path:'/tabs',
-        name:'tabs',
-        component: Tabs,
         meta:{
             title:'项目详情',
             withoutLogin: true
