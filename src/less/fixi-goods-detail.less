@@ -4,7 +4,15 @@
 .fixi-goods-detail {
     position: relative;
     width: 100%;
-    margin-bottom: .5rem;
+    height: 100%;
+    .warp{
+        position: absolute;
+        top: 0;
+        bottom: 2.5rem;
+        padding-bottom: .4rem;
+        width: 100%;
+        overflow-y: auto;
+    }
     .top {
         background-image: linear-gradient(-180deg, #323232 25%, #1D72C0 100%);
         padding: .8rem;
@@ -183,6 +191,30 @@
             }
             .product-attachment{
                 color: @color-active;
+            }
+        }
+    }
+    .bottom{
+        position: absolute;
+        bottom: 0;
+        height: 2.5rem;
+        width: 100%;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+        .min-invest{
+            text-align: center;
+            background-color: #fff;
+            color: @color-text-secondary;
+            line-height: 2.5rem;
+            border-radius: 0;
+        }
+        .do-invest{
+            text-align: center;
+            background-color: #FA3D1F;
+            color: #fff;
+            line-height: 2.5rem;
+            border-radius: 0;
+            &:disabled{
+                color:#ccc;
             }
         }
     }
