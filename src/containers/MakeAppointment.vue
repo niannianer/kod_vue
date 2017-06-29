@@ -64,7 +64,7 @@
 <script>
     import '../less/make-appointment.less'
     import {Toast} from 'mint-ui';
-    import area from '../tools/area.js';
+  /*  import area from '../tools/area.js';*/
     import $api from '../tools/api';
     export default {
         name: 'make-appointment',
@@ -88,16 +88,21 @@
                 verifyText:'获取验证码',
                 imageCode:'',
                 inputCode:'',
-                productUuid:''
+                productUuid:'',
+                provinceList:''
             }
         },
         created(){
             this.productUuid = this.$route.query.productUuid;
+            $api.getNode('/assets/getArea')
+                .then((msg)=>{
+                    this.provinceList = msg.data;
+                })
         },
         computed: {
-            provinceList(){
+          /*  provinceList(){
                 return area;
-            }
+            }*/
         },
         methods: {
             stateChange(){
