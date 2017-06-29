@@ -90,6 +90,15 @@
                     color: @color-interest;
                     //line-height: 1.2rem;
                     line-height: 50px;
+                    &.hot{
+                        color:@color-active;
+                    }
+                    &.raise{
+                        color:@color-interest;
+                    }
+                    &.sell-out{
+                        color:@bg-sell-out;
+                    }
                     .sub-text {
                         font-size: .7rem;
                         color: @color-text-secondary;
@@ -104,7 +113,7 @@
                     border-radius: 3px;
                     text-align: center;
                     color: #FFF;
-
+                    //transform: rotate(-30deg);
                     &.hot {
                         background-color: @color-active;
                         box-shadow: 0 0 10px @color-active;
@@ -115,7 +124,7 @@
                     }
                     &.sell-out {
                         background-color: @bg-sell-out;// 售罄
-
+                        transform: rotate(-30deg);
                         box-shadow: 0 0 10px @bg-sell-out;
                     }
                 }
@@ -129,6 +138,15 @@
                 .done {
                     background: #FF6D00;
                     height: 100%;
+                    &.hot {
+                        background-color: @color-active;
+                    }
+                    &.raise {
+                        background-color: @color-interest;
+                    }
+                    &.sell-out {
+                        background-color: @bg-sell-out;// 售罄
+                    }
                 }
                 .round {
                     position: absolute;
@@ -137,6 +155,20 @@
                     height: .8rem;
                     border-radius: 50%;
                     top: -0.3rem;
+                    &.hot {
+                        background-color: @color-active;
+                        box-shadow: 0 0 10px @color-active;
+                        //opacity: .5;
+                    }
+                    &.raise {
+                        background-color: @color-interest;
+                        box-shadow: 0 0 10px @color-interest;
+                        //opacity: .5;
+                    }
+                    &.sell-out {
+                        background-color: @bg-sell-out;// 售罄
+                        //opacity: .5;
+                    }
                     div {
                         border-radius: 50%;
                         width: .5rem;
@@ -145,6 +177,15 @@
                         position: absolute;
                         top: .15rem;
                         left: .15rem;
+                        &.hot {
+                            background-color: @color-active;
+                        }
+                        &.raise {
+                            background-color: @color-interest;
+                        }
+                        &.sell-out {
+                            background-color: @bg-sell-out;// 售罄
+                        }
                     }
                 }
             }

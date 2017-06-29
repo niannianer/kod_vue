@@ -3,9 +3,11 @@ import store from '../store';
 import Router from 'vue-router';
 import {logout} from '../tools/operation';
 Vue.use(Router)
+import AppointSucc from '../containers/AppointSucc';
 import Index from '../containers/Index';
 import Financial from '../containers/Financial';
 import MyAssets from '../containers/MyAssets';
+import MakeAppointment from '../containers/MakeAppointment';
 import Login from '../containers/Login';
 import Recharge from '../containers/Recharge';
 import Withdraw from '../containers/Withdraw';
@@ -37,7 +39,6 @@ import HouseTwo from '../containers/HouseTwo';
 import HouseThree from '../containers/HouseThree';
 import Planning from '../containers/Planning'
 import GoodsDetailPRIF from '../containers/GoodsDetailPRIF'
-import Tabs from '../containers/Tabs'
 const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
@@ -66,6 +67,14 @@ let beforeEach = ((to, from, next) => {
     }
 })
 let routes = [
+    {
+        path: '/appoint-succ',
+        name: 'appoint-succ',
+        meta: {
+            title: '首页'
+        },
+        component: AppointSucc
+    },
     {
         path: '/index',
         name: 'index',
@@ -96,6 +105,13 @@ let routes = [
             title: '我的资产'
         },
         component: MyAssets
+    }, {
+        path: '/make-appointment',
+        name: 'make-appointment',
+        meta: {
+            title: '添加预约客户'
+        },
+        component: MakeAppointment
     }, {
         path: '/login',
         name: 'login',
@@ -430,15 +446,6 @@ let routes = [
         path:'/goods-detail-prif',
         name:'goods-detail-prif',
         component: GoodsDetailPRIF,
-        meta:{
-            title:'项目详情',
-            withoutLogin: true
-        }
-    },
-    {
-        path:'/tabs',
-        name:'tabs',
-        component: Tabs,
         meta:{
             title:'项目详情',
             withoutLogin: true
