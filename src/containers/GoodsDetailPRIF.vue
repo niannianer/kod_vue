@@ -9,8 +9,8 @@
                         <span  flex-box="1">投资金额</span>
                         <span flex-box="1" style="margin-left:4.5rem;">业绩比较基准</span>
                     </li>
-                    <li flex="main:center" v-for="item in lists.productBenchmark">
-                        <span flex-box="1">{{item.range}}</span>
+                    <li flex=" box:mean" v-for="item in lists.productBenchmark">
+                        <span flex-box="2">{{item.range}}</span>
                         <span  flex-box="1">{{item.rate}}</span>
                     </li>
                 </ul>
@@ -179,7 +179,7 @@
                 <div class="title" flex="main:justify"  :class = "{'change':tab4==true}" @click.stop='toggle(4)'><span>产品附件</span><i></i></div>
                 <div v-show="tab4" class="content"  >
                     <!--{{item.attachmentName}}-->
-                    <span style="color: #1D72C0;display: inline-block" v-for="(item,index) in lists.productAttachment" :key="index" @click.stop="linkpdf(item.attachmentLink)">{{item.attachmentName}}</span>
+                    <span style="color: #1D72C0;display: block" v-for="(item,index) in lists.productAttachment" :key="index" @click.stop="linkpdf(item.attachmentLink)">{{item.attachmentName}}</span>
                 </div>
             </div>
             <div style="margin: .5rem"></div>
