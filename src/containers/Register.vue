@@ -130,7 +130,7 @@
                 let {investorMobile} = this;
                 let imageCode = this.inputCode;
                 let bussType = 0;
-                this.verifyTimeLeft = 60;
+                this.verifyTimeLeft = 59;
                 this.timeCount();
                 this.verifyText = '重新发送';
                 $api.get('/sendVerifyCode', {investorMobile, imageCode, bussType})
