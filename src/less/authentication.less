@@ -1,0 +1,140 @@
+@charset "UTF-8";
+@import "variables";
+
+@tab-active: #1D72C0;
+.authentication {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    .authentication-lint{
+        line-height: 1em;
+        padding:0.6rem .8rem;
+    }
+    .authentication-input{
+        background-color: #fff;
+        padding-left:0.8rem;
+        margin-bottom: 2.95rem;
+        dt,dd{
+            line-height: 2.2rem;
+            height:2.2rem;
+            /*  */
+            input{
+                font-size: .7rem;
+                color:@color-text-secondary !important;
+                height:100%;padding:0;
+            }
+        }
+        dt{
+            border-bottom: 1px solid #D8D8D8;
+        }
+        span{
+            display:block;
+            font-size: 0.8rem;
+        }
+        .span-left{
+            width:4.5rem;
+        }
+        .span-right{
+            font-size: 0;
+        }
+    }
+    .authentication-btn{
+        button{
+            color:@tab-active;
+            height:2.1rem;
+            width:15.85rem;
+            border:1px solid @tab-active;
+            margin:0 auto;
+        }
+    }
+    
+    .authentication-text{
+        padding-top:0.35rem;
+        padding-left: 2.5rem;
+        font-size: 0.5rem;
+        line-height: 2em;
+        color: @tab-active;
+        position: relative;
+
+    }
+    .authentication-text:after{
+        content:"!";
+        display: block;
+        width:0.75rem;
+        height:0.75rem;
+        border-radius: 50%;
+        background-color:@tab-active;
+        position: absolute; 
+        left:1.5rem;top:0.55rem;
+        text-align: center;line-height: .75rem;
+        color:#fff;
+        font-size: .5rem;
+    }
+    .authentication-win{
+        position: fixed;
+        width:100%;height:100%;
+        background-color: rgba(0,0,0,.3);
+        z-index: 999;
+        left: 0;top:0;
+        .win-box{
+            width:15.75rem;
+            height:11.3rem;
+            background-color: #fff;
+            border-radius: 0.8rem;
+            margin:2.0rem auto 0;
+            .win-content{
+                padding:1.0rem 1.35rem 0;
+                color:@color-text;
+                .hint1{
+                    font-size: 0.65rem;
+                    line-height: 1.15rem
+                }
+                .hint2{
+                    font-size: 0.6rem;
+                    margin-top:1.45rem;
+                    line-height: 1em;
+                    height:0.6rem;
+                }
+                dl{
+                    padding-top:0.6rem;
+                    dt{
+                        input{
+                            width:7.15rem;
+                            height:1.7rem;
+                            border:1px solid #969696;
+                            border-radius: 0.25rem;
+                            text-align: center;
+                            font-size: 0.7rem
+                        }
+                    }
+                    dd{
+                        button{
+                            background-color: #999;
+                            width:5.1rem;
+                            height:1.7rem;
+                            color: #fff;
+                            font-size: 0.6rem
+                        }
+                        .active{
+                            background-color: @bg-button;
+                        }
+                    }
+                }
+            }
+            .win-btn{
+                border-top: @border-default;
+                button{
+                    padding:0.7rem 0;
+                    font-size: 0.8rem;
+                    line-height: 1em;
+                    border-radius: 0;
+                    color:#666;
+                }
+                button.sure{
+                    color: @color-active;
+                    border-left: @border-default;
+                }
+            }
+        }
+    }
+}

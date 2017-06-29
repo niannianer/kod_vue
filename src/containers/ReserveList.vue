@@ -114,7 +114,8 @@
                 if(this.isRefreshing){
                     return false;
                 }
-                this.$router.push('/reserve-detail?productReservationUuid='+uid);
+                console.log(this.$data)
+                //this.$router.push('/reserve-detail?productReservationUuid='+uid);
             },
             get(status,type){
                 let startRow = 0;
