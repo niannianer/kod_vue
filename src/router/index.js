@@ -451,7 +451,8 @@ let routes = [
         name:'bind-bank-card',
         component: BindBankCard,
         meta:{
-            title:'绑定银行卡'
+            title:'绑定银行卡',
+            keepAlive:true,
         }
     },
     {

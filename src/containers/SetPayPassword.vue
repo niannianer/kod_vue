@@ -75,7 +75,9 @@
                     $api.post('/initPayPassword',{userPayPassword:password}).then(msg=>{
                         if(msg.code == 200){
                             Toast('您已成功开通托管账户，可进行投资');
-                            this.$router.push('/my-assets');
+                            setTimeout(()=>{
+                                this.$router.go(-1);
+                            },3000);
                         }else{
                             Toast(msg.msg);
                         }

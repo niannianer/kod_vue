@@ -25,7 +25,7 @@
                 <dt>银行预留手机号</dt>
                 <dd><input type="tel" placeholder="请输入银行预留手机号" maxlength="14" v-model="bankUserPhone"></dd>
             </dl>
-            <p class="p-lint"><span v-show="pShow">验证码已发送到注册手机{{investorMobile | mobileFormat}}</span></p>
+            <p class="p-lint"><span>验证码已发送到注册手机{{investorMobile | mobileFormat}}</span></p>
             <ul flex="main:justify">
                 <li class="ul-l">验证码</li>
                 <li class="ul-c" flex-box="1"><input type="text" placeholder="输入验证码" maxlength="8" v-model="verifyCode"></li>
@@ -134,7 +134,7 @@
                     $api.get('/sendBaofooAuthSMS',{type:1}).then(msg=>{
                         if(msg.code == 200){
                             //显示提示
-                            this.pShow = true;
+                            //this.pShow = true;
                         }else{
                             Toast(msg.msg);
                             this.btnText = '重新获取';
@@ -176,10 +176,10 @@
         created(){
             this.transmit()
         },
-        beforeRouteLeave(to, from, next) {
-            /*next(false)
+        /*beforeRouteLeave(to, from, next) {
+            next(false)
             console.log('999');
-            this.$router.push('/index')*/
-        }
+            this.$router.push('/index')
+        }*/
     }
 </script>

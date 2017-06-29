@@ -76,8 +76,7 @@
         methods: {
             //下一步
             btnAction(){
-                this.$router.push('/bind-bank-card')
-                /*let {userName,userIdCardNumber} = this;
+                let {userName,userIdCardNumber} = this;
                 if(!$fun.valiRealName(userName)){
                     Toast('请输入真实姓名');
                     return
@@ -86,7 +85,7 @@
                     Toast('请输入正确身份证号');
                     return
                 }
-                this.getAccount();*/
+                this.getAccount();
             },
             //提交数据
             getAccount(){
