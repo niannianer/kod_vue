@@ -145,12 +145,17 @@
             </div>
         </div>
         <div class="bottom" flex="box:mean">
-            <button class="min-invest" :disabled="disabled" @click.stop="preInvest">1000起投</button>
+            <button class="min-invest" :disabled="disabled" @click.stop="preInvest">{{production.productMinInvestmentValue}}起投</button>
             <button class="do-invest" :disabled="disabled" @click.stop="preInvest">立即投资</button>
         </div>
 
         <modal v-show="showModal" @callBack="modalBack"></modal>
         <invest-input v-show="showInvest" title="输入投资金额" @close="showInvest=false"
+                      :cash-amount="accountCashAmount"
+                      :min-invest="production.productMinInvestmentValue"
+                      :remain-amount="production.productRemainAmountValue"
+                      :step-value="production.investmentIntervalValue"
+                      :uid="productUuid"
                       @callBack="inputBack"></invest-input>
     </div>
 </template>
@@ -171,7 +176,7 @@
                 productUuid: '',
                 attachmentUp: false,
                 showModal: false,
-                showInvest: true,
+                showInvest: false,
                 production: {}
             }
         },
@@ -277,10 +282,12 @@
             },
             doInvest(){
                 let {userVerifyStatus} = this;
-                if (userVerifyStatus == 9) {
-                    this.goStep();
-                } else {
+                if (userVerifyStatus != 9) {
                     this.showModal = true;
+                    // this.goStep();
+                } else {
+
+                    this.showInvest = true;
                 }
             },
             goStep(){

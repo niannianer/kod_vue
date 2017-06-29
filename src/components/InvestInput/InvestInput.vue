@@ -7,14 +7,14 @@
                 <span class="close" @click.stop="close">×</span>
             </div>
             <div class="account-text">账户余额</div>
-            <div class="account-amount">0.59元</div>
-            <div class="min-invest">起投金额1000元</div>
+            <div class="account-amount">{{cashAmount | currencyFormat}}元</div>
+            <div class="min-invest">{{hintText}}</div>
             <div class="input-content" flex>
                 <div class="amount" flex-box="1" flex="main:jusitfy">
                     <span flex-box="1">{{amount}} </span>
                     <span flex-box="0">元</span>
                 </div>
-                <button class="btn-next" @click.stop="nextStep">下一步</button>
+                <button class="btn-next" :disabled="disabled" @click.stop="nextStep">下一步</button>
             </div>
         </div>
 
@@ -59,14 +59,18 @@
 </template>
 
 <script>
-    import EventBus from  '../../tools/event-bus';
+    import {Toast, MessageBox, Indicator} from 'mint-ui';
+    import $api from '../../tools/api';
     import './invest-input.less';
     export default {
         name: 'invest-input',
-        props: ['title'],
+        props: ['uid', 'title', 'cashAmount', 'minInvest', 'remainAmount', 'stepValue'],
         data(){
             return {
                 passwords: [],
+                hintText: '',
+                timer: null,
+                disabled: true,
                 keyboads: [
                     {
                         val: 1,
@@ -109,9 +113,6 @@
             }
         },
         created(){
-            EventBus.$on('clearInput', () => {
-                this.passwords = [];
-            });
         },
         computed: {
             amount(){
@@ -124,22 +125,89 @@
         methods: {
             addPassword(keyboad){
                 this.passwords.push(keyboad.val)
-               /* if (this.passwords.length < 6) {
-                    this.passwords.push(keyboad.val)
-                }*/
-                if (this.passwords.length >= 6) {
-                    this.$emit('callBack', this.passwords.join('').substr(0, 6));
-                }
+                this.setHintText();
             },
             deletePassword(){
                 this.passwords.pop();
+                this.setHintText();
+            },
+            setHintText(){
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
+
+                this.timer = setTimeout(() => {
+                    if (this.amount < this.minInvest) {
+                        this.hintText = `起投金额${this.minInvest}元`;
+                        this.disabled = true;
+                    } else if (this.amount > this.remainAmount) {
+                        this.hintText = `投资金额不可大于剩余额度`;
+                        this.disabled = true;
+                    }
+                    else {
+                        let dis = this.amount - this.minInvest;
+                        if (dis % this.stepValue) {
+                            this.hintText = `投资金额需以${this.stepValue}元递增`;
+                            this.disabled = true;
+                        } else {
+                            this.hintText = '';
+                            this.disabled = false;
+                        }
+
+                    }
+                }, 500);
             },
             close(){
                 this.$emit('close');
             },
             nextStep(){
-
+                let params = {
+                    'productUuid': this.uid,
+                    'amount': this.amount
+                };
+                Indicator.open('提交中...');
+                $api.post('/trade/productSubscription', params)
+                    .then(data => {
+                        Indicator.close();
+                        if (data.code == 6001) {
+                            MessageBox.alert('抱歉，您的账户目前被禁用,如有问题请联系客服', '提示');
+                            return false;
+                        }
+                        if (data.code == 6008 ) {
+                            Toast('产品目前不能购买');
+                            this.$emit('callBack', 0);
+                            return false;
+                        }
+                        if ( data.code == 6003) {
+                            Toast('产品目前不能购买');
+                            setTimeout(()=>{
+                                this.$router.back();
+                            },2000);
+                            return false;
+                        }
+                        if (data.code == 6002) {
+                            MessageBox.alert('用户身份未认证或者开户未完成', '提示');
+                            return false;
+                        }
+                        /*余额不足*/
+                        if (data.code == 200||data.code == 6011) {
+                            this.$router.push({
+                                path: '/product-subscription',
+                                query: {
+                                    u: this.uid,
+                                    a: this.amount,
+                                    o: data.data.orderBillCode
+                                }
+                            })
+                            return false;
+                        }
+                        Toast(data.msg);
+                    });
             }
+        },
+        destroyed(){
+            MessageBox.close();
+            Indicator.close();
         }
 
     }
