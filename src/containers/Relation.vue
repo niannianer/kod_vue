@@ -44,7 +44,7 @@
         methods: {
             useqrcode(){
                 const canvas = document.getElementById('canvas');
-                const url = 'http://' + window.location.host + '/share.html?investorMobile=' + this.investorMobile;
+                const url = window.location.origin + '/land-register.html?inviter=' + this.investorMobile;
                 QRCode.toCanvas(canvas, url, (error) => {
                     if (error) console.log(error)
 //                    console.log(state.investorMobile);
