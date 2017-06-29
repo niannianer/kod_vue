@@ -3,9 +3,11 @@ import store from '../store';
 import Router from 'vue-router';
 import {logout} from '../tools/operation';
 Vue.use(Router)
+import AppointSucc from '../containers/AppointSucc';
 import Index from '../containers/Index';
 import Financial from '../containers/Financial';
 import MyAssets from '../containers/MyAssets';
+import MakeAppointment from '../containers/MakeAppointment';
 import Login from '../containers/Login';
 import Recharge from '../containers/Recharge';
 import Withdraw from '../containers/Withdraw';
@@ -66,6 +68,14 @@ let beforeEach = ((to, from, next) => {
 })
 let routes = [
     {
+        path: '/appoint-succ',
+        name: 'appoint-succ',
+        meta: {
+            title: '首页'
+        },
+        component: AppointSucc
+    },
+    {
         path: '/index',
         name: 'index',
         meta: {
@@ -95,6 +105,13 @@ let routes = [
             title: '我的资产'
         },
         component: MyAssets
+    }, {
+        path: '/make-appointment',
+        name: 'make-appointment',
+        meta: {
+            title: '添加预约客户'
+        },
+        component: MakeAppointment
     }, {
         path: '/login',
         name: 'login',
