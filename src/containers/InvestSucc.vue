@@ -18,7 +18,7 @@
                 </div>
                 <div class="item bl" flex>
                     <p flex-box="1">购买金额</p>
-                    <p flex-box="0">{{orderAmount}}元</p>
+                    <p flex-box="0">{{orderAmount}}</p>
                 </div>
                 <div class="item" flex>
                     <p flex-box="1">预期年化收益率</p>
