@@ -131,7 +131,7 @@
             deletePassword(){
                 this.passwords.pop();
                 if(this.passwords.length==0){
-                    this.hintText = `起投金额${this.minInvest}元`;
+                    this.hintText = '';
                     this.disabled = true;
                     return false;
                 }

@@ -13,7 +13,9 @@
                            v-model.trim="username"
                            placeholder="请输入手机号"
                            class="input" id="username"/>
-
+                    <div   flex="main:right cross:center" >
+                        <img  class="input-img" src="../images/login/pwd-show@2x.png"/>
+                    </div>
                 </div>
             </label>
             <label for="password">
