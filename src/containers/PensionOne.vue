@@ -32,7 +32,6 @@
     import Vue from 'vue';
     import "../less/pension-one.less";
     import $api from '../tools/api';
-    import citys from "../tools/citys";
     import cityGrade from "../tools/city-grade"
     import {IndexList, IndexSection,Toast} from 'mint-ui';
     Vue.component(IndexList.name, IndexList);
