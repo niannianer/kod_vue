@@ -16,6 +16,13 @@
                 <input class="input" type="tel" name="phone" id="phone" flex-box="1" v-model.trim="customerMobile"
                        autocomplete="off" placeholder="请输入手机号">
             </div>
+            <div class="form-item" flex v-if="imageCode">
+                <label class="label" for="imageCode" flex-box="0">校验码</label>
+                <input class="input" type="text" name="imageCode" id="imageCode" flex-box="1"
+                       v-model="inputCode"
+                       autocomplete="off" placeholder="请输入校验码">
+                <button flex-box="0" class="btn-default btn-code">{{imageCode}}</button>
+            </div>
             <div class="form-item" flex>
                 <label class="label" for="yzm" flex-box="0">短信验证码</label>
                 <input class="input" type="tel" name="yzm" id="yzm" flex-box="1"
@@ -25,13 +32,6 @@
                         v-if="verifyTimeLeft<=0">{{verifyText}}
                 </button>
                 <button flex-box="0" class="btn-code" v-else>{{verifyTimeLeft}}</button>
-            </div>
-            <div class="form-item" flex v-if="imageCode">
-                <label class="label" for="imageCode" flex-box="0">校验码</label>
-                <input class="input" type="text" name="imageCode" id="imageCode" flex-box="1"
-                       v-model="inputCode"
-                       autocomplete="off" placeholder="请输入校验码">
-                <button flex-box="0" class="btn-default btn-code">{{imageCode}}</button>
             </div>
             <div class="form-item" flex>
                 <label class="label" for="appoint-num" flex-box="0">预约金额</label>
@@ -144,8 +144,13 @@
                             return false;
                         }
                         if (data.code == 1004) {
-                            Toast('图片验证码错误!');
-                            this.imageCode = data.data.imageCode;
+                            if(!this.imageCode){
+                                Toast('请输入图形验证码');
+                                this.imageCode = data.data.imageCode;
+                            }else{
+                                Toast('图片验证码错误!');
+                                this.imageCode = data.data.imageCode;
+                            }
                             return false;
                         }
                         Toast(data.msg);
