@@ -35,7 +35,7 @@
         <div class="bind-foot">
             <div class="p-agreement" flex>
                 <span class="icon" @click.stop="agreement = !agreement" :class="{active:agreement}"></span>
-                <span>我已阅读并同意<router-link to="/index">《支付服务协议》</router-link></span>
+                <span>我已阅读并同意<a href="/baofoo-certification.html">《支付服务协议》</a></span>
             </div>
             <div class="bind-btn" flex="main:center">
                 <button :class="{active:agreement}" @click.stop="submit">完成</button>
