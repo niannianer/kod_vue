@@ -11,11 +11,12 @@
                 <label class="label" for="yzm" flex-box="0">验证码</label>
                 <input class="input" type="text" name="yzm" id="yzm" flex-box="1"
                        v-model.trim="verifyCode"
+                       maxlength="11"
                        autocomplete="off" placeholder="请输入验证码">
                 <button flex-box="0" class="btn-default btn-code" @click.stop="getVerify"
                         v-if="verifyTimeLeft<=0">{{verifyText}}
                 </button>
-                <button flex-box="0" class="btn-default btn-code" v-else>{{verifyTimeLeft}}</button>
+                <button flex-box="0" class="btn-default btn-text" v-else>{{verifyTimeLeft}}</button>
             </div>
 
             <div class="form-item" flex v-if="imageCode">
@@ -23,14 +24,14 @@
                 <input class="input" type="text" name="imageCode" id="imageCode" flex-box="1"
                        v-model="inputCode"
                        autocomplete="off" placeholder="请输入校验码">
-                <button flex-box="0" class="btn-default btn-text">{{imageCode}}</button>
+                <button flex-box="0" class="btn-default btn-code">{{imageCode}}</button>
             </div>
 
             <div class="form-item" flex>
                 <label class="label" for="password" flex-box="0">重设密码</label>
                 <input class="input" type="password" name="password" id="password" flex-box="1"
                        v-model.trim="userLoginPassword"
-                       autocomplete="off" placeholder="请设置6-20位数字或字母密码">
+                       autocomplete="off" placeholder="请设置6-20位数字和字母密码">
             </div>
 
 
@@ -124,6 +125,8 @@
                 $api.get('/sendVerifyCode', {investorMobile, imageCode, bussType})
                     .then(data => {
                         if (data.code == 200) {
+                            this.imageCode='';
+                            this.inputCode='';
                             return false;
                         }
                         else {

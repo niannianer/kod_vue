@@ -90,7 +90,7 @@
                 cityName: '',
                 age: '',
                 gender: 2,
-                planAge: '85',
+                planAge: '80',
                 retirementAge: '',
                 wagesAfterTax: '',
                 inflation: '',
@@ -178,7 +178,7 @@
             genderHandle(num){
                 this.gender = num;
                 this.retirementAge = this.gender == 1 ? '55' : '60';
-                this.planAge = this.gender == 1?'80' : '85';
+                this.planAge = this.gender == 1?'85' : '80';
             },
             pickHandle(){
                 this.isPicking = true;
