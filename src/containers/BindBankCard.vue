@@ -165,7 +165,7 @@
                     if(msg.code == 200){
                         Toast('绑卡成功');
                         setTimeout(()=>{
-                            this.$router.push('/set-pay-password')
+                            this.$router.replace('/set-pay-password')
                         },3000)
                     }else{
                         Toast(msg.msg);
@@ -175,11 +175,6 @@
         },
         created(){
             this.transmit()
-        },
-        /*beforeRouteLeave(to, from, next) {
-            next(false)
-            console.log('999');
-            this.$router.push('/index')
-        }*/
+        }
     }
 </script>
