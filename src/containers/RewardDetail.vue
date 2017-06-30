@@ -59,13 +59,13 @@
                 autoFill: false,
                 currentPage: 0,
                 pageSize: 10,
-                loading: false,
-                loadMoreFlag: true,
+                loading: true,
                 titleRate: '(年化)',
                 isApp: false
             }
         },
         created(){
+            this.loadData();
             if (this.$route.query.from == 'app') {
                 this.isApp = true;
             }
@@ -106,8 +106,8 @@
             },
             loadMore(){
                 this.loading = true;
-                this.loadData();
                 this.currentPage++;
+                this.loadData();
             }
         }
     }
