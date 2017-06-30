@@ -304,9 +304,9 @@
                                 this.data.c = this.data.d;
                                 this.isLast.c = true;
                             }
-                            this.lists.a = this.data.a[0];
-                            this.lists.b = this.data.b[0];
-                            this.lists.c = this.data.c[0];
+                            this.lists.a = this.data.a[0] || {};
+                            this.lists.b = this.data.b[0] || {};
+                            this.lists.c = this.data.c[0] || {};
                             this.calculate();
                         }
                     }else{
