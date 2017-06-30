@@ -42,7 +42,7 @@
                     <p flex-box="0">元</p>
                 </div>
             </div>
-            <password-input v-show="inputPassword" title="提现" @close="inputPassword=false" @callBack="tradeCallback"
+            <password-input v-show="inputPassword" title="购买产品" @close="inputPassword=false" @callBack="tradeCallback"
             ></password-input>
         </div>
         <div class="bottom seperate">

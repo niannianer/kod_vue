@@ -31,7 +31,7 @@
                     <p flex-box="0">{{productInterestDate}}</p>
                 </div>
                 <div class="item" flex>
-                    <p flex-box="1">到账日</p>
+                    <p flex-box="1">到期日</p>
                     <p flex-box="0">{{productExpiringDate}}</p>
                 </div>
             </div>
