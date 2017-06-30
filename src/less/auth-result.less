@@ -1,0 +1,45 @@
+.auth-result{
+    width:100%;height:100%;background-color: #FFF;
+    .waiting{
+        text-align: center;padding-top:7rem;
+        img{
+            width:1.7rem;height:1.7rem;
+        }
+        p{
+            padding:.9rem 0;
+        }
+        .wait-rotate{
+            animation:myrotate 2s infinite;
+        }
+    }
+    .erro{
+        text-align: center;padding-top:7rem;
+        .x-mark{
+            width:2rem;height:2rem;position:relative;margin:0 auto;
+            div{
+                width:.25rem;height:2rem;border-radius: 2px;background: #D8D8D8;position:absolute;
+            }
+            .left{
+                left:.9rem;transform: rotate(-50deg);
+            }
+            .right{
+                right:.9rem;transform: rotate(50deg);
+            }
+        }
+        p{
+            width:14rem;margin:.4rem auto;
+        }
+        .fail-title{
+            font-size: .9rem;color: #666666;
+        }
+        button{
+            width:11rem;height:2.2rem;line-height:2.2rem;background-color: #1D72C0;color:#FFF;text-align: center;
+            border:none;border-radius: 3px;margin: .8rem auto;
+        }
+    }
+    @keyframes myrotate
+    {
+        0%   {transform: rotate(0)}
+        100% {transform: rotate(360deg)}
+    }
+}

@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import {logout} from '../tools/operation';
 Vue.use(Router)
 import AppointSucc from '../containers/AppointSucc';
+import AuthResult from '../containers/AuthResult';
 import Index from '../containers/Index';
 import Financial from '../containers/Financial';
 import MyAssets from '../containers/MyAssets';
@@ -76,9 +77,17 @@ let routes = [
         path: '/appoint-succ',
         name: 'appoint-succ',
         meta: {
-            title: '首页'
+            title: '预约成功'
         },
         component: AppointSucc
+    },
+    {
+        path: '/auth-result',
+        name: 'auth-result',
+        meta: {
+            title: '宝付授权结果查询'
+        },
+        component: AuthResult
     },
     {
         path: '/index',
