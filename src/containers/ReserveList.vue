@@ -85,7 +85,6 @@
             return {
                 option:['pending','processed','canceled'],
                 status:1,
-                tab: 1,
                 autoFill:false,
                 allLoadedA:false,
                 allLoadedB:false,
@@ -114,8 +113,8 @@
                 if(this.isRefreshing){
                     return false;
                 }
-                console.log(this.$data)
-                //this.$router.push('/reserve-detail?productReservationUuid='+uid);
+                window.sessionStorage.setItem('reserveData',JSON.stringify(this.$data));
+                this.$router.push('/reserve-detail?productReservationUuid='+uid);
             },
             get(status,type){
                 let startRow = 0;
@@ -130,7 +129,7 @@
                 }
                 return $api.get('/reservation/list',{status:status,startRow:startRow,pageSize:this.pageSize}).then(msg => {
                     if(msg.code == 200){
-                       switch(status){
+                        switch(status){
                             case 1 :
                                 if(type == 'bottom'){
                                     msg.data.reservationList.map(el => {
@@ -229,9 +228,19 @@
             }
         },
         mounted(){
-            this.get(1,'top');
-            this.get(2,'top');
-            this.get(3,'top');
+            let reserveData = window.sessionStorage.getItem('reserveData');
+            if(reserveData){
+                let {status,pending,processed,canceled,scrollTop} = JSON.parse(reserveData);
+                this.status = status;
+                this.pending = pending;
+                this.processed = processed;
+                this.canceled = canceled;
+                window.sessionStorage.removeItem('reserveData');
+            }else{
+                this.get(1,'top');
+                this.get(2,'top');
+                this.get(3,'top');
+            } 
         }
     }
 </script>
