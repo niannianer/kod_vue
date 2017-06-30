@@ -156,6 +156,8 @@
                       :remain-amount="production.productRemainAmountValue"
                       :step-value="production.investmentIntervalValue"
                       :uid="productUuid"
+                      :rate="production.annualInterestRate"
+                      :period="production.productPeriod"
                       @callBack="inputBack"></invest-input>
     </div>
 </template>
