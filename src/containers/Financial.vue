@@ -190,7 +190,7 @@
             loadMore(){
                 console.log(11);
                 this.loading = true;
-                this.startRow = this.lists.length + 1;
+                this.startRow = this.lists.length;
                 this.getGoodsList();
             },
             getGoodsList(flag){

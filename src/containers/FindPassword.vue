@@ -32,7 +32,7 @@
                 <label class="label" for="password" flex-box="0">重设密码</label>
                 <input class="input" type="password" name="password" id="password" flex-box="1"
                        v-model.trim="userLoginPassword"
-                       autocomplete="off" placeholder="请设置6-20位数字和字母密码">
+                       autocomplete="off" placeholder="请设置6-20位密码,需包含数字和字母">
             </div>
 
 
