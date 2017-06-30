@@ -31,8 +31,8 @@
                     </div>
                 </div>
                 <div flex>
-                    <p flex-box="1">限额：单笔10万元</p>
-                    <p flex-box="0">单日100万元</p>
+                    <p flex-box="1">限额：单笔{{single_limit}}元</p>
+                    <p flex-box="0">单日{{perday_limit}}元</p>
                 </div>
             </div>
             <div class="section seprate" v-if="isLack">
@@ -119,7 +119,7 @@
                 })
         },
         computed: {
-            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId']),
+            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId','single_limit','perday_limit']),
             isLack(){
                 return this.amount > this.accountCashAmount;
             }
@@ -207,10 +207,12 @@
                         } else if (msg.code == 1108 || msg.code == 1119) {
                             EventBus.$emit('clearInput');
                             Toast(msg.msg);
+                            return false;
                         } else {
-                            this.inputPassword = false;
                             Toast(msg.msg);
                         }
+                        EventBus.$emit('clearInput');
+                        this.inputPassword = false;
                     })
             },
             investHandle(){
