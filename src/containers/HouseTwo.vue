@@ -5,9 +5,9 @@
                 <div class="header-main">
                     <div v-show="rotate">
                         <div>如果说婚姻是虚拟的家，那住房就是实体的家</div>
-                        <div class="house-price">根据国家统计局数据，【<span
-                           >{{cityName}}</span>】平均房价为<span>{{cityAveragePrice}}</span>元
-
+                        <div class="house-price">根据国家统计局数据</div>
+                        <div class="house-price">
+                            【<span>{{cityName}}</span>】平均房屋总价为<span>{{cityAveragePrice}}</span>元
                             <select v-model="cityName" @change="changeCity">
                                 <option v-for="option in citys" v-bind:value="option.name">
                                     {{ option.name }}

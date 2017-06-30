@@ -5,7 +5,15 @@
                 <label class="label" for="phone" flex-box="0">手机号</label>
                 <input class="input" type="tel" name="phone" id="phone" flex-box="1"
                        v-model.trim="investorMobile"
+                       maxlength="11"
                        autocomplete="off" placeholder="请输入手机号">
+            </div>
+            <div class="form-item" flex v-if="imageCode">
+                <label class="label" for="imageCode" flex-box="0">校验码</label>
+                <input class="input" type="text" name="imageCode" id="imageCode" flex-box="1"
+                       v-model="inputCode"
+                       autocomplete="off" placeholder="请输入校验码">
+                <button flex-box="0" class="btn-default btn-code">{{imageCode}}</button>
             </div>
             <div class="form-item" flex>
                 <label class="label" for="yzm" flex-box="0">验证码</label>
@@ -15,22 +23,16 @@
                 <button flex-box="0" class="btn-primary btn-code" @click.stop="getVerify"
                         v-if="verifyTimeLeft<=0">{{verifyText}}
                 </button>
-                <button flex-box="0" class="btn-default btn-code" v-else>{{verifyTimeLeft}}</button>
+                <button flex-box="0" class="btn-default btn-text" v-else>{{verifyTimeLeft}}</button>
             </div>
 
-            <div class="form-item" flex v-if="imageCode">
-                <label class="label" for="imageCode" flex-box="0">校验码</label>
-                <input class="input" type="text" name="imageCode" id="imageCode" flex-box="1"
-                       v-model="inputCode"
-                       autocomplete="off" placeholder="请输入校验码">
-                <button flex-box="0" class="btn-default btn-text">{{imageCode}}</button>
-            </div>
+
 
             <div class="form-item" flex>
                 <label class="label" for="password" flex-box="0">设置密码</label>
                 <input class="input" type="password" name="password" id="password" flex-box="1"
                        v-model.trim="userLoginPassword"
-                       autocomplete="off" placeholder="请设置6-20位数字或字母密码">
+                       autocomplete="off" placeholder="请设置6-20位数字和字母密码">
             </div>
 
             <div class="form-item" flex>
@@ -136,6 +138,8 @@
                 $api.get('/sendVerifyCode', {investorMobile, imageCode, bussType})
                     .then(data => {
                         if (data.code == 200) {
+                            this.imageCode='';
+                            this.inputCode='';
                             return false;
                         }
                         else {
@@ -146,7 +150,12 @@
                             return false;
                         }
                         if (data.code == 1004) {
-                            Toast('图片验证码错误!');
+                            if(this.inputCode){
+                                Toast('图片验证码错误!');
+                            }else {
+                                Toast('请输入图片验证码!');
+                            }
+
                             this.imageCode = data.data.imageCode;
                             return false;
                         }
@@ -211,7 +220,7 @@
                             return false;
                         }
                         if (data.code == 1002) {
-                            Toast('短信验证码错误');
+                            Toast('短信验证码失败');
                             return false;
                         }
                         if (data.code == 1101) {

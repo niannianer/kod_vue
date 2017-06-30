@@ -35,7 +35,7 @@
         <div class="bind-foot">
             <div class="p-agreement" flex>
                 <span class="icon" @click.stop="agreement = !agreement" :class="{active:agreement}"></span>
-                <span>我已阅读并同意<router-link to="/index">《支付服务协议》</router-link></span>
+                <span>我已阅读并同意<a href="/baofoo-certification.html">《支付服务协议》</a></span>
             </div>
             <div class="bind-btn" flex="main:center">
                 <button :class="{active:agreement}" @click.stop="submit">完成</button>
@@ -165,7 +165,7 @@
                     if(msg.code == 200){
                         Toast('绑卡成功');
                         setTimeout(()=>{
-                            this.$router.push('/set-pay-password')
+                            this.$router.replace('/set-pay-password')
                         },3000)
                     }else{
                         Toast(msg.msg);
@@ -175,11 +175,6 @@
         },
         created(){
             this.transmit()
-        },
-        /*beforeRouteLeave(to, from, next) {
-            next(false)
-            console.log('999');
-            this.$router.push('/index')
-        }*/
+        }
     }
 </script>

@@ -26,10 +26,10 @@
             <div class="win-box" flex="dir:top">
                 <div class="win-content" flex-box="1">
                     <p class="hint1">监测到您在其他商户已开通宝付账户，请完成短信验证，确保是您本人操作。</p>
-                    <p class="hint2"><span v-show="pShow">短信验证码已发送到{{investorMobile | mobileFormat}}</span></p>
+                    <p class="hint2"><span>短信验证码已发送到{{investorMobile | mobileFormat}}</span></p>
                     <dl flex flex="main:justify">
                         <dt>
-                            <input type="text" placeholder="请输入验证码" v-model="smsCode">
+                            <input type="text" placeholder="请输入验证码" v-model="smsCode" maxlength="6">
                         </dt>
                         <dd>
                             <button :class="{'active':btnActive}" @click.stop="transmit">{{btnText}}</button>
@@ -61,7 +61,7 @@
                 userIdCardNumber:'',
                 popup:false,
                 btnActive:true,
-                pShow:false,
+                //pShow:false,
                 smsCode:'',
                 btnText:'获取验证码',
                 flag:true
@@ -111,7 +111,7 @@
                         this.smsCode = '';
                         this.btnText = '获取验证码';
                         this.btnActive = true;
-                        this.pShow = false;
+                        this.transmit();
                     }else{
                         Toast(msg.msg)
                     }
@@ -123,7 +123,7 @@
                     $api.get('/sendBaofooAuthSMS',{type:2}).then(msg=>{
                         if(msg.code == 200){
                             //显示提示
-                            this.pShow = true;
+                            console.log('000')
                         }else{
                             Toast(msg.msg);
                             this.btnText = '获取验证码';
@@ -146,7 +146,7 @@
             //取消
             curse(){
                 this.popup = false;
-                this.flag = false;
+                //this.flag = false;
             },
             //下发验证码
             send(time){
@@ -168,6 +168,7 @@
                 };
                 recursion();
             },
+            //去开户弹窗
             /*setAccount(){
                 OpenAccount({
                     callback:(result)=>{
