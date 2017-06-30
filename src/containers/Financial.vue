@@ -10,6 +10,7 @@
             </div>
         </div>
         <div class="item-list" flex-box="1" v-if="tab==1">
+            <mt-loadmore  :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill" :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText" :bottomAllLoaded="!(loading &&hasMore)">
             <div class="infinite-scroll"
                  v-infinite-scroll="loadMore"
                  infinite-scroll-disabled="disLoad"
@@ -36,10 +37,13 @@
                        {{item.productStatus}}
                     </div>
                 </div>
+                <p v-if="!(loading &&hasMore)" class="loading" style="text-align: center">没有更多...</p>
             </div>
-
+            </mt-loadmore>
         </div>
+        <!--固收-->
         <div class="item-list" flex-box="1" v-else>
+            <mt-loadmore  :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill" :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText" :bottomAllLoaded="!(loading &&hasMore)">
             <div class="infinite-scroll"
                  v-infinite-scroll="loadMore"
                  infinite-scroll-disabled="disLoad"
@@ -73,9 +77,9 @@
                     </div>
                     <div class="buttom">{{item.productMinInvestment}}</div>
                 </div>
-
+                <p v-if="!(loading &&hasMore)" class="loading" style="text-align: center">没有更多...</p>
             </div>
-
+            </mt-loadmore>
         </div>
         <!--遮罩层-->
         <div class="mask" v-show="show">
@@ -97,9 +101,10 @@
 <script>
     import Vue from 'vue';
     import {mapState} from 'vuex';
-    import {InfiniteScroll} from 'mint-ui';
+//    import {InfiniteScroll} from 'mint-ui';
+    import {Loadmore, InfiniteScroll} from 'mint-ui';
     import {logout} from '../tools/operation';
-
+    Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
     import '../less/financial.less';
     import CicleProgress from '../components/CicleProgress/CicleProgress';
@@ -115,9 +120,13 @@
                 loading: true,
                 hasMore: false,
                 tab: 2,
-                startRow: 1,
+                startRow: 0,
                 pageSize: 10,
-                lists: []
+                lists: [],
+                autoFill: false,
+                bottomLoadingText: '加载中...',
+                bottomPullText:'上拉加载更多',
+
             };
         },
         created(){
@@ -145,9 +154,15 @@
             }
         },
         methods: {
+            loadBottom(){
+                if(!(this.loading  && this.hasMore) ){
+                    this.allLoaded = true;
+                }// 若数据已全部获取完毕
+                this.$refs.loadmore.onBottomLoaded();
+            },
             changeTab(tab){
                 this.tab = tab;
-                this.startRow = 1;
+                this.startRow = 0;
                 this.$nextTick(() => {
                     let dom = document.querySelector('.item-list');
                     dom.scrollTop = 0;

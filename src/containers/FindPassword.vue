@@ -7,6 +7,13 @@
                        v-model.trim="investorMobile"
                        autocomplete="off" placeholder="请输入手机号">
             </div>
+            <div class="form-item" flex v-if="imageCode">
+                <label class="label" for="imageCode" flex-box="0">校验码</label>
+                <input class="input" type="text" name="imageCode" id="imageCode" flex-box="1"
+                       v-model="inputCode"
+                       autocomplete="off" placeholder="请输入校验码">
+                <button flex-box="0" class="btn-default btn-code">{{imageCode}}</button>
+            </div>
             <div class="form-item" flex>
                 <label class="label" for="yzm" flex-box="0">验证码</label>
                 <input class="input" type="text" name="yzm" id="yzm" flex-box="1"
@@ -19,13 +26,7 @@
                 <button flex-box="0" class="btn-default btn-text" v-else>{{verifyTimeLeft}}</button>
             </div>
 
-            <div class="form-item" flex v-if="imageCode">
-                <label class="label" for="imageCode" flex-box="0">校验码</label>
-                <input class="input" type="text" name="imageCode" id="imageCode" flex-box="1"
-                       v-model="inputCode"
-                       autocomplete="off" placeholder="请输入校验码">
-                <button flex-box="0" class="btn-default btn-code">{{imageCode}}</button>
-            </div>
+
 
             <div class="form-item" flex>
                 <label class="label" for="password" flex-box="0">重设密码</label>
@@ -137,7 +138,12 @@
                             return false;
                         }
                         if (data.code == 1004) {
-                            Toast('图片验证码错误!');
+                            if(this.inputCode){
+                                Toast('图片验证码错误!');
+                            }else {
+                                Toast('请输入图片验证码!');
+                            }
+
                             this.imageCode = data.data.imageCode;
                             return false;
                         }
