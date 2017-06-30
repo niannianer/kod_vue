@@ -31,8 +31,8 @@
                     </div>
                 </div>
                 <div flex>
-                    <p flex-box="1">限额：单笔10万元</p>
-                    <p flex-box="0">单日100万元</p>
+                    <p flex-box="1">限额：单笔{{single_limit}}元</p>
+                    <p flex-box="0">单日{{perday_limit}}元</p>
                 </div>
             </div>
             <div class="section seprate" v-if="isLack">
@@ -119,7 +119,7 @@
                 })
         },
         computed: {
-            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId']),
+            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId','single_limit','perday_limit']),
             isLack(){
                 return this.amount > this.accountCashAmount;
             }
