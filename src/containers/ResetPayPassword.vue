@@ -193,11 +193,11 @@
             },
             submit(){
                 if(!this.btnActive){return}
-                let {password,storagePassword} = this;
+                let {password,storagePassword,idCardTail,verifyCode,investorMobile} = this;
                 if(password == storagePassword){
-                    $api.post('/initPayPassword',{userPayPassword:password}).then(msg=>{
+                    $api.post('/resetPayPassword',{idCardTail:idCardTail,userPayPassword:password,investorMobile:investorMobile,verifyCode:verifyCode}).then(msg=>{
                         if(msg.code == 200){
-                            Toast('您已成功开通托管账户，可进行投资');
+                            Toast('重置交易密码成功');
                             setTimeout(()=>{
                                 this.$router.go(-1);
                             },3000);
@@ -213,10 +213,6 @@
                     EventBus.$emit('clearInputOnly');
                 }
             }
-        },
-        destroyed(){
-            /*Indicator.close();
-            MessageBox.close();*/
         }
     }
 </script>
