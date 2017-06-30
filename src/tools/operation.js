@@ -27,6 +27,7 @@ let serverUrl = testUrl;
 let signMode = '~|~n725d5gsb7mlyzzw';
 let merchant_id = '100000675';
 let terminal_id = '100000701';
+let requestUrl_baofoo = testUrl;
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;
 }
@@ -36,6 +37,7 @@ if (process.env.kingold == 'production') {
     baofooRecharge = baofooProductUrl;
     merchant_id = '1172380';
     terminal_id = '34865';
+    requestUrl_baofoo = baofooCallUrl;
 }
 
 // baofoo 充值
@@ -76,6 +78,46 @@ export let submitRecharge = (params) => {
     document.body.appendChild(form);
     form.submit();
 
+};
+//  授权
+export let submitAuthorization = (uid) => {
+    let form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', baofooRecharge + 'inAccredit.do');
+    form.setAttribute('name', 'baofoo');
+
+    let input = document.createElement('input');
+    input.setAttribute('name', 'merchant_id');
+    input.setAttribute('type', 'hidden');
+    input.value = merchant_id;
+    form.appendChild(input);
+
+    input = document.createElement('input');
+    input.setAttribute('name', 'terminal_id');
+    input.setAttribute('type', 'hidden');
+    input.value = terminal_id;
+    form.appendChild(input);
+
+    input = document.createElement('input');
+    input.setAttribute('name', 'service_url');
+    input.setAttribute('type', 'hidden');
+    input.value = requestUrl_baofoo+'baofoo/notification/auth';
+    form.appendChild(input);
+
+    input = document.createElement('input');
+    input.setAttribute('name', 'user_id');
+    input.setAttribute('type', 'hidden');
+    input.value = uid;
+    form.appendChild(input);
+
+    input = document.createElement('input');
+    input.setAttribute('name', 'page_url');
+    input.setAttribute('type', 'hidden');
+    input.value = requestUrl_baofoo+'baofoo/h5/notification/auth';
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+    form.submit();
 };
 
 // 输入框校验,提现和充值

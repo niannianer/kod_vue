@@ -33,7 +33,11 @@ import RelationList from '../containers/RelationList';
 import Relation from '../containers/Relation';
 import HouseTwo from '../containers/HouseTwo';
 import HouseThree from '../containers/HouseThree';
-import Planning from '../containers/Planning'
+import Planning from '../containers/Planning';
+import Authentication from '../containers/Authentication';
+import BindBankCard from '../containers/BindBankCard';
+import SetPayPassword from '../containers/SetPayPassword';
+import ResetPayPassword from '../containers/ResetPayPassword';
 const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
@@ -384,6 +388,38 @@ let routes = [
         meta:{
             title:'注册',
             withoutLogin: true
+        }
+    },
+    {
+        path:'/authentication',
+        name:'authentication',
+        component: Authentication,
+        meta:{
+            title:'实名认证'
+        }
+    },
+    {
+        path:'/bind-bank-card',
+        name:'bind-bank-card',
+        component: BindBankCard,
+        meta:{
+            title:'绑定银行卡'
+        }
+    },
+    {
+        path:'/set-pay-password',
+        name:'set-pay-password',
+        component: SetPayPassword,
+        meta:{
+            title:'设置交易密码'
+        }
+    },
+    {
+        path:'/reset-pay-password',
+        name:'reset-pay-password',
+        component: ResetPayPassword,
+        meta:{
+            title:'重置交易密码'
         }
     }
 ];
