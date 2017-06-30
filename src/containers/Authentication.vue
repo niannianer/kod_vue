@@ -124,10 +124,7 @@
             transmit(){
                 if(this.btnActive){
                     $api.get('/sendBaofooAuthSMS',{type:2}).then(msg=>{
-                        if(msg.code == 200){
-                            //显示提示
-                            console.log('000')
-                        }else{
+                        if(msg.code != 200){
                             Toast(msg.msg);
                             this.btnText = '获取验证码';
                             this.btnActive = true;
