@@ -64,6 +64,7 @@
                 //pShow:false,
                 smsCode:'',
                 btnText:'获取验证码',
+                nextClick:true,
                 flag:true
             };
         },
@@ -76,6 +77,8 @@
         methods: {
             //下一步
             btnAction(){
+                if(!this.nextClick){return}
+                this.nextClick = false;
                 let {userName,userIdCardNumber} = this;
                 if(!$fun.valiRealName(userName)){
                     Toast('请输入真实姓名');
@@ -146,6 +149,7 @@
             //取消
             curse(){
                 this.popup = false;
+                this.nextClick = true;
                 //this.flag = false;
             },
             //下发验证码
