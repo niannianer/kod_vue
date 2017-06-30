@@ -520,10 +520,10 @@ routes.map(route => {
         }
     };
 });
-routes.push({
+/*routes.push({
     path: '*',
     redirect: '/personal-center'
-});
+});*/
 export default new Router({
     mode: 'history',
     routes

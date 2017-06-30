@@ -184,6 +184,7 @@
             }
         },
         created(){
+            this.$store.dispatch('getAccountBaofoo');
             this.productUuid = this.$route.query.productUuid;
             this.getGoodsDetail();
         },

@@ -203,7 +203,7 @@
                         Indicator.close();
                         if (msg.code == 200) {
                             window.sessionStorage.setItem('investInfo', encodeURIComponent(JSON.stringify(msg.data)));
-                            this.$router.replace('invest-succ')
+                            this.$router.replace('invest-succ');
                         } else if (msg.code == 1108 || msg.code == 1119) {
                             EventBus.$emit('clearInput');
                             Toast(msg.msg);
