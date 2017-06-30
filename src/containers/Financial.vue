@@ -37,7 +37,7 @@
                        {{item.productStatus}}
                     </div>
                 </div>
-                <p v-if="!(loading &&hasMore)" class="loading" style="text-align: center">没有更多...</p>
+                <p v-if="!(loading &&hasMore)" class="loading" style="text-align: center;padding: .5rem 0 4rem 0;">没有更多...</p>
             </div>
             </mt-loadmore>
         </div>
@@ -77,7 +77,7 @@
                     </div>
                     <div class="buttom">{{item.productMinInvestment}}</div>
                 </div>
-                <p v-if="!(loading &&hasMore)" class="loading" style="text-align: center">没有更多...</p>
+                <p v-if="!(loading &&hasMore)" class="loading" style="text-align: center;padding: .5rem 0 4rem 0;">没有更多...</p>
             </div>
             </mt-loadmore>
         </div>
@@ -188,9 +188,8 @@
                 }
             },
             loadMore(){
-                console.log(11);
                 this.loading = true;
-                this.startRow = this.lists.length + 1;
+                this.startRow = this.lists.length ;
                 this.getGoodsList();
             },
             getGoodsList(flag){
