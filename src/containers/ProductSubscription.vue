@@ -207,10 +207,12 @@
                         } else if (msg.code == 1108 || msg.code == 1119) {
                             EventBus.$emit('clearInput');
                             Toast(msg.msg);
+                            return false;
                         } else {
-                            this.inputPassword = false;
                             Toast(msg.msg);
                         }
+                        EventBus.$emit('clearInput');
+                        this.inputPassword = false;
                     })
             },
             investHandle(){
