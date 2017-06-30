@@ -82,7 +82,7 @@ export let submitRecharge = (params) => {
     form.submit();
 
 };
-// 
+//
 export let submitAuthorization = (pUserId) => {
     let form = document.createElement('form');
     form.setAttribute('method', 'post');
@@ -99,7 +99,7 @@ export let submitAuthorization = (pUserId) => {
     input.setAttribute('type', 'hidden');
     input.value = terminal_id;
     form.appendChild(input);
-    
+
     input = document.createElement('input');
     input.setAttribute('name', 'user_id');
     input.setAttribute('type', 'hidden');
@@ -109,13 +109,13 @@ export let submitAuthorization = (pUserId) => {
     input = document.createElement('input');
     input.setAttribute('name', 'service_url');
     input.setAttribute('type', 'hidden');
-    input.value = RequestUrlBaofoo + 'baofoo/notification/auth';
+    input.value = RequestUrlBaofoo + '/baofoo/notification/auth';
     form.appendChild(input);
 
     input = document.createElement('input');
     input.setAttribute('name', 'page_url');
     input.setAttribute('type', 'hidden');
-    input.value = RequestUrlBaofoo + 'baofoo/h5/notification/auth';
+    input.value = RequestUrlBaofoo + '/baofoo/h5/notification/auth';
     form.appendChild(input);
 
     document.body.appendChild(form);
