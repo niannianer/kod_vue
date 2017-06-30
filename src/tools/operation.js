@@ -28,7 +28,7 @@ let serverUrl = testUrl;
 let signMode = '~|~n725d5gsb7mlyzzw';
 let merchant_id = '100000675';
 let terminal_id = '100000701';
-let requestUrl_baofoo = testUrl;
+let RequestUrlBaofoo = testUrl;
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;
     RequestUrlBaofoo = testUrl;
