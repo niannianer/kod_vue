@@ -193,6 +193,10 @@
                             MessageBox.alert('用户身份未认证或者开户未完成', '提示');
                             return false;
                         }
+                        if(data.code == 6005){
+                            this.hintText = `超出本产品单人投资上限，请重新输入`;
+                            return false;
+                        }
                         /*余额不足*/
                         if (data.code == 200 || data.code == 6011) {
                             this.$router.push({
