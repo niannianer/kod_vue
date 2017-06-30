@@ -78,10 +78,9 @@
 <script>
     import Vue from 'vue';
     import _ from 'lodash/core';
-    import "../less/pension-four.less"
-    import citys from '../tools/citys'
-    import {Toast} from 'mint-ui'
-    import $api from '../tools/api'
+    import "../less/pension-four.less";
+    import {Toast} from 'mint-ui';
+    import $api from '../tools/api';
     import KingoldPicker from '../components/KingoldPicker'
     import Modal from '../components/Modal'
     import {getValueD, getValueE, getValueG} from "../tools/city-grade"
@@ -97,6 +96,7 @@
                 inflation: '',
                 title: "请选择城市",
                 isPicking: false,
+                citys:[]
             }
         },
         components: {
@@ -104,7 +104,7 @@
         },
         computed: {
             cityList(){
-                return citys
+                return this.citys
             },
             pensionStore(){
                 if (!this.clickable) {
@@ -129,7 +129,7 @@
                 return pension;
             },
             list(){
-                return citys;
+                return this.citys;
             },
             clickable(){
                 if (!this.inflationUseful) {
@@ -166,6 +166,10 @@
                 });
             }
             this.inflation = getValueG(this.cityName);//通货膨胀率
+            $api.getNode('/assets/getCities')
+                .then(data=>{
+                    this.citys =data.data;
+                });
         },
         mounted(){
             /* console.log(this.$refs.kpicker.result,'33333');*/

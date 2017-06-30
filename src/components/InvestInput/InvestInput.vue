@@ -60,11 +60,12 @@
 
 <script>
     import {Toast, MessageBox, Indicator} from 'mint-ui';
+    import {currencyFormat} from '../../filters';
     import $api from '../../tools/api';
     import './invest-input.less';
     export default {
         name: 'invest-input',
-        props: ['uid', 'title', 'cashAmount', 'minInvest', 'remainAmount', 'stepValue'],
+        props: ['uid', 'title', 'cashAmount', 'minInvest', 'remainAmount', 'stepValue', 'rate', 'period'],
         data(){
             return {
                 passwords: [],
@@ -150,7 +151,10 @@
                             this.hintText = `投资金额需以${this.stepValue}元递增`;
                             this.disabled = true;
                         } else {
-                            this.hintText = '';
+                            let shouyi = this.amount * parseFloat(this.rate) / 100 * parseInt(this.period) / 365;
+                            shouyi = currencyFormat(shouyi);
+
+                            this.hintText = `预期收益${shouyi}元`;
                             this.disabled = false;
                         }
 
@@ -173,16 +177,16 @@
                             MessageBox.alert('抱歉，您的账户目前被禁用,如有问题请联系客服', '提示');
                             return false;
                         }
-                        if (data.code == 6008 ) {
+                        if (data.code == 6008) {
                             Toast('产品目前不能购买');
                             this.$emit('callBack', 0);
                             return false;
                         }
-                        if ( data.code == 6003) {
+                        if (data.code == 6003) {
                             Toast('产品目前不能购买');
-                            setTimeout(()=>{
+                            setTimeout(() => {
                                 this.$router.back();
-                            },2000);
+                            }, 2000);
                             return false;
                         }
                         if (data.code == 6002) {
@@ -190,7 +194,7 @@
                             return false;
                         }
                         /*余额不足*/
-                        if (data.code == 200||data.code == 6011) {
+                        if (data.code == 200 || data.code == 6011) {
                             this.$router.push({
                                 path: '/product-subscription',
                                 query: {

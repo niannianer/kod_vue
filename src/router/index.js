@@ -37,8 +37,13 @@ import RelationList from '../containers/RelationList';
 import Relation from '../containers/Relation';
 import HouseTwo from '../containers/HouseTwo';
 import HouseThree from '../containers/HouseThree';
-import Planning from '../containers/Planning'
-import GoodsDetailPRIF from '../containers/GoodsDetailPRIF'
+import Planning from '../containers/Planning';
+import Authentication from '../containers/Authentication';
+import BindBankCard from '../containers/BindBankCard';
+import BankList from '../containers/BankList';
+import SetPayPassword from '../containers/SetPayPassword';
+import ResetPayPassword from '../containers/ResetPayPassword';
+import GoodsDetailPRIF from '../containers/GoodsDetailPRIF';
 const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
@@ -434,6 +439,47 @@ let routes = [
         }
     },
     {
+        path:'/authentication',
+        name:'authentication',
+        component: Authentication,
+        meta:{
+            title:'实名认证'
+        }
+    },
+    {
+        path:'/bind-bank-card',
+        name:'bind-bank-card',
+        component: BindBankCard,
+        meta:{
+            title:'绑定银行卡',
+            keepAlive:true,
+        }
+    },
+    {
+        path:'/bank-list',
+        name:'bank-list',
+        component: BankList,
+        meta:{
+            title:'支持绑定的银行卡'
+        }
+    },
+    {
+        path:'/set-pay-password',
+        name:'set-pay-password',
+        component: SetPayPassword,
+        meta:{
+            title:'设置交易密码'
+        }
+    },
+    {
+        path:'/reset-pay-password',
+        name:'reset-pay-password',
+        component: ResetPayPassword,
+        meta:{
+            title:'重置交易密码'
+        }
+    },
+    {
         path:'/find-password',
         name:'find-password',
         component: FindPassword,
@@ -450,7 +496,7 @@ let routes = [
             title:'项目详情',
             withoutLogin: true
         }
-    },
+    }
 ];
 
 routes.map(route => {

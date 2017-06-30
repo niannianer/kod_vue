@@ -156,6 +156,8 @@
                       :remain-amount="production.productRemainAmountValue"
                       :step-value="production.investmentIntervalValue"
                       :uid="productUuid"
+                      :rate="production.annualInterestRate"
+                      :period="production.productPeriod"
                       @callBack="inputBack"></invest-input>
     </div>
 </template>
@@ -164,6 +166,7 @@
     import {mapState} from 'vuex';
     import {Toast} from 'mint-ui';
     import $api from '../tools/api';
+    import {submitAuthorization} from '../tools/operation';
     import {textToHtml} from '../filters';
     import {logout} from '../tools/operation';
     import InvestInput from '../components/InvestInput';
@@ -294,16 +297,20 @@
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {
                     case 0:
-                        window.location.href = '/realnameBased.html';
+                        //  window.location.href = '/realnameBased.html';
+                        this.$router.push('/authentication');
                         break;
                     case 1:
-                        window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
+                        // window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
+                        submitAuthorization(this.$store.state.userId);
                         break;
                     case 2:
-                        window.location.href = '/bindBankCard.html';
+                        // window.location.href = '/bindBankCard.html';
+                        this.$router.push('/bind-bank-card');
                         break;
                     case 3:
-                        window.location.href = '/setPayPassword.html';
+                        //  window.location.href = '/setPayPassword.html';
+                        this.$router.push('/set-pay-password');
                         break;
                     default:
                 }

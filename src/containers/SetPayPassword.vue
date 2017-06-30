@@ -1,0 +1,99 @@
+<template>
+    <div class="set-pay-password" flex="dir:top">
+        <div class="password-header" flex-box="1">
+            <div class="psw-img">
+                <img src="../images/set-pay-psw.png" alt="">
+            </div>
+            <p class="psw-title">{{pTitle}}</p>
+            <div class="psw-input">
+                <ul flex="main:center">
+                    <li v-for=" n in 6" :class="{active:n<=password.length}"></li>
+                </ul>
+                <p class="error-hint" v-show="pShow">两次输入不一致！</p>
+            </div>
+            <div class="psw-btn" flex="main:center">
+                <button :class="{'active':btnActive}" v-show="btnShow" @click.stop="submit">完成</button>
+            </div>
+        </div>
+        <keyboard title="键盘" flex-box="0" @callBack="callBack"></keyboard>
+    </div>
+</template>
+
+<script>
+    import $api from '../tools/api';
+    import EventBus from  '../tools/event-bus';
+    import {Toast} from 'mint-ui';
+    import Keyboard from '../components/Keyboard';
+    import '../less/set-pay-password.less';
+    export default {
+        name: 'withdraw',
+        data(){
+            return {
+                pTitle:'请设置金疙瘩交易密码，用于交易验证',//
+                password:'',
+                storagePassword:'',
+                pShow:false,
+                btnActive:false,
+                btnShow:false,
+            }
+        },
+        components: {
+            Keyboard
+        },
+        created(){
+        },
+        methods: {
+            callBack(password){
+                if(password == 'only'){
+                    this.password = '';
+                    return
+                }
+                this.pShow = false;
+                this.password = password;
+                if(this.storagePassword.length>2){
+                    this.pTitle = '请再次填写以确认';
+                    if(password.length>=6){
+                        this.btnActive = true;
+                    }else{
+                        this.btnActive = false;
+                    }
+                }else{
+                    this.btnShow = false;
+                    if(password.length>=6){
+                        this.storagePassword = password;
+                        setTimeout(()=>{
+                            EventBus.$emit('clearInput');
+                            this.btnShow = true;
+                        },300);
+                    }
+                }
+            },
+            submit(){
+                if(!this.btnActive){return}
+                let {password,storagePassword} = this;
+                if(password == storagePassword){
+                    $api.post('/initPayPassword',{userPayPassword:password}).then(msg=>{
+                        if(msg.code == 200){
+                            Toast('您已成功开通托管账户，可进行投资');
+                            setTimeout(()=>{
+                                this.$router.go(-1);
+                            },3000);
+                        }else{
+                            Toast(msg.msg);
+                        }
+                    });
+                }else{
+                    this.storagePassword = '';
+                    this.pShow = true;
+                    this.btnShow = false;
+                    this.pTitle = '请设置金疙瘩交易密码，用于交易验证';
+                    EventBus.$emit('clearInputOnly');
+                }
+            }
+        },
+        destroyed(){
+            /*Indicator.close();
+            MessageBox.close();*/
+        }
+    }
+</script>
