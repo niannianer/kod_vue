@@ -130,13 +130,17 @@
             },
             deletePassword(){
                 this.passwords.pop();
+                if(this.passwords.length==0){
+                    this.hintText = `起投金额${this.minInvest}元`;
+                    this.disabled = true;
+                    return false;
+                }
                 this.setHintText();
             },
             setHintText(){
                 if (this.timer) {
                     clearTimeout(this.timer);
                 }
-
                 this.timer = setTimeout(() => {
                     if (this.amount < this.minInvest) {
                         this.hintText = `起投金额${this.minInvest}元`;
