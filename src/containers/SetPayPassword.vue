@@ -76,7 +76,7 @@
                         if(msg.code == 200){
                             Toast('您已成功开通托管账户，可进行投资');
                             setTimeout(()=>{
-                                this.$router.go(-1);
+                                this.$router.replace('/my-assets');
                             },3000);
                         }else{
                             Toast(msg.msg);
