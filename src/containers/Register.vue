@@ -138,8 +138,6 @@
                 $api.get('/sendVerifyCode', {investorMobile, imageCode, bussType})
                     .then(data => {
                         if (data.code == 200) {
-                            this.imageCode='';
-                            this.inputCode='';
                             return false;
                         }
                         else {
