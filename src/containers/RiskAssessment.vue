@@ -28,6 +28,8 @@
     import questions from '../tools/questions';
     import {Toast} from 'mint-ui';
     import $api from '../tools/api';
+    import $device from '../tools/device';
+    import requestHybrid from '../tools/hybrid';
     import _ from 'lodash/core';
     import '../less/risk-assessment.less';
     let timer = null;
@@ -49,13 +51,16 @@
         created(){
             this.setIndex(0);
             console.log(this.$route.name);
+            if ($device.kingold) {
+                this.isApp = true;
+            }
             if (this.$route.path.indexOf('app') > -1) {
                 this.isApp = true;
             }
         },
         computed: {
             showSubmit(){
-                return (this.scores.length >= quLen-1);
+                return (this.scores.length >= quLen - 1);
             },
             disabled(){
                 return this.currentIndex == 99
@@ -92,7 +97,7 @@
                     if (quLen > this.scores.length) {
                         this.currentIndex = 99;
                     }
-                    if(quLen == this.scores.length){
+                    if (quLen == this.scores.length) {
                         return false;
                     }
                     this.quIndex++;
@@ -133,6 +138,18 @@
                     }
                 });
             }
+        },
+        mounted(){
+            requestHybrid({
+                tagname: 'title',
+                param: {
+                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    backAndRefresh: 1,
+                    title: '风险测评',
+                    backstr: '您是否真的要退出么？',
+                    keyboard_mode: 0//0 adjustresize 1 adjustpan
+                }
+            });
         },
         destroyed(){
 

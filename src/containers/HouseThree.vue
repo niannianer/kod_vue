@@ -108,6 +108,8 @@
 <script>
     import '../less/pension-five.less';
     import $api from '../tools/api';
+    import $device from '../tools/device';
+    import requestHybrid from '../tools/hybrid';
     import {Toast} from 'mint-ui';
     export default {
         name: 'pension-five',
@@ -355,10 +357,47 @@
                 return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)
             },
             link(productUuid){
-                if(this.productType == 'PRIF'){
-                    window.location.href='/goodsDetailPRIF.html?u='+productUuid+'&t='+this.productType;
-                }else{
-                    window.location.href='/goodsDetail.html?u='+productUuid+'&t='+this.productType;
+                if (this.productType == 'PRIF') {
+                    if ($device.kingold) {
+                        requestHybrid({
+                            tagname: 'forward',
+                            param: {
+                                target: 'productPRIF',
+                                targetUrl: window.origin + '/goods-detail-prif?productUuid=' + productUuid,
+                                aid: 0,
+                                astr: productUuid,
+                                extra: 'PRIF'
+                            }
+                        });
+                        return;
+                    }
+                    this.$router.push({
+                        path: '/goods-detail-prif',
+                        query: {
+                            productUuid
+                        }
+                    });
+                } else {
+                    if ($device.kingold) {
+                        requestHybrid({
+                            tagname: 'forward',
+                            param: {
+                                target: 'productFIXI',
+                                targetUrl: window.origin + '/fixi-goods-detail?productUuid=' + productUuid,
+                                aid: 0,
+                                astr: productUuid,
+                                extra: 'FIXI'
+                            }
+                        });
+                        return;
+                    }
+                    this.$router.push({
+                        path: '/fixi-goods-detail',
+                        query: {
+                            productUuid
+                        }
+                    });
+
                 }
             },
             back(){

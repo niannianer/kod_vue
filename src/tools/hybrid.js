@@ -46,7 +46,7 @@ var _getHybridUrl = function (params) {
     }
     return url;
 };
-var requestHybrid = function (params) {
+let requestHybrid = function (params) {
     //生成唯一执行函数，执行后销毁
     var tt = (new Date().getTime());
     var t = 'hybrid_' + tt;
@@ -156,7 +156,6 @@ HybridHeader.prototype = {
         this._addEvent(this.right);
         this._addEvent(this.title);
     },
-
     _addEvent: function (data) {
         if (!_.isArray(data)) data = [data];
         var i, len, tmp, fn, tagname;
@@ -166,7 +165,7 @@ HybridHeader.prototype = {
             tmp = data[i];
             tagname = tmp.tagname || '';
             if (tmp.callback) {
-                fn = $.proxy(tmp.callback, this.view);
+                fn = ()=>{};
                 tmp.callback = t + '_' + tagname;
                 registerHybridCallback(this.hybridEventFlag, t + '_' + tagname, fn);
             }
@@ -185,8 +184,5 @@ HybridHeader.prototype = {
 
 //释放出来的header组件
 Hybrid.ui.header = new HybridHeader();
-export  default {
-    Hybrid,
-    requestHybrid
-}
+export  default requestHybrid
 
