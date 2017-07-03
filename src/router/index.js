@@ -108,7 +108,7 @@ let routes = [
         path: '/fixi-goods-detail',
         name: 'fixi-goods-detail',
         meta: {
-            title: '理财详情',
+            title: '项目详情',
             withoutLogin: true
         },
         component: FixiGoodsDetail
@@ -392,7 +392,7 @@ let routes = [
             }else {
                 store.dispatch('getUserInfo')
                     .then(data=>{
-                        if(data.code!=200){
+                        if(data.code==401){
                             logout();
                             return false;
                         }

@@ -246,6 +246,7 @@
             openPDF(file){
                 if (file.attachmentLink) {
                     let pdfUrl = file.attachmentLink;
+                    pdfUrl = pdfUrl.replace(/^http\.*:/,'https:');
                     window.location.href = '/pdf/web/viewer.html?pdf=' + encodeURIComponent(pdfUrl);
                 }
             },

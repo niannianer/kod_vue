@@ -267,6 +267,7 @@
               }
             },
             linkpdf(pdfUrl){
+                pdfUrl = pdfUrl.replace(/^http\.*:/,'https:');
                 window.location.href='/pdf/web/viewer.html?pdf='+ encodeURIComponent(pdfUrl);
             },
             getShare(){
