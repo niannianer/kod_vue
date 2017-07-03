@@ -123,7 +123,8 @@ let routes = [
         path: '/make-appointment',
         name: 'make-appointment',
         meta: {
-            title: '添加预约客户'
+            title: '添加预约客户',
+            withoutLogin: true
         },
         component: MakeAppointment
     }, {

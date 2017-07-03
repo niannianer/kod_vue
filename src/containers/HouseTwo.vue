@@ -71,7 +71,8 @@
                         <div class="price">{{firstPayments}}</div>
                     </div>
                     <div flex-box="1" class="first-pay">
-                        <div>每月月供参考（元）</div>
+                        <div v-if="loanType==2">首月月供参考（元）</div>
+                        <div v-else>每月月供参考（元）</div>
                         <div class="price">{{H | currencyFormat}}</div>
                     </div>
                 </div>
@@ -279,7 +280,7 @@
                 }
                 return array;
             },
-            citys: () => {
+            citys(){
                 return this.cityList;
             },
             firstPayments(){
