@@ -145,12 +145,19 @@
             </div>
         </div>
         <div class="bottom" flex="box:mean">
-            <button class="min-invest" :disabled="disabled" @click.stop="preInvest">1000起投</button>
+            <button class="min-invest" :disabled="disabled" @click.stop="preInvest">{{production.productMinInvestmentValue}}起投</button>
             <button class="do-invest" :disabled="disabled" @click.stop="preInvest">立即投资</button>
         </div>
 
         <modal v-show="showModal" @callBack="modalBack"></modal>
         <invest-input v-show="showInvest" title="输入投资金额" @close="showInvest=false"
+                      :cash-amount="accountCashAmount"
+                      :min-invest="production.productMinInvestmentValue"
+                      :remain-amount="production.productRemainAmountValue"
+                      :step-value="production.investmentIntervalValue"
+                      :uid="productUuid"
+                      :rate="production.annualInterestRate"
+                      :period="production.productPeriod"
                       @callBack="inputBack"></invest-input>
     </div>
 </template>
@@ -159,6 +166,7 @@
     import {mapState} from 'vuex';
     import {Toast} from 'mint-ui';
     import $api from '../tools/api';
+    import {submitAuthorization} from '../tools/operation';
     import {textToHtml} from '../filters';
     import {logout} from '../tools/operation';
     import InvestInput from '../components/InvestInput';
@@ -171,11 +179,12 @@
                 productUuid: '',
                 attachmentUp: false,
                 showModal: false,
-                showInvest: true,
+                showInvest: false,
                 production: {}
             }
         },
         created(){
+            this.$store.dispatch('getAccountBaofoo');
             this.productUuid = this.$route.query.productUuid;
             this.getGoodsDetail();
         },
@@ -237,6 +246,7 @@
             openPDF(file){
                 if (file.attachmentLink) {
                     let pdfUrl = file.attachmentLink;
+                    pdfUrl = pdfUrl.replace(/^http\.*:/,'https:');
                     window.location.href = '/pdf/web/viewer.html?pdf=' + encodeURIComponent(pdfUrl);
                 }
             },
@@ -277,26 +287,32 @@
             },
             doInvest(){
                 let {userVerifyStatus} = this;
-                if (userVerifyStatus == 9) {
-                    this.goStep();
-                } else {
+                if (userVerifyStatus != 9) {
                     this.showModal = true;
+                    // this.goStep();
+                } else {
+
+                    this.showInvest = true;
                 }
             },
             goStep(){
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {
                     case 0:
-                        window.location.href = '/realnameBased.html';
+                        //  window.location.href = '/realnameBased.html';
+                        this.$router.push('/authentication');
                         break;
                     case 1:
-                        window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
+                        // window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
+                        submitAuthorization(this.$store.state.userId);
                         break;
                     case 2:
-                        window.location.href = '/bindBankCard.html';
+                        // window.location.href = '/bindBankCard.html';
+                        this.$router.push('/bind-bank-card');
                         break;
                     case 3:
-                        window.location.href = '/setPayPassword.html';
+                        //  window.location.href = '/setPayPassword.html';
+                        this.$router.push('/set-pay-password');
                         break;
                     default:
                 }

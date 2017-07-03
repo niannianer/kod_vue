@@ -4,16 +4,9 @@
             <div class="header">
                 <div class="main">
                     <div class="tabs" flex-box="0" flex>
-                        <div class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">
-                            <div class="tab-item">方案A</div>
-                        </div>
-                        <div class="tab" @click.stop="changeTab(2)" :class="{'active':tab==2}">
-                            <div class="tab-item" >方案B</div>
-
-                        </div>
-                        <div class="tab" @click.stop="changeTab(3)" :class="{'active':tab==3}">
-                            <div class="tab-item">方案C</div>
-                        </div>
+                        <div class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">方案A</div>
+                        <div class="tab" @click.stop="changeTab(2)" :class="{'active':tab==2}">方案B</div>
+                        <div class="tab" @click.stop="changeTab(3)" :class="{'active':tab==3}">方案C</div>
                     </div>
                     <div class="content">
                         <p class="h-title">预期组合年化收益率</p>
@@ -27,7 +20,7 @@
             <div class="lists">
                 <h6 class="title">配置详情</h6>
                 <ul class="items-ul" v-show="tab== 1">
-                    <li>
+                    <li v-if="JSON.stringify(lists.a) != '{}'">
                         <div flex class="item-div">
                             <div class="div-left color ellipsis">{{lists.a.productName}}</div>
                             <div class="div-right">推荐配比{{s1 | translatePateInt}}</div>
@@ -38,7 +31,7 @@
                         </div>
                         <p class="link"><span @click="link(lists.a.productUuid)">查看详情</span></p>
                     </li>
-                    <li v-for="(item,index) in data.b" :key="index" v-if="index==0">
+                    <li v-if="JSON.stringify(lists.b) != '{}'">
                         <div flex class="item-div">
                             <div class="div-left color ellipsis">{{lists.b.productName}}</div>
                             <div class="div-right">推荐配比{{s2 | translatePateInt}}</div>
@@ -51,7 +44,7 @@
                     </li>
                 </ul>
                 <ul class="items-ul" v-show="tab== 2">
-                    <li>
+                    <li v-if="JSON.stringify(lists.b) != '{}'">
                         <div flex class="item-div">
                             <div class="div-left color ellipsis">{{lists.b.productName}}</div>
                             <div class="div-right">推荐配比{{s1 | translatePateInt}}</div>
@@ -62,7 +55,7 @@
                         </div>
                         <p class="link"><span @click="link(lists.b.productUuid)">查看详情</span></p>
                     </li>
-                    <li v-for="(item,index) in data.c" :key="index" v-if="index==0">
+                    <li v-if="JSON.stringify(lists.c) != '{}'">
                         <div flex class="item-div">
                             <div class="div-left color ellipsis">{{lists.c.productName}}</div>
                             <div class="div-right">推荐配比{{s2 | translatePateInt}}</div>
@@ -75,7 +68,7 @@
                     </li>
                 </ul>
                 <ul class="items-ul" v-show="tab== 3">
-                    <li>
+                    <li v-if="JSON.stringify(lists.a) != '{}'">
                         <div flex class="item-div">
                             <div class="div-left color ellipsis">{{lists.a.productName}}</div>
                             <div class="div-right">推荐配比{{s1 | translatePateInt}}</div>
@@ -86,7 +79,7 @@
                         </div>
                         <p class="link"><span @click="link(lists.a.productUuid)">查看详情</span></p>
                     </li>
-                    <li v-for="(item,index) in data.c" :key="index" v-if="index==0">
+                    <li v-if="JSON.stringify(lists.c) != '{}'">
                         <div flex class="item-div">
                             <div class="div-left color">{{lists.c.productName}}</div>
                             <div class="div-right">推荐配比{{s2 | translatePateInt}}</div>
@@ -171,16 +164,25 @@
             },
             m1:function(){
                 if(this.tab == 1){
+                    if(JSON.stringify(this.lists.a) == '{}'){
+                        return 0;
+                    }
                     if(this.isLast.a){
                         return 12
                     }
                     return 1
                 }else if(this.tab == 2){
+                    if(JSON.stringify(this.lists.b) == '{}'){
+                        return 0;
+                    }
                     if(this.isLast.b){
                         return 12
                     }
                     return 3
                 }else if(this.tab == 3){
+                    if(JSON.stringify(this.lists.a) == '{}'){
+                        return 0;
+                    }
                     if(this.isLast.a){
                         return 12
                     }
@@ -189,16 +191,25 @@
             },
             m2:function(){
                 if(this.tab == 1){
+                    if(JSON.stringify(this.lists.b) == '{}'){
+                        return 0;
+                    }
                     if(this.isLast.b){
                         return 12
                     }
                     return 3
                 }else if(this.tab == 2){
+                    if(JSON.stringify(this.lists.c) == '{}'){
+                        return 0;
+                    }
                     if(this.isLast.c){
                         return 12
                     }
                     return 6
                 }else if(this.tab == 3){
+                    if(JSON.stringify(this.lists.c) == '{}'){
+                        return 0;
+                    }
                     if(this.isLast.c){
                         return 12
                     }
@@ -215,13 +226,28 @@
                 s = s.toFixed(2);
                 return s
             },
-            factor:function(){//X1[T1/X1+T1(T1+1)/2]+X2[T2/X2+T2(T2+1)/2]
-                return this.setX(this.m1,this.k1)*(this.setT(this.m1)/this.setX(this.m1,this.k1)+this.setT(this.m1)*(this.setT(this.m1)+1)/2)+this.setX(this.m2,this.k2)*(this.setT(this.m2)/this.setX(this.m2,this.k2)+this.setT(this.m2)*(this.setT(this.m2)+1)/2)
+            factor:function(){
+                let fa1 = this.setX(this.m1,this.k1)*(this.setT(this.m1)/this.setX(this.m1,this.k1)+this.setT(this.m1)*(this.setT(this.m1)+1)/2),
+                    fa2 = this.setX(this.m2,this.k2)*(this.setT(this.m2)/this.setX(this.m2,this.k2)+this.setT(this.m2)*(this.setT(this.m2)+1)/2);
+                if(this.m1 == 0){
+                    return fa2;
+                }else if(this.m2 == 0){
+                    return fa1;
+                }else if((this.m2 == 0) && (this.m1 == 0)){
+                    return 0
+                }
+                return (fa1 + fa2)
             },
             r:function(){//每期需投数
+                if(this.factor == 0){
+                    return 0
+                }
                 return this.l/this.factor
             },
             z:function(){//每期投资
+                if(this.factor == 0){
+                    return 0
+                }
                 let parm,rmb;
                 if(this.tab == 1){
                     parm = 4;
@@ -265,6 +291,9 @@
                 return k*m/12
             },
             setT(m){
+                if(m == 0){
+                    return 0;
+                }
                 return parseInt(12/m*(this.b-this.a))
             },
             changeTab(tab){
@@ -303,9 +332,9 @@
                                 this.data.c = this.data.d;
                                 this.isLast.c = true;
                             }
-                            this.lists.a = this.data.a[0];
-                            this.lists.b = this.data.b[0];
-                            this.lists.c = this.data.c[0];
+                            this.lists.a = this.data.a[0] || {};
+                            this.lists.b = this.data.b[0] || {};
+                            this.lists.c = this.data.c[0] || {};
                             this.calculate();
                         }
                     }else{
@@ -336,7 +365,10 @@
                 }
             },
             fun(a){
-                let x = Number(a.replace("%",""))/100;
+                let x = 0
+                if(a){
+                    x = Number(a.replace("%",""))/100;
+                }
                 return x;
             },
             //乘法

@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="forgot-password">
-                    <a class="link" href="/resetPayPassword.html">忘记交易密码？</a>
+                    <a class="link" href="/reset-pay-password">忘记交易密码？</a>
                 </div>
             </div>
 
@@ -49,7 +49,7 @@
                 <div class="keyboad-bottom" flex-box="1">
                     <span></span>
                 </div>
-                <div class="keyboad-bottom" flex-box="1">
+                <div class="keyboad-bottom" flex-box="1" @click.stop="addPassword({val:0})">
                     <span>0</span>
                 </div>
                 <div class="keyboad-bottom" flex-box="1" @click.stop="deletePassword">

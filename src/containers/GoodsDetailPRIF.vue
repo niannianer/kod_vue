@@ -9,8 +9,8 @@
                         <span  flex-box="1">投资金额</span>
                         <span flex-box="1" style="margin-left:4.5rem;">业绩比较基准</span>
                     </li>
-                    <li flex="main:center" v-for="item in lists.productBenchmark">
-                        <span flex-box="1">{{item.range}}</span>
+                    <li flex=" box:mean" v-for="item in lists.productBenchmark">
+                        <span flex-box="2">{{item.range}}</span>
                         <span  flex-box="1">{{item.rate}}</span>
                     </li>
                 </ul>
@@ -179,24 +179,27 @@
                 <div class="title" flex="main:justify"  :class = "{'change':tab4==true}" @click.stop='toggle(4)'><span>产品附件</span><i></i></div>
                 <div v-show="tab4" class="content"  >
                     <!--{{item.attachmentName}}-->
-                    <span style="color: #1D72C0;display: inline-block" v-for="(item,index) in lists.productAttachment" :key="index" >{{item.attachmentName}}</span>
+                    <span style="color: #1D72C0;display: block;padding-top: .5rem;" v-for="(item,index) in lists.productAttachment" :key="index" @click.stop="linkpdf(item.attachmentLink)">{{item.attachmentName}}</span>
                 </div>
             </div>
             <div style="margin: .5rem"></div>
         </div>
         <!--底部-->
         <div class="buttom" flex-box="0" flex="box:mean">
-            <a class="hotline" flex-box="1">咨询热线</a>
-            <div class="btn" flex-box="1":class="{'disabled':message !='咨询预约' && message!='预热中'}" @click.stop="link(message,lists.productUuid)">{{message}}</div>
+            <a class="hotline" flex-box="1" href="tel:4006403606">咨询热线</a>
+            <div class="btn" flex-box="1":class="{'disabled':message !='立即预约' && message!='预热中'}" @click.stop="link(message,lists.productUuid)">{{message}}</div>
         </div>
 
     </div>
 </template>
 <script>
+    import wx from '../tools/wx';
     import '../less/goods-detail-PRIF.less';
     import $api from '../tools/api';
     import {telNumber} from '../tools/config';
     import {Toast} from 'mint-ui';
+    import $device from '../tools/device';
+    const logo = require('../images/share-icon.png');
     export default {
         name: 'goods-detail-prif',
         data(){
@@ -213,6 +216,9 @@
         created(){
             this.productUuid = this.$route.query.productUuid;
             this.getDetail();
+            if($device.isWeixin){
+                this.getShare();
+            }
         },
         computed: {
         },
@@ -228,7 +234,7 @@
                         console.log(msg);
                         this.lists=msg.data;
                         if(msg.data.productStatusCode == 2){
-                            this.message = '咨询预约';
+                            this.message = '立即预约';
                         }else if(msg.data.productStatusCode == 1){
                             this.message = '预热中';
                         }else{
@@ -250,17 +256,40 @@
             link(message,productUuid){
               if(message == '预热中'){
                   Toast('产品在预热中，请稍后再尝试预约');
-              }else if(message == '咨询预约'){
-//                  this.$router.push({
-//                      path:'/goods-detail-prif',
-//                      query:{
-//                          productUuid
-//                      }
-//                  })
-                  window.location.href='/addClient.html?u='+productUuid;
-              }else{
-                  Toast(message);
+              }else if(message == '立即预约'){
+                  this.$router.push({
+                      path:'/make-appointment',
+                      query:{
+                          productUuid
+                      }
+                  })
+//                  window.location.href='/addClient.html?u='+productUuid;
               }
+            },
+            linkpdf(pdfUrl){
+                pdfUrl = pdfUrl.replace(/^http\.*:/,'https:');
+                window.location.href='/pdf/web/viewer.html?pdf='+ encodeURIComponent(pdfUrl);
+            },
+            getShare(){
+                $api.get('/wechat/shareInfo', {url: window.location.href})
+                    .then(data => {
+                        if (data.code == 200) {
+                            this.setShare(data.data.shareInfo);
+                        }
+                    });
+            },
+            setShare(config){
+                wx.config(config);
+                let content = {
+                    title: '金疙瘩——中高端理财产品聚集地',
+                    link: window.location.href,
+                    imgUrl: logo,
+                    desc: '汇聚中冀独家优质资产，专业理财师团队贴心服务，智能化的定制理财解决方案。'
+                }
+                wx.wx.ready(() => {
+                    wx.onMenuShareTimeline(content);
+                    wx.onMenuShareAppMessage(content);
+                });
             }
         },
         destroyed(){

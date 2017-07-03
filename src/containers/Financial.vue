@@ -1,5 +1,5 @@
 <template>
-    <div v-cloak class="financail" flex-box="1" flex="dir:top">
+    <div v-cloak class="financail" flex-box="1" flex="dir:top" >
         <div class="tabs" flex flex-box="0">
 
             <div flex-box="1" class="tab" @click.stop="changeTab(2)">
@@ -10,16 +10,17 @@
             </div>
         </div>
         <div class="item-list" flex-box="1" v-if="tab==1">
+            <mt-loadmore  :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill" :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText" :bottomAllLoaded="!(loading &&hasMore)">
             <div class="infinite-scroll"
                  v-infinite-scroll="loadMore"
                  infinite-scroll-disabled="disLoad"
                  infinite-scroll-distance="70">
-                <div class="item" v-for="(item,index) in lists" :key="index" @click.stop="getPrif(item)">
+                <div class="item" v-for="(item,index) in lists" :key="index" @click.stop="getDetail(item,'/goods-detail-prif')">
                     <div class="fund-name ellipsis">{{item.productName}}</div>
                     <div flex="dir:left" class="fund-middle">
                         <div class="rate" flex-box="1">
                             <div>{{item.annualInterestRate}}</div>
-                            <div class="sub-text">业绩基准</div>
+                            <div class="sub-text">业绩比较基准</div>
                         </div>
                         <div class="cycle" flex-box="1">
                             <div flex="main:center">{{item.productPeriod}}</div>
@@ -36,29 +37,32 @@
                        {{item.productStatus}}
                     </div>
                 </div>
+                <p v-if="loading" class="loading" style="text-align: center;padding: .5rem 0 4rem 0;">没有更多...</p>
             </div>
-
+            </mt-loadmore>
         </div>
+        <!--固收-->
         <div class="item-list" flex-box="1" v-else>
+            <mt-loadmore  :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill" :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText" :bottomAllLoaded="!(loading &&hasMore)">
             <div class="infinite-scroll"
                  v-infinite-scroll="loadMore"
                  infinite-scroll-disabled="disLoad"
                  infinite-scroll-distance="70">
 
                 <div class="item" v-for="(item,index) in lists"
-                     @click.stop="getFixi(item)"
+                     @click.stop="getDetail(item,'/fixi-goods-detail')"
                      :class="{'stat': item.productStatus =='已告罄'  }">
                     <div class="fund-name ellipsis">{{item.productName}}</div>
-                    <div flex="dir:left" class="fund-middle-fix">
-                        <div class="rate" flex-box="1">
+                    <div flex="dir:left" class="fund-middle-fix" :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                        <div class="rate" flex-box="1" :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                             <div>{{item.annualInterestRate}}</div>
                             <div class="sub-text">预计年化收益率</div>
                         </div>
-                        <div class="cycle" flex-box="3">
+                        <div class="cycle" flex-box="3" :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                             <div flex="main:center">{{item.productPeriod}}</div>
                             <div class="sub-text" flex="main:center">期限</div>
                         </div>
-                        <div class="status" flex-box="0" flex="cross:center">
+                        <div class="status" flex-box="0" flex="cross:center" :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                             <span  :class="{'hot':item.productStatusCode==1,
                     'raise':item.productStatusCode==2,
                     'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
@@ -66,16 +70,16 @@
                         </div>
                     </div>
                     <div class="progress-line">
-                        <div class="done" :style="'width:' + item. productProgress+ '%'"></div>
-                        <div class="round" :style="'left:' +( item. productProgress-1) + '%'">
-                            <div></div>
+                        <div class="done" :style="'width:' + item. productProgress+ '%'" :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
+                        <div class="round" :style="'left:' +( item. productProgress-1) + '%'"  :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                            <div  :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
                         </div>
                     </div>
                     <div class="buttom">{{item.productMinInvestment}}</div>
                 </div>
-
+                <p v-if="loading" class="loading" style="text-align: center;padding: .5rem 0 4rem 0;">没有更多...</p>
             </div>
-
+            </mt-loadmore>
         </div>
         <!--遮罩层-->
         <div class="mask" v-show="show">
@@ -97,9 +101,10 @@
 <script>
     import Vue from 'vue';
     import {mapState} from 'vuex';
-    import {InfiniteScroll} from 'mint-ui';
+//    import {InfiniteScroll} from 'mint-ui';
+    import {Loadmore, InfiniteScroll} from 'mint-ui';
     import {logout} from '../tools/operation';
-
+    Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
     import '../less/financial.less';
     import CicleProgress from '../components/CicleProgress/CicleProgress';
@@ -115,9 +120,13 @@
                 loading: true,
                 hasMore: false,
                 tab: 2,
-                startRow: 1,
+                startRow: 0,
                 pageSize: 10,
-                lists: []
+                lists: [],
+                autoFill: false,
+                bottomLoadingText: '加载中...',
+                bottomPullText: '上拉加载更多',
+
             };
         },
         created(){
@@ -145,9 +154,15 @@
             }
         },
         methods: {
+            loadBottom(){
+                if (!(this.loading && this.hasMore)) {
+                    this.allLoaded = true;
+                }// 若数据已全部获取完毕
+                this.$refs.loadmore.onBottomLoaded();
+            },
             changeTab(tab){
                 this.tab = tab;
-                this.startRow = 1;
+                this.startRow = 0;
                 this.$nextTick(() => {
                     let dom = document.querySelector('.item-list');
                     dom.scrollTop = 0;
@@ -173,9 +188,8 @@
                 }
             },
             loadMore(){
-                console.log(11);
                 this.loading = true;
-                this.startRow = this.lists.length + 1;
+                this.startRow = this.lists.length;
                 this.getGoodsList();
             },
             getGoodsList(flag){
@@ -218,21 +232,25 @@
                     });
 
             },
-            getFixi(item){
+            getDetail(item, url){
+                window.sessionStorage.setItem('goodsDetail', JSON.stringify(this.$data));
                 this.$router.push({
-                    path:'/fixi-goods-detail',
-                    query:{
-                        productUuid:item.productUuid
+                    path: url,
+                    query: {
+                        productUuid: item.productUuid
                     }
                 })
-            },
-            getPrif(item){
-                this.$router.push({
-                    path:'/goods-detail-prif',
-                    query:{
-                        productUuid:item.productUuid
-                    }
-                })
+            }
+        },
+        mounted(){
+            let goodsDetail = window.sessionStorage.getItem('goodsDetail');
+            if (goodsDetail) {
+                let {tab, lists, scrollTop} = JSON.parse(goodsDetail);
+                this.tab = tab;
+                this.lists = lists;
+                window.sessionStorage.removeItem('goodsDetail');
+            } else {
+                this.getGoodsList();
             }
         }
     }

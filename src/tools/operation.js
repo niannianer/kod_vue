@@ -21,18 +21,21 @@ export let setTitle = (title) => {
 
 
 import md5 from 'md5';
-import {testUrl, productionUrl, baofooTestUrl, baofooCallUrlProduct, baofooProductUrl,baofooCallUrlTest} from './config';
+import {devUrl,testUrl, productionUrl, baofooTestUrl, baofooCallUrlProduct, baofooProductUrl,baofooCallUrlTest} from './config';
 let baofooRecharge = baofooTestUrl;
 let baofooCallUrl = baofooCallUrlTest;
 let serverUrl = testUrl;
 let signMode = '~|~n725d5gsb7mlyzzw';
 let merchant_id = '100000675';
 let terminal_id = '100000701';
+let RequestUrlBaofoo = testUrl;
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;
+    RequestUrlBaofoo = testUrl;
 }
 if (process.env.kingold == 'production') {
     serverUrl = productionUrl;
+    RequestUrlBaofoo = baofooCallUrl;
     baofooCallUrl = baofooCallUrlProduct;
     signMode = '~|~h6mrqmwkkcvmpdq5';
     baofooRecharge = baofooProductUrl;
@@ -75,6 +78,46 @@ export let submitRecharge = (params) => {
     input.setAttribute('type', 'hidden');
     input.value = md5(xml + signMode);
     form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+
+};
+//
+export let submitAuthorization = (pUserId) => {
+    let form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', baofooRecharge+'inAccredit.do');
+    //form.setAttribute('name', 'baofoo');
+    let input = document.createElement('input');
+    input.setAttribute('name', 'merchant_id');
+    input.setAttribute('type', 'hidden');
+    input.value = merchant_id;
+    form.appendChild(input);
+
+    input = document.createElement('input');
+    input.setAttribute('name', 'terminal_id');
+    input.setAttribute('type', 'hidden');
+    input.value = terminal_id;
+    form.appendChild(input);
+
+    input = document.createElement('input');
+    input.setAttribute('name', 'user_id');
+    input.setAttribute('type', 'hidden');
+    input.value = pUserId;
+    form.appendChild(input);
+
+    input = document.createElement('input');
+    input.setAttribute('name', 'service_url');
+    input.setAttribute('type', 'hidden');
+    input.value = RequestUrlBaofoo + '/baofoo/notification/auth';
+    form.appendChild(input);
+
+    input = document.createElement('input');
+    input.setAttribute('name', 'page_url');
+    input.setAttribute('type', 'hidden');
+    input.value = RequestUrlBaofoo + '/baofoo/h5/notification/auth';
+    form.appendChild(input);
+
     document.body.appendChild(form);
     form.submit();
 

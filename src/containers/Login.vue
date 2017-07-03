@@ -1,6 +1,6 @@
 <template>
-    <div class="login">
-        <div class="logo-warp">
+    <div class="login" ref="login">
+        <div class="logo-warp" >
             <img class="logo" src="../images/logo.png"/>
         </div>
         <div class="title">金疙瘩</div>
@@ -11,16 +11,22 @@
                     <img flex-box="0" class="phone" src="../images/login/phone_icon1@2x.png"/>
                     <input type="tel" flex-box="1"
                            v-model.trim="username"
+                           placeholder="请输入手机号"
                            class="input" id="username"/>
-
+                    <div   flex="main:right cross:center" >
+                        <img  class="input-img" src="../images/login/pwd-show@2x.png"/>
+                    </div>
                 </div>
             </label>
             <label for="password">
                 <div class="input-warp" flex>
                     <img flex-box="0" class="phone" src="../images/login/key_icon@2x.png"/>
                     <input v-if="showPassword" type="text" class="input" flex-box="1" id="password"
+                           placeholder="请输入密码"
                            v-model.trim="password"/>
-                    <input v-else type="password" class="input" flex-box="1" id="password" v-model.trim="password"/>
+                    <input v-else type="password" class="input"
+                           placeholder="请输入密码"
+                           flex-box="1" id="password1" v-model.trim="password"/>
                     <div class="pass" flex="main:right cross:center" @click.stop="showPassword=!showPassword">
                         <img class="show-hide" v-if="showPassword" src="../images/login/pwd-show@2x.png"/>
                         <img class="show-hide" src="../images/login/pwd-hide@2x.png" v-else/>
@@ -157,7 +163,8 @@
 
         },
         mounted(){
-
+            let heigth = window.innerHeight;
+            this.$refs.login.style.height = heigth+'px';
         }
     }
 </script>

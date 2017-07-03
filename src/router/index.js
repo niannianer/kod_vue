@@ -3,9 +3,12 @@ import store from '../store';
 import Router from 'vue-router';
 import {logout} from '../tools/operation';
 Vue.use(Router)
+import AppointSucc from '../containers/AppointSucc';
+import AuthResult from '../containers/AuthResult';
 import Index from '../containers/Index';
 import Financial from '../containers/Financial';
 import MyAssets from '../containers/MyAssets';
+import MakeAppointment from '../containers/MakeAppointment';
 import Login from '../containers/Login';
 import Recharge from '../containers/Recharge';
 import Withdraw from '../containers/Withdraw';
@@ -35,8 +38,13 @@ import RelationList from '../containers/RelationList';
 import Relation from '../containers/Relation';
 import HouseTwo from '../containers/HouseTwo';
 import HouseThree from '../containers/HouseThree';
-import Planning from '../containers/Planning'
-import GoodsDetailPRIF from '../containers/GoodsDetailPRIF'
+import Planning from '../containers/Planning';
+import Authentication from '../containers/Authentication';
+import BindBankCard from '../containers/BindBankCard';
+import BankList from '../containers/BankList';
+import SetPayPassword from '../containers/SetPayPassword';
+import ResetPayPassword from '../containers/ResetPayPassword';
+import GoodsDetailPRIF from '../containers/GoodsDetailPRIF';
 const HouseOne = PensionOne;
 
 import Register from '../containers/Register';
@@ -66,6 +74,22 @@ let beforeEach = ((to, from, next) => {
 })
 let routes = [
     {
+        path: '/appoint-succ',
+        name: 'appoint-succ',
+        meta: {
+            title: '预约成功'
+        },
+        component: AppointSucc
+    },
+    {
+        path: '/auth-result',
+        name: 'auth-result',
+        meta: {
+            title: '宝付授权结果查询'
+        },
+        component: AuthResult
+    },
+    {
         path: '/index',
         name: 'index',
         meta: {
@@ -84,7 +108,7 @@ let routes = [
         path: '/fixi-goods-detail',
         name: 'fixi-goods-detail',
         meta: {
-            title: '理财详情',
+            title: '项目详情',
             withoutLogin: true
         },
         component: FixiGoodsDetail
@@ -95,6 +119,13 @@ let routes = [
             title: '我的资产'
         },
         component: MyAssets
+    }, {
+        path: '/make-appointment',
+        name: 'make-appointment',
+        meta: {
+            title: '添加预约客户'
+        },
+        component: MakeAppointment
     }, {
         path: '/login',
         name: 'login',
@@ -361,7 +392,7 @@ let routes = [
             }else {
                 store.dispatch('getUserInfo')
                     .then(data=>{
-                        if(data.code!=200){
+                        if(data.code==401){
                             logout();
                             return false;
                         }
@@ -414,6 +445,47 @@ let routes = [
         meta:{
             title:'注册',
             withoutLogin: true
+        }
+    },
+    {
+        path:'/authentication',
+        name:'authentication',
+        component: Authentication,
+        meta:{
+            title:'实名认证'
+        }
+    },
+    {
+        path:'/bind-bank-card',
+        name:'bind-bank-card',
+        component: BindBankCard,
+        meta:{
+            title:'绑定银行卡',
+            keepAlive:true,
+        }
+    },
+    {
+        path:'/bank-list',
+        name:'bank-list',
+        component: BankList,
+        meta:{
+            title:'支持绑定的银行卡'
+        }
+    },
+    {
+        path:'/set-pay-password',
+        name:'set-pay-password',
+        component: SetPayPassword,
+        meta:{
+            title:'设置交易密码'
+        }
+    },
+    {
+        path:'/reset-pay-password',
+        name:'reset-pay-password',
+        component: ResetPayPassword,
+        meta:{
+            title:'重置交易密码'
         }
     },
     {
