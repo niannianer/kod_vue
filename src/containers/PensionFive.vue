@@ -396,7 +396,7 @@
                             tagname: 'forward',
                             param: {
                                 target: 'productPRIF',
-                                targetUrl: window.origin + '/goods-detail-prif?productUuid=' + productUuid,
+                                targetUrl: (window.location.origin + '/goods-detail-prif?productUuid=' + productUuid),
                                 aid: 0,
                                 astr: productUuid,
                                 extra: 'PRIF'
@@ -416,7 +416,7 @@
                             tagname: 'forward',
                             param: {
                                 target: 'productFIXI',
-                                targetUrl: window.origin + '/fixi-goods-detail?productUuid=' + productUuid,
+                                targetUrl: (window.location.origin + '/fixi-goods-detail?productUuid=' + productUuid),
                                 aid: 0,
                                 astr: productUuid,
                                 extra: 'FIXI'
