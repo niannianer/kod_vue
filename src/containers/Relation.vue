@@ -53,7 +53,7 @@
 
             },
             link(){
-                window.location.href = '/land-register.html?inviter=' + this.investorMobile;
+                window.location.href = '/share.html?investorMobile=' + this.investorMobile;
             }
         },
         computed: {
