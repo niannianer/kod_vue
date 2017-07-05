@@ -160,6 +160,7 @@
             this.age = window.sessionStorage.getItem('age') || 30;
             this.wagesAfterTax = window.sessionStorage.getItem('wagesAfterTax') || getValueD(this.cityName);
             this.retirementAge = this.gender == 1 ? '55' : '60';
+            this.planAge = this.gender == 1?'85' : '80';
             if (window.sessionStorage.getItem('pension')) {
                 let pension = window.sessionStorage.getItem('pension');
                 _.forEach(JSON.parse(pension), (data, key) => {
