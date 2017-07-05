@@ -90,7 +90,7 @@
                 param: {
                     backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
                     backAndRefresh: 1,
-                    title: '养老规划',
+                    title: '养老理财规划',
                     backstr: '您真的要退出么？',
                     keyboard_mode: 0//0 adjustresize 1 adjustpan
                 }
