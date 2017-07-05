@@ -22,8 +22,8 @@
                     <p flex-box="1">预期年化收益率</p>
                     <p flex-box="0">{{this.lists.productAnnualInterestRate}}</p>
                 </div>
-                <div class="bl" flex-box="1" flex>
-                    <p flex-box="1">预期收益</p>
+                <div class="bl" flex-box="1" flex >
+                    <p flex-box="1">{{expectProfitTitle}}</p>
                     <p flex-box="0">{{this.lists.expectedProfitAmount}}</p>
                 </div>
                 <div class="bl" flex-box="1" flex>
@@ -59,10 +59,12 @@
         data(){
             return {
                    lists: [],
-                   status:this.$route.query.status
+                   status:this.$route.query.status,
+                   expectProfitTitle:''
             }
         },
         created(){
+            this.expectProfitTitle = this.status==1?'预期收益':'实际收益';
             $api.get('/investment/detail',{
                 orderBillCode:this.$route.query.orderBillCode
             }).then(msg => {
