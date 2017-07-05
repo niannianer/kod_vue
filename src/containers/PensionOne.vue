@@ -33,22 +33,23 @@
     import "../less/pension-one.less";
     import $api from '../tools/api';
     import cityGrade from "../tools/city-grade"
-    import {IndexList, IndexSection,Toast} from 'mint-ui';
+    import {IndexList, IndexSection, Toast} from 'mint-ui';
     Vue.component(IndexList.name, IndexList);
     Vue.component(IndexSection.name, IndexSection);
+    import requestHybrid from '../tools/hybrid';
     export default{
         data(){
             return {
                 cityName: '北京',
                 hotD: cityGrade.hotD,
                 activeBtn: '010',
-                citys:[]
+                citys: []
             }
         },
         created(){
             $api.getNode('/assets/getCities')
-                .then(data=>{
-                    this.citys =data.data;
+                .then(data => {
+                    this.citys = data.data;
                 });
         },
         computed: {
@@ -66,7 +67,22 @@
             }
         },
         mounted(){
-            this.$refs.mintList.currentHeight = this.$refs.content.clientHeight-20;
+            this.$refs.mintList.currentHeight = this.$refs.content.clientHeight - 20;
+            let title = '养老理财规划';
+            if (this.$route.name == 'house-one') {
+                title = '住房理财规划';
+
+            }
+            requestHybrid({
+                tagname: 'title',
+                param: {
+                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    backAndRefresh: 1,
+                    title,
+                    backstr: '退出理财规划将不会保存，确认退出？',
+                    keyboard_mode: 0//0 adjustresize 1 adjustpan
+                }
+            });
         },
         methods: {
             clickHandle(item){

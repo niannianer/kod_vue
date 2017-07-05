@@ -263,7 +263,7 @@
                     backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
                     backAndRefresh: 1,
                     title: '住房理财规划',
-                    backstr: '您真的要退出么？',
+                    backstr: '退出理财规划将不会保存，确认退出？',
                     keyboard_mode: 0//0 adjustresize 1 adjustpan
                 }
             });
