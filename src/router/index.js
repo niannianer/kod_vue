@@ -519,7 +519,7 @@ routes.map(route => {
             requestHybrid({
                 tagname: 'title',
                 param: {
-                    backtype: 0,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    backtype: 1,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
                     backAndRefresh: 1,
                     title,
                     keyboard_mode: 0//0 adjustresize 1 adjustpan

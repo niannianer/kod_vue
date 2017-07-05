@@ -163,6 +163,8 @@
     import {getPrice} from '../tools/city-grade';
     import $api from '../tools/api';
     import '../less/house-two.less';
+    import requestHybrid from '../tools/hybrid';
+
     let timer = null;
     const rate1 = 0.06;
     const rate2 = 0.062;
@@ -255,7 +257,16 @@
                 window.sessionStorage.removeItem('houseData');
             }
 
-
+            requestHybrid({
+                tagname: 'title',
+                param: {
+                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    backAndRefresh: 1,
+                    title: '住房规划',
+                    backstr: '您真的要退出么？',
+                    keyboard_mode: 0//0 adjustresize 1 adjustpan
+                }
+            });
         },
         components: {
             KingoldPicker

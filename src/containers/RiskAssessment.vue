@@ -146,7 +146,7 @@
                     backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
                     backAndRefresh: 1,
                     title: '风险测评',
-                    backstr: '您是否真的要退出么？',
+                    backstr: '您真的要退出么？',
                     keyboard_mode: 0//0 adjustresize 1 adjustpan
                 }
             });

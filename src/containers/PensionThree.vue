@@ -24,7 +24,8 @@
     import Vue from 'vue';
     import {Toast} from 'mint-ui'
     import '../less/pension-three.less';
-    import {getValueD} from "../tools/city-grade"
+    import {getValueD} from "../tools/city-grade";
+    import requestHybrid from '../tools/hybrid';
     export default {
         name: 'pension-three',
         data(){
@@ -63,7 +64,17 @@
             this.wagesAfterTax =getValueD(window.sessionStorage.getItem('cityName'))
         },
         mounted(){
-            this.height = this.$refs.divh.offsetHeight
+            this.height = this.$refs.divh.offsetHeight;
+            requestHybrid({
+                tagname: 'title',
+                param: {
+                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    backAndRefresh: 1,
+                    title: '养老规划',
+                    backstr: '您真的要退出么？',
+                    keyboard_mode: 0//0 adjustresize 1 adjustpan
+                }
+            });
         }
     }
 </script>
