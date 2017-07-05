@@ -144,9 +144,14 @@
                 </div>
             </div>
         </div>
-        <div class="bottom" flex="box:mean">
-            <button class="min-invest" :disabled="disabled" @click.stop="preInvest">{{production.productMinInvestmentValue}}起投</button>
-            <button class="do-invest" :disabled="disabled" @click.stop="preInvest">立即投资</button>
+        <div class="bottom">
+           <div v-if="production.canBuy" flex="box:mean">
+               <button class="min-invest"  @click.stop="preInvest">{{production.productMinInvestmentValue}}起投</button>
+               <button class="do-invest"  @click.stop="preInvest">立即投资</button>
+           </div>
+            <div v-else="production.canBuy">
+                <div class="can-not-buy">{{production.productStatus}}</div>
+            </div>
         </div>
 
         <modal v-show="showModal" @callBack="modalBack"></modal>
@@ -222,9 +227,6 @@
 
                 return 0;
             },
-            disabled(){
-                return !this.production.canBuy;
-            },
             productIntroduction(){
                 return textToHtml(this.production.productIntroduction);
             },
@@ -264,6 +266,7 @@
                                 el.expend = false;
                             })
                             this.production = data.data;
+                            console.log(this.production);
                         } else {
                             Toast(data.msg);
                         }
