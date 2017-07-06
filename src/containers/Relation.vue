@@ -53,7 +53,7 @@
 
             },
             link(){
-                window.location.href = '/share.html?investorMobile=' + this.investorMobile;
+                window.location.href = '/land-share.html';
             }
         },
         computed: {
