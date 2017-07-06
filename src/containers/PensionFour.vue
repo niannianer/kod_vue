@@ -83,7 +83,8 @@
     import $api from '../tools/api';
     import KingoldPicker from '../components/KingoldPicker'
     import Modal from '../components/Modal'
-    import {getValueD, getValueE, getValueG} from "../tools/city-grade"
+    import {getValueD, getValueE, getValueG} from "../tools/city-grade";
+    import requestHybrid from '../tools/hybrid';
     export default{
         data(){
             return {
@@ -159,6 +160,7 @@
             this.age = window.sessionStorage.getItem('age') || 30;
             this.wagesAfterTax = window.sessionStorage.getItem('wagesAfterTax') || getValueD(this.cityName);
             this.retirementAge = this.gender == 1 ? '55' : '60';
+            this.planAge = this.gender == 1?'85' : '80';
             if (window.sessionStorage.getItem('pension')) {
                 let pension = window.sessionStorage.getItem('pension');
                 _.forEach(JSON.parse(pension), (data, key) => {
@@ -173,6 +175,16 @@
         },
         mounted(){
             /* console.log(this.$refs.kpicker.result,'33333');*/
+            requestHybrid({
+                tagname: 'title',
+                param: {
+                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    backAndRefresh: 1,
+                    title: '养老理财规划',
+                    backstr: '退出理财规划将不会保存，确认退出？',
+                    keyboard_mode: 0//0 adjustresize 1 adjustpan
+                }
+            });
         },
         methods: {
             genderHandle(num){

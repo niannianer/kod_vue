@@ -139,9 +139,20 @@ export let currencyInputValidate = (input) => {
         return match.substring(0, 3);
     })
 };
+import requestHybrid from './hybrid';
+import $device from './device';
 export let logout = () => {
     window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
     window.location.replace('/login');
+    if($device.kingold){
+        requestHybrid({
+            tagname: 'forward',
+            param: {
+                target: 'login',
+                targetUrl: window.location.origin+'/login'
+            }
+        });
+    }
 };
 let $operation = {
     setTitle

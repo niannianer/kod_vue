@@ -71,7 +71,8 @@
                         <div class="price">{{firstPayments}}</div>
                     </div>
                     <div flex-box="1" class="first-pay">
-                        <div>每月月供参考（元）</div>
+                        <div v-if="loanType==2">首月月供参考（元）</div>
+                        <div v-else>每月月供参考（元）</div>
                         <div class="price">{{H | currencyFormat}}</div>
                     </div>
                 </div>
@@ -162,6 +163,8 @@
     import {getPrice} from '../tools/city-grade';
     import $api from '../tools/api';
     import '../less/house-two.less';
+    import requestHybrid from '../tools/hybrid';
+
     let timer = null;
     const rate1 = 0.06;
     const rate2 = 0.062;
@@ -254,7 +257,16 @@
                 window.sessionStorage.removeItem('houseData');
             }
 
-
+            requestHybrid({
+                tagname: 'title',
+                param: {
+                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    backAndRefresh: 1,
+                    title: '住房理财规划',
+                    backstr: '退出理财规划将不会保存，确认退出？',
+                    keyboard_mode: 0//0 adjustresize 1 adjustpan
+                }
+            });
         },
         components: {
             KingoldPicker
@@ -279,7 +291,7 @@
                 }
                 return array;
             },
-            citys: () => {
+            citys(){
                 return this.cityList;
             },
             firstPayments(){

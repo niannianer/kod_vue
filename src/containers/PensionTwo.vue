@@ -35,6 +35,7 @@
     import { Picker } from 'mint-ui';
 	Vue.component(Picker.name, Picker);
     import $api from '../tools/api';
+    import requestHybrid from '../tools/hybrid';
     export default {
         name: 'pension-two',
         methods: {
@@ -84,6 +85,16 @@
             this.pickerInit(18,100);
         },
         mounted(){
+            requestHybrid({
+                tagname: 'title',
+                param: {
+                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    backAndRefresh: 1,
+                    title: '养老理财规划',
+                    backstr: '退出理财规划将不会保存，确认退出？',
+                    keyboard_mode: 0//0 adjustresize 1 adjustpan
+                }
+            });
         }
     }
 </script>

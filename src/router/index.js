@@ -123,7 +123,8 @@ let routes = [
         path: '/make-appointment',
         name: 'make-appointment',
         meta: {
-            title: '添加预约客户'
+            title: '添加预约客户',
+            withoutLogin: true
         },
         component: MakeAppointment
     }, {
@@ -507,12 +508,25 @@ let routes = [
         }
     }
 ];
-
+import $device from '../tools/device';
+import requestHybrid from '../tools/hybrid';
 routes.map(route => {
     route.beforeEnter = (to, from, next)=>{
         let {meta} = to;
         let {title} = meta;
         setTitle(title);
+        if($device.kingold){
+            requestHybrid({
+                tagname: 'title',
+                param: {
+                    backtype: 1,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    backAndRefresh: 1,
+                    title,
+                    keyboard_mode: 0//0 adjustresize 1 adjustpan
+                }
+            })
+        }
+
         if (!route.meta.withoutLogin) {
           return  beforeEach(to, from, next);
         }else {

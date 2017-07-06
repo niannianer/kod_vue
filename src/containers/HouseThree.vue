@@ -108,6 +108,8 @@
 <script>
     import '../less/pension-five.less';
     import $api from '../tools/api';
+    import $device from '../tools/device';
+    import requestHybrid from '../tools/hybrid';
     import {Toast} from 'mint-ui';
     export default {
         name: 'pension-five',
@@ -355,10 +357,47 @@
                 return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)
             },
             link(productUuid){
-                if(this.productType == 'PRIF'){
-                    window.location.href='/goodsDetailPRIF.html?u='+productUuid+'&t='+this.productType;
-                }else{
-                    window.location.href='/goodsDetail.html?u='+productUuid+'&t='+this.productType;
+                if (this.productType == 'PRIF') {
+                    if ($device.kingold) {
+                        requestHybrid({
+                            tagname: 'forward',
+                            param: {
+                                target: 'productPRIF',
+                                targetUrl: (window.location.origin + '/goods-detail-prif?productUuid=' + productUuid),
+                                aid: 0,
+                                astr: productUuid,
+                                extra: 'PRIF'
+                            }
+                        });
+                        return;
+                    }
+                    this.$router.push({
+                        path: '/goods-detail-prif',
+                        query: {
+                            productUuid
+                        }
+                    });
+                } else {
+                    if ($device.kingold) {
+                        requestHybrid({
+                            tagname: 'forward',
+                            param: {
+                                target: 'productFIXI',
+                                targetUrl: (window.location.origin + '/fixi-goods-detail?productUuid=' + productUuid),
+                                aid: 0,
+                                astr: productUuid,
+                                extra: 'FIXI'
+                            }
+                        });
+                        return;
+                    }
+                    this.$router.push({
+                        path: '/fixi-goods-detail',
+                        query: {
+                            productUuid
+                        }
+                    });
+
                 }
             },
             back(){
@@ -367,6 +406,16 @@
         },
         created(){
             this.get();
+            requestHybrid({
+                tagname: 'title',
+                param: {
+                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    backAndRefresh: 1,
+                    title: '住房理财规划',
+                    backstr: '退出理财规划将不会保存，确认退出？',
+                    keyboard_mode: 0//0 adjustresize 1 adjustpan
+                }
+            });
         }
     }
 </script>

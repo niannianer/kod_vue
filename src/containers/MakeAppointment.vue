@@ -29,28 +29,31 @@
                        v-model.trim="verifyCode"
                        autocomplete="off" placeholder="请输入验证码">
                 <button flex-box="0" class="btn-default btn-code" @click.stop="getVerify"
-                        v-if="verifyTimeLeft<=0">{{verifyText}}
+                        v-if="verifyTimeLeft<=1">{{verifyText}}
                 </button>
-                <button flex-box="0" class="btn-code" v-else>{{verifyTimeLeft}}</button>
+                <button flex-box="0" class="btn-code" v-else >
+                    <span ref="timeLeft"> 59</span>
+                </button>
             </div>
             <div class="form-item" flex>
                 <label class="label" for="appoint-num" flex-box="0">预约金额</label>
-                <input class="input" type="tel" name="appoint-num" id="appoint-num" flex-box="1"  v-model.trim="reservationAmount"
+                <input class="input" type="tel" name="appoint-num" id="appoint-num" flex-box="1"
+                       v-model.trim="reservationAmount"
                        autocomplete="off" placeholder="请输入预约金额">
                 <span flex-box="0">万元</span>
             </div>
-            <div  class="form-item location" flex="box:mean cross:bottom" >
+            <div class="form-item location" flex="box:mean cross:bottom">
                 <div>地址</div>
                 <select name="location" id="province" @change="stateChange" v-model="state">
                     <option :value="item" v-for="(item,index) in provinceList" :key="item.code">{{item.state}}</option>
                 </select>
                 <span>省</span>
-                <select name="location" id="city"  @change="areasChange" v-model="areas" >
+                <select name="location" id="city" @change="areasChange" v-model="areas">
                     <option :value="item" v-for="(item,index) in cityList" :key="item.code">{{item.city}}</option>
                 </select>
                 <span>市</span>
                 <select name="location" id="country" @change="areaChange()" v-model="zone">
-                    <option  :value="item" v-for="(item,index) in countryList" :key="item.code">{{item.area}}</option>
+                    <option :value="item" v-for="(item,index) in countryList" :key="item.code">{{item.area}}</option>
                 </select>
                 <span>区</span>
             </div>
@@ -64,45 +67,45 @@
 <script>
     import '../less/make-appointment.less'
     import {Toast} from 'mint-ui';
-  /*  import area from '../tools/area.js';*/
     import $api from '../tools/api';
+    let timeLeft = 0;
     export default {
         name: 'make-appointment',
         data(){
             return {
-                customerName:'',
-                customerIdCardNo:'',
-                customerMobile:'',
-                customerRegionCode:'',
-                reservationAmount:'',
-                verifyCode:'',
-                state:'',
-                province:'',
-                areas:'',
-                cityList:'',
-                city:'',
-                countryList:'',
-                country:'',
-                zone:'',
-                verifyTimeLeft:'',
-                verifyText:'获取验证码',
-                imageCode:'',
-                inputCode:'',
-                productUuid:'',
-                provinceList:''
+                customerName: '',
+                customerIdCardNo: '',
+                customerMobile: '',
+                customerRegionCode: '',
+                reservationAmount: '',
+                verifyCode: '',
+                state: '',
+                province: '',
+                areas: '',
+                cityList: '',
+                city: '',
+                countryList: '',
+                country: '',
+                zone: '',
+                verifyTimeLeft: '',
+                verifyText: '获取验证码',
+                imageCode: '',
+                inputCode: '',
+                productUuid: '',
+                provinceList: ''
             }
         },
         created(){
             this.productUuid = this.$route.query.productUuid;
             $api.getNode('/assets/getArea')
-                .then((msg)=>{
+                .then((msg) => {
                     this.provinceList = msg.data;
                 })
         },
         computed: {
-          /*  provinceList(){
-                return area;
-            }*/
+            /*  provinceList(){
+             return area;
+             }*/
         },
         methods: {
             stateChange(){
@@ -118,7 +121,7 @@
                 this.country = this.zone.area;
             },
             getVerify(){
-                if(!this.checkPhone()){
+                if (!this.checkPhone()) {
                     return false;
                 }
                 if (this.imageCode && !this.inputCode) {
@@ -128,7 +131,8 @@
                 let investorMobile = this.customerMobile;
                 let imageCode = this.inputCode;
                 let bussType = 3;
-                this.verifyTimeLeft = 60;
+                this.verifyTimeLeft = 59;
+                timeLeft = 59;
                 this.timeCount();
                 this.verifyText = '重新发送';
                 $api.get('/sendVerifyCode', {investorMobile, imageCode, bussType})
@@ -144,10 +148,10 @@
                             return false;
                         }
                         if (data.code == 1004) {
-                            if(!this.imageCode){
+                            if (!this.imageCode) {
                                 Toast('请输入图形验证码');
                                 this.imageCode = data.data.imageCode;
-                            }else{
+                            } else {
                                 Toast('图片验证码错误!');
                                 this.imageCode = data.data.imageCode;
                             }
@@ -164,80 +168,86 @@
             },
             timeCount(){
                 this.timer = setTimeout(() => {
-                    this.verifyTimeLeft = this.verifyTimeLeft - 1;
-                    if (this.verifyTimeLeft >= 1) {
+                    timeLeft--;
+                    this.$refs.timeLeft.innerHTML = timeLeft;
+                    if (timeLeft >= 1) {
                         this.timeCount();
+                    }
+                    else {
+                        this.$nextTick(()=>{
+                            this.verifyTimeLeft = 0;
+                        });
                     }
                 }, 1000);
             },
             checkPhone(){
-                let regPhone =/^1[35678]\d{9}$/;
-                if(!this.customerMobile){
+                let regPhone = /^1[35678]\d{9}$/;
+                if (!this.customerMobile) {
                     Toast('请输入手机号！');
                     return false;
                 }
-                if(!regPhone.test(this.customerMobile)){
+                if (!regPhone.test(this.customerMobile)) {
                     Toast('请输入正确的手机号！');
                     return false;
                 }
                 return true;
             },
             checkInputs(){
-                let regName=/^([\u4e00-\u9fa5]){1,5}$/;
-                if(!this.customerName){
+                let regName = /^([\u4e00-\u9fa5]){1,5}$/;
+                if (!this.customerName) {
                     Toast('请输入姓名！');
                     return false;
                 }
-                if(!regName.test(this.customerName)){
+                if (!regName.test(this.customerName)) {
                     Toast('请输入正确的姓名！');
                     return false;
                 }
-                let regIdcard=/^(^[1-9]\d{7}((0[1-9])|(1[0-2]))(0[1-9]|([1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0[1-9])|(1[0-2]))((0[1-9]|[1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
-                if(!this.customerIdCardNo){
+                let regIdcard = /^(^[1-9]\d{7}((0[1-9])|(1[0-2]))(0[1-9]|([1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0[1-9])|(1[0-2]))((0[1-9]|[1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+                if (!this.customerIdCardNo) {
                     Toast('请输入身份证号！');
                     return false;
                 }
-                if(!regIdcard.test(this.customerIdCardNo)){
+                if (!regIdcard.test(this.customerIdCardNo)) {
                     Toast('请输入正确的身份证号！');
                     return false;
                 }
-                if(!this.reservationAmount){
+                if (!this.reservationAmount) {
                     Toast('请输入预约金额！');
                     return false;
                 }
-                if(isNaN(this.reservationAmount)||this.reservationAmount<=0){
+                if (isNaN(this.reservationAmount) || this.reservationAmount <= 0) {
                     Toast('请输入正确的金额数字！');
                     return false;
                 }
-                if(!(this.province&&this.city&&this.country)){
+                if (!(this.province && this.city && this.country)) {
                     Toast('请输入地址！');
                     return false;
                 }
-                if(!this.verifyCode){
+                if (!this.verifyCode) {
                     Toast('请输入短信验证码！');
                     return false;
                 }
                 return true;
             },
             appointHandle(){
-                if(this.checkInputs()&&this.checkPhone()){
-                    let {productUuid,customerName,customerMobile,verifyCode,customerIdCardNo,customerRegionCode } = this;
-                    $api.post('/product/reserve',{
+                if (this.checkInputs() && this.checkPhone()) {
+                    let {productUuid, customerName, customerMobile, verifyCode, customerIdCardNo, customerRegionCode} = this;
+                    $api.post('/product/reserve', {
                         productUuid,
                         customerName,
                         customerMobile,
                         customerIdCardNo,
-                        'customerAddress':this.province+this.city+this.country,
+                        'customerAddress': this.province + this.city + this.country,
                         customerRegionCode,
                         verifyCode,
-                        'bussType':3,
-                        'reservationAmount':this.reservationAmount*10000
+                        'bussType': 3,
+                        'reservationAmount': this.reservationAmount * 10000
                     })
-                        .then((msg)=>{
+                        .then((msg) => {
                             console.log(msg);
-                            if(msg.code==200){
+                            if (msg.code == 200) {
                                 this.$router.push('/appoint-succ');
-                            }else{
+                            } else {
                                 Toast(msg.msg);
                             }
                         });

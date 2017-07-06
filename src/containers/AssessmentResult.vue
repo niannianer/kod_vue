@@ -18,6 +18,8 @@
 
 <script>
     import {mapState} from 'vuex';
+    import $device from '../tools/device';
+    import requestHybrid from '../tools/hybrid';
     import '../less/assessment-result.less';
     import baoshou from '../images/assessment-result/banshou.png';
     import chengzhang from '../images/assessment-result/chengzhang.png';
@@ -32,6 +34,9 @@
             }
         },
         created(){
+            if($device.kingold){
+                this.isApp = true;
+            }
             if (this.$route.query.from=='app') {
                 this.isApp = true;
             }

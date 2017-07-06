@@ -26,7 +26,7 @@ module.exports = {
         'Promise': true,
         'history':true,
         'document': true,
-        'Math':true
+        'Hybrid':true
     },
     // add your custom rules here
     'rules': {
