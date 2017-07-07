@@ -104,7 +104,7 @@
     import $device from '../tools/device';
     import requestHybrid from '../tools/hybrid';
     import {Toast} from 'mint-ui';
-    import {getValueE} from "../tools/city-grade"
+    import {getValueE} from "../tools/city-grade";
     export default {
         name: 'pension-five',
         components: {},
@@ -439,6 +439,16 @@
         },
         created(){
             this.get();
+            requestHybrid({
+                tagname: 'title',
+                param: {
+                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    backAndRefresh: 1,
+                    title: '养老理财规划',
+                    backstr: '退出理财规划将不会保存，确认退出？',
+                    keyboard_mode: 0//0 adjustresize 1 adjustpan
+                }
+            });
         }
     }
 </script>
