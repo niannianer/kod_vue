@@ -1,6 +1,10 @@
 <template>
     <div class="personal-center">
         <div class="top">
+            <div flex-box="0" class="switch-mode" @click.stop="switchMode">
+                <img src="../images/login/pwd-show@2x.png" alt="show" v-show="mode">
+                <img src="../images/login/pwd-hide@2x.png" alt="show" v-show="!mode">
+            </div>
             <div class="user-head">
                 <img v-if="!investorMobile" src="../images/personal-center/user-head.png"/>
                 <img src="../images/personal-center/user-default.png" v-else/>
@@ -9,48 +13,125 @@
                 <span v-if="investorMobile">{{investorMobile | mobileFormat}}</span>
                 <span v-else @click.stop="login"> 请登录</span>
             </div>
-
-        </div>
-        <div class="center">
-            <div class="items" flex="main:center">
-                <div class="item" flex-box="1" @click.stop="getPath('/my-assets')">
-                    <img src="../images/personal-center/my-assets.png"/>
-                    <span>我的资产</span>
+            <div class="fund-center" flex>
+                <div flex-box="1">
+                    <p class="info" v-if="mode">0.00元</p>
+                    <p class="info" v-else="mode">****元</p>
+                    <p class="title">昨日收益</p>
                 </div>
-                <div class="item" flex-box="1" @click.stop="getPath('/reward')">
-                    <img src="../images/personal-center/my-reward.png"/>
-                    <span>我的奖励</span>
+                <div flex-box="1">
+                    <p class="info" v-if="mode">0.00元</p>
+                    <p class="info" v-else="mode">****元</p>
+                    <p class="title">昨日收益</p>
                 </div>
-                <div class="item" flex-box="1" @click.stop="getPath('/invest-list')">
-                    <img src="../images/personal-center/my-invest.png"/>
-                    <span>我的投资</span>
+                <div flex-box="1">
+                    <p class="info" v-if="mode">0.00元</p>
+                    <p class="info" v-else="mode">****元</p>
+                    <p class="title">昨日收益</p>
                 </div>
             </div>
-            <div class="items" flex="main:center">
-                <div class="item" flex-box="1" @click.stop="getPath('/reserve-list')">
-                    <img src="../images/personal-center/record-manage.png"/>
-                    <span>预约管理</span>
+            <div class="ticket-center">
+                <div flex>
+                    <div flex-box="1" flex="main:center">
+                        <p class="btn">
+                            充值
+                        </p>
+                    </div>
+                    <div flex-box="1" flex="main:center">
+                        <p class="btn">
+                            提现
+                        </p>
+                    </div>
                 </div>
-                <div class="item" flex-box="1" @click.stop="getPath('/relation')">
-                    <img src="../images/personal-center/my-friend.png"/>
-                    <span>我的好友</span>
+                <div flex class="ticket-detail">
+                    <div flex-box="1" class="rl">
+                        <p class="title">现金劵</p>
+                        <p class="info">5个</p>
+                    </div>
+                    <div flex-box="1" class="rl">
+                        <p class="title">加息卷</p>
+                        <p class="info">5个</p>
+                    </div>
+                    <div flex-box="1">
+                        <p class="title">体验金</p>
+                        <p class="info">16888元</p>
+                    </div>
                 </div>
-                <div class="item" flex-box="1" @click="getLink('/land-about-us.html')">
-                    <img src="../images/personal-center/about-us.png"/>
-                    <span>关于我们</span>
+            </div>
+        </div>
+        <div class="body">
+            <div class="section seperate" flex="cross:center" @click.stop="getPath('/risk-assessment/wechat')">
+                <p class="assessment" flex-box="1">
+                    您未进行风险承受能力评估，为不影响投资请立即评估
+                </p>
+                <div flex-box="0">
+                    <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
                 </div>
+            </div>
+            <div class="section seperate" flex="dir:top">
+                <div  class="item bl" flex-box="1" flex="cross:center" @click.stop="getPath('/financial?tab=')">
+                    <div flex-box="0">
+                        <img  class="logo" src="../images/personal-center/financial-fixi.png" alt="financial" >
+                    </div>
+                    <p flex-box="1">定期理财</p>
+                    <div flex-box="0">
+                        <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
+                    </div>
+                </div>
+                <div  class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/financial?tab=PRIFFIXI')">
+                    <div flex-box="0">
+                        <img  class="logo" src="../images/personal-center/financial-prif.png" alt="financial" >
+                    </div>
+                    <p flex-box="1">高端理财</p>
+                    <div flex-box="0">
+                        <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
+                    </div>
+                </div>
+            </div>
+            <div class="section seperate" flex="dir:top">
+                <div  class="item bl" flex-box="1" flex="cross:center" @click.stop="getPath('/reward')">
+                    <div flex-box="0">
+                        <img  class="logo" src="../images/personal-center/reward.png" alt="financial" >
+                    </div>
+                    <p flex-box="1">我的奖励</p>
+                    <div flex-box="0">
+                        <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
+                    </div>
+                </div>
+                <div  class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/relation')">
+                    <div flex-box="0">
+                        <img  class="logo" src="../images/personal-center/relation.png" alt="financial" >
+                    </div>
+                    <p flex-box="1">我的好友</p>
+                    <div flex-box="0">
+                        <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
+                    </div>
+                </div>
+            </div>
+            <div class="section seperate" flex="dir:top">
+                <div  class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-about-us.html',true)">
+                    <div flex-box="0">
+                        <img  class="logo" src="../images/personal-center/about-us.png" alt="financial" >
+                    </div>
+                    <p flex-box="1">关于我们</p>
+                    <div flex-box="0">
+                        <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
+                    </div>
+                </div>
+               <!-- <div  class="item" flex-box="1" flex="cross:center">
+                    <div flex-box="0">
+                        <img  class="logo" src="../images/personal-center/settings.png" alt="financial" >
+                    </div>
+                    <p flex-box="1">安全设置</p>
+                    <div flex-box="0">
+                        <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
+                    </div>
+                </div>-->
             </div>
         </div>
         <div class="cantact-us">
             联系我们：{{telNumber}}
         </div>
-        <div class="footer">
-            <button v-if="investorMobile" class="btn-default logout" @click="logout">退出登录</button>
-            <button class="btn-primary login" v-else @click.stop="login">立即登录</button>
-
-
-        </div>
-
     </div>
 </template>
 
@@ -67,7 +148,8 @@
         name: 'personal-center',
         data(){
             return {
-                telNumber
+                telNumber,
+                mode:true
             }
         },
         created(){
@@ -80,6 +162,9 @@
             'investorMobile'
         ]),
         methods: {
+            switchMode(){
+                this.mode = !this.mode;
+            },
             login(){
                 this.$router.replace('/login');
             },
@@ -94,7 +179,12 @@
 
                     })
             },
-            getPath(path){
+            getPath(path,boolean){
+                console.log('aaaaaaaaaa')
+                if(boolean){
+                    window.location.href='/land-about-us.html';
+                    return false
+                }
                 this.$router.push(path);
             },
             getLink(path){
