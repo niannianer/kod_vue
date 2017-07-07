@@ -1,6 +1,6 @@
 <template>
-    <div class="product-subscription">
-        <div class="body">
+    <div class="product-subscription" flex="dir:top">
+        <div class="body" flex-box="1" style="overflow-y: auto">
             <div class="product-info">
                 <p class="title">{{productName}}</p>
                 <div flex class="info-center">
@@ -36,38 +36,49 @@
                             <p class="title">账户余额</p>
                         </div>
                     </div>
-                    <div class="ticket-bar" flex-box="0" flex>
+                    <div class="ticket-bar" flex-box="0" flex @click.stop="showTicketList">
                         <p flex-box="1">现金券</p>
                         <img flex-box="0" src="../images/arrow-down-double.png" alt="arrow">
                         <p flex-box="1" style="text-align: right">-50元</p>
                     </div>
                 </div>
             </div>
-            <div class="section lackmoney seprate" v-if="isLack">
-                <div class="title">第三方支付扣款</div>
-                <div class="bank">
-                    <div class="bank-name">
-                        <img :src="bankImg" class="bank-logo"/>
-                        <span class="name">{{bank_name}}</span>
-                        <div class="bank-info">{{bankUserCardNo | bankCardNoFormat}}</div>
+            <transition name="move">
+                <div flex-box="1" class="ticket-list" v-show="ticketListBoolean" ref="ticketList">
+                    <div class="ticket-item" flex>
+                        <p flex-box="1">满3000元减100元</p>
+                        <p flex-box="1">1天过期</p>
+                        <div flex-box="0" class="check-box">
+                            <div class="box-inner"></div>
+                        </div>
                     </div>
-                </div>
-                <div flex>
-                    <p flex-box="1">限额：单笔{{single_limit}}元</p>
-                    <p flex-box="0">单日{{perday_limit}}元</p>
-                </div>
+                    <div class="ticket-item active" flex>
+                        <p flex-box="1">满3000元减100元</p>
+                        <p flex-box="1">1天过期</p>
+                        <div flex-box="0" class="check-box">
+                            <div class="box-inner"></div>
+                        </div>
+                    </div>
+                    <div class="ticket-item default" flex>
+                        <p flex-box="1">暂不使用现金券</p>
+                        <div flex-box="0" class="check-box">
+                            <div class="box-inner"></div>
+                        </div>
+                    </div>
+                </div >
+            </transition>
+            <div v-if="isLack" class="tip">
+                <p>银行卡限额：单笔{{single_limit}}万元，单日{{perday_limit}}元</p>
             </div>
-            <div class="section seprate" v-if="isLack">
+            <div class="recharge-info" v-if="isLack">
                 <div class="item" flex>
                     <p flex-box="1">待支付金额</p>
                     <input class="rechargeNum" flex-box="1" type="number" v-model="rechargeNum">
-                    <p flex-box="0">元</p>
+                    <p flex-box="0" class="yuan">元</p>
                 </div>
             </div>
             <password-input v-show="inputPassword" title="购买产品" @close="inputPassword=false" @callBack="tradeCallback"
             ></password-input>
-        </div>
-        <div class="bottom seperate">
             <div class="deal" flex="box:first">
                 <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
                 <div v-if="!isLack">
@@ -78,9 +89,10 @@
                     我已同意<span class="agreement" @click.stop="agreement(1)">《宝付科技电子支付账户协议》</span>
                 </div>
             </div>
-            <div class="btn" :class="{'enable':enable}" disabled flex-box="1" v-if="!isLack" @click="investHandle">投资
-            </div>
-            <div class="btn" :class="{'enable':enable}" flex-box="1" v-if="isLack" @click="rechargeHandle">立即支付</div>
+        </div>
+
+        <div class="btn" flex-box="0">
+            确认认购
         </div>
     </div>
 </template>
@@ -113,7 +125,8 @@
                 bankImg: '',
                 productPeriod:'',
                 imgUrls,
-                inputPassword: false
+                inputPassword: false,
+                ticketListBoolean:true
             }
         },
         components: {
@@ -166,6 +179,9 @@
             }
         },
         methods: {
+            showTicketList(){
+                this.ticketListBoolean = !this.ticketListBoolean;
+            },
             agreement(num){
                 if (num == 0) {
                     window.location.href = '/platform-disclaimer.html';
