@@ -1,24 +1,46 @@
 <template>
     <div class="product-subscription">
         <div class="body">
-            <div class="section">
-                <div class="item bl" flex="box:first">
-                    <p>产品名称</p>
-                    <p class="product-name">{{productName}}</p>
-                </div>
-                <div class="item" flex>
-                    <p flex-box="1">预期收益率</p>
-                    <p flex-box="0">{{annualInterestRate}}</p>
+            <div class="product-info">
+                <p class="title">{{productName}}</p>
+                <div flex class="info-center">
+                    <div flex-box="1">
+                        <p class="info">{{annualInterestRate}}</p>
+                        <p class="title">预期年化收益率</p>
+                    </div>
+                    <div flex-box="1">
+                        <p class="info">{{productPeriod}}</p>
+                        <p class="title">期限</p>
+                    </div>
                 </div>
             </div>
-            <div class="section seprate">
-                <div class="item bl" flex>
-                    <p flex-box="1">账户余额</p>
-                    <p flex-box="0">{{this.accountCashAmount}}元</p>
+            <div class="fund-info">
+                <div class="bg-outer">
+                    <div class="bg-middle">
+                        <div class="bg-inner"></div>
+                    </div>
                 </div>
-                <div class="item" flex>
-                    <p flex-box="1">认购金额</p>
-                    <p flex-box="0">{{amount | currencyFormat}}元</p>
+                <div class="fund-center" flex="dir:top">
+                    <p flex-box="1" class="fund-title">认购金额</p>
+                    <div flex-box="1" flex class="fund-chart">
+                        <img src="../images/money-chart-reverse.png" alt="money">
+                        <p>{{amount | currencyFormat}}元</p>
+                    </div>
+                    <div class="fund-detail" flex-box="1" flex>
+                        <div flex-box="1">
+                            <p class="info">{{expectEarn|currencyFormat}}元</p>
+                            <p class="title">预计收益</p>
+                        </div>
+                        <div flex-box="1">
+                            <p class="info">{{this.accountCashAmount}}元</p>
+                            <p class="title">账户余额</p>
+                        </div>
+                    </div>
+                    <div class="ticket-bar" flex-box="0" flex>
+                        <p flex-box="1">现金券</p>
+                        <img flex-box="0" src="../images/arrow-down-double.png" alt="arrow">
+                        <p flex-box="1" style="text-align: right">-50元</p>
+                    </div>
                 </div>
             </div>
             <div class="section lackmoney seprate" v-if="isLack">
@@ -89,6 +111,7 @@
                 annualInterestRate: '',
                 rechargeNum: '',
                 bankImg: '',
+                productPeriod:'',
                 imgUrls,
                 inputPassword: false
             }
@@ -115,6 +138,7 @@
                     if (msg.code == 200) {
                         this.productName = msg.data.productName;
                         this.annualInterestRate = msg.data.annualInterestRate;
+                        this.productPeriod = msg.data.productPeriod;
                     }
                 })
         },
@@ -122,6 +146,9 @@
             ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId','single_limit','perday_limit']),
             isLack(){
                 return this.amount > this.accountCashAmount;
+            },
+            expectEarn(){
+                return this.amount * parseFloat(this.annualInterestRate) / 100 * parseInt(this.productPeriod) / 365;
             }
         },
         watch: {

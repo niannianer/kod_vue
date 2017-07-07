@@ -3,8 +3,102 @@
 
 .product-subscription{
     .body{
-        font-size: .8rem;
-        .section{
+        .product-info{
+            padding:.8rem;
+            height:11.3rem;
+            color:@bg-content;
+            background-image: linear-gradient(134deg, #71E1F0 0%, #95A5F1 49%, #CD3FFA 100%);
+            text-align: center;
+            .title{
+                padding-bottom: .9rem;
+                font-size: .9rem;
+            }
+            .info-center{
+                .info{
+                    font-size: 1.2rem;
+                    line-height: 1.2rem;
+                    padding:.5rem;
+                }
+                .title{
+                    font-size: .7rem;
+                    line-height: .7rem;
+                }
+            }
+        }
+        .fund-info{
+            position:relative;
+            overflow: hidden;
+            background-image: linear-gradient(225deg, #74BDFF 37%, #1D72C0 100%);
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+            border-radius: 4px;
+            margin: -4.7rem .8rem 0 .8rem;
+            height:9.4rem;
+            .bg-outer{
+                position:absolute;
+                border-radius: 50%;
+                width: 11.5rem;
+                height: 12.5rem;
+                background-color: #3C8DD7;
+                top: -2rem;
+                right: -2rem;
+                .bg-middle{
+                    background-color: #509DE5;
+                    border-radius: 50%;
+                    width: 11rem;
+                    height: 9rem;
+                    position: absolute;
+                    top: 0;
+                    right: -2rem;
+                    .bg-inner{
+                        background-color: #6CB5F9;
+                        width: 6.5rem;
+                        height: 6.5rem;
+                        position: absolute;
+                        top: 0rem;
+                        right: 2.5rem;
+                        border-radius: 50%;
+                    }
+                }
+            }
+            .fund-center{
+                position:absolute;
+                height:9.4rem;
+                width:100%;
+                color:@bg-content;
+                .fund-title{
+                    font-size: .8rem;
+                    line-height: .8rem;
+                    height: .8rem;
+                    padding:.8rem;
+                }
+                .fund-chart{
+                    font-size: 1.2rem;
+                    padding:0 .8rem;
+                    line-height: 1.2rem;
+                    img{
+                        margin-right: .5rem;
+                        width:1.35rem;
+                        height:1.35rem;
+                    }
+                }
+                .fund-detail{
+                    text-align: center;
+                    .info{
+                        font-size: .9rem;
+                    }
+                }
+                .ticket-bar{
+                    background: #2B62A8;
+                    padding:.6rem .8rem;
+                    line-height: .7rem;
+                    img{
+                        width:.9rem;
+                        height:.7rem;
+                    }
+                }
+            }
+        }
+     /*   .section{
             background-color: @bg-content;padding:0 .8rem;
             .item{
                 color:@color-text-secondary;
@@ -18,7 +112,7 @@
             .bl{
                 border-bottom: 1px solid @color-split;
             }
-        }
+        }*/
         .seprate{
             margin-top: .5rem;
         }

@@ -5,7 +5,7 @@
                 <img src="../images/login/pwd-show@2x.png" alt="show" v-show="mode">
                 <img src="../images/login/pwd-hide@2x.png" alt="show" v-show="!mode">
             </div>
-            <div class="user-head">
+            <div class="user-head" >
                 <img v-if="!investorMobile" src="../images/personal-center/user-head.png"/>
                 <img src="../images/personal-center/user-default.png" v-else/>
             </div>
@@ -13,7 +13,7 @@
                 <span v-if="investorMobile">{{investorMobile | mobileFormat}}</span>
                 <span v-else @click.stop="login"> 请登录</span>
             </div>
-            <div class="fund-center" flex>
+            <div class="fund-center" flex @click.stop="getPath('/my-assets')">
                 <div flex-box="1">
                     <p class="info" v-if="mode">0.00元</p>
                     <p class="info" v-else="mode">****元</p>
