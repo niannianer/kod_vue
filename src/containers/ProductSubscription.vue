@@ -43,6 +43,7 @@
                     </div>
                 </div>
             </div>
+            <div class="tick-wap">
             <transition name="move">
                 <div flex-box="1" class="ticket-list" v-show="ticketListBoolean" ref="ticketList">
                     <div class="ticket-item" flex>
@@ -67,6 +68,7 @@
                     </div>
                 </div >
             </transition>
+            </div>
             <div v-if="isLack" class="tip">
                 <p>银行卡限额：单笔{{single_limit}}万元，单日{{perday_limit}}元</p>
             </div>

@@ -27,6 +27,17 @@
                 }
             }
         }
+        .move-enter-to,.move-enter-active, .move-leave-active{
+            transition: all 0.4s ease;
+            transform:translateY(0%);
+            height: 120px;
+        }
+        .move-enter, .move-leave-to{
+            opacity: 0;
+            transform: translateY(-50%);
+            height: 0px;
+        }
+
         .fund-info{
             position:relative;
             overflow: hidden;
@@ -100,10 +111,13 @@
                 }
             }
         }
-        .ticket-list{
+        .tick-wap{
             background-color: @bg-content;
             margin:.5rem .8rem 0 .8rem;
             padding:.6rem;
+        }
+        .ticket-list{
+            background-color: @bg-content;
             .ticket-item{
                 border:1px solid @color-text-gray;
                 margin:2px 0;
