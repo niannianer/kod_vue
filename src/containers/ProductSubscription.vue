@@ -181,7 +181,7 @@
 
             },
             tradeCallback(password){
-                this.inputPassword = false;
+                //this.inputPassword = false;
                 if (this.orderBillCode) {
                     this.doInvest(password);
                 } else {
@@ -212,7 +212,7 @@
                             Toast(msg.msg);
                         }
                         EventBus.$emit('clearInput');
-                       // this.inputPassword = false;
+                        this.inputPassword = false;
                     })
             },
             investHandle(){
