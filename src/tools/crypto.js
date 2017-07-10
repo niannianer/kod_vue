@@ -46,6 +46,7 @@ export let decryptFun = (encrypt) => {
 export let encryptFun = (text) => {
     let key = Utf8.parse(kinglodKey.substr(7, 32));
     let iv = Utf8.parse(kinglodIV.substr(7, 16));
+    text = text.toString();
     let encrypted = AES.encrypt(text, key, {
         iv: iv,
         mode: CryptoJS.mode.CBC,
