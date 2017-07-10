@@ -84,6 +84,7 @@ let get = (path, data = {}) => {
         if (doEncrypt) {
             data = JSON.parse(decryptFun(data));
         }
+        console.log(url);
         console.log(data);
         return data;
 
@@ -148,6 +149,7 @@ let post = (path, data = {}) => {
             store.dispatch('getUserInfo');
             logout();
         }
+        console.log(url);
         console.log(data);
         return data;
     }).catch(err => {

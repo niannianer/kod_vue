@@ -114,9 +114,20 @@
         methods:{
             link(productUuid){
                 if(this.data.productType == 'PRIF'){
-                    window.location.href='/goodsDetailPRIF.html?u='+productUuid+'&t='+this.data.productType;
+                    this.$router.push({
+                        path: '/goods-detail-prif',
+                        query: {
+                            productUuid
+                        }
+                    })
                 }else{
-                    window.location.href='/goodsDetail.html?u='+productUuid+'&t='+this.data.productType;
+
+                    this.$router.push({
+                        path: '/fixi-goods-detail',
+                        query: {
+                            productUuid
+                        }
+                    })
                 }
             }
         },

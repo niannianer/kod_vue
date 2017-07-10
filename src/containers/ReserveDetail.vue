@@ -68,32 +68,38 @@
 </template>
 <script>
     import '../less/reserve-detail.less';
-    import {Toast,MessageBox} from 'mint-ui';
+    import {Toast, MessageBox} from 'mint-ui';
     import $api from '../tools/api';
     export default {
         name: 'reserve-detail',
         components: {},
         data(){
             return {
-                classArr:['ing','spread','finish','cancel','past'],
-                productReservationUuid:'',
+                classArr: ['ing', 'spread', 'finish', 'cancel', 'past'],
+                productReservationUuid: '',
                 data: {},
             }
         },
-        methods:{
+        methods: {
             link(productUuid){
-                $api.get('/checkProductOnStatus',{productUuid:productUuid}).then(msg => {
-                    if(msg.code == 200){
+                $api.get('/checkProductOnStatus', {productUuid: productUuid}).then(msg => {
+                    if (msg.code == 200) {
                         //
-                        window.location.href='/goodsDetailPRIF.html?u='+productUuid+'&t=PRIF';
-                    }else{
-                        MessageBox.alert(`产品已下架，如想查看详情，请联系客服。`,'提示').then(action=>{});
+                        this.$router.push({
+                            path: '/goods-detail-prif',
+                            query: {
+                                productUuid
+                            }
+                        })
+                    } else {
+                        MessageBox.alert(`产品已下架，如想查看详情，请联系客服。`, '提示').then(action => {
+                        });
                     }
                 });
             },
             git(productReservationUuid){
-                $api.get('/reservation/detail',{productReservationUuid:productReservationUuid}).then(msg => {
-                    if(msg.code == 200){
+                $api.get('/reservation/detail', {productReservationUuid: productReservationUuid}).then(msg => {
+                    if (msg.code == 200) {
                         this.data = msg.data;
                     }
                 });
