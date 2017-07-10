@@ -83,6 +83,8 @@
                       return;
                     }
                     this.$store.dispatch('getAccountBaofoo');
+                    this.$store.dispatch('getBankInfo');
+                    this.$store.dispatch('getUserInfo');
                     this.getBaofoo();
                 }, 3000);
             },
