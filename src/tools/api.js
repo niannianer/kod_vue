@@ -8,11 +8,19 @@ import Promise from 'promise-polyfill';
 if (!window.Promise) {
     window.Promise = Promise;
 }
+import {encryptFun, decryptFun} from './crypto';
 
 import 'whatwg-fetch';
 import store from '../store';
-import {devUrl, testUrl, productionUrl, nodeTestApi, nodeProductionApi} from './config';
-let serverUrl = testUrl;
+import {
+    doEncrypt,
+    devUrl,
+    testUrl,
+    productionUrl,
+    nodeTestApi,
+    nodeProductionApi
+} from './config';
+let serverUrl = devUrl;
 let nodeUrl = nodeTestApi;
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;
@@ -21,14 +29,27 @@ if (process.env.kingold == 'production') {
     serverUrl = productionUrl;
     nodeUrl = nodeProductionApi;
 }
+let query = data => {
+    let str = [];
+    for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+            if (typeof data[key] != 'object') {
+                str.push(encodeURIComponent(key) + '=' + encodeURIComponent((data[key])));
+            } else {
+                str.push(encodeURIComponent(key) + '=' + encodeURIComponent((JSON.stringify(data[key]))));
+            }
+        }
+    }
+    return str.join('&');
+};
 let $query = (data) => {
     let str = [];
     for (let key in data) {
         if (data.hasOwnProperty(key)) {
             if (typeof data[key] != 'object') {
-                str.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+                str.push(encryptFun(encodeURIComponent(key)) + '=' + encodeURIComponent(encryptFun(data[key])));
             } else {
-                str.push(encodeURIComponent(key) + '=' + encodeURIComponent(JSON.stringify(data[key])));
+                str.push(encryptFun(encodeURIComponent(key)) + '=' + encodeURIComponent(encryptFun(JSON.stringify(data[key]))));
             }
         }
     }
@@ -36,16 +57,9 @@ let $query = (data) => {
 };
 let get = (path, data = {}) => {
     data.callSystemID = '1003';
-    let t = new Date().getTime();
-    let url = '';
+    data.t = new Date().getTime();
     let credentials = 'include';
-    if (/http/.test(path)) {
-        url = `${path}?t=${t}&${$query(data)}`;
-        credentials='same-origin';
-    } else {
-        url = `${serverUrl + path}?t=${t}&${$query(data)}`
-    }
-
+    let url = `${serverUrl + path}?${query(data)}`;
     return fetch(url, {
         method: 'get',
         credentials,
@@ -55,58 +69,86 @@ let get = (path, data = {}) => {
         }
     }).then(response => {
         if (response.status == 200) {
-            return response.json()
+            if (doEncrypt) {
+                return response.text();
+            } else {
+                return response.json();
+            }
+
         }
         if (response.status == 503) {
             return {};
         }
         return {};
     }).then(data => {
+        if (doEncrypt) {
+            data = JSON.parse(decryptFun(data));
+        }
+        console.log(data);
         return data;
+
     }).catch(err => {
         console.error('error,--->', err);
     });
 };
 let getNode = (path, data = {}) => {
-    let url = `${nodeUrl + path}`
-    return get(url, data);
+    data.t = new Date().getTime();
+    data.callSystemID = '1003';
+    let url = `${nodeUrl + path}`;
+    url = `${url}?${query(data)}`;
+    return fetch(url, {
+        method: 'get',
+        credentials: 'same-origin',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }).then(response => {
+        if (response.status == 200) {
+            return response.json();
+        }
+    }).then(data => {
+        return data;
+    }).catch(err => {
+        console.error('error,--->', err);
+    })
 };
 import  {logout} from './operation';
 let post = (path, data = {}) => {
     data.callSystemID = '1003';
-    let t = new Date().getTime();
-    let url = '';
+    let url = `${serverUrl + path}`;
     let credentials = 'include';
-    if (/http/.test(path)) {
-        url = `${path}?t=${t}`;
-        credentials='same-origin';
-    } else {
-        url = `${serverUrl + path}`;
-    }
     return fetch(url, {
         method: 'post',
         credentials,
         headers: {
-            'Accept': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: $query(data)
+        body: doEncrypt ? $query(data) : query(data)
     }).then(response => {
         if (response.status == 200) {
-            return response.json()
+            if (doEncrypt) {
+                return response.text()
+            } else {
+                return response.json();
+            }
+
         }
         if (response.status == 503) {
             return {};
         }
-
         return {};
     }).then(data => {
+        if (doEncrypt) {
+            data = JSON.parse(decryptFun(data));
+        }
         if (data.code == 401) {
             store.dispatch('getAccountBaofoo');
             store.dispatch('getBankInfo');
             store.dispatch('getUserInfo');
             logout();
         }
+        console.log(data);
         return data;
     }).catch(err => {
         console.error('error,--->', err);
@@ -114,7 +156,27 @@ let post = (path, data = {}) => {
 };
 let postNode = (path, data = {}) => {
     let url = `${nodeUrl + path}`;
-    return post(url, data);
+    return fetch(url, {
+        method: 'post',
+        credentials: 'same-origin',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: query(data)
+    }).then(response => {
+        if (response.status == 200) {
+            return response.json()
+        }
+        if (response.status == 503) {
+            return {};
+        }
+        return {};
+    }).then(data => {
+        return data;
+    }).catch(err => {
+        console.error('error,--->', err);
+    });
 };
 const $api = {
     get,
