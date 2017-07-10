@@ -20,7 +20,7 @@ import {
     nodeTestApi,
     nodeProductionApi
 } from './config';
-let serverUrl = testUrl;
+let serverUrl = devUrl;
 let nodeUrl = nodeTestApi;
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;
