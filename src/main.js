@@ -20,6 +20,7 @@ new Vue({
 store.dispatch('getAccountBaofoo');
 store.dispatch('getBankInfo');
 store.dispatch('getUserInfo');
+store.dispatch('getExperienceSum');
 window.onload = () => {
     FastClick.attach(document.body);
 };

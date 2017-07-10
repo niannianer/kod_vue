@@ -4,12 +4,6 @@
 'use strict';
 import _ from 'lodash/core';
 const mutations = {};
-mutations.changeName = (state, name = '') => {
-    state.username = name;
-};
-mutations.increment = (state, num = 1) => {
-    state.count += num;
-};
 
 // 资产信息
 mutations.setAccountBaofoo = (state, data) => {
@@ -59,4 +53,12 @@ mutations.setUserInfo = (state, data) => {
 mutations.setEligibleInvestor = (state, data) => {
     state.isEligibleInvestor = data.isEligibleInvestor;
 };
+
+mutations.setExperienceSum = (state,data) =>{
+    _.forEach(state, (value, key) => {
+        if (data.hasOwnProperty(key)) {
+            state[key] = data[key];
+        }
+    });
+}
 export default  mutations;

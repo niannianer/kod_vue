@@ -32,6 +32,11 @@ const state = {
     bank_no:'',
     perday_limit:'',
     single_limit:'',
-    single_limit_value:''
+    single_limit_value:'',
+    experienceProfit:'',//已收益
+    notExpireProfit:'',//待收益
+    notRecieveExperience:'',//未领取体验金
+    totalExperience:''
+
 };
 export default state;
