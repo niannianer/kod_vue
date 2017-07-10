@@ -84,7 +84,7 @@
                 this.$router.replace('/login');
             },
             logout(){
-                $api.get('/logout')
+                $api.post('/logout')
                     .then(data => {
                         if (data.code == 200) {
                             this.$router.replace('/login');
