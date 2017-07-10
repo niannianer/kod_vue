@@ -57,6 +57,6 @@ mutations.setUserInfo = (state, data) => {
 
 };
 mutations.setEligibleInvestor = (state, data) => {
-    state.isEligibleInvestor = data.isEligibleInvestor;
+    state.isEligibleInvestor = data;
 };
 export default  mutations;
