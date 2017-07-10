@@ -57,7 +57,11 @@
                     })
             },
             reSend(){
-                this.getStatus();
+                this.isLoad = true;
+                this.getStatus(true);
+                setTimeout(()=>{
+                    this.isLoad = false;
+                },1000)
             },
             reAuth(){
                 submitAuthorization(this.userId);

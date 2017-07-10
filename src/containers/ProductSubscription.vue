@@ -212,7 +212,7 @@
                             Toast(msg.msg);
                         }
                         EventBus.$emit('clearInput');
-                        this.inputPassword = false;
+                       // this.inputPassword = false;
                     })
             },
             investHandle(){
