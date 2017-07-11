@@ -122,9 +122,9 @@
                 if (this.passwords.length < 6) {
                     this.passwords.push(keyboad.val)
                 }
-               /* else {
+                else {
                     return false;
-                }*/
+                }
                 if (this.passwords.length >= 6) {
                     this.$emit('callBack', this.passwords.join('').substr(0, 6));
                 }
