@@ -43,9 +43,9 @@
                     </div>
                 </div>
             </div>
-            <div class="tick-wap">
-            <transition name="move">
-                <div flex-box="1" class="ticket-list" v-show="ticketListBoolean" ref="ticketList">
+            <transition-group name="list-complete" tag="div">
+            <div class="list-complete-item" v-show="ticketListBoolean" v-bind:key="0">
+                <div flex-box="1" class="ticket-list"  ref="ticketList">
                     <div class="ticket-item" flex>
                         <p flex-box="1">满3000元减100元</p>
                         <p flex-box="1">1天过期</p>
@@ -67,30 +67,34 @@
                         </div>
                     </div>
                 </div >
-            </transition>
+
             </div>
-            <div v-if="isLack" class="tip">
-                <p>银行卡限额：单笔{{single_limit}}万元，单日{{perday_limit}}元</p>
-            </div>
-            <div class="recharge-info" v-if="isLack">
-                <div class="item" flex>
-                    <p flex-box="1">待支付金额</p>
-                    <input class="rechargeNum" flex-box="1" type="number" v-model="rechargeNum">
-                    <p flex-box="0" class="yuan">元</p>
+            <div class="list-complete-item" v-bind:key="1">
+                <div v-if="isLack" class="tip">
+                    <p>银行卡限额：单笔{{single_limit}}万元，单日{{perday_limit}}元</p>
+                </div>
+                <div class="recharge-info" v-if="isLack">
+                    <div class="item" flex>
+                        <p flex-box="1">待支付金额</p>
+                        <input class="rechargeNum" flex-box="1" type="number" v-model="rechargeNum">
+                        <p flex-box="0" class="yuan">元</p>
+                    </div>
+                </div>
+                <div class="deal" flex="box:first">
+                    <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
+                    <div v-if="!isLack">
+                        我已仔细阅读《产品说明书》和《风险提示函》，并同意《认购协议》和
+                        <span @click.stop="agreement(0)" class="agreement">《金疙瘩平台免责声明》</span>
+                    </div>
+                    <div v-if="isLack">
+                        我已同意<span class="agreement" @click.stop="agreement(1)">《宝付科技电子支付账户协议》</span>
+                    </div>
                 </div>
             </div>
+            </transition-group>
             <password-input v-show="inputPassword" title="购买产品" @close="inputPassword=false" @callBack="tradeCallback"
             ></password-input>
-            <div class="deal" flex="box:first">
-                <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
-                <div v-if="!isLack">
-                    我已仔细阅读《产品说明书》和《风险提示函》，并同意《认购协议》和
-                    <span @click.stop="agreement(0)" class="agreement">《金疙瘩平台免责声明》</span>
-                </div>
-                <div v-if="isLack">
-                    我已同意<span class="agreement" @click.stop="agreement(1)">《宝付科技电子支付账户协议》</span>
-                </div>
-            </div>
+
         </div>
 
         <div class="btn" flex-box="0">

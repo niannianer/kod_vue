@@ -115,9 +115,26 @@
             background-color: @bg-content;
             margin:.5rem .8rem 0 .8rem;
             padding:.6rem;
+            width: 100%;
+        }
+
+        .list-complete-item {
+            transition: all 1s;
+            display: inline-block;
+            width: 100%;
+        }
+        .list-complete-enter, .list-complete-leave-to
+            /* .list-complete-leave-active for <2.1.8 */ {
+            opacity: 0;
+            transform: translateY(-100%);
+        }
+        .list-complete-leave-active {
+            position: absolute;
         }
         .ticket-list{
             background-color: @bg-content;
+            padding:.6rem;
+            width: 100%;
             .ticket-item{
                 border:1px solid @color-text-gray;
                 margin:2px 0;
