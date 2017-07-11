@@ -380,32 +380,36 @@ let routes = [
         path: '/risk-assessment/:type',
         name: 'risk-assessment',
         component: RiskAssessment,
-        beforeEnter:(to, from, next)=>{
+        beforeEnter: (to, from, next) => {
+            let {meta} = to;
+            let {title} = meta;
+            setTitle(title);
             if (store.state.investorRiskScore) {
-                if(to.query.retest){
+                if (to.query.retest) {
                     next();
-                }else {
+                } else {
                     next({
-                        path:'/assessment-result'
+                        path: '/assessment-result'
                     });
                 }
 
-            }else {
+            } else {
                 store.dispatch('getUserInfo')
-                    .then(data=>{
-                        if(data.code==401){
+                    .then(data => {
+                        if (data.code == 401) {
                             logout();
                             return false;
                         }
-                        if(data.data.investorRiskScore>0){
-                            if(to.query.retest){
+                        console.log('investorRiskScore---->', data.data.investorRiskScore)
+                        if (data.data.investorRiskScore > 0) {
+                            if (to.query.retest) {
                                 next();
-                            }else {
+                            } else {
                                 next({
-                                    path:'/assessment-result'
+                                    path: '/assessment-result'
                                 });
                             }
-                        }else {
+                        } else {
                             next();
                         }
 
@@ -432,78 +436,78 @@ let routes = [
         }
     },
     {
-        path:'/relation',
-        name:'relation',
+        path: '/relation',
+        name: 'relation',
         component: Relation,
-        meta:{
-            title:'我的好友'
+        meta: {
+            title: '我的好友'
         }
     },
     {
-        path:'/register',
-        name:'register',
+        path: '/register',
+        name: 'register',
         component: Register,
-        meta:{
-            title:'注册',
+        meta: {
+            title: '注册',
             withoutLogin: true
         }
     },
     {
-        path:'/authentication',
-        name:'authentication',
+        path: '/authentication',
+        name: 'authentication',
         component: Authentication,
-        meta:{
-            title:'实名认证'
+        meta: {
+            title: '实名认证'
         }
     },
     {
-        path:'/bind-bank-card',
-        name:'bind-bank-card',
+        path: '/bind-bank-card',
+        name: 'bind-bank-card',
         component: BindBankCard,
-        meta:{
-            title:'绑定银行卡',
-            keepAlive:true,
+        meta: {
+            title: '绑定银行卡',
+            keepAlive: true,
         }
     },
     {
-        path:'/bank-list',
-        name:'bank-list',
+        path: '/bank-list',
+        name: 'bank-list',
         component: BankList,
-        meta:{
-            title:'支持绑定的银行卡'
+        meta: {
+            title: '支持绑定的银行卡'
         }
     },
     {
-        path:'/set-pay-password',
-        name:'set-pay-password',
+        path: '/set-pay-password',
+        name: 'set-pay-password',
         component: SetPayPassword,
-        meta:{
-            title:'设置交易密码'
+        meta: {
+            title: '设置交易密码'
         }
     },
     {
-        path:'/reset-pay-password',
-        name:'reset-pay-password',
+        path: '/reset-pay-password',
+        name: 'reset-pay-password',
         component: ResetPayPassword,
-        meta:{
-            title:'重置交易密码'
+        meta: {
+            title: '重置交易密码'
         }
     },
     {
-        path:'/find-password',
-        name:'find-password',
+        path: '/find-password',
+        name: 'find-password',
         component: FindPassword,
-        meta:{
-            title:'找回密码',
+        meta: {
+            title: '找回密码',
             withoutLogin: true
         }
     },
     {
-        path:'/goods-detail-prif',
-        name:'goods-detail-prif',
+        path: '/goods-detail-prif',
+        name: 'goods-detail-prif',
         component: GoodsDetailPRIF,
-        meta:{
-            title:'项目详情',
+        meta: {
+            title: '项目详情',
             withoutLogin: true
         }
     }
@@ -511,11 +515,14 @@ let routes = [
 import $device from '../tools/device';
 import requestHybrid from '../tools/hybrid';
 routes.map(route => {
-    route.beforeEnter = (to, from, next)=>{
+    if (route.beforeEnter) {
+        return false;
+    }
+    route.beforeEnter = (to, from, next) => {
         let {meta} = to;
         let {title} = meta;
         setTitle(title);
-        if($device.kingold){
+        if ($device.kingold) {
             requestHybrid({
                 tagname: 'title',
                 param: {
@@ -528,8 +535,8 @@ routes.map(route => {
         }
 
         if (!route.meta.withoutLogin) {
-          return  beforeEach(to, from, next);
-        }else {
+            return beforeEach(to, from, next);
+        } else {
             next();
         }
     };

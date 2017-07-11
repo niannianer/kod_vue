@@ -181,7 +181,7 @@
 
             },
             tradeCallback(password){
-                //this.inputPassword = false;
+                this.inputPassword = false;
                 if (this.orderBillCode) {
                     this.doInvest(password);
                 } else {
