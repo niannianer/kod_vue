@@ -28,14 +28,12 @@ let serverUrl = testUrl;
 let signMode = '~|~n725d5gsb7mlyzzw';
 let merchant_id = '100000675';
 let terminal_id = '100000701';
-let RequestUrlBaofoo = baofooCallUrlTest;
 if (process.env.kingold == 'test') {
     serverUrl = testUrl;
-    RequestUrlBaofoo = baofooCallUrlTest;
+    baofooCallUrl = baofooCallUrlTest;
 }
 if (process.env.kingold == 'production') {
     serverUrl = productionUrl;
-    RequestUrlBaofoo = baofooCallUrl;
     baofooCallUrl = baofooCallUrlProduct;
     signMode = '~|~h6mrqmwkkcvmpdq5';
     baofooRecharge = baofooProductUrl;
@@ -109,13 +107,13 @@ export let submitAuthorization = (pUserId) => {
     input = document.createElement('input');
     input.setAttribute('name', 'service_url');
     input.setAttribute('type', 'hidden');
-    input.value = RequestUrlBaofoo + '/baofoo/notification/auth';
+    input.value = baofooCallUrl + '/baofoo/notification/auth';
     form.appendChild(input);
 
     input = document.createElement('input');
     input.setAttribute('name', 'page_url');
     input.setAttribute('type', 'hidden');
-    input.value = RequestUrlBaofoo + '/baofoo/h5/notification/auth';
+    input.value = baofooCallUrl + '/baofoo/h5/notification/auth';
     form.appendChild(input);
 
     document.body.appendChild(form);
