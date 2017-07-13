@@ -104,7 +104,7 @@
             this.amount = this.$route.query.a;
             this.orderBillCode = this.$route.query.o;
 
-            let leastPay = (this.amount * 100 - this.accountCashAmount * 100) / 100;
+            let leastPay = Math.floor(this.amount * 100 - this.accountCashAmount * 100) / 100;
             this.rechargeNum = leastPay < 1 ? '1' : leastPay;
             $api.get('/product/getDetail', {
                 'productUuid': this.productUuid,
