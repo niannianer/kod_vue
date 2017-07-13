@@ -146,7 +146,7 @@
         </div>
         <div class="bottom">
            <div v-if="production.canBuy" flex="box:mean">
-               <button class="min-invest"  @click.stop="preInvest">{{production.productMinInvestmentValue}}起投</button>
+               <button class="min-invest"  @click.stop="preInvest">{{production.productMinInvestmentValue}}元起投</button>
                <button class="do-invest"  @click.stop="preInvest">立即投资</button>
            </div>
             <div v-else="production.canBuy">
