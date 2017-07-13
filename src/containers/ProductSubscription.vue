@@ -105,7 +105,7 @@
             this.orderBillCode = this.$route.query.o;
 
             let leastPay = (this.amount * 100 - this.accountCashAmount * 100) / 100;
-            this.rechargeNum = leastPay < 1 ? '1' : leastPay;
+            this.rechargeNum = leastPay < 5 ? '5' : leastPay;
             $api.get('/product/getDetail', {
                 'productUuid': this.productUuid,
                 'productType': 'FIXI'
@@ -162,6 +162,10 @@
                 let leastPay = (this.amount * 100 - this.accountCashAmount * 100) / 100;
                 if (this.rechargeNum < leastPay) {
                     Toast('输入金额不能小于待支付金额，请重新输入');
+                    return false;
+                }
+                if(this.rechargeNum < 5){
+                    Toast('输入金额不能小于5元，请重新输入');
                     return false;
                 }
                 $api.post('/trade/recharge', {
