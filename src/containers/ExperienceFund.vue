@@ -55,10 +55,10 @@
                             <p class="item-tip" v-else="item.experienceStatus ==0">条件达成</p>
                         </div>
                     </div>
-                    <button flex-box="1" v-if="item.experienceStatus ==0" @click.stop="">
+                    <button flex-box="1" v-if="item.experienceStatus ==0" @click.stop="toFinancial()">
                         去投资
                     </button>
-                    <button  flex-box="1" v-else-if="item.experienceStatus ==1" @click.stop="">
+                    <button  flex-box="1" v-else-if="item.experienceStatus ==1" @click.stop="recieve(item)">
                         领取体验金
                     </button>
                     <button class="disabled" flex-box="1" v-else-if="item.experienceStatus ==2">
@@ -75,7 +75,7 @@
     import '../less/experience-fund.less';
     import $api from '../tools/api';
     import {mapState} from 'vuex';
-    import {InfiniteScroll} from 'mint-ui';
+    import {InfiniteScroll,MessageBox,Toast} from 'mint-ui';
     Vue.use(InfiniteScroll);
     export default {
         name: 'experience-fund',
@@ -115,10 +115,26 @@
                 this.stopLoad = true;
                 this.currentPage++;
                 this.loadData();
+            },
+            toFinancial(){
+                this.$router.push('/financial');
+            },
+            recieve(item){
+                MessageBox.alert(`体验金已开始计息，${item.rateDays}天后到期，到期后收益将自动转入您托管账户余额`,'提示').then(action=>{
+                    $api.post('/experience/recieve',{
+                        experienceCode:item.experienceCode
+                    }).then(resp =>{
+                        if(resp.code == 200){
+                            item.experienceStatus = 2;
+                        }else{
+                            Toast(resp.msg)
+                        }
+                    })
+                });
             }
         },
         destroyed(){
-
+            MessageBox.close();
         }
     }
 </script>

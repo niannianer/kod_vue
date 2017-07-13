@@ -77,4 +77,17 @@ actions.getExperienceSum = ({commit}) => {
             return data;
         });
 };
+
+let getPersonalCenterMsg = () =>{
+    return $api.get('/personalCenter');
+}
+actions.getPersonalCenterMsg = ({commit}) => {
+    return getPersonalCenterMsg()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setPersonalCenterMsg', data.data)
+            }
+            return data;
+        });
+};
 export default actions;

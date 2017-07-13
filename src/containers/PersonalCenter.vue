@@ -15,30 +15,30 @@
             </div>
             <div class="fund-center" flex>
                 <div flex-box="1">
-                    <p class="info" v-if="mode">0.00元</p>
+                    <p class="info" v-if="mode">{{accountTotalAssets|currencyFormat}}元</p>
                     <p class="info" v-else="mode">****元</p>
-                    <p class="title">昨日收益</p>
+                    <p class="title">总资产</p>
                 </div>
                 <div flex-box="1">
-                    <p class="info" v-if="mode">0.00元</p>
+                    <p class="info" v-if="mode">{{accountCashAmount|currencyFormat}}元</p>
                     <p class="info" v-else="mode">****元</p>
-                    <p class="title">昨日收益</p>
+                    <p class="title">可用余额</p>
                 </div>
                 <div flex-box="1">
-                    <p class="info" v-if="mode">0.00元</p>
+                    <p class="info" v-if="mode">{{accountTotalInterests|currencyFormat}}元</p>
                     <p class="info" v-else="mode">****元</p>
-                    <p class="title">昨日收益</p>
+                    <p class="title">累计收益</p>
                 </div>
             </div>
             <div class="ticket-center">
                 <div flex>
                     <div flex-box="1" flex="main:center">
-                        <p class="btn">
+                        <p class="btn" @click.stop="getPath('/recharge')">
                             充值
                         </p>
                     </div>
                     <div flex-box="1" flex="main:center">
-                        <p class="btn">
+                        <p class="btn" @click.stop="getPath('/withdraw')">
                             提现
                         </p>
                     </div>
@@ -46,22 +46,22 @@
                 <div flex class="ticket-detail">
                     <div flex-box="1" class="rl">
                         <p class="title">现金劵</p>
-                        <p class="info">5个</p>
+                        <p class="info">{{cashCouponCount}}个</p>
                     </div>
-                    <div flex-box="1" class="rl">
+                  <!--  <div flex-box="1" class="rl">
                         <p class="title">加息卷</p>
                         <p class="info">5个</p>
-                    </div>
+                    </div>-->
                     <div flex-box="1">
                         <p class="title">体验金</p>
-                        <p class="info">16888元</p>
+                        <p class="info">{{experienceAmount}}元</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="body">
-            <div class="section seperate" flex="cross:center" @click.stop="getPath('/risk-assessment/wechat')">
-                <p class="assessment" flex-box="1">
+            <div class="section seperate" flex="cross:center" @click.stop="getPath('/risk-assessment/wechat')" v-if="!investorRiskScore">
+                <p class="assessment" flex-box="1" >
                     您未进行风险承受能力评估，为不影响投资请立即评估
                 </p>
                 <div flex-box="0">
@@ -159,7 +159,13 @@
 
         },
         computed: mapState([
-            'investorMobile'
+            'investorMobile',
+            'accountCashAmount',
+            'accountTotalInterests',
+            'accountTotalAssets',
+            'experienceAmount',
+            'cashCouponCount',
+            'investorRiskScore'
         ]),
         methods: {
             switchMode(){
