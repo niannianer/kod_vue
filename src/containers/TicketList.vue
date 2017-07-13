@@ -48,6 +48,7 @@
     import '../less/ticket-list.less';
     import $api from '../tools/api';
     import { InfiniteScroll } from 'mint-ui';
+    import {Toast} from 'mint-ui';
     Vue.use(InfiniteScroll);
     export default {
         name: 'ticket-list',
@@ -132,12 +133,25 @@
                 return ''
             },
             useTicket(ccCode){
-                this.$router.push({
-                    path:'/usable-financial',
-                    query:{
-                        ccCode
-                    }
+                $api.get('/adaptProduct/list',{
+                    ccCode
                 })
+                    .then(resp=>{
+                        if(resp.code==200){
+                            if(resp.data.list.length){
+                                this.$router.push({
+                                    path:'/usable-financial',
+                                    query:{
+                                        ccCode
+                                    }
+                                })
+                                return false;
+                            }
+                            Toast('现金券可用产品已售罄，请选择其他现金券');
+                        }else{
+                            Toast(resp.msg);
+                        }
+                    })
             }
 
         },

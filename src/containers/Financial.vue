@@ -58,6 +58,9 @@
                          @click.stop="getDetail(item,'/fixi-goods-detail')"
                          :class="{'stat': item.productStatus =='已告罄'  }">
                         <div class="fund-name ellipsis">{{item.productName}}</div>
+                        <div class="ticket-wrap" v-if="item.productLabel" flex>
+                            <div class="ticket-item" :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}" v-for="(ticketItem,index) in item.productLabel">{{ticketItem}}</div>
+                        </div>
                         <div flex="dir:left" class="fund-middle-fix"
                              :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                             <div class="rate" flex-box="1"
