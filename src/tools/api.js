@@ -12,22 +12,17 @@ import {encryptFun, decryptFun} from './crypto';
 
 import 'whatwg-fetch';
 import store from '../store';
-import {
-    doEncrypt,
-    devUrl,
-    testUrl,
-    productionUrl,
-    nodeTestApi,
-    nodeProductionApi
-} from './config';
-let serverUrl = devUrl;
-let nodeUrl = nodeTestApi;
+import {doEncrypt} from './config';
+import  * as config from './config';
+let serverUrl = config.devUrl;
+let nodeUrl = config.nodeDevApi;
 if (process.env.kingold == 'test') {
-    serverUrl = testUrl;
+    serverUrl = config.testUrl;
+    nodeUrl = config.nodeTestApi;
 }
 if (process.env.kingold == 'production') {
-    serverUrl = productionUrl;
-    nodeUrl = nodeProductionApi;
+    serverUrl = config.productionUrl;
+    nodeUrl = config.nodeProductionApi;
 }
 let query = data => {
     let str = [];
