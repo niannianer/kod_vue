@@ -161,7 +161,7 @@
                     return false;
                 }
 
-                let leastPay = (this.amount * 100 - currencyFormat(this.accountCashAmount) * 100) / 100;
+                let leastPay = Math.round(this.amount *10*10 - currencyFormat(this.accountCashAmount) * 10*10) / 100;
                 if (this.rechargeNum < leastPay) {
                     Toast('输入金额不能小于待支付金额，请重新输入');
                     return false;
