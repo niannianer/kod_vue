@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="forgot-password">
-                    <a class="link" href="/reset-pay-password">忘记交易密码？</a>
+                    <router-link class="link" to="/reset-pay-password">忘记交易密码？</router-link>
                 </div>
             </div>
 

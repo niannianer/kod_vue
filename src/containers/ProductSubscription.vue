@@ -14,7 +14,7 @@
             <div class="section seprate">
                 <div class="item bl" flex>
                     <p flex-box="1">账户余额</p>
-                    <p flex-box="0">{{this.accountCashAmount}}元</p>
+                    <p flex-box="0">{{this.accountCashAmount|currencyFormat}}元</p>
                 </div>
                 <div class="item" flex>
                     <p flex-box="1">认购金额</p>
@@ -66,6 +66,7 @@
 <script>
     import {mapState} from 'vuex';
     import {submitRecharge, currencyInputValidate} from '../tools/operation';
+    import {currencyFormat} from '../filters/index';
     import '../less/product-subscription.less';
     import $api from '../tools/api';
     import EventBus from  '../tools/event-bus';
@@ -104,7 +105,7 @@
             this.amount = this.$route.query.a;
             this.orderBillCode = this.$route.query.o;
 
-            let leastPay = (this.amount * 100 - this.accountCashAmount * 100) / 100;
+            let leastPay = Math.round(this.amount *10*10 - this.accountCashAmount * 10*10) / 100;
             this.rechargeNum = leastPay < 1 ? '1' : leastPay;
             $api.get('/product/getDetail', {
                 'productUuid': this.productUuid,
@@ -159,7 +160,8 @@
                     Toast('请输入正确待支付金额');
                     return false;
                 }
-                let leastPay = (this.amount * 100 - this.accountCashAmount * 100) / 100;
+
+                let leastPay = (this.amount * 100 - currencyFormat(this.accountCashAmount) * 100) / 100;
                 if (this.rechargeNum < leastPay) {
                     Toast('输入金额不能小于待支付金额，请重新输入');
                     return false;

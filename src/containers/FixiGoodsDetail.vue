@@ -146,7 +146,7 @@
         </div>
         <div class="bottom">
            <div v-if="production.canBuy" flex="box:mean">
-               <button class="min-invest"  @click.stop="preInvest">{{production.productMinInvestmentValue}}起投</button>
+               <button class="min-invest"  @click.stop="preInvest">{{production.productMinInvestmentValue}}元起投</button>
                <button class="do-invest"  @click.stop="preInvest">立即投资</button>
            </div>
             <div v-else="production.canBuy">
@@ -174,9 +174,12 @@
     import {submitAuthorization} from '../tools/operation';
     import {textToHtml} from '../filters';
     import {logout} from '../tools/operation';
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     import InvestInput from '../components/InvestInput';
     import Modal from '../components/Modal'
     import '../less/fixi-goods-detail.less';
+    const logo = require('../images/share-icon.png');
     export default {
         name: 'fixi-goods-detail',
         data(){
@@ -192,6 +195,9 @@
             this.$store.dispatch('getAccountBaofoo');
             this.productUuid = this.$route.query.productUuid;
             this.getGoodsDetail();
+            if ($device.isWeixin) {
+                this.getShare();
+            }
         },
         components: {
             InvestInput,
@@ -328,6 +334,33 @@
             },
             inputBack(result){
                 console.log(result);
+            },
+            getShare(){
+                let params = {
+                    url: window.location.href
+                }
+                /*if ($device.ios) {
+                 params.url = window.shareUrl;
+                 }*/
+                $api.get('/wechat/shareInfo', params)
+                    .then(data => {
+                        if (data.code == 200) {
+                            this.setShare(data.data.shareInfo);
+                        }
+                    });
+            },
+            setShare(config){
+                wx.config(config);
+                let content = {
+                    title: '金疙瘩——中高端理财产品聚集地',
+                    link: window.location.href,
+                    imgUrl: logo,
+                    desc: '汇聚中冀独家优质资产，专业理财师团队贴心服务，智能化的定制理财解决方案。'
+                }
+                wx.wx.ready(() => {
+                    wx.onMenuShareTimeline(content);
+                    wx.onMenuShareAppMessage(content);
+                });
             }
 
         },
