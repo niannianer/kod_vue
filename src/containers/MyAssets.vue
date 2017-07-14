@@ -122,7 +122,7 @@
                     this.showModal = true;
                     return false;
                 }
-                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0]));
+                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0]+'?t='+new Date().getTime()));
                 this.$router.push('/recharge');
 
             },
