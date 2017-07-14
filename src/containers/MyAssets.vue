@@ -68,6 +68,9 @@
             Modal
         },
         created(){
+            if(this.$route.query.t){
+                window.location.replace('/my-assets');
+            }
             this.getBaofoo()
         },
         computed: mapState([
