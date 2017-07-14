@@ -112,14 +112,16 @@
 <script>
     import Vue from 'vue';
     import {mapState} from 'vuex';
-    //    import {InfiniteScroll} from 'mint-ui';
     import {Loadmore, InfiniteScroll} from 'mint-ui';
     import {logout} from '../tools/operation';
     Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     import '../less/financial.less';
     import CicleProgress from '../components/CicleProgress/CicleProgress';
     import $api from '../tools/api';
+    const logo = require('../images/share-icon.png');
     export default {
         name: 'financial',
         components: {
@@ -142,7 +144,9 @@
             };
         },
         created(){
-
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             let goodsDetail = window.sessionStorage.getItem('goodsDetail');
             if (goodsDetail) {
                 let {tab, lists, scrollTop, startRow, pageSize, hasMore} = JSON.parse(goodsDetail);
@@ -152,7 +156,7 @@
                 this.startRow = startRow;
                 this.pageSize = pageSize;
                 this.hasMore = hasMore;
-                this.loading =false;
+                this.loading = false;
                 this.$nextTick(() => {
                     let dom = document.querySelector('.item-list');
                     dom.scrollTop = this.scrollTop;
@@ -274,6 +278,33 @@
                         productUuid: item.productUuid
                     }
                 })
+            },
+            getShare(){
+                let params = {
+                    url: window.location.href
+                }
+                /*if ($device.ios) {
+                 params.url = window.shareUrl;
+                 }*/
+                $api.get('/wechat/shareInfo', params)
+                    .then(data => {
+                        if (data.code == 200) {
+                            this.setShare(data.data.shareInfo);
+                        }
+                    });
+            },
+            setShare(config){
+                wx.config(config);
+                let content = {
+                    title: '金疙瘩——中高端理财产品聚集地',
+                    link: window.location.href,
+                    imgUrl: logo,
+                    desc: '汇聚中冀独家优质资产，专业理财师团队贴心服务，智能化的定制理财解决方案。'
+                }
+                wx.wx.ready(() => {
+                    wx.onMenuShareTimeline(content);
+                    wx.onMenuShareAppMessage(content);
+                });
             }
         },
         mounted(){
