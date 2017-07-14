@@ -22,5 +22,4 @@ store.dispatch('getBankInfo');
 store.dispatch('getUserInfo');
 window.onload = () => {
     FastClick.attach(document.body);
-    alert(window.location.href)
 };
