@@ -39,6 +39,8 @@
     import {mapState} from 'vuex';
     import '../less/reward.less';
     import $api from '../tools/api';
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     export default {
         name: 'reward',
         data(){
@@ -65,6 +67,11 @@
                         }
                         return msg
                     })
+            },
+            getShare(){
+                wx.getShare({
+                    title:'金疙瘩——我的奖励'
+                });
             }
         },
         watch: {
@@ -75,6 +82,9 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             if (this.userUuid) {
                 this.getSum();
             }

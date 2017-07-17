@@ -53,6 +53,8 @@
     import {submitAuthorization} from '../tools/operation';
     import Modal from '../components/Modal';
     import  '../less/my-assets.less';
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     let times=0;
     export default {
         name: 'my-assets',
@@ -68,7 +70,18 @@
             Modal
         },
         created(){
-            this.getBaofoo()
+            if ($device.isWeixin) {
+                this.getShare();
+            }
+            this.getBaofoo();
+            if(this.$route.query.t){
+                if(window.location.href.indexOf('test')>-1){
+                    window.location.replace('https://static-test.zj-hf.cn/my-assets');
+                }else {
+                    window.location.replace('https://zj-static.zj-hf.cn/my-assets');
+                }
+
+            }
         },
         computed: mapState([
             'userVerifyStatus',
@@ -143,6 +156,11 @@
                 if (result) {
                     this.goStep();
                 }
+            },
+            getShare(){
+                wx.getShare({
+                    title:'金疙瘩——我的资产'
+                });
             }
         },
         destroyed(){

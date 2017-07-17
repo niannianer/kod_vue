@@ -25,7 +25,7 @@ let getShare = (settings)=>{
         title:settings.title|| '金疙瘩——中高端理财产品聚集地',
         link: window.location.href,
         imgUrl: logo,
-        desc:settings.desc|| '汇聚中冀独家优质资产，专业理财师团队贴心服务，智能化的定制理财解决方案。'
+        desc:settings.desc|| '中冀投资旗下智能化定制理财服务平台，专业可信赖。'
     }
     $api.get('/wechat/shareInfo', params)
         .then(data => {
@@ -80,7 +80,5 @@ let onMenuShareAppMessage = (content, $fn) => {
 export  default {
     wx,
     config,
-    getShare,
-    onMenuShareTimeline,
-    onMenuShareAppMessage
+    getShare
 }

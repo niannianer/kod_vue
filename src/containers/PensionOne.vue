@@ -32,7 +32,9 @@
     import Vue from 'vue';
     import "../less/pension-one.less";
     import $api from '../tools/api';
-    import cityGrade from "../tools/city-grade"
+    import cityGrade from "../tools/city-grade";
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     import {IndexList, IndexSection, Toast} from 'mint-ui';
     Vue.component(IndexList.name, IndexList);
     Vue.component(IndexSection.name, IndexSection);
@@ -47,6 +49,9 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             $api.getNode('/assets/getCities')
                 .then(data => {
                     this.citys = data.data;
@@ -85,6 +90,12 @@
             });
         },
         methods: {
+            getShare(){
+                wx.getShare({
+                    title:'快看我的理财规划，原来我可以这么有钱！',
+                    desc:'金疙瘩智能定制理财规划，比心理测验还好玩，你也来试试？'
+                });
+            },
             clickHandle(item){
                 this.activeBtn = item.zip;
                 this.cityName = item.name;

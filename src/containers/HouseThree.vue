@@ -109,6 +109,7 @@
     import '../less/pension-five.less';
     import $api from '../tools/api';
     import $device from '../tools/device';
+    import wx from '../tools/wx';
     import requestHybrid from '../tools/hybrid';
     import {Toast} from 'mint-ui';
     export default {
@@ -261,6 +262,12 @@
             }
         },
         methods: {
+            getShare(){
+                wx.getShare({
+                    title:'快看我的购房规划，原来梦想触手可及！',
+                    desc:'金疙瘩智能定制理财规划，让人生目标近在眼前，你也来试试？'
+                });
+            },
             setX(m,k){
                 return k*m/12
             },
@@ -405,6 +412,9 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             this.get();
             requestHybrid({
                 tagname: 'title',

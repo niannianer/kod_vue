@@ -121,7 +121,6 @@
     import '../less/financial.less';
     import CicleProgress from '../components/CicleProgress/CicleProgress';
     import $api from '../tools/api';
-    const logo = require('../images/share-icon.png');
     export default {
         name: 'financial',
         components: {
@@ -139,14 +138,13 @@
                 autoFill: false,
                 bottomLoadingText: '加载中...',
                 bottomPullText: '上拉加载更多',
-                scrollTop: 0
+                scrollTop: 0,
+                settings:{}
 
             };
         },
         created(){
-            if ($device.isWeixin) {
-                this.getShare();
-            }
+
             let goodsDetail = window.sessionStorage.getItem('goodsDetail');
             if (goodsDetail) {
                 let {tab, lists, scrollTop, startRow, pageSize, hasMore} = JSON.parse(goodsDetail);
@@ -169,13 +167,16 @@
             // 固收
             if (this.$route.query.tab == 'PRIF') {
                 this.tab = 1;
+                this.settings.title = '优质稀缺大类资产，就在金疙瘩。';
                 this.getListWithLogin();
 
             } else {
+                this.settings.title = '金疙瘩系列定期产品——闲散资金定制理财';
                 this.getGoodsList()
             }
-
-
+            if ($device.isWeixin) {
+                this.getShare();
+            }
         },
         computed: {
             ...mapState([
@@ -280,11 +281,8 @@
                 })
             },
             getShare(){
-                wx.getShare({
-                    title:'理财列表'
-                });
-            },
-
+                wx.getShare(this.settings);
+            }
         },
         mounted(){
 
