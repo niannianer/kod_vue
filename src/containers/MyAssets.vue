@@ -76,9 +76,9 @@
             this.getBaofoo();
             if (this.$route.query.t) {
                 if (window.location.href.indexOf('test') > -1) {
-                    window.location.href = 'https://static-test.zj-hf.cn/my-assets';
+                    window.location.replace('https://static-test.zj-hf.cn/my-assets');
                 } else {
-                    window.location.href = 'https://zj-static.zj-hf.cn/my-assets';
+                    window.location.replace('https://zj-static.zj-hf.cn/my-assets');
                 }
 
             }
@@ -135,7 +135,7 @@
                     this.showModal = true;
                     return false;
                 }
-                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0]));
+                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0])+'?t='+new Date().getTime());
                 this.$router.push('/recharge');
 
             },
