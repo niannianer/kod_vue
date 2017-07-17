@@ -398,8 +398,7 @@ let routes = [
         name: 'personal-center',
         component: PersonalCenter,
         meta: {
-            title: '个人中心',
-            withoutLogin: true
+            title: '个人中心'
         }
     },
     {

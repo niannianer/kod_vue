@@ -52,6 +52,7 @@
                         </div>
                         <div>
                             <p class="item-tip" v-if="item.experienceStatus ==0">投资{{item.conditionProductPeriod}}天及以上定期理财累计{{item.conditionProductAmount}}可领取</p>
+                            <p class="item-tip" v-if="item.experienceStatus ==0">当前完成：{{item.cumulativeInvestAmount}}元</p>
                             <p class="item-tip" v-else="item.experienceStatus ==0">条件达成</p>
                         </div>
                     </div>
@@ -126,6 +127,7 @@
                     }).then(resp =>{
                         if(resp.code == 200){
                             item.experienceStatus = 2;
+                            this.$store.dispatch('getExperienceSum');
                         }else{
                             Toast(resp.msg)
                         }

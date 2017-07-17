@@ -13,7 +13,8 @@
             </div>-->
         </div>
         <div class="body">
-            <ul
+            <div class="nothing" v-if="!lists.length">暂无内容</div>
+            <ul v-else
                 v-infinite-scroll="loadMore"
                 infinite-scroll-disabled="stop"
                 infinite-scroll-distance="10">
@@ -127,6 +128,9 @@
                     return '还有'+hours+'时过期'
                 }
                 let minutes = Math.floor(remainTime/60);
+                if((remainTime/60)<1){
+                    return '还有1分过期'
+                }
                 if(minutes>0){
                     return '还有'+minutes+'分过期'
                 }

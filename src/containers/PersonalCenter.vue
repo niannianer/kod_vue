@@ -186,7 +186,6 @@
                     })
             },
             getPath(path,boolean){
-                console.log('aaaaaaaaaa')
                 if(boolean){
                     window.location.href='/land-about-us.html';
                     return false
