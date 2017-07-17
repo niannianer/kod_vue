@@ -13,7 +13,7 @@
                 <span v-if="investorMobile">{{investorMobile | mobileFormat}}</span>
                 <span v-else @click.stop="login"> 请登录</span>
             </div>
-            <div class="fund-center" flex>
+            <div class="fund-center" flex  @click.stop="getPath('/my-assets')">
                 <div flex-box="1">
                     <p class="info" v-if="mode">{{accountTotalAssets|currencyFormat}}元</p>
                     <p class="info" v-else="mode">****元</p>
@@ -153,23 +153,27 @@
             }
         },
         created(){
+            this.mode = window.localStorage.getItem('mode') =='true'?true:false;
             if ($device.isWeixin) {
                 this.getShare();
             }
 
         },
-        computed: mapState([
-            'investorMobile',
-            'accountCashAmount',
-            'accountTotalInterests',
-            'accountTotalAssets',
-            'experienceAmount',
-            'cashCouponCount',
-            'investorRiskScore'
-        ]),
+        computed: {
+            ...mapState([
+                'investorMobile',
+                'accountCashAmount',
+                'accountTotalInterests',
+                'accountTotalAssets',
+                'experienceAmount',
+                'cashCouponCount',
+                'investorRiskScore'
+            ])
+        },
         methods: {
             switchMode(){
-                this.mode = !this.mode;
+               this.mode = !this.mode
+                window.localStorage.setItem('mode',this.mode);
             },
             login(){
                 this.$router.replace('/login');
