@@ -74,6 +74,14 @@
                 this.getShare();
             }
             this.getBaofoo();
+            if(this.$route.query.t){
+                if(window.location.href.indexOf('test')>-1){
+                    window.location.replace('https://static-test.zj-hf.cn/my-assets');
+                }else {
+                    window.location.replace('https://zj-static.zj-hf.cn/my-assets');
+                }
+
+            }
         },
         computed: mapState([
             'userVerifyStatus',
