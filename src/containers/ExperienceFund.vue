@@ -30,6 +30,7 @@
                 v-infinite-scroll="loadMore"
                 infinite-scroll-disabled="stopLoad"
                 infinite-scroll-distance="10">
+                <li v-if="!experienceList.length" class="nothing">暂无更多数据</li>
                 <li class="item" v-for="(item,index) in experienceList " :key="index" flex="dir:top">
                     <div class="item-body" flex-box="1">
                         <div class="bl" flex>
@@ -89,6 +90,7 @@
             }
         },
         created(){
+            this.$store.dispatch('getExperienceSum');
             this.loadData();
         },
         computed: {
@@ -103,7 +105,6 @@
                     .then((resp)=>{
                         if(resp.code == 200){
                             this.experienceList = this.experienceList.concat(resp.data.experienceList);
-                            console.log(resp.data.count,this.experienceList.length)
                             if (resp.data.count > this.experienceList.length) {
                                 this.stopLoad = false;
                             } else {
