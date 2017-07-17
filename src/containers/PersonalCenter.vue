@@ -43,7 +43,7 @@
                         </p>
                     </div>
                 </div>
-                <div flex class="ticket-detail">
+                <div flex class="ticket-detail" @click.stop="getPath('/ticket-list')">
                     <div flex-box="1" class="rl">
                         <p class="title">现金劵</p>
                         <p class="info">{{cashCouponCount}}个</p>
@@ -52,7 +52,7 @@
                         <p class="title">加息卷</p>
                         <p class="info">5个</p>
                     </div>-->
-                    <div flex-box="1">
+                    <div flex-box="1" @click.stop="getPath('/experience-fund')">
                         <p class="title">体验金</p>
                         <p class="info">{{experienceAmount}}元</p>
                     </div>
