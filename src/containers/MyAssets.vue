@@ -55,14 +55,14 @@
     import  '../less/my-assets.less';
     import wx from '../tools/wx';
     import $device from '../tools/device';
-    let times=0;
+    let times = 0;
     export default {
         name: 'my-assets',
         data(){
             return {
                 telNumber,
                 timer: null,
-                times:0,
+                times: 0,
                 showModal: false
             }
         },
@@ -74,11 +74,11 @@
                 this.getShare();
             }
             this.getBaofoo();
-            if(this.$route.query.t){
-                if(window.location.href.indexOf('test')>-1){
-                    window.location.replace('https://static-test.zj-hf.cn/my-assets');
-                }else {
-                    window.location.replace('https://zj-static.zj-hf.cn/my-assets');
+            if (this.$route.query.t) {
+                if (window.location.href.indexOf('test') > -1) {
+                    window.location.href = 'https://static-test.zj-hf.cn/my-assets';
+                } else {
+                    window.location.href = 'https://zj-static.zj-hf.cn/my-assets';
                 }
 
             }
@@ -92,8 +92,8 @@
             getBaofoo(){
                 setTimeout(() => {
                     times++;
-                    if(times>=3){
-                      return;
+                    if (times >= 3) {
+                        return;
                     }
                     this.$store.dispatch('getAccountBaofoo');
                     this.$store.dispatch('getBankInfo');
@@ -105,11 +105,11 @@
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {
                     case 0:
-                      //  window.location.href = '/realnameBased.html';
+                        //  window.location.href = '/realnameBased.html';
                         this.$router.push('/authentication');
                         break;
                     case 1:
-                       // window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
+                        // window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
                         submitAuthorization(this.$store.state.userId);
                         break;
                     case 2:
@@ -117,7 +117,7 @@
                         this.$router.push('/bind-bank-card');
                         break;
                     case 3:
-                      //  window.location.href = '/setPayPassword.html';
+                        //  window.location.href = '/setPayPassword.html';
                         this.$router.push('/set-pay-password');
                         break;
                     default:
@@ -159,7 +159,7 @@
             },
             getShare(){
                 wx.getShare({
-                    title:'金疙瘩——我的资产'
+                    title: '金疙瘩——我的资产'
                 });
             }
         },
