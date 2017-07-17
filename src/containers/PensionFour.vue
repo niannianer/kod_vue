@@ -85,6 +85,8 @@
     import Modal from '../components/Modal'
     import {getValueD, getValueE, getValueG} from "../tools/city-grade";
     import requestHybrid from '../tools/hybrid';
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     export default{
         data(){
             return {
@@ -155,6 +157,9 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             this.cityName = window.sessionStorage.getItem('cityName') || '北京';
             this.gender = window.sessionStorage.getItem('gender') || 2;
             this.age = window.sessionStorage.getItem('age') || 30;
@@ -187,6 +192,12 @@
             });
         },
         methods: {
+            getShare(){
+                wx.getShare({
+                    title:'快看我的理财规划，原来我可以这么有钱！',
+                    desc:'金疙瘩智能定制理财规划，比心理测验还好玩，你也来试试？'
+                });
+            },
             genderHandle(num){
                 this.gender = num;
                 this.retirementAge = this.gender == 1 ? '55' : '60';

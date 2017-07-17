@@ -101,33 +101,10 @@
                 window.location.href = path;
             },
             getShare(){
-                let params = {
-                    url: window.location.href
-                }
-                /*if ($device.ios) {
-                    params.url = window.shareUrl;
-                }*/
-                $api.get('/wechat/shareInfo', params)
-                    .then(data => {
-                        if (data.code == 200) {
-                            this.setShare(data.data.shareInfo);
-                        }
-                    });
-            },
-            setShare(config){
-                wx.config(config);
-                let content = {
-                    title: '金疙瘩——智能化定制理财服务平台',
-                    link: window.location.href,
-                    imgUrl: logo,
-                    desc: '我已经在这挖到了金疙瘩，你也来试试？'
-                }
-                wx.wx.ready(() => {
-                    wx.onMenuShareTimeline(content);
-                    wx.onMenuShareAppMessage(content);
+                wx.getShare({
+                    title:'金疙瘩——个人中心'
                 });
             }
-
         },
         destroyed(){
 

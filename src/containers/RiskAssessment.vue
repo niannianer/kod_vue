@@ -29,6 +29,7 @@
     import {Toast} from 'mint-ui';
     import $api from '../tools/api';
     import $device from '../tools/device';
+    import wx from '../tools/wx';
     import requestHybrid from '../tools/hybrid';
     import _ from 'lodash/core';
     import '../less/risk-assessment.less';
@@ -49,6 +50,9 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             this.setIndex(0);
             console.log(this.$route.name);
             if ($device.kingold) {
@@ -67,6 +71,11 @@
             }
         },
         methods: {
+            getShare(){
+                wx.getShare({
+                    title:'金疙瘩——风险测评'
+                });
+            },
             setIndex(){
                 let qu = questions[this.quIndex];
                 this.title = qu.title;

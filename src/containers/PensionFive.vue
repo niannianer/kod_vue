@@ -105,6 +105,7 @@
     import requestHybrid from '../tools/hybrid';
     import {Toast} from 'mint-ui';
     import {getValueE} from "../tools/city-grade";
+    import wx from '../tools/wx';
     export default {
         name: 'pension-five',
         components: {},
@@ -289,6 +290,12 @@
             }
         },
         methods: {
+            getShare(){
+                wx.getShare({
+                    title:'快看我的养老规划，原来我老了这么有钱！',
+                    desc:'金疙瘩智能定制理财规划，让人生再无后顾之忧，你也来试试？'
+                });
+            },
             setX(m, k){
                 return k * m / 12
             },
@@ -438,6 +445,9 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             this.get();
             requestHybrid({
                 tagname: 'title',

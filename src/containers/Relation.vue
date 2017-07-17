@@ -5,11 +5,11 @@
             <div class="title">我的好友</div>
         </div>
         <div class="item" flex @click.stop="$router.push('/relation-list?level=1')">
-            <div flex-box='1' class="left">1度好友</div>
+            <div flex-box='1' class="left">直接好友</div>
             <div flex-box='0' class="right">{{levelOneCount}}人</div>
         </div>
         <div class="item" flex @click.stop="$router.push('/relation-list?level=2')">
-            <div flex-box='1' class="left">2度好友</div>
+            <div flex-box='1' class="left">间接好友</div>
             <div flex-box='0' class="right">{{levelTwoCount}}人</div>
         </div>
         <div class="code-info" flex="dir:top">
@@ -30,6 +30,8 @@
     import '../less/relation.less';
     import $api from '../tools/api';
     import QRCode from 'qrcode';
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     Vue.use(QRCode)
     export default {
         name: 'relation',
@@ -54,7 +56,13 @@
             },
             link(){
                 window.location.href = '/land-share.html';
+            },
+            getShare(){
+                wx.getShare({
+                    title:'金疙瘩——我的好友'
+                });
             }
+
         },
         computed: {
             ...mapState(['investorMobile'])
@@ -72,6 +80,9 @@
 
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             $api.get('/relation/count').then(data => {
                 if (data.code == 200) {
                     this.levelOneCount = data.data.levelOneCount;
