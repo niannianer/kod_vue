@@ -280,32 +280,11 @@
                 })
             },
             getShare(){
-                let params = {
-                    url: window.location.href
-                }
-                /*if ($device.ios) {
-                 params.url = window.shareUrl;
-                 }*/
-                $api.get('/wechat/shareInfo', params)
-                    .then(data => {
-                        if (data.code == 200) {
-                            this.setShare(data.data.shareInfo);
-                        }
-                    });
-            },
-            setShare(config){
-                wx.config(config);
-                let content = {
-                    title: '金疙瘩——中高端理财产品聚集地',
-                    link: window.location.href,
-                    imgUrl: logo,
-                    desc: '汇聚中冀独家优质资产，专业理财师团队贴心服务，智能化的定制理财解决方案。'
-                }
-                wx.wx.ready(() => {
-                    wx.onMenuShareTimeline(content);
-                    wx.onMenuShareAppMessage(content);
+                wx.getShare({
+                    title:'理财列表'
                 });
-            }
+            },
+
         },
         mounted(){
 
