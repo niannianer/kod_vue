@@ -132,6 +132,9 @@
         <div class="cantact-us">
             联系我们：{{telNumber}}
         </div>
+        <div class="btn" @click.stop="logout()">
+            退出登录
+        </div>
     </div>
 </template>
 
