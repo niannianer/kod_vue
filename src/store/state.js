@@ -3,8 +3,6 @@
  */
 'use strict'
 const state = {
-    username: 'hkk',
-    count: 0,
     userVerifyStatus: 0, //认证状态
     userVerifyStatusDesc:'',
     userUuid:'',// uid
@@ -21,9 +19,12 @@ const state = {
     investorType:'',
     investorTypeDesc:'',
     investorGenderDesc:'',
+
     accountTotalAssets:0.00, //总资产
     accountTotalInterests:0.00,//收益总额，
     accountCashAmount:0.00,// 可提现金额
+
+
     bankUserCardNo:'',//银行卡
     bankUserPhone:'',//绑卡手机
     bank_code:'',
@@ -32,6 +33,16 @@ const state = {
     bank_no:'',
     perday_limit:'',
     single_limit:'',
-    single_limit_value:''
+    single_limit_value:'',
+
+    experienceProfit:'',//已收益
+    notExpireProfit:'',//待收益
+    notRecieveExperience:'',//未领取体验金
+    totalExperience:'',
+
+    cashCouponCount:'',//现金券数量
+    experienceAmount:''//体验金数额
+
+
 };
 export default state;
