@@ -92,11 +92,15 @@
                     if (this.rechargeMoney) {
                         this.disabled = false;
                     }
+                    if (parseFloat(this.rechargeMoney) < 5) {
+                        Toast('充值金额不能小于5元，请重新输入');
+                        this.disabled = true;
+                    }
                     if (parseFloat(this.rechargeMoney) > this.single_limit_value) {
                         Toast('充值金额不能大于单笔限额，请重新输入');
                         this.disabled = true;
                     }
-                }, 200);
+                }, 500);
             },
             postRecharge(){
                 if (!this.rechargeMoney) {

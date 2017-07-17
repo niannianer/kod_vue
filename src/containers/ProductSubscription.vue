@@ -166,6 +166,10 @@
                     Toast('输入金额不能小于待支付金额，请重新输入');
                     return false;
                 }
+                if(this.rechargeNum < 5){
+                    Toast('输入金额不能小于5元，请重新输入');
+                    return false;
+                }
                 $api.post('/trade/recharge', {
                     amount: this.rechargeNum
                 })

@@ -23,7 +23,9 @@
                     <span flex-box="0">{{production.productProgress}}%</span>
                 </div>
             </div>
-
+            <div class="ticket-wrap" v-if="production.productLabel" flex>
+                <div class="ticket-item" v-for="(item,index) in production.productLabel">{{item}}</div>
+            </div>
             <div class="date-warp" flex>
                 <div class="date-item" flex-box="1">
                     <div class="date-info">发布日</div>
@@ -74,7 +76,6 @@
 
             <div class="basic">
                 <div class="basic-title">基本要素</div>
-
                 <div class="content">
                     <div class="item" flex="box:mean">
                         <span>产品全称</span>
