@@ -185,7 +185,7 @@
                 $api.post('/logout')
                     .then(data => {
                         if (data.code == 200) {
-                            this.$router.replace('/login');
+                            window.location.replace('/login');
                         } else {
                             Toast('退出登录失败');
                         }
