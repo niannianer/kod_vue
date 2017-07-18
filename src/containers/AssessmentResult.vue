@@ -19,6 +19,7 @@
 <script>
     import {mapState} from 'vuex';
     import $device from '../tools/device';
+    import wx from '../tools/wx';
     import requestHybrid from '../tools/hybrid';
     import '../less/assessment-result.less';
     import baoshou from '../images/assessment-result/banshou.png';
@@ -34,6 +35,9 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             if($device.kingold){
                 this.isApp = true;
             }
@@ -93,6 +97,11 @@
             }
         },
         methods: {
+            getShare(){
+                wx.getShare({
+                    title:'金疙瘩——风险测评'
+                });
+            },
             reSubmit(){
                 if(this.isApp){
                     this.$router.replace({
