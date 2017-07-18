@@ -43,7 +43,7 @@
                         </p>
                     </div>
                 </div>
-                <div flex class="ticket-detail">
+                <div flex class="ticket-detail" @click.stop="getPath('/ticket-list')">
                     <div flex-box="1" class="rl">
                         <p class="title">现金劵</p>
                         <p class="info">{{cashCouponCount}}个</p>
@@ -52,7 +52,7 @@
                         <p class="title">加息卷</p>
                         <p class="info">5个</p>
                     </div>-->
-                    <div flex-box="1">
+                    <div flex-box="1" @click.stop="getPath('/experience-fund')">
                         <p class="title">体验金</p>
                         <p class="info">{{experienceAmount}}元</p>
                     </div>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="section seperate" flex="dir:top">
-                <div  class="item bl" flex-box="1" flex="cross:center" @click.stop="getPath('/financial?tab=')">
+                <div  class="item bl" flex-box="1" flex="cross:center" @click.stop="getPath('/invest-list')">
                     <div flex-box="0">
                         <img  class="logo" src="../images/personal-center/financial-fixi.png" alt="financial" >
                     </div>
@@ -78,7 +78,7 @@
                         <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
                     </div>
                 </div>
-                <div  class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/financial?tab=PRIFFIXI')">
+                <div  class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/reserve-list')">
                     <div flex-box="0">
                         <img  class="logo" src="../images/personal-center/financial-prif.png" alt="financial" >
                     </div>
@@ -185,7 +185,7 @@
                 $api.post('/logout')
                     .then(data => {
                         if (data.code == 200) {
-                            this.$router.replace('/login');
+                            window.location.replace('/login');
                         } else {
                             Toast('退出登录失败');
                         }
@@ -203,33 +203,10 @@
                 window.location.href = path;
             },
             getShare(){
-                let params = {
-                    url: window.location.href
-                }
-                /*if ($device.ios) {
-                    params.url = window.shareUrl;
-                }*/
-                $api.get('/wechat/shareInfo', params)
-                    .then(data => {
-                        if (data.code == 200) {
-                            this.setShare(data.data.shareInfo);
-                        }
-                    });
-            },
-            setShare(config){
-                wx.config(config);
-                let content = {
-                    title: '金疙瘩——智能化定制理财服务平台',
-                    link: window.location.href,
-                    imgUrl: logo,
-                    desc: '我已经在这挖到了金疙瘩，你也来试试？'
-                }
-                wx.wx.ready(() => {
-                    wx.onMenuShareTimeline(content);
-                    wx.onMenuShareAppMessage(content);
+                wx.getShare({
+                    title:'金疙瘩——个人中心'
                 });
             }
-
         },
         destroyed(){
 

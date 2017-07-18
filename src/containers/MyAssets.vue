@@ -53,14 +53,16 @@
     import {submitAuthorization} from '../tools/operation';
     import Modal from '../components/Modal';
     import  '../less/my-assets.less';
-    let times=0;
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
+    let times = 0;
     export default {
         name: 'my-assets',
         data(){
             return {
                 telNumber,
                 timer: null,
-                times:0,
+                times: 0,
                 showModal: false
             }
         },
@@ -68,10 +70,18 @@
             Modal
         },
         created(){
-            if(this.$route.query.t){
-                window.location.replace('/my-assets');
+            if ($device.isWeixin) {
+                this.getShare();
             }
-            this.getBaofoo()
+            this.getBaofoo();
+            if (this.$route.query.t) {
+                if (window.location.href.indexOf('test') > -1) {
+                    window.location.replace('https://static-test.zj-hf.cn/my-assets');
+                } else {
+                    window.location.replace('https://zj-static.zj-hf.cn/my-assets');
+                }
+
+            }
         },
         computed: mapState([
             'userVerifyStatus',
@@ -82,8 +92,8 @@
             getBaofoo(){
                 setTimeout(() => {
                     times++;
-                    if(times>=3){
-                      return;
+                    if (times >= 3) {
+                        return;
                     }
                     this.$store.dispatch('getAccountBaofoo');
                     this.$store.dispatch('getBankInfo');
@@ -125,7 +135,7 @@
                     this.showModal = true;
                     return false;
                 }
-                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0]+'?t='+new Date().getTime()));
+                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0])+'?t='+new Date().getTime());
                 this.$router.push('/recharge');
 
             },
@@ -146,6 +156,11 @@
                 if (result) {
                     this.goStep();
                 }
+            },
+            getShare(){
+                wx.getShare({
+                    title: '金疙瘩——我的资产'
+                });
             }
         },
         destroyed(){

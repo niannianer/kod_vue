@@ -26,6 +26,8 @@
     import '../less/pension-three.less';
     import {getValueD} from "../tools/city-grade";
     import requestHybrid from '../tools/hybrid';
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     export default {
         name: 'pension-three',
         data(){
@@ -37,6 +39,12 @@
         computed:{
         },
         methods:{
+            getShare(){
+                wx.getShare({
+                    title:'快看我的理财规划，原来我可以这么有钱！',
+                    desc:'金疙瘩智能定制理财规划，比心理测验还好玩，你也来试试？'
+                });
+            },
             nextHandle(){
                 window.sessionStorage.setItem('wagesAfterTax',this.wagesAfterTax);
                 if(this.checkwagesAfterTax()){
@@ -60,6 +68,9 @@
             },
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             this.wagesAfterTax =getValueD(window.sessionStorage.getItem('cityName'));
             this.wagesAfterTax =getValueD(window.sessionStorage.getItem('cityName'))
         },
