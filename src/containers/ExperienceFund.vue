@@ -47,7 +47,7 @@
                                 <p>年化收益率</p>
                             </div>
                             <div flex-box="1">
-                                <p class="info">{{item.expectProfit}}</p>
+                                <p class="info">{{item.expectProfit|currencyFormat}}</p>
                                 <p>预期收益</p>
                             </div>
                         </div>
