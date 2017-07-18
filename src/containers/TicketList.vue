@@ -90,7 +90,7 @@
                             resp.data.couponList.map(item=>{
                                 switch (item.couponStatus){
                                     case 1:
-                                        item.couponStatusText = '已发放';
+                                        item.couponStatusText = '去使用';
                                         break;
                                     case 2:
                                         item.couponStatusText = '已使用';
