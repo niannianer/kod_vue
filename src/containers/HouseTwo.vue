@@ -162,6 +162,8 @@
     import KingoldPicker from '../components/KingoldPicker'
     import {getPrice} from '../tools/city-grade';
     import $api from '../tools/api';
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     import '../less/house-two.less';
     import requestHybrid from '../tools/hybrid';
 
@@ -241,6 +243,9 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             $api.getNode('/assets/getCities')
                 .then(data=>{
                     this.cityList =data.data;
@@ -400,6 +405,12 @@
             }
         },
         methods: {
+            getShare(){
+                wx.getShare({
+                    title:'快看我的购房规划，原来梦想触手可及！',
+                    desc:'金疙瘩智能定制理财规划，比心理测验还好玩，你也来试试？'
+                });
+            },
             changeCity(){
                 this.houseTotal = Math.round(this.cityAveragePrice / 10000);
             },
