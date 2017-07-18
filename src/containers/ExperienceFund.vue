@@ -90,7 +90,6 @@
             }
         },
         created(){
-            this.$store.dispatch('getExperienceSum');
             this.loadData();
         },
         computed: {
