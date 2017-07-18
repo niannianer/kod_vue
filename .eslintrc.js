@@ -26,7 +26,9 @@ module.exports = {
         'Promise': true,
         'history':true,
         'document': true,
-        'Hybrid':true
+        'Hybrid':true,
+        'module':true,
+        '__dirname':true
     },
     // add your custom rules here
     'rules': {
