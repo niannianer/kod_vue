@@ -3,21 +3,21 @@
         <div class="header">
             <ul>
                 <li class='sum'>
-                    <p class='info'>{{totalExperience}}</p>
+                    <p class='info'>{{totalExperience|currencyFormat}}</p>
                     <p class='title'>体验金总额（元）</p>
                 </li>
             </ul>
             <ul flex >
                 <li class="detail" flex-box="1">
-                    <p class='info'>{{experienceProfit}}</p>
+                    <p class='info'>{{experienceProfit|currencyFormat}}</p>
                     <p class='title'>已收收益（元）</p>
                 </li>
                 <li class="detail" flex-box="1">
-                    <p class='info'>{{notRecieveExperience}}</p>
+                    <p class='info'>{{notRecieveExperience|currencyFormat}}</p>
                     <p class='title'>待领取体验金（元）</p>
                 </li>
                 <li class="detail" flex-box="1">
-                    <p class='info'>{{notExpireProfit}}</p>
+                    <p class='info'>{{notExpireProfit|currencyFormat}}</p>
                     <p class='title'>待收收益（元）</p>
                 </li>
             </ul>
@@ -39,7 +39,7 @@
                         </div>
                         <div flex class="item-detail">
                             <div flex-box="1">
-                                <p class="info">{{item.experienceAmount}}</p>
+                                <p class="info">{{item.experienceAmount|currencyFormat}}</p>
                                 <p>金额</p>
                             </div>
                             <div flex-box="1">

@@ -98,6 +98,7 @@
             PasswordInput
         },
         created(){
+            this.$store.dispatch('getAccountBaofoo');
             if (this.bank_code) {
                 this.bankImg = this.imgUrls[this.bank_code];
             }
