@@ -138,7 +138,9 @@
             },
             useTicket(ccCode){
                 $api.get('/adaptProduct/list',{
-                    ccCode
+                    ccCode,
+                    startRow:0,
+                    pageSize:1
                 })
                     .then(resp=>{
                         if(resp.code==200){
