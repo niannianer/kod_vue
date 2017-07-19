@@ -98,7 +98,9 @@
             PasswordInput
         },
         created(){
-            this.$store.dispatch('getAccountBaofoo');
+            setTimeout(()=>{
+                this.$store.dispatch('getAccountBaofoo');
+            },3000)
             if (this.bank_code) {
                 this.bankImg = this.imgUrls[this.bank_code];
             }
@@ -107,7 +109,7 @@
             this.orderBillCode = this.$route.query.o;
 
             let leastPay = Math.round(this.amount *10*10 - currencyFormat(this.accountCashAmount) * 10*10) / 100;
-            this.rechargeNum = leastPay < 5? '5' : leastPay;
+            this.rechargeNum = leastPay;
             $api.get('/product/getDetail', {
                 'productUuid': this.productUuid,
                 'productType': 'FIXI'
@@ -160,7 +162,7 @@
                     Toast('请勾选同意《宝付科技电子支付账户协议》');
                     return false;
                 }
-                this.rechargeNum = currencyInputValidate(this.rechargeNum);
+                this.rechargeNum = this.checkRechargeNum(this.rechargeNum);
                 if (!this.rechargeNum) {
                     Toast('请输入正确待支付金额');
                     return false;
@@ -169,10 +171,6 @@
                 let leastPay = Math.round(this.amount *10*10 - currencyFormat(this.accountCashAmount) * 10*10) / 100;
                 if (this.rechargeNum < leastPay) {
                     Toast('输入金额不能小于待支付金额，请重新输入');
-                    return false;
-                }
-                if(this.rechargeNum < 5){
-                    Toast('输入金额不能小于5元，请重新输入');
                     return false;
                 }
                 $api.post('/trade/recharge', {
@@ -243,6 +241,18 @@
                         Toast(msg.msg);
                     }
                     return msg;
+                })
+            },
+            checkRechargeNum(input) {
+                if (!input) {
+                    return '';
+                }
+                let t = input.toString();
+                if (isNaN(input)) {
+                    return ''
+                }
+                return t.replace(/\.\d{3,}/, (match) => {
+                    return match.substring(0, 3);
                 })
             }
         },
