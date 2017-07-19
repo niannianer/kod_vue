@@ -1,5 +1,6 @@
 <template>
     <div class="personal-center">
+
         <div class="top">
             <div flex-box="0" class="switch-mode" @click.stop="switchMode">
                 <img src="../images/login/pwd-show@2x.png" alt="show" v-show="mode">
@@ -74,6 +75,7 @@
                         <img  class="logo" src="../images/personal-center/financial-fixi.png" alt="financial" >
                     </div>
                     <p flex-box="1">定期理财</p>
+                    <p flex-box="0">{{investmentAmount|currencyFormat}}</p>
                     <div flex-box="0">
                         <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
                     </div>
@@ -83,6 +85,7 @@
                         <img  class="logo" src="../images/personal-center/financial-prif.png" alt="financial" >
                     </div>
                     <p flex-box="1">高端理财</p>
+                    <p flex-box="0">{{reservationCount}}个</p>
                     <div flex-box="0">
                         <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
                     </div>
@@ -94,6 +97,7 @@
                         <img  class="logo" src="../images/personal-center/reward.png" alt="financial" >
                     </div>
                     <p flex-box="1">我的奖励</p>
+                    <p flex-box="0">{{rewardSum|currencyFormat}}</p>
                     <div flex-box="0">
                         <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
                     </div>
@@ -103,6 +107,7 @@
                         <img  class="logo" src="../images/personal-center/relation.png" alt="financial" >
                     </div>
                     <p flex-box="1">我的好友</p>
+                    <p flex-box="0">{{relationCount}}</p>
                     <div flex-box="0">
                         <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
                     </div>
@@ -135,24 +140,28 @@
         <div class="btn" @click.stop="logout()">
             退出登录
         </div>
+        <modal  v-show="showModal" @callBack="callBack"></modal>
     </div>
+
 </template>
 
 <script>
     import {mapState} from 'vuex';
+    import Modal from '../components/Modal';
     import {Toast} from 'mint-ui';
     import {telNumber} from '../tools/config';
     import $api from '../tools/api';
     import wx from '../tools/wx';
     import $device from '../tools/device';
     import '../less/personal-center.less';
-    const logo = require('../images/share-icon.png');
+    import {submitAuthorization} from '../tools/operation';
     export default {
         name: 'personal-center',
         data(){
             return {
                 telNumber,
-                mode:true
+                mode:true,
+                showModal: false
             }
         },
         created(){
@@ -170,10 +179,43 @@
                 'accountTotalAssets',
                 'experienceAmount',
                 'cashCouponCount',
-                'investorRiskScore'
+                'investorRiskScore',
+                'userVerifyStatus',
+                'reservationCount',
+                'investmentAmount',
+                'rewardSum',
+                'relationCount'
             ])
         },
         methods: {
+            goStep(){
+                let {userVerifyStatus} = this;
+                switch (userVerifyStatus) {
+                    case 0:
+                        //  window.location.href = '/realnameBased.html';
+                        this.$router.push('/authentication');
+                        break;
+                    case 1:
+                        // window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
+                        submitAuthorization(this.$store.state.userId);
+                        break;
+                    case 2:
+                        // window.location.href = '/bindBankCard.html';
+                        this.$router.push('/bind-bank-card');
+                        break;
+                    case 3:
+                        //  window.location.href = '/setPayPassword.html';
+                        this.$router.push('/set-pay-password');
+                        break;
+                    default:
+                }
+            },
+            callBack(result){
+                this.showModal = false;
+                if (result) {
+                    this.goStep();
+                }
+            },
             switchMode(){
                this.mode = !this.mode
                 window.localStorage.setItem('mode',this.mode);
@@ -197,16 +239,23 @@
                     window.location.href='/land-about-us.html';
                     return false
                 }
+                if(path=='/recharge'||path=='/withdraw'){
+                    if (this.userVerifyStatus != 9) {
+                        this.showModal = true;
+                        return false;
+                    }
+                    window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0])+'?t='+new Date().getTime());
+                }
                 this.$router.push(path);
-            },
-            getLink(path){
-                window.location.href = path;
             },
             getShare(){
                 wx.getShare({
                     title:'金疙瘩——个人中心'
                 });
             }
+        },
+        components: {
+            Modal
         },
         destroyed(){
 
