@@ -28,7 +28,7 @@ export const nodeProductionApi = `${protocol}//market.zj-hf.cn`;
 export const encryptKey = 'ba2b93d1b6388f6254cc0f8d8809b83b89e07ec61625f8c367204610d1b2c8ecd0f79d74c90001fe760dd45936acca92';
 export const encryptIV = '6e77a9e968003d35f170387c7eac7f8f06cc811436531481243f81db67b8a0da';
 let encrypt = false;
-if (process.env.kingold == 'test'||process.env.kingold == 'production') {
+if (process.env.kingold == 'production') {
     encrypt = true;
 }
 export let doEncrypt = encrypt;
