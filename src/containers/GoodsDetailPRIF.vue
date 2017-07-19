@@ -162,17 +162,17 @@
             <!--第六部分-->
             <div class="item open " flex-box="1" v-if="lists.productInvestField" @click.stop='toggle(1)'>
                 <div class="title" flex="main:justify" :class = "{'change':tab1==true}" ><span>投资范围</span><i></i></div>
-                <div v-show="tab1" class="content">{{lists.productInvestField}}</div>
+                <div v-show="tab1" class="content" v-html="lists.productInvestField"></div>
             </div>
             <!--第七部分-->
             <div class="item open" flex-box="1" v-if="lists.productRiskTreatment" @click.stop='toggle(2)'>
                 <div class="title" flex="main:justify" :class = "{'change':tab2==true}" ><span>风控措施</span><i></i></div>
-                <div v-show="tab2" class="content">{{lists.productRiskTreatment}}</div>
+                <div v-show="tab2" class="content" v-html="lists.productRiskTreatment"></div>
             </div>
             <!--第八部分-->
             <div class="item open" flex-box="1" v-if="lists.productInformation"  @click.stop='toggle(3)'>
                 <div class="title" flex="main:justify"  :class = "{'change':tab3==true}"><span>产品亮点</span><i></i></div>
-                <div v-show="tab3" class="content">{{lists.productInformation[0].inforValue}}</div>
+                <div v-show="tab3" class="content" v-html="lists.productInformation[0].inforValue"></div>
             </div>
             <!--第九部分-->
             <div class="item open" flex-box="1" style="border-bottom: none" v-if="lists.productAttachment && lists.productAttachment.length > 0" @click.stop='toggle(4)'>
