@@ -146,10 +146,10 @@
             </div>
         </div>
         <div class="bottom">
-           <div v-if="production.canBuy" flex="box:mean">
-               <button class="min-invest"  @click.stop="preInvest">{{production.productMinInvestmentValue}}元起投</button>
-               <button class="do-invest"  @click.stop="preInvest">立即投资</button>
-           </div>
+            <div v-if="production.canBuy" flex="box:mean">
+                <button class="min-invest" @click.stop="preInvest">{{production.productMinInvestmentValue}}元起投</button>
+                <button class="do-invest" @click.stop="preInvest">立即投资</button>
+            </div>
             <div v-else="production.canBuy">
                 <div class="can-not-buy">{{production.productStatus}}</div>
             </div>
@@ -252,11 +252,13 @@
             expendAttachment(){
                 this.attachmentUp = !this.attachmentUp;
             },
-            openPDF(file){
-                if (file.attachmentLink) {
-                    let pdfUrl = file.attachmentLink;
-                    pdfUrl = pdfUrl.replace(/^http\.*:/,'https:');
-                    window.location.href = '/pdf/web/viewer.html?pdf=' + encodeURIComponent(pdfUrl);
+            openPDF(item){
+                if (item.attachmentLink) {
+                    let pdfUrl = item.attachmentLink;
+                    let pdfName = item.attachmentName
+                    pdfUrl = pdfUrl.replace(/^http\.*:/, 'https:');
+                    window.location.href = '/pdf/web/viewer.html?src='
+                        + encodeURIComponent(pdfUrl) + '&name=' + encodeURIComponent(pdfName);
                 }
             },
             getGoodsDetail(){
