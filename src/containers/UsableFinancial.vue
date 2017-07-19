@@ -8,7 +8,7 @@
                 <li class="item" v-for="(item,index) in lists" @click.stop="toDetail(item.productUuid)">
                     <p class="title">{{item.productAbbrName}}</p>
                     <div flex class="info">
-                        <p flex-box="1">预期年化收益率{{item.annualInterestRate}}%</p>
+                        <p flex-box="1">预期年化收益率{{item.annualInterestRate*100}}%</p>
                         <p flex-box="0">期限{{item.productPeriod}}天</p>
                     </div>
                 </li>
