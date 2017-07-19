@@ -27,14 +27,12 @@ import  * as config from './config';
 let baofooUrl = config.baofooDevtUrl;
 let baofooCallUrl = config.baofooCallUrlDev;
 let serverUrl = config.devUrl;
-let signMode = '~|~n725d5gsb7mlyzzw';
 let merchant_id = '100000675';
 let terminal_id = '100000701';
 if (process.env.kingold == 'test') {
     baofooUrl = config.baofooTestUrl;
     serverUrl = config.testUrl;
     baofooCallUrl = config.baofooCallUrlTest;
-    signMode = '~|~n725d5gsb7mlyzzw';
     merchant_id = '100000675';
     terminal_id = '100000701';
 }
@@ -42,7 +40,6 @@ if (process.env.kingold == 'production') {
     baofooUrl = config.baofooProductUrl;
     serverUrl = config.productionUrl;
     baofooCallUrl = config.baofooCallUrlProduct;
-    signMode = '~|~h6mrqmwkkcvmpdq5';
     merchant_id = '1177929';
     terminal_id = '35265';
 }
