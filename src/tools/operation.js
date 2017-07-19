@@ -20,7 +20,6 @@ export let setTitle = (title) => {
 };
 
 
-import md5 from 'md5';
 import $api from './api';
 
 import  * as config from './config';
@@ -48,25 +47,25 @@ if (process.env.kingold == 'production') {
 export let submitRecharge = (params) => {
     let {userId, orderBillCode, amount, returnUrl} = params;
     let backUrl = window.sessionStorage.getItem('backUrl');
-    if(!backUrl){
-        backUrl = window.location.origin+'/my-assets?t='+new Date().getTime();
+    if (!backUrl) {
+        backUrl = window.location.origin + '/my-assets?t=' + new Date().getTime();
     }
     let pageUrl = `${baofooCallUrl}/baofoo/h5/notification/recharge?backUrl=${backUrl}`;
     let backUrlParams = window.sessionStorage.getItem('backUrlParams');
-    $api.post('/baofoo/rechargeParam',{
+    $api.post('/baofoo/rechargeParam', {
         amount,
         userId,
-        orderId:orderBillCode,
+        orderId: orderBillCode,
         returnUrl,
         pageUrl,
-        feeTakenOn:1,
-        fee:0
-    }).then(resp=>{
-        if(resp.code==200){
-            merchant_id = resp.data.merchantId;
-            terminal_id =  resp.data.terminalId;
+        feeTakenOn: 1,
+        fee: 0
+    }).then(resp => {
+        if (resp.code == 200) {
+            merchant_id = resp.data.merchantId || merchant_id;
+            terminal_id = resp.data.terminalId || terminal_id;
             let xml = resp.data.requestParams;
-            let sign =  resp.data.sign;
+            let sign = resp.data.sign;
             let form = document.createElement('form');
             form.setAttribute('method', 'post');
             form.setAttribute('action', baofooUrl + 'cerPayRecharge.do');
