@@ -49,11 +49,12 @@
             <div class="deal" flex="box:first">
                 <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
                 <div v-if="!isLack">
-                    我已仔细阅读《产品说明书》和《风险提示函》，并同意《认购协议》和
-                    <span @click.stop="agreement(0)" class="agreement">《金疙瘩平台免责声明》</span>
+                    我已阅读并同意
+                    <span @click.stop="agreement(0)" class="agreement">《产品认购相关协议》</span>，
+                    <span @click.stop="agreement(1)" class="agreement">《入会申请及承诺》</span>
                 </div>
                 <div v-if="isLack">
-                    我已同意<span class="agreement" @click.stop="agreement(1)">《宝付科技电子支付账户协议》</span>
+                    我已同意<span class="agreement" @click.stop="agreement(2)">《宝付科技电子支付账户协议》</span>
                 </div>
             </div>
             <div class="btn" :class="{'enable':enable}" disabled flex-box="1" v-if="!isLack" @click="investHandle">投资
@@ -62,7 +63,6 @@
         </div>
     </div>
 </template>
-
 <script>
     import {mapState} from 'vuex';
     import {submitRecharge, currencyInputValidate} from '../tools/operation';
@@ -143,8 +143,12 @@
         methods: {
             agreement(num){
                 if (num == 0) {
-                    window.location.href = '/platform-disclaimer.html';
-                } else {
+                    window.location.href='/product-subscription-agreement.html'
+                }
+                if(num ==1){
+                    window.location.href = '/application-commitment.html';
+                }
+                if(num ==2){
                     window.location.href = '/baofoo-certification.html';
                 }
             },
@@ -185,7 +189,6 @@
                             Toast(data.msg);
                         }
                     });
-
             },
             tradeCallback(password){
                 this.inputPassword = false;

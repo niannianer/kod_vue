@@ -142,7 +142,7 @@
                 })
                     .then(resp=>{
                         if(resp.code==200){
-                            if(resp.data.list.length){
+                            if(resp.data.list&&resp.data.list.length){
                                 this.$router.push({
                                     path:'/usable-financial',
                                     query:{
