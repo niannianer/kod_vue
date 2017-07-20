@@ -19,7 +19,7 @@
                 infinite-scroll-disabled="stop"
                 infinite-scroll-distance="10">
                 <li class="item" flex v-for="(item,index) in lists">
-                    <div class="item-l" :class="{'rate':!isActive,'disabled':false}" flex flex-box="0">
+                    <div class="item-l" :class="{'rate':!isActive,'disabled':item.couponStatus!=1}" flex flex-box="0">
                         <div flex-box="1" flex="dir:top cross:center">
                             <div flex-box="1" class="title" flex="cross:center">
                                 <p>{{item.couponType ==1?'现金券':'加息券'}}</p>
@@ -32,7 +32,8 @@
                         <p v-if="item.ccRemark2">{{item.ccRemark2}}</p>
                         <p v-if="item.ccRemark3">{{item.ccRemark3}}</p>
                         <div flex class="expired-time">
-                            <p flex-box="1">{{item.expiredDate}}</p>
+                            <p flex-box="1" v-if="item.couponStatus==1">{{item.expiredDate}}</p>
+                            <p flex-box="1" v-else></p>
                             <p flex-box="0" class="btn" v-if="item.couponStatus==1" @click.stop="useTicket(item.ccCode)">{{item.couponStatusText}}</p>
                             <p flex-box="0" class="btn disabled" v-else>{{item.couponStatusText}}</p>
                         </div>
@@ -116,8 +117,11 @@
             },
             remainTime(end,now){
                 let remainTime = (end-now)/1000;
-                if(remainTime<0||isNaN(remainTime)){
+                if(isNaN(remainTime)){
                     return ''
+                }
+                if(remainTime<0){
+                    return '还有1分过期'
                 }
                 let day = Math.floor(remainTime/3600/24);
                 if(day>0){
