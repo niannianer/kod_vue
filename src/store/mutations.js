@@ -62,7 +62,11 @@ mutations.setExperienceSum = (state,data) =>{
     });
 }
 mutations.setPersonalCenterMsg = (state,data) =>{
-    state.experienceAmount = data.experienceAmount;
-    state.cashCouponCount = data.cashCouponCount;
+    _.forEach(state, (value, key) => {
+        if (data.hasOwnProperty(key)) {
+            state[key] = data[key];
+        }
+    });
+
 }
 export default  mutations;

@@ -8,7 +8,7 @@
                 <li class="item" v-for="(item,index) in lists" @click.stop="toDetail(item.productUuid)">
                     <p class="title">{{item.productAbbrName}}</p>
                     <div flex class="info">
-                        <p flex-box="1">预期年化收益率{{item.annualInterestRate*100}}%</p>
+                        <p flex-box="1">预期年化收益率{{item.annualInterestRate}}%</p>
                         <p flex-box="0">期限{{item.productPeriod}}天</p>
                     </div>
                 </li>
@@ -56,6 +56,9 @@
                 })
                     .then(resp=>{
                         if(resp.code==200){
+                            resp.data.list.map(item=>{
+                                item.annualInterestRate = this.numMulti(item.annualInterestRate,100)
+                            })
                             this.lists = resp.data.list;
                             if (this.lists.length < resp.data.count) {
                                 this.stop = false;
@@ -64,6 +67,18 @@
                             }
                         }
                     })
+            },
+            numMulti(num1, num2) {
+                var baseNum = 0;
+                if(num1.toString().split(".")[1]){
+                    baseNum += num1.toString().split(".")[1].length;
+                }
+                if(num2.toString().split(".")[1]){
+                    baseNum += num2.toString().split(".")[1].length;
+                }
+                return Number(num1.toString().replace(".", ""))
+                    * Number(num2.toString().replace(".", ""))
+                    / Math.pow(10, baseNum)
             }
         },
         destroyed(){
