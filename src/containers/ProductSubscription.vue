@@ -79,6 +79,7 @@
     imgNames.map(url => {
         imgUrls[url] = require(`../images/bank/${url}.png`)
     });
+    let times = 0;
     export default {
         name: 'product-subscription',
         data(){
@@ -98,9 +99,7 @@
             PasswordInput
         },
         created(){
-            setTimeout(()=>{
-                this.$store.dispatch('getAccountBaofoo');
-            },3000)
+            this.getBaofoo();
             if (this.bank_code) {
                 this.bankImg = this.imgUrls[this.bank_code];
             }
@@ -108,7 +107,7 @@
             this.amount = this.$route.query.a;
             this.orderBillCode = this.$route.query.o;
 
-            let leastPay = Math.round(this.amount *10*10 - currencyFormat(this.accountCashAmount) * 10*10) / 100;
+            let leastPay = this.numAdd(this.amount,-this.accountCashAmount);
             this.rechargeNum = leastPay;
             $api.get('/product/getDetail', {
                 'productUuid': this.productUuid,
@@ -143,6 +142,31 @@
             }
         },
         methods: {
+            getBaofoo(){
+                setTimeout(() => {
+                    times++;
+                    if (times >= 3) {
+                        return;
+                    }
+                    this.$store.dispatch('getAccountBaofoo');
+                    this.getBaofoo();
+                }, 3000);
+            },
+            numAdd(num1, num2) {
+                var baseNum, baseNum1, baseNum2;
+                try {
+                    baseNum1 = num1.toString().split(".")[1].length;
+                } catch (e) {
+                    baseNum1 = 0;
+                }
+                try {
+                    baseNum2 = num2.toString().split(".")[1].length;
+                } catch (e) {
+                    baseNum2 = 0;
+                }
+                baseNum = Math.pow(10, Math.max(baseNum1, baseNum2));
+                return (num1 * baseNum + num2 * baseNum) / baseNum;
+            },
             agreement(num){
                 if (num == 0) {
                     window.location.href='/product-subscription-agreement.html'
@@ -168,7 +192,7 @@
                     return false;
                 }
 
-                let leastPay = Math.round(this.amount *10*10 - currencyFormat(this.accountCashAmount) * 10*10) / 100;
+                let leastPay = this.numAdd(this.amount,-this.accountCashAmount);
                 if (this.rechargeNum < leastPay) {
                     Toast('输入金额不能小于待支付金额，请重新输入');
                     return false;
