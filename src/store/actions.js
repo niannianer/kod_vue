@@ -72,7 +72,7 @@ actions.getExperienceSum = ({commit}) => {
     return getExperienceSum()
         .then(data => {
             if (data.code == 200) {
-                commit('setExperienceSum', data.data)
+                commit('setExperienceSum', data.data);
             }
             return data;
         });
@@ -85,7 +85,8 @@ actions.getPersonalCenterMsg = ({commit}) => {
     return getPersonalCenterMsg()
         .then(data => {
             if (data.code == 200) {
-                commit('setPersonalCenterMsg', data.data)
+                commit('setPersonalCenterMsg', data.data);
+                commit('setUserInfo', data.data.user)
             }
             return data;
         });
