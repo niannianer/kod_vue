@@ -23,6 +23,8 @@ const state = {
     accountTotalAssets:0.00, //总资产
     accountTotalInterests:0.00,//收益总额，
     accountCashAmount:0.00,// 可提现金额
+
+
     reservationCount:0, //预约数量
     investmentAmount:0.00,//投资总额
     rewardSum:0.00,//奖励数额
