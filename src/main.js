@@ -19,8 +19,8 @@ new Vue({
 });
 store.dispatch('getAccountBaofoo');
 store.dispatch('getBankInfo');
-store.dispatch('getUserInfo');
-store.dispatch('getExperienceSum');
+/*store.dispatch('getUserInfo');*/
+/*store.dispatch('getExperienceSum');*/
 store.dispatch('getPersonalCenterMsg')
 window.onload = () => {
     FastClick.attach(document.body);

@@ -77,25 +77,25 @@
             <div class="basic">
                 <div class="basic-title">基本要素</div>
                 <div class="content">
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.productName">
                         <span>产品全称</span>
                         <span class="ellipsis">{{production.productName}}</span>
                     </div>
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.productCode">
                         <span>项目编号</span>
                         <span class="ellipsis">{{production.productCode}}</span>
                     </div>
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.productScale">
                         <span>产品规模</span>
                         <span class="ellipsis">{{production.productScale}}</span>
                     </div>
 
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.productMaxInvestment">
                         <span>投资上限</span>
                         <span class="ellipsis">{{production.productMaxInvestment}}</span>
                     </div>
 
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.productInterestType">
                         <span>收益分配方式</span>
                         <span class="ellipsis">{{production.productInterestType}}</span>
                     </div>
@@ -105,7 +105,7 @@
                         <span class="ellipsis">{{production.isTransferFlag ? '可转' : '不可转'}}</span>
                     </div>
 
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.investorQualification">
                         <span>投资人条件</span>
                         <span class="ellipsis">{{production.investorQualification}}</span>
                     </div>

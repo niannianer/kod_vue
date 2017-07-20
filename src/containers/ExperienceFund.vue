@@ -91,6 +91,7 @@
         },
         created(){
             this.loadData();
+            this.$store.dispatch('getExperienceSum');
         },
         computed: {
             ...mapState(['experienceProfit', 'notExpireProfit', 'notRecieveExperience','totalExperience'])

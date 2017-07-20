@@ -70,10 +70,6 @@ let beforeEach = ((to, from, next) => {
                         next()
                     }
                 });
-            store.dispatch('getBankInfo');
-            store.dispatch('getUserInfo');
-            store.dispatch('getExperienceSum');
-            store.dispatch('getPersonalCenterMsg');
         }
     }
 })

@@ -8,16 +8,21 @@ const mutations = {};
 // 资产信息
 mutations.setAccountBaofoo = (state, data) => {
     if (data.accountTotalAssets) {
-        state.accountTotalAssets = data.accountTotalAssets;
-        state.accountTotalInterests = data.accountTotalInterests;
-        state.accountCashAmount = data.accountCashAmount;
+        _.forEach(state, (value, key) => {
+            if (data.hasOwnProperty(key)) {
+                state[key] = data[key];
+            }
+        });
     }
 };
 // 绑卡信息
 mutations.setBankUser = (state, data) => {
     if (data && data.bankUserCardNo) {
-        state.bankUserCardNo = data.bankUserCardNo;
-        state.bankUserPhone = data.bankUserPhone;
+        _.forEach(state, (value, key) => {
+            if (data.hasOwnProperty(key)) {
+                state[key] = data[key];
+            }
+        });
     }
 };
 
@@ -29,13 +34,6 @@ mutations.setBankInfo = (state, data) => {
                 state[key] = data[key];
             }
         });
-        /*state.bank_code = data.bank_code;
-         state.bank_no = data.bank_no;
-         state.bank_name = data.bank_name;
-         state.bank_full_name = data.bank_full_name;
-         state.perday_limit = data.perday_limit;
-         state.single_limit = data.single_limit;
-         state.single_limit_value = data.single_limit_value;*/
     }
 };
 // 个人信息
