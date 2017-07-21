@@ -171,6 +171,7 @@
                 _.forEach(JSON.parse(pension), (data, key) => {
                     this[key] = data;
                 });
+                window.sessionStorage.removeItem('pension');
             }
             this.inflation = getValueG(this.cityName);//通货膨胀率
             $api.getNode('/assets/getCities')
@@ -218,8 +219,17 @@
                         wagesAfterTax: this.wagesAfterTax,
                         inflation: this.inflation,
                         pensionStore: this.pensionStore,
+                    }).then(resp=>{
+                        if(resp.code==200){
+                            console.log(resp);
+                            this.$router.push({
+                                path:'/pension-five',
+                                query:{
+                                    id:resp.data.id
+                                }
+                            });
+                        }
                     })
-                    this.$router.push('/pension-five');
                 }
             },
             replaceStr(){
