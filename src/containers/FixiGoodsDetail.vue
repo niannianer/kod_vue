@@ -23,7 +23,9 @@
                     <span flex-box="0">{{production.productProgress}}%</span>
                 </div>
             </div>
-
+            <div class="ticket-wrap" v-if="production.productLabel" flex>
+                <div class="ticket-item" v-for="(item,index) in production.productLabel">{{item}}</div>
+            </div>
             <div class="date-warp" flex>
                 <div class="date-item" flex-box="1">
                     <div class="date-info">发布日</div>
@@ -74,27 +76,26 @@
 
             <div class="basic">
                 <div class="basic-title">基本要素</div>
-
                 <div class="content">
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.productName">
                         <span>产品全称</span>
                         <span class="ellipsis">{{production.productName}}</span>
                     </div>
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.productCode">
                         <span>项目编号</span>
                         <span class="ellipsis">{{production.productCode}}</span>
                     </div>
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.productScale">
                         <span>产品规模</span>
                         <span class="ellipsis">{{production.productScale}}</span>
                     </div>
 
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.productMaxInvestment">
                         <span>投资上限</span>
                         <span class="ellipsis">{{production.productMaxInvestment}}</span>
                     </div>
 
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.productInterestType">
                         <span>收益分配方式</span>
                         <span class="ellipsis">{{production.productInterestType}}</span>
                     </div>
@@ -104,7 +105,7 @@
                         <span class="ellipsis">{{production.isTransferFlag ? '可转' : '不可转'}}</span>
                     </div>
 
-                    <div class="item" flex="box:mean">
+                    <div class="item" flex="box:mean" v-if="production.investorQualification">
                         <span>投资人条件</span>
                         <span class="ellipsis">{{production.investorQualification}}</span>
                     </div>
@@ -145,10 +146,10 @@
             </div>
         </div>
         <div class="bottom">
-           <div v-if="production.canBuy" flex="box:mean">
-               <button class="min-invest"  @click.stop="preInvest">{{production.productMinInvestmentValue}}元起投</button>
-               <button class="do-invest"  @click.stop="preInvest">立即投资</button>
-           </div>
+            <div v-if="production.canBuy" flex="box:mean">
+                <button class="min-invest" @click.stop="preInvest">{{production.productMinInvestmentValue}}元起投</button>
+                <button class="do-invest" @click.stop="preInvest">立即投资</button>
+            </div>
             <div v-else="production.canBuy">
                 <div class="can-not-buy">{{production.productStatus}}</div>
             </div>
@@ -251,11 +252,13 @@
             expendAttachment(){
                 this.attachmentUp = !this.attachmentUp;
             },
-            openPDF(file){
-                if (file.attachmentLink) {
-                    let pdfUrl = file.attachmentLink;
-                    pdfUrl = pdfUrl.replace(/^http\.*:/,'https:');
-                    window.location.href = '/pdf/web/viewer.html?pdf=' + encodeURIComponent(pdfUrl);
+            openPDF(item){
+                if (item.attachmentLink) {
+                    let pdfUrl = item.attachmentLink;
+                    let pdfName = item.attachmentName
+                    pdfUrl = pdfUrl.replace(/^http\.*:/, 'https:');
+                    window.location.href = '/pdf/web/viewer.html?src='
+                        + encodeURIComponent(pdfUrl) + '&name=' + encodeURIComponent(pdfName);
                 }
             },
             getGoodsDetail(){

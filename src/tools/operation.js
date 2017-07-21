@@ -20,21 +20,18 @@ export let setTitle = (title) => {
 };
 
 
-import md5 from 'md5';
-
+import $api from './api';
 
 import  * as config from './config';
 let baofooUrl = config.baofooDevtUrl;
 let baofooCallUrl = config.baofooCallUrlDev;
 let serverUrl = config.devUrl;
-let signMode = '~|~n725d5gsb7mlyzzw';
 let merchant_id = '100000675';
 let terminal_id = '100000701';
 if (process.env.kingold == 'test') {
     baofooUrl = config.baofooTestUrl;
     serverUrl = config.testUrl;
     baofooCallUrl = config.baofooCallUrlTest;
-    signMode = '~|~n725d5gsb7mlyzzw';
     merchant_id = '100000675';
     terminal_id = '100000701';
 }
@@ -42,48 +39,62 @@ if (process.env.kingold == 'production') {
     baofooUrl = config.baofooProductUrl;
     serverUrl = config.productionUrl;
     baofooCallUrl = config.baofooCallUrlProduct;
-    signMode = '~|~h6mrqmwkkcvmpdq5';
     merchant_id = '1177929';
     terminal_id = '35265';
 }
 
 // baofoo 充值
 export let submitRecharge = (params) => {
-    let {userId, orderBillCode, amount, additionalInfo, returnUrl} = params;
+    let {userId, orderBillCode, amount, returnUrl} = params;
     let backUrl = window.sessionStorage.getItem('backUrl');
-    let backUrlParams = window.sessionStorage.getItem('backUrlParams');
+    if (!backUrl) {
+        backUrl = window.location.origin + '/my-assets?t=' + new Date().getTime();
+    }
     let pageUrl = `${baofooCallUrl}/baofoo/h5/notification/recharge?backUrl=${backUrl}`;
-    let form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('action', baofooUrl + 'cerPayRecharge.do');
-    form.setAttribute('name', 'baofoo');
-    let input = document.createElement('input');
-    input.setAttribute('name', 'merchant_id');
-    input.setAttribute('type', 'hidden');
-    input.value = merchant_id;
-    form.appendChild(input);
+    let backUrlParams = window.sessionStorage.getItem('backUrlParams');
+    $api.post('/baofoo/rechargeParam', {
+        amount,
+        userId,
+        orderId: orderBillCode,
+        returnUrl,
+        pageUrl,
+        feeTakenOn: 1,
+        fee: 0
+    }).then(resp => {
+        if (resp.code == 200) {
+            merchant_id = resp.data.merchantId || merchant_id;
+            terminal_id = resp.data.terminalId || terminal_id;
+            let xml = resp.data.requestParams;
+            let sign = resp.data.sign;
+            let form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', baofooUrl + 'cerPayRecharge.do');
+            form.setAttribute('name', 'baofoo');
+            let input = document.createElement('input');
+            input.setAttribute('name', 'merchant_id');
+            input.setAttribute('type', 'hidden');
+            input.value = merchant_id;
+            form.appendChild(input);
+            input = document.createElement('input');
+            input.setAttribute('name', 'terminal_id');
+            input.setAttribute('type', 'hidden');
+            input.value = terminal_id;
+            form.appendChild(input);
+            input = document.createElement('input');
+            input.setAttribute('name', 'requestParams');
+            input.setAttribute('type', 'hidden');
+            input.value = xml;
+            form.appendChild(input);
+            input = document.createElement('input');
+            input.setAttribute('name', 'sign');
+            input.setAttribute('type', 'hidden');
+            input.value = sign;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    })
 
-    input = document.createElement('input');
-    input.setAttribute('name', 'terminal_id');
-    input.setAttribute('type', 'hidden');
-    input.value = terminal_id;
-    form.appendChild(input);
-    let xml = '<?xml version="1.0" encoding="UTF-8"?><custody_req><merchant_id>' + merchant_id + '</merchant_id><user_id>' +
-        userId + '</user_id><order_id>' + orderBillCode + '</order_id><amount>' + amount +
-        '</amount><fee>0</fee><fee_taken_on>1</fee_taken_on><additional_info>' + additionalInfo +
-        '</additional_info><page_url>' + pageUrl + '</page_url><return_url>' + returnUrl + '</return_url></custody_req>';
-    input = document.createElement('input');
-    input.setAttribute('name', 'requestParams');
-    input.setAttribute('type', 'hidden');
-    input.value = xml;
-    form.appendChild(input);
-    input = document.createElement('input');
-    input.setAttribute('name', 'sign');
-    input.setAttribute('type', 'hidden');
-    input.value = md5(xml + signMode);
-    form.appendChild(input);
-    document.body.appendChild(form);
-    form.submit();
 
 };
 //

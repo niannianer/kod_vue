@@ -134,7 +134,8 @@
                     b: false,
                     c: false
                 },
-                productUuid: ''
+                productUuid: '',
+                pension:{}
             };
         },
         computed: {//养老金覆盖比例
@@ -284,10 +285,8 @@
                     rmb = parseInt(rmb);
                 }
                 return rmb
-            },
-            pension: function () {
-                return JSON.parse(window.sessionStorage.getItem('pension'))
             }
+
         },
         methods: {
             getShare(){
@@ -445,20 +444,38 @@
             }
         },
         created(){
+            if(!JSON.parse(window.sessionStorage.getItem('pension'))){
+                if(this.$route.query.id){
+                    $api.getNode('/pension/getById',{
+                        id:this.$route.query.id
+                    })
+                        .then(resp=>{
+                            if(resp.code==200){
+                                this.pension = resp.data;
+                            }
+                        })
+                }
+            }else{
+                this.pension = JSON.parse(window.sessionStorage.getItem('pension'));
+            }
+
             if ($device.isWeixin) {
                 this.getShare();
             }
             this.get();
-            requestHybrid({
-                tagname: 'title',
-                param: {
-                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
-                    backAndRefresh: 1,
-                    title: '养老理财规划',
-                    backstr: '退出理财规划将不会保存，确认退出？',
-                    keyboard_mode: 0//0 adjustresize 1 adjustpan
-                }
-            });
+            if($device.kingold){
+                requestHybrid({
+                    tagname: 'title',
+                    param: {
+                        backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                        backAndRefresh: 1,
+                        title: '养老理财规划',
+                        backstr: '退出理财规划将不会保存，确认退出？',
+                        keyboard_mode: 0//0 adjustresize 1 adjustpan
+                    }
+                });
+            }
+
         }
     }
 </script>

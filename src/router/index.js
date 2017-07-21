@@ -5,6 +5,7 @@ import {logout} from '../tools/operation';
 Vue.use(Router)
 import AppointSucc from '../containers/AppointSucc';
 import AuthResult from '../containers/AuthResult';
+import ExperienceFund from '../containers/ExperienceFund';
 import Index from '../containers/Index';
 import Financial from '../containers/Financial';
 import MyAssets from '../containers/MyAssets';
@@ -16,6 +17,8 @@ import ReserveList from '../containers/ReserveList';
 import ReserveDetail from '../containers/ReserveDetail';
 import ReserveProfessionalList from '../containers/ReserveProfessionalList';
 import Reward from '../containers/Reward';
+import TicketList from '../containers/TicketList';
+import UsableFinancial from '../containers/UsableFinancial';
 import MyCount from '../containers/MyCount';
 import InvitationRewardDetal from '../containers/InvitationRewardDetal';
 import InvestList from '../containers/InvestList';
@@ -67,8 +70,6 @@ let beforeEach = ((to, from, next) => {
                         next()
                     }
                 });
-            store.dispatch('getBankInfo');
-            store.dispatch('getUserInfo');
         }
     }
 })
@@ -88,6 +89,14 @@ let routes = [
             title: '宝付授权结果查询'
         },
         component: AuthResult
+    },
+    {
+        path: '/experience-fund',
+        name: 'experience-fund',
+        meta: {
+            title: '我的体验金'
+        },
+        component: ExperienceFund
     },
     {
         path: '/index',
@@ -187,6 +196,21 @@ let routes = [
         },
         component: RewardDetail
     }, {
+        path: '/ticket-list',
+        name: 'ticket-list',
+        meta: {
+            title: '我的优惠券'
+        },
+        component:TicketList
+    },{
+        path: '/usable-financial',
+        name: 'usable-financial',
+        meta: {
+            title: '可用产品'
+        },
+        component:UsableFinancial
+    },
+    {
         path: '/my-count',
         name: 'my-count',
         meta: {
@@ -372,8 +396,7 @@ let routes = [
         name: 'personal-center',
         component: PersonalCenter,
         meta: {
-            title: '个人中心',
-            withoutLogin: true
+            title: '个人中心'
         }
     },
     {

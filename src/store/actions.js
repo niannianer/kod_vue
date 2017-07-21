@@ -6,14 +6,6 @@
 const actions = {};
 import $api from '../tools/api';
 
-
-actions.changeName = ({commit}, name) => {
-    commit('changeName', name)
-};
-actions.increment = ({commit}, num) => {
-    commit('increment', num)
-};
-
 //资产信息
 let getAccountBaofoo = () => {
     return $api.get('/getAccountBaofoo');
@@ -68,5 +60,35 @@ actions.getUserInfo = ({commit}) => {
 };
 actions.setEligibleInvestor = ({commit},data) => {
     commit('setEligibleInvestor',data);
+};
+
+
+//获取体验金总资产收益等
+
+let getExperienceSum = () =>{
+    return $api.get('/experience/sum');
+}
+actions.getExperienceSum = ({commit}) => {
+    return getExperienceSum()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setExperienceSum', data.data);
+            }
+            return data;
+        });
+};
+
+let getPersonalCenterMsg = () =>{
+    return $api.get('/personalCenter');
+}
+actions.getPersonalCenterMsg = ({commit}) => {
+    return getPersonalCenterMsg()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setPersonalCenterMsg', data.data);
+                commit('setUserInfo', data.data.user)
+            }
+            return data;
+        });
 };
 export default actions;

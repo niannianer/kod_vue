@@ -6,73 +6,105 @@
     width: 100%;
     height: 100%;
     .top {
-        position: relative;
-        background-image: radial-gradient(50% 120%, #4392DA 56%, #1D73C2 100%);
-        height: 7.6rem;
+        position: relative;padding-bottom: 2.8rem;
+        background: @bg-content url('../images/personal-center/person-center-bg.jpg') no-repeat;
+        background-size: 100% 97%;
+        .switch-mode{
+            right:0;
+            padding: .8rem .8rem 0 0;
+            position:absolute;
+            img{
+                width:1rem;
+            }
+        }
         .user-head {
             padding-top: 1.5rem;
             text-align: center;
             img {
-                width: 3.5rem;
-                height: 3.5rem;
+                width: 3rem;
+                height: 3rem;
             }
 
         }
         .user-mobile {
             margin-top: .5rem;
-            font-size: .9rem;
+            font-size: .8rem;
             text-align: center;
             color: #fff;
         }
-    }
-    .center {
-        position: relative;
-        margin-top: .5rem;
-        background-color: #fff;
-        .items {
-            position: relative;
-            .item {
-                text-align: center;
-                border-bottom: 1px solid @color-split;
-                border-right: 1px solid @color-split;
-                padding-top: .75rem;
-                &:last-child {
-                    border-right: none;
+        .fund-center{
+            text-align: center;margin-top: 1rem;
+            .info{
+                color:@color-progress;font-size: .8rem;
+            }
+            .title{
+                color:@bg-content;padding-top: .25rem;
+            }
+        }
+        .ticket-center{
+            background: #FFFFFF;margin:1.3rem .8rem 0 .8rem;padding:.8rem 0;
+            box-shadow: 0 2px 4px 0 rgba(140,140,140,0.50);
+            border-radius: 2px;text-align: center;
+            .btn{
+                background: #226AC5;margin-bottom:3px;
+                box-shadow: 0 2px 4px 0 #68ABFF;
+                border-radius: 100px;
+                color:#fff;padding:.25rem 1.25rem;
+            }
+            .rl{
+                border-right:1px solid @color-split;
+            }
+            .ticket-detail{
+                margin-top: .7rem;
+                .info{
+                    color:#226AC5;
                 }
-                img {
-                    width: 1.6rem;
-                    height: 1.4rem;
-                    display: block;
-                    margin: auto;
-                }
-                span {
-                    display: inline-block;
-                    padding: .5rem 0 .75rem;
+                .title{
+                    color:@color-text;
                 }
             }
+        }
+    }
+    .body{
+        .section{
+            background-color: @bg-content;padding:0 .8rem;
+            .assessment{
+                font-size: .6rem;padding:.6rem 0;color:@color-text
+            }
+            .arrow{
+                width:.5rem;height:.8rem;margin-left: .5rem;
+            }
+
+            .bl{
+                border-bottom: 1px solid @color-split;
+            }
+            .item{
+                padding:.6rem 0;
+                .logo{
+                    width:1.3rem;height:1.3rem;margin-right: .6rem;
+                }
+                p{
+                    font-size: .8rem;color:@color-text;
+                }
+            }
+        }
+        .seperate{
+            margin-top: .5rem;
         }
     }
     .cantact-us {
         text-align: center;
         color: rgba(29, 115, 194, 1);
-        font-size: .7rem;
-        margin-top: .5rem;
+        font-size: .6rem;
+        margin-top: .6rem;
+        margin-bottom: 1.3rem;
     }
-    .footer {
-        margin-top: 2rem;
+    .btn{
+        background-color: @bg-button;
+        color:@bg-content;
+        margin: 1.5rem;
         text-align: center;
-        .logout {
-            height: 2.2rem;
-            margin: auto;
-            width: 15.75rem;
-            border: 1px solid #1D72C0;
-            color: rgba(29,115,194,1);
-        }
-        .login {
-            height: 2.2rem;
-            width: 15.75rem;
-            margin: auto;
-            color: #fff;
-        }
+        padding: .6rem 0;
+        border-radius: @border-radius;
     }
 }

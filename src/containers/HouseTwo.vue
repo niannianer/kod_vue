@@ -261,17 +261,18 @@
                 });
                 window.sessionStorage.removeItem('houseData');
             }
-
-            requestHybrid({
-                tagname: 'title',
-                param: {
-                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
-                    backAndRefresh: 1,
-                    title: '住房理财规划',
-                    backstr: '退出理财规划将不会保存，确认退出？',
-                    keyboard_mode: 0//0 adjustresize 1 adjustpan
-                }
-            });
+            if($device.kingold){
+                requestHybrid({
+                    tagname: 'title',
+                    param: {
+                        backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                        backAndRefresh: 1,
+                        title: '住房理财规划',
+                        backstr: '退出理财规划将不会保存，确认退出？',
+                        keyboard_mode: 0//0 adjustresize 1 adjustpan
+                    }
+                });
+            }
         },
         components: {
             KingoldPicker
@@ -423,6 +424,9 @@
                     that.houseTotal = that.houseTotal.toString();
                     that.houseTotal = that.houseTotal.replace(/\D/g, '');
                     that.houseTotal = that.houseTotal.substr(0, 5);
+                    if(this.loanFlag){
+                        this.setLoanFlag(1);
+                    }
                 }, 200);
             },
             openCitys(){
@@ -493,7 +497,16 @@
                 }
                 this.loanFlag = flag;
                 if (flag) {
-                    this.businessLoan = this.houseTotal / 2;
+                    if (this.loanClass == 1) {
+                        this.businessLoan = this.houseTotal / 2;
+                    }
+                    if (this.loanClass == 2) {
+                        this.accumulationFundLoan = this.houseTotal / 2;
+                    }
+                    if (this.loanClass == 3) {
+                        this.businessLoan = this.houseTotal / 4;
+                        this.accumulationFundLoan = this.houseTotal / 4;
+                    }
                 } else {
                     this.businessLoan = 0;
                     this.accumulationFundLoan = 0;
@@ -501,7 +514,6 @@
                 }
             },
             checkLoan(){
-                console.log(this.firstPayments);
                 if (this.firstPayments < 0) {
                     Toast('贷款金额不能超过房产总价');
                     return false;

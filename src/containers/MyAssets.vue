@@ -105,11 +105,11 @@
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {
                     case 0:
-                        //  window.location.href = '/realnameBased.html';
+                      //  window.location.href = '/realnameBased.html';
                         this.$router.push('/authentication');
                         break;
                     case 1:
-                        // window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
+                       // window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
                         submitAuthorization(this.$store.state.userId);
                         break;
                     case 2:
@@ -117,7 +117,7 @@
                         this.$router.push('/bind-bank-card');
                         break;
                     case 3:
-                        //  window.location.href = '/setPayPassword.html';
+                      //  window.location.href = '/setPayPassword.html';
                         this.$router.push('/set-pay-password');
                         break;
                     default:
