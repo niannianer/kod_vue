@@ -6,7 +6,7 @@
                 <div class="verify-content">
                     <dl flex>
                         <dt>请输入身份证号后四位</dt>
-                        <dd><input type="tel" maxlength="4" placeholder="请输入身份证号后四位" v-model="idCardTail"></dd>
+                        <dd><input type="text" maxlength="4" placeholder="请输入身份证号后四位" v-model="idCardTail"></dd>
                     </dl>
                 </div>
                 <div class="reset-btn" flex="main:center">
@@ -90,7 +90,7 @@
                 pShow:false,
                 btnActive:false,
                 btnShow:false,
-                
+
             }
         },
         components: {

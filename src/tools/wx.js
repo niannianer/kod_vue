@@ -14,13 +14,14 @@ let config = (share) => {
         jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
     });
 };
+import $device from './device';
 let getShare = (settings)=>{
     let params = {
         url: window.location.href
     }
-    /*if ($device.ios) {
+    if ($device.ios) {
      params.url = window.shareUrl;
-     }*/
+     }
     let content = {
         title:settings.title|| '金疙瘩——中高端理财产品聚集地',
         link: window.location.href,
