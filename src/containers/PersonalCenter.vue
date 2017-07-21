@@ -146,6 +146,7 @@
 </template>
 
 <script>
+    let times = 0;
     import {mapState} from 'vuex';
     import Modal from '../components/Modal';
     import {Toast} from 'mint-ui';
@@ -166,6 +167,7 @@
         },
         created(){
             this.mode = window.localStorage.getItem('mode') =='true'?true:false;
+            this.getBaofoo();
             if ($device.isWeixin) {
                 this.getShare();
             }
@@ -188,6 +190,16 @@
             ])
         },
         methods: {
+            getBaofoo(){
+                setTimeout(() => {
+                    times++;
+                    if (times >= 3) {
+                        return;
+                    }
+                    this.$store.dispatch('getAccountBaofoo');
+                    this.getBaofoo();
+                }, 3000);
+            },
             goStep(){
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {

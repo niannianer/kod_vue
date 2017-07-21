@@ -75,7 +75,7 @@
             }
         },
         created(){
-            $operation.setTitle(this.level+'度好友');
+            $operation.setTitle(this.level==1?'直接好友':'间接好友');
         }
     }
 </script>
