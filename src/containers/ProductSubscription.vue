@@ -165,7 +165,20 @@
                     baseNum2 = 0;
                 }
                 baseNum = Math.pow(10, Math.max(baseNum1, baseNum2));
-                return (num1 * baseNum + num2 * baseNum) / baseNum;
+                var result = this.numMulti(num1,baseNum)+this.numMulti(num2,baseNum);
+                return result / baseNum;
+            },
+            numMulti(num1, num2) {
+                var baseNum = 0;
+                if(num1.toString().split(".")[1]){
+                    baseNum += num1.toString().split(".")[1].length;
+                }
+                if(num2.toString().split(".")[1]){
+                    baseNum += num2.toString().split(".")[1].length;
+                }
+                return Number(num1.toString().replace(".", ""))
+                    * Number(num2.toString().replace(".", ""))
+                    / Math.pow(10, baseNum)
             },
             agreement(num){
                 if (num == 0) {
