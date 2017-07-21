@@ -134,7 +134,8 @@
                     b: false,
                     c: false
                 },
-                productUuid: ''
+                productUuid: '',
+                pension:{}
             };
         },
         computed: {//养老金覆盖比例
@@ -284,10 +285,8 @@
                     rmb = parseInt(rmb);
                 }
                 return rmb
-            },
-            pension: function () {
-                return JSON.parse(window.sessionStorage.getItem('pension'))
             }
+
         },
         methods: {
             getShare(){
@@ -445,6 +444,21 @@
             }
         },
         created(){
+            if(!JSON.parse(window.sessionStorage.getItem('pension'))){
+                if(this.$route.query.id){
+                    $api.getNode('/pension/getById',{
+                        id:this.$route.query.id
+                    })
+                        .then(resp=>{
+                            if(resp.code==200){
+                                this.pension = resp.data;
+                            }
+                        })
+                }
+            }else{
+                this.pension = JSON.parse(window.sessionStorage.getItem('pension'));
+            }
+
             if ($device.isWeixin) {
                 this.getShare();
             }
