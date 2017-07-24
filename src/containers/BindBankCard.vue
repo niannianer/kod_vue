@@ -151,7 +151,7 @@
                 let bankUserCardNo = bankCard.replace(/[^\d]/g,'');
                 if(bankUserCardNo.length < 6){
                     Toast('请输入正确银行卡号')
-                    return 
+                    return
                 }
                 if(!checkPhone(bankUserPhone)){
                     Toast('手机号输入有误')
@@ -164,9 +164,11 @@
                 $api.post('/bindBankCard',{userName:investorRealName,bankUserCardNo:bankUserCardNo,bankUserPhone:bankUserPhone,verifyCode:verifyCode}).then(msg=>{
                     if(msg.code == 200){
                         Toast('绑卡成功');
+                        this.$store.dispatch('getBankInfo');
+
                         setTimeout(()=>{
                             this.$router.replace('/set-pay-password')
-                        },3000)
+                        },1000)
                     }else{
                         Toast(msg.msg);
                     }
