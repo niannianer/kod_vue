@@ -101,6 +101,7 @@
 
 <script>
     import '../less/reserve-detail.less';
+    import {MessageBox} from 'mint-ui';
     import $api from '../tools/api';
     export default {
         name: 'reserve-detail',
@@ -113,22 +114,25 @@
         },
         methods:{
             link(productUuid){
-                if(this.data.productType == 'PRIF'){
-                    this.$router.push({
-                        path: '/goods-detail-prif',
-                        query: {
-                            productUuid
+                $api.get('/checkProductOnStatus', {productUuid: productUuid}).then(msg => {
+                    if (msg.code == 200) {
+                        let path = '';
+                        if(this.data.productType == 'PRIF'){
+                            path = '/goods-detail-prif';
+                        }else{
+                            path = '/fixi-goods-detail';
                         }
-                    })
-                }else{
-
-                    this.$router.push({
-                        path: '/fixi-goods-detail',
-                        query: {
-                            productUuid
-                        }
-                    })
-                }
+                        this.$router.push({
+                            path,
+                            query: {
+                                productUuid
+                            }
+                        })
+                    } else {
+                        MessageBox.alert(`产品已下架，如想查看详情，请联系客服。`, '提示').then(action => {
+                        });
+                    }
+                });
             }
         },
         mounted(){
