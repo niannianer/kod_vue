@@ -32,7 +32,9 @@
     import Vue from 'vue';
     import "../less/pension-one.less";
     import $api from '../tools/api';
-    import cityGrade from "../tools/city-grade"
+    import cityGrade from "../tools/city-grade";
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     import {IndexList, IndexSection, Toast} from 'mint-ui';
     Vue.component(IndexList.name, IndexList);
     Vue.component(IndexSection.name, IndexSection);
@@ -47,6 +49,9 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             $api.getNode('/assets/getCities')
                 .then(data => {
                     this.citys = data.data;
@@ -73,18 +78,27 @@
                 title = '住房理财规划';
 
             }
-            requestHybrid({
-                tagname: 'title',
-                param: {
-                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
-                    backAndRefresh: 1,
-                    title,
-                    backstr: '退出理财规划将不会保存，确认退出？',
-                    keyboard_mode: 0//0 adjustresize 1 adjustpan
-                }
-            });
+            if($device.kingold){
+                requestHybrid({
+                    tagname: 'title',
+                    param: {
+                        backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                        backAndRefresh: 1,
+                        title,
+                        backstr: '退出理财规划将不会保存，确认退出？',
+                        keyboard_mode: 0//0 adjustresize 1 adjustpan
+                    }
+                });
+            }
+
         },
         methods: {
+            getShare(){
+                wx.getShare({
+                    title:'快看我的理财规划，原来我可以这么有钱！',
+                    desc:'金疙瘩智能定制理财规划，比心理测验还好玩，你也来试试？'
+                });
+            },
             clickHandle(item){
                 this.activeBtn = item.zip;
                 this.cityName = item.name;

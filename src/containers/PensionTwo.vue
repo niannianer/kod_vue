@@ -33,12 +33,20 @@
 	import Vue from 'vue';
     import '../less/pension-two.less';
     import { Picker } from 'mint-ui';
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
 	Vue.component(Picker.name, Picker);
     import $api from '../tools/api';
     import requestHybrid from '../tools/hybrid';
     export default {
         name: 'pension-two',
         methods: {
+            getShare(){
+                wx.getShare({
+                    title:'快看我的理财规划，原来我可以这么有钱！',
+                    desc:'金疙瘩智能定制理财规划，比心理测验还好玩，你也来试试？'
+                });
+            },
             onValuesChange(picker) {
                 this.age = picker.getValues()[0];
             },
@@ -82,19 +90,24 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             this.pickerInit(18,100);
         },
         mounted(){
-            requestHybrid({
-                tagname: 'title',
-                param: {
-                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
-                    backAndRefresh: 1,
-                    title: '养老理财规划',
-                    backstr: '退出理财规划将不会保存，确认退出？',
-                    keyboard_mode: 0//0 adjustresize 1 adjustpan
-                }
-            });
+            if($device.kingold){
+                requestHybrid({
+                    tagname: 'title',
+                    param: {
+                        backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                        backAndRefresh: 1,
+                        title: '养老理财规划',
+                        backstr: '退出理财规划将不会保存，确认退出？',
+                        keyboard_mode: 0//0 adjustresize 1 adjustpan
+                    }
+                });
+            }
         }
     }
 </script>

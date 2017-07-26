@@ -105,6 +105,7 @@
     import requestHybrid from '../tools/hybrid';
     import {Toast} from 'mint-ui';
     import {getValueE} from "../tools/city-grade";
+    import wx from '../tools/wx';
     export default {
         name: 'pension-five',
         components: {},
@@ -133,7 +134,8 @@
                     b: false,
                     c: false
                 },
-                productUuid: ''
+                productUuid: '',
+                pension:{}
             };
         },
         computed: {//养老金覆盖比例
@@ -283,12 +285,16 @@
                     rmb = parseInt(rmb);
                 }
                 return rmb
-            },
-            pension: function () {
-                return JSON.parse(window.sessionStorage.getItem('pension'))
             }
+
         },
         methods: {
+            getShare(){
+                wx.getShare({
+                    title:'快看我的养老规划，原来我老了这么有钱！',
+                    desc:'金疙瘩智能定制理财规划，让人生再无后顾之忧，你也来试试？'
+                });
+            },
             setX(m, k){
                 return k * m / 12
             },
@@ -438,17 +444,38 @@
             }
         },
         created(){
-            this.get();
-            requestHybrid({
-                tagname: 'title',
-                param: {
-                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
-                    backAndRefresh: 1,
-                    title: '养老理财规划',
-                    backstr: '退出理财规划将不会保存，确认退出？',
-                    keyboard_mode: 0//0 adjustresize 1 adjustpan
+            if(!JSON.parse(window.sessionStorage.getItem('pension'))){
+                if(this.$route.query.id){
+                    $api.getNode('/pension/getById',{
+                        id:this.$route.query.id
+                    })
+                        .then(resp=>{
+                            if(resp.code==200){
+                                this.pension = resp.data;
+                            }
+                        })
                 }
-            });
+            }else{
+                this.pension = JSON.parse(window.sessionStorage.getItem('pension'));
+            }
+
+            if ($device.isWeixin) {
+                this.getShare();
+            }
+            this.get();
+            if($device.kingold){
+                requestHybrid({
+                    tagname: 'title',
+                    param: {
+                        backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                        backAndRefresh: 1,
+                        title: '养老理财规划',
+                        backstr: '退出理财规划将不会保存，确认退出？',
+                        keyboard_mode: 0//0 adjustresize 1 adjustpan
+                    }
+                });
+            }
+
         }
     }
 </script>

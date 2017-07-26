@@ -85,6 +85,8 @@
     import Modal from '../components/Modal'
     import {getValueD, getValueE, getValueG} from "../tools/city-grade";
     import requestHybrid from '../tools/hybrid';
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     export default{
         data(){
             return {
@@ -155,6 +157,9 @@
             }
         },
         created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
             this.cityName = window.sessionStorage.getItem('cityName') || '北京';
             this.gender = window.sessionStorage.getItem('gender') || 2;
             this.age = window.sessionStorage.getItem('age') || 30;
@@ -166,6 +171,7 @@
                 _.forEach(JSON.parse(pension), (data, key) => {
                     this[key] = data;
                 });
+                window.sessionStorage.removeItem('pension');
             }
             this.inflation = getValueG(this.cityName);//通货膨胀率
             $api.getNode('/assets/getCities')
@@ -175,18 +181,26 @@
         },
         mounted(){
             /* console.log(this.$refs.kpicker.result,'33333');*/
-            requestHybrid({
-                tagname: 'title',
-                param: {
-                    backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
-                    backAndRefresh: 1,
-                    title: '养老理财规划',
-                    backstr: '退出理财规划将不会保存，确认退出？',
-                    keyboard_mode: 0//0 adjustresize 1 adjustpan
-                }
-            });
+            if($device.kingold){
+                requestHybrid({
+                    tagname: 'title',
+                    param: {
+                        backtype: 2,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                        backAndRefresh: 1,
+                        title: '养老理财规划',
+                        backstr: '退出理财规划将不会保存，确认退出？',
+                        keyboard_mode: 0//0 adjustresize 1 adjustpan
+                    }
+                });
+            }
         },
         methods: {
+            getShare(){
+                wx.getShare({
+                    title:'快看我的理财规划，原来我可以这么有钱！',
+                    desc:'金疙瘩智能定制理财规划，比心理测验还好玩，你也来试试？'
+                });
+            },
             genderHandle(num){
                 this.gender = num;
                 this.retirementAge = this.gender == 1 ? '55' : '60';
@@ -207,8 +221,17 @@
                         wagesAfterTax: this.wagesAfterTax,
                         inflation: this.inflation,
                         pensionStore: this.pensionStore,
+                    }).then(resp=>{
+                        if(resp.code==200){
+                            console.log(resp);
+                            this.$router.push({
+                                path:'/pension-five',
+                                query:{
+                                    id:resp.data.id
+                                }
+                            });
+                        }
                     })
-                    this.$router.push('/pension-five');
                 }
             },
             replaceStr(){

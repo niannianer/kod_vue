@@ -79,6 +79,9 @@
             btnAction(){
                 if(!this.nextClick){return}
                 this.nextClick = false;
+                setTimeout(()=>{
+                    this.nextClick = true;
+                },2000);
                 let {userName,userIdCardNumber} = this;
                 if(!$fun.valiRealName(userName)){
                     Toast('请输入真实姓名');

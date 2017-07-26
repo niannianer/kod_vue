@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="forgot-password">
-                    <a class="link" href="/reset-pay-password">忘记交易密码？</a>
+                    <router-link class="link" to="/reset-pay-password">忘记交易密码？</router-link>
                 </div>
             </div>
 
@@ -121,6 +121,9 @@
             addPassword(keyboad){
                 if (this.passwords.length < 6) {
                     this.passwords.push(keyboad.val)
+                }
+                else {
+                    return false;
                 }
                 if (this.passwords.length >= 6) {
                     this.$emit('callBack', this.passwords.join('').substr(0, 6));

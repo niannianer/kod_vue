@@ -1,7 +1,7 @@
 <template>
     <div flex="dir:top" flex-box="1" class="my-count">
         <div class="count-body">
-            <p class="title">真实信息</p>
+            <p class="title">实名信息</p>
             <div class="info">
                 <div class="item1" flex>
                     <div class="item-left" flex-box="1">真实姓名</div>

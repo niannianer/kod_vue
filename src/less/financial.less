@@ -34,6 +34,22 @@
             margin-bottom: .4rem;
             background-color: @bg-content;
             overflow: hidden;
+            .ticket-wrap{
+                .ticket-item{
+                    color:#4387c5;
+                    background-color:#e7f3ff;
+                    font-size: .6rem;
+                    border:1px solid #84c4ff;
+                    margin:.4rem 1rem 0 0;
+                    padding: .05rem .35rem;
+                    border-radius: 2px;
+                    &.disable{
+                        color: @bg-content;
+                        background-color: #cacaca;
+                        border:none;
+                    }
+                }
+            }
             .status-code {
                 position: absolute;
                 top: .5rem;
@@ -85,7 +101,6 @@
             }
             //固定收益
             .fund-middle-fix {
-                margin-top: .5rem;
                 margin-bottom: .2rem;
                 .rate, .cycle {
                     font-size: 1.2rem;

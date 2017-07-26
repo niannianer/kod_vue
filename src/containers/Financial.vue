@@ -58,6 +58,9 @@
                          @click.stop="getDetail(item,'/fixi-goods-detail')"
                          :class="{'stat': item.productStatus =='已告罄'  }">
                         <div class="fund-name ellipsis">{{item.productName}}</div>
+                        <div class="ticket-wrap" v-if="item.productLabel" flex>
+                            <div class="ticket-item" :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}" v-for="(ticketItem,index) in item.productLabel">{{ticketItem}}</div>
+                        </div>
                         <div flex="dir:left" class="fund-middle-fix"
                              :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                             <div class="rate" flex-box="1"
@@ -112,11 +115,12 @@
 <script>
     import Vue from 'vue';
     import {mapState} from 'vuex';
-    //    import {InfiniteScroll} from 'mint-ui';
     import {Loadmore, InfiniteScroll} from 'mint-ui';
     import {logout} from '../tools/operation';
     Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
+    import wx from '../tools/wx';
+    import $device from '../tools/device';
     import '../less/financial.less';
     import CicleProgress from '../components/CicleProgress/CicleProgress';
     import $api from '../tools/api';
@@ -137,7 +141,8 @@
                 autoFill: false,
                 bottomLoadingText: '加载中...',
                 bottomPullText: '上拉加载更多',
-                scrollTop: 0
+                scrollTop: 0,
+                settings:{}
 
             };
         },
@@ -152,7 +157,7 @@
                 this.startRow = startRow;
                 this.pageSize = pageSize;
                 this.hasMore = hasMore;
-                this.loading =false;
+                this.loading = false;
                 this.$nextTick(() => {
                     let dom = document.querySelector('.item-list');
                     dom.scrollTop = this.scrollTop;
@@ -165,13 +170,16 @@
             // 固收
             if (this.$route.query.tab == 'PRIF') {
                 this.tab = 1;
+                this.settings.title = '优质稀缺大类资产，就在金疙瘩。';
                 this.getListWithLogin();
 
             } else {
+                this.settings.title = '金疙瘩系列定期产品——闲散资金定制理财';
                 this.getGoodsList()
             }
-
-
+            if ($device.isWeixin) {
+                this.getShare();
+            }
         },
         computed: {
             ...mapState([
@@ -274,6 +282,9 @@
                         productUuid: item.productUuid
                     }
                 })
+            },
+            getShare(){
+                wx.getShare(this.settings);
             }
         },
         mounted(){
