@@ -145,10 +145,10 @@
                             if(logoutUrl&&/http/.test(logoutUrl)){
                                 window.location.replace(logoutUrl);
                             }else {
-                                this.$router.replace('/personal-center');
                                 this.$store.dispatch('getAccountBaofoo');
                                 this.$store.dispatch('getBankInfo');
-                                this.$store.dispatch('getUserInfo');
+                                this.$store.dispatch('getPersonalCenterMsg');
+                                this.$router.replace('/personal-center');
 
                             }
                             return false;
