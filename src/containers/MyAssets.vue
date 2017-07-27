@@ -97,7 +97,7 @@
                     }
                     this.$store.dispatch('getAccountBaofoo');
                     this.$store.dispatch('getBankInfo');
-                    this.$store.dispatch('getUserInfo');
+                    this.$store.dispatch('getPersonalCenterMsg');
                     this.getBaofoo();
                 }, 3000);
             },
