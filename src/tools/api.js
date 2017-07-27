@@ -14,7 +14,7 @@ import 'whatwg-fetch';
 import store from '../store';
 import {doEncrypt} from './config';
 import  * as config from './config';
-let serverUrl = config.devUrl;
+let serverUrl = config.testUrl;
 let nodeUrl = config.nodeDevApi;
 if (process.env.kingold == 'test') {
     serverUrl = config.testUrl;

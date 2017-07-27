@@ -31,7 +31,7 @@
                     <p class="title">累计收益</p>
                 </div>
             </div>
-           <!-- <div class="ticket-center">
+            <div class="ticket-center">
                 <div flex>
                     <div flex-box="1" flex="main:center">
                         <p class="btn" @click.stop="getPath('/recharge')">
@@ -49,16 +49,16 @@
                         <p class="title">现金劵</p>
                         <p class="info">{{cashCouponCount}}个</p>
                     </div>
-                  &lt;!&ndash;  <div flex-box="1" class="rl">
+                  <!--  <div flex-box="1" class="rl">
                         <p class="title">加息卷</p>
                         <p class="info">5个</p>
-                    </div>&ndash;&gt;
+                    </div>-->
                     <div flex-box="1" @click.stop="getPath('/experience-fund')">
                         <p class="title">体验金</p>
                         <p class="info">{{experienceAmount}}元</p>
                     </div>
                 </div>
-            </div>-->
+            </div>
         </div>
         <div class="body">
             <div class="section seperate" flex="cross:center" @click.stop="getPath('/risk-assessment/wechat')" v-if="!investorRiskScore">
