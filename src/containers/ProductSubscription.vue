@@ -39,7 +39,7 @@
                     <div class="ticket-bar" flex-box="0" flex @click.stop="showTicketList">
                         <p flex-box="1">现金券</p>
                         <img flex-box="0" src="../images/arrow-down-double.png" alt="arrow">
-                        <p flex-box="1" style="text-align: right">-50元</p>
+                        <p flex-box="1" style="text-align: right">-{{faceValue}}元</p>
                     </div>
                 </div>
             </div>
@@ -132,7 +132,8 @@
                 ticketListBoolean: false,
                 couponExtendCode: '',
                 leastPay: 0,
-                orderBillCode: ''
+                orderBillCode: '',
+                faceValue:0
             }
         },
         components: {
@@ -147,6 +148,9 @@
                     this[key] = value
                 });
                 this.leastPay = 0;
+                this.getTradeRecharge();
+                window.sessionStorage.removeItem('investDetail');
+
                 return false;
             }
 
@@ -155,7 +159,6 @@
             this.leastPay = this.numAdd(this.amount, -this.accountCashAmount);
             this.rechargeNum = this.leastPay;
             this.getDetail();
-            this.getBaofoo();
             this.getAvailableCoupon();
 
         },
@@ -174,14 +177,37 @@
         watch: {},
         methods: {
             getBaofoo(){
-                setTimeout(() => {
-                    times++;
-                    if (times >= 3) {
-                        return;
-                    }
-                    this.$store.dispatch('getAccountBaofoo');
-                    //  this.getBaofoo();
-                }, 3000);
+                this.$store.dispatch('getAccountBaofoo');
+            },
+            /* 查询订单状态*/
+            getTradeRecharge(){
+                Indicator.open('订单处理中...');
+                let rechargeBillCode = this.orderBillCode;
+                $api.get('/getTradeRecharge', {rechargeBillCode})
+                    .then(res => {
+                        if (res.code == 200) {
+                            let {data} = res;
+                            if (data.rechargeStatus === 0) {
+                                setTimeout(() => {
+                                    times++;
+                                    if (times <= 5) {
+                                        this.getTradeRecharge();
+                                    }
+
+                                }, 2000);
+                            }
+                            if (data.rechargeStatus === 1) {
+                                this.getBaofoo();
+                                Indicator.close();
+                            }
+                            if (data.rechargeStatus === 2) {
+                                this.getBaofoo();
+                                Indicator.close();
+                                Toast('充值失败')
+                            }
+                        }
+
+                    });
             },
             getAvailableCoupon(){
 
@@ -221,10 +247,12 @@
                     this.couponExtendCode = item.couponExtendCode;
                     this.leastPay = this.numAdd(this.amount, -this.accountCashAmount);
                     this.rechargeNum = this.numAdd(this.leastPay, -(item.faceValue));
+                    this.faceValue = item.faceValue
                 } else {
                     this.couponExtendCode = '';
                     this.leastPay = this.numAdd(this.amount, -this.accountCashAmount);
                     this.rechargeNum = this.leastPay;
+                    this.faceValue = 0;
                 }
             },
             numAdd(num1, num2) {
