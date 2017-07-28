@@ -46,14 +46,16 @@
             <transition-group name="list-complete" tag="div">
                 <div class="list-complete-item" v-show="ticketListBoolean" v-bind:key="0">
                     <div flex-box="1" class="ticket-list" ref="ticketList">
-                        <div class="ticket-item" flex v-for="item in ticketList">
-                            <p flex-box="1">{{item.ccRemark1||ccRemark2||ccRemark3}}</p>
+                        <div class="ticket-item" flex v-for="item in ticketList" @click.stop="chooseCode(item)"
+                             :class="{'active':couponExtendCode==item.couponExtendCode}">
+                            <p flex-box="1">{{item.ccRemark1 || ccRemark2 || ccRemark3}}</p>
                             <p flex-box="1">{{item.leftText}}</p>
                             <div flex-box="0" class="check-box">
                                 <div class="box-inner"></div>
                             </div>
                         </div>
-                        <div class="ticket-item default" flex>
+                        <div class="ticket-item default" flex @click.stop="chooseCode()"
+                             :class="{'active':!couponExtendCode}">
                             <p flex-box="1">暂不使用现金券</p>
                             <div flex-box="0" class="check-box">
                                 <div class="box-inner"></div>
@@ -90,14 +92,15 @@
 
         </div>
 
-        <div class="btn" flex-box="0">
+        <div class="btn" flex-box="0" @click.stop="investHandle()">
             确认认购
         </div>
     </div>
 </template>
 <script>
     import {mapState} from 'vuex';
-    import {submitRecharge, currencyInputValidate, remainTime} from '../tools/operation';
+    import _ from 'lodash/core';
+    import {submitRecharge, currencyInputValidate, remainTime, logout} from '../tools/operation';
     import {currencyFormat} from '../filters/index';
     import '../less/product-subscription.less';
     import $api from '../tools/api';
@@ -112,6 +115,7 @@
         imgUrls[url] = require(`../images/bank/${url}.png`)
     });
     let times = 0;
+    let timeLine = new Date().getTime();
     export default {
         name: 'product-subscription',
         data(){
@@ -123,22 +127,33 @@
                 annualInterestRate: '',
                 rechargeNum: '',
                 productPeriod: '',
-                imgUrls,
                 inputPassword: false,
                 ticketList: [],
-                ticketListBoolean: true
+                ticketListBoolean: false,
+                couponExtendCode: '',
+                leastPay: 0,
+                orderBillCode: ''
             }
         },
         components: {
             PasswordInput
         },
         created(){
+            /*充值回来*/
+            if (window.sessionStorage.getItem('investDetail')) {
+                let investDetail = window.sessionStorage.getItem('investDetail');
+                investDetail = JSON.parse(investDetail)
+                _.forEach(investDetail, (value, key) => {
+                    this[key] = value
+                });
+                this.leastPay = 0;
+                return false;
+            }
 
             this.productUuid = this.$route.query.u;
             this.amount = this.$route.query.a;
-            this.orderBillCode = this.$route.query.o;
-            let leastPay = this.numAdd(this.amount, -this.accountCashAmount);
-            this.rechargeNum = leastPay;
+            this.leastPay = this.numAdd(this.amount, -this.accountCashAmount);
+            this.rechargeNum = this.leastPay;
             this.getDetail();
             this.getBaofoo();
             this.getAvailableCoupon();
@@ -147,16 +162,13 @@
         computed: {
             ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId', 'single_limit', 'perday_limit']),
             isLack(){
-                return this.amount > this.accountCashAmount;
+                return this.leastPay > 0;
             },
             expectEarn(){
                 return this.amount * parseFloat(this.annualInterestRate) / 100 * parseInt(this.productPeriod) / 365;
             },
             bankImg(){
-                return this.imgUrls[this.bank_code];
-            },
-            ticketListBoolean(){
-                return this.ticketList && this.ticketList.length;
+                return imgUrls[this.bank_code];
             }
         },
         watch: {},
@@ -182,6 +194,12 @@
                                 cou.leftText = remainTime(cou.validEndTime, cou.serverTime)
                             })
                             this.ticketList = res.data.couponList;
+                            if (this.ticketList.length) {
+                                this.ticketListBoolean = true;
+                            }
+                        }
+                        if (res.code == 401) {
+                            logout();
                         }
                     })
             },
@@ -197,6 +215,17 @@
                         this.productPeriod = msg.data.productPeriod;
                     }
                 })
+            },
+            chooseCode(item){
+                if (item) {
+                    this.couponExtendCode = item.couponExtendCode;
+                    this.leastPay = this.numAdd(this.amount, -this.accountCashAmount);
+                    this.rechargeNum = this.numAdd(this.leastPay, -(item.faceValue));
+                } else {
+                    this.couponExtendCode = '';
+                    this.leastPay = this.numAdd(this.amount, -this.accountCashAmount);
+                    this.rechargeNum = this.leastPay;
+                }
             },
             numAdd(num1, num2) {
                 var baseNum, baseNum1, baseNum2;
@@ -244,57 +273,46 @@
                 this.enable = !this.enable;
             },
             rechargeHandle(){
-                if (!this.enable) {
-                    Toast('请勾选同意《宝付科技电子支付账户协议》');
-                    return false;
-                }
                 this.rechargeNum = this.checkRechargeNum(this.rechargeNum);
                 if (!this.rechargeNum) {
                     Toast('请输入正确待支付金额');
                     return false;
                 }
-
-                let leastPay = this.numAdd(this.amount, -this.accountCashAmount);
-                if (this.rechargeNum < leastPay) {
+                if (this.rechargeNum < this.leastPay) {
                     Toast('输入金额不能小于待支付金额，请重新输入');
                     return false;
                 }
                 $api.post('/trade/recharge', {
                     amount: this.rechargeNum
-                })
-                    .then(data => {
-                        if (data.code == 200) {
-                            window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href));
-                            let params = data.data || {};
-                            params.amount = this.rechargeNum;
-                            params.userId = this.userId;
-                            submitRecharge(params);
-                        } else {
-                            Toast(data.msg);
-                        }
-                    });
+                }).then(data => {
+                    if (data.code == 200) {
+                        window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href));
+                        let params = data.data || {};
+                        this.orderBillCode = params.orderBillCode;
+                        params.amount = this.rechargeNum;
+                        params.userId = this.userId;
+                        window.sessionStorage.setItem('investDetail', JSON.stringify(this.$data));
+                        submitRecharge(params);
+                    } else {
+                        Toast(data.msg);
+                    }
+                });
             },
             tradeCallback(password){
-                this.inputPassword = false;
-                if (this.orderBillCode) {
-                    this.doInvest(password);
-                } else {
-                    this.getOrderBillCode()
-                        .then(data => {
-                            if (data.code == 200) {
-                                this.doInvest(password);
-                            }
-                        });
-                }
+                this.doInvest(password);
             },
             doInvest(password){
                 Indicator.open('提交中...');
                 $api.post('/trade/invest', {
-                    'orderBillCode': this.orderBillCode,
-                    'userPayPassword': password
+                    'productUuid': this.productUuid,
+                    orderAmount: this.amount,
+                    couponExtendCode: this.couponExtendCode,
+                    'userPayPassword': password,
+                    uniqueIdentifier: timeLine
                 })
                     .then((msg) => {
                         Indicator.close();
+                        timeLine = new Date().getTime();
                         if (msg.code == 200) {
                             window.sessionStorage.setItem('investInfo', encodeURIComponent(JSON.stringify(msg.data)));
                             this.$router.replace('invest-succ');
@@ -302,7 +320,17 @@
                             EventBus.$emit('clearInput');
                             Toast(msg.msg);
                             return false;
+                        } else if (6003 <= msg.code && msg.code <= 6010) {
+                            /*认购金额不满足要求*/
+                            Toast(msg.msg);
+                            setTimeout(() => {
+                                this.$router.back();
+                            }, 1000);
                         } else {
+                            /*余额不足*/
+                            if (msg.code == 6011) {
+                                this.$store.dispatch('getAccountBaofoo')
+                            }
                             Toast(msg.msg);
                         }
                         EventBus.$emit('clearInput');
@@ -314,20 +342,11 @@
                     Toast('请勾选同意《认购协议》和《金疙瘩平台免责声明》');
                     return false;
                 }
+                if (this.leastPay > 0) {
+                    this.rechargeHandle();
+                    return false;
+                }
                 this.inputPassword = true;
-            },
-            getOrderBillCode(){
-                return $api.post('/trade/productSubscription', {
-                    'productUuid': this.productUuid,
-                    'amount': this.amount
-                }).then((msg) => {
-                    if (msg.code == 200) {
-                        this.orderBillCode = msg.data.orderBillCode;
-                    } else {
-                        Toast(msg.msg);
-                    }
-                    return msg;
-                })
             },
             checkRechargeNum(input) {
                 if (!input) {
