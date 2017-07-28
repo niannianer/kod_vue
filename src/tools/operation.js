@@ -173,4 +173,29 @@ let $operation = {
     setTitle
 }
 export default $operation;
+export let remainTime = (end, now) => {
+    let remainTime = (end - now) / 1000;
+    if (isNaN(remainTime)) {
+        return ''
+    }
+    if (remainTime < 0) {
+        return '1分过期'
+    }
+    let day = Math.floor(remainTime / 3600 / 24);
+    if (day > 0) {
+        return day + '天过期'
+    }
+    let hours = Math.floor(remainTime / 60 / 60);
+    if (hours > 0) {
+        return  hours + '时过期'
+    }
+    let minutes = Math.floor(remainTime / 60);
+    if ((remainTime / 60) < 1) {
+        return '1分过期'
+    }
+    if (minutes > 0) {
+        return  minutes + '分过期'
+    }
+    return ''
+}
 

@@ -28,7 +28,7 @@
                     </div>
                     <div class="fund-detail" flex-box="1" flex>
                         <div flex-box="1">
-                            <p class="info">{{expectEarn|currencyFormat}}元</p>
+                            <p class="info">{{expectEarn | currencyFormat}}元</p>
                             <p class="title">预计收益</p>
                         </div>
                         <div flex-box="1">
@@ -44,53 +44,46 @@
                 </div>
             </div>
             <transition-group name="list-complete" tag="div">
-            <div class="list-complete-item" v-show="ticketListBoolean" v-bind:key="0">
-                <div flex-box="1" class="ticket-list"  ref="ticketList">
-                    <div class="ticket-item" flex>
-                        <p flex-box="1">满3000元减100元</p>
-                        <p flex-box="1">1天过期</p>
-                        <div flex-box="0" class="check-box">
-                            <div class="box-inner"></div>
+                <div class="list-complete-item" v-show="ticketListBoolean" v-bind:key="0">
+                    <div flex-box="1" class="ticket-list" ref="ticketList">
+                        <div class="ticket-item" flex v-for="item in ticketList">
+                            <p flex-box="1">{{item.ccRemark1||ccRemark2||ccRemark3}}</p>
+                            <p flex-box="1">{{item.leftText}}</p>
+                            <div flex-box="0" class="check-box">
+                                <div class="box-inner"></div>
+                            </div>
+                        </div>
+                        <div class="ticket-item default" flex>
+                            <p flex-box="1">暂不使用现金券</p>
+                            <div flex-box="0" class="check-box">
+                                <div class="box-inner"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="ticket-item active" flex>
-                        <p flex-box="1">满3000元减100元</p>
-                        <p flex-box="1">1天过期</p>
-                        <div flex-box="0" class="check-box">
-                            <div class="box-inner"></div>
-                        </div>
-                    </div>
-                    <div class="ticket-item default" flex>
-                        <p flex-box="1">暂不使用现金券</p>
-                        <div flex-box="0" class="check-box">
-                            <div class="box-inner"></div>
-                        </div>
-                    </div>
-                </div >
 
-            </div>
-            <div class="list-complete-item" v-bind:key="1">
-                <div v-if="isLack" class="tip">
-                    <p>银行卡限额：单笔{{single_limit}}万元，单日{{perday_limit}}元</p>
                 </div>
-                <div class="recharge-info" v-if="isLack">
-                    <div class="item" flex>
-                        <p flex-box="1">待支付金额</p>
-                        <input class="rechargeNum" flex-box="1" type="number" v-model="rechargeNum">
-                        <p flex-box="0" class="yuan">元</p>
+                <div class="list-complete-item" v-bind:key="1">
+                    <div v-if="isLack" class="tip">
+                        <p>银行卡限额：单笔{{single_limit}}万元，单日{{perday_limit}}元</p>
+                    </div>
+                    <div class="recharge-info" v-if="isLack">
+                        <div class="item" flex>
+                            <p flex-box="1">待支付金额</p>
+                            <input class="rechargeNum" flex-box="1" type="number" v-model="rechargeNum">
+                            <p flex-box="0" class="yuan">元</p>
+                        </div>
+                    </div>
+                    <div class="deal" flex="box:first">
+                        <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
+                        <div v-if="!isLack">
+                            我已仔细阅读《产品说明书》和《风险提示函》，并同意《认购协议》和
+                            <span @click.stop="agreement(0)" class="agreement">《金疙瘩平台免责声明》</span>
+                        </div>
+                        <div v-if="isLack">
+                            我已同意<span class="agreement" @click.stop="agreement(1)">《宝付科技电子支付账户协议》</span>
+                        </div>
                     </div>
                 </div>
-                <div class="deal" flex="box:first">
-                    <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
-                    <div v-if="!isLack">
-                        我已仔细阅读《产品说明书》和《风险提示函》，并同意《认购协议》和
-                        <span @click.stop="agreement(0)" class="agreement">《金疙瘩平台免责声明》</span>
-                    </div>
-                    <div v-if="isLack">
-                        我已同意<span class="agreement" @click.stop="agreement(1)">《宝付科技电子支付账户协议》</span>
-                    </div>
-                </div>
-            </div>
             </transition-group>
             <password-input v-show="inputPassword" title="购买产品" @close="inputPassword=false" @callBack="tradeCallback"
             ></password-input>
@@ -104,7 +97,7 @@
 </template>
 <script>
     import {mapState} from 'vuex';
-    import {submitRecharge, currencyInputValidate} from '../tools/operation';
+    import {submitRecharge, currencyInputValidate, remainTime} from '../tools/operation';
     import {currencyFormat} from '../filters/index';
     import '../less/product-subscription.less';
     import $api from '../tools/api';
@@ -129,63 +122,44 @@
                 productName: '',
                 annualInterestRate: '',
                 rechargeNum: '',
-                bankImg: '',
-                productPeriod:'',
+                productPeriod: '',
                 imgUrls,
                 inputPassword: false,
-                ticketListBoolean:true
+                ticketList: [],
+                ticketListBoolean: true
             }
         },
         components: {
             PasswordInput
         },
         created(){
-            this.getBaofoo();
-            if (this.bank_code) {
-                this.bankImg = this.imgUrls[this.bank_code];
-            }
+
             this.productUuid = this.$route.query.u;
             this.amount = this.$route.query.a;
             this.orderBillCode = this.$route.query.o;
-
-            let leastPay = this.numAdd(this.amount,-this.accountCashAmount);
+            let leastPay = this.numAdd(this.amount, -this.accountCashAmount);
             this.rechargeNum = leastPay;
-            $api.get('/product/getDetail', {
-                'productUuid': this.productUuid,
-                'productType': 'FIXI'
-            })
-                .then((msg) => {
-                    console.log(msg);
-                    if (msg.code == 200) {
-                        this.productName = msg.data.productName;
-                        this.annualInterestRate = msg.data.annualInterestRate;
-                        this.productPeriod = msg.data.productPeriod;
-                    }
-                })
+            this.getDetail();
+            this.getBaofoo();
+            this.getAvailableCoupon();
+
         },
         computed: {
-            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId','single_limit','perday_limit']),
+            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId', 'single_limit', 'perday_limit']),
             isLack(){
                 return this.amount > this.accountCashAmount;
             },
             expectEarn(){
                 return this.amount * parseFloat(this.annualInterestRate) / 100 * parseInt(this.productPeriod) / 365;
+            },
+            bankImg(){
+                return this.imgUrls[this.bank_code];
+            },
+            ticketListBoolean(){
+                return this.ticketList && this.ticketList.length;
             }
         },
-        watch: {
-            /*  accountCashAmount(){
-             if(this.accountCashAmount){
-             console.log('444')
-             this.rechargeNum = this.amount - this.accountCashAmount;
-             console.log(this.rechargeNum)
-             }
-             },*/
-            bank_code(){
-                if (this.bank_code) {
-                    this.bankImg = this.imgUrls[this.bank_code];
-                }
-            }
-        },
+        watch: {},
         methods: {
             getBaofoo(){
                 setTimeout(() => {
@@ -194,8 +168,35 @@
                         return;
                     }
                     this.$store.dispatch('getAccountBaofoo');
-                    this.getBaofoo();
+                    //  this.getBaofoo();
                 }, 3000);
+            },
+            getAvailableCoupon(){
+
+                let orderAmount = this.amount;
+                let productUuid = this.productUuid
+                $api.get('/availableCoupon/list', {orderAmount, productUuid})
+                    .then(res => {
+                        if (res.code == 200) {
+                            res.data.couponList.map(cou => {
+                                cou.leftText = remainTime(cou.validEndTime, cou.serverTime)
+                            })
+                            this.ticketList = res.data.couponList;
+                        }
+                    })
+            },
+            getDetail(){
+                $api.get('/product/getDetail', {
+                    'productUuid': this.productUuid,
+                    'productType': 'FIXI'
+                }).then((msg) => {
+                    console.log(msg);
+                    if (msg.code == 200) {
+                        this.productName = msg.data.productName;
+                        this.annualInterestRate = msg.data.annualInterestRate;
+                        this.productPeriod = msg.data.productPeriod;
+                    }
+                })
             },
             numAdd(num1, num2) {
                 var baseNum, baseNum1, baseNum2;
@@ -210,15 +211,15 @@
                     baseNum2 = 0;
                 }
                 baseNum = Math.pow(10, Math.max(baseNum1, baseNum2));
-                var result = this.numMulti(num1,baseNum)+this.numMulti(num2,baseNum);
+                var result = this.numMulti(num1, baseNum) + this.numMulti(num2, baseNum);
                 return result / baseNum;
             },
             numMulti(num1, num2) {
                 var baseNum = 0;
-                if(num1.toString().split(".")[1]){
+                if (num1.toString().split(".")[1]) {
                     baseNum += num1.toString().split(".")[1].length;
                 }
-                if(num2.toString().split(".")[1]){
+                if (num2.toString().split(".")[1]) {
                     baseNum += num2.toString().split(".")[1].length;
                 }
                 return Number(num1.toString().replace(".", ""))
@@ -230,12 +231,12 @@
             },
             agreement(num){
                 if (num == 0) {
-                    window.location.href='/product-subscription-agreement.html'
+                    window.location.href = '/product-subscription-agreement.html'
                 }
-                if(num ==1){
+                if (num == 1) {
                     window.location.href = '/application-commitment.html';
                 }
-                if(num ==2){
+                if (num == 2) {
                     window.location.href = '/baofoo-certification.html';
                 }
             },
@@ -253,7 +254,7 @@
                     return false;
                 }
 
-                let leastPay = this.numAdd(this.amount,-this.accountCashAmount);
+                let leastPay = this.numAdd(this.amount, -this.accountCashAmount);
                 if (this.rechargeNum < leastPay) {
                     Toast('输入金额不能小于待支付金额，请重新输入');
                     return false;

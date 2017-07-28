@@ -171,7 +171,7 @@
             nextStep(){
                 let params = {
                     'productUuid': this.uid,
-                    'amount': this.amount
+                    'orderAmount': this.amount
                 };
                 Indicator.open('提交中...');
                 $api.post('/trade/productSubscription', params)
@@ -207,8 +207,7 @@
                                 path: '/product-subscription',
                                 query: {
                                     u: this.uid,
-                                    a: this.amount,
-                                    o: data.data.orderBillCode
+                                    a: this.amount
                                 }
                             })
                             return false;
