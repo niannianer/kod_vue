@@ -50,6 +50,7 @@ export let submitRecharge = (params) => {
     if (!backUrl) {
         backUrl = window.location.origin + '/my-assets?t=' + new Date().getTime();
     }
+    returnUrl=`${baofooCallUrl}/baofoo/notification/recharge`;
     let pageUrl = `${baofooCallUrl}/baofoo/h5/notification/recharge?backUrl=${backUrl}`;
     let backUrlParams = window.sessionStorage.getItem('backUrlParams');
     $api.post('/baofoo/rechargeParam', {
