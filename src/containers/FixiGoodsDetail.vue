@@ -162,7 +162,7 @@
                       :remain-amount="production.productRemainAmountValue"
                       :step-value="production.investmentIntervalValue"
                       :uid="productUuid"
-                      :rate="production.annualInterestRate"
+                      :rate="production.expcRate"
                       :period="production.productPeriod"
                       @callBack="inputBack"></invest-input>
     </div>
@@ -173,7 +173,7 @@
     import {Toast,MessageBox} from 'mint-ui';
     import $api from '../tools/api';
     import {submitAuthorization} from '../tools/operation';
-    import {textToHtml} from '../filters';
+    import {textToHtml,numAdd} from '../filters';
     import {logout} from '../tools/operation';
     import wx from '../tools/wx';
     import $device from '../tools/device';
@@ -276,6 +276,9 @@
                                 el.expend = false;
                             })
                             this.production = data.data;
+                            if(data.data.increaseInterestRateValue){
+                                this.production.expcRate = numAdd(data.data.annualInterestRateValue,data.data.increaseInterestRateValue);
+                            }
                             console.log(this.production);
                         } else {
                             Toast(data.msg);
