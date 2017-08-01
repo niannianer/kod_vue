@@ -164,7 +164,7 @@
 
         },
         computed: {
-            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId', 'single_limit', 'perday_limit']),
+            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId', 'single_limit', 'perday_limit','single_limit_value']),
             isLack(){
                 return this.leastPay > 0;
             },
@@ -189,12 +189,14 @@
                         if (res.code == 200) {
                             let {data} = res;
                             if (data.rechargeStatus === 0) {
-                                setTimeout(() => {
+                                let timer = setTimeout(() => {
                                     times++;
                                     if (times <= 5) {
                                         this.getTradeRecharge();
+                                    }else{
+                                        clearTimeout(timer);
+                                        Indicator.close();
                                     }
-
                                 }, 2000);
                             }
                             if (data.rechargeStatus === 1) {
@@ -251,6 +253,7 @@
                     this.couponExtendCode = item.couponExtendCode;
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
                     this.rechargeNum = numAdd(this.leastPay, -(item.faceValue));
+                    this.leastPay = this.rechargeNum;
                     this.faceValue = item.faceValue
                 } else {
                     this.couponExtendCode = '';
@@ -284,6 +287,10 @@
                 }
                 if (this.rechargeNum < this.leastPay) {
                     Toast('输入金额不能小于待支付金额，请重新输入');
+                    return false;
+                }
+                if (Number(this.rechargeNum) > Number(this.single_limit_value)) {
+                    Toast('输入金额不能大于银行单笔限额，请重新输入');
                     return false;
                 }
                 $api.post('/trade/recharge', {
