@@ -161,3 +161,33 @@ export let textToHtml =(input)=>{
     }
     return input.replace(/\n/g,'<br>');
 };
+
+export let numAdd =(num1,num2)=>{
+    let baseNum, baseNum1, baseNum2;
+    try {
+        baseNum1 = num1.toString().split(".")[1].length;
+    } catch (e) {
+        baseNum1 = 0;
+    }
+    try {
+        baseNum2 = num2.toString().split(".")[1].length;
+    } catch (e) {
+        baseNum2 = 0;
+    }
+    baseNum = Math.pow(10, Math.max(baseNum1, baseNum2));
+    let result = this.numMulti(num1, baseNum) + this.numMulti(num2, baseNum);
+    return result / baseNum;
+};
+export let numMulti =(num1,num2)=>{
+    let baseNum = 0;
+    if (num1.toString().split(".")[1]) {
+        baseNum += num1.toString().split(".")[1].length;
+    }
+    if (num2.toString().split(".")[1]) {
+        baseNum += num2.toString().split(".")[1].length;
+    }
+    return Number(num1.toString().replace(".", ""))
+        * Number(num2.toString().replace(".", ""))
+        / Math.pow(10, baseNum)
+};
+

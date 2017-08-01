@@ -10,7 +10,7 @@
             }
         ]
     ],
-    "plugins": [ ["component", [
+    "plugins": ["syntax-dynamic-import", ["component", [
         { "libraryName": "mint-ui", "style": true }
     ]]]
 }

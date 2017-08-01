@@ -3,56 +3,59 @@ import store from '../store';
 import Router from 'vue-router';
 import {logout} from '../tools/operation';
 Vue.use(Router)
-import AppointSucc from '../containers/AppointSucc';
-import AuthResult from '../containers/AuthResult';
-import ExperienceFund from '../containers/ExperienceFund';
-import Index from '../containers/Index';
-import Financial from '../containers/Financial';
-import MyAssets from '../containers/MyAssets';
-import MakeAppointment from '../containers/MakeAppointment';
-import Login from '../containers/Login';
-import Recharge from '../containers/Recharge';
-import Withdraw from '../containers/Withdraw';
-import ReserveList from '../containers/ReserveList';
-import ReserveDetail from '../containers/ReserveDetail';
-import ReserveProfessionalList from '../containers/ReserveProfessionalList';
-import Reward from '../containers/Reward';
-import TicketList from '../containers/TicketList';
-import UsableFinancial from '../containers/UsableFinancial';
-import MyCount from '../containers/MyCount';
-import InvitationRewardDetal from '../containers/InvitationRewardDetal';
-import InvestList from '../containers/InvestList';
-import RewardDetail from '../containers/RewardDetail';
-import InvestDetail from '../containers/InvestDetail';
-import InvitationRewardList from '../containers/InvitationRewardList';
-import InvitationAllowanceList from '../containers/InvitationAllowanceList';
-import InvestSucc from '../containers/InvestSucc';
-import AccountDetail from '../containers/AccountDetail';
-import PensionTwo from '../containers/PensionTwo';
-import PensionThree from '../containers/PensionThree';
-import PensionFour from '../containers/PensionFour';
-import PensionOne from '../containers/PensionOne';
-import PensionFive from '../containers/PensionFive';
-import PersonalCenter from '../containers/PersonalCenter';
-import ProductSubscription from '../containers/ProductSubscription'
-import RiskAssessment from '../containers/RiskAssessment';
-import AssessmentResult from '../containers/AssessmentResult';
-import RelationList from '../containers/RelationList';
-import Relation from '../containers/Relation';
-import HouseTwo from '../containers/HouseTwo';
-import HouseThree from '../containers/HouseThree';
-import Planning from '../containers/Planning';
-import Authentication from '../containers/Authentication';
-import BindBankCard from '../containers/BindBankCard';
-import BankList from '../containers/BankList';
-import SetPayPassword from '../containers/SetPayPassword';
-import ResetPayPassword from '../containers/ResetPayPassword';
-import GoodsDetailPRIF from '../containers/GoodsDetailPRIF';
+
+const AuthResult = () => import('../containers/AuthResult');
+const AppointSucc = () => import('../containers/AppointSucc');
+
+const ExperienceFund = () => import('../containers/ExperienceFund');
+const Index = () => import('../containers/Index');
+const Financial = () => import('../containers/Financial');
+const MyAssets = () => import('../containers/MyAssets');
+const MakeAppointment = () => import('../containers/MakeAppointment');
+const Login = () => import('../containers/Login');
+const Recharge = () => import('../containers/Recharge');
+const Withdraw = () => import('../containers/Withdraw');
+const ReserveList = () => import('../containers/ReserveList');
+const ReserveDetail = () => import('../containers/ReserveDetail');
+const ReserveProfessionalList = () => import('../containers/ReserveProfessionalList');
+const Reward = () => import('../containers/Reward');
+const TicketList = () => import('../containers/TicketList');
+const UsableFinancial = () => import('../containers/UsableFinancial');
+const MyCount = () => import('../containers/MyCount');
+const InvitationRewardDetal = () => import('../containers/InvitationRewardDetal');
+const InvestList = () => import('../containers/InvestList');
+const RewardDetail = () => import('../containers/RewardDetail');
+const InvestDetail = () => import('../containers/InvestDetail');
+const InvitationRewardList = () => import('../containers/InvitationRewardList');
+const InvitationAllowanceList = () => import('../containers/InvitationAllowanceList');
+const InvestSucc = () => import('../containers/InvestSucc');
+const AccountDetail = () => import('../containers/AccountDetail');
+const PensionTwo = () => import('../containers/PensionTwo');
+const PensionThree = () => import('../containers/PensionThree');
+const PensionFour = () => import('../containers/PensionFour');
+const PensionOne = () => import('../containers/PensionOne');
+const PensionFive = () => import('../containers/PensionFive');
+const PersonalCenter = () => import('../containers/PersonalCenter');
+const ProductSubscription = () => import('../containers/ProductSubscription');
+const RiskAssessment = () => import('../containers/RiskAssessment');
+const AssessmentResult = () => import('../containers/AssessmentResult');
+const RelationList = () => import('../containers/RelationList');
+const Relation = () => import('../containers/Relation');
+const HouseTwo = () => import('../containers/HouseTwo');
+const HouseThree = () => import('../containers/HouseThree');
+const Planning = () => import('../containers/Planning');
+const Authentication = () => import('../containers/Authentication');
+const BindBankCard = () => import('../containers/BindBankCard');
+const BankList = () => import('../containers/BankList');
+const SetPayPassword = () => import('../containers/SetPayPassword');
+const ResetPayPassword = () => import('../containers/ResetPayPassword');
+const GoodsDetailPRIF = () => import('../containers/GoodsDetailPRIF');
+const Register = () => import('../containers/Register');
+const FindPassword = () => import('../containers/FindPassword');
+const FixiGoodsDetail = () => import('../containers/FixiGoodsDetail');
+
 const HouseOne = PensionOne;
 
-import Register from '../containers/Register';
-import FindPassword from '../containers/FindPassword';
-import FixiGoodsDetail from '../containers/FixiGoodsDetail';
 import {setTitle} from '../tools/operation';
 let beforeEach = ((to, from, next) => {
     let {meta} = to;
@@ -201,14 +204,14 @@ let routes = [
         meta: {
             title: '我的优惠券'
         },
-        component:TicketList
-    },{
+        component: TicketList
+    }, {
         path: '/usable-financial',
         name: 'usable-financial',
         meta: {
             title: '可用产品'
         },
-        component:UsableFinancial
+        component: UsableFinancial
     },
     {
         path: '/my-count',
