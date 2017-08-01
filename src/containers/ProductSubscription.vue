@@ -100,6 +100,7 @@
 <script>
     import {mapState} from 'vuex';
     import _ from 'lodash/core';
+    import {numAdd,numMulti} from '../filters';
     import {submitRecharge, currencyInputValidate, remainTime, logout} from '../tools/operation';
     import {currencyFormat} from '../filters/index';
     import '../less/product-subscription.less';
@@ -156,7 +157,7 @@
 
             this.productUuid = this.$route.query.u;
             this.amount = this.$route.query.a;
-            this.leastPay = this.numAdd(this.amount, -this.accountCashAmount);
+            this.leastPay = numAdd(this.amount, -this.accountCashAmount);
             this.rechargeNum = this.leastPay;
             this.getDetail();
             this.getAvailableCoupon();
@@ -168,7 +169,7 @@
                 return this.leastPay > 0;
             },
             expectEarn(){
-                return this.amount * parseFloat(this.annualInterestRate) / 100 * parseInt(this.productPeriod) / 365;
+                return this.amount * parseFloat(this.expcRate) / 100 * parseInt(this.productPeriod) / 365;
             },
             bankImg(){
                 return imgUrls[this.bank_code];
@@ -234,10 +235,13 @@
                     'productUuid': this.productUuid,
                     'productType': 'FIXI'
                 }).then((msg) => {
-                    console.log(msg);
                     if (msg.code == 200) {
                         this.productName = msg.data.productName;
                         this.annualInterestRate = msg.data.annualInterestRate;
+                        this.expcRate = msg.data.annualInterestRateValue;
+                        if(msg.data.increaseInterestRateValue){
+                            this.expcRate = numAdd(msg.data.increaseInterestRateValue,this.expcRate);
+                        }
                         this.productPeriod = msg.data.productPeriod;
                     }
                 })
@@ -245,43 +249,15 @@
             chooseCode(item){
                 if (item) {
                     this.couponExtendCode = item.couponExtendCode;
-                    this.leastPay = this.numAdd(this.amount, -this.accountCashAmount);
-                    this.rechargeNum = this.numAdd(this.leastPay, -(item.faceValue));
+                    this.leastPay = numAdd(this.amount, -this.accountCashAmount);
+                    this.rechargeNum = numAdd(this.leastPay, -(item.faceValue));
                     this.faceValue = item.faceValue
                 } else {
                     this.couponExtendCode = '';
-                    this.leastPay = this.numAdd(this.amount, -this.accountCashAmount);
+                    this.leastPay = numAdd(this.amount, -this.accountCashAmount);
                     this.rechargeNum = this.leastPay;
                     this.faceValue = 0;
                 }
-            },
-            numAdd(num1, num2) {
-                var baseNum, baseNum1, baseNum2;
-                try {
-                    baseNum1 = num1.toString().split(".")[1].length;
-                } catch (e) {
-                    baseNum1 = 0;
-                }
-                try {
-                    baseNum2 = num2.toString().split(".")[1].length;
-                } catch (e) {
-                    baseNum2 = 0;
-                }
-                baseNum = Math.pow(10, Math.max(baseNum1, baseNum2));
-                var result = this.numMulti(num1, baseNum) + this.numMulti(num2, baseNum);
-                return result / baseNum;
-            },
-            numMulti(num1, num2) {
-                var baseNum = 0;
-                if (num1.toString().split(".")[1]) {
-                    baseNum += num1.toString().split(".")[1].length;
-                }
-                if (num2.toString().split(".")[1]) {
-                    baseNum += num2.toString().split(".")[1].length;
-                }
-                return Number(num1.toString().replace(".", ""))
-                    * Number(num2.toString().replace(".", ""))
-                    / Math.pow(10, baseNum)
             },
             showTicketList(){
                 this.ticketListBoolean = !this.ticketListBoolean;
