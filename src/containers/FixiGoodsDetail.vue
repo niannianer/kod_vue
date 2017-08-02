@@ -371,8 +371,15 @@
             },
             checkRiskAssess(){
                 if(!this.investorRiskScore){
-                    MessageBox.alert(`您未进行风险承受能力评估，为不影响投资请立即评估`,'提示').then(action=>{
-                        this.$router.push('/risk-assessment/wechat') ;
+                    MessageBox({
+                        title:'提示',
+                        message:'您未进行风险承受能力评估，为不影响投资请立即评估',
+                        confirmButtonText:'去测评',
+                        showCancelButton:true
+                    }).then(action=>{
+                        if(action=='confirm'){
+                            this.$router.push('/risk-assessment/wechat') ;
+                        }
                     });
                 }else{
                     this.showInvest = true;
