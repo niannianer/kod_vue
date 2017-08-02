@@ -107,7 +107,7 @@
     import '../less/product-subscription.less';
     import $api from '../tools/api';
     import EventBus from  '../tools/event-bus';
-    import {Toast, Indicator} from 'mint-ui';
+    import {Toast, Indicator,MessageBox} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
     let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
         'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
@@ -198,6 +198,7 @@
                                     } else {
                                         clearTimeout(timer);
                                         Indicator.close();
+                                        MessageBox.alert(`银行充值返回较慢，请耐心等待，如有问题，请联系客服！`,'提示');
                                     }
                                 }, 2000);
                             }
