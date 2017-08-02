@@ -276,6 +276,7 @@
                                 el.expend = false;
                             })
                             this.production = data.data;
+                            this.production.expcRate = data.data.annualInterestRateValue;
                             if(data.data.increaseInterestRateValue){
                                 this.production.expcRate = numAdd(data.data.annualInterestRateValue,data.data.increaseInterestRateValue);
                             }
