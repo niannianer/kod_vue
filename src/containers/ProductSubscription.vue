@@ -37,8 +37,8 @@
                         </div>
                     </div>
                     <div class="ticket-bar" flex-box="0" flex @click.stop="showTicketList">
-                        <p flex-box="1">现金券</p>
-                        <img flex-box="0" src="../images/arrow-down-double.png" alt="arrow">
+                        <p flex-box="1">优惠券</p>
+                        <img flex-box="0" src="../images/arrow-down-double.png" alt="arrow" v-if="ticketList.length">
                         <p flex-box="1" style="text-align: right" v-if="ticketList.length">{{faceValue}}元</p>
                         <p flex-box="1" style="text-align: right" v-else>暂无可用</p>
                     </div>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="ticket-item default" flex @click.stop="chooseCode()"
                              :class="{'active':!couponExtendCode}">
-                            <p flex-box="1">暂不使用现金券</p>
+                            <p flex-box="1">暂不使用优惠券</p>
                             <div flex-box="0" class="check-box">
                                 <div class="box-inner"></div>
                             </div>
@@ -264,7 +264,9 @@
                 }
             },
             showTicketList(){
-                this.ticketListBoolean = !this.ticketListBoolean;
+                if(this.ticketList.length){
+                    this.ticketListBoolean = !this.ticketListBoolean;
+                }
             },
             agreement(num){
                 if (num == 0) {
