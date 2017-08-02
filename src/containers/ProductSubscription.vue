@@ -173,6 +173,7 @@
                 return this.amount * parseFloat(this.expcRate) * parseInt(this.productPeriod) / 365;
             },
             bankImg(){
+                this.leastPay = numAdd(this.amount, -this.accountCashAmount);
                 return imgUrls[this.bank_code];
             }
         },
@@ -338,7 +339,7 @@
                             /*认购金额不满足要求*/
                             Toast(msg.msg);
                             setTimeout(() => {
-                                this.$router.back();
+                               // this.$router.back();
                             }, 1000);
                         } else {
                             /*余额不足*/
