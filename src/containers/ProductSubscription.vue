@@ -101,7 +101,7 @@
 <script>
     import {mapState} from 'vuex';
     import _ from 'lodash/core';
-    import {numAdd,numMulti} from '../filters';
+    import {numAdd, numMulti} from '../filters';
     import {submitRecharge, currencyInputValidate, remainTime, logout} from '../tools/operation';
     import {currencyFormat} from '../filters/index';
     import '../less/product-subscription.less';
@@ -135,7 +135,7 @@
                 couponExtendCode: '',
                 leastPay: 0,
                 orderBillCode: '',
-                faceValue:0
+                faceValue: 0
             }
         },
         components: {
@@ -165,7 +165,7 @@
 
         },
         computed: {
-            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId', 'single_limit', 'perday_limit','single_limit_value']),
+            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId', 'single_limit', 'perday_limit', 'single_limit_value']),
             isLack(){
                 return this.leastPay > 0;
             },
@@ -195,7 +195,7 @@
                                     times++;
                                     if (times <= 5) {
                                         this.getTradeRecharge();
-                                    }else{
+                                    } else {
                                         clearTimeout(timer);
                                         Indicator.close();
                                     }
@@ -227,7 +227,9 @@
                             this.ticketList = res.data.couponList;
                             if (this.ticketList.length) {
                                 this.ticketListBoolean = true;
+                                this.chooseCode(this.ticketList[0]);
                             }
+
                         }
                         if (res.code == 401) {
                             logout();
@@ -243,8 +245,8 @@
                         this.productName = msg.data.productName;
                         this.annualInterestRate = msg.data.annualInterestRate;
                         this.expcRate = msg.data.annualInterestRateValue;
-                        if(msg.data.increaseInterestRateValue){
-                            this.expcRate = numAdd(msg.data.increaseInterestRateValue,this.expcRate);
+                        if (msg.data.increaseInterestRateValue) {
+                            this.expcRate = numAdd(msg.data.increaseInterestRateValue, this.expcRate);
                         }
                         this.productPeriod = msg.data.productPeriod;
                     }
@@ -265,7 +267,7 @@
                 }
             },
             showTicketList(){
-                if(this.ticketList.length){
+                if (this.ticketList.length) {
                     this.ticketListBoolean = !this.ticketListBoolean;
                 }
             },
@@ -339,7 +341,7 @@
                             /*认购金额不满足要求*/
                             Toast(msg.msg);
                             setTimeout(() => {
-                               // this.$router.back();
+                                this.getAvailableCoupon();
                             }, 1000);
                         } else {
                             /*余额不足*/
