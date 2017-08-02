@@ -39,7 +39,8 @@
                     <div class="ticket-bar" flex-box="0" flex @click.stop="showTicketList">
                         <p flex-box="1">现金券</p>
                         <img flex-box="0" src="../images/arrow-down-double.png" alt="arrow">
-                        <p flex-box="1" style="text-align: right">-{{faceValue}}元</p>
+                        <p flex-box="1" style="text-align: right" v-if="ticketList.length">{{faceValue}}元</p>
+                        <p flex-box="1" style="text-align: right" v-else>暂无可用</p>
                     </div>
                 </div>
             </div>
@@ -169,7 +170,7 @@
                 return this.leastPay > 0;
             },
             expectEarn(){
-                return this.amount * parseFloat(this.expcRate) / 100 * parseInt(this.productPeriod) / 365;
+                return this.amount * parseFloat(this.expcRate) * parseInt(this.productPeriod) / 365;
             },
             bankImg(){
                 return imgUrls[this.bank_code];
@@ -254,7 +255,7 @@
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
                     this.rechargeNum = numAdd(this.leastPay, -(item.faceValue));
                     this.leastPay = this.rechargeNum;
-                    this.faceValue = item.faceValue
+                    this.faceValue = -item.faceValue
                 } else {
                     this.couponExtendCode = '';
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
