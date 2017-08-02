@@ -196,7 +196,7 @@
                     .then(data => {
                         Indicator.close();
                         if(data.code==200){
-                            Toast('提现成功');
+                            Toast('提现申请成功');
                             history.back();
                             this.$store.dispatch('getAccountBaofoo');
                         }else {
