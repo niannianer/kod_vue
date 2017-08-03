@@ -81,13 +81,16 @@
                             >{{item.productStatus}}</span>
                             </div>
                         </div>
-                        <div class="progress-line">
-                            <div class="done" :style="'width:' + item. productProgress+ '%'"
-                                 :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
-                            <div class="round" :style="'left:' +( item. productProgress-1) + '%'"
-                                 :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                <div :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
+                        <div class="progress-part">
+                            <div class="progress-line">
+                                <div class="done" :style="'width:' + item. productProgress+ '%'"
+                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
+                                <div class="round" :style="'left:' +( item. productProgress-1) + '%'"
+                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                                    <div :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
+                                </div>
                             </div>
+                            <div class="progress-num">{{item. productProgress}}%</div>
                         </div>
                         <div class="buttom">{{item.productMinInvestment}}</div>
                     </div>

@@ -49,7 +49,7 @@
                     <div flex-box="1" class="ticket-list" ref="ticketList">
                         <div class="ticket-item" flex v-for="item in ticketList" @click.stop="chooseCode(item)"
                              :class="{'active':couponExtendCode==item.couponExtendCode}">
-                            <p flex-box="1">{{item.ccRemark1 || ccRemark2 || ccRemark3}}</p>
+                            <p flex-box="1">满{{item.applyTradeAmount}}元减{{item.faceValue}}元</p>
                             <p flex-box="1">{{item.leftText}}</p>
                             <div flex-box="0" class="check-box">
                                 <div class="box-inner"></div>
