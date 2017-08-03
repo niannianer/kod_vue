@@ -48,10 +48,10 @@
                         <p class="title">现金劵</p>
                         <p class="info">{{cashCouponCount}}个</p>
                     </div>
-                   <div flex-box="1" class="rl">
+                  <!-- <div flex-box="1" class="rl">
                         <p class="title">加息卷</p>
                         <p class="info">5个</p>
-                    </div>
+                    </div>-->
                     <div flex-box="1" @click.stop="getPath('/experience-fund')">
                         <p class="title">体验金</p>
                         <p class="info">{{experienceAmount}}元</p>
@@ -136,7 +136,7 @@
         <div class="cantact-us">
             联系我们：{{telNumber}}
         </div>
-        <div class="btn" @click.stop="logout()">
+        <div class="btn logout" @click.stop="logout()">
             退出登录
         </div>
         <modal  v-show="showModal" @callBack="callBack"></modal>
