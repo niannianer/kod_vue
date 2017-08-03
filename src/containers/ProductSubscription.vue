@@ -39,7 +39,7 @@
                     <div class="ticket-bar" flex-box="0" flex @click.stop="showTicketList">
                         <p flex-box="1">优惠券</p>
                         <img flex-box="0" src="../images/arrow-down-double.png" alt="arrow" v-if="ticketList.length">
-                        <p flex-box="1" style="text-align: right" v-if="ticketList.length">{{faceValue}}元</p>
+                        <p flex-box="1" style="text-align: right" v-if="ticketList.length">{{faceValueText}}</p>
                         <p flex-box="1" style="text-align: right" v-else>暂无可用</p>
                     </div>
                 </div>
@@ -78,12 +78,13 @@
                     </div>
                     <div class="deal" flex="box:first">
                         <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
-                        <div v-if="!isLack">
-                            我已仔细阅读《产品说明书》和《风险提示函》，并同意《认购协议》和
-                            <span @click.stop="agreement(0)" class="agreement">《金疙瘩平台免责声明》</span>
+                        <div v-if="!isLack" style="margin-top: 1px">
+                            我已阅读并同意
+                            <span @click.stop="agreement(0)" class="agreement">《产品认购相关协议》</span>，
+                            <span @click.stop="agreement(1)" class="agreement">《入会申请及承诺》</span>
                         </div>
-                        <div v-if="isLack">
-                            我已同意<span class="agreement" @click.stop="agreement(1)">《宝付科技电子支付账户协议》</span>
+                        <div v-if="isLack" style="margin-top: 1px">
+                            我已同意<span class="agreement" @click.stop="agreement(2)">《宝付科技电子支付账户协议》</span>
                         </div>
                     </div>
                 </div>
@@ -107,7 +108,7 @@
     import '../less/product-subscription.less';
     import $api from '../tools/api';
     import EventBus from  '../tools/event-bus';
-    import {Toast, Indicator} from 'mint-ui';
+    import {Toast, Indicator,MessageBox} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
     let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
         'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
@@ -135,7 +136,7 @@
                 couponExtendCode: '',
                 leastPay: 0,
                 orderBillCode: '',
-                faceValue:0
+                faceValueText:'暂不使用'
             }
         },
         components: {
@@ -196,6 +197,7 @@
                                         this.getTradeRecharge();
                                     }else{
                                         clearTimeout(timer);
+                                        MessageBox.alert('银行充值返回较慢，请您继续等待，如有问题请联系客服！','提示');
                                         Indicator.close();
                                     }
                                 }, 2000);
@@ -224,9 +226,10 @@
                                 cou.leftText = remainTime(cou.validEndTime, cou.serverTime)
                             })
                             this.ticketList = res.data.couponList;
-                            if (this.ticketList.length) {
+                          /*  if (this.ticketList.length) {
                                 this.ticketListBoolean = true;
-                            }
+                            }*/
+                          //优惠券列表默认不展开。故注释此行
                         }
                         if (res.code == 401) {
                             logout();
@@ -255,12 +258,12 @@
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
                     this.rechargeNum = numAdd(this.leastPay, -(item.faceValue));
                     this.leastPay = this.rechargeNum;
-                    this.faceValue = -item.faceValue
+                    this.faceValueText = -item.faceValue+'元'
                 } else {
                     this.couponExtendCode = '';
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
                     this.rechargeNum = this.leastPay;
-                    this.faceValue = 0;
+                    this.faceValueText = '暂不使用';
                 }
             },
             showTicketList(){
@@ -270,12 +273,12 @@
             },
             agreement(num){
                 if (num == 0) {
-                    window.location.href = '/product-subscription-agreement.html'
+                    window.location.href='/product-subscription-agreement.html'
                 }
-                if (num == 1) {
+                if(num ==1){
                     window.location.href = '/application-commitment.html';
                 }
-                if (num == 2) {
+                if(num ==2){
                     window.location.href = '/baofoo-certification.html';
                 }
             },
