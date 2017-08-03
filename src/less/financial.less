@@ -151,47 +151,55 @@
                     }
                 }
             }
-            .progress-line {
-                width: 100%;
-                height: .2rem;
-                background: #F4F4F4;
-                margin: .6rem 0;
+            .progress-part{
                 position: relative;
-                .done {
-                    background: #FF6D00;
-                    height: 100%;
-                    &.hot {
-                        background-color: @color-active;
-                    }
-                    &.raise {
-                        background-color: @color-interest;
-                    }
-                    &.sell-out {
-                        background-color: @bg-sell-out;// 售罄
-                    }
-                }
-                .round {
-                    position: absolute;
-                    background: rgba(255, 109, 0, 0.5);
-                    width: .8rem;
-                    height: .8rem;
-                    border-radius: 50%;
-                    top: -0.3rem;
-                    &.sell-out {
-                        background: rgba(219,219,219,0.5);
-                    }
-                    div {
-                        border-radius: 50%;
-                        width: .5rem;
-                        height: .5rem;
+                .progress-line {
+                    width: 90%;
+                    height: .2rem;
+                    background: #F4F4F4;
+                    margin: .6rem 0;
+                    .done {
                         background: #FF6D00;
-                        position: absolute;
-                        top: .15rem;
-                        left: .15rem;
+                        height: 100%;
+                        &.hot {
+                            background-color: @color-active;
+                        }
+                        &.raise {
+                            background-color: @color-interest;
+                        }
                         &.sell-out {
                             background-color: @bg-sell-out;// 售罄
                         }
                     }
+                    .round {
+                        position: absolute;
+                        background: rgba(255, 109, 0, 0.5);
+                        width: .8rem;
+                        height: .8rem;
+                        border-radius: 50%;
+                        top: -0.3rem;
+                        &.sell-out {
+                            background: rgba(219,219,219,0.5);
+                        }
+                        div {
+                            border-radius: 50%;
+                            width: .5rem;
+                            height: .5rem;
+                            background: #FF6D00;
+                            position: absolute;
+                            top: .15rem;
+                            left: .15rem;
+                            &.sell-out {
+                                background-color: @bg-sell-out;// 售罄
+                            }
+                        }
+                    }
+
+                }
+                .progress-num{
+                    position:absolute;
+                    right:0;
+                    top:-.4rem;
                 }
             }
             .buttom {

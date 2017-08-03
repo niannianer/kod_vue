@@ -373,7 +373,7 @@
                 if(!this.investorRiskScore){
                     MessageBox({
                         title:'提示',
-                        message:'您未进行风险承受能力评估，为不影响投资请立即评估',
+                        message:'根据《投资者适当性管理实施指引》，为保障您购买合适的产品，请花十秒进行投资风险承受能力测评。',
                         confirmButtonText:'去测评',
                         showCancelButton:true
                     }).then(action=>{
