@@ -117,7 +117,8 @@
                             let params = data.data || {};
                             params.amount = this.rechargeMoney;
                             params.userId = this.$store.state.userId;
-                            submitRecharge(params);
+                            window.sessionStorage.setItem('rechargeOrderBillCode',params.orderBillCode);
+                            submitRecharge(params)
                         } else {
                             Toast(data.msg);
                         }

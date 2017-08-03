@@ -49,6 +49,7 @@
 <script>
     import $api from '../tools/api';
     import {mapState} from 'vuex';
+    import {Toast, Indicator,MessageBox} from 'mint-ui';
     import {telNumber} from '../tools/config';
     import {submitAuthorization} from '../tools/operation';
     import Modal from '../components/Modal';
@@ -63,7 +64,8 @@
                 telNumber,
                 timer: null,
                 times: 0,
-                showModal: false
+                showModal: false,
+                orderBillCode:''
             }
         },
         components: {
@@ -81,6 +83,13 @@
                     window.location.replace('https://zj-static.zj-hf.cn/my-assets');
                 }
 
+            }else {
+                let rechargeOrderBillCode =window.sessionStorage.getItem('rechargeOrderBillCode');
+                if(rechargeOrderBillCode){
+                    this.orderBillCode=rechargeOrderBillCode;
+                    window.sessionStorage.removeItem('rechargeOrderBillCode');
+                    this.getTradeRecharge();
+                }
             }
         },
         computed: mapState([
@@ -90,16 +99,40 @@
             'accountCashAmount']),
         methods: {
             getBaofoo(){
-                setTimeout(() => {
-                    times++;
-                    if (times >= 3) {
-                        return;
-                    }
-                    this.$store.dispatch('getAccountBaofoo');
-                    this.$store.dispatch('getBankInfo');
-                    this.$store.dispatch('getPersonalCenterMsg');
-                    this.getBaofoo();
-                }, 3000);
+                this.$store.dispatch('getAccountBaofoo');
+            },
+            /* 查询订单状态*/
+            getTradeRecharge(){
+                Indicator.open('订单处理中...');
+                let rechargeBillCode = this.orderBillCode;
+                $api.get('/getTradeRecharge', {rechargeBillCode})
+                    .then(res => {
+                        if (res.code == 200) {
+                            let {data} = res;
+                            if (data.rechargeStatus === 0) {
+                                let timer = setTimeout(() => {
+                                    times++;
+                                    if (times <= 5) {
+                                        this.getTradeRecharge();
+                                    } else {
+                                        clearTimeout(timer);
+                                        Indicator.close();
+                                        MessageBox.alert(`银行充值返回较慢，请耐心等待，如有问题，请联系客服！`,'提示');
+                                    }
+                                }, 2000);
+                            }
+                            if (data.rechargeStatus === 1) {
+                                this.getBaofoo();
+                                Indicator.close();
+                            }
+                            if (data.rechargeStatus === 2) {
+                                this.getBaofoo();
+                                Indicator.close();
+                                Toast('充值失败')
+                            }
+                        }
+
+                    });
             },
             goStep(){
                 let {userVerifyStatus} = this;

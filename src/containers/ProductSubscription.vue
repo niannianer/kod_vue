@@ -102,13 +102,13 @@
 <script>
     import {mapState} from 'vuex';
     import _ from 'lodash/core';
-    import {numAdd,numMulti} from '../filters';
+    import {numAdd, numMulti} from '../filters';
     import {submitRecharge, currencyInputValidate, remainTime, logout} from '../tools/operation';
     import {currencyFormat} from '../filters/index';
     import '../less/product-subscription.less';
     import $api from '../tools/api';
     import EventBus from  '../tools/event-bus';
-    import {Toast, Indicator,MessageBox} from 'mint-ui';
+    import {Toast, Indicator, MessageBox} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
     let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
         'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
@@ -136,7 +136,7 @@
                 couponExtendCode: '',
                 leastPay: 0,
                 orderBillCode: '',
-                faceValueText:'暂不使用'
+                faceValueText: '暂不使用'
             }
         },
         components: {
@@ -166,7 +166,7 @@
 
         },
         computed: {
-            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId', 'single_limit', 'perday_limit','single_limit_value']),
+            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId', 'single_limit', 'perday_limit', 'single_limit_value']),
             isLack(){
                 return this.leastPay > 0;
             },
@@ -195,10 +195,10 @@
                                     times++;
                                     if (times <= 5) {
                                         this.getTradeRecharge();
-                                    }else{
+                                    } else {
                                         clearTimeout(timer);
-                                        MessageBox.alert('银行充值返回较慢，请您继续等待，如有问题请联系客服！','提示');
                                         Indicator.close();
+                                        MessageBox.alert(`银行充值返回较慢，请耐心等待，如有问题，请联系客服！`, '提示');
                                     }
                                 }, 2000);
                             }
@@ -226,10 +226,11 @@
                                 cou.leftText = remainTime(cou.validEndTime, cou.serverTime)
                             })
                             this.ticketList = res.data.couponList;
-                          /*  if (this.ticketList.length) {
-                                this.ticketListBoolean = true;
-                            }*/
-                          //优惠券列表默认不展开。故注释此行
+                            if (this.ticketList.length) {
+                                //this.ticketListBoolean = true;
+                                this.chooseCode(this.ticketList[0]);
+                            }
+
                         }
                         if (res.code == 401) {
                             logout();
@@ -245,8 +246,8 @@
                         this.productName = msg.data.productName;
                         this.annualInterestRate = msg.data.annualInterestRate;
                         this.expcRate = msg.data.annualInterestRateValue;
-                        if(msg.data.increaseInterestRateValue){
-                            this.expcRate = numAdd(msg.data.increaseInterestRateValue,this.expcRate);
+                        if (msg.data.increaseInterestRateValue) {
+                            this.expcRate = numAdd(msg.data.increaseInterestRateValue, this.expcRate);
                         }
                         this.productPeriod = msg.data.productPeriod;
                     }
@@ -258,7 +259,7 @@
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
                     this.rechargeNum = numAdd(this.leastPay, -(item.faceValue));
                     this.leastPay = this.rechargeNum;
-                    this.faceValueText = -item.faceValue+'元'
+                    this.faceValueText = -item.faceValue + '元'
                 } else {
                     this.couponExtendCode = '';
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
@@ -267,18 +268,18 @@
                 }
             },
             showTicketList(){
-                if(this.ticketList.length){
+                if (this.ticketList.length) {
                     this.ticketListBoolean = !this.ticketListBoolean;
                 }
             },
             agreement(num){
                 if (num == 0) {
-                    window.location.href='/product-subscription-agreement.html'
+                    window.location.href = '/product-subscription-agreement.html'
                 }
-                if(num ==1){
+                if (num == 1) {
                     window.location.href = '/application-commitment.html';
                 }
-                if(num ==2){
+                if (num == 2) {
                     window.location.href = '/baofoo-certification.html';
                 }
             },
