@@ -77,7 +77,7 @@
             this.orderPayTime = invsetInfo.orderPayTime;
             this.productName = invsetInfo.productName;
             this.orderAmount = invsetInfo.orderAmount;
-            this.marketingAmount = invsetInfo.orderAmount;
+            this.marketingAmount = invsetInfo.marketingAmount;
             this.paidAmount = invsetInfo.paidAmount;
             this.annualInterestRate = invsetInfo.annualInterestRate;
             this.productInterestDate = invsetInfo.productInterestDate;
