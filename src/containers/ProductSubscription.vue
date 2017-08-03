@@ -357,7 +357,11 @@
             },
             investHandle(){
                 if (!this.enable) {
-                    Toast('请勾选同意《认购协议》和《金疙瘩平台免责声明》');
+                    if(this.isLack){
+                        Toast('请勾选同意《宝付科技电子支付账户协议》');
+                        return false;
+                    }
+                    Toast('请勾选同意《产品认购相关协议》和《入会申请及承诺》');
                     return false;
                 }
                 if (this.leastPay > 0) {
