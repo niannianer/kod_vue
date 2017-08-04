@@ -247,10 +247,13 @@
                             })
                             this.ticketList = res.data.couponList;
                             if (this.ticketList.length) {
+                                this.ticketList.sort((a,b)=>{
+                                    return b.faceValue-a.faceValue;
+                                });
+                                /*默认选择优惠券列表面值最大一张*/
+                                this.chooseCode(this.ticketList[0]);
                                 /*默认优惠券列表不展开*/
                                 //this.ticketListBoolean = true;
-                                /*默认选择优惠券列表第一张*/
-                                this.chooseCode(this.ticketList[0]);
                             }
 
                         }
@@ -276,7 +279,7 @@
                 })
             },
             chooseCode(item){
-                if (item && item.length) {
+              if (item && item.couponExtendCode) {
                     this.item = item;
                     this.couponExtendCode = item.couponExtendCode;
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
