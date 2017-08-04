@@ -276,7 +276,7 @@
                 })
             },
             chooseCode(item){
-                if (item && item.length) {
+              if (item && item.couponExtendCode) {
                     this.item = item;
                     this.couponExtendCode = item.couponExtendCode;
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
