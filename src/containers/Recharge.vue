@@ -104,7 +104,7 @@
             },
             postRecharge(){
                 if (!this.rechargeMoney) {
-                    Toast('请输入充值金额');
+                    Toast('正在等待银行返回结果...');
                     return false;
                 }
                 let param = {

@@ -36,7 +36,7 @@
                             <p class="title">账户余额</p>
                         </div>
                     </div>
-                    <div class="ticket-bar" flex-box="0" flex @click.stop="showTicketList">
+                    <div class="ticket-bar" flex-box="0" flex="cross:center" @click.stop="showTicketList">
                         <p flex-box="1">优惠券</p>
                         <img flex-box="0" src="../images/arrow-down-double.png" alt="arrow" v-if="ticketList.length">
                         <p flex-box="1" style="text-align: right" v-if="ticketList.length">{{faceValueText}}</p>
@@ -93,10 +93,13 @@
             ></password-input>
 
         </div>
-
-        <div class="btn" flex-box="0" @click.stop="investHandle()">
+        <div class="btn" flex-box="0" @click.stop="rechargeHandle()" v-if="isLack">
+            立即充值
+        </div>
+        <div class="btn" flex-box="0" @click.stop="investHandle()" v-else>
             确认认购
         </div>
+
     </div>
 </template>
 <script>
@@ -135,6 +138,7 @@
                 ticketListBoolean: false,
                 couponExtendCode: '',
                 leastPay: 0,
+                item: {},
                 orderBillCode: '',
                 faceValueText: '暂不使用'
             }
@@ -143,6 +147,9 @@
             PasswordInput
         },
         created(){
+
+            /*获取账户余额并选择默认优惠券*/
+            this.getBaofoo();
             /*充值回来*/
             if (window.sessionStorage.getItem('investDetail')) {
                 let investDetail = window.sessionStorage.getItem('investDetail');
@@ -151,11 +158,14 @@
                     this[key] = value
                 });
                 this.leastPay = 0;
-                this.getTradeRecharge();
+                //点击宝付方‘返回商户’跳回本页面
+                if (this.$route.query.t) {
+                    this.getTradeRecharge();
+                }
                 window.sessionStorage.removeItem('investDetail');
-
                 return false;
             }
+
 
             this.productUuid = this.$route.query.u;
             this.amount = this.$route.query.a;
@@ -180,16 +190,21 @@
         watch: {},
         methods: {
             getBaofoo(){
-                this.$store.dispatch('getAccountBaofoo');
+                return this.$store.dispatch('getAccountBaofoo')
+                    .then(() => {
+                        let item = this.item;
+                        this.chooseCode(item);
+                    });
             },
             /* 查询订单状态*/
             getTradeRecharge(){
-                Indicator.open('订单处理中...');
+                Indicator.open('正在等待银行返回结果...');
                 let rechargeBillCode = this.orderBillCode;
                 $api.get('/getTradeRecharge', {rechargeBillCode})
                     .then(res => {
                         if (res.code == 200) {
                             let {data} = res;
+                            /*充值信息等待*/
                             if (data.rechargeStatus === 0) {
                                 let timer = setTimeout(() => {
                                     times++;
@@ -198,14 +213,19 @@
                                     } else {
                                         clearTimeout(timer);
                                         Indicator.close();
-                                        MessageBox.alert(`银行充值返回较慢，请耐心等待，如有问题，请联系客服！`, '提示');
+                                        MessageBox.alert(`银行充值返回较慢，请耐心等待，如有问题，请联系客服！`, '提示')
+                                            .then(() => {
+                                                this.getBaofoo();
+                                            });
                                     }
                                 }, 2000);
                             }
+                            /*充值成功*/
                             if (data.rechargeStatus === 1) {
                                 this.getBaofoo();
                                 Indicator.close();
                             }
+                            /*充值失败*/
                             if (data.rechargeStatus === 2) {
                                 this.getBaofoo();
                                 Indicator.close();
@@ -227,7 +247,9 @@
                             })
                             this.ticketList = res.data.couponList;
                             if (this.ticketList.length) {
+                                /*默认优惠券列表不展开*/
                                 //this.ticketListBoolean = true;
+                                /*默认选择优惠券列表第一张*/
                                 this.chooseCode(this.ticketList[0]);
                             }
 
@@ -254,13 +276,15 @@
                 })
             },
             chooseCode(item){
-                if (item) {
+                if (item && item.length) {
+                    this.item = item;
                     this.couponExtendCode = item.couponExtendCode;
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
                     this.rechargeNum = numAdd(this.leastPay, -(item.faceValue));
                     this.leastPay = this.rechargeNum;
                     this.faceValueText = -item.faceValue + '元'
                 } else {
+                    this.item = {};
                     this.couponExtendCode = '';
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
                     this.rechargeNum = this.leastPay;
@@ -268,6 +292,7 @@
                 }
             },
             showTicketList(){
+                /*优惠券列表toggle*/
                 if (this.ticketList.length) {
                     this.ticketListBoolean = !this.ticketListBoolean;
                 }
@@ -287,6 +312,10 @@
                 this.enable = !this.enable;
             },
             rechargeHandle(){
+                if (!this.enable) {
+                    Toast('请勾选同意《宝付科技电子支付账户协议》');
+                    return false;
+                }
                 this.rechargeNum = this.checkRechargeNum(this.rechargeNum);
                 if (!this.rechargeNum) {
                     Toast('请输入正确待支付金额');
@@ -304,7 +333,7 @@
                     amount: this.rechargeNum
                 }).then(data => {
                     if (data.code == 200) {
-                        window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href));
+                        window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href + '&t=' + new Date().getTime()));
                         let params = data.data || {};
                         this.orderBillCode = params.orderBillCode;
                         params.amount = this.rechargeNum;
@@ -357,15 +386,7 @@
             },
             investHandle(){
                 if (!this.enable) {
-                    if(this.isLack){
-                        Toast('请勾选同意《宝付科技电子支付账户协议》');
-                        return false;
-                    }
                     Toast('请勾选同意《产品认购相关协议》和《入会申请及承诺》');
-                    return false;
-                }
-                if (this.leastPay > 0) {
-                    this.rechargeHandle();
                     return false;
                 }
                 this.inputPassword = true;
