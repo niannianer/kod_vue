@@ -47,7 +47,7 @@
                     <p flex-box="0">{{this.lists.cashDate}}</p>
                 </div>
             </div>
-            <div v-if="this.lists.subcontractFilepath"><span style="color: #1D72C0;display: block;padding: .5rem 0 0 .8rem;"@click.stop="linkpdf">认购相关协议</span></div>
+            <div v-if="this.lists.subcontractFilepath"><span style="color: #1D72C0;display: block;padding: .5rem 0 0 .8rem;"@click.stop="linkpdf">《认购相关协议》</span></div>
         </div>
     </div>
 </template>
