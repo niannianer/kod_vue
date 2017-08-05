@@ -77,17 +77,19 @@
             }
             this.getBaofoo();
             if (this.$route.query.t) {
+                window.sessionStorage.setItem('fromBaoFoo','1');
                 if (window.location.href.indexOf('test') > -1) {
                     window.location.replace('https://static-test.zj-hf.cn/my-assets');
                 } else {
                     window.location.replace('https://zj-static.zj-hf.cn/my-assets');
                 }
-
             }else {
                 let rechargeOrderBillCode =window.sessionStorage.getItem('rechargeOrderBillCode');
-                if(rechargeOrderBillCode){
+                let fromBaoFoo =window.sessionStorage.getItem('fromBaoFoo');
+                if(fromBaoFoo){
                     this.orderBillCode=rechargeOrderBillCode;
                     window.sessionStorage.removeItem('rechargeOrderBillCode');
+                    window.sessionStorage.removeItem('fromBaoFoo');
                     this.getTradeRecharge();
                 }
             }
@@ -103,7 +105,7 @@
             },
             /* 查询订单状态*/
             getTradeRecharge(){
-                Indicator.open('订单处理中...');
+                Indicator.open('正在等待银行返回结果...');
                 let rechargeBillCode = this.orderBillCode;
                 $api.get('/getTradeRecharge', {rechargeBillCode})
                     .then(res => {
