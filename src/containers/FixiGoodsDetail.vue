@@ -162,7 +162,7 @@
                       :remain-amount="production.productRemainAmountValue"
                       :step-value="production.investmentIntervalValue"
                       :uid="productUuid"
-                      :rate="production.annualInterestRate"
+                      :rate="production.expcRate"
                       :period="production.productPeriod"
                       @callBack="inputBack"></invest-input>
     </div>
@@ -170,10 +170,10 @@
 
 <script>
     import {mapState} from 'vuex';
-    import {Toast} from 'mint-ui';
+    import {Toast,MessageBox} from 'mint-ui';
     import $api from '../tools/api';
     import {submitAuthorization} from '../tools/operation';
-    import {textToHtml} from '../filters';
+    import {textToHtml,numAdd} from '../filters';
     import {logout} from '../tools/operation';
     import wx from '../tools/wx';
     import $device from '../tools/device';
@@ -211,7 +211,8 @@
                 'accountTotalAssets',
                 'accountTotalInterests',
                 'accountCashAmount',
-                'userId'
+                'userId',
+                'investorRiskScore'
             ]),
             step(){
                 let {
@@ -275,6 +276,10 @@
                                 el.expend = false;
                             })
                             this.production = data.data;
+                            this.production.expcRate = data.data.annualInterestRateValue;
+                            if(data.data.increaseInterestRateValue){
+                                this.production.expcRate = numAdd(data.data.annualInterestRateValue,data.data.increaseInterestRateValue);
+                            }
                             console.log(this.production);
                         } else {
                             Toast(data.msg);
@@ -303,8 +308,7 @@
                     this.showModal = true;
                     // this.goStep();
                 } else {
-
-                    this.showInvest = true;
+                    this.checkRiskAssess();
                 }
             },
             goStep(){
@@ -364,6 +368,22 @@
                     wx.onMenuShareTimeline(content);
                     wx.onMenuShareAppMessage(content);
                 });
+            },
+            checkRiskAssess(){
+                if(!this.investorRiskScore){
+                    MessageBox({
+                        title:'提示',
+                        message:'根据《投资者适当性管理实施指引》，为保障您购买合适的产品，请花十秒进行投资风险承受能力测评。',
+                        confirmButtonText:'去测评',
+                        showCancelButton:true
+                    }).then(action=>{
+                        if(action=='confirm'){
+                            this.$router.push('/risk-assessment/wechat') ;
+                        }
+                    });
+                }else{
+                    this.showInvest = true;
+                }
             }
 
         },

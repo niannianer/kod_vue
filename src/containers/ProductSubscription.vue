@@ -1,76 +1,117 @@
 <template>
-    <div class="product-subscription">
-        <div class="body">
-            <div class="section">
-                <div class="item bl" flex="box:first">
-                    <p>产品名称</p>
-                    <p class="product-name">{{productName}}</p>
-                </div>
-                <div class="item" flex>
-                    <p flex-box="1">预期收益率</p>
-                    <p flex-box="0">{{annualInterestRate}}</p>
-                </div>
-            </div>
-            <div class="section seprate">
-                <div class="item bl" flex>
-                    <p flex-box="1">账户余额</p>
-                    <p flex-box="0">{{this.accountCashAmount|currencyFormat}}元</p>
-                </div>
-                <div class="item" flex>
-                    <p flex-box="1">认购金额</p>
-                    <p flex-box="0">{{amount | currencyFormat}}元</p>
-                </div>
-            </div>
-            <div class="section lackmoney seprate" v-if="isLack">
-                <div class="title">第三方支付扣款</div>
-                <div class="bank">
-                    <div class="bank-name">
-                        <img :src="bankImg" class="bank-logo"/>
-                        <span class="name">{{bank_name}}</span>
-                        <div class="bank-info">{{bankUserCardNo | bankCardNoFormat}}</div>
+    <div class="product-subscription" flex="dir:top">
+        <div class="body" flex-box="1" style="overflow-y: auto">
+            <div class="product-info">
+                <p class="title">{{productName}}</p>
+                <div flex class="info-center">
+                    <div flex-box="1">
+                        <p class="info">{{annualInterestRate}}</p>
+                        <p class="title">预期年化收益率</p>
+                    </div>
+                    <div flex-box="1">
+                        <p class="info">{{productPeriod}}</p>
+                        <p class="title">期限</p>
                     </div>
                 </div>
-                <div flex>
-                    <p flex-box="1">限额：单笔{{single_limit}}元</p>
-                    <p flex-box="0">单日{{perday_limit}}元</p>
+            </div>
+            <div class="fund-info">
+                <div class="bg-outer">
+                    <div class="bg-middle">
+                        <div class="bg-inner"></div>
+                    </div>
+                </div>
+                <div class="fund-center" flex="dir:top">
+                    <p flex-box="1" class="fund-title">认购金额</p>
+                    <div flex-box="1" flex class="fund-chart">
+                        <img src="../images/money-chart-reverse.png" alt="money">
+                        <p>{{amount | currencyFormat}}元</p>
+                    </div>
+                    <div class="fund-detail" flex-box="1" flex>
+                        <div flex-box="1">
+                            <p class="info">{{expectEarn | currencyFormat}}元</p>
+                            <p class="title">预计收益</p>
+                        </div>
+                        <div flex-box="1">
+                            <p class="info">{{this.accountCashAmount}}元</p>
+                            <p class="title">账户余额</p>
+                        </div>
+                    </div>
+                    <div class="ticket-bar" flex-box="0" flex="cross:center" @click.stop="showTicketList">
+                        <p flex-box="1">优惠券</p>
+                        <img flex-box="0" src="../images/arrow-down-double.png" alt="arrow" v-if="ticketList.length">
+                        <p flex-box="1" style="text-align: right" v-if="ticketList.length">{{faceValueText}}</p>
+                        <p flex-box="1" style="text-align: right" v-else>暂无可用</p>
+                    </div>
                 </div>
             </div>
-            <div class="section seprate" v-if="isLack">
-                <div class="item" flex>
-                    <p flex-box="1">待支付金额</p>
-                    <input class="rechargeNum" flex-box="1" type="number" v-model="rechargeNum">
-                    <p flex-box="0">元</p>
+            <transition-group name="list-complete" tag="div">
+                <div class="list-complete-item" v-show="ticketListBoolean" v-bind:key="0">
+                    <div flex-box="1" class="ticket-list" ref="ticketList">
+                        <div class="ticket-item" flex v-for="item in ticketList" @click.stop="chooseCode(item)"
+                             :class="{'active':couponExtendCode==item.couponExtendCode}">
+                            <p flex-box="1">满{{item.applyTradeAmount}}元减{{item.faceValue}}元</p>
+                            <p flex-box="1">{{item.leftText}}</p>
+                            <div flex-box="0" class="check-box">
+                                <div class="box-inner"></div>
+                            </div>
+                        </div>
+                        <div class="ticket-item default" flex @click.stop="chooseCode()"
+                             :class="{'active':!couponExtendCode}">
+                            <p flex-box="1">暂不使用优惠券</p>
+                            <div flex-box="0" class="check-box">
+                                <div class="box-inner"></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
+                <div class="list-complete-item" v-bind:key="1">
+                    <div v-if="isLack" class="tip">
+                        <p>银行卡限额：单笔{{single_limit}}万元，单日{{perday_limit}}元</p>
+                    </div>
+                    <div class="recharge-info" v-if="isLack">
+                        <div class="item" flex>
+                            <p flex-box="1">待支付金额</p>
+                            <input class="rechargeNum" flex-box="1" type="number" v-model="rechargeNum">
+                            <p flex-box="0" class="yuan">元</p>
+                        </div>
+                    </div>
+                    <div class="deal" flex="box:first">
+                        <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
+                        <div v-if="!isLack" style="margin-top: 1px">
+                            我已阅读并同意
+                            <span @click.stop="agreement(0)" class="agreement">《产品认购相关协议》</span>，
+                            <span @click.stop="agreement(1)" class="agreement">《入会申请及承诺》</span>
+                        </div>
+                        <div v-if="isLack" style="margin-top: 1px">
+                            我已同意<span class="agreement" @click.stop="agreement(2)">《宝付科技电子支付账户协议》</span>
+                        </div>
+                    </div>
+                </div>
+            </transition-group>
             <password-input v-show="inputPassword" title="购买产品" @close="inputPassword=false" @callBack="tradeCallback"
             ></password-input>
+
         </div>
-        <div class="bottom seperate">
-            <div class="deal" flex="box:first">
-                <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
-                <div v-if="!isLack">
-                    我已阅读并同意
-                    <span @click.stop="agreement(0)" class="agreement">《产品认购相关协议》</span>，
-                    <span @click.stop="agreement(1)" class="agreement">《入会申请及承诺》</span>
-                </div>
-                <div v-if="isLack">
-                    我已同意<span class="agreement" @click.stop="agreement(2)">《宝付科技电子支付账户协议》</span>
-                </div>
-            </div>
-            <div class="btn" :class="{'enable':enable}" disabled flex-box="1" v-if="!isLack" @click="investHandle">投资
-            </div>
-            <div class="btn" :class="{'enable':enable}" flex-box="1" v-if="isLack" @click="rechargeHandle">立即支付</div>
+        <div class="btn" flex-box="0" @click.stop="rechargeHandle()" v-if="isLack">
+            立即充值
         </div>
+        <div class="btn" flex-box="0" @click.stop="investHandle()" v-else>
+            确认认购
+        </div>
+
     </div>
 </template>
 <script>
     import {mapState} from 'vuex';
-    import {submitRecharge, currencyInputValidate} from '../tools/operation';
+    import _ from 'lodash/core';
+    import {numAdd, numMulti} from '../filters';
+    import {submitRecharge, currencyInputValidate, remainTime, logout} from '../tools/operation';
     import {currencyFormat} from '../filters/index';
     import '../less/product-subscription.less';
     import $api from '../tools/api';
     import EventBus from  '../tools/event-bus';
-    import {Toast, Indicator} from 'mint-ui';
+    import {Toast, Indicator, MessageBox} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
     let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
         'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
@@ -80,6 +121,7 @@
         imgUrls[url] = require(`../images/bank/${url}.png`)
     });
     let times = 0;
+    let timeLine = new Date().getTime();
     export default {
         name: 'product-subscription',
         data(){
@@ -90,104 +132,182 @@
                 productName: '',
                 annualInterestRate: '',
                 rechargeNum: '',
-                bankImg: '',
-                imgUrls,
-                inputPassword: false
+                productPeriod: '',
+                inputPassword: false,
+                ticketList: [],
+                ticketListBoolean: false,
+                couponExtendCode: '',
+                leastPay: 0,
+                item: {},
+                orderBillCode: '',
+                faceValueText: '暂不使用'
             }
         },
         components: {
             PasswordInput
         },
         created(){
+
+            /*获取账户余额并选择默认优惠券*/
             this.getBaofoo();
-            if (this.bank_code) {
-                this.bankImg = this.imgUrls[this.bank_code];
+            /*充值回来*/
+            if (window.sessionStorage.getItem('investDetail')) {
+                let investDetail = window.sessionStorage.getItem('investDetail');
+                investDetail = JSON.parse(investDetail)
+                _.forEach(investDetail, (value, key) => {
+                    this[key] = value
+                });
+                this.leastPay = 0;
+                //点击宝付方‘返回商户’跳回本页面
+                if (this.$route.query.t) {
+                    this.getTradeRecharge();
+                }
+                window.sessionStorage.removeItem('investDetail');
+                return false;
             }
+
+
             this.productUuid = this.$route.query.u;
             this.amount = this.$route.query.a;
-            this.orderBillCode = this.$route.query.o;
+            this.leastPay = numAdd(this.amount, -this.accountCashAmount);
+            this.rechargeNum = this.leastPay;
+            this.getDetail();
+            this.getAvailableCoupon();
 
-            let leastPay = this.numAdd(this.amount,-this.accountCashAmount);
-            this.rechargeNum = leastPay;
-            $api.get('/product/getDetail', {
-                'productUuid': this.productUuid,
-                'productType': 'FIXI'
-            })
-                .then((msg) => {
-                    console.log(msg);
+        },
+        computed: {
+            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId', 'single_limit', 'perday_limit', 'single_limit_value']),
+            isLack(){
+                return this.leastPay > 0;
+            },
+            expectEarn(){
+                return this.amount * parseFloat(this.expcRate) * parseInt(this.productPeriod) / 365;
+            },
+            bankImg(){
+                return imgUrls[this.bank_code];
+            }
+        },
+        watch: {},
+        methods: {
+            getBaofoo(){
+                return this.$store.dispatch('getAccountBaofoo')
+                    .then(() => {
+                        let item = this.item;
+                        this.chooseCode(item);
+                    });
+            },
+            /* 查询订单状态*/
+            getTradeRecharge(){
+                Indicator.open('正在等待银行返回结果...');
+                let rechargeBillCode = this.orderBillCode;
+                $api.get('/getTradeRecharge', {rechargeBillCode})
+                    .then(res => {
+                        if (res.code == 200) {
+                            let {data} = res;
+                            /*充值信息等待*/
+                            if (data.rechargeStatus === 0) {
+                                let timer = setTimeout(() => {
+                                    times++;
+                                    if (times <= 5) {
+                                        this.getTradeRecharge();
+                                    } else {
+                                        clearTimeout(timer);
+                                        Indicator.close();
+                                        MessageBox.alert(`银行充值返回较慢，请耐心等待，如有问题，请联系客服！`, '提示')
+                                            .then(() => {
+                                                this.getBaofoo();
+                                            });
+                                    }
+                                }, 2000);
+                            }
+                            /*充值成功*/
+                            if (data.rechargeStatus === 1) {
+                                this.getBaofoo();
+                                Indicator.close();
+                            }
+                            /*充值失败*/
+                            if (data.rechargeStatus === 2) {
+                                this.getBaofoo();
+                                Indicator.close();
+                                Toast('充值失败')
+                            }
+                        }
+
+                    });
+            },
+            getAvailableCoupon(){
+
+                let orderAmount = this.amount;
+                let productUuid = this.productUuid
+                $api.get('/availableCoupon/list', {orderAmount, productUuid})
+                    .then(res => {
+                        if (res.code == 200) {
+                            res.data.couponList.map(cou => {
+                                cou.leftText = remainTime(cou.validEndTime, cou.serverTime)
+                            })
+                            this.ticketList = res.data.couponList;
+                            if (this.ticketList.length) {
+                                this.ticketList.sort((a,b)=>{
+                                    return b.faceValue-a.faceValue;
+                                });
+                                /*默认选择优惠券列表面值最大一张*/
+                                this.chooseCode(this.ticketList[0]);
+                                /*默认优惠券列表不展开*/
+                                //this.ticketListBoolean = true;
+                            }
+
+                        }
+                        if (res.code == 401) {
+                            logout();
+                        }
+                    })
+            },
+            getDetail(){
+                $api.get('/product/getDetail', {
+                    'productUuid': this.productUuid,
+                    'productType': 'FIXI'
+                }).then((msg) => {
                     if (msg.code == 200) {
                         this.productName = msg.data.productName;
                         this.annualInterestRate = msg.data.annualInterestRate;
+                        this.expcRate = msg.data.annualInterestRateValue;
+                        if (msg.data.increaseInterestRateValue) {
+                            this.expcRate = numAdd(msg.data.increaseInterestRateValue, this.expcRate);
+                        }
+                        this.productPeriod = msg.data.productPeriod;
                     }
                 })
-        },
-        computed: {
-            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId','single_limit','perday_limit']),
-            isLack(){
-                return this.amount > this.accountCashAmount;
-            }
-        },
-        watch: {
-            /*  accountCashAmount(){
-             if(this.accountCashAmount){
-             console.log('444')
-             this.rechargeNum = this.amount - this.accountCashAmount;
-             console.log(this.rechargeNum)
-             }
-             },*/
-            bank_code(){
-                if (this.bank_code) {
-                    this.bankImg = this.imgUrls[this.bank_code];
-                }
-            }
-        },
-        methods: {
-            getBaofoo(){
-                setTimeout(() => {
-                    times++;
-                    if (times >= 3) {
-                        return;
-                    }
-                    this.$store.dispatch('getAccountBaofoo');
-                    this.getBaofoo();
-                }, 3000);
             },
-            numAdd(num1, num2) {
-                var baseNum, baseNum1, baseNum2;
-                try {
-                    baseNum1 = num1.toString().split(".")[1].length;
-                } catch (e) {
-                    baseNum1 = 0;
+            chooseCode(item){
+              if (item && item.couponExtendCode) {
+                    this.item = item;
+                    this.couponExtendCode = item.couponExtendCode;
+                    this.leastPay = numAdd(this.amount, -this.accountCashAmount);
+                    this.rechargeNum = numAdd(this.leastPay, -(item.faceValue));
+                    this.leastPay = this.rechargeNum;
+                    this.faceValueText = -item.faceValue + '元'
+                } else {
+                    this.item = {};
+                    this.couponExtendCode = '';
+                    this.leastPay = numAdd(this.amount, -this.accountCashAmount);
+                    this.rechargeNum = this.leastPay;
+                    this.faceValueText = '暂不使用';
                 }
-                try {
-                    baseNum2 = num2.toString().split(".")[1].length;
-                } catch (e) {
-                    baseNum2 = 0;
-                }
-                baseNum = Math.pow(10, Math.max(baseNum1, baseNum2));
-                var result = this.numMulti(num1,baseNum)+this.numMulti(num2,baseNum);
-                return result / baseNum;
             },
-            numMulti(num1, num2) {
-                var baseNum = 0;
-                if(num1.toString().split(".")[1]){
-                    baseNum += num1.toString().split(".")[1].length;
+            showTicketList(){
+                /*优惠券列表toggle*/
+                if (this.ticketList.length) {
+                    this.ticketListBoolean = !this.ticketListBoolean;
                 }
-                if(num2.toString().split(".")[1]){
-                    baseNum += num2.toString().split(".")[1].length;
-                }
-                return Number(num1.toString().replace(".", ""))
-                    * Number(num2.toString().replace(".", ""))
-                    / Math.pow(10, baseNum)
             },
             agreement(num){
                 if (num == 0) {
-                    window.location.href='/product-subscription-agreement.html'
+                    window.location.href = '/product-subscription-agreement.html'
                 }
-                if(num ==1){
+                if (num == 1) {
                     window.location.href = '/application-commitment.html';
                 }
-                if(num ==2){
+                if (num == 2) {
                     window.location.href = '/baofoo-certification.html';
                 }
             },
@@ -204,48 +324,45 @@
                     Toast('请输入正确待支付金额');
                     return false;
                 }
-
-                let leastPay = this.numAdd(this.amount,-this.accountCashAmount);
-                if (this.rechargeNum < leastPay) {
+                if (this.rechargeNum < this.leastPay) {
                     Toast('输入金额不能小于待支付金额，请重新输入');
+                    return false;
+                }
+                if (Number(this.rechargeNum) > Number(this.single_limit_value)) {
+                    Toast('输入金额不能大于银行单笔限额，请重新输入');
                     return false;
                 }
                 $api.post('/trade/recharge', {
                     amount: this.rechargeNum
-                })
-                    .then(data => {
-                        if (data.code == 200) {
-                            window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href));
-                            let params = data.data || {};
-                            params.amount = this.rechargeNum;
-                            params.userId = this.userId;
-                            submitRecharge(params);
-                        } else {
-                            Toast(data.msg);
-                        }
-                    });
+                }).then(data => {
+                    if (data.code == 200) {
+                        window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href + '&t=' + new Date().getTime()));
+                        let params = data.data || {};
+                        this.orderBillCode = params.orderBillCode;
+                        params.amount = this.rechargeNum;
+                        params.userId = this.userId;
+                        window.sessionStorage.setItem('investDetail', JSON.stringify(this.$data));
+                        submitRecharge(params);
+                    } else {
+                        Toast(data.msg);
+                    }
+                });
             },
             tradeCallback(password){
-                this.inputPassword = false;
-                if (this.orderBillCode) {
-                    this.doInvest(password);
-                } else {
-                    this.getOrderBillCode()
-                        .then(data => {
-                            if (data.code == 200) {
-                                this.doInvest(password);
-                            }
-                        });
-                }
+                this.doInvest(password);
             },
             doInvest(password){
                 Indicator.open('提交中...');
                 $api.post('/trade/invest', {
-                    'orderBillCode': this.orderBillCode,
-                    'userPayPassword': password
+                    'productUuid': this.productUuid,
+                    orderAmount: this.amount,
+                    couponExtendCode: this.couponExtendCode,
+                    'userPayPassword': password,
+                    uniqueIdentifier: timeLine
                 })
                     .then((msg) => {
                         Indicator.close();
+                        timeLine = new Date().getTime();
                         if (msg.code == 200) {
                             window.sessionStorage.setItem('investInfo', encodeURIComponent(JSON.stringify(msg.data)));
                             this.$router.replace('invest-succ');
@@ -253,7 +370,17 @@
                             EventBus.$emit('clearInput');
                             Toast(msg.msg);
                             return false;
+                        } else if (6003 <= msg.code && msg.code <= 6010) {
+                            /*认购金额不满足要求*/
+                            Toast(msg.msg);
+                            setTimeout(() => {
+                                this.$router.back();
+                            }, 1000);
                         } else {
+                            /*余额不足*/
+                            if (msg.code == 6011) {
+                                this.$store.dispatch('getAccountBaofoo')
+                            }
                             Toast(msg.msg);
                         }
                         EventBus.$emit('clearInput');
@@ -262,23 +389,10 @@
             },
             investHandle(){
                 if (!this.enable) {
-                    Toast('请勾选同意《认购协议》和《金疙瘩平台免责声明》');
+                    Toast('请勾选同意《产品认购相关协议》和《入会申请及承诺》');
                     return false;
                 }
                 this.inputPassword = true;
-            },
-            getOrderBillCode(){
-                return $api.post('/trade/productSubscription', {
-                    'productUuid': this.productUuid,
-                    'amount': this.amount
-                }).then((msg) => {
-                    if (msg.code == 200) {
-                        this.orderBillCode = msg.data.orderBillCode;
-                    } else {
-                        Toast(msg.msg);
-                    }
-                    return msg;
-                })
             },
             checkRechargeNum(input) {
                 if (!input) {

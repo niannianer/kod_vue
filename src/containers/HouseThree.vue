@@ -348,7 +348,7 @@
             fun(a){
                 let x = 0
                 if(a){
-                    x = Number(a.replace("%",""))/100;
+                    x = Number(eval(a.replace(/%/g,"")))/100;
                 }
                 return x;
             },

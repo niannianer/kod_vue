@@ -155,7 +155,7 @@
                             this.hintText = `投资金额需以${this.stepValue}元递增`;
                             this.disabled = true;
                         } else {
-                            let shouyi = this.amount * parseFloat(this.rate) / 100 * parseInt(this.period) / 365;
+                            let shouyi = this.amount * parseFloat(this.rate)  * parseInt(this.period) / 365;
                             shouyi = currencyFormat(shouyi);
 
                             this.hintText = `预期收益${shouyi}元`;
@@ -171,7 +171,7 @@
             nextStep(){
                 let params = {
                     'productUuid': this.uid,
-                    'amount': this.amount
+                    'orderAmount': this.amount
                 };
                 Indicator.open('提交中...');
                 $api.post('/trade/productSubscription', params)
@@ -207,8 +207,7 @@
                                 path: '/product-subscription',
                                 query: {
                                     u: this.uid,
-                                    a: this.amount,
-                                    o: data.data.orderBillCode
+                                    a: this.amount
                                 }
                             })
                             return false;
