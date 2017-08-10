@@ -43,6 +43,7 @@
     </div>
 </template>
 <script>
+    import $device from '../tools/device';
     import Vue from 'vue';
     import '../less/reward-detail.less';
     import $api from '../tools/api';
@@ -66,7 +67,7 @@
         },
         created(){
             this.loadData();
-            if (this.$route.query.from == 'app') {
+            if ($device.kingold) {
                 this.isApp = true;
             }
         },
