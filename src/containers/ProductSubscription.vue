@@ -67,7 +67,7 @@
                 </div>
                 <div class="list-complete-item" v-bind:key="1">
                     <div v-if="isLack" class="tip">
-                        <p>银行卡限额：单笔{{single_limit}}万元，单日{{perday_limit}}元</p>
+                        <p>银行卡限额：单笔{{single_limit}}元，单日{{perday_limit}}元</p>
                     </div>
                     <div class="recharge-info" v-if="isLack">
                         <div class="item" flex>
