@@ -183,8 +183,7 @@
                 <div class="title" flex="main:justify" :class="{'change':tab4==true}" @click.stop='toggle(4)'>
                     <span>产品附件</span><i></i></div>
                 <div v-show="tab4" class="content">
-                    <!--{{item.attachmentName}}-->
-                    <span style="color: #1D72C0;display: block;padding-top: .5rem;"
+                    <span style="color: #1D72C0;display: block;padding: .3rem 0;"
                           v-for="(item,index) in lists.productAttachment" :key="index"
                           @click.stop="linkpdf(item)">{{item.attachmentName}}</span>
                 </div>
