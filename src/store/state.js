@@ -46,8 +46,8 @@ const state = {
     notRecieveExperience:'',//未领取体验金
     totalExperience:'',
 
-    cashCouponCount:'',//现金券数量
-    experienceAmount:''//体验金数额
+    cashCouponCount:'0',//现金券数量
+    experienceAmount:'0'//体验金数额
 
 
 };

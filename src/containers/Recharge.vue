@@ -104,7 +104,7 @@
             },
             postRecharge(){
                 if (!this.rechargeMoney) {
-                    Toast('请输入充值金额');
+                    Toast('正在等待银行返回结果...');
                     return false;
                 }
                 let param = {
@@ -117,7 +117,8 @@
                             let params = data.data || {};
                             params.amount = this.rechargeMoney;
                             params.userId = this.$store.state.userId;
-                            submitRecharge(params);
+                            window.sessionStorage.setItem('rechargeOrderBillCode',params.orderBillCode);
+                            submitRecharge(params)
                         } else {
                             Toast(data.msg);
                         }
