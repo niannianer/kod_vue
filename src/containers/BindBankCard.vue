@@ -151,7 +151,7 @@
                 let bankUserCardNo = bankCard.replace(/[^\d]/g,'');
                 if(bankUserCardNo.length < 6){
                     Toast('请输入正确银行卡号')
-                    return 
+                    return
                 }
                 if(!checkPhone(bankUserPhone)){
                     Toast('手机号输入有误')
