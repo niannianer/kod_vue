@@ -164,8 +164,6 @@
                 $api.post('/bindBankCard',{userName:investorRealName,bankUserCardNo:bankUserCardNo,bankUserPhone:bankUserPhone,verifyCode:verifyCode}).then(msg=>{
                     if(msg.code == 200){
                         Toast('绑卡成功');
-                        this.$store.dispatch('getBankInfo');
-
                         setTimeout(()=>{
                             this.$router.replace('/set-pay-password')
                         },1000)
