@@ -9,7 +9,7 @@
                     <div class="color2" v-else ><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
                 </li>
                 <li flex>
-                    <div>客户投资金额：</div>
+                    <div>好友投资金额：</div>
                     <div>{{data.investAmount | currencyInput}}元</div>
                 </li>
                 <li flex>
@@ -19,7 +19,7 @@
             </ul>
             <ul class="detail-ul">
                 <li flex>
-                    <div>客户姓名：</div>
+                    <div>好友姓名：</div>
                     <div>{{data.beInvitedUserName}}</div>
                 </li>
                 <li flex>
@@ -62,7 +62,7 @@
                     <div v-else ><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
                 </li>
                 <li flex>
-                    <div>客户投资金额：</div>
+                    <div>好友投资金额：</div>
                     <div>{{data.investAmount | currencyInput}}元</div>
                 </li>
                 <li flex>
