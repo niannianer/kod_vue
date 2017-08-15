@@ -35,7 +35,7 @@
                 <div class="right" flex-box="2">
                     <ul>
                         <li flex>
-                            <div flex-box="0">理财师好友：</div>
+                            <div flex-box="0">好友：</div>
                             <div flex-box="0">{{item.beInvitedMobile | mobileFormat}}</div>
                         </li>
                         <li flex class="last">
