@@ -104,7 +104,7 @@
     import $device from '../tools/device';
     import requestHybrid from '../tools/hybrid';
     import {Toast} from 'mint-ui';
-    import {getValueE} from "../tools/city-grade";
+    import {getValueD, getValueE, getValueG} from "../tools/city-grade";
     import wx from '../tools/wx';
     export default {
         name: 'pension-five',
@@ -158,7 +158,7 @@
                 return this.pension.inflation / 100
             },
             f: function () {
-                return this.e / this.d
+                return this.e / this.valD;
             },
             n: function () {
                 return parseInt(this.d * (1 - this.f) * Math.pow(1 + this.g, (this.b - this.a)) * 100) / 100
@@ -285,6 +285,9 @@
                     rmb = parseInt(rmb);
                 }
                 return rmb
+            },
+            valD:function(){//固定的D;
+                return getValueD(this.pension.cityName);
             }
 
         },
