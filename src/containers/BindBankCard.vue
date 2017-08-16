@@ -165,8 +165,9 @@
                     if(msg.code == 200){
                         Toast('绑卡成功');
                         setTimeout(()=>{
+                            this.$store.dispatch('getBankInfo');
                             this.$router.replace('/set-pay-password')
-                        },3000)
+                        },1000)
                     }else{
                         Toast(msg.msg);
                     }
