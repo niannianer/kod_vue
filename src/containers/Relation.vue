@@ -1,16 +1,20 @@
 <template>
     <div flex="dir:top" flex-box="1" class="relation">
         <div class="body">
-            <div class="number"><span>{{ Number(levelOneCount) + Number(levelTwoCount)}}</span>人</div>
+            <div class="number"><span>{{ Number(levelOneCount) + Number(levelTwoCount)+Number(levelThreeCount)}}</span>人</div>
             <div class="title">我的好友</div>
         </div>
         <div class="item" flex @click.stop="$router.push('/relation-list?level=1')">
-            <div flex-box='1' class="left">直接好友</div>
+            <div flex-box='1' class="left">金疙瘩好友</div>
             <div flex-box='0' class="right">{{levelOneCount}}人</div>
         </div>
         <div class="item" flex @click.stop="$router.push('/relation-list?level=2')">
-            <div flex-box='1' class="left">间接好友</div>
+            <div flex-box='1' class="left">银疙瘩好友</div>
             <div flex-box='0' class="right">{{levelTwoCount}}人</div>
+        </div>
+        <div class="item" flex @click.stop="$router.push('/relation-list?level=3')">
+            <div flex-box='1' class="left">铜疙瘩好友</div>
+            <div flex-box='0' class="right">{{levelThreeCount}}人</div>
         </div>
         <div class="code-info" flex="dir:top">
             <div flex-box='1'>我的专属二维码</div>
@@ -39,6 +43,7 @@
             return {
                 levelOneCount: '',
                 levelTwoCount: '',
+                levelThreeCount:'',
                 codes: '',
                 imgSrc: ''
             }
@@ -87,6 +92,7 @@
                 if (data.code == 200) {
                     this.levelOneCount = data.data.levelOneCount;
                     this.levelTwoCount = data.data.levelTwoCount;
+                    this.levelThreeCount = data.data.levelThreeCount;
                 }
             })
         }
