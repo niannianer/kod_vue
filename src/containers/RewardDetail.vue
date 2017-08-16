@@ -43,9 +43,11 @@
     </div>
 </template>
 <script>
+    import $device from '../tools/device';
     import Vue from 'vue';
     import '../less/reward-detail.less';
     import $api from '../tools/api';
+    import requestHybrid from '../tools/hybrid';
     import {Loadmore, InfiniteScroll} from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
@@ -66,8 +68,17 @@
         },
         created(){
             this.loadData();
-            if (this.$route.query.from == 'app') {
+            if ($device.kingold) {
                 this.isApp = true;
+                requestHybrid({
+                    tagname: 'title',
+                    param: {
+                        backtype: 0,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                        backAndRefresh: 1,
+                        title:'奖励细则',
+                        keyboard_mode: 0//0 adjustresize 1 adjustpan
+                    }
+                })
             }
         },
         methods: {

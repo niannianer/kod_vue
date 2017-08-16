@@ -16,10 +16,7 @@
                     <p>产品名称</p>
                     <p class="product-name">{{productName}}</p>
                 </div>
-                <div class="item bl" flex>
-                    <p flex-box="1">购买金额</p>
-                    <p flex-box="0">{{orderAmount}}</p>
-                </div>
+
                 <div class="item" flex>
                     <p flex-box="1">预期年化收益率</p>
                     <p flex-box="0">{{annualInterestRate}}</p>
@@ -35,10 +32,23 @@
                     <p flex-box="0">{{productExpiringDate}}</p>
                 </div>
             </div>
+            <div class="section seperate">
+                <div class="item bl" flex>
+                    <p flex-box="1">购买金额</p>
+                    <p flex-box="0">{{orderAmount}}</p>
+                </div>
+                <div class="item bl" flex v-if="marketingAmount">
+                    <p flex-box="1">现金券金额</p>
+                    <p flex-box="0">{{marketingAmount}}</p>
+                </div>
+                <div class="item" flex>
+                    <p flex-box="1">实付金额</p>
+                    <p flex-box="0">{{paidAmount}}</p>
+                </div>
+            </div>
         </div>
         <div class="bottom">
-            <img src="../images/purchase/pay-success.png" alt="succ">
-            <p>购买成功</p>
+            <p class="btn" @click.stop="pathTo('/invest-list')">查看我的定期理财</p>
         </div>
     </div>
 </template>
@@ -55,7 +65,9 @@
                 orderAmount:'',
                 annualInterestRate:'',
                 productInterestDate:'',
-                productExpiringDate:''
+                productExpiringDate:'',
+                marketingAmount:'',
+                paidAmount:''
             }
         },
         created(){
@@ -64,12 +76,18 @@
             this.orderPayTime = invsetInfo.orderPayTime;
             this.productName = invsetInfo.productName;
             this.orderAmount = invsetInfo.orderAmount;
+            this.marketingAmount = invsetInfo.marketingAmount;
+            this.paidAmount = invsetInfo.paidAmount;
             this.annualInterestRate = invsetInfo.annualInterestRate;
             this.productInterestDate = invsetInfo.productInterestDate;
             this.productExpiringDate = invsetInfo.productExpiringDate;
         },
         computed: {},
-        methods: {},
+        methods: {
+            pathTo(path){
+                this.$router.push(path);
+            }
+        },
         destroyed(){
         }
     }

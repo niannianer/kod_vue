@@ -29,12 +29,12 @@
         name: 'withdraw',
         data(){
             return {
-                pTitle:'请设置金疙瘩交易密码，用于交易验证',//
-                password:'',
-                storagePassword:'',
-                pShow:false,
-                btnActive:false,
-                btnShow:false,
+                pTitle: '请设置金疙瘩交易密码，用于交易验证',//
+                password: '',
+                storagePassword: '',
+                pShow: false,
+                btnActive: false,
+                btnShow: false,
             }
         },
         components: {
@@ -44,45 +44,51 @@
         },
         methods: {
             callBack(password){
-                if(password == 'only'){
+                if (password == 'only') {
                     this.password = '';
                     return
                 }
                 this.pShow = false;
                 this.password = password;
-                if(this.storagePassword.length>2){
+                if (this.storagePassword.length > 2) {
                     this.pTitle = '请再次填写以确认';
-                    if(password.length>=6){
+                    if (password.length >= 6) {
                         this.btnActive = true;
-                    }else{
+                    } else {
                         this.btnActive = false;
                     }
-                }else{
+                } else {
                     this.btnShow = false;
-                    if(password.length>=6){
+                    if (password.length >= 6) {
                         this.storagePassword = password;
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             EventBus.$emit('clearInput');
                             this.btnShow = true;
-                        },300);
+                        }, 300);
                     }
                 }
             },
             submit(){
-                if(!this.btnActive){return}
-                let {password,storagePassword} = this;
-                if(password == storagePassword){
-                    $api.post('/initPayPassword',{userPayPassword:password}).then(msg=>{
-                        if(msg.code == 200){
+                if (!this.btnActive) {
+                    return
+                }
+                let {password, storagePassword} = this;
+                if (password == storagePassword) {
+                    $api.post('/initPayPassword', {userPayPassword: password}).then(msg => {
+                        if (msg.code == 200) {
                             Toast('您已成功开通托管账户，可进行投资');
-                            setTimeout(()=>{
+                            this.$store.dispatch('getPersonalCenterMsg');
+                            this.$store.dispatch('getBankInfo');
+                            setTimeout(() => {
+                                this.$store.dispatch('getPersonalCenterMsg');
+                                this.$store.dispatch('getBankInfo');
                                 this.$router.replace('/my-assets');
-                            },3000);
-                        }else{
+                            }, 1000);
+                        } else {
                             Toast(msg.msg);
                         }
                     });
-                }else{
+                } else {
                     this.storagePassword = '';
                     this.pShow = true;
                     this.btnShow = false;
@@ -93,7 +99,7 @@
         },
         destroyed(){
             /*Indicator.close();
-            MessageBox.close();*/
+             MessageBox.close();*/
         }
     }
 </script>

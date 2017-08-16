@@ -9,7 +9,7 @@
                     <div class="color2" v-else ><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
                 </li>
                 <li flex>
-                    <div>客户投资金额：</div>
+                    <div>好友投资金额：</div>
                     <div>{{data.investAmount | currencyInput}}元</div>
                 </li>
                 <li flex>
@@ -19,7 +19,7 @@
             </ul>
             <ul class="detail-ul">
                 <li flex>
-                    <div>客户姓名：</div>
+                    <div>好友姓名：</div>
                     <div>{{data.beInvitedUserName}}</div>
                 </li>
                 <li flex>
@@ -62,7 +62,7 @@
                     <div v-else ><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
                 </li>
                 <li flex>
-                    <div>客户投资金额：</div>
+                    <div>好友投资金额：</div>
                     <div>{{data.investAmount | currencyInput}}元</div>
                 </li>
                 <li flex>
@@ -101,6 +101,7 @@
 
 <script>
     import '../less/reserve-detail.less';
+    import {MessageBox} from 'mint-ui';
     import $api from '../tools/api';
     export default {
         name: 'reserve-detail',
@@ -113,22 +114,25 @@
         },
         methods:{
             link(productUuid){
-                if(this.data.productType == 'PRIF'){
-                    this.$router.push({
-                        path: '/goods-detail-prif',
-                        query: {
-                            productUuid
+                $api.get('/checkProductOnStatus', {productUuid: productUuid}).then(msg => {
+                    if (msg.code == 200) {
+                        let path = '';
+                        if(this.data.productType == 'PRIF'){
+                            path = '/goods-detail-prif';
+                        }else{
+                            path = '/fixi-goods-detail';
                         }
-                    })
-                }else{
-
-                    this.$router.push({
-                        path: '/fixi-goods-detail',
-                        query: {
-                            productUuid
-                        }
-                    })
-                }
+                        this.$router.push({
+                            path,
+                            query: {
+                                productUuid
+                            }
+                        })
+                    } else {
+                        MessageBox.alert(`产品已下架，如想查看详情，请联系客服。`, '提示').then(action => {
+                        });
+                    }
+                });
             }
         },
         mounted(){

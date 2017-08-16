@@ -1,6 +1,5 @@
 <template>
     <div class="personal-center">
-
         <div class="top">
             <div flex-box="0" class="switch-mode" @click.stop="switchMode">
                 <img src="../images/login/pwd-show@2x.png" alt="show" v-show="mode">
@@ -14,7 +13,7 @@
                 <span v-if="investorMobile">{{investorMobile | mobileFormat}}</span>
                 <span v-else @click.stop="login"> 请登录</span>
             </div>
-            <div class="fund-center" flex  @click.stop="getPath('/my-assets')">
+            <div class="fund-center" flex @click.stop="getPath('/my-assets')">
                 <div flex-box="1">
                     <p class="info" v-if="mode">{{accountTotalAssets|currencyFormat}}元</p>
                     <p class="info" v-else="mode">****元</p>
@@ -31,7 +30,7 @@
                     <p class="title">累计收益</p>
                 </div>
             </div>
-           <!-- <div class="ticket-center">
+            <div class="ticket-center">
                 <div flex>
                     <div flex-box="1" flex="main:center">
                         <p class="btn" @click.stop="getPath('/recharge')">
@@ -49,16 +48,16 @@
                         <p class="title">现金劵</p>
                         <p class="info">{{cashCouponCount}}个</p>
                     </div>
-                  &lt;!&ndash;  <div flex-box="1" class="rl">
+                  <!-- <div flex-box="1" class="rl">
                         <p class="title">加息卷</p>
                         <p class="info">5个</p>
-                    </div>&ndash;&gt;
+                    </div>-->
                     <div flex-box="1" @click.stop="getPath('/experience-fund')">
                         <p class="title">体验金</p>
                         <p class="info">{{experienceAmount}}元</p>
                     </div>
                 </div>
-            </div>-->
+            </div>
         </div>
         <div class="body">
             <div class="section seperate" flex="cross:center" @click.stop="getPath('/risk-assessment/wechat')" v-if="!investorRiskScore">
@@ -137,7 +136,7 @@
         <div class="cantact-us">
             联系我们：{{telNumber}}
         </div>
-        <div class="btn" @click.stop="logout()">
+        <div class="btn logout" @click.stop="logout()">
             退出登录
         </div>
         <modal  v-show="showModal" @callBack="callBack"></modal>
