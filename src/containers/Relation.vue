@@ -1,7 +1,7 @@
 <template>
     <div flex="dir:top" flex-box="1" class="relation">
         <div class="body">
-            <div class="number"><span>{{ Number(levelOneCount) + Number(levelTwoCount)+Number(levelThreeCount)}}</span>人</div>
+            <div class="number"><span>{{total}}</span>人</div>
             <div class="title">我的好友</div>
         </div>
         <div class="item" flex @click.stop="$router.push('/relation-list?level=1')">
@@ -41,9 +41,9 @@
         name: 'relation',
         data() {
             return {
-                levelOneCount: '',
-                levelTwoCount: '',
-                levelThreeCount:'',
+                levelOneCount: 0,
+                levelTwoCount: 0,
+                levelThreeCount:0,
                 codes: '',
                 imgSrc: ''
             }
@@ -70,7 +70,14 @@
 
         },
         computed: {
-            ...mapState(['investorMobile'])
+            ...mapState(['investorMobile']),
+            total(){
+                let total = Number(this.levelOneCount) + Number(this.levelTwoCount)+Number(this.levelThreeCount);
+                if(!isNaN(total)){
+                    return total
+                }
+                return 0
+            }
 
         },
         mounted(){
@@ -92,7 +99,7 @@
                 if (data.code == 200) {
                     this.levelOneCount = data.data.levelOneCount;
                     this.levelTwoCount = data.data.levelTwoCount;
-                    this.levelThreeCount = data.data.levelThreeCount;
+                    this.levelThreeCount = data.data.levelThreeCount||0;
                 }
             })
         }
