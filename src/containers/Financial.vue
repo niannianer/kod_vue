@@ -177,15 +177,15 @@
             // 私募
             if (this.$route.query.tab == 'PRIF') {
 
-                let event = ['_trackEvent', '产品列表', 'SHOW', '进入高端理财列表页', '进入高端理财列表页', 'list-SM-show'];
-                window._czc.push(event);
+                let event = ['_trackEvent', '产品列表', 'SHOW', '进入高端理财列表页', '进入高端理财列表页'];
+                window._hmt.push(event);
                 this.tab = 1;
                 this.settings.title = '优质稀缺大类资产，就在金疙瘩。';
                 this.getListWithLogin();
 
             } else {
-                let event = ['_trackEvent', '产品列表', 'SHOW', '进入定期理财列表页', '进入定期理财列表页', 'list-DQ-show'];
-                window._czc.push(event);
+                let event = ['_trackEvent', '产品列表', 'SHOW', '进入定期理财列表页', '进入定期理财列表页'];
+                window._hmt.push(event);
                 this.settings.title = '金疙瘩系列定期产品——闲散资金定制理财';
                 this.getGoodsList()
             }
@@ -220,12 +220,12 @@
                     dom.scrollTop = 0;
                 });
                 if (this.tab == 1) {
-                    let event = ['_trackEvent', '产品列表', 'CLICK', '定期理财列表页点击高端理财tab', '定期理财列表页-点击高端理财tab', 'list-DQ-clickSM'];
-                    window._czc.push(event);
+                    let event = ['_trackEvent', '产品列表', 'CLICK', '定期理财列表页点击高端理财tab', '定期理财列表页-点击高端理财tab'];
+                    window._hmt.push(event);
                     this.getListWithLogin();
                 } else {
-                    let event = ['_trackEvent', '产品列表', 'CLICK', '高端理财列表页点击定期理财tab', '高端理财列表页-点击定期理财tab', 'list-SM-clickDQ'];
-                    window._czc.push(event);
+                    let event = ['_trackEvent', '产品列表', 'CLICK', '高端理财列表页点击定期理财tab', '高端理财列表页-点击定期理财tab'];
+                    window._hmt.push(event);
                     this.getGoodsList('refresh');
                 }
             },
@@ -292,11 +292,11 @@
                 let dom = document.querySelector('.item-list');
                 this.scrollTop = dom.scrollTop;
                 if(url.indexOf('fixi')>-1){
-                    let event = ['_trackEvent', '产品列表', 'CLICK', '在定期理财列表页点击查看详情', '定期理财列表页-点击详情', 'list-DQ-detail'];
-                    window._czc.push(event);
+                    let event = ['_trackEvent', '产品列表', 'CLICK', '在定期理财列表页点击查看详情', '定期理财列表页-点击详情'];
+                    window._hmt.push(event);
                 }else {
-                    let event = ['_trackEvent', '产品列表', 'CLICK', '在高端理财列表页点击查看详情', '高端理财列表页-点击详情', 'list-SM-detail'];
-                    window._czc.push(event);
+                    let event = ['_trackEvent', '产品列表', 'CLICK', '在高端理财列表页点击查看详情', '高端理财列表页-点击详情'];
+                    window._hmt.push(event);
                 }
                 window.sessionStorage.setItem('goodsDetail', JSON.stringify(this.$data));
                 this.$router.push({
