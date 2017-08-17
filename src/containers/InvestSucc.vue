@@ -48,8 +48,7 @@
             </div>
         </div>
         <div class="bottom">
-            <img src="../images/purchase/pay-success.png" alt="succ">
-            <p>购买成功</p>
+            <p class="btn" @click.stop="pathTo('/invest-list')">查看我的定期理财</p>
         </div>
     </div>
 </template>
@@ -84,7 +83,11 @@
             this.productExpiringDate = invsetInfo.productExpiringDate;
         },
         computed: {},
-        methods: {},
+        methods: {
+            pathTo(path){
+                this.$router.push(path);
+            }
+        },
         destroyed(){
         }
     }
