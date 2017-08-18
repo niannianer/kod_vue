@@ -151,7 +151,8 @@
                 <button class="do-invest" @click.stop="preInvest">立即投资</button>
             </div>
             <div v-else="production.canBuy">
-                <div class="can-not-buy">{{production.productStatus}}</div>
+                <div v-if="production.productStatusCode==1" class="can-not-buy" style="background: #1D72C0">{{production.productStatus}}</div>
+                <div v-else class="can-not-buy">{{production.productStatus}}</div>
             </div>
         </div>
 
