@@ -18,9 +18,12 @@
 </template>
 
 <script>
+    import Vue from 'vue';
+    import { InfiniteScroll } from 'mint-ui';
     import $api from '../tools/api';
     import {numMulti} from '../filters';
     import '../less/usable-financial.less';
+    Vue.use(InfiniteScroll);
     export default {
         name: 'usable-financial',
         data(){
@@ -60,8 +63,8 @@
                             resp.data.list.map(item=>{
                                 item.annualInterestRate = numMulti(item.annualInterestRate,100)
                             })
-                            this.lists = resp.data.list;
-                            if (this.lists.length < resp.data.count) {
+                            this.lists = this.lists.concat(resp.data.list);
+                            if (this.lists.length < resp.data.count&&resp.data.list.length) {
                                 this.stop = false;
                             } else {
                                 this.stop = true;
