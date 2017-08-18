@@ -141,6 +141,7 @@
                 return ''
             },
             useTicket(ccCode){
+                /*有可用产品时跳转。只需取1条即可知是否跳转*/
                 $api.get('/adaptProduct/list',{
                     ccCode,
                     startRow:0,

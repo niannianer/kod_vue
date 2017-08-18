@@ -1,6 +1,7 @@
 <template>
     <div flex="dir:top" flex-box="1" class="reward">
         <div class="header" flex-box="0">
+            <p class="right" @click.stop="$router.push('/reward-detail')">奖励细则</p>
             <ul>
                 <li class='sum'>
                     <p class='tile'>累计奖励</p>
@@ -28,7 +29,7 @@
                 <img flex-box="0" src="../images/arrow-right.png" alt="arrow">
             </router-link>
             <div class='invite-subsidy' flex>
-                <p @click ="allowance(2)" class="direct" flex-box="1">直接邀请津贴</p>
+                <p @click="allowance(2)" class="direct" flex-box="1">直接邀请津贴</p>
                 <p @click="allowance(3)" class='indirect' flex-box="1">间接邀请津贴</p>
             </div>
         </div>
@@ -45,22 +46,22 @@
         name: 'reward',
         data(){
             return {
-               paidWithTax:'',
-               unpaid:'',
-               paid:''
+                paidWithTax: '',
+                unpaid: '',
+                paid: ''
             }
         },
         computed: mapState(['userUuid']),
-        methods:{
+        methods: {
             allowance(num){
-                this.$router.push("/invitation-allowance-list?rewardType="+num+"");
+                this.$router.push("/invitation-allowance-list?rewardType=" + num + "");
             },
             getSum(){
-                $api.get('/reward/sum',{
-                    'userUuid':this.userUuid
+                $api.get('/reward/sum', {
+                    'userUuid': this.userUuid
                 })
                     .then(msg => {
-                        if(msg.code == 200){
+                        if (msg.code == 200) {
                             this.paidWithTax = msg.data.paidWithTax;
                             this.unpaid = msg.data.unpaid;
                             this.paid = msg.data.paid;
@@ -70,7 +71,7 @@
             },
             getShare(){
                 wx.getShare({
-                    title:'金疙瘩——我的奖励'
+                    title: '金疙瘩——我的奖励'
                 });
             }
         },

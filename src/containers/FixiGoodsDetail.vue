@@ -15,7 +15,7 @@
                         <div class="item-number">{{production.productRemainAmountValue}}</div>
                     </div>
                 </div>
-                <div class="progress-warp" flex>
+                <div class="progress-warp" flex="cross:center">
                     <span flex-box="0">进度:</span>
                     <div flex-box="1" class="progress">
                         <div class="active" :style="{'width':production.productProgress+'%'}"></div>
