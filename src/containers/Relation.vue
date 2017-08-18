@@ -17,7 +17,7 @@
             <div flex-box='0' class="right">{{levelThreeCount}}人</div>
         </div>
         <div class="code-info" flex="dir:top">
-            <div flex-box='1'>我的专属二维码</div>
+            <div flex-box='1' style="overflow: visible">我的专属二维码</div>
             <div id="code" flex-box='1'>
                 <canvas id="canvas" flex-box='1' style="display: none"></canvas>
                 <img :src="imgSrc" alt="">
