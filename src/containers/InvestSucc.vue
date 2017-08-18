@@ -35,15 +35,15 @@
             <div class="section seperate">
                 <div class="item bl" flex>
                     <p flex-box="1">购买金额</p>
-                    <p flex-box="0">{{orderAmount}}</p>
+                    <p flex-box="0">{{orderAmount}}元</p>
                 </div>
                 <div class="item bl" flex v-if="marketingAmount">
                     <p flex-box="1">现金券金额</p>
-                    <p flex-box="0">{{marketingAmount}}</p>
+                    <p flex-box="0">{{marketingAmount}}元</p>
                 </div>
                 <div class="item" flex>
                     <p flex-box="1">实付金额</p>
-                    <p flex-box="0">{{paidAmount}}</p>
+                    <p flex-box="0">{{paidAmount}}元</p>
                 </div>
             </div>
         </div>

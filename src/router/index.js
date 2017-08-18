@@ -120,7 +120,7 @@ let routes = [
         path: '/fixi-goods-detail',
         name: 'fixi-goods-detail',
         meta: {
-            title: '项目详情',
+            title: '产品详情',
             withoutLogin: true
         },
         component: FixiGoodsDetail
@@ -533,7 +533,7 @@ let routes = [
         name: 'goods-detail-prif',
         component: GoodsDetailPRIF,
         meta: {
-            title: '项目详情',
+            title: '产品详情',
             withoutLogin: true
         }
     }

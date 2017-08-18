@@ -15,7 +15,7 @@
                         <div class="item-number">{{production.productRemainAmountValue}}</div>
                     </div>
                 </div>
-                <div class="progress-warp" flex>
+                <div class="progress-warp" flex="cross:center">
                     <span flex-box="0">进度:</span>
                     <div flex-box="1" class="progress">
                         <div class="active" :style="{'width':production.productProgress+'%'}"></div>
@@ -151,7 +151,8 @@
                 <button class="do-invest" @click.stop="preInvest">立即投资</button>
             </div>
             <div v-else="production.canBuy">
-                <div class="can-not-buy">{{production.productStatus}}</div>
+                <div v-if="production.productStatusCode==1" class="can-not-buy" style="background: #1D72C0">{{production.productStatus}}</div>
+                <div v-else class="can-not-buy">{{production.productStatus}}</div>
             </div>
         </div>
 

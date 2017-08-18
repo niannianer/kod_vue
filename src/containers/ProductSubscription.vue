@@ -247,8 +247,8 @@
                             })
                             this.ticketList = res.data.couponList;
                             if (this.ticketList.length) {
-                                this.ticketList.sort((a,b)=>{
-                                    return b.faceValue-a.faceValue;
+                                this.ticketList.sort((a, b) => {
+                                    return b.faceValue - a.faceValue;
                                 });
                                 /*默认选择优惠券列表面值最大一张*/
                                 this.chooseCode(this.ticketList[0]);
@@ -279,7 +279,7 @@
                 })
             },
             chooseCode(item){
-              if (item && item.couponExtendCode) {
+                if (item && item.couponExtendCode) {
                     this.item = item;
                     this.couponExtendCode = item.couponExtendCode;
                     this.leastPay = numAdd(this.amount, -this.accountCashAmount);
@@ -370,13 +370,18 @@
                             EventBus.$emit('clearInput');
                             Toast(msg.msg);
                             return false;
-                        } else if (6003 <= msg.code && msg.code <= 6010) {
+                        } else if (msg.code == 1504) {
+                            Toast(msg.msg);
+                            this.getAvailableCoupon();
+                        }
+                        else if (6003 <= msg.code && msg.code <= 6010) {
                             /*认购金额不满足要求*/
                             Toast(msg.msg);
                             setTimeout(() => {
                                 this.$router.back();
                             }, 1000);
-                        } else {
+                        }
+                        else {
                             /*余额不足*/
                             if (msg.code == 6011) {
                                 this.$store.dispatch('getAccountBaofoo')
