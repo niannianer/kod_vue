@@ -70,6 +70,8 @@
             if (this.bank_code) {
                 this.bankImg = this.imgUrls[this.bank_code];
             }
+            let event = ['_trackEvent', '充值', 'SHOW', '进入充值页面', '进入充值页面'];
+            window._hmt.push(event);
         },
         computed: mapState([
             'bankUserCardNo',
@@ -112,12 +114,14 @@
                 }
                 $api.post('/trade/recharge', param)
                     .then(data => {
+                        let event = ['_trackEvent', '充值', 'CLICK', '充值页面点击确认充值', '充值页面点击确认充值'];
+                        window._hmt.push(event);
                         if (data.code == 200) {
                             console.log(data);
                             let params = data.data || {};
                             params.amount = this.rechargeMoney;
                             params.userId = this.$store.state.userId;
-                            window.sessionStorage.setItem('rechargeOrderBillCode',params.orderBillCode);
+                            window.sessionStorage.setItem('rechargeOrderBillCode', params.orderBillCode);
                             submitRecharge(params)
                         } else {
                             Toast(data.msg);

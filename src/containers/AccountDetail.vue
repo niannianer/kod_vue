@@ -115,7 +115,8 @@
         },
         created(){
             this.getAccountTransactionList('refresh');
-
+            let event = ['_trackEvent', '账户明细', 'SHOW', '进入账户明细页面', '进入账户明细页面'];
+            window._hmt.push(event);
         },
         computed: {
             disLoad(){
@@ -157,7 +158,7 @@
                 }
                 let types = [];
                 this.items.map(item => {
-                    if(item.active){
+                    if (item.active) {
                         types.push(item.name);
                     }
 
@@ -165,7 +166,7 @@
                 if (types.length) {
                     this.types = types;
 
-                }else {
+                } else {
                     this.types = ['全部'];
                 }
                 this.getAccountTransactionList('refresh');

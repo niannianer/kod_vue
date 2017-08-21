@@ -59,15 +59,15 @@
         name: 'invest-succ',
         data(){
             return {
-                orderBillCode:'',
-                orderPayTime:'',
-                productName:'',
-                orderAmount:'',
-                annualInterestRate:'',
-                productInterestDate:'',
-                productExpiringDate:'',
-                marketingAmount:'',
-                paidAmount:''
+                orderBillCode: '',
+                orderPayTime: '',
+                productName: '',
+                orderAmount: '',
+                annualInterestRate: '',
+                productInterestDate: '',
+                productExpiringDate: '',
+                marketingAmount: '',
+                paidAmount: ''
             }
         },
         created(){
@@ -81,6 +81,8 @@
             this.annualInterestRate = invsetInfo.annualInterestRate;
             this.productInterestDate = invsetInfo.productInterestDate;
             this.productExpiringDate = invsetInfo.productExpiringDate;
+            let event = ['_trackEvent', '购买成功', 'SHOW', '进入购买成功页面', '进入购买成功页面'];
+            window._hmt.push(event);
         },
         computed: {},
         methods: {

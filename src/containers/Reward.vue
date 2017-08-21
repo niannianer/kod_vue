@@ -20,14 +20,14 @@
             </ul>
         </div>
         <div class="body" flex-box="1">
-            <router-link to="/invitation-reward-list" class='invite-award section' flex>
+            <div class='invite-award section' flex @click.stop="rewardList">
                 <p flex-box="1">邀请奖励</p>
                 <img flex-box="0" src="../images/arrow-right.png" alt="arrow">
-            </router-link>
-            <router-link to='/invitation-allowance-list?rewardType=2' class='invite-award section' flex>
+            </div>
+            <div @click="allowance(2)" class='invite-award section' flex>
                 <p flex-box="1">邀请津贴</p>
                 <img flex-box="0" src="../images/arrow-right.png" alt="arrow">
-            </router-link>
+            </div>
             <div class='invite-subsidy' flex>
                 <p @click="allowance(2)" class="direct" flex-box="1">直接邀请津贴</p>
                 <p @click="allowance(3)" class='indirect' flex-box="1">间接邀请津贴</p>
@@ -54,7 +54,22 @@
         computed: mapState(['userUuid']),
         methods: {
             allowance(num){
-                this.$router.push("/invitation-allowance-list?rewardType=" + num + "");
+                let oper = '';
+                if (num == 2) {
+                    oper = '直接';
+                }
+                else {
+                    oper = '间接';
+                }
+                this.$router.push({
+                    path: '/invitation-allowance-list',
+                    query: {
+                        rewardType: num
+                    }
+                });
+                let event = ['_trackEvent', '我的奖励', 'CLICK', '在我的奖励页面点击' + oper + '邀请津贴', '我的奖励页面-点击' + oper + '邀请津贴'];
+                window._hmt.push(event);
+
             },
             getSum(){
                 $api.get('/reward/sum', {
@@ -73,6 +88,11 @@
                 wx.getShare({
                     title: '金疙瘩——我的奖励'
                 });
+            },
+            rewardList(){
+                let event = ['_trackEvent', '我的奖励', 'CLICK', '在我的奖励页面点击邀请奖励', '我的奖励页面-点击邀请奖励'];
+                window._hmt.push(event);
+                this.$router.push('/invitation-reward-list');
             }
         },
         watch: {
@@ -89,6 +109,8 @@
             if (this.userUuid) {
                 this.getSum();
             }
+            let event = ['_trackEvent', '我的奖励', 'SHOW', '进入我的奖励页面', '进入我的奖励页面'];
+            window._hmt.push(event);
         }
     }
 </script>
