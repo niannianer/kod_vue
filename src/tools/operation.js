@@ -200,5 +200,23 @@ export let remainTime = (end, now) => {
         return minutes + '分过期'
     }
     return ''
+};
+let makeRandom = (len) => {
+    var text = '';
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let length = possible.length;
+    for (var i = 0; i < len; i++)
+        text += possible.charAt(Math.floor(Math.random() * length));
+
+    return text;
 }
+export let getUuid = () => {
+    if (window.localStorage.getItem('randomUuid')) {
+        return window.localStorage.getItem('randomUuid');
+    }
+    let randomUuid = makeRandom(16);
+    window.localStorage.setItem('randomUuid', randomUuid);
+    return randomUuid;
+
+};
 
