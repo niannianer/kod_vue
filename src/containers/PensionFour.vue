@@ -87,6 +87,7 @@
     import requestHybrid from '../tools/hybrid';
     import wx from '../tools/wx';
     import $device from '../tools/device';
+    import {getUuid} from '../tools/operation';
     export default{
         data(){
             return {
@@ -212,6 +213,7 @@
             nextHandle(){
                 if (this.clickable) {
                     window.sessionStorage.setItem('pension', JSON.stringify(this.$data));
+                    let uuid = getUuid();//add uuid 区分用户
                     $api.postNode('/pension/createPension', {
                         age: this.age,
                         cityName: this.cityName,
@@ -221,6 +223,7 @@
                         wagesAfterTax: this.wagesAfterTax,
                         inflation: this.inflation,
                         pensionStore: this.pensionStore,
+                        uuid
                     }).then(resp=>{
                         if(resp.code==200){
                             console.log(resp);
