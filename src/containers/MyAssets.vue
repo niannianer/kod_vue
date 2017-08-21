@@ -3,7 +3,7 @@
         <div class="assets-body" flex-box="1">
             <div class="assets">
                 <div class="title">总资产(元）
-                    <router-link class="account-list" :to="{path:'/account-detail'}">账单</router-link>
+                    <span class="account-list" @click.stop="billList">账单</span>
                 </div>
                 <div class="number">{{accountTotalAssets | currencyFormat}}</div>
                 <div class="profit-withdraw" flex>
@@ -49,7 +49,7 @@
 <script>
     import $api from '../tools/api';
     import {mapState} from 'vuex';
-    import {Toast, Indicator,MessageBox} from 'mint-ui';
+    import {Toast, Indicator, MessageBox} from 'mint-ui';
     import {telNumber} from '../tools/config';
     import {submitAuthorization} from '../tools/operation';
     import Modal from '../components/Modal';
@@ -65,7 +65,7 @@
                 timer: null,
                 times: 0,
                 showModal: false,
-                orderBillCode:''
+                orderBillCode: ''
             }
         },
         components: {
@@ -77,22 +77,24 @@
             }
             this.getBaofoo();
             if (this.$route.query.t) {
-                window.sessionStorage.setItem('fromBaoFoo','1');
+                window.sessionStorage.setItem('fromBaoFoo', '1');
                 if (window.location.href.indexOf('test') > -1) {
                     window.location.replace('https://static-test.zj-hf.cn/my-assets');
                 } else {
                     window.location.replace('https://zj-static.zj-hf.cn/my-assets');
                 }
-            }else {
-                let rechargeOrderBillCode =window.sessionStorage.getItem('rechargeOrderBillCode');
-                let fromBaoFoo =window.sessionStorage.getItem('fromBaoFoo');
-                if(fromBaoFoo){
-                    this.orderBillCode=rechargeOrderBillCode;
+            } else {
+                let rechargeOrderBillCode = window.sessionStorage.getItem('rechargeOrderBillCode');
+                let fromBaoFoo = window.sessionStorage.getItem('fromBaoFoo');
+                if (fromBaoFoo) {
+                    this.orderBillCode = rechargeOrderBillCode;
                     window.sessionStorage.removeItem('rechargeOrderBillCode');
                     window.sessionStorage.removeItem('fromBaoFoo');
                     this.getTradeRecharge();
                 }
             }
+            let event = ['_trackEvent', '我的资产', 'SHOW', '进入我的资产页面', '进入我的资产页面'];
+            window._hmt.push(event);
         },
         computed: mapState([
             'userVerifyStatus',
@@ -119,7 +121,7 @@
                                     } else {
                                         clearTimeout(timer);
                                         Indicator.close();
-                                        MessageBox.alert(`银行充值返回较慢，请耐心等待，如有问题，请联系客服！`,'提示');
+                                        MessageBox.alert(`银行充值返回较慢，请耐心等待，如有问题，请联系客服！`, '提示');
                                     }
                                 }, 2000);
                             }
@@ -140,11 +142,11 @@
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {
                     case 0:
-                      //  window.location.href = '/realnameBased.html';
+                        //  window.location.href = '/realnameBased.html';
                         this.$router.push('/authentication');
                         break;
                     case 1:
-                       // window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
+                        // window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
                         submitAuthorization(this.$store.state.userId);
                         break;
                     case 2:
@@ -152,7 +154,7 @@
                         this.$router.push('/bind-bank-card');
                         break;
                     case 3:
-                      //  window.location.href = '/setPayPassword.html';
+                        //  window.location.href = '/setPayPassword.html';
                         this.$router.push('/set-pay-password');
                         break;
                     default:
@@ -160,17 +162,27 @@
             },
             addBankCard(){
                 this.showModal = true;
+                let event = ['_trackEvent', '我的资产', 'CLICK', '我的资产页面-绑定银行卡', '在我的资产页面点击绑定银行卡'];
+                window._hmt.push(event);
+                event = ['_trackEvent', '我的资产', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
+                window._hmt.push(event);
             },
             getBank(){
+                let event = ['_trackEvent', '我的资产', 'CLICK', '我的资产页面-查看银行卡', '在我的资产页面点击查看银行卡'];
+                window._hmt.push(event);
                 this.$router.push('/my-count')
             },
             recharge(){
                 let {userVerifyStatus} = this;
                 if (userVerifyStatus != 9) {
                     this.showModal = true;
+                    let event = ['_trackEvent', '我的资产', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
+                    window._hmt.push(event);
                     return false;
                 }
-                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0])+'?t='+new Date().getTime());
+                let event = ['_trackEvent', '我的资产', 'CLICK', '在我的资产页面点击充值按钮', '我的资产页面-点击充值按钮'];
+                window._hmt.push(event);
+                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0]) + '?t=' + new Date().getTime());
                 this.$router.push('/recharge');
 
             },
@@ -178,12 +190,18 @@
                 let {userVerifyStatus} = this;
                 if (userVerifyStatus != 9) {
                     this.showModal = true;
+                    let event = ['_trackEvent', '我的资产', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
+                    window._hmt.push(event);
                     return false;
                 }
+                let event = ['_trackEvent', '我的资产', 'CLICK', '在我的资产页面点击提现按钮', '我的资产页面-点击提现按钮'];
+                window._hmt.push(event);
                 this.$router.push('/withdraw');
             },
             createUser(){
                 this.showModal = true;
+                let event = ['_trackEvent', '我的资产', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
+                window._hmt.push(event);
             },
             callBack(result){
                 this.showModal = false;
@@ -196,6 +214,11 @@
                 wx.getShare({
                     title: '金疙瘩——我的资产'
                 });
+            },
+            billList(){
+                let event = ['_trackEvent', '我的资产', 'CLICK', '在我的资产页面点击账单', '我的资产页面-点击账单'];
+                window._hmt.push(event);
+                this.$router.push('/account-detail');
             }
         },
         destroyed(){

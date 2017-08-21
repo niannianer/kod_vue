@@ -2,7 +2,7 @@
     <div class="withdraw" flex="dir:top">
         <div class="body">
             <div class="bank" flex>
-               <div flex-box="1">提现至银行卡</div>
+                <div flex-box="1">提现至银行卡</div>
                 <div flex-box="1" class="right">
                     <img class="bank-logo" :src="bankImg"/>
                     <span class="bank-name">{{bank_name}}({{bankUserCardNo.substr(-4)}})</span>
@@ -23,10 +23,10 @@
                            placeholder="请输入提现金额"/>
                 </div>
             </div>
-             <div class="withdraw-count last-item" flex>
-               <span flex-box="1" class="left">单笔可提现金额:50万</span>
-               <span flex-box="1" class="withdraw-all right" @click.stop="withdrawAll">全部提现</span>
-           </div>
+            <div class="withdraw-count last-item" flex>
+                <span flex-box="1" class="left">单笔可提现金额:50万</span>
+                <span flex-box="1" class="withdraw-all right" @click.stop="withdrawAll">全部提现</span>
+            </div>
 
         </div>
 
@@ -53,7 +53,7 @@
         </div>
 
 
-        <password-input v-show="inputPassword" title="提现"  @close="inputPassword=false"
+        <password-input v-show="inputPassword" title="提现" @close="inputPassword=false"
                         @callBack="callBack"></password-input>
     </div>
 </template>
@@ -64,7 +64,7 @@
     import $api from '../tools/api';
     import {telNumber} from '../tools/config';
     import {currencyInputValidate} from '../tools/operation';
-    import {Toast,MessageBox,Indicator} from 'mint-ui';
+    import {Toast, MessageBox, Indicator} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
     import '../less/withdraw.less';
     let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
@@ -85,7 +85,7 @@
                 btnDisabled: true,
                 overHint: false,
                 inputPassword: false,
-                single_limit_value:500000,
+                single_limit_value: 500000,
                 imgUrls
             }
         },
@@ -96,6 +96,8 @@
             if (this.bank_code) {
                 this.bankImg = this.imgUrls[this.bank_code];
             }
+            let event = ['_trackEvent', '提现', 'SHOW', '进入提现页面', '进入提现页面'];
+            window._hmt.push(event);
         },
         computed: mapState([
             'bankUserCardNo',
@@ -118,10 +120,10 @@
                 }
                 timer = setTimeout(() => {
                     this.withdrawMount = currencyInputValidate(this.withdrawMount);
-                    if (this.withdrawMount && this.withdrawMount > this.single_limit_value){
+                    if (this.withdrawMount && this.withdrawMount > this.single_limit_value) {
                         Toast({
-                            position:'top',
-                            message:'提现金额超出单笔限制，请重新输入'
+                            position: 'top',
+                            message: '提现金额超出单笔限制，请重新输入'
                         });
                         return false;
                     }
@@ -159,9 +161,9 @@
                                 if (this.accountCashAmount < amountAll) {
                                     Toast('您当前的账户余额不足支付手续费，无法提现');
 
-                                }else {
-                                    let vm =this;
-                                    MessageBox.confirm(`本次提现需收取${amount}元手续费，请确认是否继续？`,'提示').then(action=>{
+                                } else {
+                                    let vm = this;
+                                    MessageBox.confirm(`本次提现需收取${amount}元手续费，请确认是否继续？`, '提示').then(action => {
                                         vm.confirmFun(action);
                                     });
 
@@ -178,12 +180,16 @@
             },
             // 全部提取
             withdrawAll(){
-                this.withdrawMount=this.accountCashAmount;
+                this.withdrawMount = this.accountCashAmount;
                 this.myKeyup();
+                let event = ['_trackEvent', '提现', 'CLICK', '提现页面点击全部提现', '提现页面点击全部提现'];
+                window._hmt.push(event);
             },
             confirmFun(result){
-                if(result){
+                if (result) {
                     this.inputPassword = true;
+                    let event = ['_trackEvent', '提现', 'CLICK', '提现页面点击立即提现', '提现页面点击立即提现'];
+                    window._hmt.push(event);
                 }
             },
             callBack(password){
@@ -195,13 +201,13 @@
                 $api.post('/trade/withdraw', {rechargeAmount, userPayPassword})
                     .then(data => {
                         Indicator.close();
-                        if(data.code==200){
+                        if (data.code == 200) {
                             Toast('提现申请成功');
                             history.back();
                             this.$store.dispatch('getAccountBaofoo');
-                        }else {
+                        } else {
                             Toast(data.msg);
-                            if(data.code==1108){
+                            if (data.code == 1108) {
                                 EventBus.$emit('clearInput');
                             }
                         }

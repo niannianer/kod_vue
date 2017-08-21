@@ -47,7 +47,9 @@
                     <p flex-box="0">{{this.lists.cashDate}}</p>
                 </div>
             </div>
-            <div v-if="this.lists.subcontractFilepath"><span style="color: #1D72C0;display: block;padding: .5rem 0 0 .8rem;"@click.stop="linkpdf">《认购相关协议》</span></div>
+            <div v-if="this.lists.subcontractFilepath"><span
+                style="color: #1D72C0;display: block;padding: .5rem 0 0 .8rem;" @click.stop="linkpdf">《认购相关协议》</span>
+            </div>
         </div>
     </div>
 </template>
@@ -74,14 +76,16 @@
                 }
                 return msg
             })
+            let event = ['_trackEvent', '我的投资详情', 'SHOW', '进入我的投资详情页面', '进入我的投资详情页面'];
+            window._hmt.push(event);
         },
-        methods:{
+        methods: {
             linkpdf(){
-                    let pdfUrl = this.lists.subcontractFilepath;
-                    let pdfName = '认购相关协议';
-                    pdfUrl = pdfUrl.replace(/^http\.*:/, 'https:');
-                    window.location.href = '/pdf/web/viewer.html?src='
-                        + encodeURIComponent(pdfUrl) + '&name=' + encodeURIComponent(pdfName);
+                let pdfUrl = this.lists.subcontractFilepath;
+                let pdfName = '认购相关协议';
+                pdfUrl = pdfUrl.replace(/^http\.*:/, 'https:');
+                window.location.href = '/pdf/web/viewer.html?src='
+                    + encodeURIComponent(pdfUrl) + '&name=' + encodeURIComponent(pdfName);
             }
         }
     }

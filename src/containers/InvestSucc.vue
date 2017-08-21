@@ -35,21 +35,20 @@
             <div class="section seperate">
                 <div class="item bl" flex>
                     <p flex-box="1">购买金额</p>
-                    <p flex-box="0">{{orderAmount}}</p>
+                    <p flex-box="0">{{orderAmount}}元</p>
                 </div>
                 <div class="item bl" flex v-if="marketingAmount">
                     <p flex-box="1">现金券金额</p>
-                    <p flex-box="0">{{marketingAmount}}</p>
+                    <p flex-box="0">{{marketingAmount}}元</p>
                 </div>
                 <div class="item" flex>
                     <p flex-box="1">实付金额</p>
-                    <p flex-box="0">{{paidAmount}}</p>
+                    <p flex-box="0">{{paidAmount}}元</p>
                 </div>
             </div>
         </div>
         <div class="bottom">
-            <img src="../images/purchase/pay-success.png" alt="succ">
-            <p>购买成功</p>
+            <p class="btn" @click.stop="pathTo('/invest-list')">查看我的定期理财</p>
         </div>
     </div>
 </template>
@@ -60,15 +59,15 @@
         name: 'invest-succ',
         data(){
             return {
-                orderBillCode:'',
-                orderPayTime:'',
-                productName:'',
-                orderAmount:'',
-                annualInterestRate:'',
-                productInterestDate:'',
-                productExpiringDate:'',
-                marketingAmount:'',
-                paidAmount:''
+                orderBillCode: '',
+                orderPayTime: '',
+                productName: '',
+                orderAmount: '',
+                annualInterestRate: '',
+                productInterestDate: '',
+                productExpiringDate: '',
+                marketingAmount: '',
+                paidAmount: ''
             }
         },
         created(){
@@ -82,9 +81,15 @@
             this.annualInterestRate = invsetInfo.annualInterestRate;
             this.productInterestDate = invsetInfo.productInterestDate;
             this.productExpiringDate = invsetInfo.productExpiringDate;
+            let event = ['_trackEvent', '购买成功', 'SHOW', '进入购买成功页面', '进入购买成功页面'];
+            window._hmt.push(event);
         },
         computed: {},
-        methods: {},
+        methods: {
+            pathTo(path){
+                this.$router.push(path);
+            }
+        },
         destroyed(){
         }
     }

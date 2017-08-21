@@ -111,6 +111,10 @@
         },
         destroyed(){
             MessageBox.close();
+        },
+        created(){
+            let event = ['_trackEvent', '预约单详情', 'SHOW', '进入我的预约单详情页', '进入我的预约单详情页'];
+            window._hmt.push(event);
         }
     }
 </script>

@@ -87,6 +87,8 @@
     import requestHybrid from '../tools/hybrid';
     import wx from '../tools/wx';
     import $device from '../tools/device';
+    import {getUuid} from '../tools/operation';
+    let change = false;
     export default{
         data(){
             return {
@@ -99,7 +101,7 @@
                 inflation: '',
                 title: "请选择城市",
                 isPicking: false,
-                citys:[]
+                citys: []
             }
         },
         components: {
@@ -165,7 +167,7 @@
             this.age = window.sessionStorage.getItem('age') || 30;
             this.wagesAfterTax = window.sessionStorage.getItem('wagesAfterTax') || getValueD(this.cityName);
             this.retirementAge = this.gender == 1 ? '55' : '60';
-            this.planAge = this.gender == 1?'85' : '80';
+            this.planAge = this.gender == 1 ? '85' : '80';
             if (window.sessionStorage.getItem('pension')) {
                 let pension = window.sessionStorage.getItem('pension');
                 _.forEach(JSON.parse(pension), (data, key) => {
@@ -175,13 +177,13 @@
             }
             this.inflation = getValueG(this.cityName);//通货膨胀率
             $api.getNode('/assets/getCities')
-                .then(data=>{
-                    this.citys =data.data;
+                .then(data => {
+                    this.citys = data.data;
                 });
         },
         mounted(){
             /* console.log(this.$refs.kpicker.result,'33333');*/
-            if($device.kingold){
+            if ($device.kingold) {
                 requestHybrid({
                     tagname: 'title',
                     param: {
@@ -197,14 +199,14 @@
         methods: {
             getShare(){
                 wx.getShare({
-                    title:'快看我的理财规划，原来我可以这么有钱！',
-                    desc:'金疙瘩智能定制理财规划，比心理测验还好玩，你也来试试？'
+                    title: '快看我的理财规划，原来我可以这么有钱！',
+                    desc: '金疙瘩智能定制理财规划，比心理测验还好玩，你也来试试？'
                 });
             },
             genderHandle(num){
                 this.gender = num;
                 this.retirementAge = this.gender == 1 ? '55' : '60';
-                this.planAge = this.gender == 1?'85' : '80';
+                this.planAge = this.gender == 1 ? '85' : '80';
             },
             pickHandle(){
                 this.isPicking = true;
@@ -212,6 +214,7 @@
             nextHandle(){
                 if (this.clickable) {
                     window.sessionStorage.setItem('pension', JSON.stringify(this.$data));
+                    let uuid = getUuid();//add uuid 区分用户
                     $api.postNode('/pension/createPension', {
                         age: this.age,
                         cityName: this.cityName,
@@ -221,13 +224,14 @@
                         wagesAfterTax: this.wagesAfterTax,
                         inflation: this.inflation,
                         pensionStore: this.pensionStore,
-                    }).then(resp=>{
-                        if(resp.code==200){
+                        uuid
+                    }).then(resp => {
+                        if (resp.code == 200) {
                             console.log(resp);
                             this.$router.push({
-                                path:'/pension-five',
-                                query:{
-                                    id:resp.data.id
+                                path: '/pension-five',
+                                query: {
+                                    id: resp.data.id
                                 }
                             });
                         }
@@ -292,8 +296,14 @@
                 this.isPicking = false;
             },
             changeCity(){
+                setTimeout(() => {
+                    change = true;
+                }, 1000);
+                if (!change) {
+                    return false;
+                }
                 this.inflation = getValueG(this.cityName);//通货膨胀率
-                this.wagesAfterTax =  getValueD(this.cityName);
+                this.wagesAfterTax = getValueD(this.cityName);
             }
         }
     }

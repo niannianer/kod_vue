@@ -166,6 +166,7 @@
     import $device from '../tools/device';
     import '../less/house-two.less';
     import requestHybrid from '../tools/hybrid';
+    import {getUuid} from '../tools/operation';
 
     let timer = null;
     const rate1 = 0.06;
@@ -225,7 +226,7 @@
                 cityName: '北京',
                 cityCode: '',
                 cityPrice: '',
-                cityList:[],
+                cityList: [],
                 houseTotal: '',
                 planYears: 3,
                 loanFlag: 0,
@@ -247,8 +248,8 @@
                 this.getShare();
             }
             $api.getNode('/assets/getCities')
-                .then(data=>{
-                    this.cityList =data.data;
+                .then(data => {
+                    this.cityList = data.data;
                 });
             if (window.sessionStorage.getItem('cityName')) {
                 this.cityName = window.sessionStorage.getItem('cityName');
@@ -261,7 +262,7 @@
                 });
                 window.sessionStorage.removeItem('houseData');
             }
-            if($device.kingold){
+            if ($device.kingold) {
                 requestHybrid({
                     tagname: 'title',
                     param: {
@@ -408,8 +409,8 @@
         methods: {
             getShare(){
                 wx.getShare({
-                    title:'快看我的购房规划，原来梦想触手可及！',
-                    desc:'金疙瘩智能定制理财规划，比心理测验还好玩，你也来试试？'
+                    title: '快看我的购房规划，原来梦想触手可及！',
+                    desc: '金疙瘩智能定制理财规划，比心理测验还好玩，你也来试试？'
                 });
             },
             changeCity(){
@@ -424,7 +425,7 @@
                     that.houseTotal = that.houseTotal.toString();
                     that.houseTotal = that.houseTotal.replace(/\D/g, '');
                     that.houseTotal = that.houseTotal.substr(0, 5);
-                    if(this.loanFlag){
+                    if (this.loanFlag) {
                         this.setLoanFlag(1);
                     }
                 }, 200);
@@ -531,11 +532,12 @@
                 businessLoan = businessLoan * 10000;
                 accumulationFundLoan = accumulationFundLoan * 10000;
                 let year = this.year;
+                let uuid = getUuid();//add uuid 区分用户
                 $api.postNode('/house/createHousing', {
                     cityName, houseTotal,
                     planYears, loanFlag, loanType,
                     loanClass, investMoney, firstPayments,
-                    accumulationFundLoan, businessLoan
+                    accumulationFundLoan, businessLoan,uuid
                 }).then(data => {
                     if (data.code == 200) {
                         window.sessionStorage.setItem('houseData', JSON.stringify(this.$data))
