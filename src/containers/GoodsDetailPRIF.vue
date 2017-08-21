@@ -192,7 +192,7 @@
         </div>
         <!--底部-->
         <div class="buttom" flex-box="0" flex="box:mean">
-            <a class="hotline" flex-box="1" href="tel:4006403606">咨询热线</a>
+            <a class="hotline" flex-box="1" href="tel:4006403606" @click.stop="hotline">咨询热线</a>
             <div class="btn" flex-box="1" :class="{'disabled':message !='立即预约' && message!='预热中'}"
                  @click.stop="link(message,lists.productUuid)">{{message}}
             </div>
@@ -227,6 +227,8 @@
             if ($device.isWeixin) {
                 this.getShare();
             }
+            let event = ['_trackEvent', '高端理财详情', 'SHOW', '进入高端理财详情页', '进入高端理财详情页'];
+            window._hmt.push(event);
         },
         computed: {},
         methods: {
@@ -250,15 +252,35 @@
                 });
             },
             toggle(num){
+                let oper = '收起';
+                let item = '';
                 if (num == 1) {
                     this.tab1 = !this.tab1;
+                    item = '投资范围';
+                    if (this.tab1) {
+                        oper = '打开';
+                    }
                 } else if (num == 2) {
                     this.tab2 = !this.tab2;
+                    item = '风控措施';
+                    if (this.tab2) {
+                        oper = '打开';
+                    }
                 } else if (num == 3) {
                     this.tab3 = !this.tab3;
+                    item = '产品亮点';
+                    if (this.tab3) {
+                        oper = '打开';
+                    }
                 } else if (num == 4) {
                     this.tab4 = !this.tab4;
+                    item = '产品附件';
+                    if (this.tab4) {
+                        oper = '打开';
+                    }
                 }
+                let event = ['_trackEvent', '私募产品详情', 'CLICK', '在私募产品详情页' + oper + item + '', '私募产品详情页-' + oper + item + ''];
+                window._hmt.push(event);
             },
             link(message, productUuid){
                 if (message == '预热中') {
@@ -271,13 +293,17 @@
                         }
                     })
 //                  window.location.href='/addClient.html?u='+productUuid;
+                    let event = ['_trackEvent', '私募产品详情', 'CLICK', '私募产品详情页-点击立即预约', '私募产品详情页-点击立即预约'];
+                    window._hmt.push(event);
                 }
             },
             linkpdf(item){
-                if (item.attachmentLink){
+                if (item.attachmentLink) {
                     let pdfUrl = item.attachmentLink;
                     let pdfName = item.attachmentName
                     pdfUrl = pdfUrl.replace(/^http\.*:/, 'https:');
+                    let event = ['_trackEvent', '私募产品详情', 'CLICK', '在私募产品详情页点击产品附件', '私募产品详情页-点击产品附件'];
+                    window._hmt.push(event);
                     window.location.href = '/pdf/web/viewer.html?src='
                         + encodeURIComponent(pdfUrl) + '&name=' + encodeURIComponent(pdfName);
                 }
@@ -303,6 +329,10 @@
                     wx.onMenuShareTimeline(content);
                     wx.onMenuShareAppMessage(content);
                 });
+            },
+            hotline(){
+                let event = ['_trackEvent', '私募产品详情', 'CLICK', '私募产品详情页-点击咨询热线', '私募产品详情页-点击咨询热线'];
+                window._hmt.push(event);
             }
         },
         destroyed(){

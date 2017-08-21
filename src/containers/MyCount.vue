@@ -6,13 +6,13 @@
                 <div class="item1" flex>
                     <div class="item-left" flex-box="1">真实姓名</div>
                     <div class="item-right" flex-box="0">
-                    {{investorRealName.replace(/.(?=.)/g, '*')}}
+                        {{investorRealName.replace(/.(?=.)/g, '*')}}
                     </div>
                 </div>
                 <div class="item2" flex>
                     <div class="item-left" flex-box="1">证件号码</div>
                     <div class="item-right" flex-box="0">
-                    {{investorIdCardNo|idCardFormat}}
+                        {{investorIdCardNo | idCardFormat}}
                     </div>
                 </div>
             </div>
@@ -21,11 +21,11 @@
                 <div class="bank-name">
                     <img :src="bankImg" class="bank-logo"/>
                     <span class="name">{{bank_name}}</span>
-                    <div class ="bank-info">{{bankUserCardNo|bankCardNoFormat}}</div>
+                    <div class="bank-info">{{bankUserCardNo | bankCardNoFormat}}</div>
                 </div>
             </div>
             <div class="tel-info">
-               如需换卡，请联系客服：<span class="span">{{telNumber}}</span>
+                如需换卡，请联系客服：<span class="span">{{telNumber}}</span>
             </div>
         </div>
     </div>
@@ -46,12 +46,12 @@
         name: 'my-count',
         data(){
             return {
-                bankImg:'',
+                bankImg: '',
                 telNumber,
                 imgUrls
             }
         },
-       computed: mapState([
+        computed: mapState([
             'bankUserCardNo',
             'bank_code',
             'bank_name',
@@ -62,6 +62,8 @@
             if (this.bank_code) {
                 this.bankImg = this.imgUrls[this.bank_code];
             }
+            let event = ['_trackEvent', '我的银行卡', 'SHOW', '进入我的银行卡页面', '进入我的银行卡页面'];
+            window._hmt.push(event);
         },
         watch: {
             bank_code(){

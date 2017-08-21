@@ -41,6 +41,8 @@
             Keyboard
         },
         created(){
+            let event = ['_trackEvent', '设置交易密码', 'SHOW', '进入设置交易密码页面', '进入设置交易密码页面'];
+            window._hmt.push(event);
         },
         methods: {
             callBack(password){
@@ -52,6 +54,8 @@
                 this.password = password;
                 if (this.storagePassword.length > 2) {
                     this.pTitle = '请再次填写以确认';
+                    let event = ['_trackEvent', '设置交易密码', 'SHOW', '进入确认交易密码页面', '进入确认交易密码页面'];
+                    window._hmt.push(event);
                     if (password.length >= 6) {
                         this.btnActive = true;
                     } else {
@@ -75,6 +79,8 @@
                 let {password, storagePassword} = this;
                 if (password == storagePassword) {
                     $api.post('/initPayPassword', {userPayPassword: password}).then(msg => {
+                        let event = ['_trackEvent', '设置交易密码', 'SHOW', '确认交易密码页面-点击完成', '确认交易密码页面-点击完成'];
+                        window._hmt.push(event);
                         if (msg.code == 200) {
                             Toast('您已成功开通托管账户，可进行投资');
                             this.$store.dispatch('getPersonalCenterMsg');

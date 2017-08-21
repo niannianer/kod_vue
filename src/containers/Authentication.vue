@@ -1,5 +1,5 @@
 <template>
-    <div class="authentication" flex-box="1" >
+    <div class="authentication" flex-box="1">
         <div class="authentication-lint">为保护您账号安全，请进行实名认证</div>
         <dl class="authentication-input">
             <dt flex>
@@ -12,7 +12,7 @@
             </dd>
         </dl>
         <div class="authentication-bottom">
-            <div class="authentication-btn" >
+            <div class="authentication-btn">
                 <button @click.stop="btnAction">下一步</button>
             </div>
             <div class="authentication-text">
@@ -57,77 +57,86 @@
         name: 'authentication',
         data(){
             return {
-                userName:'',
-                userIdCardNumber:'',
-                popup:false,
-                btnActive:true,
+                userName: '',
+                userIdCardNumber: '',
+                popup: false,
+                btnActive: true,
                 //pShow:false,
-                smsCode:'',
-                btnText:'获取验证码',
-                nextClick:true,
-                flag:true
+                smsCode: '',
+                btnText: '获取验证码',
+                nextClick: true,
+                flag: true
             };
         },
-        computed:
-            mapState([
+        created(){
+            let event = ['_trackEvent', '实名认证', 'SHOW', '进入实名认证页面', '进入实名认证页面'];
+            window._hmt.push(event);
+        },
+        computed: mapState([
                 'investorMobile',
                 'userId'
-                ]
-            ),
+            ]
+        ),
         methods: {
             //下一步
             btnAction(){
-                if(!this.nextClick){return}
+                if (!this.nextClick) {
+                    return
+                }
                 this.nextClick = false;
-                setTimeout(()=>{
+                setTimeout(() => {
                     this.nextClick = true;
-                },2000);
-                let {userName,userIdCardNumber} = this;
-                if(!$fun.valiRealName(userName)){
+                }, 2000);
+                let {userName, userIdCardNumber} = this;
+                if (!$fun.valiRealName(userName)) {
                     Toast('请输入真实姓名');
                     return
                 }
-                if(!$fun.valiIdCard(userIdCardNumber)){
+                if (!$fun.valiIdCard(userIdCardNumber)) {
                     Toast('请输入正确身份证号');
                     return
                 }
+                let event = ['_trackEvent', '实名认证', 'CLICK', '实名认证页面-点击下一步', '实名认证页面-点击下一步'];
+                window._hmt.push(event);
                 this.getAccount();
             },
             //提交数据
             getAccount(){
-                let {userName,userIdCardNumber,smsCode} = this;
+                let {userName, userIdCardNumber, smsCode} = this;
                 let data = {
-                    userName:userName,userIdCardNumber:userIdCardNumber
+                    userName: userName, userIdCardNumber: userIdCardNumber
                 }
-                if(this.popup){
+                if (this.popup) {
                     data = {
-                        userName:userName,userIdCardNumber:userIdCardNumber,smsCode:smsCode
+                        userName: userName, userIdCardNumber: userIdCardNumber, smsCode: smsCode
                     }
                 }
-                $api.post('/openAccount',data).then(msg=>{
-                    if(msg.code == 200){
+                $api.post('/openAccount', data).then(msg => {
+                    if (msg.code == 200) {
                         Toast("身份认证成功！");
                         this.popup = false;
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             submitAuthorization(this.userId);
-                        },3000);
-                    }else if(msg.code == 8003){
+                        }, 3000);
+                    } else if (msg.code == 8003) {
                         //弹窗
                         this.popup = true;
                         this.smsCode = '';
                         this.btnText = '获取验证码';
                         this.btnActive = true;
+                        let event = ['_trackEvent', '实名认证', 'SHOW', '实名认证监测到已在其他商户开户', '实名认证监测到已在其他商户开户'];
+                        window._hmt.push(event);
                         this.transmit();
-                    }else{
+                    } else {
                         Toast(msg.msg)
                     }
                 });
             },
             //下发按钮
             transmit(){
-                if(this.btnActive){
-                    $api.get('/sendBaofooAuthSMS',{type:2}).then(msg=>{
-                        if(msg.code != 200){
+                if (this.btnActive) {
+                    $api.get('/sendBaofooAuthSMS', {type: 2}).then(msg => {
+                        if (msg.code != 200) {
                             Toast(msg.msg);
                             this.btnText = '获取验证码';
                             this.btnActive = true;
@@ -140,9 +149,9 @@
             },
             //确定
             sure(){
-                if(this.smsCode.length>=4){
+                if (this.smsCode.length >= 4) {
                     this.getAccount();
-                }else{
+                } else {
                     Toast('请输入正确验证码！')
                 }
             },
@@ -156,17 +165,17 @@
             send(time){
                 this.flag = true;
                 this.btnActive = false;
-                let recursion = () =>{
-                    if(this.flag){
-                        if(time <= 1){
+                let recursion = () => {
+                    if (this.flag) {
+                        if (time <= 1) {
                             this.btnText = '重新获取';
                             this.btnActive = true;
-                        }else{
-                            time --;
-                            this.btnText = '('+time+'s)';
-                            var timer = setTimeout(recursion,1000);
+                        } else {
+                            time--;
+                            this.btnText = '(' + time + 's)';
+                            var timer = setTimeout(recursion, 1000);
                         }
-                    }else{
+                    } else {
                         clearTimeout(timer);
                     }
                 };
@@ -174,13 +183,13 @@
             },
             //去开户弹窗
             /*setAccount(){
-                OpenAccount({
-                    callback:(result)=>{
-                        if(result)
-                        this.$router.push('/index')
-                    }
-                });
-            }*/
+             OpenAccount({
+             callback:(result)=>{
+             if(result)
+             this.$router.push('/index')
+             }
+             });
+             }*/
         }
     }
 </script>

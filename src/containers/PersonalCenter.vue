@@ -282,6 +282,8 @@
                 if (path == '/recharge' || path == '/withdraw') {
                     if (this.userVerifyStatus != 9) {
                         this.showModal = true;
+                        let event = ['_trackEvent', '个人中心', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
+                        window._hmt.push(event);
                         return false;
                     }
                     window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0]) + '?t=' + new Date().getTime());
