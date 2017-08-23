@@ -41,6 +41,7 @@ const RiskAssessment = () => import('../containers/RiskAssessment');
 const AssessmentResult = () => import('../containers/AssessmentResult');
 const RelationList = () => import('../containers/RelationList');
 const Relation = () => import('../containers/Relation');
+const RelationListGold = () => import('../containers/RelationListGold');
 const HouseTwo = () => import('../containers/HouseTwo');
 const HouseThree = () => import('../containers/HouseThree');
 const Planning = () => import('../containers/Planning');
@@ -105,7 +106,9 @@ let routes = [
         path: '/index',
         name: 'index',
         meta: {
-            title: '首页'
+            title: '金疙瘩',
+            withoutLogin: true
+
         },
         component: Index
     }, {
@@ -459,6 +462,14 @@ let routes = [
         component: RelationList,
         meta: {
             title: '1度好友'
+        }
+    },
+    {
+        path: '/relation-list-gold',
+        name: 'relation-list-gold',
+        component: RelationListGold,
+        meta: {
+            title: '金疙瘩好友'
         }
     },
     {
