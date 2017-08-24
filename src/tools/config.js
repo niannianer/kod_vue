@@ -3,24 +3,6 @@
  */
 let protocol = window.location.protocol;
 export const telNumber = '400-640-3606';
-/*dev*/
-export const devUrl = 'http://10.10.10.69:6620';
-export const baofooDevtUrl = 'https://paytest.baofoo.com/baofoo-custody/custody/';
-export const baofooCallUrlDev = `${protocol}//notify-test.zj-hf.cn`;
-export const nodeDevApi = `${protocol}//market-test.zj-hf.cn`;
-
-/*test*/
-export const testUrl = `${protocol}//weixin-test.zj-hf.cn`;
-export const baofooTestUrl = 'https://paytest.baofoo.com/baofoo-custody/custody/';
-export const baofooCallUrlTest = `${protocol}//notify-test.zj-hf.cn`;
-export const nodeTestApi = `${protocol}//market-test.zj-hf.cn`;
-
-/*production */
-export const productionUrl = `${protocol}//zj-weixin.zj-hf.cn`;
-export const baofooProductUrl = 'https://pm.baofoo.com/custody/';
-export const baofooCallUrlProduct = `${protocol}//callme.zj-hf.cn`;
-export const nodeProductionApi = `${protocol}//market.zj-hf.cn`;
-
 
 let encrypt = false;
 /*dev env*/
