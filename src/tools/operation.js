@@ -22,26 +22,12 @@ export let setTitle = (title) => {
 
 import $api from './api';
 
-import  * as config from './config';
-let baofooUrl = config.baofooDevtUrl;
-let baofooCallUrl = config.baofooCallUrlDev;
-let serverUrl = config.devUrl;
-let merchant_id = '100000675';
-let terminal_id = '100000701';
-if (process.env.kingold == 'test') {
-    baofooUrl = config.baofooTestUrl;
-    serverUrl = config.testUrl;
-    baofooCallUrl = config.baofooCallUrlTest;
-    merchant_id = '100000675';
-    terminal_id = '100000701';
-}
-if (process.env.kingold == 'production') {
-    baofooUrl = config.baofooProductUrl;
-    serverUrl = config.productionUrl;
-    baofooCallUrl = config.baofooCallUrlProduct;
-    merchant_id = '1177929';
-    terminal_id = '35265';
-}
+import  config from './config';
+let baofooUrl = config.baofooUrl;
+let baofooCallUrl = config.baofooCallUrl;
+let merchant_id = config.merchant_id;
+let terminal_id = config.terminal_id;
+
 
 // baofoo 充值
 export let submitRecharge = (params) => {
