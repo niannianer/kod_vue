@@ -159,6 +159,7 @@
             }
         },
         created(){
+            change = false
             if ($device.isWeixin) {
                 this.getShare();
             }

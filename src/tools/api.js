@@ -12,18 +12,9 @@ import {encryptFun, decryptFun} from './crypto';
 
 import 'whatwg-fetch';
 import store from '../store';
-import {doEncrypt} from './config';
-import  * as config from './config';
-let serverUrl = config.testUrl;
-let nodeUrl = config.nodeDevApi;
-if (process.env.kingold == 'test') {
-    serverUrl = config.testUrl;
-    nodeUrl = config.nodeTestApi;
-}
-if (process.env.kingold == 'production') {
-    serverUrl = config.productionUrl;
-    nodeUrl = config.nodeProductionApi;
-}
+import config, {doEncrypt} from './config';
+let serverUrl = config.apiUrl;
+let nodeUrl = config.apiNode;
 let query = data => {
     let str = [];
     for (let key in data) {
@@ -69,7 +60,6 @@ let get = (path, data = {}) => {
             } else {
                 return response.json();
             }
-
         }
         if (response.status == 503) {
             return {};
@@ -139,9 +129,6 @@ let post = (path, data = {}) => {
             data = JSON.parse(decryptFun(data));
         }
         if (data.code == 401) {
-            store.dispatch('getAccountBaofoo');
-            store.dispatch('getBankInfo');
-            store.dispatch('getUserInfo');
             logout();
         }
         console.log(url);
