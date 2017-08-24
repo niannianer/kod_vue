@@ -43,8 +43,8 @@ if (process.env.kingold == 'stage') {
     baofooUrl = 'https://pm.baofoo.com/custody/';
     baofooCallUrl = `${protocol}//pre-callme.zj-hf.cn`;
     apiNode = `${protocol}//market.zj-hf.cn`;
-    merchant_id = '1177929';
-    terminal_id = '35265';
+    merchant_id = '1172380';
+    terminal_id = '34865';
     encrypt = true;
 }
 /*prod env*/
