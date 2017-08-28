@@ -168,7 +168,7 @@
                         this.$router.push('/set-pay-password');
                         break;
                     case 9:
-                        Toast('您已实名绑卡，敬请期待下期活动~');
+                        Toast('您已经完成实名绑卡，敬请期待下期活动~');
                         break;
                     default:
                 }
