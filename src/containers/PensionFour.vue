@@ -223,8 +223,8 @@
                         inflation: this.inflation,
                         pensionStore: this.pensionStore,
                     }).then(resp=>{
+                        Toast('this.clickable   '+resp.code)
                         if(resp.code==200){
-                            Toast('this.clickable   '+resp)
                             this.$router.push({
                                 path:'/pension-five',
                                 query:{
