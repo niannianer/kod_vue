@@ -52,7 +52,7 @@
 
 <script>
     import '../less/ticket-aug.less';
-    import submitAuthorization from '../tools/operation';
+    import {submitAuthorization} from '../tools/operation';
     import wx from '../tools/wx';
     import {mapState} from 'vuex';
     import {Toast} from 'mint-ui';
@@ -161,7 +161,9 @@
                     case 1:
                         event = ['_trackEvent', '红包雨活动页', 'CLICK', '从活动页进入授权页面', '活动授权'];
                         window._hmt.push(event);
+                        console.log('fdddd1');
                         submitAuthorization(this.$store.state.userId);
+                        console.log('fdddd2222');
                         break;
                     case 2:
                         event = ['_trackEvent', '红包雨活动页', 'CLICK', '从活动页进入绑卡页面', '活动绑卡'];
