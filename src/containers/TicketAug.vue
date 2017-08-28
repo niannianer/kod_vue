@@ -33,6 +33,7 @@
                     </div>
                 </div>
                 <div class="qrcode" v-if="isShared" flex-box="0">
+                    <p>长按识别二维码，进入金疙瘩使用红包</p>
                     <img src="../images/qr-code.png" alt="qr-code">
                 </div>
                 <p class="tip">理财有风险，投资需谨慎</p>
