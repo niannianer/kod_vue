@@ -5,25 +5,31 @@
                 <img src="../images/ticket-aug/ticket-aug-bg.jpg" alt="ticket-aug-bg">
             </div>
             <div class="body">
-                <p class="duration">活动时间：8月29日-9月4日</p>
+                <p class="duration">活动时间：8月29日-8月31日</p>
                 <img class="ticket" src="../images/ticket-aug/ticket.png" alt="ticket">
                 <div class="content">
                     <p class="title">活动规则：</p>
                     <div class="detail">
-                        <div flex><p flex-box="0">1、</p>
-                            <p>活动期间新用户注册金疙瘩平台，并绑卡成功，即可获得50元现金券红包一个；</p></div>
-                        <div flex><p flex-box="0">2、</p>
-                            <p>活动期间已注册未绑卡用户，完成绑卡后，即可获得50元现金券红包一个；</p></div>
-                        <div flex><p flex-box="0">3、</p>
-                            <p>活动仅限新注册及未绑卡用户参加，完成绑卡操作后红包自动发放至用户平台账户中；</p></div>
-                        <div flex><p flex-box="0">4、</p>
-                            <p>红包仅限购买平台90天期产品，最低使用投资额5000元；</p></div>
-                        <div flex><p flex-box="0">5、</p>
-                            <p>红包有效期自活动开始之日起，至9月4日；</p></div>
-                        <div flex><p flex-box="0">6、</p>
-                            <p>活动时间2017年8月29日-2017年9月4日；</p></div>
-                        <div flex><p flex-box="0">7、</p>
-                            <p>金疙瘩保留对本活动在法律范围内的最终解释权。</p></div>
+                        <div flex>
+                            <p flex-box="0">1、</p>
+                            <p>活动仅限新注册及注册未绑卡用户参加，完成绑卡操作后红包自动发放至用户平台账户中，已绑卡用户无法参加活动；</p>
+                        </div>
+                        <div flex>
+                            <p flex-box="0">2、</p>
+                            <p>红包仅限购买平台90天期产品；</p>
+                        </div>
+                        <div flex>
+                            <p flex-box="0">3、</p>
+                            <p>活动时间2017年8月29日-2017年8月31日，红包仅限活动期间投资使用；</p>
+                        </div>
+                        <div flex>
+                            <p flex-box="0">4、</p>
+                            <p>平台已代扣代缴相关税费。</p>
+                        </div>
+                        <div flex>
+                            <p flex-box="0">5、</p>
+                            <p>金疙瘩保留对本活动在法律范围内的最终解释权。</p>
+                        </div>
                     </div>
                 </div>
                 <p class="tip">理财有风险，投资需谨慎</p>
