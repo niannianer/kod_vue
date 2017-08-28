@@ -24,13 +24,16 @@
                         </div>
                         <div flex>
                             <p flex-box="0">4、</p>
-                            <p>平台已代扣代缴相关税费。</p>
+                            <p>平台已代扣代缴相关税费；</p>
                         </div>
                         <div flex>
                             <p flex-box="0">5、</p>
                             <p>金疙瘩保留对本活动在法律范围内的最终解释权。</p>
                         </div>
                     </div>
+                </div>
+                <div class="qrcode" v-if="isShared" flex-box="0">
+                    <img src="../images/qr-code.png" alt="qr-code">
                 </div>
                 <p class="tip">理财有风险，投资需谨慎</p>
             </div>
