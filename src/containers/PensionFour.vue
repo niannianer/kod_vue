@@ -226,13 +226,14 @@
                         pensionStore: this.pensionStore,
                     }).then(resp=>{
                         if(resp.code==200){
+                            Toast('this.clickable   '+this.clickable)
                             console.log(resp);
-                            this.$router.push({
+                           /* this.$router.push({
                                 path:'/pension-five',
                                 query:{
                                     id:resp.data.id
                                 }
-                            });
+                            });*/
                         }
                     })
                 }
