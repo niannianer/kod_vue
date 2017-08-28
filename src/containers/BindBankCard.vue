@@ -150,6 +150,10 @@
                 }
             },
             submit(){
+                if (!this.agreement) {
+                    Toast('请勾选相关协议');
+                    return;
+                }
                 let {investorRealName, bankCard, bankUserPhone, verifyCode} = this;
                 let bankUserCardNo = bankCard.replace(/[^\d]/g, '');
                 if (bankUserCardNo.length < 6) {
