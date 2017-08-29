@@ -38,7 +38,7 @@
                 </div>
                 <div class="win-btn" flex-box="0" flex>
                     <button flex-box="1" @click.stop="curse">取消</button>
-                    <button flex-box="1" class="sure" @click.stop="sure">确定</button>
+                    <button flex-box="1" class="sure" @click.stop="sure" :disabled="loading">确定</button>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 userIdCardNumber: '',
                 popup: false,
                 btnActive: true,
-                //pShow:false,
+                loading: false,
                 smsCode: '',
                 btnText: '获取验证码',
                 nextClick: true,
@@ -87,6 +87,7 @@
                 setTimeout(() => {
                     this.nextClick = true;
                 }, 2000);
+
                 let {userName, userIdCardNumber} = this;
                 if (!$fun.valiRealName(userName)) {
                     Toast('请输入真实姓名');
@@ -102,6 +103,7 @@
             },
             //提交数据
             getAccount(){
+
                 let {userName, userIdCardNumber, smsCode} = this;
                 let data = {
                     userName: userName, userIdCardNumber: userIdCardNumber
@@ -111,7 +113,12 @@
                         userName: userName, userIdCardNumber: userIdCardNumber, smsCode: smsCode
                     }
                 }
+                if (this.loading) {
+                    return false;
+                }
+                this.loading = true;
                 $api.post('/openAccount', data).then(msg => {
+                    this.loading = false;
                     if (msg.code == 200) {
                         Toast("身份认证成功！");
                         this.popup = false;

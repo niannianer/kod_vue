@@ -42,7 +42,7 @@
                 <span>我已阅读并同意<a href="/baofoo-certification.html">《支付服务协议》</a></span>
             </div>
             <div class="bind-btn" flex="main:center">
-                <button :class="{active:agreement}" @click.stop="submit">完成</button>
+                <button :class="{active:agreement}" @click.stop="submit" :disabled="loading">完成</button>
             </div>
             <div class="deatil">
                 <p>为了您的账户资金安全，只能单个绑定实名认证用户本人的银行卡，所有资金交易必须在您本人名下银行卡中划转；</p>
@@ -82,7 +82,8 @@
                 flag: true,
                 pShow: false,
                 agreement: false,
-                imgUrls
+                imgUrls,
+                loading: false
             };
         },
         computed: mapState([
@@ -168,12 +169,17 @@
                     Toast('请输入正确验证码')
                     return
                 }
+                if (this.loading) {
+                    return false;
+                }
+                this.loading = true;
                 $api.post('/bindBankCard', {
                     userName: investorRealName,
                     bankUserCardNo: bankUserCardNo,
                     bankUserPhone: bankUserPhone,
                     verifyCode: verifyCode
                 }).then(msg => {
+                    this.loading = false;
                     let event = ['_trackEvent', '绑定银行卡', 'CLICK', '绑定银行卡页面-点击完成', '绑定银行卡页面-点击完成'];
                     window._hmt.push(event);
                     if (msg.code == 200) {
