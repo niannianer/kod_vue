@@ -15,18 +15,18 @@ let config = (share) => {
     });
 };
 import $device from './device';
-let getShare = (settings)=>{
+let getShare = (settings) => {
     let params = {
         url: window.location.href
     }
     if ($device.ios) {
-     params.url = window.shareUrl;
-     }
+        params.url = window.shareUrl;
+    }
     let content = {
-        title:settings.title|| '金疙瘩——中高端理财产品聚集地',
-        link: window.location.href,
+        title: settings.title || '金疙瘩——中高端理财产品聚集地',
+        link: settings.link || window.location.href,
         imgUrl: logo,
-        desc:settings.desc|| '中冀投资旗下智能化定制理财服务平台，专业可信赖。'
+        desc: settings.desc || '中冀投资旗下智能化定制理财服务平台，专业可信赖。'
     }
     $api.get('/wechat/shareInfo', params)
         .then(data => {
