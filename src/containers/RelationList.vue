@@ -5,9 +5,10 @@
             <div class="title-date" flex-box="1">绑定日期</div>
         </div>
         <div class="lists" flex-box="1">
-            <mt-loadmore :top-method="loadTop"  ref="loadmore"  :auto-fill="autoFill">
-                <ul class="list-ul"  v-infinite-scroll="loadMore"  infinite-scroll-disabled="allLoaded"  infinite-scroll-distance="10">
-                    <li flex  v-for="(item,index) in data.list" :key="index">
+            <mt-loadmore :top-method="loadTop" ref="loadmore" :auto-fill="autoFill">
+                <ul class="list-ul" v-infinite-scroll="loadMore" infinite-scroll-disabled="allLoaded"
+                    infinite-scroll-distance="10">
+                    <li flex v-for="(item,index) in data.list" :key="index">
                         <div flex-box="1">{{item.investorMobile}}</div>
                         <div flex-box="1">{{item.registerTime}}</div>
                     </li>
@@ -21,53 +22,57 @@
     import Vue from 'vue';
     import $api from '../tools/api';
     import $operation from '../tools/operation';
-    import {Loadmore,InfiniteScroll,Toast} from 'mint-ui';
+    import {Loadmore, InfiniteScroll, Toast} from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
     export default {
         name: 'relation-list',
         data(){
             return {
-                level:this.$route.query.level || 1,
-                pageSize:20,
-                autoFill:false,
-                allLoaded:false,
-                data:{
-                    count:0,
-                    list:[]
+                level: this.$route.query.level || 1,
+                pageSize: 20,
+                autoFill: false,
+                allLoaded: false,
+                data: {
+                    count: 0,
+                    list: []
                 }
             }
         },
         methods: {
             loadTop(){
-                this.get('top').then(()=>{
+                this.get('top').then(() => {
                     this.$refs.loadmore.onTopLoaded();
                     this.allLoaded = false;
                 });
             },
             loadMore(){
-                if((this.data.list.length >= this.data.count) && (this.data.count != 0)){
+                if ((this.data.list.length >= this.data.count) && (this.data.count != 0)) {
                     this.allLoaded = true;
-                }else{
+                } else {
                     this.get('bottom');
                 }
             },
             get(type){
                 let startRow = 0;
-                if(type == 'bottom'){
+                if (type == 'bottom') {
                     startRow = this.data.list.length;
                 }
-                return $api.get('/relation/list',{level:this.level,startRow:startRow,pageSize:this.pageSize}).then(msg => {
-                    if(msg.code == 200){
-                        if(type == 'top'){
+                return $api.get('/relation/list', {
+                    level: this.level,
+                    startRow: startRow,
+                    pageSize: this.pageSize
+                }).then(msg => {
+                    if (msg.code == 200) {
+                        if (type == 'top') {
                             this.data = msg.data;
-                        }else{
+                        } else {
                             msg.data.list.map(el => {
                                 this.data.list.push(el)
                             });
                             this.data.count = msg.data.count;
                         }
-                    }else{
+                    } else {
                         Toast(msg.msg);
                     }
                     return msg;
@@ -75,7 +80,18 @@
             }
         },
         created(){
-            $operation.setTitle(this.level==1?'直接好友':'间接好友');
+            switch (this.level) {
+                case '1':
+                    this.title = '金疙瘩好友'
+                    break;
+                case '2':
+                    this.title = '银疙瘩好友'
+                    break;
+                case '3':
+                    this.title = '铜疙瘩好友'
+                    break;
+            }
+            $operation.setTitle(this.title);
         }
     }
 </script>

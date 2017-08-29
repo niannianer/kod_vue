@@ -15,7 +15,7 @@
                         <div class="item-number">{{production.productRemainAmountValue}}</div>
                     </div>
                 </div>
-                <div class="progress-warp" flex>
+                <div class="progress-warp" flex="cross:center">
                     <span flex-box="0">进度:</span>
                     <div flex-box="1" class="progress">
                         <div class="active" :style="{'width':production.productProgress+'%'}"></div>
@@ -116,7 +116,6 @@
                  v-if="production.productIntroduction">
                 <div class="basic-title">项目概况</div>
                 <div class="basic-content outset" v-html="productIntroduction"></div>
-
             </div>
             <div style="height: .5rem"></div>
             <!--投资方向-->
@@ -151,7 +150,10 @@
                 <button class="do-invest" @click.stop="preInvest">立即投资</button>
             </div>
             <div v-else="production.canBuy">
-                <div class="can-not-buy">{{production.productStatus}}</div>
+                <div v-if="production.productStatusCode==1" class="can-not-buy" style="background: #1D72C0">
+                    {{production.productStatus}}
+                </div>
+                <div v-else class="can-not-buy">{{production.productStatus}}</div>
             </div>
         </div>
 
@@ -170,10 +172,10 @@
 
 <script>
     import {mapState} from 'vuex';
-    import {Toast,MessageBox} from 'mint-ui';
+    import {Toast, MessageBox} from 'mint-ui';
     import $api from '../tools/api';
     import {submitAuthorization} from '../tools/operation';
-    import {textToHtml,numAdd} from '../filters';
+    import {textToHtml, numAdd} from '../filters';
     import {logout} from '../tools/operation';
     import wx from '../tools/wx';
     import $device from '../tools/device';
@@ -199,6 +201,8 @@
             if ($device.isWeixin) {
                 this.getShare();
             }
+            let event = ['_trackEvent', '定期理财详情', 'SHOW', '进入定期理财详情页', '进入定期理财详情页'];
+            window._hmt.push(event);
         },
         components: {
             InvestInput,
@@ -249,15 +253,44 @@
         methods: {
             setExpend(index){
                 this.production.productInformation[index].expend = !this.production.productInformation[index].expend;
+                let oper = '收起';
+                if (this.production.productInformation[index].expend) {
+                    oper = '打开';
+                }
+                let item = '';
+                switch (index) {
+                    case 0 :
+                        item = '资金投向';
+                        break;
+                    case 1 :
+                        item = '还款来源';
+                        break;
+                    case 2 :
+                        item = '风险保障';
+                        break;
+                    case 3 :
+                        item = '风险提示';
+                        break;
+                }
+                let event = ['_trackEvent', '定期理财详情', 'CLICK', '在定期理财详情页' + oper + item + '', '定期理财详情页-' + oper + item + ''];
+                window._hmt.push(event);
             },
             expendAttachment(){
                 this.attachmentUp = !this.attachmentUp;
+                let oper = '收起';
+                if (this.attachmentUp) {
+                    oper = '打开';
+                }
+                let event = ['_trackEvent', '定期理财详情', 'CLICK', '在定期理财详情页' + oper + '产品附件', '定期理财详情页-' + oper + '产品附件'];
+                window._hmt.push(event);
             },
             openPDF(item){
                 if (item.attachmentLink) {
                     let pdfUrl = item.attachmentLink;
                     let pdfName = item.attachmentName
                     pdfUrl = pdfUrl.replace(/^http\.*:/, 'https:');
+                    let event = ['_trackEvent', '定期理财详情', 'CLICK', '在定期理财详情页点击产品附件', '定期理财详情页-点击产品附件'];
+                    window._hmt.push(event);
                     window.location.href = '/pdf/web/viewer.html?src='
                         + encodeURIComponent(pdfUrl) + '&name=' + encodeURIComponent(pdfName);
                 }
@@ -277,8 +310,8 @@
                             })
                             this.production = data.data;
                             this.production.expcRate = data.data.annualInterestRateValue;
-                            if(data.data.increaseInterestRateValue){
-                                this.production.expcRate = numAdd(data.data.annualInterestRateValue,data.data.increaseInterestRateValue);
+                            if (data.data.increaseInterestRateValue) {
+                                this.production.expcRate = numAdd(data.data.annualInterestRateValue, data.data.increaseInterestRateValue);
                             }
                             console.log(this.production);
                         } else {
@@ -306,10 +339,14 @@
                 let {userVerifyStatus} = this;
                 if (userVerifyStatus != 9) {
                     this.showModal = true;
+                    let event = ['_trackEvent', '定期理财详情', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
+                    window._hmt.push(event);
                     // this.goStep();
                 } else {
                     this.checkRiskAssess();
                 }
+                let event = ['_trackEvent', '定期理财详情', 'CLICK', '在定期理财详情页点击立即投资', '定期理财详情页-点击立即投资'];
+                window._hmt.push(event);
             },
             goStep(){
                 let {userVerifyStatus} = this;
@@ -370,18 +407,18 @@
                 });
             },
             checkRiskAssess(){
-                if(!this.investorRiskScore){
+                if (!this.investorRiskScore) {
                     MessageBox({
-                        title:'提示',
-                        message:'根据《投资者适当性管理实施指引》，为保障您购买合适的产品，请花十秒进行投资风险承受能力测评。',
-                        confirmButtonText:'去测评',
-                        showCancelButton:true
-                    }).then(action=>{
-                        if(action=='confirm'){
-                            this.$router.push('/risk-assessment/wechat') ;
+                        title: '提示',
+                        message: '根据《投资者适当性管理实施指引》，为保障您购买合适的产品，请花十秒进行投资风险承受能力测评。',
+                        confirmButtonText: '去测评',
+                        showCancelButton: true
+                    }).then(action => {
+                        if (action == 'confirm') {
+                            this.$router.push('/risk-assessment/wechat');
                         }
                     });
-                }else{
+                } else {
                     this.showInvest = true;
                 }
             }

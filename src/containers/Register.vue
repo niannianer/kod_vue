@@ -27,7 +27,6 @@
             </div>
 
 
-
             <div class="form-item" flex>
                 <label class="label" for="password" flex-box="0">设置密码</label>
                 <input class="input" type="password" name="password" id="password" flex-box="1"
@@ -148,9 +147,9 @@
                             return false;
                         }
                         if (data.code == 1004) {
-                            if(this.inputCode){
+                            if (this.inputCode) {
                                 Toast('图片验证码错误!');
-                            }else {
+                            } else {
                                 Toast('请输入图片验证码!');
                             }
 
@@ -212,8 +211,8 @@
                             } else {
                                 this.$router.replace('/personal-center');
                                 this.$store.dispatch('getAccountBaofoo');
+                                this.$store.dispatch('getPersonalCenterMsg');
                                 this.$store.dispatch('getBankInfo');
-                                this.$store.dispatch('getUserInfo');
                             }
                             return false;
                         }
@@ -241,7 +240,7 @@
         },
         mounted(){
             let heigth = window.innerHeight;
-            this.$refs.register.style.height = heigth+'px';
+            this.$refs.register.style.height = heigth + 'px';
         },
         destroyed(){
             this.clearTimeCount();

@@ -31,7 +31,7 @@
                 <button flex-box="0" class="btn-default btn-code" @click.stop="getVerify"
                         v-if="verifyTimeLeft<=1">{{verifyText}}
                 </button>
-                <button flex-box="0" class="btn-code" v-else >
+                <button flex-box="0" class="btn-code" v-else>
                     <span ref="timeLeft"> 59</span>
                 </button>
             </div>
@@ -174,7 +174,7 @@
                         this.timeCount();
                     }
                     else {
-                        this.$nextTick(()=>{
+                        this.$nextTick(() => {
                             this.verifyTimeLeft = 0;
                         });
                     }
@@ -244,6 +244,8 @@
                         'reservationAmount': this.reservationAmount * 10000
                     })
                         .then((msg) => {
+                            let event = ['_trackEvent', '添加预约客户', 'CLICK', '私募产品确认预约信息页面点击确认预约', '私募产品确认预约'];
+                            window._hmt.push(event);
                             console.log(msg);
                             if (msg.code == 200) {
                                 this.$router.push('/appoint-succ');

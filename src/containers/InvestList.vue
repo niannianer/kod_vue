@@ -9,9 +9,10 @@
             </div>
         </div>
         <div class="item-list" v-show="status == 1" flex-box="1">
-            <mt-loadmore :top-method="loadTopLeft" :bottom-method="loadBottomLeft" :bottom-all-loaded="allLoadedLeft" ref="loadmoreLeft" :auto-fill="autoFill">
+            <mt-loadmore :top-method="loadTopLeft" :bottom-method="loadBottomLeft" :bottom-all-loaded="allLoadedLeft"
+                         ref="loadmoreLeft" :auto-fill="autoFill">
                 <div class="item" v-for="(item,index) in underway.investmentList"
-                    @click.stop="link(1,item.orderBillCode)" :key="index">
+                     @click.stop="link(1,item.orderBillCode)" :key="index">
                     <ul class="item-ul">
                         <li flex>
                             <div>产品名称：</div>
@@ -19,7 +20,7 @@
                         </li>
                         <li flex>
                             <div>购买金额：</div>
-                            <div>{{item.orderAmount|currencyInput}}元</div>
+                            <div>{{item.orderAmount | currencyInput}}元</div>
                         </li>
                         <li flex>
                             <div>预期年化收益率：</div>
@@ -39,9 +40,10 @@
             </mt-loadmore>
         </div>
         <div class="item-list" v-show="status == 2" flex-box="1">
-            <mt-loadmore :top-method="loadTopRight" :bottom-method="loadBottomRight" :bottom-all-loaded="allLoadedRight" ref="loadmoreRight" :auto-fill="autoFill">
+            <mt-loadmore :top-method="loadTopRight" :bottom-method="loadBottomRight" :bottom-all-loaded="allLoadedRight"
+                         ref="loadmoreRight" :auto-fill="autoFill">
                 <div class="item" v-for="(item,index) in finished.investmentList"
-                    @click.stop="link(2,item.orderBillCode)" :key="index">
+                     @click.stop="link(2,item.orderBillCode)" :key="index">
                     <ul class="item-ul">
                         <li flex>
                             <div>产品名称：</div>
@@ -49,7 +51,7 @@
                         </li>
                         <li flex>
                             <div>购买金额：</div>
-                            <div>{{item.orderAmount|currencyInput}}元</div>
+                            <div>{{item.orderAmount | currencyInput}}元</div>
                         </li>
                         <li flex>
                             <div>预期年化收益率：</div>
@@ -75,68 +77,72 @@
     import Vue from 'vue';
     import $api from '../tools/api';
     import {currencyInput} from '../filters/index'
-    import {Loadmore,Toast} from 'mint-ui';
+    import {Loadmore, Toast} from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
     export default {
         name: 'invest-list',
         data(){
             return {
                 status: 1,
-                underway:{
-                    investmentCount:0,
-                    investmentList:[]
+                underway: {
+                    investmentCount: 0,
+                    investmentList: []
                 },
-                finished:{
-                    investmentCount:0,
-                    investmentList:[]
+                finished: {
+                    investmentCount: 0,
+                    investmentList: []
                 },
-                autoFill:false,
-                allLoadedLeft:false,
-                allLoadedRight:false,
-                pageSize:20,
-                isRefreshing:false
+                autoFill: false,
+                allLoadedLeft: false,
+                allLoadedRight: false,
+                pageSize: 20,
+                isRefreshing: false
             }
         },
         methods: {
-            link(status,orderBillCode){
-                if(this.isRefreshing){
+            link(status, orderBillCode){
+                if (this.isRefreshing) {
                     return false;
                 }
-                this.$router.push('/invest-detail?status='+status+'&orderBillCode='+orderBillCode);
+                this.$router.push('/invest-detail?status=' + status + '&orderBillCode=' + orderBillCode);
             },
             changeTab(status){
                 this.status = status;
             },
-            get(status,type){
+            get(status, type){
                 let startRow = 0;
-                if(type == 'bottom'){
-                    if(status == 1){
+                if (type == 'bottom') {
+                    if (status == 1) {
                         startRow = this.underway.investmentList.length;
-                    }else if(status == 2){
+                    } else if (status == 2) {
                         startRow = this.finished.investmentList.length;
                     }
                 }
-                return $api.get('/investment/list',{status:status,startRow:startRow,pageSize:this.pageSize}).then(msg => {
-                    if(msg.code == 200){
+                return $api.get('/investment/list', {
+                    status: status,
+                    startRow: startRow,
+                    pageSize: this.pageSize
+                }).then(msg => {
+                    if (msg.code == 200) {
 
-                        if(status == 1){
-                            if(type=='bottom'){
+                        if (status == 1) {
+                            if (type == 'bottom') {
                                 msg.data.investmentList.map(el => {
                                     this.underway.investmentList.push(el);
                                 });
-                            }else{
+                            } else {
                                 this.underway = msg.data;
                             }
-                        }else if(status == 2){
-                            if(type=='bottom'){
+                        } else if (status == 2) {
+                            if (type == 'bottom') {
                                 msg.data.investmentList.map(el => {
                                     this.finished.investmentList.push(el);
                                 });
-                            }else{
+                            } else {
                                 this.finished = msg.data;
                             }
                         }
-                    }else{
+                    } else {
                         Toast(msg.msg);
                     }
                     return msg;
@@ -144,31 +150,31 @@
             },
             lock(){
                 this.isRefreshing = true;
-                setTimeout(()=>{
-                    this.isRefreshing =false;
-                },2000);
+                setTimeout(() => {
+                    this.isRefreshing = false;
+                }, 2000);
             },
             loadTopLeft(){
                 this.lock();
-                this.get(1,'top').then(()=>{
+                this.get(1, 'top').then(() => {
                     this.$refs.loadmoreLeft.onTopLoaded();
                     this.allLoadedLeft = false;
                 });
             },
             loadBottomLeft(){
                 this.lock();
-                if(this.underway.investmentList.length >= this.underway.investmentCount){
+                if (this.underway.investmentList.length >= this.underway.investmentCount) {
                     this.allLoadedLeft = true;
                     this.$refs.loadmoreLeft.onBottomLoaded();
-                }else{
-                    this.get(1,'bottom').then(()=>{
+                } else {
+                    this.get(1, 'bottom').then(() => {
                         this.$refs.loadmoreLeft.onBottomLoaded();
                     });
                 }
             },
             loadTopRight(){
                 this.lock();
-                this.get(2,'top').then(()=>{
+                this.get(2, 'top').then(() => {
                     this.$refs.loadmoreRight.onTopLoaded();
                     this.allLoadedRight = false;
                 });
@@ -176,19 +182,23 @@
             },
             loadBottomRight(){
                 this.lock();
-                if(this.finished.investmentList.length >= this.finished.investmentCount){
+                if (this.finished.investmentList.length >= this.finished.investmentCount) {
                     this.allLoadedRight = true;
                     this.$refs.loadmoreRight.onBottomLoaded();
-                }else{
-                    this.get(2,'bottom').then(()=>{
+                } else {
+                    this.get(2, 'bottom').then(() => {
                         this.$refs.loadmoreRight.onBottomLoaded();
                     });
                 }
             }
         },
         mounted(){
-            this.get(1,'top');
-            this.get(2,'top');
+            this.get(1, 'top');
+            this.get(2, 'top');
+        },
+        created(){
+            let event = ['_trackEvent', '我的投资列表', 'SHOW', '进入我的投资列表页面', '进入我的投资列表页面'];
+            window._hmt.push(event);
         }
     }
 </script>

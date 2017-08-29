@@ -28,7 +28,8 @@ module.exports = {
         'document': true,
         'Hybrid':true,
         'module':true,
-        '__dirname':true
+        '__dirname':true,
+        '_czc':true
     },
     // add your custom rules here
     'rules': {

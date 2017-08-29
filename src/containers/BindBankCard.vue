@@ -1,5 +1,5 @@
 <template>
-    <div class="bind-bank-card" flex-box="1" >
+    <div class="bind-bank-card" flex-box="1">
         <div class="bind-head">
             <dl flex class="person">
                 <dt>持卡人</dt>
@@ -8,7 +8,8 @@
             <dl flex class="bank-card">
                 <dt v-html="html"></dt>
                 <dd>
-                    <input  type="tel" placeholder="请输入银行卡号" @input="change" @propertychange="change" v-model="bankCard" maxlength="24">
+                    <input type="tel" placeholder="请输入银行卡号" @input="change" @propertychange="change" v-model="bankCard"
+                           maxlength="24">
                 </dd>
             </dl>
         </div>
@@ -28,8 +29,11 @@
             <p class="p-lint"><span>验证码已发送到注册手机{{investorMobile | mobileFormat}}</span></p>
             <ul flex="main:justify">
                 <li class="ul-l">验证码</li>
-                <li class="ul-c" flex-box="1"><input type="text" placeholder="输入验证码" maxlength="8" v-model="verifyCode"></li>
-                <li class="ul-r"><button :class="{'active':btnActive}" @click.stop="transmit">{{btnText}}</button></li>
+                <li class="ul-c" flex-box="1"><input type="text" placeholder="输入验证码" maxlength="8" v-model="verifyCode">
+                </li>
+                <li class="ul-r">
+                    <button :class="{'active':btnActive}" @click.stop="transmit">{{btnText}}</button>
+                </li>
             </ul>
         </div>
         <div class="bind-foot">
@@ -65,45 +69,44 @@
         name: 'bind-bank-card',
         data(){
             return {
-                bankUserPhone:'',//预留手机号
-                verifyCode:'',//验证码
-                bankHint:false,
-                bankCard:'',
-                html:'储蓄卡卡号',
-                bankName:'',
-                singleLimit:'',
-                perdayLimit:'',
-                btnActive:true,
-                btnText:'',
-                flag:true,
-                pShow:false,
-                agreement:false,
+                bankUserPhone: '',//预留手机号
+                verifyCode: '',//验证码
+                bankHint: false,
+                bankCard: '',
+                html: '储蓄卡卡号',
+                bankName: '',
+                singleLimit: '',
+                perdayLimit: '',
+                btnActive: true,
+                btnText: '',
+                flag: true,
+                pShow: false,
+                agreement: false,
                 imgUrls
             };
         },
-        computed:
-            mapState([
+        computed: mapState([
                 'investorMobile',
                 'investorRealName',
                 'userId'
-                ]
-            ),
+            ]
+        ),
         methods: {
             change(){
                 this.bankCard = this.bankCard.replace(/\D/g, '').replace(/....(?!$)/g, '$& ');
-                let card = this.bankCard.replace(/[^\d]/g,'');
-                if(card.length < 6){
+                let card = this.bankCard.replace(/[^\d]/g, '');
+                if (card.length < 6) {
                     this.html = '储蓄卡卡号';
                     this.bankHint = false;
-                }else if(card.length == 6){
-                    $api.get('/getBankInfo',{bankNo:card}).then(msg=>{
-                        if(msg.code == 200){
+                } else if (card.length == 6) {
+                    $api.get('/getBankInfo', {bankNo: card}).then(msg => {
+                        if (msg.code == 200) {
                             this.bankHint = true;
                             this.singleLimit = msg.data.single_limit;
                             this.perdayLimit = msg.data.perday_limit;
-                            if(msg.data.bank_code && msg.data.bank_name)
+                            if (msg.data.bank_code && msg.data.bank_name)
                                 this.html = `<span class="bank-inner" style="background-image:url(${this.imgUrls[msg.data.bank_code]})">${msg.data.bank_name}</span>`;
-                        }else{
+                        } else {
                             Toast(msg.msg)
                         }
                     });
@@ -113,29 +116,29 @@
             send(time){
                 this.flag = true;
                 this.btnActive = false;
-                let recursion = () =>{
-                    if(this.flag){
-                        if(time <= 1){
+                let recursion = () => {
+                    if (this.flag) {
+                        if (time <= 1) {
                             this.btnText = '重新获取';
                             this.btnActive = true;
-                        }else{
-                            time --;
-                            this.btnText = '已发送'+time+'s';
-                            var timer = setTimeout(recursion,1000);
+                        } else {
+                            time--;
+                            this.btnText = '已发送' + time + 's';
+                            var timer = setTimeout(recursion, 1000);
                         }
-                    }else{
+                    } else {
                         clearTimeout(timer);
                     }
                 };
                 recursion();
             },
             transmit(){
-                if(this.btnActive){
-                    $api.get('/sendBaofooAuthSMS',{type:1}).then(msg=>{
-                        if(msg.code == 200){
+                if (this.btnActive) {
+                    $api.get('/sendBaofooAuthSMS', {type: 1}).then(msg => {
+                        if (msg.code == 200) {
                             //显示提示
                             //this.pShow = true;
-                        }else{
+                        } else {
                             Toast(msg.msg);
                             this.btnText = '重新获取';
                             this.btnActive = true;
@@ -147,28 +150,39 @@
                 }
             },
             submit(){
-                let {investorRealName,bankCard,bankUserPhone,verifyCode} = this;
-                let bankUserCardNo = bankCard.replace(/[^\d]/g,'');
-                if(bankUserCardNo.length < 6){
+                if (!this.agreement) {
+                    Toast('请勾选相关协议');
+                    return;
+                }
+                let {investorRealName, bankCard, bankUserPhone, verifyCode} = this;
+                let bankUserCardNo = bankCard.replace(/[^\d]/g, '');
+                if (bankUserCardNo.length < 6) {
                     Toast('请输入正确银行卡号')
                     return
                 }
-                if(!checkPhone(bankUserPhone)){
+                if (!checkPhone(bankUserPhone)) {
                     Toast('手机号输入有误')
                     return
                 }
-                if(verifyCode.length < 4){
+                if (verifyCode.length < 4) {
                     Toast('请输入正确验证码')
                     return
                 }
-                $api.post('/bindBankCard',{userName:investorRealName,bankUserCardNo:bankUserCardNo,bankUserPhone:bankUserPhone,verifyCode:verifyCode}).then(msg=>{
-                    if(msg.code == 200){
+                $api.post('/bindBankCard', {
+                    userName: investorRealName,
+                    bankUserCardNo: bankUserCardNo,
+                    bankUserPhone: bankUserPhone,
+                    verifyCode: verifyCode
+                }).then(msg => {
+                    let event = ['_trackEvent', '绑定银行卡', 'CLICK', '绑定银行卡页面-点击完成', '绑定银行卡页面-点击完成'];
+                    window._hmt.push(event);
+                    if (msg.code == 200) {
                         Toast('绑卡成功');
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             this.$store.dispatch('getBankInfo');
                             this.$router.replace('/set-pay-password')
-                        },1000)
-                    }else{
+                        }, 1000)
+                    } else {
                         Toast(msg.msg);
                     }
                 });
@@ -176,6 +190,8 @@
         },
         created(){
             this.transmit()
+            let event = ['_trackEvent', '绑定银行卡', 'SHOW', '进入绑定银行卡页面', '进入绑定银行卡页面'];
+            window._hmt.push(event);
         }
     }
 </script>

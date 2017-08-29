@@ -20,6 +20,7 @@ const ReserveDetail = () => import('../containers/ReserveDetail');
 const ReserveProfessionalList = () => import('../containers/ReserveProfessionalList');
 const Reward = () => import('../containers/Reward');
 const TicketList = () => import('../containers/TicketList');
+const TicketAug = () => import('../containers/TicketAug');
 const UsableFinancial = () => import('../containers/UsableFinancial');
 const MyCount = () => import('../containers/MyCount');
 const InvitationRewardDetal = () => import('../containers/InvitationRewardDetal');
@@ -120,7 +121,7 @@ let routes = [
         path: '/fixi-goods-detail',
         name: 'fixi-goods-detail',
         meta: {
-            title: '项目详情',
+            title: '产品详情',
             withoutLogin: true
         },
         component: FixiGoodsDetail
@@ -206,6 +207,14 @@ let routes = [
         },
         component: TicketList
     }, {
+        path: '/ticket-aug',
+        name: 'ticket-aug',
+        meta: {
+            title: '送你一场红包雨'
+        },
+        component: TicketAug
+    },
+    {
         path: '/usable-financial',
         name: 'usable-financial',
         meta: {
@@ -533,7 +542,7 @@ let routes = [
         name: 'goods-detail-prif',
         component: GoodsDetailPRIF,
         meta: {
-            title: '项目详情',
+            title: '产品详情',
             withoutLogin: true
         }
     }

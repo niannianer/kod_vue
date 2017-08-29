@@ -59,7 +59,10 @@
                          :class="{'stat': item.productStatus =='已告罄'  }">
                         <div class="fund-name ellipsis">{{item.productName}}</div>
                         <div class="ticket-wrap" v-if="item.productLabel" flex>
-                            <div class="ticket-item" :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}" v-for="(ticketItem,index) in item.productLabel">{{ticketItem}}</div>
+                            <div class="ticket-item"
+                                 :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
+                                 v-for="(ticketItem,index) in item.productLabel">{{ticketItem}}
+                            </div>
                         </div>
                         <div flex="dir:left" class="fund-middle-fix"
                              :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
@@ -87,10 +90,11 @@
                                      :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
                                 <div class="round" :style="'left:' +( item. productProgress-1) + '%'"
                                      :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                    <div :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
+                                    <div
+                                        :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
                                 </div>
                             </div>
-                            <div class="progress-num">{{item. productProgress}}%</div>
+                            <div class="progress-num">{{item.productProgress}}%</div>
                         </div>
                         <div class="buttom">{{item.productMinInvestment}}</div>
                     </div>
@@ -145,7 +149,7 @@
                 bottomLoadingText: '加载中...',
                 bottomPullText: '上拉加载更多',
                 scrollTop: 0,
-                settings:{}
+                settings: {}
 
             };
         },
@@ -170,13 +174,18 @@
                 window.sessionStorage.removeItem('goodsDetail');
                 return false;
             }
-            // 固收
+            // 私募
             if (this.$route.query.tab == 'PRIF') {
+
+                let event = ['_trackEvent', '产品列表', 'SHOW', '进入高端理财列表页', '进入高端理财列表页'];
+                window._hmt.push(event);
                 this.tab = 1;
                 this.settings.title = '优质稀缺大类资产，就在金疙瘩。';
                 this.getListWithLogin();
 
             } else {
+                let event = ['_trackEvent', '产品列表', 'SHOW', '进入定期理财列表页', '进入定期理财列表页'];
+                window._hmt.push(event);
                 this.settings.title = '金疙瘩系列定期产品——闲散资金定制理财';
                 this.getGoodsList()
             }
@@ -211,8 +220,12 @@
                     dom.scrollTop = 0;
                 });
                 if (this.tab == 1) {
+                    let event = ['_trackEvent', '产品列表', 'CLICK', '定期理财列表页点击高端理财tab', '定期理财列表页-点击高端理财tab'];
+                    window._hmt.push(event);
                     this.getListWithLogin();
                 } else {
+                    let event = ['_trackEvent', '产品列表', 'CLICK', '高端理财列表页点击定期理财tab', '高端理财列表页-点击定期理财tab'];
+                    window._hmt.push(event);
                     this.getGoodsList('refresh');
                 }
             },
@@ -278,6 +291,13 @@
             getDetail(item, url){
                 let dom = document.querySelector('.item-list');
                 this.scrollTop = dom.scrollTop;
+                if(url.indexOf('fixi')>-1){
+                    let event = ['_trackEvent', '产品列表', 'CLICK', '在定期理财列表页点击查看详情', '定期理财列表页-点击详情'];
+                    window._hmt.push(event);
+                }else {
+                    let event = ['_trackEvent', '产品列表', 'CLICK', '在高端理财列表页点击查看详情', '高端理财列表页-点击详情'];
+                    window._hmt.push(event);
+                }
                 window.sessionStorage.setItem('goodsDetail', JSON.stringify(this.$data));
                 this.$router.push({
                     path: url,

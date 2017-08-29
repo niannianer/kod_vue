@@ -36,6 +36,14 @@
         },
         methods: {
             btnAction(result){
+                let oper = '';
+                if(result){
+                    oper = '去开户';
+                }else{
+                    oper = '取消';
+                }
+                let event = ['_trackEvent', '开户弹窗', 'CLICK', '在开户弹窗中点击'+oper+'', '开户弹窗中-点击'+oper+''];
+                window._hmt.push(event);
                 this.callback(result)
             }
         }

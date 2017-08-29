@@ -1,19 +1,23 @@
 <template>
     <div flex="dir:top" flex-box="1" class="relation">
         <div class="body">
-            <div class="number"><span>{{ Number(levelOneCount) + Number(levelTwoCount)}}</span>人</div>
+            <div class="number"><span>{{total}}</span>人</div>
             <div class="title">我的好友</div>
         </div>
-        <div class="item" flex @click.stop="$router.push('/relation-list?level=1')">
-            <div flex-box='1' class="left">直接好友</div>
+        <div class="item" flex @click.stop="pathTo(1)">
+            <div flex-box='1' class="left">金疙瘩好友</div>
             <div flex-box='0' class="right">{{levelOneCount}}人</div>
         </div>
-        <div class="item" flex @click.stop="$router.push('/relation-list?level=2')">
-            <div flex-box='1' class="left">间接好友</div>
+        <div class="item" flex @click.stop="pathTo(2)">
+            <div flex-box='1' class="left">银疙瘩好友</div>
             <div flex-box='0' class="right">{{levelTwoCount}}人</div>
         </div>
+        <div class="item" flex @click.stop="pathTo(3)">
+            <div flex-box='1' class="left">铜疙瘩好友</div>
+            <div flex-box='0' class="right">{{levelThreeCount}}人</div>
+        </div>
         <div class="code-info" flex="dir:top">
-            <div flex-box='1'>我的专属二维码</div>
+            <div flex-box='1' style="overflow: visible">我的专属二维码</div>
             <div id="code" flex-box='1'>
                 <canvas id="canvas" flex-box='1' style="display: none"></canvas>
                 <img :src="imgSrc" alt="">
@@ -37,8 +41,9 @@
         name: 'relation',
         data() {
             return {
-                levelOneCount: '',
-                levelTwoCount: '',
+                levelOneCount: 0,
+                levelTwoCount: 0,
+                levelThreeCount: 0,
                 codes: '',
                 imgSrc: ''
             }
@@ -55,25 +60,56 @@
 
             },
             link(){
+                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击邀请好友', '我的好友页面-点击邀请好友'];
+                window._hmt.push(event);
                 window.location.href = '/land-share.html';
             },
             getShare(){
                 wx.getShare({
-                    title:'金疙瘩——我的好友'
+                    title: '金疙瘩——我的好友'
                 });
+            },
+            pathTo(num){
+                let oper = '';
+                switch (num) {
+                    case 1:
+                        oper = '金疙瘩';
+                        break;
+                    case 2:
+                        oper = '银疙瘩';
+                        break;
+                    case 3:
+                        oper = '铜疙瘩';
+                        break;
+                }
+                this.$router.push({
+                    path: '/relation-list',
+                    query: {
+                        level: num
+                    }
+                })
+                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击' + oper + '好友', '我的好友页面-点击' + oper + '好友'];
+                window._hmt.push(event);
             }
 
         },
         computed: {
-            ...mapState(['investorMobile'])
+            ...mapState(['investorMobile']),
+            total(){
+                let total = Number(this.levelOneCount) + Number(this.levelTwoCount) + Number(this.levelThreeCount);
+                if (!isNaN(total)) {
+                    return total
+                }
+                return 0
+            }
 
         },
         mounted(){
-            if(this.investorMobile){
+            if (this.investorMobile) {
                 this.useqrcode();
-            }else {
+            } else {
                 this.$store.dispatch('getUserInfo')
-                    .then(()=>{
+                    .then(() => {
                         this.useqrcode();
                     })
             }
@@ -87,8 +123,11 @@
                 if (data.code == 200) {
                     this.levelOneCount = data.data.levelOneCount;
                     this.levelTwoCount = data.data.levelTwoCount;
+                    this.levelThreeCount = data.data.levelThreeCount || 0;
                 }
             })
+            let event = ['_trackEvent', '我的好友', 'SHOW', '进入我的好友页面', '进入我的好友页面'];
+            window._hmt.push(event);
         }
     }
 </script>
