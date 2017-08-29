@@ -118,14 +118,16 @@
                 }
                 this.loading = true;
                 $api.post('/openAccount', data).then(msg => {
-                    this.loading = false;
+
                     if (msg.code == 200) {
                         Toast("身份认证成功！");
                         this.popup = false;
                         setTimeout(() => {
+                            this.loading = false;
                             submitAuthorization(this.userId);
                         }, 3000);
                     } else if (msg.code == 8003) {
+                        this.loading = false;
                         //弹窗
                         this.popup = true;
                         this.smsCode = '';
