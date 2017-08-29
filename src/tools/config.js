@@ -21,7 +21,7 @@ if (process.env.kingold == 'test') {
 }
 /*stage env*/
 if (process.env.kingold == 'stage') {
-    apiUrl = `${protocol}//zj-weixin.zj-hf.cn`;
+    apiUrl = `${protocol}//pre-zj-weixin.zj-hf.cn`;
     baofooUrl = 'https://pm.baofoo.com/custody/';
     baofooCallUrl = `${protocol}//pre-callme.zj-hf.cn`;
     apiNode = `${protocol}//market.zj-hf.cn`;
