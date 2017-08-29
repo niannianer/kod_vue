@@ -179,16 +179,18 @@
                     bankUserPhone: bankUserPhone,
                     verifyCode: verifyCode
                 }).then(msg => {
-                    this.loading = false;
+
                     let event = ['_trackEvent', '绑定银行卡', 'CLICK', '绑定银行卡页面-点击完成', '绑定银行卡页面-点击完成'];
                     window._hmt.push(event);
                     if (msg.code == 200) {
                         Toast('绑卡成功');
                         setTimeout(() => {
+                            this.loading = false;
                             this.$store.dispatch('getBankInfo');
                             this.$router.replace('/set-pay-password')
                         }, 1000)
                     } else {
+                        this.loading = false;
                         Toast(msg.msg);
                     }
                 });
