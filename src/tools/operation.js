@@ -168,7 +168,12 @@ export let logout = () => {
             }
         });
     } else {
-        window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
+        let logoutIndex = window.sessionStorage.getItem('logoutIndex');
+        if(logoutIndex){/* 首页（未登录）点击需登录页。登录后自动跳至需登录页。*/
+            window.sessionStorage.setItem('logoutUrl', logoutIndex);
+        }else{
+            window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
+        }
         window.location.replace('/login');
     }
 };

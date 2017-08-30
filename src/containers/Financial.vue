@@ -1,122 +1,140 @@
 <template>
     <div v-cloak class="financail" flex-box="1" flex="dir:top">
-        <div class="tabs" flex flex-box="0">
-
-            <div flex-box="1" class="tab" @click.stop="changeTab(2)">
-                <div class="tab-item" :class="{'active':tab==2}">定期理财</div>
+        <div flex="dir:top" flex-box="1">
+            <div class="tabs" flex flex-box="0">
+                <div flex-box="1" class="tab" @click.stop="changeTab(2)">
+                    <div class="tab-item" :class="{'active':tab==2}">定期理财</div>
+                </div>
+                <div flex-box="1" class="tab" @click.stop="changeTab(1)">
+                    <div class="tab-item" :class="{'active':tab==1}">高端理财</div>
+                </div>
             </div>
-            <div flex-box="1" class="tab" @click.stop="changeTab(1)">
-                <div class="tab-item" :class="{'active':tab==1}">高端理财</div>
-            </div>
-        </div>
-        <div class="item-list" flex-box="1" v-if="tab==1">
-            <mt-loadmore :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill"
-                         :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText"
-                         :bottomAllLoaded="!(loading &&hasMore)">
-                <div class="infinite-scroll"
-                     v-infinite-scroll="loadMore"
-                     infinite-scroll-disabled="disLoad"
-                     infinite-scroll-distance="70">
-                    <div class="item" v-for="(item,index) in lists" :key="index"
-                         @click.stop="getDetail(item,'/goods-detail-prif')">
-                        <div class="fund-name ellipsis">{{item.productName}}</div>
-                        <div flex="dir:left" class="fund-middle">
-                            <div class="rate" flex-box="1">
-                                <div>{{item.annualInterestRate}}</div>
-                                <div class="sub-text">业绩比较基准</div>
+            <div class="item-list" flex-box="1" v-if="tab==1">
+                <mt-loadmore :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill"
+                             :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText"
+                             :bottomAllLoaded="!(loading &&hasMore)">
+                    <div class="infinite-scroll"
+                         v-infinite-scroll="loadMore"
+                         infinite-scroll-disabled="disLoad"
+                         infinite-scroll-distance="70">
+                        <div class="item" v-for="(item,index) in lists" :key="index"
+                             @click.stop="getDetail(item,'/goods-detail-prif')">
+                            <div class="fund-name ellipsis">{{item.productName}}</div>
+                            <div flex="dir:left" class="fund-middle">
+                                <div class="rate" flex-box="1">
+                                    <div>{{item.annualInterestRate}}</div>
+                                    <div class="sub-text">业绩比较基准</div>
+                                </div>
+                                <div class="cycle" flex-box="1">
+                                    <div flex="main:center">{{item.productPeriod}}</div>
+                                    <div class="sub-text" flex="main:center">期限</div>
+                                </div>
+                                <div class="progress" flex-box="0">
+                                    <cicle-progress :width-size="50" :progress="item.productProgress"></cicle-progress>
+                                </div>
                             </div>
-                            <div class="cycle" flex-box="1">
-                                <div flex="main:center">{{item.productPeriod}}</div>
-                                <div class="sub-text" flex="main:center">期限</div>
-                            </div>
-                            <div class="progress" flex-box="0">
-                                <cicle-progress :width-size="50" :progress="item.productProgress"></cicle-progress>
-                            </div>
-                        </div>
-                        <div class="status-code"
-                             :class="{'hot':item.productStatusCode==1,
+                            <div class="status-code"
+                                 :class="{'hot':item.productStatusCode==1,
                     'raise':item.productStatusCode==2,
                     'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                            {{item.productStatus}}
+                                {{item.productStatus}}
+                            </div>
                         </div>
+                        <p v-if="loading" class="loading" style="text-align: center;padding: .5rem 0 4rem 0;">
+                            没有更多...</p>
                     </div>
-                    <p v-if="loading" class="loading" style="text-align: center;padding: .5rem 0 4rem 0;">没有更多...</p>
-                </div>
-            </mt-loadmore>
-        </div>
-        <!--固收-->
-        <div class="item-list" flex-box="1" v-else>
-            <mt-loadmore :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill"
-                         :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText"
-                         :bottomAllLoaded="!(loading &&hasMore)">
-                <div class="infinite-scroll"
-                     v-infinite-scroll="loadMore"
-                     infinite-scroll-disabled="disLoad"
-                     infinite-scroll-distance="70">
+                </mt-loadmore>
+            </div>
+            <!--固收-->
+            <div class="item-list" flex-box="1" v-else>
+                <mt-loadmore :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill"
+                             :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText"
+                             :bottomAllLoaded="!(loading &&hasMore)">
+                    <div class="infinite-scroll"
+                         v-infinite-scroll="loadMore"
+                         infinite-scroll-disabled="disLoad"
+                         infinite-scroll-distance="70">
 
-                    <div class="item" v-for="(item,index) in lists"
-                         @click.stop="getDetail(item,'/fixi-goods-detail')"
-                         :class="{'stat': item.productStatus =='已告罄'  }">
-                        <div class="fund-name ellipsis">{{item.productName}}</div>
-                        <div class="ticket-wrap" v-if="item.productLabel" flex>
-                            <div class="ticket-item"
-                                 :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
-                                 v-for="(ticketItem,index) in item.productLabel">{{ticketItem}}
+                        <div class="item" v-for="(item,index) in lists"
+                             @click.stop="getDetail(item,'/fixi-goods-detail')"
+                             :class="{'stat': item.productStatus =='已告罄'  }">
+                            <div class="fund-name ellipsis">{{item.productName}}</div>
+                            <div class="ticket-wrap" v-if="item.productLabel" flex>
+                                <div class="ticket-item"
+                                     :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
+                                     v-for="(ticketItem,index) in item.productLabel">{{ticketItem}}
+                                </div>
                             </div>
-                        </div>
-                        <div flex="dir:left" class="fund-middle-fix"
-                             :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                            <div class="rate" flex-box="1"
+                            <div flex="dir:left" class="fund-middle-fix"
                                  :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                <div>{{item.annualInterestRate}}</div>
-                                <div class="sub-text">预计年化收益率</div>
-                            </div>
-                            <div class="cycle" flex-box="3"
-                                 :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                <div flex="main:center">{{item.productPeriod}}</div>
-                                <div class="sub-text" flex="main:center">期限</div>
-                            </div>
-                            <div class="status" flex-box="0" flex="cross:center"
-                                 :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                                <div class="rate" flex-box="1"
+                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                                    <div>{{item.annualInterestRate}}</div>
+                                    <div class="sub-text">预计年化收益率</div>
+                                </div>
+                                <div class="cycle" flex-box="3"
+                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                                    <div flex="main:center">{{item.productPeriod}}</div>
+                                    <div class="sub-text" flex="main:center">期限</div>
+                                </div>
+                                <div class="status" flex-box="0" flex="cross:center"
+                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                             <span :class="{'hot':item.productStatusCode==1,
                     'raise':item.productStatusCode==2,
                     'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
                             >{{item.productStatus}}</span>
-                            </div>
-                        </div>
-                        <div class="progress-part">
-                            <div class="progress-line">
-                                <div class="done" :style="'width:' + item. productProgress+ '%'"
-                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
-                                <div class="round" :style="'left:' +( item. productProgress-1) + '%'"
-                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                    <div
-                                        :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
                                 </div>
                             </div>
-                            <div class="progress-num">{{item.productProgress}}%</div>
+                            <div class="progress-part">
+                                <div class="progress-line">
+                                    <div class="done" :style="'width:' + item. productProgress+ '%'"
+                                         :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
+                                    <div class="round" :style="'left:' +( item. productProgress-1) + '%'"
+                                         :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                                        <div
+                                            :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-num">{{item.productProgress}}%</div>
+                            </div>
+                            <div class="buttom">{{item.productMinInvestment}}</div>
                         </div>
-                        <div class="buttom">{{item.productMinInvestment}}</div>
+                        <p v-if="loading" class="loading" style="text-align: center;padding: .5rem 0 4rem 0;">
+                            没有更多...</p>
                     </div>
-                    <p v-if="loading" class="loading" style="text-align: center;padding: .5rem 0 4rem 0;">没有更多...</p>
+                </mt-loadmore>
+            </div>
+            <!--遮罩层-->
+            <div class="mask" v-show="show">
+                <div class="content">
+                    <h2 style="color:black;">合格投资者登记</h2>
+                    <div class="main">
+                        根据《私募投资基金监督管理暂行办法》第四章第十四条规定："私募基金管理人、私募基金销售机构不得向合格投资者之外的单位和个人募集资金，不得通过报刊、电台、电视、互联网等公众传播媒体或者讲座、报告会、分析会和布告、传单、手机短信、微信、博客和电子邮件等方式，向不特定对象宣传推介。"<br>
+                        本平台谨遵《私募投资基金监督管理暂行办法》之规定，只向特定的合格投资者宣传推介相关私募投资基金产品。<br>
+                        阁下如有意进行私募投资基金投资且满足《私募投资基金监督管理暂行办法》关于"合规投资者"标准之规定，即具备相应风险识别能力和风险承担能力，投资于单只私募基金的金额不低于100 万元，且个人金融类资产不低于300万元或者最近三年个人年均收入不低于50万元人民币。请阁下详细阅读本提示，方可获得私募投资基金产品宣传推介服务。
+                    </div>
+                    <p class="confirm" @click.stop="check=!check"><i :class="{'active':check==true}"></i>本人承诺符合上述合格投资者条件并完成调查问卷。
+                    </p>
+                    <button class="btn" :disabled="!check" @click.stop="updateUserInfo">确认</button>
                 </div>
-            </mt-loadmore>
+            </div>
         </div>
-        <!--遮罩层-->
-        <div class="mask" v-show="show">
-            <div class="content">
-                <h2 style="color:black;">合格投资者登记</h2>
-                <div class="main">
-                    根据《私募投资基金监督管理暂行办法》第四章第十四条规定："私募基金管理人、私募基金销售机构不得向合格投资者之外的单位和个人募集资金，不得通过报刊、电台、电视、互联网等公众传播媒体或者讲座、报告会、分析会和布告、传单、手机短信、微信、博客和电子邮件等方式，向不特定对象宣传推介。"<br>
-                    本平台谨遵《私募投资基金监督管理暂行办法》之规定，只向特定的合格投资者宣传推介相关私募投资基金产品。<br>
-                    阁下如有意进行私募投资基金投资且满足《私募投资基金监督管理暂行办法》关于"合规投资者"标准之规定，即具备相应风险识别能力和风险承担能力，投资于单只私募基金的金额不低于100 万元，且个人金融类资产不低于300万元或者最近三年个人年均收入不低于50万元人民币。请阁下详细阅读本提示，方可获得私募投资基金产品宣传推介服务。
-                </div>
-                <p class="confirm" @click.stop="check=!check"><i :class="{'active':check==true}"></i>本人承诺符合上述合格投资者条件并完成调查问卷。
-                </p>
-                <button class="btn" :disabled="!check" @click.stop="updateUserInfo">确认</button>
+        <div class="nav" flex-box="0" flex="box:mean">
+            <div @click.stop="pathTo('/index')">
+                <img src="../images/nav/index.png" alt="index">
+                <p>首页</p>
+            </div>
+            <div @click.stop="pathTo('/person-center')">
+                <img src="../images/nav/person-center.png" alt="person-center">
+                <p>个人中心</p>
+            </div>
+            <div @click.stop="pathTo('/land-download.html',true)">
+                <img src="../images/nav/download.png" alt="download">
+                <p>下载app</p>
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -291,10 +309,10 @@
             getDetail(item, url){
                 let dom = document.querySelector('.item-list');
                 this.scrollTop = dom.scrollTop;
-                if(url.indexOf('fixi')>-1){
+                if (url.indexOf('fixi') > -1) {
                     let event = ['_trackEvent', '产品列表', 'CLICK', '在定期理财列表页点击查看详情', '定期理财列表页-点击详情'];
                     window._hmt.push(event);
-                }else {
+                } else {
                     let event = ['_trackEvent', '产品列表', 'CLICK', '在高端理财列表页点击查看详情', '高端理财列表页-点击详情'];
                     window._hmt.push(event);
                 }
@@ -308,6 +326,13 @@
             },
             getShare(){
                 wx.getShare(this.settings);
+            },
+            pathTo(path,boolean){
+                if(boolean){
+                    window.location.href = path;
+                    return false;
+                }
+                this.$router.push(path);
             }
         },
         mounted(){
