@@ -113,13 +113,6 @@
     import EventBus from  '../tools/event-bus';
     import {Toast, Indicator, MessageBox} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
-    let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
-        'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
-        'cmbchina', 'ecitic', 'hxb', 'icbc', 'pingan', 'psbc', 'spdb'];
-    let imgUrls = {};
-    imgNames.map(url => {
-        imgUrls[url] = require(`../images/bank/${url}.png`)
-    });
     let times = 0;
     let timeLine = new Date().getTime();
     export default {
@@ -184,9 +177,6 @@
             },
             expectEarn(){
                 return this.amount * parseFloat(this.expcRate) * parseInt(this.productPeriod) / 365;
-            },
-            bankImg(){
-                return imgUrls[this.bank_code];
             }
         },
         watch: {},
