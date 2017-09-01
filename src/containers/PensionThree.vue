@@ -72,7 +72,6 @@
                 this.getShare();
             }
             this.wagesAfterTax =getValueD(window.sessionStorage.getItem('cityName'));
-            this.wagesAfterTax =getValueD(window.sessionStorage.getItem('cityName'))
         },
         mounted(){
             this.height = this.$refs.divh.offsetHeight;

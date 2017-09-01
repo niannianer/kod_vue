@@ -29,7 +29,8 @@
             </div>
         </div>
         <div class="sub-info">
-            若充值遇到问题请联系：<span class="span">{{telNumber}}</span>
+            充值中若遇到问题，请联系客服<br/>
+            <a class="span" style="" :href="'tel:'+telNumbrt">{{telNumber}}</a>（服务时间：工作日9:00—18:00）
         </div>
         <div class="recharge-ensure">
             <button class="btn-primary btn-recharge" :disabled="disabled"

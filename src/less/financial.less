@@ -34,6 +34,26 @@
             margin-bottom: .4rem;
             background-color: @bg-content;
             overflow: hidden;
+            &.novice-label{
+                padding: 0;
+                .title-part{
+                    padding: .8rem .8rem .5rem .8rem;
+                    border-bottom: 1px solid @color-split;
+                }
+                .rate-part{
+                    font-size: .9rem;
+                    text-align: center;
+                    margin: .8rem .8rem 0 .8rem;
+                    .rate{
+                        color: @color-interest;
+                        font-size: 1.8rem;
+                        text-align: center;
+                    }
+                }
+                .m-part{
+                    padding: .3rem .8rem .8rem .8rem;
+                }
+            }
             .ticket-wrap{
                 .ticket-item{
                     color:#4387c5;
@@ -302,5 +322,13 @@
         }
 
     }
-
+    .nav{
+        background: #FFFFFF;
+        box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.2) inset;
+        text-align: center;
+        padding: .3rem 0;
+        img{
+            width: 1.3rem;
+        }
+    }
 }

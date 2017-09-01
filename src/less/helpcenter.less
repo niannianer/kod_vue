@@ -1,0 +1,79 @@
+@import "variables";
+
+.helpcenter {
+    width: 100%;
+    height: 100%;
+    .list {
+        background: @bg-content;
+        border-bottom: 1px solid @color-split;
+        .category {
+            width: 5.5rem;
+            text-align: center;
+            font-size: .8rem;
+            color: @color-text;
+        }
+        .more{
+            color: #88ACFF;
+            line-height: 1rem;
+            p{
+                margin-top: .1rem;
+            }
+            span{
+                font-size: 1rem;
+                font-weight: bold;
+            }
+        }
+        .questions-list {
+            border-left: 1px solid @color-split;
+            .question-item {
+                border-bottom: 1px solid @color-split;
+                padding: .7rem .8rem;
+                img {
+                    width: .8rem;
+                    height: .55rem;
+                }
+                .collapse{
+                    transform:rotate(180deg);
+                }
+                &:nth-last-child(1) {
+                    border-bottom: none;
+                }
+                .q {
+                    color: @color-text;
+                }
+                .a {
+                    padding-top: .4rem;
+                }
+            }
+        }
+
+    }
+    .fedback,.service{
+        background: @bg-content;
+        text-align: center;
+        font-size: .8rem;
+        padding: .7rem 0;
+        color: @color-text;
+        margin-top: .5rem;
+        border-top: 1px solid @color-split;
+        border-bottom: 1px solid @color-split;
+        img{
+            width: .8rem;
+            height: .55rem;
+            transform: rotate(270deg);
+        }
+    }
+    .service{
+        margin-bottom: 2rem;
+        .callnum{
+            color: #88ACFF;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+        .tip{
+            font-size: .6rem;
+            color: @color-text-secondary;
+        }
+    }
+
+}

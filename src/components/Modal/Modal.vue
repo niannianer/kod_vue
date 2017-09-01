@@ -1,26 +1,30 @@
 <template>
-<div class="modal-warp">
-    <div class="modal-body">
-        <div class="modal-content">
-            <div class="modal-logos" flex>
-                <div class="logo" flex-box="1">
-                    <img src="../../images/logo.png"/>
-                    <div class="logo-title">金疙瘩</div>
+    <div class="modal-warp">
+        <div class="modal-body">
+            <div class="header">开通托管账户</div>
+            <div class="body">
+                <div class="tip1">
+                    <p>为了您的资金安全，</p>
+                    <p>请先行到宝付支付开通托管账户。</p>
                 </div>
-                <div class="logo" flex-box="1">
-                    <img src="../../images/baofoo-logo.png"/>
-                    <div class="logo-title">宝付</div>
+                <p class="tip2">宝付支付</p>
+                <div class="tip3" flex="dir:top cross:center">
+                    <div flex>
+                        <img src="../../images/modal/tip-logo1.png" alt="tip">
+                        <p>安全交易近10年</p>
+                    </div>
+                    <div flex>
+                        <img src="../../images/modal/tip-logo2.png" alt="tip">
+                        <p>央行许可支付牌照</p>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-main">为保障您的资金安全请先开通第三方托管账户</div>
-            <div flex="" class="btn-groups">
-                <button class="modal-btn-ok" flex-box="1" @click.stop="okAction(0)">取消</button>
-                <button class="modal-btn-ok" flex-box="1" @click.stop="okAction(1)">去开户</button>
+                <div flex="main:center">
+                    <p class="btn-confirm" @click.stop="okAction(1)">去开通</p>
+                </div>
+                <img src="../../images/modal/close.png" alt="close" class="close" @click.stop="okAction(0)">
             </div>
         </div>
     </div>
-</div>
-
 
 
 </template>
@@ -33,14 +37,14 @@
         methods: {
             okAction(result){
                 let oper = '';
-                if(result){
+                if (result) {
                     oper = '去开户';
-                }else{
+                } else {
                     oper = '取消';
                 }
-                let event = ['_trackEvent', '开户弹窗', 'CLICK', '在开户弹窗中点击'+oper+'', '开户弹窗中-点击'+oper+''];
+                let event = ['_trackEvent', '开户弹窗', 'CLICK', '在开户弹窗中点击' + oper + '', '开户弹窗中-点击' + oper + ''];
                 window._hmt.push(event);
-                this.$emit('callBack',result)
+                this.$emit('callBack', result)
             }
         }
 

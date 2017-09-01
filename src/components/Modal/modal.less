@@ -1,56 +1,115 @@
+@import "../../less/variables";
+
 @charset "UTF-8";
-.modal-warp{
+.modal-warp {
     position: absolute;
     z-index: 9;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,.69);
-    .modal-body{
+    background-color: rgba(0, 0, 0, .69);
+    .modal-body {
+        text-align: center;
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(-50%,-50%);
-        width: 14rem;
-        border-radius: .4rem;
-        .modal-content{
-            background: #0F5391;
-            padding-top:.8rem;
-            border-radius: .4rem .4rem 0 0;
-            .modal-logos{
-                line-height: 1.2rem;
-                .logo{
-                    text-align: center;
-                    img{
-                        width: 1.8rem;
-                        height: 1.8rem;
+        transform: translate(-50%, -50%);
+        width: 13.25rem;
+        border-radius: .6rem;
+        .header {
+            padding: 1.2rem;
+            background-image: url('../../images/modal/bg.png');
+            background-size: 100% 100%;
+            font-size: .9rem;
+            color: #EDD7A8;
+        }
+        .body {
+            background: @bg-content;
+            border-bottom-right-radius: .6em;
+            border-bottom-left-radius: .6em;
+            padding-bottom: 1.5rem;
+            .tip1 {
+                padding-top: .9rem;
+                color: @color-text;
+                font-weight: bold;
+            }
+            .tip2 {
+                padding-top: .8rem;
+                color: @bg-button;
+                font-size: .9rem;
+                font-weight: bold;
+            }
+            .tip3 {
+                padding-top: .3rem;
+                padding-bottom: 1.2rem;
+                div {
+                    padding-top: .6rem;
+                    img {
+                        width: .9rem;
+                        height: .9rem;
+                        margin-top: .1rem;
                     }
-                    .logo-title{
-                        font-size: .7rem;
-                        color: #fff;
-                        text-align: center;
+                    p{
+                        padding-left: .4rem;
                     }
                 }
+
             }
-            .modal-main{
-                margin-top: 2.2rem;
-                text-align: center;
-                color: #fff;
-                font-size: .6rem;
+            .btn-confirm {
+                font-size: 1rem;
+                color: @bg-content;
+                background: @bg-button;
+                padding: .5rem 3.3rem;
+                border-radius: .3rem;
             }
-            .btn-groups{
-                background-color: #fff;
-                border-radius: 0 0 .4rem .4rem ;
-                margin-top: 2.2rem;
-            }
-            .modal-btn-ok {
-                height: 40px;
-                color: #1D72C0;
-                &:first-child{
-                    border-right: 1px solid #eee;
-                }
+            .close {
+                position: absolute;
+                width: 1.7rem;
+                height: 1.7rem;
+                bottom: -1.7rem;
+                left: 50%;
+                margin-left: -.85rem;
             }
         }
+
+        /*  .modal-content{
+              background: #0F5391;
+              padding-top:.8rem;
+              border-radius: .4rem .4rem 0 0;
+              .modal-logos{
+                  line-height: 1.2rem;
+                  .logo{
+                      text-align: center;
+                      img{
+                          width: 1.8rem;
+                          height: 1.8rem;
+                      }
+                      .logo-title{
+                          font-size: .7rem;
+                          color: #fff;
+                          text-align: center;
+                      }
+                  }
+              }
+              .modal-main{
+                  margin-top: 2.2rem;
+                  text-align: center;
+                  color: #fff;
+                  font-size: .6rem;
+              }
+              .btn-groups{
+                  background-color: #fff;
+                  border-radius: 0 0 .4rem .4rem ;
+                  margin-top: 2.2rem;
+              }
+              .modal-btn-ok {
+                  height: 40px;
+                  color: #1D72C0;
+                  &:first-child{
+                      border-right: 1px solid #eee;
+                  }
+              }
+          }*/
     }
 }
