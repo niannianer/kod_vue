@@ -1,0 +1,55 @@
+@import "variables";
+
+.helpcenterCate {
+    .title{
+        background: @bg-content;
+        font-size: .8rem;
+        color: @color-text;
+        padding: .7rem .8rem;
+        border-bottom: 1px solid @color-split;
+        font-weight: bold;
+    }
+    .questions-list {
+        background: @bg-content;
+        border-left: 1px solid @color-split;
+        .question-item {
+            border-bottom: 1px solid @color-split;
+            padding: .7rem .8rem;
+            img {
+                width: .8rem;
+                height: .55rem;
+            }
+            .collapse {
+                transform: rotate(180deg);
+            }
+            &:nth-last-child(1) {
+                border-bottom: none;
+            }
+            .q {
+                color: @color-text;
+            }
+            .a {
+                padding-top: .4rem;
+            }
+        }
+    }
+    .service {
+        background: @bg-content;
+        text-align: center;
+        font-size: .8rem;
+        padding: .7rem 0;
+        color: @color-text;
+        margin-top: .5rem;
+        border-top: 1px solid @color-split;
+        border-bottom: 1px solid @color-split;
+        .callnum{
+            color: #88ACFF;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+        .tip{
+            font-size: .6rem;
+            color: @color-text-secondary;
+        }
+    }
+}
