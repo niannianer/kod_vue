@@ -51,12 +51,14 @@
                         content: this.context
                     })
                         .then(resp=>{
+                            Indicator.close();
                             if(resp.code==200){
-                                Indicator.close();
                                 Toast('您的反馈已成功提交');
                                 setTimeout(()=>{
                                     this.$router.push('/helpcenter')
                                 },2000);
+                            }else{
+                                Toast(resp.msg)
                             }
                         })
                 }
