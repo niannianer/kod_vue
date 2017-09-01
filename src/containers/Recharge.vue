@@ -30,7 +30,7 @@
         </div>
         <div class="sub-info">
             充值中若遇到问题，请联系客服<br/>
-            <a class="span" style="" :href="'tel:'+telNumbrt">{{telNumber}}</a>（服务时间：工作日9:00—18:00）
+            <a class="span" style="" :href="'tel:'+telNumber">{{telNumber}}</a>（服务时间：工作日9:00—18:00）
         </div>
         <div class="recharge-ensure">
             <button class="btn-primary btn-recharge" :disabled="disabled"
@@ -48,40 +48,35 @@
     import {submitRecharge, currencyInputValidate} from '../tools/operation';
     import {telNumber} from '../tools/config';
     import '../less/recharge.less';
-    let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
-        'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
-        'cmbchina', 'ecitic', 'hxb', 'icbc', 'pingan', 'psbc', 'spdb'];
-    let imgUrls = {};
-    imgNames.map(url => {
-        imgUrls[url] = require(`../images/bank/${url}.png`)
-    });
+    import * as bank from '../tools/bank';
+
     let timer = null;
     export default {
         name: 'recharge',
         data(){
             return {
                 rechargeMoney: '',
-                imgUrls,
                 disabled: true,
-                bankImg: '',
                 telNumber
             }
         },
         created(){
-            if (this.bank_code) {
-                this.bankImg = this.imgUrls[this.bank_code];
-            }
             let event = ['_trackEvent', '充值', 'SHOW', '进入充值页面', '进入充值页面'];
             window._hmt.push(event);
         },
-        computed: mapState([
-            'bankUserCardNo',
-            'bank_code',
-            'bank_name',
-            'perday_limit',
-            'single_limit',
-            'single_limit_value',
-            'bankUserPhone']),
+        computed: {
+            ...mapState([
+                'bankUserCardNo',
+                'bank_code',
+                'bank_name',
+                'perday_limit',
+                'single_limit',
+                'single_limit_value',
+                'bankUserPhone']),
+            bankImg(){
+                return bank[this.bank_code]||'';
+            }
+        },
         methods: {
             clearInput(){
                 this.rechargeMoney = '';
@@ -128,15 +123,6 @@
                             Toast(data.msg);
                         }
                     });
-            }
-        },
-        watch: {
-            bank_code(){
-                console.log(this.bank_code);
-                if (this.bank_code) {
-                    this.bankImg = this.imgUrls[this.bank_code];
-                }
-
             }
         }
 

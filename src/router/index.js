@@ -497,7 +497,7 @@ let routes = [
         name: 'relation-list',
         component: RelationList,
         meta: {
-            title: '1度好友'
+            title: '银疙瘩好友'
         }
     },
     {
