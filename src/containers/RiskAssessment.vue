@@ -118,7 +118,7 @@
                 this.scores.map(score => {
                     investorRiskScore += score;
                 })
-                let investorRiskVersion = 1;
+                let investorRiskVersion = 2;/*风险测评第二版（10道题）*/
                 let investorRiskAnswer = this.scores.join('$$');
 
 

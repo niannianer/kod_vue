@@ -122,7 +122,7 @@ const config = {
 if (env == 'production'|| env == 'stage' || env == 'test') {
     console.log('------->', env)
     config.devtool = '';
-    config.output.publicPath = '/dist/';
+    config.output.publicPath = 'https://static-test.zj-hf.cn/dist/';
     if (env === 'production'|| env == 'stage') {
         config.output.publicPath = 'https://zj-static.zj-hf.cn/dist/';
     }
@@ -140,7 +140,7 @@ if (env == 'production'|| env == 'stage' || env == 'test') {
             comments: false,
             compress: {
                 warnings: false,
-                drop_console: env=='production'?true:false
+                drop_console:true
             }
         }),
         new WebpackMd5Hash(),

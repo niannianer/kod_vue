@@ -105,17 +105,17 @@
                     return false;
                 }
                 if (!regStr.test(this.userLoginPassword)) {
-                    Toast('请输入正确的登录密码（6~20位数字和字母）');
+                    Toast('请输入正确的密码（6~20位数字和字母）');
                     return false;
                 }
                 let regD = /^\d*$/;
                 if (regD.test(this.userLoginPassword)) {
-                    Toast('请输入正确的登录密码（6~20位数字和字母）');
+                    Toast('请输入正确的密码（6~20位数字和字母）');
                     return false;
                 }
                 let regW = /^[a-zA-Z]*$/;
                 if (regW.test(this.userLoginPassword)) {
-                    Toast('请输入正确的登录密码（6~20位数字和字母）');
+                    Toast('请输入正确的密码（6~20位数字和字母）');
                     return false;
                 }
                 return true;

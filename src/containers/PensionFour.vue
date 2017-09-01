@@ -101,7 +101,7 @@
                 inflation: '',
                 title: "请选择城市",
                 isPicking: false,
-                citys: []
+                citys:[]
             }
         },
         components: {
@@ -297,14 +297,8 @@
                 this.isPicking = false;
             },
             changeCity(){
-                setTimeout(() => {
-                    change = true;
-                }, 1000);
-                if (!change) {
-                    return false;
-                }
                 this.inflation = getValueG(this.cityName);//通货膨胀率
-                this.wagesAfterTax = getValueD(this.cityName);
+                this.wagesAfterTax =  getValueD(this.cityName);
             }
         }
     }

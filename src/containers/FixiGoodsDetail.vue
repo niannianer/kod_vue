@@ -150,7 +150,8 @@
                 <button class="do-invest" @click.stop="preInvest">立即投资</button>
             </div>
             <div v-else="production.canBuy">
-                <div v-if="production.productStatusCode==1" class="can-not-buy" style="background: #1D72C0">
+                <div v-if="production.productStatusCode==1" class="can-not-buy" style="background: #1D72C0"
+                     @click.stop="hot">
                     {{production.productStatus}}
                 </div>
                 <div v-else class="can-not-buy">{{production.productStatus}}</div>
@@ -421,10 +422,15 @@
                 } else {
                     this.showInvest = true;
                 }
+            },
+            hot(){
+                Toast('产品在预热中，请稍后再进行购买');
             }
 
+
         },
-        destroyed(){
+        destroyed()
+        {
 
         }
     }
