@@ -2,9 +2,7 @@
     <div flex="dir:top" flex-box="1" class="my-assets">
         <div class="assets-body" flex-box="1">
             <div class="assets">
-                <div class="title">总资产(元）
-                    <span class="account-list" @click.stop="billList">账单</span>
-                </div>
+                <div class="title">总资产(元）</div>
                 <div class="number">{{accountTotalAssets | currencyFormat}}</div>
                 <div class="profit-withdraw" flex>
                     <div class="profit" flex-box="0">
@@ -29,6 +27,11 @@
                 </div>
                 <div class="item-right" flex-box="0" v-else @click.stop="getBank">
                     已绑定
+                </div>
+            </div>
+            <div class="item" @click.stop="billList" flex>
+                <div flex-box="1" class="item-left" >
+                    我的账户明细
                 </div>
             </div>
             <div class="item" flex v-if="userVerifyStatus!=9" @click.stop="createUser">

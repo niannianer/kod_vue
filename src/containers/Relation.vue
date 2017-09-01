@@ -82,14 +82,19 @@
                         oper = '铜疙瘩';
                         break;
                 }
+                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击' + oper + '好友', '我的好友页面-点击' + oper + '好友'];
+                window._hmt.push(event);
+                if(num ==1){
+                    this.$router.push('/relation-list-gold')
+                    return false;
+                }
                 this.$router.push({
                     path: '/relation-list',
                     query: {
                         level: num
                     }
                 })
-                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击' + oper + '好友', '我的好友页面-点击' + oper + '好友'];
-                window._hmt.push(event);
+
             }
 
         },

@@ -6,7 +6,6 @@ Vue.use(Router)
 
 const AuthResult = () => import('../containers/AuthResult');
 const AppointSucc = () => import('../containers/AppointSucc');
-
 const ExperienceFund = () => import('../containers/ExperienceFund');
 const Index = () => import('../containers/Index');
 const Financial = () => import('../containers/Financial');
@@ -44,6 +43,8 @@ const Relation = () => import('../containers/Relation');
 const RelationListGold = () => import('../containers/RelationListGold');
 const HouseTwo = () => import('../containers/HouseTwo');
 const HouseThree = () => import('../containers/HouseThree');
+const Helpcenter = () => import('../containers/Helpcenter');
+const HelpcenterCate = () => import('../containers/HelpcenterCate');
 const Planning = () => import('../containers/Planning');
 const Authentication = () => import('../containers/Authentication');
 const BindBankCard = () => import('../containers/BindBankCard');
@@ -54,6 +55,8 @@ const GoodsDetailPRIF = () => import('../containers/GoodsDetailPRIF');
 const Register = () => import('../containers/Register');
 const FindPassword = () => import('../containers/FindPassword');
 const FixiGoodsDetail = () => import('../containers/FixiGoodsDetail');
+const Feedback = () => import('../containers/Feedback');
+
 
 const HouseOne = PensionOne;
 
@@ -127,7 +130,15 @@ let routes = [
             withoutLogin: true
         },
         component: FixiGoodsDetail
-    }, {
+    },{
+        path: '/feedback',
+        name: 'feedback',
+        meta: {
+            title: '帮助中心',
+        },
+        component: Feedback
+    },
+    {
         path: '/my-assets',
         name: 'my-assets',
         meta: {
@@ -396,6 +407,22 @@ let routes = [
             title: '金疙瘩-懂你，懂理顾，更懂理财'
         },
         component: Index
+    },
+    {
+        path: '/helpcenter',
+        name: 'helpcenter',
+        meta: {
+            title: '帮助中心'
+        },
+        component: Helpcenter
+    },
+    {
+        path: '/helpcenter-cate',
+        name: 'helpcenter-cate',
+        meta: {
+            title: '帮助中心'
+        },
+        component: HelpcenterCate
     },
     {
         path: '/personal-center',

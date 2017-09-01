@@ -136,7 +136,9 @@
                 </div>
             </div>
             <div class="cantact-us">
-                联系我们：{{telNumber}}
+                <a  :href="'tel:'+telNumber">
+                    联系我们：{{telNumber}}
+                </a>
             </div>
             <div class="btn logout" @click.stop="logout()">
                 退出登录
