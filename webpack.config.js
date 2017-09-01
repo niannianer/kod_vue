@@ -119,11 +119,11 @@ const config = {
     ],
     devtool: '#eval-source-map'
 }
-if (env == 'production' || env == 'test') {
+if (env == 'production'|| env == 'stage' || env == 'test') {
     console.log('------->', env)
     config.devtool = '';
-    config.output.publicPath = '/dist/';
-    if (env === 'production') {
+    config.output.publicPath = 'https://static-test.zj-hf.cn/dist/';
+    if (env === 'production'|| env == 'stage') {
         config.output.publicPath = 'https://zj-static.zj-hf.cn/dist/';
     }
     config.output.filename = '[name].[chunkhash:8].js';
