@@ -6,7 +6,7 @@
             <p class="text-tip">欢迎写下您的意见、建议~</p>
             <div class="text-box" flex="main:center">
                 <textarea name="feedback" id="" cols="30" rows="10" class="textarea" v-model="context"
-                          @keyup="total"></textarea>
+                          @input="total"></textarea>
             </div>
             <div flex="main:center">
                 <p class="btn-confirm" :class="{'disable':isDisable}" @click.stop="submit">提交</p>
