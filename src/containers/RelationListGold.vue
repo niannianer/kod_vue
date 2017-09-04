@@ -48,7 +48,7 @@
                                 <p flex-box="1">{{item.rewardTotal}}元</p>
                             </div>
                         </div>
-                        <div class="verify-status" v-if="item.userVerifyStatus>=2">已绑卡</div>
+                        <div class="verify-status" v-if="item.userVerifyStatus>=3">已绑卡</div>
                     </li>
                 </ul>
             </mt-loadmore>
