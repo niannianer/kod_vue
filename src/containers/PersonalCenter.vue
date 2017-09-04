@@ -143,7 +143,6 @@
             <div class="btn logout" @click.stop="logout()">
                 退出登录
             </div>
-            <modal v-show="showModal" @callBack="callBack"></modal>
         </div>
         <div class="nav" flex-box="0" flex="box:mean">
             <div @click.stop="getPath('/index')">
@@ -159,6 +158,7 @@
                 <p>下载app</p>
             </div>
         </div>
+        <modal v-show="showModal" @callBack="callBack"></modal>
     </div>
 
 </template>
