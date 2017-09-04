@@ -16,6 +16,8 @@
 </template>
 
 <script>
+    import $device from '../tools/device';
+    import requestHybrid from '../tools/hybrid';
     import $api from '../tools/api';
     import {mapState} from 'vuex';
     import '../less/feedback.less';
@@ -29,6 +31,18 @@
             }
         },
         created(){
+            if ($device.kingold) {
+                this.isApp = true;
+                requestHybrid({
+                    tagname: 'title',
+                    param: {
+                        backtype: 0,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                        backAndRefresh: 1,
+                        title:'帮助中心',
+                        keyboard_mode: 0//0 adjustresize 1 adjustpan
+                    }
+                })
+            }
         },
         computed: mapState([
             'investorRealName',
@@ -55,7 +69,7 @@
                             if(resp.code==200){
                                 Toast('您的反馈已成功提交');
                                 setTimeout(()=>{
-                                    this.$router.push('/helpcenter')
+                                    this.$router.replace('/helpcenter')
                                 },2000);
                             }else{
                                 Toast(resp.msg)

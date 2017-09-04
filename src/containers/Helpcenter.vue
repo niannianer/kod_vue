@@ -29,7 +29,8 @@
             <img src="../images/arraw-down.png" alt="arrow" flex-box="0">
         </div>
         <div class="service">
-            <a href="tel:400-640-3606" class="callnum">400-640-3606</a>
+            <div class="callnum" v-if="isApp" @click.stop="callService">400-640-3606</div>
+            <a href="tel:400-640-3606" class="callnum" v-else>400-640-3606</a>
             <p class="tip">人工服务时间 工作日9：00-18：00</p>
         </div>
     </div>
@@ -44,7 +45,8 @@
         name: 'base',
         data(){
             return {
-                questions: questions
+                questions: questions,
+                isApp:false
             }
         },
         created(){
@@ -73,6 +75,14 @@
             },
             fedback(){
                 this.$router.push('/feedback');
+            },
+            callService(){
+                requestHybrid({
+                    tagname: 'tel',
+                    param: {
+                        callService: '400-640-3606'// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                    }
+                })
             }
         },
         destroyed(){
