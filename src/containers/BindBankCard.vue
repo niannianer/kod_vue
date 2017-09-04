@@ -58,13 +58,7 @@
     import {mapState} from 'vuex';
     import {checkPhone} from '../tools/fun';
     import {Toast} from 'mint-ui';
-    let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
-        'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
-        'cmbchina', 'ecitic', 'hxb', 'icbc', 'pingan', 'psbc', 'spdb'];
-    let imgUrls = {};
-    imgNames.map(url => {
-        imgUrls[url] = require(`../images/bank/${url}.png`)
-    });
+    import * as imgUrls from '../tools/bank';
     export default {
         name: 'bind-bank-card',
         data(){
