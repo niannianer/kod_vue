@@ -17,7 +17,6 @@
                 <div class="form-input" flex>
                     <img flex-box="0" class="money-chart" src="../images/money-chart.png"/>
                     <div flex-box="1" class="money-filter">
-                        <!-- <div class="money-show">{{rechargeMoney | currencyInput}}</div>-->
                         <input @keyup="myKeyup" type="number" class="money-show" v-model.trim="rechargeMoney"/>
                     </div>
 
