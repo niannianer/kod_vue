@@ -92,6 +92,13 @@
         created(){
             if(this.accountTotalAssets){
                 this.isLogin = true;
+            }else{
+                $api.get('/getUserInfo')
+                    .then(resp=>{
+                        if(resp.code==200){
+                            this.isLogin = true;
+                        }
+                    })
             }
             this.mode = window.localStorage.getItem('mode-index') == 'true' ? true : false;
             $api.get('/management/getAdvertList')

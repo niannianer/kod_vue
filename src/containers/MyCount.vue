@@ -35,43 +35,29 @@
     import $api from '../tools/api';
     import {telNumber} from '../tools/config';
     import  '../less/my-count.less';
-    let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
-        'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
-        'cmbchina', 'ecitic', 'hxb', 'icbc', 'pingan', 'psbc', 'spdb'];
-    let imgUrls = {};
-    imgNames.map(url => {
-        imgUrls[url] = require(`../images/bank/${url}.png`)
-    });
+    import * as imgUrls from '../tools/bank';
     export default {
         name: 'my-count',
         data(){
             return {
-                bankImg: '',
-                telNumber,
-                imgUrls
+                telNumber
             }
         },
-        computed: mapState([
-            'bankUserCardNo',
-            'bank_code',
-            'bank_name',
-            'investorRealName',
-            'investorIdCardNo',
-            'bankUserPhone']),
-        created(){
-            if (this.bank_code) {
-                this.bankImg = this.imgUrls[this.bank_code];
+        computed: {
+            ...mapState([
+                'bankUserCardNo',
+                'bank_code',
+                'bank_name',
+                'investorRealName',
+                'investorIdCardNo',
+                'bankUserPhone']),
+            bankImg(){
+                 return imgUrls[this.bank_code];
             }
+        },
+        created(){
             let event = ['_trackEvent', '我的银行卡', 'SHOW', '进入我的银行卡页面', '进入我的银行卡页面'];
             window._hmt.push(event);
-        },
-        watch: {
-            bank_code(){
-                if (this.bank_code) {
-                    this.bankImg = this.imgUrls[this.bank_code];
-                }
-
-            }
         }
     }
 </script>
