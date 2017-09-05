@@ -157,20 +157,6 @@
                 </div>
             </div>
         </div>
-        <div class="nav" flex-box="0" flex="box:mean">
-            <div @click.stop="pathTo('/index')">
-                <img src="../images/nav/index.png" alt="index">
-                <p>首页</p>
-            </div>
-            <div @click.stop="pathTo('/person-center')">
-                <img src="../images/nav/person-center.png" alt="person-center">
-                <p>个人中心</p>
-            </div>
-            <div @click.stop="pathTo('/land-download.html',true)">
-                <img src="../images/nav/download.png" alt="download">
-                <p>下载app</p>
-            </div>
-        </div>
     </div>
 
 </template>
