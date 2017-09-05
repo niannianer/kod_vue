@@ -31,7 +31,7 @@
                 <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="stopLoad" infinite-scroll-distance="10">
                     <li class="list-item" flex v-for="(item,index) in list">
                         <div class="user-logo" flex-box="0">
-                            <img src="../images/personal-center/user-default.png" alt="avatar" class="avatar">
+                            <img src="../images/personal-center/user-head-2.png" alt="avatar" class="avatar">
                             <p class="name" v-if="item.investorRealName">{{item.investorRealName}}</p>
                         </div>
                         <div flex-box="1">
