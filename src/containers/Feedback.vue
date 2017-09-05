@@ -69,7 +69,7 @@
                             if(resp.code==200){
                                 Toast('您的反馈已成功提交');
                                 setTimeout(()=>{
-                                    this.$router.replace('/helpcenter')
+                                    this.$router.back(-1);
                                 },2000);
                             }else{
                                 Toast(resp.msg)
