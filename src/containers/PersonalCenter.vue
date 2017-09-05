@@ -143,13 +143,8 @@
             <div class="btn logout" @click.stop="logout()">
                 退出登录
             </div>
-            <modal v-show="showModal" @callBack="callBack"></modal>
         </div>
         <div class="nav" flex-box="0" flex="box:mean">
-            <div @click.stop="getPath('/index')">
-                <img src="../images/nav/index.png" alt="index">
-                <p>首页</p>
-            </div>
             <div @click.stop="getPath('/financial')">
                 <img src="../images/nav/financial.png" alt="financial">
                 <p>理财</p>
@@ -159,6 +154,7 @@
                 <p>下载app</p>
             </div>
         </div>
+        <modal v-show="showModal" @callBack="callBack"></modal>
     </div>
 
 </template>

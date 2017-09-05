@@ -36,7 +36,7 @@
                 requestHybrid({
                     tagname: 'title',
                     param: {
-                        backtype: 1,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
+                        backtype: 0,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
                         backAndRefresh: 1,
                         title:'帮助中心',
                         keyboard_mode: 0//0 adjustresize 1 adjustpan
@@ -69,7 +69,7 @@
                             if(resp.code==200){
                                 Toast('您的反馈已成功提交');
                                 setTimeout(()=>{
-                                    this.$router.replace('/helpcenter')
+                                    this.$router.back(-1);
                                 },2000);
                             }else{
                                 Toast(resp.msg)

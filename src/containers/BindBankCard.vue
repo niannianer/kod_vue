@@ -178,6 +178,8 @@
                     window._hmt.push(event);
                     if (msg.code == 200) {
                         Toast('绑卡成功');
+                        let event = ['_trackEvent', '绑卡成功', 'SHOW', '绑卡请求成功', '绑卡请求成功'];
+                        window._hmt.push(event);
                         setTimeout(() => {
                             this.loading = false;
                             this.$store.dispatch('getBankInfo');

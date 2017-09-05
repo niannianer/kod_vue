@@ -4,15 +4,15 @@
             <div class="number"><span>{{total}}</span>人</div>
             <div class="title">我的好友</div>
         </div>
-        <div class="item" flex @click.stop="pathTo(1)">
+        <div class="item" flex flex-box="0" @click.stop="pathTo(1)">
             <div flex-box='1' class="left">金疙瘩好友</div>
             <div flex-box='0' class="right">{{levelOneCount}}人</div>
         </div>
-        <div class="item" flex @click.stop="pathTo(2)">
+        <div class="item" flex flex-box="0" @click.stop="pathTo(2)">
             <div flex-box='1' class="left">银疙瘩好友</div>
             <div flex-box='0' class="right">{{levelTwoCount}}人</div>
         </div>
-        <div class="item" flex @click.stop="pathTo(3)">
+        <div class="item" flex flex-box="0" @click.stop="pathTo(3)">
             <div flex-box='1' class="left">铜疙瘩好友</div>
             <div flex-box='0' class="right">{{levelThreeCount}}人</div>
         </div>

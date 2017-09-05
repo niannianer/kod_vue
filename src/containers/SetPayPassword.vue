@@ -34,8 +34,7 @@
                 storagePassword: '',
                 pShow: false,
                 btnActive: false,
-                btnShow: false,
-                isGetTicket: false/*是否已经获得现金券*/
+                btnShow: false
             }
         },
         components: {
@@ -44,19 +43,6 @@
         created(){
             let event = ['_trackEvent', '设置交易密码', 'SHOW', '进入设置交易密码页面', '进入设置交易密码页面'];
             window._hmt.push(event);
-            $api.get('/cashCoupon/list', {
-                couponType: 1,
-                startRow: 0,
-                pageSize: 1
-            })
-                .then(resp => {
-                    if (resp.code == 200) {
-                        if (resp.data.couponCount) {
-                            this.isGetTicket = true;
-                            /*已经获得现金券*/
-                        }
-                    }
-                })
         },
         methods: {
             callBack(password){
@@ -102,11 +88,7 @@
                             setTimeout(() => {
                                 this.$store.dispatch('getPersonalCenterMsg');
                                 this.$store.dispatch('getBankInfo');
-                                if (this.isGetTicket) {/*已经成功领到全跳转领券成功提示页*/
-                                    window.location.replace('/land-ticket-aug-succ.html');
-                                }else{
-                                    this.$router.replace('/my-assets');
-                                }
+                                this.$router.replace('/my-assets');
                             }, 1000);
                         } else {
                             Toast(msg.msg);
