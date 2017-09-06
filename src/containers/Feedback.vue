@@ -62,7 +62,9 @@
                     Indicator.open('提交中。。。');
                     let content = this.filterEmoji(this.context);
                     if(!content.length){
-                        this.context = content
+                        Indicator.close();
+                        this.context = content;
+                        this.total();
                         return false
                     }
                     // Toast(content);
