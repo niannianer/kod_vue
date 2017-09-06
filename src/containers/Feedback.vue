@@ -7,7 +7,7 @@
             <div class="text-box" flex="main:center">
                 <textarea name="feedback" id="" cols="30" rows="10"
                           maxlength="1000"
-                          class="textarea" v-model="context"
+                          class="textarea" v-model.trim="context"
                           @input="total"></textarea>
             </div>
             <div flex="main:center">
