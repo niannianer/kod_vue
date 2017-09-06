@@ -23,8 +23,8 @@
                 <img :src="imgSrc" alt="">
             </div>
         </div>
-        <div class="btn" @click.stop="link()">
-            <button>邀请好友</button>
+        <div  @click.stop="link()">
+            <button class="btn btn-primary">邀请好友</button>
         </div>
     </div>
 </template>

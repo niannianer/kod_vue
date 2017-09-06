@@ -7,7 +7,7 @@
             <div class="text-box" flex="main:center">
                 <textarea name="feedback" id="" cols="30" rows="10"
                           maxlength="1000"
-                          class="textarea" v-model="context"
+                          class="textarea" v-model.trim="context"
                           @input="total"></textarea>
             </div>
             <div flex="main:center">
@@ -61,7 +61,7 @@
                 if (!this.isDisable) {
                     Indicator.open('提交中。。。');
                     let content = this.filterEmoji(this.context)
-                    Toast(content);
+                    // Toast(content);
                     $api.post('/feedback/create', {
                         userRealName: this.investorRealName,
                         userMobile: this.investorMobile,
@@ -76,19 +76,15 @@
                                     this.$router.back(-1);
                                 }, 2000);
                             } else {
-                              //  Toast(resp.msg)
+                                  Toast(resp.msg)
                             }
                         })
                 }
             },
             filterEmoji(text)
             {
-                let ranges = [
-                    '\ud83c[\udf00-\udfff]',
-                    '\ud83d[\udc00-\ude4f]',
-                    '\ud83d[\ude80-\udeff]'
-                ];
-                return text.replace(new RegExp(ranges.join('|'), 'g'), '');
+                let reg = /\ud83c[\udf00-\udfff]|\ud83d[\udc00-\ude4f]|\ud83d[\ude80-\udeff]/g
+                return text.replace(reg, '');
             }
         },
         destroyed()

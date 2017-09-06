@@ -40,8 +40,8 @@
                                 <p flex-box="1">绑定日期</p>
                                 <p flex-box="1">{{item.registerTime}}</p>
                             </div>
-                            <div flex class="relation-detail" v-if="item.rewardTotal" @click.stop="showTip">
-                                <div flex-box="1" flex="cross:center">
+                            <div flex class="relation-detail" v-if="item.rewardTotal" >
+                                <div flex-box="1" flex="cross:center" @click.stop="showTip">
                                     <p>贡献奖励</p>
                                     <img src="../images/tip.png" alt="tip" class="tip" >
                                 </div>
