@@ -14,7 +14,7 @@
                  v-for="(item,index) in answers" :key="index">
                 {{item.title}}
             </div>
-            <div class="last-item" v-if="quIndex" @click.stop="getLast()">上一题</div>
+            <div class="last-item" :class="{'app':isApp}" v-if="quIndex" @click.stop="getLast()">上一题</div>
         </div>
         <div class="submit" v-if="showSubmit">
             <button class="btn-primary btn-submit" :class="{'app':isApp}"
