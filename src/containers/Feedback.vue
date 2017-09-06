@@ -61,7 +61,7 @@
                 if (!this.isDisable) {
                     Indicator.open('提交中。。。');
                     let content = this.filterEmoji(this.context)
-                    Toast(content);
+                   // Toast(content);
                     $api.post('/feedback/create', {
                         userRealName: this.investorRealName,
                         userMobile: this.investorMobile,
@@ -88,6 +88,7 @@
                     '\ud83d[\udc00-\ude4f]',
                     '\ud83d[\ude80-\udeff]'
                 ];
+                Toast(new RegExp(ranges.join('|'), 'g'));
                 return text.replace(new RegExp(ranges.join('|'), 'g'), '');
             }
         },
