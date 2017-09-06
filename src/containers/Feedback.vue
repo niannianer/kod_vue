@@ -60,7 +60,11 @@
             submit(){
                 if (!this.isDisable) {
                     Indicator.open('提交中。。。');
-                    let content = this.filterEmoji(this.context)
+                    let content = this.filterEmoji(this.context);
+                    if(!content.length){
+                        this.context = content
+                        return false
+                    }
                     // Toast(content);
                     $api.post('/feedback/create', {
                         userRealName: this.investorRealName,
