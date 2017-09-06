@@ -60,7 +60,7 @@
             submit(){
                 if (!this.isDisable) {
                     Indicator.open('提交中。。。');
-                    let content = this.filterEmoji(this.context);
+                    let content = encodeURIComponent(this.context);
                     if(!content.length){
                         Indicator.close();
                         this.context = content;
