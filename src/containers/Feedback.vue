@@ -21,7 +21,7 @@
     import $api from '../tools/api';
     import {mapState} from 'vuex';
     import '../less/feedback.less';
-    import {Indicator,Toast} from 'mint-ui';
+    import {Indicator, Toast} from 'mint-ui';
     export default {
         name: 'feedback',
         data(){
@@ -38,7 +38,7 @@
                     param: {
                         backtype: 0,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
                         backAndRefresh: 1,
-                        title:'帮助中心',
+                        title: '帮助中心',
                         keyboard_mode: 0//0 adjustresize 1 adjustpan
                     }
                 })
@@ -62,23 +62,33 @@
                         userRealName: this.investorRealName,
                         userMobile: this.investorMobile,
                         feedbackType: 1, /*1反馈2投诉*/
-                        content: this.context
+                        content: this.filterEmoji(this.context)
                     })
-                        .then(resp=>{
+                        .then(resp => {
                             Indicator.close();
-                            if(resp.code==200){
+                            if (resp.code == 200) {
                                 Toast('您的反馈已成功提交');
-                                setTimeout(()=>{
+                                setTimeout(() => {
                                     this.$router.back(-1);
-                                },2000);
-                            }else{
+                                }, 2000);
+                            } else {
                                 Toast(resp.msg)
                             }
                         })
                 }
+            },
+            filterEmoji(text)
+            {
+                let ranges = [
+                    '\ud83c[\udf00-\udfff]',
+                    '\ud83d[\udc00-\ude4f]',
+                    '\ud83d[\ude80-\udeff]'
+                ];
+                return text.replace(new RegExp(ranges.join('|'), 'g'), '');
             }
         },
-        destroyed(){
+        destroyed()
+        {
 
         }
     }
