@@ -39,6 +39,11 @@
                 }
             }
         },
+        computed:{
+            title(){
+                return this.level==2? '银疙瘩好友':'铜疙瘩好友'
+            }
+        },
         methods: {
             loadTop(){
                 this.get('top').then(() => {
@@ -80,17 +85,6 @@
             }
         },
         created(){
-            switch (this.level) {
-                case '1':
-                    this.title = '金疙瘩好友'
-                    break;
-                case '2':
-                    this.title = '银疙瘩好友'
-                    break;
-                case '3':
-                    this.title = '铜疙瘩好友'
-                    break;
-            }
             $operation.setTitle(this.title);
         }
     }

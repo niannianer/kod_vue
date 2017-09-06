@@ -42,7 +42,7 @@
                 <span>我已阅读并同意<a href="/baofoo-certification.html">《支付服务协议》</a></span>
             </div>
             <div class="bind-btn" flex="main:center">
-                <button :class="{active:agreement}" @click.stop="submit">完成</button>
+                <button :class="{active:agreement}" @click.stop="submit" :disabled="loading">完成</button>
             </div>
             <div class="deatil">
                 <p>为了您的账户资金安全，只能单个绑定实名认证用户本人的银行卡，所有资金交易必须在您本人名下银行卡中划转；</p>
@@ -58,13 +58,7 @@
     import {mapState} from 'vuex';
     import {checkPhone} from '../tools/fun';
     import {Toast} from 'mint-ui';
-    let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
-        'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
-        'cmbchina', 'ecitic', 'hxb', 'icbc', 'pingan', 'psbc', 'spdb'];
-    let imgUrls = {};
-    imgNames.map(url => {
-        imgUrls[url] = require(`../images/bank/${url}.png`)
-    });
+    import * as imgUrls from '../tools/bank';
     export default {
         name: 'bind-bank-card',
         data(){
@@ -82,7 +76,8 @@
                 flag: true,
                 pShow: false,
                 agreement: false,
-                imgUrls
+                imgUrls,
+                loading: false
             };
         },
         computed: mapState([
@@ -150,6 +145,10 @@
                 }
             },
             submit(){
+                if (!this.agreement) {
+                    Toast('请勾选相关协议');
+                    return;
+                }
                 let {investorRealName, bankCard, bankUserPhone, verifyCode} = this;
                 let bankUserCardNo = bankCard.replace(/[^\d]/g, '');
                 if (bankUserCardNo.length < 6) {
@@ -164,21 +163,30 @@
                     Toast('请输入正确验证码')
                     return
                 }
+                if (this.loading) {
+                    return false;
+                }
+                this.loading = true;
                 $api.post('/bindBankCard', {
                     userName: investorRealName,
                     bankUserCardNo: bankUserCardNo,
                     bankUserPhone: bankUserPhone,
                     verifyCode: verifyCode
                 }).then(msg => {
+
                     let event = ['_trackEvent', '绑定银行卡', 'CLICK', '绑定银行卡页面-点击完成', '绑定银行卡页面-点击完成'];
                     window._hmt.push(event);
                     if (msg.code == 200) {
                         Toast('绑卡成功');
+                        let event = ['_trackEvent', '绑卡成功', 'SHOW', '绑卡请求成功', '绑卡请求成功'];
+                        window._hmt.push(event);
                         setTimeout(() => {
+                            this.loading = false;
                             this.$store.dispatch('getBankInfo');
                             this.$router.replace('/set-pay-password')
                         }, 1000)
                     } else {
+                        this.loading = false;
                         Toast(msg.msg);
                     }
                 });

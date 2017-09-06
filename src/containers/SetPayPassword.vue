@@ -34,7 +34,7 @@
                 storagePassword: '',
                 pShow: false,
                 btnActive: false,
-                btnShow: false,
+                btnShow: false
             }
         },
         components: {

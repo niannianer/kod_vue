@@ -2,13 +2,17 @@
     <div class="authentication" flex-box="1">
         <div class="authentication-lint">为保护您账号安全，请进行实名认证</div>
         <dl class="authentication-input">
-            <dt flex>
+            <dd flex>
                 <span class="span-left">真实姓名</span>
-                <span class="span-right"><input type="text" placeholder="请输入您的真实姓名" v-model="userName"></span>
-            </dt>
+                <div class="span-right" flex="cross:center">
+                    <input type="text" placeholder="请输入您的真实姓名" v-model="userName">
+                </div>
+            </dd>
             <dd flex>
                 <span class="span-left">身份证号</span>
-                <span class="span-right"><input type="text" placeholder="请输入您的身份证号码" v-model="userIdCardNumber"></span>
+                <div class="span-right" flex="cross:center">
+                    <input type="text" placeholder="请输入您的身份证号码" v-model="userIdCardNumber">
+                </div>
             </dd>
         </dl>
         <div class="authentication-bottom">
@@ -17,7 +21,7 @@
             </div>
             <div class="authentication-text">
                 <p>仅支持大陆身份证；</p>
-                <p>请输入您的本人身份信息，确保信息真实有效，所有资料奖会保密;</p>
+                <p>请输入您的本人身份信息，确保信息真实有效，所有资料将会保密;</p>
                 <p>实名认证通过后，身份信息不可更改；</p>
                 <p>未满18周岁用户暂无法实名认证。</p>
             </div>
@@ -38,7 +42,7 @@
                 </div>
                 <div class="win-btn" flex-box="0" flex>
                     <button flex-box="1" @click.stop="curse">取消</button>
-                    <button flex-box="1" class="sure" @click.stop="sure">确定</button>
+                    <button flex-box="1" class="sure" @click.stop="sure" :disabled="loading">确定</button>
                 </div>
             </div>
         </div>
@@ -61,7 +65,7 @@
                 userIdCardNumber: '',
                 popup: false,
                 btnActive: true,
-                //pShow:false,
+                loading: false,
                 smsCode: '',
                 btnText: '获取验证码',
                 nextClick: true,
@@ -87,6 +91,7 @@
                 setTimeout(() => {
                     this.nextClick = true;
                 }, 2000);
+
                 let {userName, userIdCardNumber} = this;
                 if (!$fun.valiRealName(userName)) {
                     Toast('请输入真实姓名');
@@ -102,6 +107,7 @@
             },
             //提交数据
             getAccount(){
+
                 let {userName, userIdCardNumber, smsCode} = this;
                 let data = {
                     userName: userName, userIdCardNumber: userIdCardNumber
@@ -111,14 +117,21 @@
                         userName: userName, userIdCardNumber: userIdCardNumber, smsCode: smsCode
                     }
                 }
+                if (this.loading) {
+                    return false;
+                }
+                this.loading = true;
                 $api.post('/openAccount', data).then(msg => {
+
                     if (msg.code == 200) {
                         Toast("身份认证成功！");
                         this.popup = false;
                         setTimeout(() => {
+                            this.loading = false;
                             submitAuthorization(this.userId);
                         }, 3000);
                     } else if (msg.code == 8003) {
+                        this.loading = false;
                         //弹窗
                         this.popup = true;
                         this.smsCode = '';

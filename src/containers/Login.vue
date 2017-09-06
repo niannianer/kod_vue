@@ -141,6 +141,7 @@
                         if (data.code == 200) {
                             let logoutUrl = window.sessionStorage.getItem('logoutUrl');
                             window.sessionStorage.removeItem('logoutUrl');
+                            window.sessionStorage.removeItem('logoutIndex');
                             logoutUrl = decodeURIComponent(logoutUrl);
                             if(logoutUrl&&/http/.test(logoutUrl)){
                                 window.location.replace(logoutUrl);
