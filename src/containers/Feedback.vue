@@ -57,12 +57,13 @@
             },
             submit(){
                 if (!this.isDisable) {
-                    Indicator.open('提交中。。。')
+                    Indicator.open('提交中。。。');
+                    let content = this.filterEmoji(this.context)
                     $api.post('/feedback/create', {
                         userRealName: this.investorRealName,
                         userMobile: this.investorMobile,
                         feedbackType: 1, /*1反馈2投诉*/
-                        content: this.filterEmoji(this.context)
+                        content
                     })
                         .then(resp => {
                             Indicator.close();
