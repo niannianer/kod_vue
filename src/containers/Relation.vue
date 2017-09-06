@@ -23,12 +23,13 @@
                 <img :src="imgSrc" alt="">
             </div>
         </div>
-        <div  @click.stop="link()">
+        <div @click.stop="link()">
             <button class="btn btn-primary">邀请好友</button>
         </div>
     </div>
 </template>
 <script>
+    import md5 from 'md5';
     import Vue from 'vue';
     import {mapState} from 'vuex';
     import '../less/relation.less';
@@ -51,7 +52,8 @@
         methods: {
             useqrcode(){
                 const canvas = document.getElementById('canvas');
-                const url = window.location.origin + '/land-register.html?inviter=' + this.investorMobile;
+                const signcode = md5('null' + this.userUuid + this.investorMobile + 'signCode')
+                const url = window.location.origin + '/land-register-relation.html?o=null&u=' + this.userUuid + '&n=' + this.investorMobile + '&m=' + signcode
                 QRCode.toCanvas(canvas, url, (error) => {
                     if (error) console.log(error)
 //                    console.log(state.investorMobile);
@@ -62,7 +64,7 @@
             link(){
                 let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击邀请好友', '我的好友页面-点击邀请好友'];
                 window._hmt.push(event);
-                window.location.href = '/land-share.html';
+                window.location.href = '/land-share-relation.html';
             },
             getShare(){
                 wx.getShare({
@@ -84,7 +86,7 @@
                 }
                 let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击' + oper + '好友', '我的好友页面-点击' + oper + '好友'];
                 window._hmt.push(event);
-                if(num ==1){
+                if (num == 1) {
                     this.$router.push('/relation-list-gold')
                     return false;
                 }
@@ -99,7 +101,7 @@
 
         },
         computed: {
-            ...mapState(['investorMobile']),
+            ...mapState(['investorMobile','userUuid']),
             total(){
                 let total = Number(this.levelOneCount) + Number(this.levelTwoCount) + Number(this.levelThreeCount);
                 if (!isNaN(total)) {
