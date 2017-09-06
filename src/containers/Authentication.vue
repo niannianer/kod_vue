@@ -2,13 +2,17 @@
     <div class="authentication" flex-box="1">
         <div class="authentication-lint">为保护您账号安全，请进行实名认证</div>
         <dl class="authentication-input">
-            <dt flex>
+            <dd flex>
                 <span class="span-left">真实姓名</span>
-                <span class="span-right"><input type="text" placeholder="请输入您的真实姓名" v-model="userName"></span>
-            </dt>
+                <div class="span-right" flex="cross:center">
+                    <input type="text" placeholder="请输入您的真实姓名" v-model="userName">
+                </div>
+            </dd>
             <dd flex>
                 <span class="span-left">身份证号</span>
-                <span class="span-right"><input type="text" placeholder="请输入您的身份证号码" v-model="userIdCardNumber"></span>
+                <div class="span-right" flex="cross:center">
+                    <input type="text" placeholder="请输入您的身份证号码" v-model="userIdCardNumber">
+                </div>
             </dd>
         </dl>
         <div class="authentication-bottom">

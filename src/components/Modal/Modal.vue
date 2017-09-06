@@ -9,8 +9,8 @@
                 </div>
                 <p class="tip2">宝付支付</p>
                 <div class="tip3" flex="dir:top cross:center">
-                    <div flex>
-                        <img src="../../images/modal/tip-logo1.png" alt="tip">
+                    <div flex style="overflow: visible">
+                        <img src="../../images/modal/tip-logo1.png" alt="tip" style="margin-left:-.5rem">
                         <p>安全交易近10年</p>
                     </div>
                     <div flex>
