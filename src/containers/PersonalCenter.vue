@@ -44,15 +44,11 @@
                             </p>
                         </div>
                     </div>
-                    <div flex class="ticket-detail" @click.stop="getPath('/ticket-list')">
+                    <div flex="box:mean" class="ticket-detail" @click.stop="getPath('/ticket-list')">
                         <div flex-box="1" class="rl">
                             <p class="title">现金劵</p>
                             <p class="info">{{cashCouponCount}}个</p>
                         </div>
-                        <!-- <div flex-box="1" class="rl">
-                              <p class="title">加息卷</p>
-                              <p class="info">5个</p>
-                          </div>-->
                         <div flex-box="1" @click.stop="getPath('/experience-fund')">
                             <p class="title">体验金</p>
                             <p class="info">{{experienceAmount}}元</p>
@@ -115,7 +111,7 @@
                     </div>
                 </div>
                 <div class="section seperate" flex="dir:top">
-                    <div class="item bl" flex-box="1" flex="cross:center" @click.stop="getPath('/land-about-us.html',true)">
+                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-about-us.html',true)">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/about-us.png" alt="financial">
                         </div>
@@ -124,7 +120,7 @@
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
-                     <div  class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/helpcenter')">
+               <!--      <div  class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/helpcenter')">
                          <div flex-box="0">
                              <img  class="logo" src="../images/personal-center/settings.png" alt="financial" >
                          </div>
@@ -132,7 +128,7 @@
                          <div flex-box="0">
                              <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
                          </div>
-                     </div>
+                     </div>-->
                 </div>
             </div>
             <div class="cantact-us">
@@ -143,13 +139,8 @@
             <div class="btn logout" @click.stop="logout()">
                 退出登录
             </div>
-            <modal v-show="showModal" @callBack="callBack"></modal>
         </div>
         <div class="nav" flex-box="0" flex="box:mean">
-            <div @click.stop="getPath('/index')">
-                <img src="../images/nav/index.png" alt="index">
-                <p>首页</p>
-            </div>
             <div @click.stop="getPath('/financial')">
                 <img src="../images/nav/financial.png" alt="financial">
                 <p>理财</p>
@@ -159,6 +150,7 @@
                 <p>下载app</p>
             </div>
         </div>
+        <modal v-show="showModal" @callBack="callBack"></modal>
     </div>
 
 </template>

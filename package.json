@@ -61,7 +61,7 @@
     "shelljs": "^0.7.6",
     "style-loader": "^0.18.0",
     "url-loader": "^0.5.8",
-    "vue-loader": "^10.0.0",
+    "vue-loader": "^10.3.0",
     "vue-template-compiler": "^2.1.0",
     "webpack": "^3.4.1",
     "webpack-md5-hash": "^0.0.5",

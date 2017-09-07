@@ -140,7 +140,7 @@ if (env == 'production'|| env == 'stage' || env == 'test') {
             comments: false,
             compress: {
                 warnings: false,
-                drop_console:true
+                drop_console: true
             }
         }),
         new WebpackMd5Hash(),

@@ -46,8 +46,7 @@
                     2.客户提交提现申请后的T+1个工作日内到账（周末、节假日顺延）
                     <br>
                     <br>
-
-                    提现过程中有疑问，请联系客服<a href="tel:400-640-3606" style="text-decoration: none">400-640-3606</a>（工作时间：9:00—18:00）
+                    提现过程中有疑问，请联系客服<a href="tel:400-640-3606" style="text-decoration: none">400-640-3606</a>（工作时间：工作日 9:00—18:00）
                 </div>
             </div>
         </div>
@@ -67,13 +66,7 @@
     import {Toast, MessageBox, Indicator} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
     import '../less/withdraw.less';
-    let imgNames = ['abchina', 'bankcomm', 'bankofshanghai',
-        'boc', 'ccb', 'cebbank', 'cgbchina', 'cib', 'cmbc',
-        'cmbchina', 'ecitic', 'hxb', 'icbc', 'pingan', 'psbc', 'spdb'];
-    let imgUrls = {};
-    imgNames.map(url => {
-        imgUrls[url] = require(`../images/bank/${url}.png`)
-    });
+    import * as bank from '../tools/bank';
     let timer = null;
     export default {
         name: 'withdraw',
@@ -81,36 +74,28 @@
             return {
                 withdrawMount: '',
                 telNumber,
-                bankImg: '',
                 btnDisabled: true,
                 overHint: false,
                 inputPassword: false,
                 single_limit_value: 500000,
-                imgUrls
             }
         },
         components: {
             PasswordInput
         },
         created(){
-            if (this.bank_code) {
-                this.bankImg = this.imgUrls[this.bank_code];
-            }
             let event = ['_trackEvent', '提现', 'SHOW', '进入提现页面', '进入提现页面'];
             window._hmt.push(event);
         },
-        computed: mapState([
-            'bankUserCardNo',
-            'bank_code',
-            'bank_name',
-            'accountCashAmount',
-            'bankUserPhone']),
-        watch: {
-            bank_code(){
-                if (this.bank_code) {
-                    this.bankImg = this.imgUrls[this.bank_code];
-                }
-
+        computed: {
+            ...mapState([
+                'bankUserCardNo',
+                'bank_code',
+                'bank_name',
+                'accountCashAmount',
+                'bankUserPhone']),
+            bankImg(){
+                return bank[this.bank_code]||'';
             }
         },
         methods: {

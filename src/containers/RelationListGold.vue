@@ -31,7 +31,7 @@
                 <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="stopLoad" infinite-scroll-distance="10">
                     <li class="list-item" flex v-for="(item,index) in list">
                         <div class="user-logo" flex-box="0">
-                            <img src="../images/personal-center/user-default.png" alt="avatar" class="avatar">
+                            <img src="../images/personal-center/user-head-2.png" alt="avatar" class="avatar">
                             <p class="name" v-if="item.investorRealName">{{item.investorRealName}}</p>
                         </div>
                         <div flex-box="1">
@@ -40,15 +40,15 @@
                                 <p flex-box="1">绑定日期</p>
                                 <p flex-box="1">{{item.registerTime}}</p>
                             </div>
-                            <div flex class="relation-detail" v-if="item.rewardTotal">
-                                <div flex-box="1" flex="cross:center">
+                            <div flex class="relation-detail" v-if="item.rewardTotal" >
+                                <div flex-box="1" flex="cross:center" @click.stop="showTip">
                                     <p>贡献奖励</p>
-                                    <img src="../images/tip.png" alt="tip" class="tip" @click.stop="showTip">
+                                    <img src="../images/tip.png" alt="tip" class="tip" >
                                 </div>
                                 <p flex-box="1">{{item.rewardTotal}}元</p>
                             </div>
                         </div>
-                        <div class="verify-status" v-if="item.userVerifyStatus>=2">已绑卡</div>
+                        <div class="verify-status" v-if="item.userVerifyStatus>=3">已绑卡</div>
                     </li>
                 </ul>
             </mt-loadmore>
@@ -89,7 +89,7 @@
             showTip(){
                 MessageBox({
                     title: '提示',
-                    message: '贡献奖励=好友为你带来的未结算邀请奖励、已结算邀请奖励之和在我的奖励中可以查看明细',
+                    message: '贡献奖励=好友为你带来的未结算邀请奖励、已结算邀请奖励之和<br/>在我的奖励中可以查看明细',
                     confirmButtonText: '知道了'
                 })
             },
