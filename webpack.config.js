@@ -136,8 +136,8 @@ if (env == 'production'|| env == 'stage' || env == 'test') {
             }
         }),
         new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            comments: false,
+            sourceMap: false,
+         /*   comments: false,*/
             compress: {
                 warnings: false,
                 drop_console:true
