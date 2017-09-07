@@ -3,6 +3,9 @@ const webpack = require('webpack');
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractCSS = new ExtractTextPlugin('flex.[hash:8].css');
+const extractLESS = new ExtractTextPlugin('[name].[hash:8].css');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const autoprefixer = require('autoprefixer');
@@ -61,15 +64,21 @@ const config = {
             },
             {
                 test: /\.less$/,
-                loader: ['style-loader','css-loader','postcss-loader','less-loader']
-
+                use: extractLESS.extract({
+                    fallback: 'style-loader',
+                    //resolve-url-loader may be chained before sass-loader if necessary
+                    use: ['css-loader', 'postcss-loader', 'less-loader']
+                })
 
 
             },
             {
                 test: /\.css$/,
-                loader: ['style-loader','css-loader']
-
+                use: extractCSS.extract({
+                    fallback: 'style-loader',
+                    //resolve-url-loader may be chained before sass-loader if necessary
+                    use: ['css-loader']
+                })
 
 
             },
@@ -89,6 +98,8 @@ const config = {
             names: ['ventor', 'tools'],
             minChunks: Infinity
         }),
+        extractCSS,
+        extractLESS,
         new webpack.NoEmitOnErrorsPlugin(),
         // new WebpackMd5Hash(),
         new HtmlWebpackPlugin({
@@ -126,7 +137,7 @@ if (env == 'production'|| env == 'stage' || env == 'test') {
         }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
-         /*   comments: false,*/
+            comments: false,
             compress: {
                 warnings: false,
                 drop_console: true
