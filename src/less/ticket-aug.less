@@ -6,28 +6,64 @@
     background-image: linear-gradient(180deg, #FF6F50, #A00101);
 
     .header {
+    position:relative;
+      .duration {
+                 position:absolute;
+                 color: #FFFDCE;
+                 left:50%;
+                 transform: translateX(-50%);
+                 bottom: 0.8rem;
+             }
     }
     .body {
         text-align: center;
         padding-bottom: 1rem;
-        .duration{
-            color: @bg-content;
-        }
+
         .ticket {
             width: 17.15rem;
         }
-        .content {
-            color: @bg-content;
-            font-size: .6rem;
-            padding: 0 2rem;
-            .title{
-                font-size: .8rem;
-                margin: .5rem 0;
+
+         .content {
+                color: #FFFDCE;
+                .content-title {
+                    padding: 0 1.6rem;
+                    position: relative;
+                    font-size: .8rem;
+                    .text {
+                        width: 6rem;
+                        text-align: center;
+                    }
+                    .star {
+                        width: .6rem;
+                        height: .6rem;
+                        background-size: contain;
+                        background-image: url("../images/ticket-aug/star.png");
+                        background-repeat: no-repeat;
+                    }
+                }
+                .content-info {
+                    text-align: center;
+                    font-size: .6rem;
+                    margin: 1.6rem 0;
+                    .highlight {
+                        color: #F3FF18;
+                        font-size: .8rem;
+                        text-shadow: 0 1px 1px rgba(0, 0, 0, 1);
+                    }
+                    .info-title {
+                        margin-top: .3rem;
+                    }
+                    img {
+                        width: 2rem;
+                        margin-top: 1.3rem;
+                    }
+                    &.rules {
+                        width: 15.7rem;
+                        margin: .6rem auto 0 auto;
+                        text-align: left;
+                    }
+                }
             }
-            .detail {
-                text-align: left;
-            }
-        }
         .tip {
             margin-top: .8rem;
             color: #710100;
