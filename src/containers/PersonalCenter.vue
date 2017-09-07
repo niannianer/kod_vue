@@ -111,7 +111,7 @@
                     </div>
                 </div>
                 <div class="section seperate" flex="dir:top">
-                    <div class="item bl" flex-box="1" flex="cross:center" @click.stop="getPath('/land-about-us.html',true)">
+                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-about-us.html',true)">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/about-us.png" alt="financial">
                         </div>
@@ -120,7 +120,7 @@
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
-                     <div  class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/helpcenter')">
+               <!--      <div  class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/helpcenter')">
                          <div flex-box="0">
                              <img  class="logo" src="../images/personal-center/settings.png" alt="financial" >
                          </div>
@@ -128,7 +128,7 @@
                          <div flex-box="0">
                              <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
                          </div>
-                     </div>
+                     </div>-->
                 </div>
             </div>
             <div class="cantact-us">
