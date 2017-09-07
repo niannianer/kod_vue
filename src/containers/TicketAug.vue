@@ -3,36 +3,47 @@
         <div class="wrap" flex-box="1" style="overflow: auto">
             <div class="header">
                 <img src="../images/ticket-aug/ticket-aug-bg.jpg" alt="ticket-aug-bg">
+                <p class="duration">活动时间：9月7日-9月13日</p>
             </div>
             <div class="body">
-                <p class="duration">活动时间：8月29日-8月31日</p>
                 <img class="ticket" src="../images/ticket-aug/ticket.png" alt="ticket">
                 <div class="content">
-                    <p class="title">活动规则：</p>
-                    <div class="detail">
-
+                    <div class="content-title" flex="main:jusitfy">
+                        <div class="stars" flex-box="1" flex="main:jusitfy cross:center">
+                            <span class="star" flex-box="1"></span>
+                            <span class="star" flex-box="1"></span>
+                            <span class="star" flex-box="1"></span>
+                            <span class="star" flex-box="1"></span>
+                            <span class="star" flex-box="1"></span>
+                        </div>
+                        <div class="text" flex-box="0">活动规则</div>
+                        <div class="stars" flex-box="1" flex="main:jusitfy cross:center">
+                            <span class="star" flex-box="1"></span>
+                            <span class="star" flex-box="1"></span>
+                            <span class="star" flex-box="1"></span>
+                            <span class="star" flex-box="1"></span>
+                            <span class="star" flex-box="1"></span>
+                        </div>
+                    </div>
+                    <div class="content-info rules">
                         <div flex>
                             <p flex-box="0">1、</p>
                             <p>活动仅限新注册及注册未绑卡用户参加，完成绑卡操作后红包自动发放至用户平台账户中，已绑卡用户无法参加活动；</p>
                         </div>
                         <div flex>
                             <p flex-box="0">2、</p>
-                            <p>红包数量有限，发完即止；</p>
+                            <p>红包自领取之日起30天内有效，仅限购买平台90天期产品；</p>
                         </div>
                         <div flex>
                             <p flex-box="0">3、</p>
-                            <p>红包仅限购买平台90天期产品；</p>
+                            <p>活动时间2017年9月7日-2017年9月13日；</p>
                         </div>
                         <div flex>
                             <p flex-box="0">4、</p>
-                            <p>活动时间2017年8月29日-2017年8月31日，红包仅限活动期间投资使用；</p>
-                        </div>
-                        <div flex>
-                            <p flex-box="0">5、</p>
                             <p>平台已代扣代缴相关税费；</p>
                         </div>
                         <div flex>
-                            <p flex-box="0">6、</p>
+                            <p flex-box="0">5、</p>
                             <p>金疙瘩保留对本活动在法律范围内的最终解释权。</p>
                         </div>
                     </div>
@@ -45,7 +56,7 @@
             </div>
         </div>
         <div class="bottom" flex-box="0" flex="box:mean" v-if="!isApp">
-            <p @click.stop="share">邀请好友领红包</p>
+            <p @click.stop="share">通知好友领红包</p>
             <p style="border-left:1px solid #fff " @click.stop="goStep">我要领红包</p>
         </div>
         <!--遮罩层-->
