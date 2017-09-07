@@ -130,7 +130,7 @@ export default [
         title:'投资期限',
         answers:[
             {
-                title:'A．一年及一年以内%以上',
+                title:'A．一年及一年以内',
                 score:1
 
             },
