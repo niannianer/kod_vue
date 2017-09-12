@@ -55,7 +55,7 @@
     import $api from '../tools/api';
     import {mapState} from 'vuex';
     import $fun from '../tools/fun';
-    import {submitAuthorization} from '../tools/operation';
+    /*import {submitAuthorization} from '../tools/operation';*/
     import {Toast} from 'mint-ui';
     export default {
         name: 'authentication',
@@ -128,7 +128,8 @@
                         this.popup = false;
                         setTimeout(() => {
                             this.loading = false;
-                            submitAuthorization(this.userId);
+                            this.$router.replace('/bind-bank-card');
+                         /*   submitAuthorization(this.userId);*/
                         }, 3000);
                     } else if (msg.code == 8003) {
                         this.loading = false;
