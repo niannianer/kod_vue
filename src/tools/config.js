@@ -41,7 +41,7 @@ if (process.env.kingold == 'production') {
 /* 兼容zj-wm.cn*/
 let host = window.location.host;
 if (host.indexOf('zj-wm.cn') > -1) {
-    apiUrl.replace('zj-hf.cn', 'zj-wm.cn')
+    apiUrl = apiUrl.replace('zj-hf.cn', 'zj-wm.cn');
 }
 export default {
     apiUrl,
