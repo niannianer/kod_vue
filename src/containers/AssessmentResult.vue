@@ -10,6 +10,7 @@
             <div style="text-align: center">您适合【{{data[investorRiskType].recommend}}】的产品和服务</div>
         </div>
         <div class="re-submit">
+            <button class="btn-default btn-done" @click.stop="done">完成测评</button>
             <button class="btn-default btn-submit" @click.stop="reSubmit">重新测评</button>
         </div>
 
@@ -116,6 +117,9 @@
                     });
                 }
 
+            },
+            done(){
+                this.$router.replace('/personal-center');
             }
         },
         destroyed(){
