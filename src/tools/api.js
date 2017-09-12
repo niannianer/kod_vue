@@ -10,6 +10,8 @@ if (!window.Promise) {
     window.Promise = Promise;
 }
 import {encryptFun, decryptFun} from './crypto';
+
+import 'whatwg-fetch';
 import config, {doEncrypt} from './config';
 let serverUrl = config.apiUrl;
 let nodeUrl = config.apiNode;
