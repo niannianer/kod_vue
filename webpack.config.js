@@ -19,7 +19,7 @@ console.log(env);
 const config = {
     entry: {
         'ventor': ['vue', 'vue-router', 'vuex'],
-        'tools': ['promise-polyfill', 'whatwg-fetch', 'lodash/core', 'fastclick'],
+        'tools': ['promise-polyfill', 'axios', 'lodash/core', 'fastclick'],
         'main': './src/main.js'
     },
     output: {
