@@ -19,7 +19,7 @@ console.log(env);
 const config = {
     entry: {
         'ventor': ['vue', 'vue-router', 'vuex'],
-        'tools': ['promise-polyfill', 'axios', 'lodash/core', 'fastclick'],
+        'tools': ['promise-polyfill', 'lodash/core', 'fastclick'],
         'main': './src/main.js'
     },
     output: {
@@ -140,7 +140,7 @@ if (env == 'production'|| env == 'stage' || env == 'test') {
             comments: false,
             compress: {
                 warnings: false,
-                drop_console: true
+                drop_console:true
             }
         }),
         new WebpackMd5Hash(),
