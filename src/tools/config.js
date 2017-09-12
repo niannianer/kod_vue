@@ -3,7 +3,6 @@
  */
 let protocol = window.location.protocol;
 export const telNumber = '400-640-3606';
-
 let encrypt = false;
 /*dev env*/
 let apiUrl = 'http://10.10.10.69:6620';
@@ -38,6 +37,11 @@ if (process.env.kingold == 'production') {
     merchant_id = '1177929';
     terminal_id = '35265';
     encrypt = true;
+}
+/* 兼容zj-wm.cn*/
+let host = window.location.host;
+if (host.indexOf('zj-wm.cn') > -1) {
+    apiUrl.replace('zj-hf.cn', 'zj-wm.cn')
 }
 export default {
     apiUrl,

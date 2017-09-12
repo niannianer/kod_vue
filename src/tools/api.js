@@ -2,6 +2,7 @@
  * Created by hekk on 2017/5/28.
  */
 import Promise from 'promise-polyfill';
+import axios from 'axios';
 
 
 // To add to window
@@ -11,7 +12,6 @@ if (!window.Promise) {
 import {encryptFun, decryptFun} from './crypto';
 
 import 'whatwg-fetch';
-import store from '../store';
 import config, {doEncrypt} from './config';
 let serverUrl = config.apiUrl;
 let nodeUrl = config.apiNode;
@@ -44,22 +44,18 @@ let $query = (data) => {
 let get = (path, data = {}) => {
     data.callSystemID = '1003';
     data.t = new Date().getTime();
-    let credentials = 'include';
-    let url = `${serverUrl + path}?${query(data)}`;
-    return fetch(url, {
+    let url = `${serverUrl + path}`;
+    return axios({
+        url,
         method: 'get',
-        credentials,
         headers: {
-            'Accept': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        },
+        params: data,
+        withCredentials: true
     }).then(response => {
         if (response.status == 200) {
-            if (doEncrypt) {
-                return response.text();
-            } else {
-                return response.json();
-            }
+            return response.data;
         }
         if (response.status == 503) {
             return {};
@@ -81,17 +77,17 @@ let getNode = (path, data = {}) => {
     data.t = new Date().getTime();
     data.callSystemID = '1003';
     let url = `${nodeUrl + path}`;
-    url = `${url}?${query(data)}`;
-    return fetch(url, {
+    return axios({
+        url,
         method: 'get',
-        credentials: 'same-origin',
         headers: {
-            'Accept': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        },
+        params: data,
+        withCredentials: false
     }).then(response => {
         if (response.status == 200) {
-            return response.json();
+            return response.data;
         }
     }).then(data => {
         return data;
@@ -103,22 +99,20 @@ import  {logout} from './operation';
 let post = (path, data = {}) => {
     data.callSystemID = '1003';
     let url = `${serverUrl + path}`;
-    let credentials = 'include';
-    return fetch(url, {
+    return axios({
+        url,
         method: 'post',
-        credentials,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: doEncrypt ? $query(data) : query(data)
+        params: {
+            t: new Date().getTime()
+        },
+        withCredentials: true,
+        data: doEncrypt ? $query(data) : query(data)
     }).then(response => {
         if (response.status == 200) {
-            if (doEncrypt) {
-                return response.text()
-            } else {
-                return response.json();
-            }
-
+            return response.data
         }
         if (response.status == 503) {
             return {};
@@ -140,17 +134,20 @@ let post = (path, data = {}) => {
 };
 let postNode = (path, data = {}) => {
     let url = `${nodeUrl + path}`;
-    return fetch(url, {
+    return axios({
+        url,
         method: 'post',
-        credentials: 'same-origin',
         headers: {
-            'Accept': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: query(data)
+        params: {
+            t: new Date().getTime()
+        },
+        withCredentials: false,
+        data: query(data)
     }).then(response => {
         if (response.status == 200) {
-            return response.json()
+            return response.data
         }
         if (response.status == 503) {
             return {};
