@@ -61,8 +61,8 @@
                     },
                     {
                         type:'最低风险承受能力的投资者',
-                        desc:'高度追求资金的增值，愿意接受可能年年出现的大幅波动，以换取资金高成长的可能性。为了最大限度地获得资金增值，常常将大部分资金投入风险较高的品种。愿意承受失败的风险。',
-                        recommend:'低风险、中低风险、中等风险、中高风险、高风险'
+                        desc:'保护本金不受损蚀和保持资产的流动性是您的首要目标。对投资的态度是希望投资收益极度稳定，对风险的容忍程度极低。',
+                        recommend:'低风险'
                     },
 
                 ]
@@ -125,7 +125,16 @@
 
             },
             done(){
-                this.$router.replace('/personal-center');
+                if(this.isApp){
+                    requestHybrid({
+                        tagname: 'back',
+                        param: {
+                            done: 0// "完成测评",
+                        }
+                    });
+                }else{
+                    this.$router.back();
+                }
             }
         },
         destroyed(){
