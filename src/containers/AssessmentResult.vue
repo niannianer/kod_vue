@@ -10,7 +10,8 @@
             <div style="text-align: center">您适合【{{data[investorRiskType].recommend}}】的产品和服务</div>
         </div>
         <div class="re-submit">
-            <button class="btn-default btn-submit" @click.stop="reSubmit">重新测评</button>
+            <button class="btn-default btn-done" @click.stop="done" :class="{'app':isApp}">完成测评</button>
+            <button class="btn-default btn-submit" @click.stop="reSubmit" :class="{'app':isApp}">重新测评</button>
         </div>
 
     </div>
@@ -57,7 +58,13 @@
                         type:'激进型投资者',
                         desc:'高度追求资金的增值，愿意接受可能年年出现的大幅波动，以换取资金高成长的可能性。为了最大限度地获得资金增值，常常将大部分资金投入风险较高的品种。愿意承受失败的风险。',
                         recommend:'低风险、中低风险、中等风险、中高风险、高风险'
-                    }
+                    },
+                    {
+                        type:'最低风险承受能力的投资者',
+                        desc:'保护本金不受损蚀和保持资产的流动性是您的首要目标。对投资的态度是希望投资收益极度稳定，对风险的容忍程度极低。',
+                        recommend:'低风险'
+                    },
+
                 ]
             }
         },
@@ -116,6 +123,18 @@
                     });
                 }
 
+            },
+            done(){
+                if(this.isApp){
+                    requestHybrid({
+                        tagname: 'back',
+                        param: {
+                            done: 0// "完成测评",
+                        }
+                    });
+                }else{
+                    this.$router.back();
+                }
             }
         },
         destroyed(){

@@ -128,6 +128,7 @@
                         this.popup = false;
                         setTimeout(() => {
                             this.loading = false;
+                            this.$store.dispatch('getUserInfo');
                             this.$router.replace('/bind-bank-card');
                          /*   submitAuthorization(this.userId);*/
                         }, 3000);
