@@ -585,8 +585,8 @@ let routes = [
         }
     },
     {
-        path: '/fixi-finacial',
-        name: 'fixi-finacial',
+        path: '/fixi-financial',
+        name: 'fixi-financial',
         component: FixiFinancial,
         meta: {
             title: '定期理财'
