@@ -57,7 +57,7 @@ const Register = () => import('../containers/Register');
 const FindPassword = () => import('../containers/FindPassword');
 const FixiGoodsDetail = () => import('../containers/FixiGoodsDetail');
 const Feedback = () => import('../containers/Feedback');
-
+const FixiFinancial = () => import('../containers/FixiFinancial');
 
 const HouseOne = PensionOne;
 
@@ -131,7 +131,7 @@ let routes = [
             withoutLogin: true
         },
         component: FixiGoodsDetail
-    },{
+    }, {
         path: '/feedback',
         name: 'feedback',
         meta: {
@@ -582,6 +582,14 @@ let routes = [
         meta: {
             title: '产品详情',
             withoutLogin: true
+        }
+    },
+    {
+        path: '/fixi-finacial',
+        name: 'fixi-finacial',
+        component: FixiFinancial,
+        meta: {
+            title: '定期理财'
         }
     }
 ];
