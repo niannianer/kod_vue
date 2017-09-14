@@ -21,6 +21,7 @@
             <div id="code" flex-box='1'>
                 <canvas id="canvas" flex-box='1' style="display: none"></canvas>
                 <img :src="imgSrc" alt="">
+                <div class="icon"></div>
             </div>
         </div>
         <div @click.stop="link()">
