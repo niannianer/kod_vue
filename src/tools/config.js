@@ -42,6 +42,7 @@ if (process.env.kingold == 'production') {
 let host = window.location.host;
 if (host.indexOf('zj-wm.cn') > -1) {
     apiUrl = apiUrl.replace('zj-hf.cn', 'zj-wm.cn');
+    window.localStorage.setItem('registerChannelCode','H5_market');
 }
 export default {
     apiUrl,
