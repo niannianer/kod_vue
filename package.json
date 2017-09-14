@@ -62,7 +62,7 @@
     "style-loader": "^0.18.0",
     "url-loader": "^0.5.8",
     "vue-loader": "^10.3.0",
-    "vue-template-compiler": "^2.1.0",
+    "vue-template-compiler": "^2.4.3",
     "webpack": "^2.7.0",
     "webpack-md5-hash": "^0.0.5",
     "weixin-js-sdk": "^1.2.0",
