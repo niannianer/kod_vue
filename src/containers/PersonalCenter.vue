@@ -120,15 +120,6 @@
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
-               <!--      <div  class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/helpcenter')">
-                         <div flex-box="0">
-                             <img  class="logo" src="../images/personal-center/settings.png" alt="financial" >
-                         </div>
-                         <p flex-box="1">帮助中心</p>
-                         <div flex-box="0">
-                             <img class="arrow" src="../images/arrow-right.png" alt="arrow" >
-                         </div>
-                     </div>-->
                 </div>
             </div>
             <div class="cantact-us">
