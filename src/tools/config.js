@@ -42,7 +42,11 @@ if (process.env.kingold == 'production') {
 let host = window.location.host;
 if (host.indexOf('zj-wm.cn') > -1) {
     apiUrl = apiUrl.replace('zj-hf.cn', 'zj-wm.cn');
-    window.localStorage.setItem('registerChannelCode','H5_market');
+    window.localStorage.setItem('registerChannelCode', 'H5_market');
+}
+import query from './query';
+if (query['channel_code']) {
+    window.localStorage.setItem('registerSharePageType', query['channel_code']);
 }
 export default {
     apiUrl,
