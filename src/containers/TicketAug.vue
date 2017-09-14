@@ -32,7 +32,7 @@
                         </div>
                         <div flex>
                             <p flex-box="0">2、</p>
-                            <p>红包自领取之日起30天内有效，仅限购买平台90天期产品；</p>
+                            <p>红包自领取之日起30天内有效，仅限购买平台90天期产品使用；</p>
                         </div>
                         <div flex>
                             <p flex-box="0">3、</p>
@@ -153,8 +153,8 @@
             },
             getShare(){
                 wx.getShare({
-                    title: '金疙瘩喊你回家领红包啦！',
-                    desc: '不多不少，50刚好~',
+                    title: '好久不见，送个红包聊表想念。',
+                    desc: '有钱赚的事绝对不能忘记你！大家赚才是真的赚~',
                     link: window.location.origin + '/land-ticket-aug-register.html?inviter=' + this.userLoginName,
                 });
             },

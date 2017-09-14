@@ -3,9 +3,6 @@ const webpack = require('webpack');
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const extractCSS = new ExtractTextPlugin('flex.[hash:8].css');
-const extractLESS = new ExtractTextPlugin('[name].[hash:8].css');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const autoprefixer = require('autoprefixer');
@@ -19,7 +16,7 @@ console.log(env);
 const config = {
     entry: {
         'ventor': ['vue', 'vue-router', 'vuex'],
-        'tools': ['promise-polyfill', 'whatwg-fetch', 'lodash/core', 'fastclick'],
+        'tools': ['promise-polyfill', 'axios', 'lodash/core', 'fastclick'],
         'main': './src/main.js'
     },
     output: {
@@ -64,21 +61,14 @@ const config = {
             },
             {
                 test: /\.less$/,
-                use: extractLESS.extract({
-                    fallback: 'style-loader',
-                    //resolve-url-loader may be chained before sass-loader if necessary
-                    use: ['css-loader', 'postcss-loader', 'less-loader']
-                })
+                loader: 'style-loader!css-loader!postcss-loader!less-loader'
 
 
             },
             {
                 test: /\.css$/,
-                use: extractCSS.extract({
-                    fallback: 'style-loader',
-                    //resolve-url-loader may be chained before sass-loader if necessary
-                    use: ['css-loader']
-                })
+                loader: 'style-loader!css-loader'
+
 
 
             },
@@ -98,8 +88,6 @@ const config = {
             names: ['ventor', 'tools'],
             minChunks: Infinity
         }),
-        extractCSS,
-        extractLESS,
         new webpack.NoEmitOnErrorsPlugin(),
         // new WebpackMd5Hash(),
         new HtmlWebpackPlugin({

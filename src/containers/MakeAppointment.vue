@@ -8,7 +8,7 @@
             </div>
             <div class="form-item" flex>
                 <label class="label" for="idcard" flex-box="0">客户身份证号</label>
-                <input class="input" type="tel" name="idcard" id="idcard" flex-box="1" v-model.trim="customerIdCardNo"
+                <input class="input" type="text" name="idcard" id="idcard" flex-box="1" v-model.trim="customerIdCardNo"
                        autocomplete="off" placeholder="请输入身份证号">
             </div>
             <div class="form-item" flex>

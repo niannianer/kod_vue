@@ -34,7 +34,8 @@
                 storagePassword: '',
                 pShow: false,
                 btnActive: false,
-                btnShow: false
+                btnShow: false,
+                isGetTicket: false/*是否已经获得现金券*/
             }
         },
         components: {
@@ -43,6 +44,19 @@
         created(){
             let event = ['_trackEvent', '设置交易密码', 'SHOW', '进入设置交易密码页面', '进入设置交易密码页面'];
             window._hmt.push(event);
+            $api.get('/cashCoupon/list', {
+                couponType: 1,
+                startRow: 0,
+                pageSize: 1
+            })
+                .then(resp => {
+                    if (resp.code == 200) {
+                        if (resp.data.couponCount) {
+                            this.isGetTicket = true;
+                            /*已经获得现金券*/
+                        }
+                    }
+                })
         },
         methods: {
             callBack(password){
@@ -88,7 +102,7 @@
                             setTimeout(() => {
                                 this.$store.dispatch('getPersonalCenterMsg');
                                 this.$store.dispatch('getBankInfo');
-                                this.$router.replace('/my-assets');
+                                this.$router.replace('/personal-center');
                             }, 1000);
                         } else {
                             Toast(msg.msg);
