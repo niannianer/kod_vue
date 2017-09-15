@@ -47,7 +47,8 @@
             <transition-group name="list-complete" tag="div">
                 <div class="list-complete-item" v-show="ticketListBoolean" v-bind:key="0">
                     <div flex-box="1" class="ticket-list" ref="ticketList">
-                        <div class="ticket-item" flex v-for="item in ticketList" @click.stop="chooseCode(item)"
+                        <div class="ticket-item" flex v-for="item in ticketList"
+                             @click.stop="chooseCode(item)"
                              :class="{'active':couponExtendCode==item.couponExtendCode}">
                             <p flex-box="1">满{{item.applyTradeAmount}}元减{{item.faceValue}}元</p>
                             <p flex-box="1">{{item.leftText}}</p>
@@ -89,8 +90,10 @@
                     </div>
                 </div>
             </transition-group>
-            <password-input v-show="inputPassword" title="购买产品" @close="inputPassword=false" @callBack="tradeCallback"
-            ></password-input>
+            <password-input v-show="inputPassword"
+                            title="购买产品" @close="inputPassword=false"
+                            @callBack="tradeCallback">
+            </password-input>
 
         </div>
         <div class="btn" flex-box="0" @click.stop="rechargeHandle()" v-if="isLack">
