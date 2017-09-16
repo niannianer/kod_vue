@@ -102,11 +102,7 @@
                             setTimeout(() => {
                                 this.$store.dispatch('getPersonalCenterMsg');
                                 this.$store.dispatch('getBankInfo');
-                                if (this.isGetTicket) {/*已经成功领到全跳转领券成功提示页*/
-                                    window.location.replace('/land-ticket-aug-succ.html');
-                                }else{
-                                    this.$router.replace('/my-assets');
-                                }
+                                this.$router.replace('/personal-center');
                             }, 1000);
                         } else {
                             Toast(msg.msg);
