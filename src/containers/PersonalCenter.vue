@@ -89,27 +89,17 @@
                     </div>
                 </div>
                 <div class="section seperate" flex="dir:top">
-                    <div class="item bl" flex-box="1" flex="cross:center" @click.stop="getPath('/reward')">
+                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-share-relation.html',true)">
                         <div flex-box="0">
-                            <img class="logo" src="../images/personal-center/reward.png" alt="financial">
+                            <img class="logo" src="../images/personal-center/share.png" alt="share">
                         </div>
-                        <p flex-box="1">我的奖励</p>
-                        <p flex-box="0">{{rewardSum | currencyFormat}}</p>
-                        <div flex-box="0">
-                            <img class="arrow" src="../images/arrow-right.png" alt="arrow">
-                        </div>
-                    </div>
-                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/relation')">
-                        <div flex-box="0">
-                            <img class="logo" src="../images/personal-center/relation.png" alt="financial">
-                        </div>
-                        <p flex-box="1">我的好友</p>
-                        <p flex-box="0">{{relationCount}}</p>
+                        <p flex-box="1">一起赚</p>
                         <div flex-box="0">
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
                 </div>
+
                 <div class="section seperate" flex="dir:top">
                     <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-about-us.html',true)">
                         <div flex-box="0">
@@ -145,6 +135,10 @@
                 <img src="../images/nav/financial.png" alt="financial">
                 <p>理财</p>
             </div>
+            <div @click.stop="getPath('/relation')">
+                <img src="../images/nav/relation.png" alt="relation">
+                <p>好友</p>
+            </div>
             <div @click.stop="getPath('/land-download.html',true)">
                 <img src="../images/nav/download.png" alt="download">
                 <p>下载app</p>
@@ -159,7 +153,7 @@
     let times = 0;
     import {mapState} from 'vuex';
     import Modal from '../components/Modal';
-    import {Toast} from 'mint-ui';
+    import {Toast,Indicator,MessageBox} from 'mint-ui';
     import {telNumber} from '../tools/config';
     import $api from '../tools/api';
     import wx from '../tools/wx';
@@ -172,17 +166,34 @@
             return {
                 telNumber,
                 mode: true,
-                showModal: false
+                showModal: false,
+                orderBillCode:''
             }
         },
         created(){
             this.mode = window.localStorage.getItem('mode') == 'true' ? true : false;
-            this.getBaofoo();
             if ($device.isWeixin) {
-                this.getShare();
+                this.getShare() ;
             }
             let event = ['_trackEvent', '个人中心', 'SHOW', '进入个人中心页面且已登录', '进入已登录个人中心'];
             window._hmt.push(event);
+            if (this.$route.query.t) {
+                window.sessionStorage.setItem('fromBaoFoo', '1');
+                if (window.location.href.indexOf('test') > -1) {
+                    window.location.replace('https://static-test.zj-hf.cn/personal-center');
+                } else {
+                    window.location.replace('https://zj-static.zj-hf.cn/personal-center');
+                }
+                return false;
+            }
+            let rechargeOrderBillCode = window.sessionStorage.getItem('rechargeOrderBillCode');
+            let fromBaoFoo = window.sessionStorage.getItem('fromBaoFoo');
+            if (rechargeOrderBillCode && fromBaoFoo) {
+                this.orderBillCode = rechargeOrderBillCode;
+                window.sessionStorage.removeItem('rechargeOrderBillCode');
+                window.sessionStorage.removeItem('fromBaoFoo');
+                this.getTradeRecharge();
+            }
 
         },
         computed: {
@@ -203,14 +214,7 @@
         },
         methods: {
             getBaofoo(){
-                setTimeout(() => {
-                    times++;
-                    if (times >= 3) {
-                        return;
-                    }
-                    this.$store.dispatch('getAccountBaofoo');
-                    this.getBaofoo();
-                }, 3000);
+                this.$store.dispatch('getAccountBaofoo');
             },
             goStep(){
                 let {userVerifyStatus} = this;
@@ -305,6 +309,41 @@
                 wx.getShare({
                     title: '金疙瘩——个人中心'
                 });
+            },
+            getTradeRecharge(){
+                if(!this.orderBillCode){
+                    return false;
+                }
+                Indicator.open('正在等待银行返回结果...');
+                let rechargeBillCode = this.orderBillCode;
+                $api.get('/getTradeRecharge', {rechargeBillCode})
+                    .then(res => {
+                        if (res.code == 200) {
+                            let {data} = res;
+                            if (data.rechargeStatus === 0) {
+                                let timer = setTimeout(() => {
+                                    times++;
+                                    if (times <= 5) {
+                                        this.getTradeRecharge();
+                                    } else {
+                                        clearTimeout(timer);
+                                        Indicator.close();
+                                        MessageBox.alert(`银行充值返回较慢，请耐心等待，如有问题，请联系客服！`, '提示');
+                                    }
+                                }, 2000);
+                            }
+                            if (data.rechargeStatus === 1) {
+                                this.getBaofoo();
+                                Indicator.close();
+                            }
+                            if (data.rechargeStatus === 2) {
+                                this.getBaofoo();
+                                Indicator.close();
+                                Toast('充值失败')
+                            }
+                        }
+
+                    });
             }
         },
         components: {

@@ -1,34 +1,64 @@
 <template>
-    <div flex="dir:top" flex-box="1" class="relation">
-        <div class="body">
-            <div class="number"><span>{{total}}</span>人</div>
-            <div class="title">我的好友</div>
-        </div>
-        <div class="item" flex flex-box="0" @click.stop="pathTo(1)">
-            <div flex-box='1' class="left">金疙瘩好友</div>
-            <div flex-box='0' class="right">{{levelOneCount}}人</div>
-        </div>
-        <div class="item" flex flex-box="0" @click.stop="pathTo(2)">
-            <div flex-box='1' class="left">银疙瘩好友</div>
-            <div flex-box='0' class="right">{{levelTwoCount}}人</div>
-        </div>
-        <div class="item" flex flex-box="0" @click.stop="pathTo(3)">
-            <div flex-box='1' class="left">铜疙瘩好友</div>
-            <div flex-box='0' class="right">{{levelThreeCount}}人</div>
-        </div>
-        <div class="code-info" flex="dir:top">
-            <div flex-box='1' style="overflow: visible">我的专属二维码</div>
-            <div id="code" flex-box='1'>
-                <canvas id="canvas" flex-box='1' style="display: none"></canvas>
-                <img :src="imgSrc" alt="">
+    <div flex="dir:top" class="relation">
+        <div flex-box="1">
+            <div class="item bl seperate" flex="cross:center" flex-box="0"
+                 @click.stop="pathTo('/land-share-relation.html',true)">
+                <img src="../images/relation/reward.png" alt="logo" flex-box="0" class="logo">
+                <p class="info" flex-box="1">一起赚</p>
+                <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+            </div>
+            <div class="item" flex="cross:center" flex-box="0" @click.stop="pathTo('/reward')">
+                <img src="../images/relation/reward.png" alt="logo" flex-box="0" class="logo">
+                <p class="info" flex-box="1">我的奖励</p>
+                <p class="info" flex-box="0">{{rewardSum | currencyFormat}}</p>
+                <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+            </div>
+            <div class="item seperate bl" flex="cross:center" flex-box="0" @click.stop="pathTo('/relation-list-gold')">
+                <img src="../images/relation/relation-1.png" alt="logo" flex-box="0" class="logo">
+                <p class="info" flex-box="1">金疙瘩好友</p>
+                <p class="info" flex-box="0">{{levelOneCount}}</p>
+                <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+            </div>
+            <div class="item bl" flex="cross:center" flex-box="0" @click.stop="pathTo('/relation-list?level=2')">
+                <img src="../images/relation/relation-2.png" alt="logo" flex-box="0" class="logo">
+                <p class="info" flex-box="1">银疙瘩好友</p>
+                <p class="info" flex-box="0">{{levelTwoCount}}</p>
+                <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+            </div>
+            <div class="item" flex="cross:center" flex-box="0" @click.stop="pathTo('/relation-list?level=3')">
+                <img src="../images/relation/relation-3.png" alt="logo" flex-box="0" class="logo">
+                <p class="info" flex-box="1">铜疙瘩好友</p>
+                <p class="info" flex-box="0">{{levelThreeCount}}</p>
+                <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+            </div>
+            <div class="cantact-us">
+                <a :href="'tel:'+telNumber">
+                    联系我们：{{telNumber}}
+                </a>
             </div>
         </div>
-        <div @click.stop="link()">
-            <button class="btn btn-primary">邀请好友</button>
+        <div class="nav" flex-box="0" flex="box:mean">
+            <div @click.stop="pathTo('/index')">
+                <img src="../images/nav/index.png" alt="index">
+                <p>首页</p>
+            </div>
+            <div @click.stop="pathTo('/financial')">
+                <img src="../images/nav/financial.png" alt="financial">
+                <p>理财</p>
+            </div>
+            <div>
+                <img src="../images/nav/relation-act.png" alt="relation">
+                <p class="blue">好友</p>
+            </div>
+            <div @click.stop="pathTo('/personal-center')">
+                <img src="../images/nav/person-center.png" alt="personal-center">
+                <p>我的</p>
+            </div>
         </div>
     </div>
 </template>
 <script>
+    import {telNumber} from '../tools/config';
     import md5 from 'md5';
     import Vue from 'vue';
     import {mapState} from 'vuex';
@@ -42,6 +72,7 @@
         name: 'relation',
         data() {
             return {
+                telNumber,
                 levelOneCount: 0,
                 levelTwoCount: 0,
                 levelThreeCount: 0,
@@ -71,37 +102,36 @@
                     title: '金疙瘩——我的好友'
                 });
             },
-            pathTo(num){
-                let oper = '';
-                switch (num) {
-                    case 1:
-                        oper = '金疙瘩';
-                        break;
-                    case 2:
-                        oper = '银疙瘩';
-                        break;
-                    case 3:
-                        oper = '铜疙瘩';
-                        break;
-                }
-                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击' + oper + '好友', '我的好友页面-点击' + oper + '好友'];
-                window._hmt.push(event);
-                if (num == 1) {
-                    this.$router.push('/relation-list-gold')
+            pathTo(path,boolean){
+                /*  let oper = '';
+                 switch (num) {
+                 case 1:
+                 oper = '金疙瘩';
+                 break;
+                 case 2:
+                 oper = '银疙瘩';
+                 break;
+                 case 3:
+                 oper = '铜疙瘩';
+                 break;
+                 }
+                 let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击' + oper + '好友', '我的好友页面-点击' + oper + '好友'];
+                 window._hmt.push(event);
+                 if (num == 1) {
+                 this.$router.push('/relation-list-gold')
+                 return false;
+                 }*/
+                if(boolean){
+                    window.location.href=path;
                     return false;
                 }
-                this.$router.push({
-                    path: '/relation-list',
-                    query: {
-                        level: num
-                    }
-                })
+                this.$router.push(path)
 
             }
 
         },
         computed: {
-            ...mapState(['investorMobile','userUuid']),
+            ...mapState(['investorMobile', 'userUuid','rewardSum']),
             total(){
                 let total = Number(this.levelOneCount) + Number(this.levelTwoCount) + Number(this.levelThreeCount);
                 if (!isNaN(total)) {
@@ -112,14 +142,14 @@
 
         },
         mounted(){
-            if (this.investorMobile) {
-                this.useqrcode();
-            } else {
-                this.$store.dispatch('getUserInfo')
-                    .then(() => {
-                        this.useqrcode();
-                    })
-            }
+            /*       if (this.investorMobile) {
+             this.useqrcode();
+             } else {
+             this.$store.dispatch('getUserInfo')
+             .then(() => {
+             this.useqrcode();
+             })
+             }*/
 
         },
         created(){
