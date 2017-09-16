@@ -60,6 +60,7 @@
 <script>
     import {Toast} from 'mint-ui';
     import $api from '../tools/api';
+    import $device from '../tools/device';
     import '../less/register.less';
     export default{
         name: 'register',
@@ -200,6 +201,10 @@
                 if (this.inviterPhone) {
                     params.inviterPhone = this.inviterPhone;
                 }
+                params.registerSharePageType = window.localStorage.getItem('registerSharePageType') || '';
+                params.registerActivityBatch = window.localStorage.getItem('registerActivityBatch') || '';
+                params.registerChannelCode = window.localStorage.getItem('registerChannelCode') || 'H5_weixin';
+                params.registerDeviceOs = $device.os + '-' + $device.osVersion;
                 $api.post('/regist', params)
                     .then(data => {
                         if (data.code == 200) {
