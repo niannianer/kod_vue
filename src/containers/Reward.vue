@@ -2,13 +2,7 @@
     <div flex="dir:top" flex-box="1" class="reward">
         <div class="header" flex-box="0">
             <p class="right" @click.stop="$router.push('/reward-detail')">奖励细则</p>
-            <ul>
-                <li class='sum'>
-                    <p class='tile'>累计奖励</p>
-                    <p class='info'>{{paid}}元</p>
-                </li>
-            </ul>
-            <ul flex>
+            <ul flex class="ul">
                 <li flex-box="1">
                     <p class='tile'>待结算（税前）</p>
                     <p class='info'>{{unpaid}}元</p>
