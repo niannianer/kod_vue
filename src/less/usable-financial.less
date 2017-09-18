@@ -1,3 +1,4 @@
+@import "variables";
 .usable-financial{
     .body{
         padding:0 .8rem;
@@ -12,6 +13,26 @@
             }
             .info{
                 padding-bottom: .8rem;
+                position: relative;
+                overflow: visible;
+                .float-tip{
+                    border-radius: 2px;
+                    position: absolute;
+                    font-size: .6rem;
+                    color: @bg-content;
+                    background: @color-interest;
+                    top:-1.2rem;
+                    right:3.5rem;
+                    height: 1rem;
+                    line-height: 1rem;
+                    padding:0 .3rem;
+                    .tri{
+                        position: absolute;
+                        width: .4rem;
+                        bottom: -.3rem;
+                        left: 0;
+                    }
+                }
             }
         }
     }

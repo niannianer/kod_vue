@@ -34,39 +34,39 @@
             margin-bottom: .4rem;
             background-color: @bg-content;
             overflow: hidden;
-            &.novice-label{
+            &.novice-label {
                 padding: 0;
-                .title-part{
+                .title-part {
                     padding: .8rem .8rem .5rem .8rem;
                     border-bottom: 1px solid @color-split;
                 }
-                .rate-part{
+                .rate-part {
                     font-size: .9rem;
                     text-align: center;
                     margin: .8rem .8rem 0 .8rem;
-                    .rate{
+                    .rate {
                         color: @color-interest;
                         font-size: 1.8rem;
                         text-align: center;
                     }
                 }
-                .m-part{
+                .m-part {
                     padding: .3rem .8rem .8rem .8rem;
                 }
             }
-            .ticket-wrap{
-                .ticket-item{
-                    color:#4387c5;
-                    background-color:#e7f3ff;
+            .ticket-wrap {
+                .ticket-item {
+                    color: #4387c5;
+                    background-color: #e7f3ff;
                     font-size: .6rem;
-                    border:1px solid #84c4ff;
-                    margin:.4rem 1rem 0 0;
+                    border: 1px solid #84c4ff;
+                    margin: .4rem 1rem 0 0;
                     padding: .05rem .35rem;
                     border-radius: 2px;
-                    &.disable{
+                    &.disable {
                         color: @bg-content;
                         background-color: #cacaca;
-                        border:none;
+                        border: none;
                     }
                 }
             }
@@ -81,18 +81,18 @@
                 color: #fff;
                 text-align: center;
                 &.hot {
-                    background-color: @color-active;//预热
+                    background-color: @color-active; //预热
                 }
                 &.raise {
-                    background-color: @color-interest;//募集
+                    background-color: @color-interest; //募集
                 }
                 &.sell-out {
-                    background-color: @bg-sell-out;// 售罄
+                    background-color: @bg-sell-out; // 售罄
                 }
             }
 
             .fund-name {
-                padding-top:.1rem;
+                padding-top: .1rem;
                 line-height: .8rem;
                 font-size: .8rem;
                 color: @color-text-secondary;
@@ -122,28 +122,56 @@
             //固定收益
             .fund-middle-fix {
                 margin-bottom: .2rem;
+                &.padding-top {
+                    padding-top: 1rem;
+                }
                 .rate, .cycle {
                     font-size: 1.2rem;
                     color: @color-interest;
                     //line-height: 1.2rem;
                     line-height: 50px;
-                    &.hot{
-                        color:@color-active;
+                    &.hot {
+                        color: @color-active;
                     }
-                    &.raise{
-                        color:@color-interest;
+                    &.raise {
+                        color: @color-interest;
                     }
-                    &.sell-out{
-                        color:@bg-sell-out;
+                    &.sell-out {
+                        color: @bg-sell-out;
                     }
                     .sub-text {
-                        padding-top:.1rem;
+                        padding-top: .1rem;
                         font-size: .7rem;
                         color: @color-text-secondary;
                         line-height: .7rem;
                     }
                 }
-                .status.sell-out{
+                .rate {
+                    position: relative;
+                    overflow: visible;
+                    .float-tip {
+                        border-radius: 2px;
+                        position: absolute;
+                        font-size: .6rem;
+                        color: @bg-content;
+                        background: @color-interest;
+                        top: -.8rem;
+                        right: -3rem;
+                        height: 1rem;
+                        line-height: 1rem;
+                        padding: 0 .3rem;
+                        .tri {
+                            position: absolute;
+                            width: .4rem;
+                            bottom: -.3rem;
+                            left: 0;
+                        }
+                    }
+                    .max-profit {
+                        font-size: .9rem;
+                    }
+                }
+                .status.sell-out {
                     transform: rotate(-30deg);
                 }
                 .status {
@@ -171,7 +199,7 @@
                     }
                 }
             }
-            .progress-part{
+            .progress-part {
                 position: relative;
                 .progress-line {
                     width: 83%;
@@ -189,7 +217,7 @@
                             background-color: @color-interest;
                         }
                         &.sell-out {
-                            background-color: @bg-sell-out;// 售罄
+                            background-color: @bg-sell-out; // 售罄
                         }
                     }
                     .round {
@@ -200,7 +228,7 @@
                         border-radius: 50%;
                         top: -0.3rem;
                         &.sell-out {
-                            background: rgba(219,219,219,0.5);
+                            background: rgba(219, 219, 219, 0.5);
                         }
                         div {
                             border-radius: 50%;
@@ -211,16 +239,16 @@
                             top: .15rem;
                             left: .15rem;
                             &.sell-out {
-                                background-color: @bg-sell-out;// 售罄
+                                background-color: @bg-sell-out; // 售罄
                             }
                         }
                     }
 
                 }
-                .progress-num{
-                    position:absolute;
-                    right:0;
-                    top:-.4rem;
+                .progress-num {
+                    position: absolute;
+                    right: 0;
+                    top: -.4rem;
                 }
             }
             .buttom {
@@ -322,22 +350,22 @@
         }
 
     }
-    .nav{
+    .nav {
         background: #FFFFFF;
         box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.2) inset;
         text-align: center;
         padding: .3rem 0;
-        img{
+        img {
             width: 1.3rem;
         }
     }
-    .download-app{
+    .download-app {
         box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2) inset;
         text-align: center;
         padding: .3rem 0;
         height: 2.2rem;
         line-height: 2rem;
-        a{
+        a {
             text-decoration: none;
         }
     }
