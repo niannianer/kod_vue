@@ -2,7 +2,7 @@
     <div flex="dir:top" class="relation">
         <div flex-box="1">
             <div class="item bl seperate" flex="cross:center" flex-box="0"
-                 @click.stop="pathTo('/land-share-relation.html',true)">
+                 @click.stop="pathTo('/land-share.html',true)">
                 <img src="../images/relation/share.png" alt="logo" flex-box="0" class="logo">
                 <p class="info" flex-box="1">一起赚</p>
                 <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
