@@ -63,22 +63,17 @@ const HouseOne = PensionOne;
 
 import {setTitle} from '../tools/operation';
 let beforeEach = ((to, from, next) => {
-    let {meta} = to;
-    if (meta.withoutLogin) {
-        next();
+    if (store.state.userId) {
+        next()
     } else {
-        if (store.state.userId) {
-            next()
-        } else {
-            store.dispatch('getAccountBaofoo')
-                .then(data => {
-                    if (data.code == '401') {
-                        logout();
-                    } else {
-                        next()
-                    }
-                });
-        }
+        store.dispatch('getAccountBaofoo')
+            .then(data => {
+                if (data.code == '401') {
+                    logout();
+                } else {
+                    next()
+                }
+            });
     }
 })
 let routes = [
@@ -99,8 +94,8 @@ let routes = [
         component: AuthResult
     },
     {
-        path: '/experience-fund',
-        name: 'experience-fund',
+        path: '/experience-funds',
+        name: 'experience-funds',
         meta: {
             title: '我的体验金'
         },
@@ -622,6 +617,8 @@ routes.map(route => {
         }
     };
 });
+import fundRoutes from './fund';
+routes = routes.concat(fundRoutes);
 routes.push({
     path: '*',
     redirect: '/personal-center'

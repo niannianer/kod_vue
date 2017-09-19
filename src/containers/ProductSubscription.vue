@@ -14,19 +14,19 @@
                     </div>
                 </div>
             </div>
-            <div class="fund-info">
+            <div clafundsfund-info">
                 <div class="bg-outer">
                     <div class="bg-middle">
                         <div class="bg-inner"></div>
                     </div>
                 </div>
-                <div class="fund-center" flex="dir:top">
-                    <p flex-box="1" class="fund-title">认购金额</p>
-                    <div flex-box="1" flex class="fund-chart">
+                <div clafundsfund-center" flex="dir:top">
+                    <p flex-box="1" clafundsfund-title">认购金额</p>
+                    <div flex-box="1" flex clafundsfund-chart">
                         <img src="../images/money-chart-reverse.png" alt="money">
                         <p>{{amount | currencyFormat}}元</p>
                     </div>
-                    <div class="fund-detail" flex-box="1" flex>
+                    <div clafundsfund-detail" flex-box="1" flex>
                         <div flex-box="1">
                             <p class="info">{{expectEarn | currencyFormat}}元</p>
                             <p class="title">预计收益</p>
