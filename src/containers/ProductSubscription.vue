@@ -147,8 +147,9 @@
                 <div class="item" flex @click.stop="showTicketList">
                     <p flex-box="1" class="blue">活动券</p>
                     <div flex-box="0" class="blue" flex="cross:center">
-                        <p>{{faceValueText}}</p>
-                        <img src="../images/arraw-down.png" alt="" :class="{'rotate':!ticketListBoolean}">
+                        <p v-if="ticketList.length">{{faceValueText}}</p>
+                        <p v-else>暂无可用</p>
+                        <img src="../images/arraw-down.png" alt="" :class="{'rotate':!ticketListBoolean}" v-if="ticketList.length">
                     </div>
                 </div>
             </div>
@@ -158,11 +159,7 @@
                         <div class="ticket-item" flex v-for="item in ticketList" @click.stop="chooseCode(item)"
                              :class="{'active':couponExtendCode==item.couponExtendCode}">
                             <p flex-box="1">满{{item.applyTradeAmount}}元减{{item.faceValue}}元</p>
-                            <p flex-bo
-
-
-
-                               x="1">{{item.leftText}}</p>
+                            <p flex-box="1">{{item.leftText}}</p>
                             <div flex-box="0" class="check-box">
                                 <div class="box-inner"></div>
                             </div>
@@ -190,7 +187,7 @@
                     </div>
                 </div>
             </transition-group>
-            <password-input v-show="inputPassword" title="提现" @close="inputPassword=false" @callBack="tradeCallback"
+            <password-input v-show="inputPassword" title="购买产品" @close="inputPassword=false" @callBack="tradeCallback"
             ></password-input>
         </div>
         <div class="bottom seperate" flex-box="0">
@@ -233,7 +230,7 @@
                 productName: '',
                 annualInterestRate: '',
                 rechargeNum: '',
-                productPeriod: '',
+                productPeriod: 0,
                 inputPassword: false,
                 ticketList: [],
                 ticketListBoolean: false,
@@ -243,7 +240,8 @@
                 faceValueText: '暂不使用',
                 faceValue:0,
                 useAssetsValue:0,
-                isUseRemain:false/*是否使用账户余额*/
+                isUseRemain:false/*是否使用账户余额*/,
+                expcRate:0
             }
         },
         components: {
@@ -285,6 +283,7 @@
                 return this.leastPay > 0;
             },
             expectEarn(){
+                console.log(this.amount, parseFloat(this.expcRate), parseInt(this.productPeriod) );
                 return this.amount * parseFloat(this.expcRate) * parseInt(this.productPeriod) / 365;
             },
             actualPay(){
