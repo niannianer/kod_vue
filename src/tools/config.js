@@ -17,7 +17,6 @@ if (process.env.kingold == 'test') {
     baofooUrl = 'https://paytest.baofoo.com/baofoo-custody/custody/';
     baofooCallUrl = `${protocol}//notify-test.zj-hf.cn`;
     apiNode = `${protocol}//market-test.zj-hf.cn`;
-    encrypt = true;
 }
 /*stage env*/
 if (process.env.kingold == 'stage') {
