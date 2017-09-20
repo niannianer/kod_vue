@@ -1,32 +1,41 @@
 @import "variables";
-.usable-financial{
-    .body{
-        padding:0 .8rem;
-        li{
+
+.usable-financial {
+    .body {
+        padding: 0 .8rem;
+        li {
             list-style: none;
         }
-        .item{
-            box-shadow: 0 1px 3px 0 rgba(180,180,180,0.50);
-            background-color: #fff;padding:0 .8rem;margin-top: .5rem;
-            .title{
-                color:#323232;font-size: .8rem;line-height: .8rem;padding:.8rem 0;
+        .item {
+            box-shadow: 0 1px 3px 0 rgba(180, 180, 180, 0.50);
+            background-color: #fff;
+            padding: 0 .8rem;
+            margin-top: .5rem;
+            .title {
+                color: #323232;
+                font-size: .8rem;
+                line-height: .8rem;
+                padding: .8rem 0;
+                &.coupon-max{
+                    padding:.8rem 0 1.3rem 0;
+                }
             }
-            .info{
+            .info {
                 padding-bottom: .8rem;
                 position: relative;
                 overflow: visible;
-                .float-tip{
+                .float-tip {
                     border-radius: 2px;
                     position: absolute;
                     font-size: .6rem;
                     color: @bg-content;
                     background: @color-interest;
-                    top:-1.2rem;
-                    right:3.5rem;
+                    top: -1.2rem;
+                    right: 3.5rem;
                     height: 1rem;
                     line-height: 1rem;
-                    padding:0 .3rem;
-                    .tri{
+                    padding: 0 .3rem;
+                    .tri {
                         position: absolute;
                         width: .4rem;
                         bottom: -.3rem;
