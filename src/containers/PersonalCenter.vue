@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div class="section seperate" flex="dir:top">
-                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-share-relation.html',true)">
+                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-share.html',true)">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/share.png" alt="share">
                         </div>
