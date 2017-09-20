@@ -1,12 +1,11 @@
 <template>
     <div class="usable-financial">
         <div class="body">
-            <ul
-                v-infinite-scroll="loadMore"
+            <ul v-infinite-scroll="loadMore"
                 infinite-scroll-disabled="stop"
                 infinite-scroll-distance="10">
                 <li class="item" v-for="(item,index) in lists" @click.stop="toDetail(item.productUuid)">
-                    <p class="title">{{item.productAbbrName}}</p>
+                    <p class="title" :class="{'coupon-max':item.couponMaxProfit}">{{item.productAbbrName}}</p>
                     <div flex class="info">
                         <div class="float-tip" v-if="item.couponMaxProfit">
                             现金劵最大加息
