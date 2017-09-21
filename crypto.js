@@ -22,13 +22,13 @@ const Latin1 =require('crypto-js/enc-latin1');
  * */
 
 /*
- * encrypt key 5ca26975e267ae3c0c0fa1547d6bf5b6b1002f72328e8e520366cc4fceb009dbf109eab04571636ad876d077af2e4d0c
+ * encrypt key 6318cceeee91c45a7647faf7089623b32ac8e6bcb85b35dbaa5a5b1ef5baa2d12e7aa5c224012fadd7fd02866fd95626
  *
- * encrypt iv 7fd3c660915c626188a51601d423e4f8601a89378f11a7256f4e7f9f25a111af
+ * encrypt iv 00df13f4e31ded1854bbd9d23985f95e5f50e6e91711900221f8ab3be6bc6a35
  */
 
-let preKey = 'abcdefgf43f799324a27fbdf95f67fae0bc55b3abcdefg';
-let preIV ='abcdefgKingoldChannelIVabcdefg';
+let preKey = 'abcdefg4f93b315fc816dd59bcdf49aa352bd35abcdefg';
+let preIV ='abcdefgrwK0QuLoxRUozEnLabcdefg';
 
 let key  =Utf8.parse('8f804d544f44b49ed9e93901bd5dcdcb');
 let iv   = Utf8.parse('bcaa4bc0075f0a07');

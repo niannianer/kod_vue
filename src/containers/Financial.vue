@@ -31,7 +31,8 @@
                                         <div class="sub-text" flex="main:center">期限</div>
                                     </div>
                                     <div class="progress" flex-box="0">
-                                        <cicle-progress :width-size="50" :progress="item.productProgress"></cicle-progress>
+                                        <cicle-progress :width-size="50"
+                                                        :progress="item.productProgress"></cicle-progress>
                                     </div>
                                 </div>
                                 <div class="status-code"
@@ -83,13 +84,15 @@
                                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
                                             </div>
                                         </div>
-                                        <div class="progress-num" style="font-size:.7rem">{{item.productProgress}}%</div>
+                                        <div class="progress-num" style="font-size:.7rem">{{item.productProgress}}%
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="m-part" flex>
                                     <p flex-box="1">{{item.productMinInvestment}}</p>
-                                    <p flex-box="0" v-if="item.productMaxInvestment">每人限投{{item.productMaxInvestment}}</p>
+                                    <p flex-box="0" v-if="item.productMaxInvestment">
+                                        每人限投{{item.productMaxInvestment}}</p>
                                 </div>
 
                             </div>
@@ -102,11 +105,23 @@
                                     </div>
                                 </div>
                                 <div flex="dir:left" class="fund-middle-fix"
-                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2),'padding-top':item.couponMaxProfit}"
+                                     >
                                     <div class="rate" flex-box="1"
                                          :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                        <div>{{item.annualInterestRate}}</div>
+                                        <div flex>
+                                            <p>
+                                                {{item.annualInterestRate}}
+                                            </p>
+                                            <p v-if="item.couponMaxProfit" class="max-profit">
+                                                +{{item.couponMaxProfit}}
+                                            </p>
+                                        </div>
                                         <div class="sub-text">预计年化收益率</div>
+                                        <div class="float-tip" v-if="item.couponMaxProfit">
+                                            现金劵最大加息
+                                            <img src="../images/tri.png" alt="" class="tri">
+                                        </div>
                                     </div>
                                     <div class="cycle" flex-box="3"
                                          :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
@@ -351,8 +366,8 @@
             getShare(){
                 wx.getShare(this.settings);
             },
-            pathTo(path,boolean){
-                if(boolean){
+            pathTo(path, boolean){
+                if (boolean) {
                     window.location.href = path;
                     return false;
                 }

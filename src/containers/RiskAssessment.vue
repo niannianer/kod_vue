@@ -111,7 +111,7 @@
                     }
                     this.quIndex++;
                     this.setIndex();
-                }, 1000)
+                }, 500)
             },
             updateUserInfo(){
                 let investorRiskScore = 0;

@@ -110,8 +110,12 @@
             },
             /* 查询订单状态*/
             getTradeRecharge(){
-                Indicator.open('正在等待银行返回结果...');
+
                 let rechargeBillCode = this.orderBillCode;
+                if(!rechargeBillCode){
+                    return false;
+                }
+                Indicator.open('正在等待银行返回结果...');
                 $api.get('/getTradeRecharge', {rechargeBillCode})
                     .then(res => {
                         if (res.code == 200) {
@@ -137,6 +141,8 @@
                                 Indicator.close();
                                 Toast('充值失败')
                             }
+                        }else {
+                            Indicator.close();
                         }
 
                     });
