@@ -1,5 +1,20 @@
 @import "../variables";
 .my-fund {
+    .f9{
+        font-size: .9rem;
+    }
+    .f8{
+        font-size: .8rem;
+    }
+    .green{
+        color:#417505;
+    }
+    .red{
+        color:#D0011B;
+    }
+    .bold{
+        font-weight: bold;
+    }
     .header {
         padding: .6rem .8rem;
         text-align: center;
@@ -11,9 +26,6 @@
             border-radius:2px;
             font-size: .6rem;
             padding: 0 .3rem;
-        }
-        .f9{
-            font-size: .9rem;
         }
         .date{
             margin-top: .4rem;
@@ -27,6 +39,35 @@
             margin-bottom: 1.25rem;
             .data{
                 font-size: 1rem;
+            }
+        }
+    }
+    .body{
+        .title-box{
+            text-align: center;
+            background: @bg-content;
+            .p{
+                padding: .6rem 0;
+            }
+            .active{
+                border-bottom:2px solid @bg-button;
+            }
+        }
+        .list-item{
+            margin: .6rem 1rem 0 1rem;
+            border:1px solid @bg-button;
+            border-radius: 4px;
+            background: @bg-content;
+            .item-title{
+                padding: .4rem .7rem;
+                border-bottom: 2px solid #4990E2;;
+            }
+            .item-info{
+                text-align: center;
+                padding: .7rem;
+                .info{
+                    margin-top: .3rem;
+                }
             }
         }
     }
