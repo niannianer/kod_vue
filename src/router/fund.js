@@ -19,6 +19,7 @@ let beforeEach = ((to, from, next) => {
 })
 const Fund = () => import('../containers/Fund');
 const Lists = () => import('../funds/Lists');
+const MyFund = () => import('../funds/MyFund');
 let fundRoutes = [
     {
         path: '/funds',
@@ -36,7 +37,16 @@ let fundRoutes = [
                 title: '基金列表',
                 withoutLogin: true
             }
-        }]
+        },
+            {
+                path: 'my-fund',
+                name: 'my-fund',
+                component: MyFund,
+                meta: {
+                    title: '我的基金',
+                    withoutLogin: true
+                }
+            }]
     }
 ];
 
