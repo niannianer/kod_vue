@@ -20,6 +20,7 @@ const ReserveProfessionalList = () => import('../containers/ReserveProfessionalL
 const Reward = () => import('../containers/Reward');
 const TicketList = () => import('../containers/TicketList');
 const TicketAug = () => import('../containers/TicketAug');
+const TotalAssets = () => import('../containers/TotalAssets');
 const UsableFinancial = () => import('../containers/UsableFinancial');
 const MyCount = () => import('../containers/MyCount');
 const InvitationRewardDetal = () => import('../containers/InvitationRewardDetal');
@@ -222,6 +223,13 @@ let routes = [
             title: '送你一场红包雨'
         },
         component: TicketAug
+    }, {
+        path: '/total-assets',
+        name: 'total-assets',
+        meta: {
+            title: '总资产'
+        },
+        component: TotalAssets
     },
     {
         path: '/usable-financial',
