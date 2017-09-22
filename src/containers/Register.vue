@@ -43,11 +43,15 @@
         </div>
         <div class="agreement">
             <!--  <span class="box" :class="{'active':ischecked}" @click.stop="ischecked=!ischecked"></span>-->
-            <span class="info">我已阅读并同意
-                <span class="link" @click.stop="seeAgreement">
-                    《中冀金服注册协议及用户协议》
+            <p class="info">我已阅读并同意
+                <span class="link" @click.prevent="link('/registration-service-agreement.html')">
+                    《注册服务协议》
+                </span>和
+                <span class="link" @click.prevent="link('/privacy-agreement.html')">
+                《隐私协议》
                 </span>
-            </span>
+            </p>
+
         </div>
 
         <div class="btn-group">
@@ -236,10 +240,8 @@
                         Toast(data.msg);
                     });
             },
-            seeAgreement(){
-                // this.$router.push('/register-agreement');
-
-                window.location.href = '/registration-service-agreement.html';
+            link(src){
+                window.location.href = src;
             }
 
         },
