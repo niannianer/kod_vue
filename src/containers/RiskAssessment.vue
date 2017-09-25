@@ -1,8 +1,5 @@
 <template>
     <div class="risk-assessment">
-        <div style="font-size:36px;">
-            {{aaaa}}
-        </div>
         <div class="content">
             <div class="qu-order" :class="{'app':isApp}">
               <span>
@@ -28,6 +25,7 @@
     </div>
 </template>
 <script>
+
     import questions from '../tools/questions';
     import {Toast} from 'mint-ui';
     import $api from '../tools/api';
@@ -49,12 +47,10 @@
                 currentIndex: 99,
                 isApp: false,
                 answers: [],
-                scores: [],
-                aaaa:window.navigator.userAgent
+                scores: []
             }
         },
         created(){
-
             if ($device.isWeixin) {
                 this.getShare();
             }
