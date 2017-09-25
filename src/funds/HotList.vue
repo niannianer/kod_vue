@@ -1,6 +1,8 @@
 <template>
     <div class="hot-list">
         <div class="item">
+            <div class="float left"></div>
+            <div class="float right"></div>
             <div class="title-part" flex="cross:center">
                 <p flex-box="0" class="tip">免费率</p>
                 <p flex-box="1">膨化添利宝货币市场基金</p>

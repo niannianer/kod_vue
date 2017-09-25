@@ -17,7 +17,9 @@ let beforeEach = ((to, from, next) => {
             });
     }
 })
+
 const Fund = () => import('../containers/Fund');
+const Detail = () => import('../funds/Detail');
 const GainsList = () => import('../funds/GainsList');
 const HotList = () => import('../funds/HotList');
 const Info = () => import('../funds/Info');
@@ -33,6 +35,15 @@ let fundRoutes = [
         },
         component: Fund,
         children: [
+            {
+                path: 'detail',
+                name: 'detail',
+                component: Detail,
+                meta: {
+                    title: '基金详情',
+                    withoutLogin: true
+                }
+            },
             {
                 path: 'gains-list',
                 name: 'gains-list',
