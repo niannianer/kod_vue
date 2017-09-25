@@ -1,5 +1,8 @@
 <template>
     <div class="risk-assessment">
+        <div style="font-size:36px;">
+            {{aaaa}}
+        </div>
         <div class="content">
             <div class="qu-order" :class="{'app':isApp}">
               <span>
@@ -46,10 +49,12 @@
                 currentIndex: 99,
                 isApp: false,
                 answers: [],
-                scores: []
+                scores: [],
+                aaaa:window.navigator.userAgent
             }
         },
         created(){
+
             if ($device.isWeixin) {
                 this.getShare();
             }
