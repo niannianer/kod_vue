@@ -1,0 +1,50 @@
+@import "../variables";
+
+.gains-list {
+    .overflow {
+        overflow: auto;
+    }
+    .bg-grey {
+        background: #FAFAFA;
+    }
+    .bg-content {
+        background: @bg-content;
+    }
+    .red{
+        color:#D0011B;
+    }
+    .f8{
+        font-size: .8rem;
+    }
+    .check-list {
+        background: #FFFFFF;
+        border-bottom: 1px solid @color-split;
+        color: @color-text-gray;
+        text-align: center;
+        .check-item {
+            padding: .5rem 0;
+            font-weight: bold;
+            &.active {
+                color: @bg-button;
+                border-bottom: 2px solid @bg-button;
+            }
+        }
+    }
+    .fund-name {
+        width: 5.7rem;
+    }
+    .title-list {
+        text-align: center;
+        .item-wrap {
+            width: 4.65rem;
+        }
+        .title-item {
+            padding: .6rem 0;
+            border-bottom: 1px solid @color-split;
+        }
+        .item-info {
+            height: 3rem;
+            border-bottom: 1px solid @color-split;
+        }
+    }
+}

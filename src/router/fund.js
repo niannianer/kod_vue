@@ -18,6 +18,9 @@ let beforeEach = ((to, from, next) => {
     }
 })
 const Fund = () => import('../containers/Fund');
+const GainsList = () => import('../funds/GainsList');
+const HotList = () => import('../funds/HotList');
+const Info = () => import('../funds/Info');
 const Lists = () => import('../funds/Lists');
 const MyFund = () => import('../funds/MyFund');
 let fundRoutes = [
@@ -29,22 +32,45 @@ let fundRoutes = [
             title: '基金'
         },
         component: Fund,
-        children: [{
-            path: 'lists',
-            name: 'lists',
-            component: Lists,
-            meta: {
-                title: '基金列表',
-                withoutLogin: true
-            }
-        },
+        children: [
             {
+                path: 'gains-list',
+                name: 'gains-list',
+                component: GainsList,
+                meta: {
+                    title: '基金涨幅榜',
+                    withoutLogin: true
+                }
+            }, {
+                path: 'hot-list',
+                name: 'hot-list',
+                component: HotList,
+                meta: {
+                    title: '基金热销榜',
+                    withoutLogin: true
+                }
+            }, {
+                path: 'info',
+                name: 'info',
+                component: Info,
+                meta: {
+                    title: '文本标签', /*找产品确认*/
+                    withoutLogin: true
+                }
+            }, {
+                path: 'lists',
+                name: 'lists',
+                component: Lists,
+                meta: {
+                    title: '基金列表',
+                    withoutLogin: true
+                }
+            }, {
                 path: 'my-fund',
                 name: 'my-fund',
                 component: MyFund,
                 meta: {
-                    title: '我的基金',
-                    withoutLogin: true
+                    title: '我的基金'
                 }
             }]
     }
