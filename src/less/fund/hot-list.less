@@ -1,3 +1,41 @@
-.hot-list{
+@import "../variables";
+.hot-list {
+    padding: 0 .8rem;
+    .f9{
+        font-size: .9rem;
+    }
 
+    .orange{
+        color: @color-progress;
+    }
+    .item {
+        margin-top: .4rem;
+        background: @bg-content;
+        box-shadow: 0 2px 4px 0 rgba(218,218,218,0.50);
+        border-radius: 4px;
+        padding: 0 .8rem;
+        .title-part{
+            height: 2.2rem;
+            border-bottom: 1px solid @color-split;
+            .tip{
+                color: @bg-button;
+                background: #e7f3ff;
+                border:1px solid #88c6ff;
+                border-radius: 3px;
+                font-size: .6rem;
+                padding: 0 3px;
+                margin-right: .5rem;
+            }
+        }
+        .info-part{
+            text-align: center;
+            .info-box{
+                padding: .8rem 0;
+                .info-title{
+                    font-size: .6rem;
+                    margin-top: .2rem;
+                }
+            }
+        }
+    }
 }
