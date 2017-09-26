@@ -104,7 +104,7 @@
                 return jinqu;
             },
             isNewApp(){
-                return $device.kingoldVersion>'1.0.3';
+                return $device.kingoldVersion > '1.0.3' || (!$device.kingold);
             }
         },
         methods: {
