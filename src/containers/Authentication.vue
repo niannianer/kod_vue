@@ -50,7 +50,6 @@
 </template>
 
 <script>
-    import '../less/authentication.less';
     import $api from '../tools/api';
     import {mapState} from 'vuex';
     import $fun from '../tools/fun';
