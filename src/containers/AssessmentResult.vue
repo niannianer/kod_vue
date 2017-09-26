@@ -1,7 +1,7 @@
 <template>
     <div class="assessment-result">
         <div class="content">
-            <div class="title">您的风险评测结果是</div>
+            <div class="title">您的风险测评结果是</div>
             <div class="img-warp">
                 <img :src="typeUrl"/>
             </div>
