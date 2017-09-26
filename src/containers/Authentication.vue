@@ -51,11 +51,9 @@
 
 <script>
     import '../less/authentication.less';
-    /*import OpenAccount from'../components/OpenAccount';*/
     import $api from '../tools/api';
     import {mapState} from 'vuex';
     import $fun from '../tools/fun';
-    /*import {submitAuthorization} from '../tools/operation';*/
     import {Toast} from 'mint-ui';
     export default {
         name: 'authentication',

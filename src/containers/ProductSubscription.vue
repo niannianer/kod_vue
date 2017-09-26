@@ -149,7 +149,7 @@
                     <div flex-box="0" class="blue" flex="cross:center">
                         <p v-if="ticketList.length">{{faceValueText}}</p>
                         <p v-else>暂无可用</p>
-                        <img src="../images/arraw-down.png" alt="" :class="{'rotate':!ticketListBoolean}" v-if="ticketList.length">
+                        <img src="../images/arraw-down.png" alt="" :class="{'rotate':ticketListBoolean}" v-if="ticketList.length">
                     </div>
                 </div>
             </div>
@@ -195,7 +195,7 @@
                 <p>银行卡限额：单笔{{single_limit}}元，单日{{perday_limit}}元</p>
             </div>
             <div class="recharge-info" v-if="isLack">
-                <div class="item" flex>
+                <div class="item" flex="cross:center">
                     <p flex-box="1">待支付金额</p>
                     <input class="rechargeNum" flex-box="1" type="number" v-model="rechargeNum">
                     <p flex-box="0" class="yuan highlight">元</p>

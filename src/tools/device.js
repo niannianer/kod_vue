@@ -9,6 +9,10 @@ let iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
 let device = {};
 device.ios = device.android = device.iphone = device.ipad = device.androidChrome = device.kingold = false;
 device.kingold = /kingold/i.test(ua);
+device.kingoldVersion = '0.0.0';
+if (device.kingold) {
+    device.kingoldVersion = ua.match(/([\d.]+)?$/)[0];
+}
 // Android
 if (android) {
     device.os = 'android';

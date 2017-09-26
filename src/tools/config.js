@@ -3,6 +3,7 @@
  */
 let protocol = window.location.protocol;
 export const telNumber = '400-640-3606';
+export let appUrl = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.zjinv.kingold&fromcase=40002';
 let encrypt = false;
 /*dev env*/
 let apiUrl = 'http://10.10.10.69:6620';
