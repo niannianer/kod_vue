@@ -1,7 +1,7 @@
 <template>
     <div class="assessment-result">
         <div class="content">
-            <div class="title">您的风险评测结果是</div>
+            <div class="title">您的风险测评结果是</div>
             <div class="img-warp">
                 <img :src="typeUrl"/>
             </div>
@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="re-submit">
-            <button class="btn-default btn-done" @click.stop="done" :class="{'app':isApp}">完成测评</button>
+            <button class="btn-default btn-done" @click.stop="done" :class="{'app':isApp}" v-if="isNewApp">完成测评</button>
             <button class="btn-default btn-submit" @click.stop="reSubmit" :class="{'app':isApp}">重新测评</button>
         </div>
 
@@ -102,6 +102,9 @@
                     return chengzhang;
                 }
                 return jinqu;
+            },
+            isNewApp(){
+                return $device.kingoldVersion>'1.0.3';
             }
         },
         methods: {

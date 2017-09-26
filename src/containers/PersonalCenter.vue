@@ -130,7 +130,7 @@
                 <img src="../images/nav/relation.png" alt="relation">
                 <p>好友</p>
             </div>
-            <div @click.stop="getPath('/land-download.html',true)">
+            <div @click.stop="getPath(appUrl,true)">
                 <img src="../images/nav/download.png" alt="download">
                 <p>下载app</p>
             </div>
@@ -142,6 +142,7 @@
 
 <script>
     let times = 0;
+    import {appUrl} from '../tools/config';
     import {mapState} from 'vuex';
     import Modal from '../components/Modal';
     import {Toast,Indicator,MessageBox} from 'mint-ui';
@@ -158,7 +159,8 @@
                 telNumber,
                 mode: true,
                 showModal: false,
-                orderBillCode:''
+                orderBillCode:'',
+                appUrl
             }
         },
         created(){
