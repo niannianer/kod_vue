@@ -120,7 +120,6 @@
                 }
                 this.loading = true;
                 $api.post('/openAccount', data).then(msg => {
-
                     if (msg.code == 200) {
                         Toast("身份认证成功！");
                         this.popup = false;
@@ -128,7 +127,6 @@
                             this.loading = false;
                             this.$store.dispatch('getUserInfo');
                             this.$router.replace('/bind-bank-card');
-                         /*   submitAuthorization(this.userId);*/
                         }, 3000);
                     } else if (msg.code == 8003) {
                         this.loading = false;
@@ -178,6 +176,7 @@
             send(time){
                 this.flag = true;
                 this.btnActive = false;
+                let timer;
                 let recursion = () => {
                     if (this.flag) {
                         if (time <= 1) {
@@ -186,23 +185,14 @@
                         } else {
                             time--;
                             this.btnText = '(' + time + 's)';
-                            var timer = setTimeout(recursion, 1000);
+                            timer = setTimeout(recursion, 1000);
                         }
                     } else {
                         clearTimeout(timer);
                     }
                 };
                 recursion();
-            },
-            //去开户弹窗
-            /*setAccount(){
-             OpenAccount({
-             callback:(result)=>{
-             if(result)
-             this.$router.push('/index')
-             }
-             });
-             }*/
+            }
         }
     }
 </script>
