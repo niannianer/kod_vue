@@ -1,20 +1,20 @@
 <template>
     <div class="authentication" flex-box="1">
         <div class="authentication-lint">为保护您账号安全，请进行实名认证</div>
-        <dl class="authentication-input">
-            <dd flex>
+        <div class="authentication-input">
+            <div flex>
                 <span class="span-left">真实姓名</span>
                 <div class="span-right" flex="cross:center">
                     <input type="text" placeholder="请输入您的真实姓名" v-model="userName">
                 </div>
-            </dd>
-            <dd flex>
+            </div>
+            <div flex>
                 <span class="span-left">身份证号</span>
                 <div class="span-right" flex="cross:center">
                     <input type="text" placeholder="请输入您的身份证号码" v-model="userIdCardNumber">
                 </div>
-            </dd>
-        </dl>
+            </div>
+        </div>
         <div class="authentication-bottom">
             <div class="authentication-btn">
                 <button @click.stop="btnAction">下一步</button>
@@ -31,14 +31,14 @@
                 <div class="win-content" flex-box="1">
                     <p class="hint1">监测到您在其他商户已开通宝付账户，请完成短信验证，确保是您本人操作。</p>
                     <p class="hint2"><span>短信验证码已发送到{{investorMobile | mobileFormat}}</span></p>
-                    <dl flex flex="main:justify">
-                        <dt>
+                    <div flex flex="main:justify">
+                        <div>
                             <input type="text" placeholder="请输入验证码" v-model="smsCode" maxlength="6">
-                        </dt>
-                        <dd>
+                        </div>
+                        <div>
                             <button :class="{'active':btnActive}" @click.stop="transmit">{{btnText}}</button>
-                        </dd>
-                    </dl>
+                        </div>
+                    </div>
                 </div>
                 <div class="win-btn" flex-box="0" flex>
                     <button flex-box="1" @click.stop="curse">取消</button>
