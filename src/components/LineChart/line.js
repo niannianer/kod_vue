@@ -1,6 +1,3 @@
-
-
-
 import { Line } from 'vue-chartjs'
 
 export default Line.extend({
