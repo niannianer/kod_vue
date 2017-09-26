@@ -1,7 +1,7 @@
 <template>
     <div class="authentication" flex-box="1">
         <div class="authentication-lint">为保护您账号安全，请进行实名认证</div>
-        <div class="authentication-input">
+      <!--  <div class="authentication-input">
             <div flex>
                 <span class="span-left">真实姓名</span>
                 <div class="span-right" flex="cross:center">
@@ -45,11 +45,12 @@
                     <button flex-box="1" class="sure" @click.stop="sure" :disabled="loading">确定</button>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </template>
 
 <script>
+    import '../less/authentication.less';
     import $api from '../tools/api';
     import {mapState} from 'vuex';
     import $fun from '../tools/fun';
