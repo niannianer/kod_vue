@@ -27,6 +27,8 @@ const Info = () => import('../funds/Info');
 const Lists = () => import('../funds/Lists');
 const Manager = () => import('../funds/Manager');
 const MyFund = () => import('../funds/MyFund');
+const PositionAnalysis = () => import('../funds/PositionAnalysis');
+const RelatedRate = () => import('../funds/RelatedRate');
 let fundRoutes = [
     {
         path: '/funds',
@@ -100,6 +102,20 @@ let fundRoutes = [
                 component: MyFund,
                 meta: {
                     title: '我的基金'
+                }
+            }, {
+                path: 'position-analysis',
+                name: 'position-analysis',
+                component: PositionAnalysis,
+                meta: {
+                    title: '持仓分析'
+                }
+            }, {
+                path: 'related-rate',
+                name: 'related-rate',
+                component: RelatedRate,
+                meta: {
+                    title: '相关费率'
                 }
             }]
     }

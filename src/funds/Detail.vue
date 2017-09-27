@@ -74,7 +74,7 @@
                     <p flex-box="1">基金公司</p>
                     <p flex-box="0">兴业全球</p>
                 </div>
-                <div flex="cross:center" class="item bl">
+                <div flex="cross:center" class="item bl" @click.stop="pathTo('/related-rate')">
                     <p flex-box="1">相关费率</p>
                     <p flex-box="0"></p>
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="img">
@@ -84,7 +84,7 @@
                     <p flex-box="0">详细</p>
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="img">
                 </div>
-                <div flex="cross:center" class="item">
+                <div flex="cross:center" class="item" @click.stop="pathTo('/position-analysis')">
                     <p flex-box="1">持仓分析 </p>
                     <p flex-box="0">详细</p>
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="img">
