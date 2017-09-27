@@ -2,96 +2,131 @@
 @import "variables";
 
 .relation {
-    position: relative;
     width: 100%;
     height: 100%;
-    .body {
-        width: 100%;
-        background: #fff;
-        margin-top: .6rem;
-        height: 4.7rem;
-        /* padding: .5rem auto; */
-        .number {
-            padding-top: .5rem;
-            text-align: center;
-            span {
-                font-size: 1.8rem;
-                color: #1D72C0;
-            }
-
-        }
-        .title {
-            width: 100%;
-            text-align: center;
-            font-size: .8rem;
-            color: #666;
-        }
-    }
     .item {
-        position: relative;
-        padding: .7rem .8rem;
-        margin-top: .5rem;
-        background: #fff;
-        font-size: .8rem;
-        color: #666;
-        .left {
-            font-size: .8rem;
+        padding: 0 .8rem;
+        background: @bg-content;
+        .logo {
+            width: 1.1rem;
+            height: 1.1rem;
+            margin-right: .35rem;
         }
-        .right {
-            font-size: .7rem;
-            padding-right: .4rem;
-        }
-        &:after {
-            content: '';
-            margin-top: .1rem;
-            background-image: url("../images/arrow-right.png");
-            width: .5rem;
+        .arrow {
+            width: .8rem;
             height: .8rem;
-            background-size: cover;
+            margin-left: .35rem;
         }
-    }
-    .code-info {
-        margin-top: .8rem;
-        text-align: center;
-        font-size: .8rem;
-        color: #666;
-        overflow: visible;
-        #code {
-            width: 6.15rem;
-            height: 6.15rem;
-            margin: .8rem auto 0;
-            overflow: visible;
-            position: relative;
-            #canvas {
-                width: 6.15rem !important;
-                height: 6.15rem !important;
-            }
-            .icon{
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                width: 1.6rem;
-                height: 1.6rem;
-                margin-left: -.8rem;
-                margin-top: -.8rem;
-                background-image: url("../images/share-icon.png");
-                background-size: cover;
-            }
-        }
-    }
-    .btn {
-        width: 15.65rem;
-        background: #1D72C0;
-        margin: 2.5rem auto;
-        text-align: center;
-        height: 2.2rem;
-        font-size: .8rem;
-        button {
-            margin: auto;
-            height: 2.2rem;
+        .info {
             font-size: .8rem;
-            color: #fff;
-            border-radius: 3px;
+            padding: .55rem 0;
         }
     }
+    .bl {
+        border-bottom: 1px solid @color-split;
+    }
+    .seperate {
+        margin-top: .5rem;
+    }
+    .blue{
+        color:@bg-button;
+    }
+    .cantact-us {
+        text-align: center;
+        font-size: .6rem;
+        margin: .6rem auto 1.3rem auto;
+        a {
+            color: rgba(29, 115, 194, 1);
+            text-decoration: none;
+        }
+    }
+    .nav {
+        background: #FFFFFF;
+        box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.2) inset;
+        text-align: center;
+        padding: .3rem 0;
+        img {
+            width: 1.3rem;
+        }
+    }
+    /*  position: relative;
+      width: 100%;
+      height: 100%;
+      .body {
+          width: 100%;
+          background: #fff;
+          margin-top: .6rem;
+          height: 4.7rem;
+          !* padding: .5rem auto; *!
+          .number {
+              padding-top: .5rem;
+              text-align: center;
+              span {
+                  font-size: 1.8rem;
+                  color: #1D72C0;
+              }
+
+          }
+          .title {
+              width: 100%;
+              text-align: center;
+              font-size: .8rem;
+              color: #666;
+          }
+      }
+      .item {
+          position: relative;
+          padding: .7rem .8rem;
+          margin-top: .5rem;
+          background: #fff;
+          font-size: .8rem;
+          color: #666;
+          .left {
+              font-size: .8rem;
+          }
+          .right {
+              font-size: .7rem;
+              padding-right: .4rem;
+          }
+          &:after {
+              content: '';
+              margin-top: .1rem;
+              background-image: url("../images/arrow-right.png");
+              width: .5rem;
+              height: .8rem;
+              background-size: cover;
+          }
+      }
+      .code-info {
+          margin-top: .8rem;
+          text-align: center;
+          font-size: .8rem;
+          color: #666;
+          overflow: visible;
+          #code {
+              width: 6.15rem;
+              height: 6.15rem;
+              margin: .8rem auto 0;
+              overflow: visible;
+              #canvas {
+                  width: 6.15rem !important;
+                  height: 6.15rem !important;
+              }
+          }
+      }
+      .btn {
+          width: 15.65rem;
+          background: #1D72C0;
+          margin: 2.5rem auto;
+          text-align: center;
+          height: 2.2rem;
+          font-size: .8rem;
+          button {
+              margin: auto;
+              height: 2.2rem;
+              font-size: .8rem;
+              color: #fff;
+              border-radius: 3px;
+          }
+      }*/
 }

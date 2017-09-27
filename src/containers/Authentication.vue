@@ -31,7 +31,7 @@
                 <div class="win-content" flex-box="1">
                     <p class="hint1">监测到您在其他商户已开通宝付账户，请完成短信验证，确保是您本人操作。</p>
                     <p class="hint2"><span>短信验证码已发送到{{investorMobile | mobileFormat}}</span></p>
-                    <dl flex flex="main:justify">
+                    <dl flex="main:justify">
                         <dt>
                             <input type="text" placeholder="请输入验证码" v-model="smsCode" maxlength="6">
                         </dt>
@@ -51,11 +51,9 @@
 
 <script>
     import '../less/authentication.less';
-    /*import OpenAccount from'../components/OpenAccount';*/
     import $api from '../tools/api';
     import {mapState} from 'vuex';
     import $fun from '../tools/fun';
-    import {submitAuthorization} from '../tools/operation';
     import {Toast} from 'mint-ui';
     export default {
         name: 'authentication',
@@ -128,7 +126,8 @@
                         this.popup = false;
                         setTimeout(() => {
                             this.loading = false;
-                            submitAuthorization(this.userId);
+                            this.$store.dispatch('getUserInfo');
+                            this.$router.replace('/bind-bank-card');
                         }, 3000);
                     } else if (msg.code == 8003) {
                         this.loading = false;
@@ -178,6 +177,7 @@
             send(time){
                 this.flag = true;
                 this.btnActive = false;
+                let timer;
                 let recursion = () => {
                     if (this.flag) {
                         if (time <= 1) {
@@ -186,23 +186,14 @@
                         } else {
                             time--;
                             this.btnText = '(' + time + 's)';
-                            var timer = setTimeout(recursion, 1000);
+                            timer = setTimeout(recursion, 1000);
                         }
                     } else {
                         clearTimeout(timer);
                     }
                 };
                 recursion();
-            },
-            //去开户弹窗
-            /*setAccount(){
-             OpenAccount({
-             callback:(result)=>{
-             if(result)
-             this.$router.push('/index')
-             }
-             });
-             }*/
+            }
         }
     }
 </script>

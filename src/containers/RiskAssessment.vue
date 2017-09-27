@@ -25,6 +25,7 @@
     </div>
 </template>
 <script>
+
     import questions from '../tools/questions';
     import {Toast} from 'mint-ui';
     import $api from '../tools/api';
@@ -111,7 +112,7 @@
                     }
                     this.quIndex++;
                     this.setIndex();
-                }, 1000)
+                }, 500)
             },
             updateUserInfo(){
                 let investorRiskScore = 0;

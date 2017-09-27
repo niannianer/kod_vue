@@ -1,5 +1,5 @@
 <template>
-    <div v-cloak class="pension-three" flex-box="1" flex="dir:top" ref='divh' v-bind:style="{height:height+'px'}">
+    <div class="pension-three" flex-box="1" flex="dir:top" ref='divh' v-bind:style="{height:height+'px'}">
         <div class="salary" flex-box="1" flex="dir:top">
             <div class="title" >请输入您的税后工资（月）</div>
             <div class="content" flex="dir:left">

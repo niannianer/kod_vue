@@ -3,6 +3,7 @@
  */
 let protocol = window.location.protocol;
 export const telNumber = '400-640-3606';
+export let appUrl = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.zjinv.kingold&fromcase=40002';
 let encrypt = false;
 /*dev env*/
 let apiUrl = 'http://10.10.10.69:6620';
@@ -56,6 +57,6 @@ export default {
  * kingold key & IV
  * */
 /* key 和 iv 密文*/
-export const encryptKey = 'ba2b93d1b6388f6254cc0f8d8809b83b89e07ec61625f8c367204610d1b2c8ecd0f79d74c90001fe760dd45936acca92';
-export const encryptIV = '6e77a9e968003d35f170387c7eac7f8f06cc811436531481243f81db67b8a0da';
+export const encryptKey = '6318cceeee91c45a7647faf7089623b32ac8e6bcb85b35dbaa5a5b1ef5baa2d12e7aa5c224012fadd7fd02866fd95626';
+export const encryptIV = '00df13f4e31ded1854bbd9d23985f95e5f50e6e91711900221f8ab3be6bc6a35';
 export let doEncrypt = encrypt;
