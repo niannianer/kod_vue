@@ -19,11 +19,13 @@ let beforeEach = ((to, from, next) => {
 })
 
 const Fund = () => import('../containers/Fund');
+const Bulletin = () => import('../funds/Bulletin');
 const Detail = () => import('../funds/Detail');
 const GainsList = () => import('../funds/GainsList');
 const HotList = () => import('../funds/HotList');
 const Info = () => import('../funds/Info');
 const Lists = () => import('../funds/Lists');
+const Manager = () => import('../funds/Manager');
 const MyFund = () => import('../funds/MyFund');
 let fundRoutes = [
     {
@@ -36,6 +38,14 @@ let fundRoutes = [
         component: Fund,
         children: [
             {
+                path: 'bulletin',
+                name: 'bulletin',
+                component: Bulletin,
+                meta: {
+                    title: '基金公告',
+                    withoutLogin: true
+                }
+            },{
                 path: 'detail',
                 name: 'detail',
                 component: Detail,
@@ -74,6 +84,14 @@ let fundRoutes = [
                 component: Lists,
                 meta: {
                     title: '基金列表',
+                    withoutLogin: true
+                }
+            }, {
+                path: 'manager',
+                name: 'manager',
+                component: Manager,
+                meta: {
+                    title: '基金经理',
                     withoutLogin: true
                 }
             }, {
