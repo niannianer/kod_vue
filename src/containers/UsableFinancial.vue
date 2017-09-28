@@ -29,6 +29,8 @@
     import Vue from 'vue';
     import {InfiniteScroll} from 'mint-ui';
     import $api from '../tools/api';
+    import $device from '../tools/device';
+    import requestHybrid from '../tools/hybrid';
     import {numMulti} from '../filters';
     import '../less/usable-financial.less';
     Vue.use(InfiniteScroll);
@@ -48,6 +50,19 @@
         computed: {},
         methods: {
             toDetail(productUuid){
+                if ($device.kingold) {
+                    requestHybrid({
+                        tagname: 'forward',
+                        param: {
+                            target: 'productFIXI',
+                            targetUrl: (window.location.origin + '/fixi-goods-detail?productUuid=' + productUuid),
+                            aid: 0,
+                            astr: productUuid,
+                            extra: 'FIXI'
+                        }
+                    });
+                    return;
+                }
                 this.$router.push({
                     path: '/fixi-goods-detail',
                     query: {
