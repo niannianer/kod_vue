@@ -29,6 +29,7 @@ const Manager = () => import('../funds/Manager');
 const MyFund = () => import('../funds/MyFund');
 const OpenCount = () => import('../funds/OpenCount');
 const PositionAnalysis = () => import('../funds/PositionAnalysis');
+const Purchase = () => import('../funds/Purchase');
 const Redeem = () => import('../funds/Redeem');
 const RelatedRate = () => import('../funds/RelatedRate');
 let fundRoutes = [
@@ -49,7 +50,7 @@ let fundRoutes = [
                     title: '基金公告',
                     withoutLogin: true
                 }
-            }, {
+            },{
                 path: 'detail',
                 name: 'detail',
                 component: Detail,
@@ -119,6 +120,13 @@ let fundRoutes = [
                 component: PositionAnalysis,
                 meta: {
                     title: '持仓分析'
+                }
+            },{
+                path: 'purchase',
+                name: 'purchase',
+                component: Purchase,
+                meta: {
+                    title: '申购'
                 }
             }, {
                 path: 'redeem',
