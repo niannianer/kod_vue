@@ -9,8 +9,7 @@
     export default {
         name: 'base',
         data(){
-            return {
-            }
+            return {}
         },
         components: {},
         created(){

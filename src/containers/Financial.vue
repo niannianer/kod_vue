@@ -8,6 +8,9 @@
                 <div flex-box="1" class="tab" @click.stop="changeTab(1)">
                     <div class="tab-item" :class="{'active':tab==1}">高端理财</div>
                 </div>
+                <div flex-box="1" class="tab" @click.stop="changeTab(0)">
+                    <div class="tab-item" :class="{'active':tab==0}">基金</div>
+                </div>
             </div>
             <div class="item-list" flex-box="1" v-if="tab==1">
                 <mt-loadmore :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill"
@@ -49,7 +52,7 @@
                 </mt-loadmore>
             </div>
             <!--固收-->
-            <div class="item-list" flex-box="1" v-else>
+            <div class="item-list" flex-box="1" v-if="tab==2">
                 <mt-loadmore :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill"
                              :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText"
                              :bottomAllLoaded="!(loading &&hasMore)">
@@ -157,6 +160,9 @@
                     </div>
                 </mt-loadmore>
             </div>
+            <div class="item-list" flex-box="1" v-if="tab==0">
+                <lists></lists>
+            </div>
             <!--遮罩层-->
             <div class="mask" v-show="show">
                 <div class="content">
@@ -188,10 +194,11 @@
     import '../less/financial.less';
     import CicleProgress from '../components/CicleProgress/CicleProgress';
     import $api from '../tools/api';
+    import lists from '../funds/Lists.vue'
     export default {
         name: 'financial',
         components: {
-            CicleProgress
+            CicleProgress,lists
         },
         data(){
             return {
