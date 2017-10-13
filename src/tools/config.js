@@ -11,9 +11,9 @@ let baofooCallUrl = `${protocol}//notify-test.zj-hf.cn`;
 let apiNode = `${protocol}//market-test.zj-hf.cn`;
 let merchant_id = '100000675';
 let terminal_id = '100000701';
-apiUrl = `${protocol}//weixin-test.zj-hf.cn`;
+
 /*test env*/
-if (process.env.kingold == 'test') {
+if (process.env.kingold == 'test'||1) {
     apiUrl = `${protocol}//weixin-test.zj-hf.cn`;
     baofooUrl = 'https://paytest.baofoo.com/baofoo-custody/custody/';
     baofooCallUrl = `${protocol}//notify-test.zj-hf.cn`;

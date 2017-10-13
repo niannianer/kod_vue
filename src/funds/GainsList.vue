@@ -33,7 +33,7 @@
                     </div><!--内容溢出怎么办？-->
                 </div>
                 <div class="overflow" flex>
-                    <div class="item-wrap bg-grey"  flex-box="0">
+                    <div class="item-wrap bg-grey" flex-box="0">
                         <div class="title-item">
                             单位净值
                         </div>
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="item-wrap bg-content" flex-box="0">
-                        <div class="title-item" >
+                        <div class="title-item">
                             日涨幅
                         </div>
                         <div class="item-info red f8" flex="cross:center main:center">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="item-wrap bg-grey" flex-box="0">
-                        <div class="title-item" >
+                        <div class="title-item">
                             周涨幅
                         </div>
                         <div class="item-info red f8" flex="cross:center main:center">
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     <div class="item-wrap bg-content" flex-box="0">
-                        <div class="title-item" >
+                        <div class="title-item">
                             月涨幅
                         </div>
                         <div class="item-info" flex="cross:center main:center">
@@ -66,14 +66,14 @@
                         </div>
                     </div>
                     <div class="item-wrap bg-grey" flex-box="0">
-                        <div class="title-item" >
+                        <div class="title-item">
                             季涨幅
                         </div>
                         <div class="item-info" flex="cross:center main:center">
                             循环元素1
                         </div>
                     </div>
-                    <div class="item-wrap bg-content"  flex-box="0">
+                    <div class="item-wrap bg-content" flex-box="0">
                         <div class="title-item">
                             近一年涨幅
                         </div>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="item-wrap bg-grey" flex-box="0">
-                        <div class="title-item" >
+                        <div class="title-item">
                             今年涨幅
                         </div>
                         <div class="item-info" flex="cross:center main:center">
@@ -96,15 +96,20 @@
 </template>
 
 <script>
+    import $api from '../tools/api';
     import '../less/fund/gains-list.less';
     export default {
         name: 'gains-list',
         data(){
             return {
-                checkActive:0
+                checkActive: 0
             }
         },
         created(){
+            $api.get('/fund/account/bank/list')
+                .then(resp => {
+                    console.log(resp)
+                })
         },
         computed: {},
         methods: {},

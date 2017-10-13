@@ -2,44 +2,58 @@
     <div class="detail" flex="dir:top">
         <div class="wrap" flex-box="1">
             <div class="header">
-                <p>国泰成长优选100000</p>
+                <p>{{fund.fundAbbrName}}&nbsp&nbsp&nbsp&nbsp{{fund.fundCode}}</p>
                 <div flex="box:mean" class="tags">
                     <div flex="main:center">
-                        <p class="p f6">基金类型</p>
+                        <p class="p f6">{{fundType[Number(fund.fundType)]}}</p>
                     </div>
                     <div flex="main:center">
-                        <p class="p f6">风险等级</p>
+                        <p class="p f6">{{riskLevel[Number(fund.riskLevel)]}}</p>
                     </div>
                 </div>
                 <div flex="box:mean" class="infos">
-                    <div>
-                        <p class="f9">0.00%</p>
+                    <div v-if="Number(fund.fundType)==4">
+                        <p class="f9">{{fund.yearlyRoe}}</p>
+                        <p>七日年化</p>
+                    </div>
+                    <div v-if="Number(fund.fundType)!=4&&fund.oneYearReturn">
+                        <p class="f9">{{fund.oneYearReturn}}</p>
                         <p>近一年涨幅</p>
                     </div>
+                    <div v-if="Number(fund.fundType)!=4&&!fund.oneYearReturn">
+                        <p class="f9">{{fund.thisYearReturn}}</p>
+                        <p>今年以来涨幅</p>
+                    </div>
                     <div class="border-left">
-                        <p class="f9">3.338</p>
-                        <p>最新净值（07-24）</p>
+                        <p class="f9">{{fund.nav}}</p>
+                        <p>最新净值（{{fund.navDate}}）</p>
                     </div>
                 </div>
             </div>
             <div class="content-1 f8" flex="box:mean">
-                <p class="check-item" :class="{'active':active==0}" @click.stop="active=0">净值增长率 </p>
-                <p class="check-item" :class="{'active':active==1}" @click.stop="active=1">净值走势  </p>
+                <p class="check-item" :class="{'active':active==0}" @click.stop="activeCheck(0)">净值增长率 </p>
+                <p class="check-item" :class="{'active':active==1}" @click.stop="activeCheck(1)">净值走势  </p>
             </div>
             <div class="content-2 seperate" flex="box:mean">
                 <p class="p">期间涨跌<span class="red span">0.71%</span></p>
                 <p class="p">同类平均<span class="red span">0.71%</span></p>
             </div>
-            <line-chart :data="datas" :options="options" class="chart seperate"></line-chart>
+            <div v-if="!active">
+                <line-chart :data="datas" :options="options" :chart-data="datas" class="chart seperate"></line-chart>
+            </div>
+            <div v-if="active">
+                <line-chart :data="navDatas" :options="navOptions" :chart-data="navDatas" class="chart seperate"></line-chart>
+            </div>
             <div class="content-3">
                 <div class="duration-box f6" flex="box:mean">
-                    <p class="duration-check border-right" :class="{'active':durationCheck==0}"
-                       @click.stop="durationCheck=0">一个月</p>
-                    <p class="duration-check border-right" :class="{'active':durationCheck==1}"
-                       @click.stop="durationCheck=1">三个月</p>
-                    <p class="duration-check border-right" :class="{'active':durationCheck==2}"
-                       @click.stop="durationCheck=2">六个月</p>
-                    <p class="duration-check" :class="{'active':durationCheck==3}" @click.stop="durationCheck=3">一年</p>
+                    <p class="duration-check border-right" :class="{'active':duration=='1m'}"
+                       @click.stop="durationCheck('1m')">一个月</p>
+                    <p class="duration-check border-right" :class="{'active':duration=='3m'}"
+                       @click.stop="durationCheck('3m')">三个月</p>
+                    <p class="duration-check border-right" :class="{'active':duration=='6m'}"
+                       @click.stop="durationCheck('6m')">六个月</p>
+                    <p class="duration-check border-right" :class="{'active':duration=='1y'}"
+                       @click.stop="durationCheck('1y')">一年</p>
                 </div>
             </div>
             <div class="content-4 seperate">
@@ -48,13 +62,14 @@
                 </div>
                 <div flex="cross:center" class="item bl">
                     <p flex-box="1">购买费率</p>
-                    <p flex-box="0" class="line-through">1.50%</p>
-                    <p flex-box="0" class="red normal">0.15</p>
-                    <p flex-box="0" class="btn f6">1折</p>
+                    <p flex-box="0">{{fund.frontEndPurchRate}}%</p>
+                    <!-- <p flex-box="0" class="line-through">1.50%</p>
+                     <p flex-box="0" class="red normal">0.15</p>
+                     <p flex-box="0" class="btn f6">1折</p>-->
                 </div>
                 <div flex="cross:center" class="item">
                     <p flex-box="1">起投金额</p>
-                    <p flex-box="0">10.00元</p>
+                    <p flex-box="0">{{fund.minAmtIndiFirstPurch}}元</p>
                 </div>
             </div>
             <div class="content-4 seperate margin-bottom">
@@ -63,16 +78,16 @@
                 </div>
                 <div flex="cross:center" class="item bl">
                     <p flex-box="1">分红方式</p>
-                    <p flex-box="0">分红转份额</p>
+                    <p flex-box="0">{{fund.defaultBonusType == 0 ? '红利资金再投' : '现金分红'}}</p>
                 </div>
                 <div flex="cross:center" class="item bl" @click.stop="pathTo('/manager')">
                     <p flex-box="1">基金经理</p>
-                    <p flex-box="0">张三</p>
+                    <p flex-box="0">{{fund.manager}}</p>
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="img">
                 </div>
                 <div flex="cross:center" class="item bl">
                     <p flex-box="1">基金公司</p>
-                    <p flex-box="0">兴业全球</p>
+                    <p flex-box="0">{{fund.fundCustodian}}</p>
                 </div>
                 <div flex="cross:center" class="item bl" @click.stop="pathTo('/related-rate')">
                     <p flex-box="1">相关费率</p>
@@ -92,14 +107,15 @@
             </div>
         </div>
         <div class="bottom f8" flex-box="0" flex="box:mean">
-            <p class="p yellow">+自选</p>
-            <p class="p blue">定投</p>
-            <p class="p red">申购（1折）</p>
+          <!--  <p class="p yellow">+自选</p>
+            <p class="p blue">定投</p>-->
+            <p class="p red" @click.stop="pathTo('/purchase')">申购（1折）</p>
         </div>
     </div>
 </template>
 
 <script>
+    import $api from '../tools/api';
     import '../less/fund/detail.less';
     import LineChart from '../components/LineChart/line';
     export default {
@@ -110,29 +126,50 @@
         data(){
             return {
                 active: 0,
-                durationCheck: 0,
+                duration: '1m',
                 datacollection: null,
-                datas: {
-                    labels: ['2017-01-11', '2017-02-11', '2017-03-11', '2017-04-11', '2017-05-11'],
-                    datasets: [
-                        {
-                            label: '当前基金',
-                            backgroundColor: '#417505',
-                            data: [11.26, 11, 33, 22, 33],
-                            borderColor: '#417505',
-                            fill: false
-
-
-                        }, {
-                            label: '同类均值',
-                            backgroundColor: '#D0021B',
-                            borderColor: '#D0021B',
-                            data: [25, 23],
-                            fill: false
-                        }
-                    ]
-                },
+                datas: {},
+                navDatas: {},
                 options: {
+                    tooltips: {
+                        mode: 'index'
+                    },
+                    scales: {
+                        yAxes: [{
+                            stacked: true,
+                            ticks: {
+                                beginAtZero: false,
+                                callback: function (value, index, values) {
+                                    return value.toFixed(2) + '';
+                                }
+                            },
+                            gridLines: {
+                                display: true,
+                            }
+                        }],
+                        /*  yAxes: [{
+                         id: 'left-y-axis',
+                         type: 'linear',
+                         position: 'left'
+                         }, {
+                         id: 'right-y-axis',
+                         type: 'linear',
+                         position: 'right'
+                         }],*/
+                        xAxes: [{
+                            gridLines: {
+                                display: false,
+                            }
+                        }]
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false
+                },
+                navOptions: {
                     tooltips: {
                         mode: 'index'
                     },
@@ -165,20 +202,139 @@
                         }]
                     },
                     legend: {
-                        display: true,
+                        display: false,
                         position: 'bottom'
                     },
                     responsive: true,
                     maintainAspectRatio: false
-                }
+                },
+                fund: {},
+                fundType: ['其他类型', '股票型', '债券型', '混合型', '货币型', '保本型', '指数型', 'QDII', '商品型', '短期理财'],
+                riskLevel: ['未评估过', '保守型', '稳健型', '进取型']
             }
         },
         created(){
+            this.getCharts();
+            $api.get('/fund/info/detail', {
+                fundCode: this.$route.query.code
+            })
+                .then(resp => {
+                    if (resp.code == 200) {
+                        this.fund = resp.data;
+                        window.sessionStorage.setItem('purchRate',resp.data.frontEndPurchRate);/*申购费率*/
+                        window.sessionStorage.setItem('redRate',resp.data.redRate);/*赎回费率*/
+                        window.sessionStorage.setItem('managementRate',resp.data.managementRate);/*管理费率*/
+                        window.sessionStorage.setItem('custodianRate',resp.data.custodianRate);/*基金托管费*/
+                        window.sessionStorage.setItem('assetAllocation',resp.data.assetAllocation);/*持仓分析*/
+                        let date = new Date(resp.data.navDate);
+                        let month = (date.getMonth()+1) > 9 ? '' + (date.getMonth()+1) : '0' + (date.getMonth()+1);
+                        let day = date.getDate() > 10 ? '' + date.getDate() : '0' + date.getDate();
+                        this.fund.navDate = month + '-' + day;/*最新净值日期*/
+                        let minRate = Infinity;
+                        if(resp.data.frontEndPurchRate){
+                            let purchRate = JSON.parse(resp.data.frontEndPurchRate);
+                            purchRate.map(item => {
+                                if (minRate > item.feeRatio && item.feeRatio) {
+                                    minRate = item.feeRatio;
+                                }
+                            })
+                        }
+                        this.fund.frontEndPurchRate = minRate;/*购买费率（取数组中最小的）*/
+                        if(resp.data.fundManager){
+                            let managerList = JSON.parse(resp.data.fundManager);
+                            if(managerList&&managerList.length){
+                                this.fund.manager = managerList[0].name;
+                            }
+                        }
+                    }
+                })
         },
         computed: {},
         methods: {
+            activeCheck(num){
+                this.active = num;
+                this.getCharts();
+            },
+            durationCheck(str){
+                this.duration = str;
+                this.getCharts();
+            },
             pathTo(path){
-                this.$router.push('/funds'+path);
+                this.$router.push({
+                    path:'/funds' + path,
+                    query:{
+                        code:this.$route.query.code
+                    }
+                });
+            },
+            getCharts(){
+                let labels = [];
+                let nowData = [];
+                let avgData = [];
+                let navData = [];
+                $api.get('/fund/info/nav/series', {
+                    fundCode: this.$route.query.code,
+                    period: this.duration
+                })
+                    .then(resp => {
+                        if (resp.code == 200) {
+                            if (resp.data.list && resp.data.list.length) {
+                                resp.data.list[0].navSeries.map(item => {
+                                    labels.push(item.date)
+                                    nowData.push(item.change)
+                                    avgData.push(item.sameFundChange)
+                                    navData.push(item.nav)
+                                })
+                                return resp;
+                            }
+                        }
+                    })
+                    .then(resp => {
+                        this.datas = {
+                            labels,
+                            datasets: [
+                                {
+                                    label: '当前基金',
+                                    backgroundColor: '#417505',
+                                    data: nowData,
+                                    borderColor: '#417505',
+                                    fill: false,
+                                    borderWidth: 1,
+                                    pointBackgroundColor: 'transparent',
+                                    pointStyle: 'circle',
+                                    hitRadius: 10,
+                                    radius: 0
+                                }, {
+                                    label: '同类均值',
+                                    backgroundColor: '#D0021B',
+                                    borderColor: '#D0021B',
+                                    data: avgData,
+                                    fill: false,
+                                    borderWidth: 1,
+                                    pointBackgroundColor: 'transparent',
+                                    pointStyle: 'dash'
+                                }
+                            ]
+                        }
+                        this.navDatas = {
+                            labels,
+                            datasets: [
+                                {
+                                    backgroundColor: '#417505',
+                                    data: navData,
+                                    borderColor: '#417505',
+                                    fill: false,
+                                    borderWidth: 1,
+                                    pointBackgroundColor: 'transparent',
+                                    pointStyle: 'circle',
+                                    hitRadius: 10,
+                                    radius: 0
+                                }
+                            ]
+                        }
+                        /*console.log(this.datas.labels)
+                         console.log(this.datas.datasets[0].data)*/
+                    })
             }
         },
         destroyed(){

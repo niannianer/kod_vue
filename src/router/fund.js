@@ -21,6 +21,7 @@ let beforeEach = ((to, from, next) => {
 const Fund = () => import('../containers/Fund');
 const Bulletin = () => import('../funds/Bulletin');
 const Detail = () => import('../funds/Detail');
+const DetailApp = () => import('../funds/DetailApp');
 const GainsList = () => import('../funds/GainsList');
 const HotList = () => import('../funds/HotList');
 const Info = () => import('../funds/Info');
@@ -50,10 +51,18 @@ let fundRoutes = [
                     title: '基金公告',
                     withoutLogin: true
                 }
-            },{
+            }, {
                 path: 'detail',
                 name: 'detail',
                 component: Detail,
+                meta: {
+                    title: '基金详情',
+                    withoutLogin: true
+                }
+            },{
+                path: 'detail-app',
+                name: 'detail-app',
+                component: DetailApp,
                 meta: {
                     title: '基金详情',
                     withoutLogin: true
@@ -106,7 +115,7 @@ let fundRoutes = [
                 meta: {
                     title: '我的基金'
                 }
-            },  {
+            }, {
                 path: 'open-count',
                 name: 'open-count',
                 component: OpenCount,
@@ -114,14 +123,14 @@ let fundRoutes = [
                     title: '基金开户',
                     withoutLogin: true
                 }
-            },{
+            }, {
                 path: 'position-analysis',
                 name: 'position-analysis',
                 component: PositionAnalysis,
                 meta: {
                     title: '持仓分析'
                 }
-            },{
+            }, {
                 path: 'purchase',
                 name: 'purchase',
                 component: Purchase,

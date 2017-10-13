@@ -1,43 +1,90 @@
 <template>
     <div class="bulletin">
-        <div class="item bl">
-            <div class="content">
-                百度百科是百度公司推出的一部内容开放、自由的网络百科全书平台。其测试版于2006年4月20日上线，正式版在2008年4月21日发布，截至2017年4月，百度百科已经收录了超过1432万的词条，参与词条编辑的网友超过610万人，几乎涵盖了所有已知的知识领域。
-            </div>
-            <div class="time">
-                2017-09-12
-            </div>
-        </div>
-        <div class="item bl">
-            <div class="content">
-                百度百科是百度公司推出的一部内容开放、自由的网络百科全书平台。其测试版于2006年4月20日上线，正式版在2008年4月21日发布，截至2017年4月，百度百科已经收录了超过1432万的词条，参与词条编辑的网友超过610万人，几乎涵盖了所有已知的知识领域。
-            </div>
-            <div class="time">
-                2017-09-12
-            </div>
-        </div>
-        <div class="item">
-            <div class="content">
-                百度百科是百度公司推出的一部内容开放、自由的网络百科全书平台。其测试版于2006年4月20日上线，正式版在2008年4月21日发布，截至2017年4月，百度百科已经收录了超过1432万的词条，参与词条编辑的网友超过610万人，几乎涵盖了所有已知的知识领域。
-            </div>
-            <div class="time">
-                2017-09-12
-            </div>
-        </div>
+        <mt-loadmore :top-method="loadTop" ref="loadmore" :auto-fill="autoFill">
+            <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+                <li class="item bl" v-for="(item,index) in lists" :key="index" @click.stop="openPDF(item)">
+                    <div class="content">
+                        {{item.title}}
+                    </div>
+                    <div class="time">
+                        {{dateFormat(item.announceDate)}}
+                    </div>
+                </li>
+            </ul>
+        </mt-loadmore>
     </div>
 </template>
 
 <script>
+    import Vue from 'vue';
+    import {Loadmore, InfiniteScroll} from 'mint-ui';
+    Vue.component(Loadmore.name, Loadmore);
+    Vue.use(InfiniteScroll);
+    import $api from '../tools/api';
     import '../less/fund/bulletin.less';
     export default {
         name: 'bulletin',
         data(){
-            return {}
+            return {
+                lists: [],
+                autoFill: false,
+                currentPage: 0,
+                pageSize: 10,
+                loading: true,
+            }
         },
         created(){
+            this.loadData();
         },
         computed: {},
-        methods: {},
+        methods: {
+            loadTop(){
+                this.lists = [];
+                this.currentPage = 0;
+                this.loadData().then(() => {
+                    this.$refs.loadmore.onTopLoaded();
+                });
+            },
+            loadData(){
+                return $api.get('/fund/info/announcement', {
+                    fundCode:this.$route.query.code,
+                    startRow: this.currentPage * this.pageSize,
+                    pageSize: this.pageSize
+                })
+                    .then(msg => {
+                        if (msg.code == 200) {
+                            this.lists = this.lists.concat(msg.data.list);
+                            if (msg.data.list.length < this.pageSize) {
+                                this.loading = true;
+                            } else {
+                                this.loading = false;
+                            }
+                        }
+                        return msg
+                    })
+            },
+            loadMore(){
+                this.loading = true;
+                this.currentPage++;
+                this.loadData();
+            },
+            dateFormat(timestamp){
+               let date = new Date(timestamp);
+               let y = date.getFullYear();
+               let m = (date.getMonth()+1)<10?'0'+(date.getMonth()+1):''+(date.getMonth()+1);
+               let d = date.getDate()<10?'0'+date.getDate():''+date.getDate();
+               return y+'-'+m+'-'+d;
+            },
+            openPDF(item){
+                if (item.url) {
+                    let pdfUrl = item.url;
+                    let pdfName = item.title;
+                    pdfUrl = pdfUrl.replace(/^http\.*:/, 'https:');
+                    window.location.href = '/pdf/web/viewer.html?src='
+                        + encodeURIComponent(pdfUrl) + '&name=' + encodeURIComponent(pdfName);
+                }
+            },
+        },
         destroyed(){
 
         }
