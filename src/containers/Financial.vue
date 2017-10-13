@@ -1,7 +1,7 @@
 <template>
     <div v-cloak class="financail" flex-box="1" flex="dir:top">
         <div flex="dir:top" flex-box="1">
-            <div class="tabs" flex flex-box="0">
+            <div class="tabs" flex="box:mean" flex-box="0">
                 <div flex-box="1" class="tab" @click.stop="changeTab(2)">
                     <div class="tab-item" :class="{'active':tab==2}">定期理财</div>
                 </div>

@@ -109,7 +109,7 @@
         <div class="bottom f8" flex-box="0" flex="box:mean">
           <!--  <p class="p yellow">+自选</p>
             <p class="p blue">定投</p>-->
-            <p class="p red" @click.stop="pathTo('/purchase')">申购（1折）</p>
+            <p class="p red" @click.stop="toPurchase()">申购（1折）</p>
         </div>
     </div>
 </template>
@@ -263,7 +263,21 @@
                 this.$router.push({
                     path:'/funds' + path,
                     query:{
-                        code:this.$route.query.code
+                        code: this.$route.query.code,
+
+                    }
+                });
+            },
+            toPurchase(){
+                let minSub = this.fund.isPurchFund == 1 ? this.fund.minAmtIndiFirstPurch : this.fund.minAmtIndiAddPurch;
+                let maxSub = this.fund.maxAmtIndiPurch;
+                this.$router.push({
+                    path:'/funds/purchase',
+                    query:{
+                        code:this.$route.query.code,
+                        name: this.fund.fundAbbrName,
+                        mins: minSub,
+                        maxs: maxSub
                     }
                 });
             },
