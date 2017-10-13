@@ -29,9 +29,9 @@
                 </div>
                 <div class="card-right"  flex-box="1" flex="dir:top">
                     <div flex-box="1" class="title">{{item.fundAbbrName}}<span class="num">{{item.fundCode}}</span></div>
-                    <div flex-box="0">
-                        <span class="tag">反弹好</span>
-                        <span class="tag">回撤小</span>
+                    <div flex-box="0" class="tag-list">
+                        <span class="tag">{{item.fundType|fundType}}</span>
+                        <span class="tag">{{item.riskLevel|riskLevel}}</span>
                     </div>
                 </div>
             </div>

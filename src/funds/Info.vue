@@ -47,7 +47,6 @@
 </template>
 
 <script>
-    import Vue from 'vue';
     import $api from '../tools/api';
     import KingoldPicker from '../components/KingoldPicker';
     import $device from '../tools/device';
@@ -115,7 +114,7 @@
             },
             checkWord(){
                 if (!this.provinceCode) {
-                    Toast('请选择所在省市区县');
+                    Toast('请选择所在省');
                     return false;
                 }
                 if (!this.detailAddress) {

@@ -190,4 +190,58 @@ export let numMulti =(num1,num2)=>{
         * Number(num2.toString().replace(".", ""))
         / Math.pow(10, baseNum)
 };
+export let fundType =(input)=>{
+    let output = '';
+    switch (input){
+        case '1':
+            output = '股票型';
+            break;
+        case '2':
+            output = '债券型';
+            break;
+        case '3':
+            output = '混合型';
+            break;
+        case '4':
+            output = '货币型';
+            break;
+        case '5':
+            output = '保本型';
+            break;
+        case '6':
+            output = '指数型';
+            break;
+        case '7':
+            output = 'QDII';
+            break;
+        case '8':
+            output = '商品型';
+            break;
+        case '9':
+            output = '短期理财';
+            break;
+        default:
+            output = '其他类型';
+            break;
+    }
+    return output;
+};
+export let riskLevel =(input)=>{
+    let output = '';
+    switch (input){
+        case '1':
+            output = '保守型';
+            break;
+        case '2':
+            output = '稳健型';
+            break;
+        case '3':
+            output = '进取型';
+            break;
+        default:
+            output = '未评估过';
+            break;
+    }
+    return output;
+};
 

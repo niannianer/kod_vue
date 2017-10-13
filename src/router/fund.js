@@ -32,6 +32,7 @@ const PositionAnalysis = () => import('../funds/PositionAnalysis');
 const Purchase = () => import('../funds/Purchase');
 const Redeem = () => import('../funds/Redeem');
 const RelatedRate = () => import('../funds/RelatedRate');
+const PurchaseResult = () => import('../funds/PurchaseResult');
 let fundRoutes = [
     {
         path: '/funds',
@@ -143,7 +144,14 @@ let fundRoutes = [
                 meta: {
                     title: '相关费率'
                 }
-            }]
+            },{
+                path: 'purchase-result',
+                name: 'purchase-result',
+                component: PurchaseResult,
+                meta: {
+                    title: '申购'
+                }
+            },]
     }
 ];
 

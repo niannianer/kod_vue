@@ -80,25 +80,33 @@
                 width: 5rem;
             }
             .card-right{
-                padding-left: 1.8rem;
                 .title{
                     font-size: .8rem;
                     color: @color-text;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    padding-left: 1.8rem;
                     .num{
                         font-size: .7rem;
                         color: @color-text-secondary;
                         margin-left: .1rem;
                     }
                 }
-                .tag{
-                    background: #E7F3FF;
-                    border: 1px solid #84C4FF;
-                    border-radius: 2px;
-                    font-size: .6rem;
-                    color: #2975BB;
-                    transform: scale(.8);
-                    display: inline-block;
-                    padding: .1rem .34rem;
+                .tag-list{
+                    padding-left: 1.6rem;
+                    .tag{
+                        background: #E7F3FF;
+                        border: 1px solid #84C4FF;
+                        border-radius: 2px;
+                        font-size: .6rem;
+                        color: #2975BB;
+                        transform: scale(.8);
+                        display: inline-block;
+                        padding: .1rem .34rem;
+                    }
                 }
             }
 
