@@ -132,22 +132,16 @@
                         userName: userName, userIdCardNumber: userIdCardNumber, smsCode: smsCode
                     }
                 }
-                if (this.loading) {
-                    return false;
-                }
-                this.loading = true;
                 $api.post('/openAccount', data).then(msg => {
 
                     if (msg.code == 200) {
                         Toast("身份认证成功！");
                         this.popup = false;
                         setTimeout(() => {
-                            this.loading = false;
                             this.$store.dispatch('getUserInfo');
                             this.$router.replace('/bind-bank-card');
                         }, 3000);
                     } else if (msg.code == 8003) {
-                        this.loading = false;
                         //弹窗
                         this.popup = true;
                         this.smsCode = '';
