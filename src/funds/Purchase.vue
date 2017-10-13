@@ -2,68 +2,132 @@
     <div class="purchase" flex="dir:top">
         <div class="wrap"  flex-box="1">
             <div class="content">
-                <div class="item f8" flex="cross:center">
-                    宏德优选000001
+                <div class="item f8 name" flex="cross:center">
+                    {{fundAbbrName}}{{fundCode}}
                 </div>
             </div>
             <div class="content seperate">
                 <div class="item f8" flex="cross:center">
                     <p class="item-title">支付</p>
-                    <p class="blue">{{payment.name}} ({{paymentNoShort}})</p>
+                    <p class="blue">{{bank_name}} ({{bank_no}})</p>
                 </div>
             </div>
-            <p class="tip">单笔限额<span class="blue">5万元</span>，单日限额<span class="blue">100万元</span></p>
+            <p class="tip">单笔限额<span class="blue">{{minSub}}万元</span>，单日限额<span class="blue">{{maxSub}}万元</span></p>
             <div class="content seperate">
                 <div class="item f8" flex="cross:center">
                     <p class="item-title">申购金额</p>
-                    <input type="text" placeholder="最低1000元，投资上限100万" v-model="tradeAmount">
+                    <input type="text" placeholder="最低1000元，投资上限100万" v-model="orderAmt" @keyup.stop="getFee">
                 </div>
             </div>
-            <p class="tip">费率：<span class="blue">0.12%</span>（估算费用0.12元，省1.07元）</p>
+            <p class="tip" v-if="orderAmt && buy.discount">费率：
+                <span class="blue">{{buy.discount}}%</span>
+                （估算费用{{buy.fee||0}}元）
+            </p>
             <p class="tip">手续费及申购时间以基金公司确认结果为准</p>
             <div class="deal" flex="cross:center">
                 <img src="../images/tip.png" alt="" class="img">
                 <p class="deal-info">点击确认购买代表您同意《委托支付协议》</p>
             </div>
         </div>
-        <button class="bottom f8" flex-box="0" :disabled="!tradeAmount">
+        <button class="bottom f8" flex-box="0" :disabled="!orderAmt" @click.stop="toBuy">
           确认购买
         </button>
 
+        <password-input v-show="inputPassword" title="支付金额" @close="inputPassword=false"
+                        @callBack="callBack"></password-input>
     </div>
 </template>
 
 <script>
     import $api from '../tools/api';
+    import {mapState} from 'vuex';
+    import PasswordInput from '../components/PasswordInput';
+    import $device from '../tools/device';
+    import {Toast} from 'mint-ui';
+    import EventBus from  '../tools/event-bus';
     import '../less/fund/purchase.less';
     export default {
         name: 'purchase',
         data(){
             return {
-                payment: {},
-                paymentNoShort: '',
-                tradeAmount: ''
+                fundAbbrName: '',
+                fundCode: '',
+                orderAmt: '',
+                minSub: '',
+                maxSub: '',
+                buy: {},
+                discount: 0,
+                terminalInfo: '',
+                inputPassword: false,
+                timer: ''
             }
         },
-        components: {},
+        components: {PasswordInput},
         created(){
-            this.getPayment();
+            this.fundAbbrName = this.$route.query.name;
+            this.fundCode = this.$route.query.code;
+            this.minSub = this.$route.query.mins/10000;
+            this.maxSub = this.$route.query.maxs/10000;
         },
-        computed: {},
+        computed: {
+            ...mapState(
+                ['bank_name']
+            ),
+            bank_no(){
+                let bank_n = this.$store.state.bank_no;
+                return bank_n.substr(bank_n.length-4,4);
+            }
+        },
         methods: {
-            getPayment(){
-                $api.get('/fund/account/payment').then((resp) => {
-                    this.payment = resp.data;
-                    this.payment = {
-                        "userUuid": "123456789012345678901234567890A2",
-                        "paymentType": "bank:002",
-                        "name": "工商银行",
-                        "paymentNo": "6222020903001483079",
-                        "accountName": "田思聪"
+            getFee(){
+                if(this.timer){
+                    clearTimeout(this.timer);
+                }
+                if(!this.orderAmt){
+                    this.buy = {};
+                    return;
+                }
+                this.timer = setTimeout(()=>{
+                    let {fundCode, orderAmt} = this;
+                    $api.get('/fund/purch/fee',{
+                        fundCode,
+                        orderAmt
+                    }).then((resp) => {
+                        if(resp.code == 200){
+                            this.buy = resp.data;
+                        }
+                    });
+                },500);
+            },
+            callBack(password){
+                this.tradePurch(password);
+            },
+            toBuy(){
+                this.inputPassword = true;
+            },
+            tradePurch(password){
+                let {fundCode, orderAmt} = this;
+                this.terminalInfo = $device.os + '-' + $device.osVersion;
+                $api.post('/fund/purch',{
+                    fundCode,
+                    tradeAmount:orderAmt,
+                    userPayPassword: password
+                }).then((resp) => {
+                    if(resp.code == 200){
+                        this.inputPassword = false;
+                        this.$router.push({
+                            path: '/purchase-result',
+                            query: {
+                                status: 'w'
+                            }
+                        })
+                    }else{
+                        Toast(resp.msg);
+                        if (resp.code == 1108) {
+                            EventBus.$emit('clearInput');
+                        }
                     }
-                    let payNo = this.payment.paymentNo;
-                    this.paymentNoShort = payNo.substr(payNo.length-4,4);
-                })
+                });
             }
         },
         mounted(){

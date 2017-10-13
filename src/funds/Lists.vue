@@ -96,9 +96,9 @@
             },
             toDetail(fundCode){
                 this.$router.push({
-                    path: 'detail',
+                    path: '/funds/detail',
                     query:{
-                        d: fundCode
+                        code: fundCode
                     }
                 })
             }

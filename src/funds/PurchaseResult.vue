@@ -1,6 +1,6 @@
 <template>
     <div class="purchase-result">
-        <div class="wait" v-if="false">
+        <div class="wait" v-if="status == 'w'">
             <div class="header">
                 <img src="../images/fund/waiting.png" class="img"/>
                 <div class="status-text">正在处理中</div>
@@ -9,9 +9,9 @@
                 温馨提示：<br/>
                 银行正在处理中，如果10分钟内没有收到银行扣款通知，可能扣款失败，可重新申购。
             </div>
-            <button class="buttom">我的账户</button>
+            <button class="buttom" @click.stop="toMine">我的账户</button>
         </div>
-        <div class="success">
+        <div class="success" v-else>
             <div class="header">
                 <img src="../images/fund/submit-sucess.png" class="img"/>
                 <div class="status-text">提交成功</div>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <button class="buttom">查看我的账户</button>
+            <button class="buttom" @click.stop="toMine">查看我的账户</button>
         </div>
     </div>
 </template>
@@ -48,12 +48,21 @@
     export default {
         name: 'bulletin',
         data(){
-            return {}
+            return {
+                status: ''
+            }
         },
         created(){
+            this.status = this.$route.query.status
         },
         computed: {},
-        methods: {},
+        methods: {
+            toMine(){
+                this.$router.push({
+                    path: '/personal-center'
+                });
+            }
+        },
         destroyed(){
 
         }
