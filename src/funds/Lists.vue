@@ -90,11 +90,13 @@
                 });
             },
             toPage(path){
+                window.sessionStorage.setItem('fund-detail',1);
                 this.$router.push({
                     path: path
                 })
             },
             toDetail(fundCode){
+                window.sessionStorage.setItem('fund-detail',1);
                 this.$router.push({
                     path: '/funds/detail',
                     query:{

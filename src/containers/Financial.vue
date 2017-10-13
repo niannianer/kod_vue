@@ -109,7 +109,7 @@
                                 </div>
                                 <div flex="dir:left" class="fund-middle-fix"
                                      :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2),'padding-top':item.couponMaxProfit}"
-                                     >
+                                >
                                     <div class="rate" flex-box="1"
                                          :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                                         <div flex>
@@ -198,7 +198,7 @@
     export default {
         name: 'financial',
         components: {
-            CicleProgress,lists
+            CicleProgress, lists
         },
         data(){
             return {
@@ -237,6 +237,11 @@
 
                 window.sessionStorage.removeItem('goodsDetail');
                 return false;
+            }
+            /*基金详情*/
+            if (window.sessionStorage.getItem('fund-detail')) {
+                this.tab = 0;
+                window.sessionStorage.removeItem('fund-detail');
             }
             // 私募
             if (this.$route.query.tab == 'PRIF') {
