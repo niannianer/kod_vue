@@ -97,7 +97,7 @@
                 btnText: '获取验证码',
                 flag: true,
                 pShow: false,
-                agreement: false,
+                agreement: true,
                 imgUrls,
                 loading: false,
                 isDiff: false
