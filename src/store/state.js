@@ -20,7 +20,6 @@ const state = {
     investorType:'',
     investorTypeDesc:'',
     investorGenderDesc:'',
-    isSetPayPassword: '',
 
     accountTotalAssets:0.00, //总资产
     accountTotalInterests:0.00,//收益总额，
