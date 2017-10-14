@@ -54,7 +54,10 @@ const state = {
     accountStatus: '',//是否录入适当性管理信息，3：完成
     paymentNo: '',
     name: '',
-    investorRiskVersion:''//风险测评版本 2:新版
+    investorRiskVersion:'',//风险测评版本 2:新版
+
+    riskGrade5:'',//用户风险等级
+    riskGrade5Desc: ''//用户风险等级描述语
 
 
 };

@@ -85,7 +85,10 @@
                 }
                 if(!this.orderAmt){
                     this.buy = {};
-                    return;
+                    return false;
+                }
+                if(this.orderAmt < 1000 || this.orderAmt > 1000000){
+                    return false;
                 }
                 this.timer = setTimeout(()=>{
                     let {fundCode, orderAmt} = this;
@@ -103,6 +106,14 @@
                 this.tradePurch(password);
             },
             toBuy(){
+                if(this.orderAmt < 1000){
+                    Toast('申购金额最低1000！');
+                    return false;
+                }
+                if(this.orderAmt > 1000000){
+                    Toast('申购金额最高100万！');
+                    return false;
+                }
                 this.inputPassword = true;
             },
             tradePurch(password){
@@ -116,9 +127,9 @@
                     if(resp.code == 200){
                         this.inputPassword = false;
                         this.$router.push({
-                            path: '/purchase-result',
+                            path: '/funds/purchase-result',
                             query: {
-                                status: 'w'
+                                id: resp.data
                             }
                         })
                     }else{

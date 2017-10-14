@@ -123,6 +123,7 @@
     import {mapState} from 'vuex';
     import { MessageBox } from 'mint-ui';
     import KingMessage from '../components/Message/KingMessage.vue';
+    import $device from '../tools/device';
     import '../less/fund/detail.less';
     import LineChart from '../components/LineChart/line';
     export default {
@@ -261,7 +262,14 @@
         },
         computed: {
             ...mapState(
-                ['paymentNo','isSetPayPassword','accountStatus','investorRiskScore']
+                [
+                    'paymentNo',
+                    'isSetPayPassword',
+                    'accountStatus',
+                    'investorRiskScore',
+                    'riskGrade5Desc',
+                    'riskGrade5'
+                ]
             )
         },
         methods: {
@@ -309,35 +317,38 @@
                     this.pathTo('/risk-assessment/wechat',{});
                     return false;
                 }
+                //用户的风险测评为最低
+                if(this.investorRiskType == 0){
+                    let lowMsg = '该产品为高风险产品，投资此产品超过了您的风险承受范围。';
+                    this.msgOption = {
+                        title: '风险提示',
+                        msg: lowMsg,
+                        confirmText: '重新测评'
+                    };
+                    this.showMessage = true;
+                    return false;
+                }
                 //风险评估验证是否匹配
-                $api.get('/fund/account/risk',{terminalInfo:this.$route.query.code}).then((resp)=>{
+                if(Number(this.riskGrade5) < this.fund.riskLevel){
+                    //风险结果不匹配
+                    this.msgOption = {
+                        title: '风险提示',
+                        msg: this.riskGrade5Desc,
+                        closeText: '坚持购买',
+                        confirmText: '重新测评',
+                        countDown: 3,
+                        showCancelButton: true
+                    };
+                    this.showMessage = true;
+                }else{
+                    this.toPurchase();
+                }
+                /*let terminalInfo = $device.os + '-' + $device.osVersion;
+                $api.get('/fund/account/risk',{terminalInfo: terminalInfo}).then((resp)=>{
                     if(resp.code == 200){
-                        if(this.investorRiskType == 0){
-                            let lowMsg = '该产品为高风险产品，投资此产品超过了您的风险承受范围。';
-                            this.msgOption = {
-                                title: '风险提示',
-                                msg: lowMsg,
-                                confirmText: '重新测评'
-                            };
-                            this.showMessage = true;
-                            return false;
-                        }
-                        if(!resp.data.minRiskGrade){
-                            //风险结果不匹配
-                            this.msgOption = {
-                                title: '风险提示',
-                                msg: resp.data.riskGrade5Desc,
-                                closeText: '坚持购买',
-                                confirmText: '重新测评',
-                                countDown: 3,
-                                showCancelButton: true
-                            };
-                            this.showMessage = true;
-                        }else{
-                            this.toPurchase();
-                        }
+
                     }
-                });
+                });*/
 
             },
             //进入基金申购页面
@@ -362,6 +373,7 @@
                 }
                 this.pathTo('/risk-assessment/wechat',{retest:1});
             },
+            //坚持购买
             toBuy(){
                 this.showMessage = false;
                 this.toPurchase();
