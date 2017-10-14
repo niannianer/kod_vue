@@ -1,8 +1,25 @@
 <template>
     <div class="set-pay-password" flex="dir:top">
+
         <div class="password-header" flex-box="1">
+            <div class="card-text">为了保障您的账户安全，请设置交易密码</div>
+            <div class="steps" flex="box:mean">
+                <div class="item" flex="main:center">
+                    <span class="round active">1</span>
+                    <div class="line-right active"></div>
+                </div>
+                <div class="item" flex="main:center">
+                    <span class="round active">2</span>
+                    <div class="line-left active"></div>
+                    <div class="line-right active"></div>
+                </div>
+                <div class="item" flex="main:center">
+                    <span class="round active">3</span>
+                    <div class="line-left active"></div>
+                </div>
+
+            </div>
             <div class="psw-img">
-                <img src="../images/set-pay-psw.png" alt="">
             </div>
             <p class="psw-title">{{pTitle}}</p>
             <div class="psw-input">
@@ -96,13 +113,10 @@
                         let event = ['_trackEvent', '设置交易密码', 'SHOW', '确认交易密码页面-点击完成', '确认交易密码页面-点击完成'];
                         window._hmt.push(event);
                         if (msg.code == 200) {
-                            Toast('您已成功开通托管账户，可进行投资');
-                            this.$store.dispatch('getPersonalCenterMsg');
-                            this.$store.dispatch('getBankInfo');
+                            this.$router.replace('/account-complete');
                             setTimeout(() => {
                                 this.$store.dispatch('getPersonalCenterMsg');
                                 this.$store.dispatch('getBankInfo');
-                                this.$router.replace('/personal-center');
                             }, 1000);
                         } else {
                             Toast(msg.msg);

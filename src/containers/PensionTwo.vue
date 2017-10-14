@@ -1,6 +1,5 @@
 <template>
-    <!--<div v-cloak class="pension-two" flex-box="1" flex="dir:top" >-->
-    <div v-cloak class="pension-two" flex flex="dir:top">
+    <div class="pension-two" flex="dir:top">
         <div class="content" flex-box="1">
             <div class="box">
                 <div class="top">

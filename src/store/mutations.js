@@ -7,23 +7,19 @@ const mutations = {};
 
 // 资产信息
 mutations.setAccountBaofoo = (state, data) => {
-    if (data.accountTotalAssets) {
-        _.forEach(state, (value, key) => {
-            if (data.hasOwnProperty(key)) {
-                state[key] = data[key];
-            }
-        });
-    }
+    _.forEach(state, (value, key) => {
+        if (data.hasOwnProperty(key)) {
+            state[key] = data[key];
+        }
+    });
 };
 // 绑卡信息
 mutations.setBankUser = (state, data) => {
-    if (data && data.bankUserCardNo) {
-        _.forEach(state, (value, key) => {
-            if (data.hasOwnProperty(key)) {
-                state[key] = data[key];
-            }
-        });
-    }
+    _.forEach(state, (value, key) => {
+        if (data.hasOwnProperty(key)) {
+            state[key] = data[key];
+        }
+    });
 };
 
 // 银行卡限额信息

@@ -25,6 +25,7 @@
     </div>
 </template>
 <script>
+
     import questions from '../tools/questions';
     import {Toast} from 'mint-ui';
     import $api from '../tools/api';

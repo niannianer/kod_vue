@@ -88,7 +88,7 @@
                     </li>
                     <li v-if="JSON.stringify(lists.c) != '{}'">
                         <div flex class="item-div">
-                            <div class="div-left color">{{lists.c.productName}}</div>
+                            <div class="div-left color ellipsis">{{lists.c.productName}}</div>
                             <div class="div-right">推荐配比{{s2 | translatePateInt}}</div>
                         </div>
                         <div flex class="item-div item-bott">
