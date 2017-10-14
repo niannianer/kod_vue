@@ -3,51 +3,134 @@
         <div class="wrap" flex-box="1">
             <div class="header">
                 <p class="title">宏得优选100000</p>
-                <p class="tip f8">可赎回份额(份)100</p>
+                <p class="tip f8">可赎回份额(份){{share}}</p>
             </div>
             <div class="content seperate">
                 <div class="item bl" flex="cross:center">
                     <div flex-box="1" flex>
                         <p class="f8 item-title" flex-box="0">赎回份额</p>
-                        <input type="text" placeholder="请输入赎回份额" flex-box="0" class="input f8">
+                        <input type="number" placeholder="请输入赎回份额"
+                               @keyup="updateShare"
+                               v-model="redShare"
+                               flex-box="0" class="input f8">
                         <p class="f8" flex-box="0">份</p>
                     </div>
                     <div flex-box="0">
-                        <p class="btn f6">赎回全部</p>
+                        <p class="btn f6" @click.stop="redAll">赎回全部</p>
                     </div>
                 </div>
                 <div class="item f8" flex="cross:center">
                     <p class="item-title" flex-box="0">赎回总值</p>
-                    <p><span class="blue span">7000.00</span>元</p>
+                    <p><span class="blue span">{{redAssets}}</span>元</p>
                     <p>（不包含手续费）</p>
                 </div>
             </div>
             <div class="content seperate">
                 <div class="item f8" flex="cross:center">
-                    <p class="item-title" flex-box="0">赎回份额</p>
-                    <p class="blue">中信银行(1148)</p>
+                    <p class="item-title" flex-box="0">赎回到卡</p>
+                    <p class="blue">{{name}}({{paymentNo.substr(-4)}})</p>
                 </div>
             </div>
             <p class="f6 tip-bottom">预计赎回时间：3个交易日</p>
             <p class="f6 tip-bottom">具体时间以基金公司及银行确认时间为准</p>
         </div>
         <div class="bottom" flex-box="0">
-            <p>赎回</p>
+            <button class="btn btn-share"
+                    @click.stop="redem"
+                    :disabled="nagtive">赎回
+            </button>
         </div>
     </div>
 </template>
 
 <script>
+    import {mapState} from 'vuex';
     import '../less/fund/redeem.less';
+    import $api from '../tools/api';
+    import {Toast, MessageBox} from 'mint-ui';
     export default {
         name: 'redeem',
         data(){
-            return {}
+            return {
+                share: 0,//持有份额
+                redShare: '',// 赎回份额
+                redAssets: 0,//赎回资产
+                timer: null //键盘事件延时器
+            }
         },
         created(){
+            this.getShares();
         },
-        computed: {},
-        methods: {},
+        computed: {
+            nagtive(){
+                return this.redShare <= 0;
+            },
+            ...mapState([
+                'name',
+                'paymentNo'
+               ]),
+        },
+        methods: {
+            /*可赎回份额*/
+            getShares(){
+                let fundCode = this.$route.query.code;
+                return $api.get('/fund/redemption/available/share', {fundCode})
+                    .then(res => {
+                        if (res.code == 200) {
+                            this.share = res.data;
+                        }
+                    });
+            },
+            /*赎回资产*/
+            getAssets(){
+                let fundCode = this.$route.query.code;
+                let redShare = this.redShare;
+                if (!redShare) {
+                    this.redAssets = 0;
+                    return false;
+                }
+                return $api.get('/fund/redemption/share/asset', {fundCode, redShare})
+                    .then(res => {
+                        if (res.code == 200) {
+                            this.redAssets = res.data;
+                        }
+                    });
+            },
+            updateShare(){
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
+                this.timer = setTimeout(() => {
+                    this.getAssets();
+                }, 250);
+            },
+            redAll(){
+                this.redShare = this.share;
+                this.getAssets();
+            },
+            /*赎回*/
+            redem(){
+                let fundCode = this.$route.query.code;
+                let share = this.redShare;
+                return $api.post('/fund/redemption', {fundCode, share})
+                    .then(res => {
+                        if (res.code == 200) {
+                            //
+                            Toast('赎回成功');
+                            setTimeout(() => {
+                                this.$router.back();
+                            }, 1000);
+                            return false;
+                        }
+                        MessageBox.alert(res.msg, '提示')
+                            .then(() => {
+                                this.getShares();
+                                this.redShare = '';
+                                this.redAssets = 0;
+                            });
+                    })
+            }
+        },
         destroyed(){
 
         }

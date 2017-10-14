@@ -288,11 +288,12 @@
                     let dom = document.querySelector('.item-list');
                     dom.scrollTop = 0;
                 });
+
                 if (this.tab == 1) {
                     let event = ['_trackEvent', '产品列表', 'CLICK', '定期理财列表页点击高端理财tab', '定期理财列表页-点击高端理财tab'];
                     window._hmt.push(event);
                     this.getListWithLogin();
-                } else {
+                } else if (this.tab == 2) {
                     let event = ['_trackEvent', '产品列表', 'CLICK', '高端理财列表页点击定期理财tab', '高端理财列表页-点击定期理财tab'];
                     window._hmt.push(event);
                     this.getGoodsList('refresh');
