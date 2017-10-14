@@ -53,7 +53,8 @@ const state = {
 
     accountStatus: '',//是否录入适当性管理信息，3：完成
     paymentNo: '',
-    name: ''
+    name: '',
+    investorRiskVersion:''//风险测评版本 2:新版
 
 
 };

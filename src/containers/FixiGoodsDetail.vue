@@ -8,7 +8,7 @@
                 <div class="items" flex="main:jusitfy">
                     <div class="item" flex-box="1">
                         <div class="item-text">产品期限(天)</div>
-                        <div class="item-number">{{parseInt(production.productPeriod)}}</div>
+                        <div class="item-number">{{productPeriod}}</div>
                     </div>
                     <div class="item" flex-box="1">
                         <div class="item-text">剩余额度(元)</div>
@@ -219,6 +219,12 @@
                 'userId',
                 'investorRiskScore'
             ]),
+            productPeriod(){
+                if (this.production.productPeriod) {
+                    return parseInt(this.production.productPeriod)
+                }
+                return '';
+            },
             step(){
                 let {
                     serverTime,

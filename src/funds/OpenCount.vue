@@ -23,9 +23,9 @@
             </div>
             <div class="content-1" v-if="userVerifyStatus>2" @click.stop="useNewCard=false">
                 <div flex class="bank-info" :class="{'abandon':useNewCard}">
-                    <img :src="imgUrls[bank_code]" alt="" class="bank-logo">
+                    <img :src="imgUrls[bankCode]" alt="" class="bank-logo">
                     <div>
-                        <p class="title">{{bank_name}}<span class="span">（{{bankCardNoShort}}）</span></p>
+                        <p class="title">{{bankName}}<span class="span">（{{bankCardNoShort}}）</span></p>
                         <p class="info">选择金疙瘩银行卡作为基金银行卡</p>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="item bl f8" flex="cross:center">
                     <p class="item-title">所属银行</p>
-                    <p :class="{'nametip':istip}">{{bankName}}</p>
+                    <p :class="{'nametip':istip}">{{bankNameYM}}</p>
                     <!--   <input type="text" placeholder="请输入所属银行" class="input" >-->
                 </div>
                 <div class="item f8" flex="cross:center">
@@ -79,7 +79,7 @@
                 accountName: '',
                 identityNo: '',
                 paymentNo: '',
-                bankName: '请输入所属银行',
+                bankNameYM: '请输入所属银行',
                 istip: true,
                 phone: '',
                 paymentType: '',
@@ -101,7 +101,7 @@
         },
         computed: {
             ...mapState([
-                'userVerifyStatus', 'investorRealName', 'investorIdCardNo', 'bankUserCardNo', 'bank_code', 'bank_name', 'bankUserPhone'
+                'userVerifyStatus', 'investorRealName', 'investorIdCardNo', 'bankUserCardNo', 'bankCode', 'bankName', 'bankUserPhone'
             ]),
             bankCardNoShort(){
                 return this.bankUserCardNo.substring(this.bankUserCardNo.length - 4);
@@ -123,7 +123,7 @@
                 let card = this.paymentNo.replace(/[^\d]/g, '');
                 if (card.length < 6) {
                     this.istip = true
-                    this.bankName = '请输入所属银行'
+                    this.bankNameYM = '请输入所属银行'
                 }
                 else if (card.length == 6) {
                     $api.get('/fund/account/bank/info', {
@@ -131,22 +131,11 @@
                     }).then(resp => {
                         if (resp.code == 200) {
                             this.istip = false
-                            this.bankName = resp.data.name
+                            this.bankNameYM = resp.data.name
                             this.paymentType = resp.data.paymentType
                         }
                     })
                 }
-                /*msg => {
-                 if (msg.code == 200) {
-                 _limit;
-                 this.perdayLimit = msg.data.perd this.bankHint = true;
-                 this.singleLimit = msg.data.singleay_limit;
-                 if (msg.data.bank_code && msg.data.bank_name)
-                 this.html = `<span class="bank-inner" style="background-image:url(${this.imgUrls[msg.data.bank_code]})">${msg.data.bank_name}</span>`;
-                 } else {
-                 Toast(msg.msg)
-                 }
-                 }*/
             },
             checkAuthInput(){
                 if (!$fun.valiRealName(this.accountName)) {
