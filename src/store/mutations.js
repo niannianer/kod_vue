@@ -24,7 +24,7 @@ mutations.setBankUser = (state, data) => {
 
 // 银行卡限额信息
 mutations.setBankInfo = (state, data) => {
-    if (data && data.bank_code) {
+    if (data && data.bankCode) {
         _.forEach(state, (value, key) => {
             if (data.hasOwnProperty(key)) {
                 state[key] = data[key];

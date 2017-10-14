@@ -131,10 +131,10 @@
                     $api.get('/getBankInfo', {bankNo: card}).then(msg => {
                         if (msg.code == 200) {
                             this.bankHint = true;
-                            this.singleLimit = msg.data.single_limit;
-                            this.perdayLimit = msg.data.perday_limit;
-                            if (msg.data.bank_code && msg.data.bank_name)
-                                this.html = `<span class="bank-inner" style="background-image:url(${this.imgUrls[msg.data.bank_code]})">${msg.data.bank_name}</span>`;
+                            this.singleLimit = msg.data.singleLimit;
+                            this.perdayLimit = msg.data.perdayLimit;
+                            if (msg.data.bankCode && msg.data.bankName)
+                                this.html = `<span class="bank-inner" style="background-image:url(${this.imgUrls[msg.data.bankCode]})">${msg.data.bankName}</span>`;
                         } else {
                             Toast(msg.msg)
                         }

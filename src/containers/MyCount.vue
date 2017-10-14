@@ -20,7 +20,7 @@
             <div class="bank">
                 <div class="bank-name">
                     <img :src="bankImg" class="bank-logo"/>
-                    <span class="name">{{bank_name}}</span>
+                    <span class="name">{{bankName}}</span>
                     <div class="bank-info">{{bankUserCardNo | bankCardNoFormat}}</div>
                 </div>
             </div>
@@ -46,13 +46,13 @@
         computed: {
             ...mapState([
                 'bankUserCardNo',
-                'bank_code',
-                'bank_name',
+                'bankCode',
+                'bankName',
                 'investorRealName',
                 'investorIdCardNo',
                 'bankUserPhone']),
             bankImg(){
-                 return imgUrls[this.bank_code];
+                 return imgUrls[this.bankCode];
             }
         },
         created(){
