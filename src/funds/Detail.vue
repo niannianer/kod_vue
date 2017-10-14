@@ -106,10 +106,13 @@
                 </div>
             </div>
         </div>
-        <div class="bottom f8" flex-box="0" flex="box:mean">
-          <!--  <p class="p yellow">+自选</p>
-            <p class="p blue">定投</p>-->
+        <div class="bottom f8" flex-box="0" flex="box:mean" v-if="!fund.isPurchFund">
+           <!-- <p class="p blue">定投</p>-->
             <p class="p red" @click.stop="pathTo('/purchase')">申购（1折）</p>
+        </div>
+        <div class="bottom f8" flex-box="0" flex="box:mean" v-if="fund.isPurchFund">
+            <p class="p yellow" @click.stop="pathTo('/redeem')">赎回</p>
+            <p class="p red" @click.stop="pathTo('/purchase')">追加投资</p>
         </div>
     </div>
 </template>

@@ -13,6 +13,7 @@ const state = {
     investorMobile:'',// mobile
     investorRealName:'',// realname,
     isEligibleInvestor:0,
+    isSetPayPassword:0,
     investorRiskType:0,
     investorRiskLevel:0, //
     investorRiskLevelDesc:'',

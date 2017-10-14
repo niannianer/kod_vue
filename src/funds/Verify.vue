@@ -1,0 +1,121 @@
+<template>
+    <div class="verify">
+        <p class="tip">验证码已发送至{{starPhone}}，请输入收到的验证码</p>
+        <div class="content" flex>
+            <input type="text" v-model="verifyCode" flex-box="0" class="input" placeholder="短信验证码" maxlength="6">
+            <p class="btn" flex="cross:center main:center" flex-box="1" @click.stop="reSend" v-if="verifyTimeLeft<=0">{{verifyText}}</p>
+            <p flex-box="1" class="btn disable" flex="cross:center main:center" v-else>{{verifyTimeLeft}}</p>
+        </div>
+        <p class="confirm" @click.stop="confirm">确认</p>
+    </div>
+</template>
+
+<script>
+    import {mapState} from 'vuex';
+    import {Toast} from 'mint-ui';
+    import $api from '../tools/api';
+    import '../less/fund/verify.less';
+    export default {
+        name: 'verify',
+        data(){
+            return {
+                verifyCode: '',
+                accountName: '',
+                identityNo: '',
+                paymentType: '',
+                paymentNo: '',
+                starPhone: '',
+                verifyTimeLeft: '',
+                verifyText: '重新发送',
+                type:''
+            }
+        },
+        created(){
+            console.log(this.isSetPayPassword);
+            let phone = this.$route.query.phone;
+            this.starPhone = phone.substr(0, 3) + '****' + phone.substr(7);
+            this.verifyTimeLeft = 59;
+            this.timeCount();
+            this.phone = this.$route.query.phone;
+            this.accountName = decodeURIComponent(this.$route.query.accountName);
+            this.identityNo = decodeURIComponent(this.$route.query.identityNo);
+            this.paymentType = this.$route.query.paymentType;
+            this.paymentNo = this.$route.query.paymentNo;
+            this.type = this.$route.query.type;
+        },
+        computed: {
+            ...mapState(['isSetPayPassword'])
+        },
+        methods: {
+            reSend(){
+
+                this.starPhone = phone.substr(0, 3) + '****' + phone.substr(7);
+                let {accountName, identityNo, paymentType, paymentNo, phone,type} = this;
+                $api.post('/fund/account/open/prepare', {
+                    accountName,
+                    identityNo,
+                    paymentType,
+                    paymentNo,
+                    phone,
+                    type
+                })
+                    .then(resp => {
+                        if (resp.code == 200) {
+                            this.verifyTimeLeft = 59;
+                            this.timeCount();
+                        }
+                    })
+            },
+            timeCount(){
+                this.timer = setTimeout(() => {
+                    this.verifyTimeLeft = this.verifyTimeLeft - 1;
+                    if (this.verifyTimeLeft >= 1) {
+                        this.timeCount();
+                    }
+                }, 1000);
+            },
+            clearTimeCount(){
+                this.verifyTimeLeft = 0;
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
+            },
+            confirm(){
+                if (!this.verifyCode || this.verifyCode.length != 6) {
+                    Toast('请输入正确的验证码')
+                    return
+                }
+                let {accountName, identityNo, paymentType, paymentNo, phone, verifyCode, type} = this;
+                $api.post('/fund/account/open/confirm', {
+                    accountName,
+                    identityNo,
+                    paymentType,
+                    paymentNo,
+                    phone,
+                    verifyCode,
+                    type
+                })
+                    .then(resp => {
+                        if (resp.code == 200) {
+                           if(!this.isSetPayPassword){
+                               this.$router.push({
+                                   path:'/set-pay-password',
+                                   query:{
+                                       isfund:1
+                                   }
+                               })
+                           }else{
+                               this.$router.replace('/personal-center');
+                           }
+                        }
+                        else {
+                            Toast(resp.msg);
+                        }
+                    })
+            }
+        },
+        destroyed(){
+
+        }
+    }
+</script>
