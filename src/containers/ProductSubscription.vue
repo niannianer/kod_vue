@@ -68,7 +68,7 @@
                 </div>
                 <div class="list-complete-item" v-bind:key="1">
                     <div v-if="isLack" class="tip">
-                        <p>银行卡限额：单笔{{single_limit}}元，单日{{perday_limit}}元</p>
+                        <p>银行卡限额：单笔{{singleLimit}}元，单日{{perdayLimit}}元</p>
                     </div>
                     <div class="recharge-info" v-if="isLack">
                         <div class="item" flex>
@@ -192,7 +192,7 @@
         </div>
         <div class="bottom seperate" flex-box="0">
             <div v-if="isLack" class="tip">
-                <p>银行卡限额：单笔{{single_limit}}元，单日{{perday_limit}}元</p>
+                <p>银行卡限额：单笔{{singleLimit}}元，单日{{perdayLimit}}元</p>
             </div>
             <div class="recharge-info" v-if="isLack">
                 <div class="item" flex="cross:center">
@@ -278,7 +278,7 @@
 
         },
         computed: {
-            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId', 'single_limit', 'perday_limit', 'single_limit_value']),
+            ...mapState(['accountCashAmount', 'bankCode', 'bankUserCardNo', 'bankName', 'userId', 'singleLimit', 'perdayLimit', 'singleLimitValue']),
             isLack(){
                 return this.leastPay > 0;
             },
@@ -434,7 +434,7 @@
                     Toast('输入金额不能小于待支付金额，请重新输入');
                     return false;
                 }
-                if (Number(this.rechargeNum) > Number(this.single_limit_value)) {
+                if (Number(this.rechargeNum) > Number(this.singleLimitValue)) {
                     Toast('输入金额不能大于银行单笔限额，请重新输入');
                     return false;
                 }

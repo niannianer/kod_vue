@@ -3,11 +3,11 @@
         <div class="body">
             <div class="bank">
                 <img class="bank-logo" :src="bankImg"/>
-                <span class="bank-name">{{bank_name}}（{{bankUserCardNo.substr(-4)}}）</span>
+                <span class="bank-name">{{bankName}}（{{bankUserCardNo.substr(-4)}}）</span>
             </div>
             <div class="bank-info" flex>
-                <div flex-box="1" class="time-limit">限额：单笔{{single_limit}}元</div>
-                <div flex-box="1" class="day-limit">单日{{perday_limit}}元</div>
+                <div flex-box="1" class="time-limit">限额：单笔{{singleLimit}}元</div>
+                <div flex-box="1" class="day-limit">单日{{perdayLimit}}元</div>
             </div>
 
         </div>
@@ -66,14 +66,14 @@
         computed: {
             ...mapState([
                 'bankUserCardNo',
-                'bank_code',
-                'bank_name',
-                'perday_limit',
-                'single_limit',
-                'single_limit_value',
+                'bankCode',
+                'bankName',
+                'perdayLimit',
+                'singleLimit',
+                'singleLimitValue',
                 'bankUserPhone']),
             bankImg(){
-                return bank[this.bank_code]||'';
+                return bank[this.bankCode]||'';
             }
         },
         methods: {
@@ -93,7 +93,7 @@
                         Toast('充值金额不能小于5元，请重新输入');
                         this.disabled = true;
                     }
-                    if (parseFloat(this.rechargeMoney) > this.single_limit_value) {
+                    if (parseFloat(this.rechargeMoney) > this.singleLimitValue) {
                         Toast('充值金额不能大于单笔限额，请重新输入');
                         this.disabled = true;
                     }

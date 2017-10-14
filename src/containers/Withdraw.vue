@@ -5,7 +5,7 @@
                 <div flex-box="1">提现至银行卡</div>
                 <div flex-box="1" class="right">
                     <img class="bank-logo" :src="bankImg"/>
-                    <span class="bank-name">{{bank_name}}({{bankUserCardNo.substr(-4)}})</span>
+                    <span class="bank-name">{{bankName}}({{bankUserCardNo.substr(-4)}})</span>
                 </div>
             </div>
         </div>
@@ -77,7 +77,7 @@
                 btnDisabled: true,
                 overHint: false,
                 inputPassword: false,
-                single_limit_value: 500000,
+                singleLimitValue: 500000,
             }
         },
         components: {
@@ -90,12 +90,12 @@
         computed: {
             ...mapState([
                 'bankUserCardNo',
-                'bank_code',
-                'bank_name',
+                'bankCode',
+                'bankName',
                 'accountCashAmount',
                 'bankUserPhone']),
             bankImg(){
-                return bank[this.bank_code]||'';
+                return bank[this.bankCode]||'';
             }
         },
         methods: {
@@ -105,7 +105,7 @@
                 }
                 timer = setTimeout(() => {
                     this.withdrawMount = currencyInputValidate(this.withdrawMount);
-                    if (this.withdrawMount && this.withdrawMount > this.single_limit_value) {
+                    if (this.withdrawMount && this.withdrawMount > this.singleLimitValue) {
                         Toast({
                             position: 'top',
                             message: '提现金额超出单笔限制，请重新输入'
