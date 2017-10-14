@@ -5,6 +5,7 @@
 'use strict';
 const actions = {};
 import $api from '../tools/api';
+import $device from '../tools/device';
 
 //资产信息
 let getAccountBaofoo = () => {
@@ -115,6 +116,21 @@ actions.getPaymentInfo = ({commit}) => {
         .then(data => {
             if (data.code == 200) {
                 commit('setPaymentInfo', data.data);
+            }
+            return data;
+        });
+};
+
+//  获取风险评估结果
+let getRiskInfo = () => {
+    let terminalInfo = $device.os + '-' + $device.osVersion;
+    return $api.get('/fund/account/risk',{terminalInfo});
+};
+actions.getRiskInfo = ({commit}) => {
+    return getRiskInfo()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setRiskInfo', data.data);
             }
             return data;
         });

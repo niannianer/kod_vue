@@ -4,25 +4,25 @@
             根据证监会《证券期货投资者适当性管理办法》规定，投资者需要留存自己的详细住址信息。
         </div>
         <div class="content">
-            <div class="card-item" flex>
+            <div class="card-item" flex @click="selecting('address')">
                 <div class="title" flex-box="1">请选择所在省</div>
-                <div flex-box="0" class="icon-warp" @click="selecting('address')">
+                <div flex-box="0" class="icon-warp">
                     <KingoldPicker :slots="slots" v-if="isPick" @back="callback" @onValuesChange="onValuesChange"
                                    :multipick="true"></KingoldPicker>
                     {{provinceName}}
                     <img src="../images/arrow-right.png"/>
                 </div>
             </div>
-            <div class="card-item" flex>
+            <div class="card-item" flex @click="selecting('address')">
                 <div class="title" flex-box="1">请选择所在市</div>
-                <div flex-box="0" class="icon-warp" @click="selecting('address')">
+                <div flex-box="0" class="icon-warp">
                     {{cityName}}
                     <img src="../images/arrow-right.png"/>
                 </div>
             </div>
-            <div class="card-item" flex>
+            <div class="card-item" flex @click="selecting('address')">
                 <div class="title" flex-box="1">请选择所在区县</div>
-                <div flex-box="0" class="icon-warp" @click="selecting('address')">
+                <div flex-box="0" class="icon-warp">
                     {{countyName}}
                     <img src="../images/arrow-right.png"/>
                 </div>
@@ -33,9 +33,9 @@
                     <textarea class="textarea" v-model="detailAddress"></textarea>
                 </div>
             </div>
-            <div class="card-item" flex="cross:center">
+            <div class="card-item" flex="cross:center" @click="selecting('career')">
                 <div class="title" flex-box="0">请选择职业类型</div>
-                <div flex-box="1" class="icon-warp" @click="selecting('career')">
+                <div flex-box="1" class="icon-warp">
                     <KingoldPicker :list="careers" v-if="careerPick" @back="careerBack"></KingoldPicker>
                     {{careerText}}
                     <img src="../images/arrow-right.png"/>
@@ -106,6 +106,7 @@
                     terminalInfo
                 }).then((resp) => {
                     if(resp.code == 200){
+                        this.store.dispatch('getAccountInfo');
                         this.$router.back();
                     }else{
                         Toast(resp.msg);

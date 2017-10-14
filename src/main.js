@@ -22,6 +22,7 @@ store.dispatch('getBankInfo');
 store.dispatch('getPersonalCenterMsg');
 store.dispatch('getAccountInfo');
 store.dispatch('getPaymentInfo');
+store.dispatch('getRiskInfo');
 window.onload = () => {
     FastClick.attach(document.body);
 };

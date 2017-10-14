@@ -76,7 +76,7 @@ export let bankCardNoFormat=(input)=>{
     }
 
 };
-export let timeFormat = (input) => {
+export let timeFormat = (input, input2) => {
     if (!input) {
         return '';
     }
@@ -94,7 +94,16 @@ export let timeFormat = (input) => {
         }
         return t ;
     }
-    let ouputs = (y+'-'+setTime(m)+'-'+setTime(d)+' '+setTime(h)+':'+setTime(f)+':'+setTime(s));
+    let ouputs = y + '-' + setTime(m) + '-' + setTime(d) + ' ' + setTime(h) + ':' + setTime(f);
+    if (input2 != 'minute') {
+        ouputs += ':' + setTime(s);//年月日时分
+    }
+    if (input2 == 'day') {//年月日
+        ouputs = y + '-' + setTime(m) + '-' + setTime(d);
+    }
+    if(input2 == 'mouthToday'){//月日，如：9月9日
+        ouputs = setTime(m) + '月' + setTime(d) + '日';
+    }
     return ouputs;
 };
 export let periodType = (input) => {
@@ -229,13 +238,13 @@ export let fundType =(input)=>{
 export let riskLevel =(input)=>{
     let output = '';
     switch (input){
-        case '1':
+        case 1:
             output = '保守型';
             break;
-        case '2':
+        case 2:
             output = '稳健型';
             break;
-        case '3':
+        case 3:
             output = '进取型';
             break;
         default:
