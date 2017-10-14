@@ -3,7 +3,8 @@
         <div class="header">
             <div flex="box:justify cross:center">
                 <div>
-                    <p class="border">积极型</p>
+                    <p class="border" v-if="!investorRiskScore" @click.stop="getPath('/risk-assessment/wechat')">去测评</p>
+                    <p class="border" v-else @click.stop="getPath('/assessment-result')">{{investorRiskTypeDesc}}</p>
                 </div>
                 <p class="f9">昨日收益（元）</p>
                 <div>
@@ -74,7 +75,9 @@
 </template>
 
 <script>
+    import $api from '../tools/api';
     import '../less/fund/my-fund.less';
+    import {mapState} from 'vuex';
     export default {
         name: 'my-fund',
         data(){
@@ -83,9 +86,22 @@
             }
         },
         created(){
+            this.getAssetes();
         },
-        computed: {},
-        methods: {},
+        computed: {
+            ...mapState(['investorRiskScore', 'investorRiskTypeDesc']),
+        },
+        methods: {
+            getPath(path){
+                this.$router.push(path);
+            },
+            getAssetes(){
+                $api.get('/fund/account/asset')
+                    .then(resp=>{
+                        console.log(resp)
+                    })
+            }
+        },
         destroyed(){
 
         }

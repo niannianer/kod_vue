@@ -39,7 +39,8 @@
             <div class="content" v-if="!(userVerifyStatus>2)||useNewCard">
                 <div class="item bl f8" flex="cross:center">
                     <p class="item-title">银行卡号</p>
-                    <input type="text" placeholder="请输入银行卡号" class="input" v-model="paymentNo" @input="change">
+                    <input type="text" placeholder="请输入银行卡号" class="input" v-model="paymentNo" @input="change"
+                           @propertychange="change">
                 </div>
                 <div class="item bl f8" flex="cross:center">
                     <p class="item-title">所属银行</p>
@@ -119,6 +120,33 @@
             },
             change(){
                 this.paymentNo = this.paymentNo.replace(/\D/g, '').replace(/....(?!$)/g, '$& ');
+                let card = this.paymentNo.replace(/[^\d]/g, '');
+                if (card.length < 6) {
+                    this.istip = true
+                    this.bankName = '请输入所属银行'
+                }
+                else if (card.length == 6) {
+                    $api.get('/fund/account/bank/info', {
+                        bankCardNo: card
+                    }).then(resp => {
+                        if (resp.code == 200) {
+                            this.istip = false
+                            this.bankName = resp.data.name
+                            this.paymentType = resp.data.paymentType
+                        }
+                    })
+                }
+                /*msg => {
+                 if (msg.code == 200) {
+                 _limit;
+                 this.perdayLimit = msg.data.perd this.bankHint = true;
+                 this.singleLimit = msg.data.singleay_limit;
+                 if (msg.data.bank_code && msg.data.bank_name)
+                 this.html = `<span class="bank-inner" style="background-image:url(${this.imgUrls[msg.data.bank_code]})">${msg.data.bank_name}</span>`;
+                 } else {
+                 Toast(msg.msg)
+                 }
+                 }*/
             },
             checkAuthInput(){
                 if (!$fun.valiRealName(this.accountName)) {
@@ -137,6 +165,7 @@
                     Toast('请输入正确银行卡号')
                     return false
                 }
+                console.log(this.paymentType,'ssssssssssssssssss')
                 if (!this.paymentType) {
                     Toast('请输入所属银行')
                     return false
@@ -155,7 +184,7 @@
                         return
                     }
                 }
-                let paymentNo = this.paymentNo;
+                let paymentNo = this.paymentNo.replace(/[^\d]/g, '');
                 let paymentType = this.paymentType;
                 let phone = this.phone;
 
@@ -182,10 +211,10 @@
                     .then(resp => {
                         if (resp.code == 200) {
                             this.$router.push({
-                                path:'/funds/verify',
-                                query:{
-                                    accountName:encodeURIComponent(accountName),
-                                    identityNo:encodeURIComponent(identityNo),
+                                path: '/funds/verify',
+                                query: {
+                                    accountName: encodeURIComponent(accountName),
+                                    identityNo: encodeURIComponent(identityNo),
                                     paymentType,
                                     paymentNo,
                                     phone,

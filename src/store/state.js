@@ -15,12 +15,12 @@ const state = {
     isEligibleInvestor:0,
     isSetPayPassword:0,
     investorRiskType:0,
+    investorRiskTypeDesc:'',
     investorRiskLevel:0, //
     investorRiskLevelDesc:'',
     investorType:'',
     investorTypeDesc:'',
     investorGenderDesc:'',
-    isSetPayPassword: '',
 
     accountTotalAssets:0.00, //总资产
     accountTotalInterests:0.00,//收益总额，
