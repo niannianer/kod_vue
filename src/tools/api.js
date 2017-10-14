@@ -96,9 +96,11 @@ let getNode = (path, data = {}) => {
     })
 };
 import  {logout} from './operation';
+import {Indicator} from 'mint-ui';
 let post = (path, data = {}) => {
     data.callSystemID = '1003';
     let url = `${serverUrl + path}`;
+    Indicator.open();
     return axios({
         url,
         method: 'post',
@@ -111,6 +113,7 @@ let post = (path, data = {}) => {
         withCredentials: true,
         data: doEncrypt ? $query(data) : query(data)
     }).then(response => {
+        Indicator.close();
         if (response.status == 200) {
             return response.data
         }
@@ -129,6 +132,7 @@ let post = (path, data = {}) => {
         console.log(data);
         return data;
     }).catch(err => {
+        Indicator.close();
         console.error('error,--->', err);
     });
 };

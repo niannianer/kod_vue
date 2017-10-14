@@ -1,6 +1,22 @@
 <template>
     <div class="authentication" flex-box="1">
         <div class="authentication-lint">为保护您账号安全，请进行实名认证</div>
+        <div class="steps" flex="box:mean">
+            <div class="item" flex="main:center">
+                <span class="round active">1</span>
+                <div class="line-right active"></div>
+            </div>
+            <div class="item" flex="main:center">
+                <span class="round">2</span>
+                <div class="line-left"></div>
+                <div class="line-right"></div>
+            </div>
+            <div class="item" flex="main:center">
+                <span class="round">3</span>
+                <div class="line-left"></div>
+            </div>
+
+        </div>
         <dl class="authentication-input">
             <dd flex>
                 <span class="span-left">真实姓名</span>
@@ -19,19 +35,20 @@
             <div class="authentication-btn">
                 <button @click.stop="btnAction">下一步</button>
             </div>
-            <div class="authentication-text">
+            <div class="auth-text">个人信息由公安部认证</div>
+            <!--<div class="authentication-text">
                 <p>仅支持大陆身份证；</p>
                 <p>请输入您的本人身份信息，确保信息真实有效，所有资料将会保密;</p>
                 <p>实名认证通过后，身份信息不可更改；</p>
                 <p>未满18周岁用户暂无法实名认证。</p>
-            </div>
+            </div>-->
         </div>
         <div class="authentication-win" v-show="popup">
             <div class="win-box" flex="dir:top">
                 <div class="win-content" flex-box="1">
                     <p class="hint1">监测到您在其他商户已开通宝付账户，请完成短信验证，确保是您本人操作。</p>
                     <p class="hint2"><span>短信验证码已发送到{{investorMobile | mobileFormat}}</span></p>
-                    <dl flex flex="main:justify">
+                    <dl flex="main:justify">
                         <dt>
                             <input type="text" placeholder="请输入验证码" v-model="smsCode" maxlength="6">
                         </dt>
@@ -51,11 +68,9 @@
 
 <script>
     import '../less/authentication.less';
-    /*import OpenAccount from'../components/OpenAccount';*/
     import $api from '../tools/api';
     import {mapState} from 'vuex';
     import $fun from '../tools/fun';
-    /*import {submitAuthorization} from '../tools/operation';*/
     import {Toast} from 'mint-ui';
     export default {
         name: 'authentication',
@@ -117,23 +132,16 @@
                         userName: userName, userIdCardNumber: userIdCardNumber, smsCode: smsCode
                     }
                 }
-                if (this.loading) {
-                    return false;
-                }
-                this.loading = true;
                 $api.post('/openAccount', data).then(msg => {
 
                     if (msg.code == 200) {
                         Toast("身份认证成功！");
                         this.popup = false;
                         setTimeout(() => {
-                            this.loading = false;
                             this.$store.dispatch('getUserInfo');
                             this.$router.replace('/bind-bank-card');
-                         /*   submitAuthorization(this.userId);*/
                         }, 3000);
                     } else if (msg.code == 8003) {
-                        this.loading = false;
                         //弹窗
                         this.popup = true;
                         this.smsCode = '';
@@ -180,6 +188,7 @@
             send(time){
                 this.flag = true;
                 this.btnActive = false;
+                let timer;
                 let recursion = () => {
                     if (this.flag) {
                         if (time <= 1) {
@@ -188,23 +197,14 @@
                         } else {
                             time--;
                             this.btnText = '(' + time + 's)';
-                            var timer = setTimeout(recursion, 1000);
+                            timer = setTimeout(recursion, 1000);
                         }
                     } else {
                         clearTimeout(timer);
                     }
                 };
                 recursion();
-            },
-            //去开户弹窗
-            /*setAccount(){
-             OpenAccount({
-             callback:(result)=>{
-             if(result)
-             this.$router.push('/index')
-             }
-             });
-             }*/
+            }
         }
     }
 </script>

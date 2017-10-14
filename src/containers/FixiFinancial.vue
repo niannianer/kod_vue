@@ -97,7 +97,7 @@
                     </div>
                 </mt-loadmore>
             </div>
-            <div class="download-app">
+            <div class="download-app" flex-box="0">
                 <a href="/land-download.html">查看更多理财，请下载app</a>
             </div>
 

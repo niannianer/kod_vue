@@ -35,13 +35,13 @@ const state = {
 
     bankUserCardNo:'',//银行卡
     bankUserPhone:'',//绑卡手机
-    bank_code:'',
-    bank_name:'',
-    bank_full_name:'',
-    bank_no:'',
-    perday_limit:'',
-    single_limit:'',
-    single_limit_value:'',
+    bankCode:'',
+    bankName:'',
+    bankFullName:'',
+    bankNo:'',
+    perdayLimit:'',
+    singleLimit:'',
+    singleLimitValue:'',
 
     experienceProfit:'',//已收益
     notExpireProfit:'',//待收益

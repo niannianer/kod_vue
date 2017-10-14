@@ -1,12 +1,11 @@
 <template>
     <div class="usable-financial">
         <div class="body">
-            <ul
-                v-infinite-scroll="loadMore"
+            <ul v-infinite-scroll="loadMore"
                 infinite-scroll-disabled="stop"
                 infinite-scroll-distance="10">
                 <li class="item" v-for="(item,index) in lists" @click.stop="toDetail(item.productUuid)">
-                    <p class="title">{{item.productAbbrName}}</p>
+                    <p class="title" :class="{'coupon-max':item.couponMaxProfit}">{{item.productAbbrName}}</p>
                     <div flex class="info">
                         <div class="float-tip" v-if="item.couponMaxProfit">
                             现金劵最大加息
@@ -30,6 +29,8 @@
     import Vue from 'vue';
     import {InfiniteScroll} from 'mint-ui';
     import $api from '../tools/api';
+    import $device from '../tools/device';
+    import requestHybrid from '../tools/hybrid';
     import {numMulti} from '../filters';
     import '../less/usable-financial.less';
     Vue.use(InfiniteScroll);
@@ -49,6 +50,19 @@
         computed: {},
         methods: {
             toDetail(productUuid){
+                if ($device.kingold) {
+                    requestHybrid({
+                        tagname: 'forward',
+                        param: {
+                            target: 'productFIXI',
+                            targetUrl: (window.location.origin + '/fixi-goods-detail?productUuid=' + productUuid),
+                            aid: 0,
+                            astr: productUuid,
+                            extra: 'FIXI'
+                        }
+                    });
+                    return;
+                }
                 this.$router.push({
                     path: '/fixi-goods-detail',
                     query: {

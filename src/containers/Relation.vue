@@ -2,8 +2,8 @@
     <div flex="dir:top" class="relation">
         <div flex-box="1">
             <div class="item bl seperate" flex="cross:center" flex-box="0"
-                 @click.stop="pathTo('/land-share-relation.html',true)">
-                <img src="../images/relation/reward.png" alt="logo" flex-box="0" class="logo">
+                 @click.stop="pathTo('/land-share.html',true)">
+                <img src="../images/relation/share.png" alt="logo" flex-box="0" class="logo">
                 <p class="info" flex-box="1">一起赚</p>
                 <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
             </div>
@@ -35,24 +35,6 @@
                 <a :href="'tel:'+telNumber">
                     联系我们：{{telNumber}}
                 </a>
-            </div>
-        </div>
-        <div class="nav" flex-box="0" flex="box:mean">
-            <div @click.stop="pathTo('/index')">
-                <img src="../images/nav/index.png" alt="index">
-                <p>首页</p>
-            </div>
-            <div @click.stop="pathTo('/financial')">
-                <img src="../images/nav/financial.png" alt="financial">
-                <p>理财</p>
-            </div>
-            <div>
-                <img src="../images/nav/relation-act.png" alt="relation">
-                <p class="blue">好友</p>
-            </div>
-            <div @click.stop="pathTo('/personal-center')">
-                <img src="../images/nav/person-center.png" alt="personal-center">
-                <p>我的</p>
             </div>
         </div>
     </div>

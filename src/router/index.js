@@ -59,6 +59,7 @@ const FindPassword = () => import('../containers/FindPassword');
 const FixiGoodsDetail = () => import('../containers/FixiGoodsDetail');
 const Feedback = () => import('../containers/Feedback');
 const FixiFinancial = () => import('../containers/FixiFinancial');
+const AccountComplete = () => import('../containers/AccountComplete')
 
 const HouseOne = PensionOne;
 
@@ -594,6 +595,14 @@ let routes = [
         meta: {
             title: '定期理财'
         }
+    },
+    {
+        path: '/account-complete',
+        name: 'account-complete',
+        component: AccountComplete,
+        meta: {
+            title: '开户成功'
+        }
     }
 ];
 import $device from '../tools/device';
@@ -611,7 +620,7 @@ routes.map(route => {
                 tagname: 'title',
                 param: {
                     backtype: 1,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
-                    backAndRefresh: 1,
+                    backAndRefresh: 0,
                     title,
                     keyboard_mode: 0//0 adjustresize 1 adjustpan
                 }
