@@ -14,6 +14,7 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex';
     import '../less/account-complete.less';
     export default {
         name: 'base',
@@ -23,9 +24,29 @@
         components: {},
         created(){
         },
-        computed: {},
+        computed: {
+            ...mapState(
+                ['investorRiskScore']
+            )
+        },
         methods: {
             complete(){
+                //从基金详情页点击“申购”
+                if(this.$route.query.from == 'detail'){
+                    //没有录入适当性管理信息，跳适当性录入信息页面
+                    if(this.investorRiskScore == 0){
+                        this.$router.replace({
+                            path: '/funds/info',
+                            query:{
+                                from:'detail'
+                            }
+                        });
+                    }else{
+                        //完成录入适当性管理信息，跳基金详情页
+                        this.$router.back();
+                    }
+                    return false;
+                }
                 this.$router.push('/personal-center');
             }
         },

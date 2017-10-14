@@ -5,15 +5,15 @@
             <div class="text">把握“基”会 精选基金任你选</div>
         </div>
         <div flex="box:mean main:justify cross:center" class="fund-link">
-            <div @click.stop="toPage('funds/hot-list')">
+            <div @click.stop="toPage('/funds/hot-list')">
                 <img src="../images/fund/my-fund/fund-hot.png" class="img"/>
                 <div class="link-name">今日热销</div>
             </div>
-            <div @click.stop="toPage('funds/gains-list')">
+            <div @click.stop="toPage('/funds/gains-list')">
                 <img src="../images/fund/my-fund/fund-increase.png" class="img"/>
                 <div class="link-name">涨幅榜</div>
             </div>
-            <div @click.stop="toPage('funds/hot-list')">
+            <div @click.stop="toPage('/planning')">
                 <img src="../images/fund/my-fund/fund-plan.png" class="img"/>
                 <div class="link-name">理财规划</div>
             </div>

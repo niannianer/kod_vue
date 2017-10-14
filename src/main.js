@@ -19,7 +19,9 @@ new Vue({
 });
 store.dispatch('getAccountBaofoo');
 store.dispatch('getBankInfo');
-store.dispatch('getPersonalCenterMsg')
+store.dispatch('getPersonalCenterMsg');
+store.dispatch('getAccountInfo');
+store.dispatch('getPaymentInfo');
 window.onload = () => {
     FastClick.attach(document.body);
 };
