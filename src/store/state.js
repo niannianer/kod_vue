@@ -20,6 +20,7 @@ const state = {
     investorType:'',
     investorTypeDesc:'',
     investorGenderDesc:'',
+    isSetPayPassword: '',
 
     accountTotalAssets:0.00, //总资产
     accountTotalInterests:0.00,//收益总额，
@@ -48,7 +49,9 @@ const state = {
     totalExperience:'',
 
     cashCouponCount:'0',//现金券数量
-    experienceAmount:'0'//体验金数额
+    experienceAmount:'0',//体验金数额
+
+    accountStatus: ''//是否录入适当性管理信息，3：完成
 
 
 };

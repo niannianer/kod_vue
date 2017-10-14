@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <div class="footer" @click.stop="setData">赎回</div>
+        <div class="footer" @click.stop="setData">提交</div>
     </div>
 </template>
 
@@ -106,7 +106,7 @@
                     terminalInfo
                 }).then((resp) => {
                     if(resp.code == 200){
-                        Toast('赎回成功');
+                        history.back();
                     }else{
                         Toast(resp.msg);
                     }
