@@ -58,11 +58,19 @@
     .tip-bottom {
         padding: .4rem 0 0 .8rem;
     }
-    .bottom{
-        background: @bg-button;
-        color: @bg-content;
+    .bottom {
         text-align: center;
         font-size: .9rem;
-        padding: .5rem 0;
+        .btn-share {
+            border-radius: 0;
+            width: 100%;
+            height: 2.2rem;
+            color: #fff;
+            font-size: .8rem;
+            background: @color-active;
+            &:disabled{
+                background: #d8d8d8;
+            }
+        }
     }
 }
