@@ -2,7 +2,7 @@
     <div class="bank-list" flex="dir:top">
         <div class="bank-item" v-for="item in baofoo" flex="cross:center" v-if="bank=='baofoo'">
             <div flex-box="0" class="bank">
-                <img class="img" src="../images/bank/icbc.png"/>
+                <img class="img" :src="imgUrls[item.bankCode]"/>
             </div>
             <div flex-box="1">
                 <p class="main">{{item.bankName}}</p>
@@ -12,7 +12,9 @@
             </div>
 
         </div>
-        <div class="bank-item" v-for="item in yingmi" flex="cross:center" v-else>
+        <div class="bank-item" v-for="item in yingmi"
+             @click.stop="setBank(item)"
+             flex="cross:center" v-if="bank=='yingmi'">
             <div flex-box="0" class="bank">
                 <img class="img" src="../images/bank/icbc.png"/>
             </div>
@@ -38,14 +40,15 @@
             return {
                 yingmi: [],
                 baofoo: [],
+                imgUrls,
                 bank: 'baofoo',
             };
         },
         created(){
             this.getYingmi();
             this.getBaofoo();
-            if (this.$route.query.bank) {
-                this.bank == 'yingmi';
+            if (this.$route.query.yingmi) {
+                this.bank = 'yingmi';
             }
         },
         methods: {
@@ -71,9 +74,13 @@
                     .then(res => {
                         if (res.code == 200) {
                             this.baofoo = res.data;
-                            window.sessionStorage.setItem('baofoo-list', JSON.stringify(res.data.list))
+                            window.sessionStorage.setItem('baofoo-list', JSON.stringify(res.data))
                         }
                     });
+            },
+            setBank(item){
+                window.sessionStorage.setItem('bank-info', JSON.stringify(item));
+                this.$router.back();
             }
         }
     }
