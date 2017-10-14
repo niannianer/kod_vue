@@ -42,7 +42,7 @@
                     <input type="text" placeholder="请输入银行卡号" class="input" v-model="paymentNo" @input="change"
                            @propertychange="change">
                 </div>
-                <div class="item bl f8" flex="cross:center">
+                <div class="item bl f8" flex="cross:center" @click.stop="checkBankName">
                     <p class="item-title">所属银行</p>
                     <p :class="{'nametip':istip}">{{bankNameYM}}</p>
                     <!--   <input type="text" placeholder="请输入所属银行" class="input" >-->
@@ -87,8 +87,14 @@
             }
         },
         created(){
-            this.paymentType = window.sessionStorage.getItem('paymentType')
-            window.sessionStorage.removeItem('paymentType');
+            console.log('sssssssssssssssssssssssssssss')
+            if (window.sessionStorage.getItem('bank-info')) {
+                let bankInfo = JSON.parse(window.sessionStorage.getItem('bank-info'));
+                window.sessionStorage.removeItem('bank-info')
+                this.bankNameYM = bankInfo.name;
+                this.istip = false;
+                this.paymentType = bankInfo.paymentType;
+            }
             if (this.investorRealName) {
                 this.accountName = this.investorRealName;
             }
@@ -108,6 +114,14 @@
             }
         },
         methods: {
+            checkBankName(){
+                this.$router.push({
+                    path: '/bank-list',
+                    query: {
+                        yingmi: '1'
+                    }
+                })
+            },
             getBankType(){
                 $api.get('/fund/account/bank/info', {
                     bankCardNo: this.bankUserCardNo
@@ -154,7 +168,6 @@
                     Toast('请输入正确银行卡号')
                     return false
                 }
-                console.log(this.paymentType,'ssssssssssssssssss')
                 if (!this.paymentType) {
                     Toast('请输入所属银行')
                     return false
@@ -214,8 +227,6 @@
                             Toast(resp.msg)
                         }
                     })
-
-
             }
         },
         watch: {
@@ -234,8 +245,6 @@
                     this.getBankType();
                 }
             }
-
-
         },
         destroyed()
         {

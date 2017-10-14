@@ -98,6 +98,7 @@
                     .then(resp => {
                         if (resp.code == 200) {
                            if(!this.isSetPayPassword){
+                               this.$store.dispatch('getPaymentInfo');
                                this.$router.push({
                                    path:'/set-pay-password',
                                    query:{

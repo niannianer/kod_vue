@@ -1,6 +1,19 @@
 @import "../variables";
 
 .gains-list {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .body{
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+    .area{
+        width:.45rem;
+        height: .75rem;
+        vertical-align: middle;
+    }
     .overflow {
         overflow: auto;
     }
@@ -30,21 +43,26 @@
             }
         }
     }
-    .fund-name {
-        width: 5.7rem;
-    }
     .title-list {
         text-align: center;
-        .item-wrap {
-            width: 4.65rem;
-        }
         .title-item {
             padding: .6rem 0;
+            width: 4.65rem;
             border-bottom: 1px solid @color-split;
         }
         .item-info {
             height: 3rem;
+            width: 4.65rem;
             border-bottom: 1px solid @color-split;
+        }
+    }
+    .fund-name {
+        width: 5.7rem;
+        .title-item{
+            width: 5.7rem
+        }
+        .item-info{
+            width: 5.7rem
         }
     }
 }

@@ -122,8 +122,7 @@ let fundRoutes = [
                 name: 'open-count',
                 component: OpenCount,
                 meta: {
-                    title: '基金开户',
-                    withoutLogin: true
+                    title: '基金开户'
                 }
             }, {
                 path: 'position-analysis',
