@@ -106,7 +106,7 @@
                     terminalInfo
                 }).then((resp) => {
                     if(resp.code == 200){
-                        history.back();
+                        this.$router.back();
                     }else{
                         Toast(resp.msg);
                     }

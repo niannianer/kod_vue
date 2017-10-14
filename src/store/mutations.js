@@ -56,6 +56,19 @@ mutations.setAccountInfo = (state, data) => {
     }
 
 };
+
+// 绑定盈米支付信息
+mutations.setPaymentInfo = (state, data) => {
+    if (data.userUuid) {
+        _.forEach(state, (value, key) => {
+            if (data.hasOwnProperty(key)) {
+                state[key] = data[key];
+            }
+        });
+
+    }
+
+};
 mutations.setEligibleInvestor = (state, data) => {
     state.isEligibleInvestor = data;
 };

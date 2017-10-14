@@ -9,7 +9,7 @@
             <div class="content seperate">
                 <div class="item f8" flex="cross:center">
                     <p class="item-title">支付</p>
-                    <p class="blue">{{bank_name}} ({{bank_no}})</p>
+                    <p class="blue">{{name}} ({{paymentBank}})</p>
                 </div>
             </div>
             <p class="tip">单笔限额<span class="blue">{{minSub}}万元</span>，单日限额<span class="blue">{{maxSub}}万元</span></p>
@@ -71,10 +71,10 @@
         },
         computed: {
             ...mapState(
-                ['bank_name']
+                ['name','paymentNo']
             ),
-            bank_no(){
-                let bank_n = this.$store.state.bank_no;
+            paymentBank(){
+                let bank_n = this.paymentNo;
                 return bank_n.substr(bank_n.length-4,4);
             }
         },

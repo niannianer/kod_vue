@@ -114,6 +114,7 @@
             <p class="p yellow" @click.stop="pathTo('/redeem')">赎回</p>
             <p class="p red" @click.stop="pathTo('/purchase')">追加投资</p>
         </div>
+        <king-message v-if="showMessage" @confirmBack="againTest" @cancelBack="toBuy" :options="msgOption"></king-message>
     </div>
 </template>
 
@@ -121,12 +122,13 @@
     import $api from '../tools/api';
     import {mapState} from 'vuex';
     import { MessageBox } from 'mint-ui';
+    import KingMessage from '../components/Message/KingMessage.vue';
     import '../less/fund/detail.less';
     import LineChart from '../components/LineChart/line';
     export default {
         name: 'detail',
         components: {
-            LineChart
+            LineChart,KingMessage
         },
         data(){
             return {
@@ -215,12 +217,14 @@
                 },
                 fund: {},
                 fundType: ['其他类型', '股票型', '债券型', '混合型', '货币型', '保本型', '指数型', 'QDII', '商品型', '短期理财'],
-                riskLevel: ['未评估过', '保守型', '稳健型', '进取型']
+                riskLevel: ['未评估过', '保守型', '稳健型', '进取型'],
+                timer: 3,
+                showMessage: false,
+                msgOption: {}
             }
         },
         created(){
             this.getCharts();
-            this.$store.dispatch('getAccountInfo');
             $api.get('/fund/info/detail', {
                 fundCode: this.$route.query.code
             })
@@ -257,7 +261,7 @@
         },
         computed: {
             ...mapState(
-                ['bank_no','isSetPayPassword','accountStatus']
+                ['paymentNo','isSetPayPassword','accountStatus','investorRiskScore']
             )
         },
         methods: {
@@ -269,10 +273,11 @@
                 this.duration = str;
                 this.getCharts();
             },
-            pathTo(path, noq){
-                if(noq){
+            pathTo(path, q){
+                if(q){
                     this.$router.push({
-                        path: path
+                        path: path,
+                        query: q
                     });
                     return;
                 }
@@ -285,35 +290,49 @@
             },
             pathCheck(){
                 //是否开户
-                if(!this.bank_no){
-                    this.pathTo('/funds/open-count',true);
+                if(!this.paymentNo){
+                    this.pathTo('/funds/open-count',{});
                     return false;
                 }
                 //是否设置初始密码
                 if(!this.isSetPayPassword){
-                    this.pathTo('/set-pay-password',true);
+                    this.pathTo('/set-pay-password',{from:'detail'});
                     return false;
                 }
                 //是否录入适当性管理信息，3：完成
                 if(this.accountStatus != 3){
-                    this.pathTo('/funds/info',true);
+                    this.pathTo('/funds/info',{});
                     return false;
                 }
                 //是否完成风险测评
                 if(this.investorRiskScore == 0){
-                    this.pathTo('/risk-assessment/wechat',true);
+                    this.pathTo('/risk-assessment/wechat',{});
                     return false;
                 }
                 //风险评估验证是否匹配
                 $api.get('/fund/account/risk',{terminalInfo:this.$route.query.code}).then((resp)=>{
                     if(resp.code == 200){
                         if(this.investorRiskType == 0){
-                            this.lowRiskMsg();
+                            let lowMsg = '该产品为高风险产品，投资此产品超过了您的风险承受范围。';
+                            this.msgOption = {
+                                title: '风险提示',
+                                msg: lowMsg,
+                                confirmText: '重新测评'
+                            };
+                            this.showMessage = true;
                             return false;
                         }
                         if(!resp.data.minRiskGrade){
-                            //this.lowRiskMsg();
-                            this.message(resp.data.riskGrade5Desc);
+                            //风险结果不匹配
+                            this.msgOption = {
+                                title: '风险提示',
+                                msg: resp.data.riskGrade5Desc,
+                                closeText: '坚持购买',
+                                confirmText: '重新测评',
+                                countDown: 3,
+                                showCancelButton: true
+                            };
+                            this.showMessage = true;
                         }else{
                             this.toPurchase();
                         }
@@ -335,51 +354,17 @@
                     }
                 });
             },
-            //低风险弹层
-            lowRiskMsg(){
-                let lowMsg = `<div class="risk-msg center">该产品为高风险产品，投资此产品超过了您的风险承受范围。`;
-                let options = {
-                    confirmButtonText: '重新测评',
-                    confirmButtonClass: 'again-risk',
-                };
-                MessageBox.alert(lowMsg, '风险提示',options)
-                    .then(action => {
-                        this.pathTo('/risk-assessment/wechat',true);
-                    });
+            //风险匹配结果弹层回调
+            againTest(type){
+                this.showMessage = false;
+                if(type == 'close'){
+                    return false;
+                }
+                this.pathTo('/risk-assessment/wechat',{retest:1});
             },
-            //风险匹配结果弹层
-            message(msg){
-                let options = {
-                    confirmButtonText:`坚持购买（3）`,
-                    confirmButtonClass: 'submit-risk',
-                    cancelButtonText: '重新测评',
-                    cancelButtonClass: 'again-risk',
-                };
-                MessageBox.confirm(`<div class="risk-msg">${msg}</div>`,'风险提示',options)
-                    .then(action => {
-                        alert()
-                    })
-                    .catch(err => {
-                        if (err == 'cancel') {
-                            this.pathTo('/risk-assessment/wechat',true);
-                        }
-                    });
-                let timer = 3;
-                let timeout;
-                timeout = setInterval(()=>{
-                    let $ele = document.getElementsByClassName('submit-risk')[0];
-                    if(timer > 0){
-                        timer = timer - 1;
-                        $ele.innerText = `坚持购买（${timer}）`;
-                        if(timer == 0){
-                            $ele.className = $ele.className + ' enabled';
-                            $ele.innerText = '坚持购买';
-                            clearTimeout(timeout);
-                            return;
-                        }
-                        $ele.innerText = `坚持购买（${timer}）`;
-                    }
-                },1000);
+            toBuy(){
+                this.showMessage = false;
+                this.toPurchase();
             },
             getCharts(){
                 let labels = [];

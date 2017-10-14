@@ -105,4 +105,18 @@ actions.getAccountInfo = ({commit}) => {
             return data;
         });
 };
+
+//  获取绑定盈米支付信息
+let getPaymentInfo = () => {
+    return $api.get('/fund/account/payment');
+};
+actions.getPaymentInfo = ({commit}) => {
+    return getPaymentInfo()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setPaymentInfo', data.data);
+            }
+            return data;
+        });
+};
 export default actions;

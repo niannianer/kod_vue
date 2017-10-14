@@ -107,13 +107,26 @@
                 if (!this.btnActive) {
                     return
                 }
+                let isFund = 0;
+                if (this.$route.query.isFund) {
+                    isFund = 1;
+                }
                 let {password, storagePassword} = this;
                 if (password == storagePassword) {
-                    $api.post('/initPayPassword', {userPayPassword: password}).then(msg => {
+                    $api.post('/initPayPassword',
+                        {
+                            userPayPassword: password,
+                            isFund
+                        }).then(msg => {
                         let event = ['_trackEvent', '设置交易密码', 'SHOW', '确认交易密码页面-点击完成', '确认交易密码页面-点击完成'];
                         window._hmt.push(event);
                         if (msg.code == 200) {
-                            this.$router.replace('/account-complete');
+                            this.$router.replace({
+                                path: '/account-complete',
+                                query: {
+                                    from: 'detail'
+                                }
+                            });
                             setTimeout(() => {
                                 this.$store.dispatch('getPersonalCenterMsg');
                                 this.$store.dispatch('getBankInfo');

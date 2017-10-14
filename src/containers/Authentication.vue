@@ -140,7 +140,7 @@
                         setTimeout(() => {
                             this.$store.dispatch('getUserInfo');
                             this.$router.replace('/bind-bank-card');
-                        }, 3000);
+                        }, 1000);
                     } else if (msg.code == 8003) {
                         //弹窗
                         this.popup = true;
