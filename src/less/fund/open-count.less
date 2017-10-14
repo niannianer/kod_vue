@@ -17,6 +17,10 @@
     .bl{
         border-bottom: 1px solid @color-split;
     }
+    .nametip{
+        color: @color-text-gray;
+        font-size: .7rem;
+    }
     .content{
         padding: 0 .8rem;
         background: @bg-content;
@@ -39,8 +43,6 @@
                 margin-right: .5rem;
             }
         }
-
-
     }
     .content-1{
         padding-left:.8rem;
@@ -73,7 +75,21 @@
                 background-image: url("../../images/bank/bank-icon.png");
                 background-size: cover;
             }
+            &.abandon{
+                opacity: .5;
+                &:after{
+                    content: '';
+                    position: absolute;
+                    right: -2px;
+                    bottom: -2px;
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    background-image: none;
+                    background-size: cover;
+                }
+            }
         }
+
     }
     .tip-box{
         padding: .6rem .7rem 0 .7rem;

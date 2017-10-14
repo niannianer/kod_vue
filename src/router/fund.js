@@ -31,9 +31,10 @@ const MyFund = () => import('../funds/MyFund');
 const OpenCount = () => import('../funds/OpenCount');
 const PositionAnalysis = () => import('../funds/PositionAnalysis');
 const Purchase = () => import('../funds/Purchase');
+const PurchaseResult = () => import('../funds/PurchaseResult');
 const Redeem = () => import('../funds/Redeem');
 const RelatedRate = () => import('../funds/RelatedRate');
-const PurchaseResult = () => import('../funds/PurchaseResult');
+const Verify = () => import('../funds/Verify');
 let fundRoutes = [
     {
         path: '/funds',
@@ -139,6 +140,13 @@ let fundRoutes = [
                     title: '申购'
                 }
             }, {
+                path: 'purchase-result',
+                name: 'purchase-result',
+                component: PurchaseResult,
+                meta: {
+                    title: '申购'
+                }
+            },{
                 path: 'redeem',
                 name: 'redeem',
                 component: Redeem,
@@ -154,13 +162,13 @@ let fundRoutes = [
                     title: '相关费率'
                 }
             },{
-                path: 'purchase-result',
-                name: 'purchase-result',
-                component: PurchaseResult,
+                path: 'verify',
+                name: 'verify',
+                component: Verify,
                 meta: {
-                    title: '申购'
+                    title: '基金开户'
                 }
-            },]
+            }]
     }
 ];
 

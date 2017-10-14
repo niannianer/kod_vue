@@ -91,4 +91,18 @@ actions.getPersonalCenterMsg = ({commit}) => {
             return data;
         });
 };
+
+//  获取基金账户信息
+let getAccountInfo = () => {
+    return $api.get('/fund/account/info');
+};
+actions.getAccountInfo = ({commit}) => {
+    return getAccountInfo()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setAccountInfo', data.data);
+            }
+            return data;
+        });
+};
 export default actions;

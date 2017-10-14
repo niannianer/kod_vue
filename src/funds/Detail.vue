@@ -106,16 +106,21 @@
                 </div>
             </div>
         </div>
-        <div class="bottom f8" flex-box="0" flex="box:mean">
-          <!--  <p class="p yellow">+自选</p>
-            <p class="p blue">定投</p>-->
-            <p class="p red" @click.stop="toPurchase()">申购（1折）</p>
+        <div class="bottom f8" flex-box="0" flex="box:mean" v-if="!fund.isPurchFund">
+           <!-- <p class="p blue">定投</p>-->
+            <p class="p red" @click.stop="pathCheck()">申购（1折）</p>
+        </div>
+        <div class="bottom f8" flex-box="0" flex="box:mean" v-if="fund.isPurchFund">
+            <p class="p yellow" @click.stop="pathTo('/redeem')">赎回</p>
+            <p class="p red" @click.stop="pathTo('/purchase')">追加投资</p>
         </div>
     </div>
 </template>
 
 <script>
     import $api from '../tools/api';
+    import {mapState} from 'vuex';
+    import { MessageBox } from 'mint-ui';
     import '../less/fund/detail.less';
     import LineChart from '../components/LineChart/line';
     export default {
@@ -215,6 +220,7 @@
         },
         created(){
             this.getCharts();
+            this.$store.dispatch('getAccountInfo');
             $api.get('/fund/info/detail', {
                 fundCode: this.$route.query.code
             })
@@ -249,7 +255,11 @@
                     }
                 })
         },
-        computed: {},
+        computed: {
+            ...mapState(
+                ['bank_no','isSetPayPassword','accountStatus']
+            )
+        },
         methods: {
             activeCheck(num){
                 this.active = num;
@@ -259,15 +269,59 @@
                 this.duration = str;
                 this.getCharts();
             },
-            pathTo(path){
+            pathTo(path, noq){
+                if(noq){
+                    this.$router.push({
+                        path: path
+                    });
+                    return;
+                }
                 this.$router.push({
                     path:'/funds' + path,
                     query:{
-                        code: this.$route.query.code,
-
+                        code:this.$route.query.code
                     }
                 });
             },
+            pathCheck(){
+                //是否开户
+                if(!this.bank_no){
+                    this.pathTo('/funds/open-count',true);
+                    return false;
+                }
+                //是否设置初始密码
+                if(!this.isSetPayPassword){
+                    this.pathTo('/set-pay-password',true);
+                    return false;
+                }
+                //是否录入适当性管理信息，3：完成
+                if(this.accountStatus != 3){
+                    this.pathTo('/funds/info',true);
+                    return false;
+                }
+                //是否完成风险测评
+                if(this.investorRiskScore == 0){
+                    this.pathTo('/risk-assessment/wechat',true);
+                    return false;
+                }
+                //风险评估验证是否匹配
+                $api.get('/fund/account/risk',{terminalInfo:this.$route.query.code}).then((resp)=>{
+                    if(resp.code == 200){
+                        if(this.investorRiskType == 0){
+                            this.lowRiskMsg();
+                            return false;
+                        }
+                        if(!resp.data.minRiskGrade){
+                            //this.lowRiskMsg();
+                            this.message(resp.data.riskGrade5Desc);
+                        }else{
+                            this.toPurchase();
+                        }
+                    }
+                });
+
+            },
+            //进入基金申购页面
             toPurchase(){
                 let minSub = this.fund.isPurchFund == 1 ? this.fund.minAmtIndiFirstPurch : this.fund.minAmtIndiAddPurch;
                 let maxSub = this.fund.maxAmtIndiPurch;
@@ -280,6 +334,52 @@
                         maxs: maxSub
                     }
                 });
+            },
+            //低风险弹层
+            lowRiskMsg(){
+                let lowMsg = `<div class="risk-msg center">该产品为高风险产品，投资此产品超过了您的风险承受范围。`;
+                let options = {
+                    confirmButtonText: '重新测评',
+                    confirmButtonClass: 'again-risk',
+                };
+                MessageBox.alert(lowMsg, '风险提示',options)
+                    .then(action => {
+                        this.pathTo('/risk-assessment/wechat',true);
+                    });
+            },
+            //风险匹配结果弹层
+            message(msg){
+                let options = {
+                    confirmButtonText:`坚持购买（3）`,
+                    confirmButtonClass: 'submit-risk',
+                    cancelButtonText: '重新测评',
+                    cancelButtonClass: 'again-risk',
+                };
+                MessageBox.confirm(`<div class="risk-msg">${msg}</div>`,'风险提示',options)
+                    .then(action => {
+                        alert()
+                    })
+                    .catch(err => {
+                        if (err == 'cancel') {
+                            this.pathTo('/risk-assessment/wechat',true);
+                        }
+                    });
+                let timer = 3;
+                let timeout;
+                timeout = setInterval(()=>{
+                    let $ele = document.getElementsByClassName('submit-risk')[0];
+                    if(timer > 0){
+                        timer = timer - 1;
+                        $ele.innerText = `坚持购买（${timer}）`;
+                        if(timer == 0){
+                            $ele.className = $ele.className + ' enabled';
+                            $ele.innerText = '坚持购买';
+                            clearTimeout(timeout);
+                            return;
+                        }
+                        $ele.innerText = `坚持购买（${timer}）`;
+                    }
+                },1000);
             },
             getCharts(){
                 let labels = [];

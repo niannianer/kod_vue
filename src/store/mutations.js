@@ -44,6 +44,18 @@ mutations.setUserInfo = (state, data) => {
     }
 
 };
+// 基金账户信息
+mutations.setAccountInfo = (state, data) => {
+    if (data.userUuid) {
+        _.forEach(state, (value, key) => {
+            if (data.hasOwnProperty(key)) {
+                state[key] = data[key];
+            }
+        });
+
+    }
+
+};
 mutations.setEligibleInvestor = (state, data) => {
     state.isEligibleInvestor = data;
 };
