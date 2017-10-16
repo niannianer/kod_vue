@@ -270,7 +270,8 @@
                     'accountStatus',
                     'investorRiskScore',
                     'riskGrade5Desc',
-                    'riskGrade5'
+                    'riskGrade5',
+                    'minRiskGrade'
                 ]
             )
         },
@@ -319,19 +320,19 @@
                     this.pathTo('/risk-assessment/wechat',{});
                     return false;
                 }
-                //用户的风险测评为最低
-                if(this.investorRiskType == 0){
-                    let lowMsg = '该产品为高风险产品，投资此产品超过了您的风险承受范围。';
-                    this.msgOption = {
-                        title: '风险提示',
-                        msg: lowMsg,
-                        confirmText: '重新测评'
-                    };
-                    this.showMessage = true;
-                    return false;
-                }
                 //风险评估验证是否匹配
                 if(Number(this.riskGrade5) < this.fund.riskLevel){
+                    //用户的风险测评为最低
+                    if(this.minRiskGrade){
+                        let lowMsg = '该产品为高风险产品，投资此产品超过了您的风险承受范围。';
+                        this.msgOption = {
+                            title: '风险提示',
+                            msg: lowMsg,
+                            confirmText: '重新测评'
+                        };
+                        this.showMessage = true;
+                        return false;
+                    }
                     //风险结果不匹配
                     this.msgOption = {
                         title: '风险提示',
@@ -347,17 +348,21 @@
                 }
             },
             //进入基金申购页面
-            toPurchase(){
+            toPurchase(again){
                 let minSub = this.fund.isPurchFund == 1 ? this.fund.minAmtIndiFirstPurch : this.fund.minAmtIndiAddPurch;
                 let maxSub = this.fund.maxAmtIndiPurch;
+                let query = {
+                    code:this.$route.query.code,
+                    name: this.fund.fundAbbrName,
+                    mins: minSub,
+                    maxs: maxSub
+                };
+                if(again == 'isRiskConfirmAgain'){
+                    query.again = 1;
+                }
                 this.$router.push({
                     path:'/funds/purchase',
-                    query:{
-                        code:this.$route.query.code,
-                        name: this.fund.fundAbbrName,
-                        mins: minSub,
-                        maxs: maxSub
-                    }
+                    query:query
                 });
             },
             //风险匹配结果弹层回调
@@ -371,7 +376,7 @@
             //坚持购买
             toBuy(){
                 this.showMessage = false;
-                this.toPurchase();
+                this.toPurchase('isRiskConfirmAgain');
             },
             getCharts(){
                 let labels = [];

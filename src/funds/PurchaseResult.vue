@@ -86,11 +86,10 @@
                 this.$router.push({
                     path: '/funds/my-fund'
                 });
-                clearTimeout(this.timer);
             }
         },
         destroyed(){
-
+            clearTimeout(this.timer);
         }
     }
 </script>

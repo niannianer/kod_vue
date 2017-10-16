@@ -149,7 +149,7 @@
                 let areas = [];
                 if(!values[0]){
                     cities = this.provinces[2].cities;
-                    areas = this.provinces[2].cities[2].areas;
+                    areas = values[1] ? values[1].areas : this.provinces[2].cities[2].areas;
                 }else{
                     cities = values[0].cities;
                     areas = values[1].areas;
