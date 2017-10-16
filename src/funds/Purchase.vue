@@ -12,7 +12,7 @@
                     <p class="blue">{{name}} ({{paymentBank}})</p>
                 </div>
             </div>
-            <p class="tip">单笔限额<span class="blue">{{minSub}}万元</span>，单日限额<span class="blue">{{maxSub}}万元</span></p>
+            <p class="tip">单笔限额<span class="blue">{{minSub||0}}万元</span>，单日限额<span class="blue">{{maxSub||0}}万元</span></p>
             <div class="content seperate">
                 <div class="item f8" flex="cross:center">
                     <p class="item-title">申购金额</p>

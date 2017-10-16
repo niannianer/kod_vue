@@ -345,13 +345,6 @@
                 }else{
                     this.toPurchase();
                 }
-                /*let terminalInfo = $device.os + '-' + $device.osVersion;
-                $api.get('/fund/account/risk',{terminalInfo: terminalInfo}).then((resp)=>{
-                    if(resp.code == 200){
-
-                    }
-                });*/
-
             },
             //进入基金申购页面
             toPurchase(){
