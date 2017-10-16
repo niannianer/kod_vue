@@ -208,7 +208,8 @@
                 this.$router.push('/withdraw');
             },
             createUser(){
-                this.showModal = true;
+
+                this.goStep(); /*直接去开户，而不需要弹框提示*/
                 let event = ['_trackEvent', '我的资产', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
                 window._hmt.push(event);
             },
