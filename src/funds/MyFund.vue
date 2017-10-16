@@ -15,7 +15,7 @@
             <p class="rate">{{fundAssets.previousProfit | currencyFormat}}</p>
             <div flex="box:mean" class="info-box">
                 <div>
-                    <p>总市值（元)</p>
+                    <p>总市值（元）</p>
                     <p class="data">{{fundAssets.totalShareAsset | currencyFormat}}</p>
                 </div>
                 <div>
@@ -34,6 +34,7 @@
                 <p class="p" :class="{'active':listNum == 3}" @click.stop="checkFund(3)">进行中</p>
                 <p class="p" :class="{'active':listNum == 5}" @click.stop="checkFund(5)">已完成</p>
             </div>
+            <div v-if="!this.list.length" style="text-align: center;padding-top: .5rem;">暂无内容</div>
             <mt-loadmore :top-method="loadTop" ref="loadmore" :auto-fill="autoFill">
                 <ul class="list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"
                     infinite-scroll-distance="10">
@@ -82,7 +83,7 @@
                             </div>
                             <div>
                                 <p class="f8 red bold">
-                                    {{dateFormat(item.orderOonfirmDate)}}
+                                    {{dateFormat(item.orderTradeDate)}}
                                 </p>
                                 <p class="info">
                                     申购日期
@@ -90,7 +91,7 @@
                             </div>
                             <div>
                                 <p class="f8 bold">
-                                    找后台要字段
+                                    {{dateFormat(item.orderOonfirmDate)}}
                                 </p>
                                 <p class="info"> 预计确认日期</p>
                             </div>
@@ -117,7 +118,7 @@
                                     {{item.confirm ? '成功' : '失败'}}
                                 </p>
                                 <p class="f8 bold" v-if="item.shareBonus">
-                                    {{item.defaultBonusType ? '红利资金再投' : '现金分红'}}
+                                    分红收益
                                 </p>
                             </div>
                         </div>
