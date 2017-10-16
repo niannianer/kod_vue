@@ -56,6 +56,7 @@ const state = {
     name: '',
     investorRiskVersion:'',//风险测评版本 2:新版
 
+    minRiskGrade: '',//是否为最低风险投资者
     riskGrade5:'',//用户风险等级
     riskGrade5Desc: ''//用户风险等级描述语
 
