@@ -106,7 +106,7 @@
                     terminalInfo
                 }).then((resp) => {
                     if(resp.code == 200){
-                        this.store.dispatch('getAccountInfo');
+                        this.$store.dispatch('getAccountInfo');
                         this.$router.back();
                     }else{
                         Toast(resp.msg);
