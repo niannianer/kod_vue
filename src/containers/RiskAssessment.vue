@@ -103,7 +103,7 @@
                     clearTimeout(timer);
                 }
                 timer = setTimeout(() => {
-                    this.scores.push(item.score);
+                    this.scores.push(index+1);
                     if (quLen > this.scores.length) {
                         this.currentIndex = 99;
                     }
