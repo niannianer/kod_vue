@@ -152,7 +152,7 @@
                     areas = this.provinces[2].cities[2].areas;
                 }else{
                     cities = values[0].cities;
-                    areas = cities[0].areas;
+                    areas = values[1].areas;
                 }
                 picker.setSlotValues(1, cities);
                 picker.setSlotValues(2, areas);
@@ -199,7 +199,6 @@
                 });
                 this.slots = [{
                     flex: 1,
-                    defaultIndex: 1,
                     values: this.provinces,
                     className: 'slot1',
                     textAlign: 'center'
