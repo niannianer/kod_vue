@@ -96,14 +96,14 @@
                 this.currentIndex = index;
                 if (quLen == this.scores.length) {
                     this.scores.pop();
-                    this.scores.push(index);
+                    this.scores.push(index+1);
                     return false;
                 }
                 if (timer) {
                     clearTimeout(timer);
                 }
                 timer = setTimeout(() => {
-                    this.scores.push(item.score);
+                    this.scores.push(index+1);
                     if (quLen > this.scores.length) {
                         this.currentIndex = 99;
                     }
