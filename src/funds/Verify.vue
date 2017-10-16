@@ -98,15 +98,16 @@
                     .then(resp => {
                         if (resp.code == 200) {
                            if(!this.isSetPayPassword){
+                               this.$store.dispatch('getAccountInfo');
                                this.$store.dispatch('getPaymentInfo');
-                               this.$router.push({
+                               this.$router.replace({
                                    path:'/set-pay-password',
                                    query:{
-                                       isfund:1
+                                       isFund:1
                                    }
                                })
                            }else{
-                               this.$router.replace('/personal-center');
+                               this.$router.back();
                            }
                         }
                         else {

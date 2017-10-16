@@ -220,7 +220,7 @@
                 })
                     .then(resp => {
                         if (resp.code == 200) {
-                            this.$router.push({
+                            this.$router.replace({
                                 path: '/funds/verify',
                                 query: {
                                     accountName: encodeURIComponent(accountName),

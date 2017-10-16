@@ -8,7 +8,7 @@
                 </div>
                 <p class="f9">昨日收益（元）</p>
                 <div>
-                    <p class="border" @click.stop="pathTo('/funds/info')">用户信息</p>
+                    <p class="border" @click.stop="fundAccountStep">用户信息</p>
                 </div>
             </div>
             <p class="date">07-25(后台差一个参数)</p>
@@ -155,7 +155,7 @@
             this.loadData();
         },
         computed: {
-            ...mapState(['investorRiskScore', 'investorRiskTypeDesc']),
+            ...mapState(['investorRiskScore', 'investorRiskTypeDesc','accountStatus']),
         },
         methods: {
             loadTop(){
@@ -200,6 +200,22 @@
                 this.loading = true;
                 this.currentPage++;
                 this.loadData();
+            },
+            fundAccountStep(){
+                if(this.accountStatus<1){
+                    this.$router.push({
+                        path:'/funds/open-count'
+                    })
+                }else if(this.accountStatus<2){
+                    this.$router.push({
+                        path:'/set-pay-password',
+                        query:{
+                            isFund:1
+                        }
+                    })
+                }else{
+                    this.$router.push('/funds/info')
+                }
             },
             pathTo(path, code){
                 if (code) {
