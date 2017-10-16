@@ -77,7 +77,7 @@
                 })
         },
         computed: {
-            ...mapState(['investorRiskScore'])
+            ...mapState(['accountStatus'])
         },
         methods: {
             callBack(password){
@@ -126,12 +126,9 @@
                         window._hmt.push(event);
                         if (msg.code == 200) {
                             //没有录入适当性管理信息，跳适当性录入信息页面
-                            if (isFund && this.investorRiskScore == 0) {
+                            if (isFund && this.accountStatus < 3) {
                                 this.$router.replace({
-                                    path: '/funds/info',
-                                    query: {
-                                        from: 'detail'
-                                    }
+                                    path: '/funds/info'
                                 });
                             } else if (isFund) {
                                 //完成录入适当性管理信息，跳基金详情页
@@ -142,6 +139,7 @@
                                 });
                             }
                             setTimeout(() => {
+                                this.$store.dispatch('getAccountInfo');
                                 this.$store.dispatch('getPersonalCenterMsg');
                                 this.$store.dispatch('getBankInfo');
                             }, 1000);
