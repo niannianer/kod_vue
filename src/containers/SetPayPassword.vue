@@ -26,7 +26,7 @@
                 <ul flex="main:center">
                     <li v-for=" n in 6" :class="{active:n<=password.length}"></li>
                 </ul>
-                <p class="error-hint" v-show="pShow">两次输入不一致！</p>
+                <p class="error-hint" v-show="pShow">两次密码输入不一致</p>
             </div>
             <div class="psw-btn" flex="main:center">
                 <button :class="{'active':btnActive}" v-show="btnShow" @click.stop="submit">完成</button>
@@ -62,19 +62,6 @@
         created(){
             let event = ['_trackEvent', '设置交易密码', 'SHOW', '进入设置交易密码页面', '进入设置交易密码页面'];
             window._hmt.push(event);
-            $api.get('/cashCoupon/list', {
-                couponType: 1,
-                startRow: 0,
-                pageSize: 1
-            })
-                .then(resp => {
-                    if (resp.code == 200) {
-                        if (resp.data.couponCount) {
-                            this.isGetTicket = true;
-                            /*已经获得现金券*/
-                        }
-                    }
-                })
         },
         computed: {
             ...mapState(['accountStatus'])
@@ -88,7 +75,7 @@
                 this.pShow = false;
                 this.password = password;
                 if (this.storagePassword.length > 2) {
-                    this.pTitle = '请再次填写以确认';
+                    this.pTitle = '请再次确认';
                     let event = ['_trackEvent', '设置交易密码', 'SHOW', '进入确认交易密码页面', '进入确认交易密码页面'];
                     window._hmt.push(event);
                     if (password.length >= 6) {
@@ -151,14 +138,13 @@
                     this.storagePassword = '';
                     this.pShow = true;
                     this.btnShow = false;
-                    this.pTitle = '请设置金疙瘩交易密码，用于交易验证';
+                    this.pTitle = '';
                     EventBus.$emit('clearInputOnly');
                 }
             }
         },
         destroyed(){
-            /*Indicator.close();
-             MessageBox.close();*/
+
         }
     }
 </script>
