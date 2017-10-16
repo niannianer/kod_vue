@@ -62,7 +62,8 @@
                 </div>
                 <div flex="cross:center" class="item bl">
                     <p flex-box="1">购买费率</p>
-                    <p flex-box="0">{{fund.frontEndPurchRate}}%</p>
+                    <p flex-box="0" v-if="fund.frontEndPurchRate">{{fund.frontEndPurchRate}}%</p>
+                    <p flex-box="0" v-else class="btn f6">免费率</p>
                     <!-- <p flex-box="0" class="line-through">1.50%</p>
                      <p flex-box="0" class="red normal">0.15</p>
                      <p flex-box="0" class="btn f6">1折</p>-->
@@ -243,14 +244,9 @@
                         let month = (date.getMonth()+1) > 9 ? '' + (date.getMonth()+1) : '0' + (date.getMonth()+1);
                         let day = date.getDate() > 10 ? '' + date.getDate() : '0' + date.getDate();
                         this.fund.navDate = month + '-' + day;/*最新净值日期*/
-                        let minRate = Infinity;
+                        let minRate = 0;
                         if(resp.data.frontEndPurchRate){
-                            let purchRate = JSON.parse(resp.data.frontEndPurchRate);
-                            purchRate.map(item => {
-                                if (minRate > item.feeRatio && item.feeRatio) {
-                                    minRate = item.feeRatio;
-                                }
-                            })
+                            minRate =this.calMinRate(JSON.parse(resp.data.frontEndPurchRate));
                         }
                         this.fund.frontEndPurchRate = minRate;/*购买费率（取数组中最小的）*/
                         if(resp.data.fundManager){
@@ -275,6 +271,20 @@
             )
         },
         methods: {
+            calMinRate(arr){
+                let minRate = Infinity;
+                if(arr){
+                    arr.map(item => {
+                        if(item.feeRatio==null){
+                            return 0
+                        }
+                        if (minRate > item.feeRatio && item.feeRatio) {
+                            minRate = item.feeRatio;
+                        }
+                    })
+                    return minRate;
+                }
+            },
             activeCheck(num){
                 this.active = num;
                 this.getCharts();

@@ -34,6 +34,7 @@
                 <p class="p" :class="{'active':listNum == 3}" @click.stop="checkFund(3)">进行中</p>
                 <p class="p" :class="{'active':listNum == 5}" @click.stop="checkFund(5)">已完成</p>
             </div>
+            <div v-if="!this.list.length" style="text-align: center;padding-top: .5rem;">暂无内容</div>
             <mt-loadmore :top-method="loadTop" ref="loadmore" :auto-fill="autoFill">
                 <ul class="list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"
                     infinite-scroll-distance="10">
