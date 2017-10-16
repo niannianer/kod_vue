@@ -96,7 +96,7 @@
                 this.currentIndex = index;
                 if (quLen == this.scores.length) {
                     this.scores.pop();
-                    this.scores.push(index);
+                    this.scores.push(index+1);
                     return false;
                 }
                 if (timer) {
