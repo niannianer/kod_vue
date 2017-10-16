@@ -112,7 +112,7 @@
         </div>
         <div class="bottom f8" flex-box="0" flex="box:mean" v-if="fund.isPurchFund">
             <p class="p yellow" @click.stop="pathTo('/redeem')">赎回</p>
-            <p class="p red" @click.stop="pathTo('/purchase')">追加投资</p>
+            <p class="p red" @click.stop="pathCheck">追加投资</p>
         </div>
         <king-message v-if="showMessage" @confirmBack="againTest" @cancelBack="toBuy" :options="msgOption"></king-message>
     </div>
