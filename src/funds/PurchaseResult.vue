@@ -38,7 +38,7 @@
                 温馨提示：<br/>
                 银行正在处理中，如果10分钟内没有收到银行扣款通知，可能扣款失败，可重新申购。
             </div>
-            <button class="buttom" @click.stop="toMine">我的账户</button>
+            <button class="buttom" @click.stop="toMine">查看我的账户</button>
         </div>
 
     </div>
@@ -58,15 +58,16 @@
         },
         created(){
             this.orderId = this.$route.query.id;
+            this.getStatus();
             this.timeout();
         },
         computed: {},
         methods: {
             timeout(){
-                this.getStatus();
                 this.timer = setTimeout(()=>{
                     this.getStatus();
-                },6000);
+                    this.timeout();
+                },2000);
             },
             getStatus(){
                 let {orderId} = this;
@@ -85,6 +86,7 @@
                 this.$router.push({
                     path: '/funds/my-fund'
                 });
+                clearTimeout(this.timer);
             }
         },
         destroyed(){

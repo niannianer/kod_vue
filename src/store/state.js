@@ -51,7 +51,7 @@ const state = {
     cashCouponCount:'0',//现金券数量
     experienceAmount:'0',//体验金数额
 
-    accountStatus: '',//是否录入适当性管理信息，3：完成
+    accountStatus: 0,//是否录入适当性管理信息，1：已基金开户，2：已基金交易密码，3：完成
     paymentNo: '',
     name: '',
     investorRiskVersion:'',//风险测评版本 2:新版

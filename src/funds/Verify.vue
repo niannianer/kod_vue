@@ -27,7 +27,7 @@
                 starPhone: '',
                 verifyTimeLeft: '',
                 verifyText: '重新发送',
-                type:''
+                type: ''
             }
         },
         created(){
@@ -50,7 +50,7 @@
             reSend(){
 
                 this.starPhone = phone.substr(0, 3) + '****' + phone.substr(7);
-                let {accountName, identityNo, paymentType, paymentNo, phone,type} = this;
+                let {accountName, identityNo, paymentType, paymentNo, phone, type} = this;
                 $api.post('/fund/account/open/prepare', {
                     accountName,
                     identityNo,
@@ -97,17 +97,24 @@
                 })
                     .then(resp => {
                         if (resp.code == 200) {
-                           if(!this.isSetPayPassword){
-                               this.$store.dispatch('getPaymentInfo');
-                               this.$router.push({
-                                   path:'/set-pay-password',
-                                   query:{
-                                       isfund:1
-                                   }
-                               })
-                           }else{
-                               this.$router.replace('/personal-center');
-                           }
+                            if (!this.isSetPayPassword) {
+                                this.$router.replace({
+                                    path: '/set-pay-password',
+                                    query: {
+                                        isFund: 1
+                                    }
+                                })
+                            } else if(this.accountStatus < 3){
+                                this.$router.replace({
+                                    path: '/funds/info'
+                                });
+                            }else{
+                                this.$router.back();
+                            }
+                            setTimeout(() => {
+                                this.$store.dispatch('getAccountInfo');
+                                this.$store.dispatch('getPaymentInfo');
+                            })
                         }
                         else {
                             Toast(resp.msg);

@@ -27,7 +27,7 @@
                     <img src="../images/arrow-right.png"/>
                 </div>
             </div>
-            <div class="card-item">
+            <div class="card-item" >
                 <div class="title" flex-box="1">请输入详细地址</div>
                 <div class="address">
                     <textarea class="textarea" v-model="detailAddress"></textarea>
@@ -67,13 +67,13 @@
                 slots: [],
                 isPick: false,
                 careers: [
-                    {code: '01', name: '党政机关、事业单位'},
-                    {code: '02', name: '企业单位'},
-                    {code: '03', name: '自由业主'},
-                    {code: '04', name: '学生'},
-                    {code: '05', name: '军人'},
-                    {code: '06', name: '其他'}
-                ],
+                    {code: '01',name:'党政机关、事业单位'},
+                    {code: '02',name:'企业单位'},
+                    {code: '03',name:'自由业主'},
+                    {code: '04',name:'学生'},
+                    {code: '05',name:'军人'},
+                    {code: '06',name:'其他'}
+                    ],
                 careerPick: false,
                 careerText: '',
                 career: '',
@@ -90,11 +90,11 @@
         computed: {},
         methods: {
             setData(){
-                if (!this.checkWord()) {
+                if(!this.checkWord()){
                     return;
                 }
                 let {career, provinceName, cityName, countyName, detailAddress, terminalInfo, provinceCode, cityCode, countyCode} = this;
-                $api.post('/fund/account/save/adequacy', {
+                $api.post('/fund/account/save/adequacy',{
                     career,
                     provinceName,
                     cityName,
@@ -105,10 +105,10 @@
                     countyCode,
                     terminalInfo
                 }).then((resp) => {
-                    if (resp.code == 200) {
+                    if(resp.code == 200){
                         this.$store.dispatch('getAccountInfo');
                         this.$router.back();
-                    } else {
+                    }else{
                         Toast(resp.msg);
                     }
                 });
@@ -130,7 +130,7 @@
             },
             careerBack(result){
                 this.careerPick = false;
-                if (result == 0) {
+                if(result == 0){
                     return;
                 }
                 result = result || this.careers[2];
@@ -138,37 +138,31 @@
                 this.careerText = result.name;
             },
             selecting(t){
-                if (t == 'address') {
+                if(t == 'address'){
                     this.isPick = true;
-                    setTimeout(() => {
-                        this.slots[0].defaultIndex = 1;
-                        this.$nextTick(() => {
-                            this.slots[0].defaultIndex = 0;
-                        });
-                    }, 1000);
-                } else {
+                }else{
                     this.careerPick = true;
                 }
             },
-            onValuesChange(picker, values){
+            onValuesChange(picker,values){
                 let cities = [];
                 let areas = [];
-                if (!values[0]) {
+                if(!values[0]){
                     cities = this.provinces[2].cities;
                     areas = this.provinces[2].cities[2].areas;
-                } else {
+                }else{
                     cities = values[0].cities;
-                    areas = cities[0].areas;
+                    areas = values[1].areas;
                 }
                 picker.setSlotValues(1, cities);
                 picker.setSlotValues(2, areas);
             },
             callback(result){
                 this.isPick = false;
-                if (result == 0) {
+                if(result == 0){
                     return;
                 }
-                if (!result[0]) {
+                if(!result[0]){
                     result[0] = this.provinces[2];
                 }
                 this.provinceCode = result[0].code;
@@ -205,7 +199,6 @@
                 });
                 this.slots = [{
                     flex: 1,
-                    defaultIndex: 0,
                     values: this.provinces,
                     className: 'slot1',
                     textAlign: 'center'
