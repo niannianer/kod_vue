@@ -300,17 +300,17 @@
             },
             pathCheck(){
                 //是否开户
-                if(!this.paymentNo){
+                if(this.accountStatus<1){
                     this.pathTo('/funds/open-count',{});
                     return false;
                 }
                 //是否设置初始密码
-                if(!this.isSetPayPassword){
-                    this.pathTo('/set-pay-password',{from:'detail'});
+                else if(this.accountStatus<2){
+                    this.pathTo('/set-pay-password',{isFund:1});
                     return false;
                 }
                 //是否录入适当性管理信息，3：完成
-                if(this.accountStatus != 3){
+                else if(this.accountStatus < 3){
                     this.pathTo('/funds/info',{});
                     return false;
                 }
