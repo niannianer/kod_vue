@@ -35,8 +35,8 @@
                 <p class="check-item" :class="{'active':active==1}" @click.stop="activeCheck(1)">净值走势  </p>
             </div>
             <div class="content-2 seperate" flex="box:mean">
-                <p class="p">期间涨跌<span class="red span">0.71%</span></p>
-                <p class="p">同类平均<span class="red span">0.71%</span></p>
+                <p class="p">期间涨跌<span class="red span">{{navDValue}}%</span></p>
+                <p class="p">同类平均<span class="red span">{{navChangeLast}}%</span></p>
             </div>
             <div v-if="!active">
                 <line-chart :data="datas" :options="options" :chart-data="datas" class="chart seperate"></line-chart>
@@ -136,6 +136,8 @@
                 active: 0,
                 duration: '1m',
                 datacollection: null,
+                navDValue:0,
+                navChangeLast:0,
                 datas: {},
                 navDatas: {},
                 options: {
@@ -396,6 +398,17 @@
                                     avgData.push(item.sameFundChange)
                                     navData.push(item.nav)
                                 })
+                                let length = resp.data.list[0].navSeries.length;
+                                this.navDValue = resp.data.list[0].navSeries[length-1].nav - resp.data.list[0].navSeries[0].nav;
+                                if(!isNaN(this.navDValue)){
+                                    this.navDValue = this.navDValue.toFixed(2);
+                                }else{
+                                    this.navDValue = 0
+                                }
+                                this.navChangeLast = resp.data.list[0].navSeries[length-1].sameFundChange;
+                                if(!this.navChangeLast){
+                                    this.navChangeLast = 0;
+                                }
                                 return resp;
                             }
                         }

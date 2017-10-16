@@ -43,8 +43,9 @@
                            @propertychange="change">
                 </div>
                 <div class="item bl f8" flex="cross:center" @click.stop="checkBankName">
-                    <p class="item-title">所属银行</p>
-                    <p :class="{'nametip':istip}">{{bankNameYM}}</p>
+                    <p class="item-title" flex-box="0">所属银行</p>
+                    <p flex-box="1" :class="{'nametip':istip}">{{bankNameYM}}</p>
+                    <img flex-box="0" src="../images/arrow-right.png" alt="" class="img">
                     <!--   <input type="text" placeholder="请输入所属银行" class="input" >-->
                 </div>
                 <div class="item f8" flex="cross:center">
@@ -87,7 +88,13 @@
             }
         },
         created(){
-            console.log('sssssssssssssssssssssssssssss')
+            if(window.sessionStorage.getItem('open-count')){
+                let openCountData = JSON.parse(window.sessionStorage.getItem('open-count'));
+                window.sessionStorage.removeItem('open-count');
+                for (let key in openCountData) {
+                    this[key] = openCountData[key];
+                }
+            }
             if (window.sessionStorage.getItem('bank-info')) {
                 let bankInfo = JSON.parse(window.sessionStorage.getItem('bank-info'));
                 window.sessionStorage.removeItem('bank-info')
@@ -115,6 +122,7 @@
         },
         methods: {
             checkBankName(){
+                window.sessionStorage.setItem('open-count',JSON.stringify(this.$data));
                 this.$router.push({
                     path: '/bank-list',
                     query: {
