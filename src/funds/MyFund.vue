@@ -11,8 +11,7 @@
                     <p class="border" @click.stop="fundAccountStep">用户信息</p>
                 </div>
             </div>
-            <p class="date" v-if="fundAssets.previousProfitTradeDate">{{fundAssets.previousProfitTradeDate}}07-25(后台差一个参数)</p>
-            <p class="date">07-25(后台差一个参数)</p>
+            <p class="date" v-if="fundAssets.previousProfitTradeDate">{{fundAssets.previousProfitTradeDate.substr(5)}}</p>
             <p class="rate">{{fundAssets.previousProfit | currencyFormat}}</p>
             <div flex="box:mean" class="info-box">
                 <div>
