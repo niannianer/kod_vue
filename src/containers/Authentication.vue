@@ -36,18 +36,12 @@
                 <button @click.stop="btnAction">下一步</button>
             </div>
             <div class="auth-text">个人信息由公安部认证</div>
-            <!--<div class="authentication-text">
-                <p>仅支持大陆身份证；</p>
-                <p>请输入您的本人身份信息，确保信息真实有效，所有资料将会保密;</p>
-                <p>实名认证通过后，身份信息不可更改；</p>
-                <p>未满18周岁用户暂无法实名认证。</p>
-            </div>-->
         </div>
         <div class="authentication-win" v-show="popup">
             <div class="win-box" flex="dir:top">
                 <div class="win-content" flex-box="1">
-                    <p class="hint1">监测到您在其他商户已开通宝付账户，请完成短信验证，确保是您本人操作。</p>
-                    <p class="hint2"><span>短信验证码已发送到{{investorMobile | mobileFormat}}</span></p>
+                    <p class="hint1">请输入验证码进行验证</p>
+                    <p class="hint2"><span>已发送验证码到注册手机</span></p>
                     <dl flex="main:justify">
                         <dt>
                             <input type="text" placeholder="请输入验证码" v-model="smsCode" maxlength="6">
@@ -56,9 +50,9 @@
                             <button :class="{'active':btnActive}" @click.stop="transmit">{{btnText}}</button>
                         </dd>
                     </dl>
+                    <div class="close" flex="main:center cross:center" @click.stop="curse">×</div>
                 </div>
                 <div class="win-btn" flex-box="0" flex>
-                    <button flex-box="1" @click.stop="curse">取消</button>
                     <button flex-box="1" class="sure" @click.stop="sure" :disabled="loading">确定</button>
                 </div>
             </div>
