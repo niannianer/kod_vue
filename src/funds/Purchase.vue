@@ -68,6 +68,7 @@
             this.fundCode = this.$route.query.code;
             this.minSub = this.$route.query.mins/10000;
             this.maxSub = this.$route.query.maxs/10000;
+            this.isRiskConfirmAgain = this.$route.query.again;
         },
         computed: {
             ...mapState(
@@ -87,9 +88,9 @@
                     this.buy = {};
                     return false;
                 }
-                if(this.orderAmt < 1000 || this.orderAmt > 1000000){
+                /*if(this.orderAmt < 1000 || this.orderAmt > 1000000){
                     return false;
-                }
+                }*/
                 this.timer = setTimeout(()=>{
                     let {fundCode, orderAmt} = this;
                     $api.get('/fund/purch/fee',{
@@ -117,13 +118,18 @@
                 this.inputPassword = true;
             },
             tradePurch(password){
-                let {fundCode, orderAmt} = this;
                 this.terminalInfo = $device.os + '-' + $device.osVersion;
-                $api.post('/fund/purch',{
+                let {fundCode, orderAmt, terminalInfo, isRiskConfirmAgain} = this;
+                let param = {
                     fundCode,
                     tradeAmount:orderAmt,
-                    userPayPassword: password
-                }).then((resp) => {
+                    userPayPassword: password,
+                    terminalInfo
+                };
+                if(isRiskConfirmAgain){
+                    param.isRiskConfirmAgain = 1;
+                }
+                $api.post('/fund/purch',param).then((resp) => {
                     if(resp.code == 200){
                         this.inputPassword = false;
                         this.$router.push({
