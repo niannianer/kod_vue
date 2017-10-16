@@ -61,7 +61,7 @@
                     .then(res => {
                         if (res.code == 200) {
                             this.yingmi = res.data.list;
-                            window.sessionStorage.setItem('yingmi-list', JSON.stringify(res.data.list))
+                            window.sessionStorage.setItem('yingmi-list', JSON.stringify(res.data.list||''))
                         }
                     });
             },
@@ -74,7 +74,7 @@
                     .then(res => {
                         if (res.code == 200) {
                             this.baofoo = res.data;
-                            window.sessionStorage.setItem('baofoo-list', JSON.stringify(res.data))
+                            window.sessionStorage.setItem('baofoo-list', JSON.stringify(res.data.bankList||''))
                         }
                     });
             },
