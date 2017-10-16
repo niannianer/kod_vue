@@ -7,7 +7,7 @@
 <script>
     import '../less/funds.less'
     export default {
-        name: 'base',
+        name: 'funds',
         data(){
             return {}
         },
