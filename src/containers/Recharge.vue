@@ -5,7 +5,7 @@
                 <img class="bank-logo" :src="bankImg"/>
                 <span class="bank-name">{{bankName}}（{{bankUserCardNo.substr(-4)}}）</span>
             </div>
-            <div class="bank-info" flex>
+            <div class="bank-info" flex v-if="singleLimit">
                 <div flex-box="1" class="time-limit">限额：单笔{{singleLimit}}元</div>
                 <div flex-box="1" class="day-limit">单日{{perdayLimit}}元</div>
             </div>
@@ -93,7 +93,7 @@
                         Toast('充值金额不能小于5元，请重新输入');
                         this.disabled = true;
                     }
-                    if (parseFloat(this.rechargeMoney) > this.singleLimitValue) {
+                    if (this.singleLimit&&parseFloat(this.rechargeMoney) > this.singleLimitValue) {
                         Toast('充值金额不能大于单笔限额，请重新输入');
                         this.disabled = true;
                     }
