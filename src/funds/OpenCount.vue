@@ -23,7 +23,7 @@
             </div>
             <div class="content-1" v-if="userVerifyStatus>2" @click.stop="useNewCard=false">
                 <div flex class="bank-info" :class="{'abandon':useNewCard}">
-                    <img :src="imgUrls[bankCode]" alt="" class="bank-logo">
+                    <img :src="imgUrls.yingmi[bankType]" alt="" class="bank-logo">
                     <div>
                         <p class="title">{{bankName}}<span class="span">（{{bankCardNoShort}}）</span></p>
                         <p class="info">选择金疙瘩银行卡作为基金银行卡</p>
@@ -88,7 +88,7 @@
             }
         },
         created(){
-            if(window.sessionStorage.getItem('open-count')){
+            if (window.sessionStorage.getItem('open-count')) {
                 let openCountData = JSON.parse(window.sessionStorage.getItem('open-count'));
                 window.sessionStorage.removeItem('open-count');
                 for (let key in openCountData) {
@@ -122,7 +122,7 @@
         },
         methods: {
             checkBankName(){
-                window.sessionStorage.setItem('open-count',JSON.stringify(this.$data));
+                window.sessionStorage.setItem('open-count', JSON.stringify(this.$data));
                 this.$router.push({
                     path: '/bank-list',
                     query: {
