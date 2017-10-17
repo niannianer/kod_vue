@@ -29,7 +29,7 @@
                         <div class="title-item">
                             基金名称
                         </div>
-                        <div class="item-info" flex="dir:top cross:center main:center" v-for="(item,index) in list">
+                        <div class="item-info" flex="dir:top cross:center main:center" v-for="(item,index) in list" @click.stop="pathTo(item.fundCode)">
                             <p class="fund-abbr-name">{{item.fundAbbrName}}</p>
                             <p>{{item.fundCode}}</p>
                         </div><!--内容溢出怎么办？-->
@@ -86,7 +86,7 @@
                         </div>
                         <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"
                             infinite-scroll-distance="10">
-                            <li flex v-for="(item,index) in list">
+                            <li flex v-for="(item,index) in list" @click.stop="pathTo(item.fundCode)">
                                 <div class="item-info bg-grey" flex="dir:top cross:center main:center" v-if="fundType==4"
                                      style="width: 6rem">
                                     <p>{{item.unitYield}}<!--万份收益--></p>
@@ -226,7 +226,15 @@
                 let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : '' + (date.getMonth() + 1);
                 let d = date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate();
                 return y+'-'+m + '-' + d;
-            }
+            },
+            pathTo(code){
+                this.$router.push({
+                    path:'/funds/detail',
+                    query:{
+                        code
+                    }
+                })
+            },
         },
         destroyed(){
 
