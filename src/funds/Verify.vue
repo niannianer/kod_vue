@@ -27,7 +27,8 @@
                 starPhone: '',
                 verifyTimeLeft: '',
                 verifyText: '重新发送',
-                type: ''
+                type: '',
+                phone:''
             }
         },
         created(){
@@ -48,8 +49,6 @@
         },
         methods: {
             reSend(){
-
-                this.starPhone = phone.substr(0, 3) + '****' + phone.substr(7);
                 let {accountName, identityNo, paymentType, paymentNo, phone, type} = this;
                 $api.post('/fund/account/open/prepare', {
                     accountName,

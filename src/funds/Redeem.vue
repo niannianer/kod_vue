@@ -34,6 +34,14 @@
             <p class="f6 tip-bottom">预计赎回时间：3个交易日</p>
             <p class="f6 tip-bottom">具体时间以基金公司及银行确认时间为准</p>
         </div>
+        <div class="footer">
+            <div class="server">
+                基金销售服务由<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">盈米财富</a>提供
+            </div>
+            <div class="quali">
+                基金销售资格证号：000000378<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">详情</a>
+            </div>
+        </div>
         <div class="bottom" flex-box="0">
             <button class="btn btn-share"
                     @click.stop="redem"

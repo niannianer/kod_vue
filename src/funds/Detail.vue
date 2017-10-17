@@ -106,7 +106,16 @@
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="img">
                 </div>
             </div>
+            <div class="footer">
+                <div class="server">
+                    基金销售服务由<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">盈米财富</a>提供
+                </div>
+                <div class="quali">
+                    基金销售资格证号：000000378<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">详情</a>
+                </div>
+            </div>
         </div>
+
         <div class="bottom f8" flex-box="0" flex="box:mean" v-if="!fund.isPurchFund">
            <!-- <p class="p blue">定投</p>-->
             <p class="p red" @click.stop="pathCheck()">申购（1折）</p>
@@ -115,6 +124,7 @@
             <p class="p yellow" @click.stop="pathTo('/redeem')">赎回</p>
             <p class="p red" @click.stop="pathCheck">追加投资</p>
         </div>
+
         <king-message v-if="showMessage" @confirmBack="againTest" @cancelBack="toBuy" :options="msgOption"></king-message>
     </div>
 </template>

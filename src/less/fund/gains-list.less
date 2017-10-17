@@ -4,13 +4,13 @@
     width: 100%;
     height: 100%;
     position: relative;
-    .body{
+    .body {
         width: 100%;
         height: 100%;
         overflow: auto;
     }
-    .area{
-        width:.45rem;
+    .area {
+        width: .45rem;
         height: .75rem;
         vertical-align: middle;
     }
@@ -23,10 +23,10 @@
     .bg-content {
         background: @bg-content;
     }
-    .red{
-        color:#D0011B;
+    .red {
+        color: #D0011B;
     }
-    .f8{
+    .f8 {
         font-size: .8rem;
     }
     .check-list {
@@ -58,11 +58,17 @@
     }
     .fund-name {
         width: 5.7rem;
-        .title-item{
+        .title-item {
             width: 5.7rem
         }
-        .item-info{
+        .item-info {
             width: 5.7rem
+        }
+        .fund-abbr-name {
+            width: 5.7rem;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
     }
 }

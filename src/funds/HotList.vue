@@ -2,12 +2,12 @@
     <div class="hot-list">
         <mt-loadmore :top-method="loadTop" ref="loadmore" :auto-fill="autoFill">
             <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-                <li class="item" v-for="(item,index) in lists">
+                <li class="item" v-for="(item,index) in lists" @click.stop="pathTo(item.fundCode)">
                     <div class="float left"></div>
                     <div class="float right"></div>
                     <div class="title-part" flex="cross:center">
                        <!-- <p flex-box="0" class="tip">免费率</p>-->
-                        <p flex-box="1">{{item.fundFullName}}</p>
+                        <p flex-box="1">{{item.fundAbbrName}}</p>
                         <p flex-box="0">{{item.fundCode}}</p>
                     </div>
                     <div class="info-part" flex="box:mean">
@@ -35,6 +35,14 @@
                 </li>
             </ul>
         </mt-loadmore>
+        <div class="footer">
+            <div class="server">
+                基金销售服务由<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">盈米财富</a>提供
+            </div>
+            <div class="quali">
+                基金销售资格证号：000000378<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">详情</a>
+            </div>
+        </div>
 
     </div>
 </template>
@@ -63,6 +71,14 @@
         },
         computed: {},
         methods: {
+            pathTo(code){
+                this.$router.push({
+                    path:'/funds/detail',
+                    query:{
+                        code
+                    }
+                })
+            },
             loadTop(){
                 this.lists = [];
                 this.currentPage = 0;

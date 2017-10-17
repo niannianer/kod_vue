@@ -29,6 +29,14 @@
                 <p class="deal-info">点击确认购买代表您同意《委托支付协议》</p>
             </div>
         </div>
+        <div class="footer">
+            <div class="server">
+                基金销售服务由<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">盈米财富</a>提供
+            </div>
+            <div class="quali">
+                基金销售资格证号：000000378<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">详情</a>
+            </div>
+        </div>
         <button class="bottom f8" flex-box="0" :disabled="!orderAmt" @click.stop="toBuy">
           确认购买
         </button>
