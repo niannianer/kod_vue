@@ -21,10 +21,10 @@
             <dl flex class="person">
                 <dt style="width: 3.5rem" flex-box="0">持卡人:</dt>
                 <dd flex-box="0">{{investorRealName}}</dd>
-                <router-link to="/bank-list" flex-box="1" flex="cross:center main:right" class="bank-icon">
+                <div @click.stop="getBankList" flex-box="1" flex="cross:center main:right" class="bank-icon">
                     <img class="icon" src="../images/bank/bank-icon-all.png"/>
                     <span>支持绑卡的银行</span>
-                </router-link>
+                </div>
             </dl>
             <dl flex class="bank-card" :style="cardStyle">
                 <dt>储蓄卡卡号</dt>
@@ -78,6 +78,7 @@
     import '../less/bind-bank-card.less';
     import $api from '../tools/api';
     import {mapState} from 'vuex';
+    import _ from 'lodash/core';
     import {checkPhone} from '../tools/fun';
     import {Toast} from 'mint-ui';
     import * as imgUrls from '../tools/bank';
@@ -100,7 +101,8 @@
                 agreement: true,
                 imgUrls,
                 loading: false,
-                isDiff: false
+                isDiff: false,
+                timeLeft: 0
             };
         },
         computed: {
@@ -179,7 +181,8 @@
                         }
                     });
                     //下发验证码
-                    this.send(120);
+                    this.timeLeft = 120;
+                    this.send(this.timeLeft);
                 }
             },
             submit(){
@@ -228,12 +231,23 @@
                         Toast(msg.msg);
                     }
                 });
+            },
+            getBankList(){
+                window.sessionStorage.setItem('bind-card-info', JSON.stringify(this.$data));
+                this.$router.push('/bank-list');
             }
         },
         created(){
-            //  this.transmit()
+
             let event = ['_trackEvent', '绑定银行卡', 'SHOW', '进入绑定银行卡页面', '进入绑定银行卡页面'];
             window._hmt.push(event);
+            if (window.sessionStorage.getItem('bind-card-info')) {
+                let bank = JSON.parse(window.sessionStorage.getItem('bind-card-info'));
+                _.forEach(bank, (val, key) => {
+                    this[key] = val;
+                });
+                window.sessionStorage.removeItem('bind-card-info');
+            }
         }
     }
 </script>

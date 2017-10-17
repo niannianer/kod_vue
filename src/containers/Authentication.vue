@@ -1,6 +1,6 @@
 <template>
     <div class="authentication" flex-box="1">
-        <div class="authentication-lint">为保护您账号安全，请进行实名认证</div>
+        <div class="authentication-lint">为保障您账号安全，请进行实名认证</div>
         <div class="steps" flex="box:mean">
             <div class="item" flex="main:center">
                 <span class="round active">1</span>
