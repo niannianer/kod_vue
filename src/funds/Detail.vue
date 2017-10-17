@@ -240,10 +240,7 @@
                         window.sessionStorage.setItem('managementRate',resp.data.managementRate);/*管理费率*/
                         window.sessionStorage.setItem('custodianRate',resp.data.custodianRate);/*基金托管费*/
                         window.sessionStorage.setItem('assetAllocation',resp.data.assetAllocation);/*持仓分析*/
-                        let date = new Date(resp.data.navDate);
-                        let month = (date.getMonth()+1) > 9 ? '' + (date.getMonth()+1) : '0' + (date.getMonth()+1);
-                        let day = date.getDate() > 10 ? '' + date.getDate() : '0' + date.getDate();
-                        this.fund.navDate = month + '-' + day;/*最新净值日期*/
+                        this.fund.navDate = this.dateFormat(resp.data.navDate)/*最新净值日期*/
                         let minRate = 0;
                         if(resp.data.frontEndPurchRate){
                             minRate =this.calMinRate(JSON.parse(resp.data.frontEndPurchRate));
@@ -467,6 +464,13 @@
                         /*console.log(this.datas.labels)
                          console.log(this.datas.datasets[0].data)*/
                     })
+            },
+            dateFormat(timestamp){
+                let date = new Date(timestamp);
+                let y = date.getFullYear();
+                let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : '' + (date.getMonth() + 1);
+                let d = date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate();
+                return m + '-' + d;
             }
         },
         destroyed(){
