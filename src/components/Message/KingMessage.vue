@@ -5,9 +5,7 @@
             <div class="msg-header">
                 {{options.title||'提示'}}
             </div>
-            <div class="msg-body">
-               {{options.msg}}
-            </div>
+            <div class="msg-body" v-html="options.msg"></div>
             <div class="msg-btns" flex="box:mean">
                 <button class="btn-confirm" @click="okAction" flex-box="1">
                     {{options.confirmText||'确认'}}
