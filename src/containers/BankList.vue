@@ -16,7 +16,7 @@
              @click.stop="setBank(item)"
              flex="cross:center" v-if="bank=='yingmi'">
             <div flex-box="0" class="bank">
-                <img class="img" src="../images/bank/icbc.png"/>
+                <img class="img" :src="imgUrls.yingmi[item.paymentType]"/>
             </div>
             <div flex-box="1">
                 <p class="main">{{item.name}}</p>
