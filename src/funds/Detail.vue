@@ -331,7 +331,7 @@
                 if(Number(this.riskGrade5) < this.fund.riskLevel){
                     //用户的风险测评为最低
                     if(this.minRiskGrade){
-                        let lowMsg = '该产品为高风险产品，投资此产品超过了您的风险承受范围。';
+                        let lowMsg = '<div class="center">该产品为高风险产品，投资此产品超过了您的风险承受范围。</div>';
                         this.msgOption = {
                             title: '风险提示',
                             msg: lowMsg,

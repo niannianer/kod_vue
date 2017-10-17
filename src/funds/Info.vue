@@ -167,7 +167,7 @@
                 }
                 this.provinceCode = result[0].code;
                 this.provinceName = result[0].state;
-                this.cityCode = result[1].cityCode;
+                this.cityCode = result[1].code;
                 this.cityName = result[1].city;
                 this.countyCode = result[2].code;
                 this.countyName = result[2].area;
