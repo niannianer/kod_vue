@@ -123,15 +123,15 @@
             },
             toBuy(){
                 if(this.orderAmt < this.minSub){
-                    Toast(`申购金额最低${this.minSub}！`);
+                    Toast(`申购金额最低${this.minSub}！元`);
                     return false;
                 }
                 if(this.orderAmt > this.$route.query.maxs){
-                    Toast(`申购金额最高${this.maxSub}万！`);
+                    Toast(`申购金额最高${this.maxSub}万元！`);
                     return false;
                 }
                 if(this.orderAmt > this.maxRapidPayAmountPerTxn){
-                    Toast(`申购单笔限额${this.maxRapidPayAmountPerTxn/10000}！`);
+                    Toast(`申购单笔限额${this.maxRapidPayAmountPerTxn/10000}万元！`);
                     return false;
                 }
                 this.inputPassword = true;
