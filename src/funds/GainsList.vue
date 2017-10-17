@@ -36,8 +36,8 @@
                     </div>
                 </div>
                 <div class="title-list" flex-box="1" flex style="overflow-x: auto">
-                    <div>
-                        <div flex>
+                    <div class="min-width">
+                        <div flex >
                             <div class="title-item bg-grey" @click.stop="checkOrder('unitYield')"
                                  flex="main:center cross:center" v-if="fundType==4" style="width: 6rem">
                                 <p>万份收益（元）</p>
