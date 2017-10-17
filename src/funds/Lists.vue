@@ -28,7 +28,10 @@
                     <div class="text">{{item.rateText}}</div>
                 </div>
                 <div class="card-right"  flex-box="1" flex="dir:top">
-                    <div flex-box="1" class="title">{{item.fundAbbrName}}<span class="num">{{item.fundCode}}</span></div>
+                    <div flex-box="1" class="title">
+                        <div class="fund-name">{{item.fundAbbrName}}</div>
+                        <div class="num">{{item.fundCode}}</div>
+                    </div>
                     <div flex-box="0" class="tag-list">
                         <span class="tag">{{item.fundType|fundType}}</span>
                         <span class="tag">{{item.riskLevel|riskLevel}}</span>
@@ -78,7 +81,7 @@
                                 v.rateText = '七日年化';
                             }else{
                                 if(v.oneYearReturn){
-                                    v.rate = v.yearlyRoe;
+                                    v.rate = v.oneYearReturn;
                                     v.rateText = '近一年涨幅';
                                 }else{
                                     v.rate = v.thisYearReturn;

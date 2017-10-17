@@ -12,11 +12,16 @@
                     <p class="blue">{{name}} ({{paymentBank}})</p>
                 </div>
             </div>
-            <p class="tip">单笔限额<span class="blue">{{minSub||0}}万元</span>，单日限额<span class="blue">{{maxSub||0}}万元</span></p>
+            <p class="tip">
+                单笔限额
+                <span class="blue">{{maxRapidPayAmountPerTxn/10000}}万元</span>
+                ，单日限额
+                <span class="blue">{{maxRapidPayAmountPerDay/10000}}万元</span>
+            </p>
             <div class="content seperate">
                 <div class="item f8" flex="cross:center">
                     <p class="item-title">申购金额</p>
-                    <input type="text" placeholder="最低1000元，投资上限100万" v-model="orderAmt" @keyup.stop="getFee">
+                    <input class="fee-input" v-bind:placeholder="placeholder" v-model="orderAmt" @keyup.stop="getFee">
                 </div>
             </div>
             <p class="tip" v-if="orderAmt && buy.discount">费率：
@@ -67,20 +72,22 @@
                 discount: 0,
                 terminalInfo: '',
                 inputPassword: false,
-                timer: ''
+                timer: '',
+                placeholder: ''
             }
         },
         components: {PasswordInput},
         created(){
             this.fundAbbrName = this.$route.query.name;
             this.fundCode = this.$route.query.code;
-            this.minSub = this.$route.query.mins/10000;
+            this.minSub = this.$route.query.mins;
             this.maxSub = this.$route.query.maxs/10000;
             this.isRiskConfirmAgain = this.$route.query.again;
+            this.placeholder = `最低${this.minSub}元，投资上限${this.maxSub}万`
         },
         computed: {
             ...mapState(
-                ['name','paymentNo']
+                ['name','paymentNo','maxRapidPayAmountPerTxn','maxRapidPayAmountPerDay']
             ),
             paymentBank(){
                 let bank_n = this.paymentNo;
@@ -115,12 +122,16 @@
                 this.tradePurch(password);
             },
             toBuy(){
-                if(this.orderAmt < 1000){
-                    Toast('申购金额最低1000！');
+                if(this.orderAmt < this.minSub){
+                    Toast(`申购金额最低${this.minSub}！`);
                     return false;
                 }
-                if(this.orderAmt > 1000000){
-                    Toast('申购金额最高100万！');
+                if(this.orderAmt > this.$route.query.maxs){
+                    Toast(`申购金额最高${this.maxSub}万！`);
+                    return false;
+                }
+                if(this.orderAmt > this.maxRapidPayAmountPerTxn){
+                    Toast(`申购单笔限额${this.maxRapidPayAmountPerTxn/10000}！`);
                     return false;
                 }
                 this.inputPassword = true;

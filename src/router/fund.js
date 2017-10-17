@@ -91,7 +91,7 @@ let fundRoutes = [
                 name: 'info',
                 component: Info,
                 meta: {
-                    title: '文本标签', /*找产品确认*/
+                    title: '适当性信息录入',
                     withoutLogin: true
                 }
             }, {
