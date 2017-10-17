@@ -83,16 +83,21 @@
                 .title{
                     font-size: .8rem;
                     color: @color-text;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    display: -webkit-box;
-                    -webkit-box-orient: vertical;
-                    -webkit-line-clamp: 2;
                     padding: 0 .4rem 0 1.8rem;
+                    .fund-name{
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        max-width: 70%;
+                        vertical-align: bottom;
+                        float: left;
+                    }
                     .num{
                         font-size: .7rem;
                         color: @color-text-secondary;
                         margin-left: .1rem;
+                        float: left;
+                        line-height: 1.2rem;
                     }
                 }
                 .tag-list{

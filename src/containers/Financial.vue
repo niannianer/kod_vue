@@ -218,6 +218,7 @@
             };
         },
         created(){
+            this.tab = this.$route.query.t || 2;
 
             let goodsDetail = window.sessionStorage.getItem('goodsDetail');
             if (goodsDetail) {
@@ -283,6 +284,7 @@
             },
             changeTab(tab){
                 this.tab = tab;
+                this.$router.replace('/financial?t='+this.tab);
                 this.startRow = 0;
                 this.$nextTick(() => {
                     let dom = document.querySelector('.item-list');
