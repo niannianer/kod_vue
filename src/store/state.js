@@ -54,6 +54,8 @@ const state = {
     accountStatus: 0,//是否录入适当性管理信息，1：已基金开户，2：已基金交易密码，3：完成
     paymentNo: '',
     name: '',
+    maxRapidPayAmountPerTxn: 0,
+    maxRapidPayAmountPerDay: 0,
     investorRiskVersion:'',//风险测评版本 2:新版
 
     minRiskGrade: '',//是否为最低风险投资者
