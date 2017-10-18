@@ -24,11 +24,11 @@
                     <input class="fee-input" v-bind:placeholder="placeholder" type="number" v-model.trim="orderAmt" @keyup.stop="getFee">
                 </div>
             </div>
-            <p class="tip" v-if="orderAmt && buy.pate">费率：
+            <p class="tip" v-if="orderAmt && buy.fee">费率：
                 <span class="blue">{{buy.pate}}%</span>
                 （估算费用{{buy.fee||0}}元）
             </p>
-            <p class="tip blue" v-if="orderAmt && buy.pate == 0">免费率</p>
+            <p class="tip blue" v-if="buy.fee == 0">免费率</p>
             <p class="tip">手续费及申购时间以基金公司确认结果为准</p>
             <div class="deal" flex="cross:center">
                 <img src="../images/tip.png" alt="" class="img">
@@ -117,23 +117,10 @@
                     }).then((resp) => {
                         if(resp.code == 200){
                             this.buy = resp.data || {};
-                            this.buy.pate = this.accMul(this.buy.buyFeeRatio, this.buy.discount);
+                            this.buy.pate = (this.buy.buyFeeRatio*this.buy.discount).toFixed(2);
                         }
                     });
                 },500);
-            },
-            accMul(arg1,arg2){
-                let m=0,s1=arg1.toString(),
-                    s2=arg2.toString();
-                try{
-                    m+=s1.split(".")[1].length;
-                }catch(e){
-                    m+=0;
-                }
-                try{
-                    m+=s2.split(".")[1].length;
-                }catch(e){m+=0;}
-                return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)
             },
             callBack(password){
                 this.tradePurch(password);

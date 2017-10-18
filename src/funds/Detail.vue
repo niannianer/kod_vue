@@ -284,7 +284,6 @@
                     'isSetPayPassword',
                     'accountStatus',
                     'investorRiskScore',
-                    'riskGrade5Desc',
                     'riskGrade5',
                     'minRiskGrade'
                 ]
@@ -365,7 +364,8 @@
                     //风险结果不匹配
                     this.msgOption = {
                         title: '风险提示',
-                        msg: this.riskGrade5Desc,
+                        msg: '该产品为高风险产品，投资此产品超过了您的风险承受范围。' +
+                        '若仍选择投资，则表明在上述情况下，您仍自愿投资该产品，并愿意承担可能由此产生的风险。',
                         closeText: '坚持购买',
                         confirmText: '重新测评',
                         countDown: 3,
