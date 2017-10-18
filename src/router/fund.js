@@ -33,6 +33,7 @@ const PositionAnalysis = () => import('../funds/PositionAnalysis');
 const Purchase = () => import('../funds/Purchase');
 const PurchaseResult = () => import('../funds/PurchaseResult');
 const Redeem = () => import('../funds/Redeem');
+const RedeemResult = () => import('../funds/RedeemResult');
 const RelatedRate = () => import('../funds/RelatedRate');
 const Verify = () => import('../funds/Verify');
 let fundRoutes = [
@@ -144,6 +145,13 @@ let fundRoutes = [
                     title: '赎回'
                 }
             }, {
+                path: 'redeem-result',
+                name: 'redeem-result',
+                component: RedeemResult,
+                meta: {
+                    title: '赎回'
+                }
+            },{
                 path: 'related-rate',
                 name: 'related-rate',
                 component: RelatedRate,

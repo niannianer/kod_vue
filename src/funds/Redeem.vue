@@ -123,11 +123,18 @@
                 return $api.post('/fund/redemption', {fundCode, share})
                     .then(res => {
                         if (res.code == 200) {
-                            //
-                            Toast('赎回成功');
+                            //expectReceivedDate orderId 2017101800007696
+                            this.$router.push({
+                                path:'/funds/redeem-result',
+                                query:{
+                                    s:share,
+                                    d:res.data.expectReceivedDate
+                                }
+                            })
+                          /*  Toast('赎回成功');
                             setTimeout(() => {
                                 this.$router.back();
-                            }, 1000);
+                            }, 1000);*/
                             return false;
                         }
                         MessageBox.alert(res.msg, '提示')
