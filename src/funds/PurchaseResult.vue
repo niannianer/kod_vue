@@ -67,7 +67,7 @@
                 this.timer = setTimeout(()=>{
                     this.getStatus();
                     this.timeout();
-                },2000);
+                },3000);
             },
             getStatus(){
                 let {orderId} = this;

@@ -83,8 +83,8 @@
         created(){
             this.fundAbbrName = this.$route.query.name;
             this.fundCode = this.$route.query.code;
-            this.minSub = this.$route.query.mins;
-            this.maxSub = this.$route.query.maxs/10000;
+            this.minSub = this.$route.query.mins || 0;
+            this.maxSub = (this.$route.query.maxs || 0)/10000;
             this.isRiskConfirmAgain = this.$route.query.again;
             this.placeholder = `最低${this.minSub}元，投资上限${this.maxSub}万`
         },
@@ -171,7 +171,7 @@
                         this.$router.push({
                             path: '/funds/purchase-result',
                             query: {
-                                id: resp.data
+                                id: resp.data.orderId
                             }
                         })
                     }else{
