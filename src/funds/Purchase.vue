@@ -163,9 +163,7 @@
                         })
                     }else{
                         Toast(resp.msg);
-                        if (resp.code == 1108) {
-                            EventBus.$emit('clearInput');
-                        }
+                        EventBus.$emit('clearInput');
                     }
                 });
             }
