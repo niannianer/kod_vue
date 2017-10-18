@@ -1,0 +1,69 @@
+@import "../variables";
+.redeem-result{
+    .header{
+        text-align: center;
+        padding: 1rem 0;
+        .img{
+            width: 3rem;
+            height: 3rem;
+        }
+        .status-text{
+            font-size: .8rem;
+            margin-top: .4rem;
+        }
+    }
+    .content{
+        background: #fff;
+        padding: .8rem 1rem;
+    }
+    .success{
+        .status-text{
+            color: @bg-button;
+        }
+        .content{
+            color: @color-text;
+            .item{
+                height: 2.7rem;
+            }
+            .orange{
+                color: @color-progress;
+                margin-top: .2rem;
+            }
+            .left{
+                width: 1.5rem;
+                margin-right: .4rem;
+                .spot{
+                    padding: .7rem;
+                    border-radius: 50%;
+                    background: @bg-button;
+                }
+                .line{
+                    width: 2px;
+                    height: 1.5rem;
+                    background: @bg-button;
+                    margin: 0 auto;
+                }
+                &.last{
+                    .spot{
+                        background: #D1D1D1;
+                    }
+                    .line{
+                        background: #D1D1D1;
+                    }
+                }
+            }
+        }
+        .buttom{
+            background: @bg-button;
+            color: #fff;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            border-radius: 0;
+            font-size: .9rem;
+        }
+    }
+}
