@@ -112,12 +112,12 @@
                                     <div class="rate" flex-box="1"
                                          :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                                         <div flex>
-                                            <p>
+                                            <span>
                                                 {{item.annualInterestRate}}
-                                            </p>
-                                            <p v-if="item.couponMaxProfit" class="max-profit">
+                                            </span>
+                                            <span v-if="item.couponMaxProfit" class="max-profit">
                                                 +{{item.couponMaxProfit}}
-                                            </p>
+                                            </span>
                                         </div>
                                         <div class="sub-text">预计年化收益率</div>
                                         <div class="float-tip" v-if="item.couponMaxProfit">
