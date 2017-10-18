@@ -122,6 +122,11 @@
                     Toast('请输入详细地址');
                     return false;
                 }
+                let patt=/[\ud800-\udbff][\udc00-\udfff]/g;
+                if (patt.test(this.detailAddress)) {
+                    Toast('请输入正确的详细地址');
+                    return false;
+                }
                 if (!this.career) {
                     Toast('请选择职业类型');
                     return false;
