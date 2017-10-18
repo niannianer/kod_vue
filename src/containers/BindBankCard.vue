@@ -23,7 +23,7 @@
                 <dd flex-box="0">{{investorRealName}}</dd>
                 <div @click.stop="getBankList" flex-box="1" flex="cross:center main:right" class="bank-icon">
                     <img class="icon" src="../images/bank/bank-icon-all.png"/>
-                    <span>支持绑卡的银行</span>
+                    <span>支持银行及限额</span>
                 </div>
             </dl>
             <dl flex class="bank-card" :style="cardStyle">
@@ -61,7 +61,7 @@
         <div class="bind-foot">
             <div class="p-agreement" flex>
                 <span class="icon" @click.stop="agreement = !agreement" :class="{active:agreement}"></span>
-                <span>我已阅读并同意<a href="/baofoo-certification.html">《支付服务协议》</a></span>
+                <span>我已阅读并同意<a @click.stop.prevent="linkTo">《支付服务协议》</a></span>
             </div>
             <div class="bind-btn" flex="main:center">
                 <button :class="{active:agreement}" @click.stop="submit">下一步</button>
@@ -235,6 +235,10 @@
             getBankList(){
                 window.sessionStorage.setItem('bind-card-info', JSON.stringify(this.$data));
                 this.$router.push('/bank-list');
+            },
+            linkTo(){
+                window.sessionStorage.setItem('bind-card-info', JSON.stringify(this.$data));
+                window.location.href = '/baofoo-certification.html';
             }
         },
         created(){
