@@ -196,6 +196,8 @@
                                 EventBus.$emit('clearInput');
                             }
                         }
+                        this.inputPassword=false
+                        EventBus.$emit('clearInput');
                     });
                 Indicator.open('提交中...');
             }
