@@ -2,6 +2,7 @@
 @import "variables";
 
 @tab-active: #1D72C0;
+@tab-active-app:#7C4F2B;
 .bind-bank-card {
     ::-webkit-input-placeholder{font-size:.7rem;}
     ::-moz-placeholder{font-size:.7rem;}
@@ -32,6 +33,9 @@
                 font-size: .8rem;
                 &.active{
                     background: @bg-active;
+                    &.app{
+                        background:@tab-active-app
+                    }
                 }
             }
             .line-left{
@@ -45,6 +49,9 @@
                 background: @color-split;
                 &.active{
                     background: @bg-active;
+                    &.app{
+                        background:@tab-active-app
+                    }
                 }
 
             }
@@ -59,6 +66,9 @@
                 background: @color-split;
                 &.active{
                     background: @bg-active;
+                    &.app{
+                        background:@tab-active-app
+                    }
                 }
 
             }
@@ -170,6 +180,9 @@
                 }
                 .active{
                     background-color: @tab-active;
+                    &.app{
+                        background-color:@tab-active-app
+                    }
                 }
             }
         }
@@ -216,6 +229,9 @@
             .active{
                 background-color: @bg-button;
              /*   box-shadow: 0 0 0.5rem @bg-button;*/
+                &.app{
+                    background:@tab-active-app
+                }
             }
         }
         .deatil{

@@ -5,17 +5,17 @@
             <div class="card-text">为了保障您的账户安全，请设置交易密码</div>
             <div class="steps" flex="box:mean">
                 <div class="item" flex="main:center">
-                    <span class="round active">1</span>
-                    <div class="line-right active"></div>
+                    <span class="round active" :class="{'app':isApp}">1</span>
+                    <div class="line-right active" :class="{'app':isApp}"></div>
                 </div>
                 <div class="item" flex="main:center">
-                    <span class="round active">2</span>
-                    <div class="line-left active"></div>
-                    <div class="line-right active"></div>
+                    <span class="round active" :class="{'app':isApp}">2</span>
+                    <div class="line-left active" :class="{'app':isApp}"></div>
+                    <div class="line-right active" :class="{'app':isApp}"></div>
                 </div>
                 <div class="item" flex="main:center">
-                    <span class="round active">3</span>
-                    <div class="line-left active"></div>
+                    <span class="round active" :class="{'app':isApp}">3</span>
+                    <div class="line-left active" :class="{'app':isApp}"></div>
                 </div>
 
             </div>
@@ -24,12 +24,12 @@
             <p class="psw-title">{{pTitle}}</p>
             <div class="psw-input">
                 <ul flex="main:center">
-                    <li v-for=" n in 6" :class="{active:n<=password.length}"></li>
+                    <li v-for=" n in 6" :class="{active:n<=password.length,'app':isApp}"></li>
                 </ul>
                 <p class="error-hint" v-show="pShow">两次密码输入不一致</p>
             </div>
             <div class="psw-btn" flex="main:center">
-                <button :class="{'active':btnActive}" v-show="btnShow" @click.stop="submit">完成</button>
+                <button :class="{'active':btnActive,'app':isApp}" v-show="btnShow" @click.stop="submit">完成</button>
             </div>
         </div>
         <keyboard title="键盘" flex-box="0" @callBack="callBack"></keyboard>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+    import $device from '../tools/device';
     import $api from '../tools/api';
     import EventBus from  '../tools/event-bus';
     import {Toast} from 'mint-ui';
@@ -57,6 +58,11 @@
         },
         components: {
             Keyboard
+        },
+        computed:{
+            isApp(){
+                return $device.kingold
+            }
         },
         created(){
             let event = ['_trackEvent', '设置交易密码', 'SHOW', '进入设置交易密码页面', '进入设置交易密码页面'];

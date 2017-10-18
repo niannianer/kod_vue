@@ -3,13 +3,13 @@
         <div class="card-text">为了保障您的账户安全，请绑定与您实名信息一致的银行卡</div>
         <div class="steps" flex="box:mean">
             <div class="item" flex="main:center">
-                <span class="round active">1</span>
-                <div class="line-right active"></div>
+                <span class="round active" :class="{'app':isApp}">1</span>
+                <div class="line-right active" :class="{'app':isApp}"></div>
             </div>
             <div class="item" flex="main:center">
-                <span class="round active">2</span>
-                <div class="line-left active"></div>
-                <div class="line-right active"></div>
+                <span class="round active" :class="{'app':isApp}">2</span>
+                <div class="line-left active" :class="{'app':isApp}"></div>
+                <div class="line-right active" :class="{'app':isApp}"></div>
             </div>
             <div class="item" flex="main:center">
                 <span class="round">3</span>
@@ -54,7 +54,7 @@
                 <li class="ul-c" flex-box="1"><input type="text" placeholder="输入验证码" maxlength="6" v-model="verifyCode">
                 </li>
                 <li class="ul-r">
-                    <button :class="{'active':btnActive}" @click.stop="transmit">{{btnText}}</button>
+                    <button :class="{'active':btnActive,'app':isApp}" @click.stop="transmit">{{btnText}}</button>
                 </li>
             </ul>
         </div>
@@ -64,7 +64,7 @@
                 <span>我已阅读并同意<a @click.stop.prevent="linkTo">《支付服务协议》</a></span>
             </div>
             <div class="bind-btn" flex="main:center">
-                <button :class="{active:agreement}" @click.stop="submit">下一步</button>
+                <button :class="{active:agreement,'app':isApp}" @click.stop="submit">下一步</button>
             </div>
             <div class="deatil">
                 <p>注：以上信息仅用于银行验证</p>
@@ -75,6 +75,7 @@
 </template>
 
 <script>
+    import $device from '../tools/device';
     import '../less/bind-bank-card.less';
     import $api from '../tools/api';
     import {mapState} from 'vuex';
@@ -119,7 +120,9 @@
                 return {
                     'border-bottom': '1px solid #d8d8d8'
                 }
-
+            },
+            isApp(){
+                return $device.kingold
             }
         },
         methods: {
