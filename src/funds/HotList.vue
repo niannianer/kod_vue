@@ -12,8 +12,8 @@
                     </div>
                     <div class="info-part" flex="box:mean">
                         <div class="info-box" v-if="Number(item.fundType)==4">
-                            <p class="orange f9">{{item.yearlyRoe}}</p>
-                            <p class="info-title">七日年化率</p>
+                            <p class="orange f9">{{toPercentage(item.yearlyRoe)}}</p>
+                            <p class="info-title">七日年化</p>
                         </div>
                         <div class="info-box" v-if="Number(item.fundType)!=4&&item.oneYearReturn">
                             <p class="orange f9">{{item.oneYearReturn}}</p>
@@ -107,6 +107,9 @@
                 this.loading = true;
                 this.currentPage++;
                 this.loadData();
+            },
+            toPercentage(num){
+                return (num*100).toFixed(2)+'%'
             }
         },
         destroyed(){

@@ -13,15 +13,15 @@
                 </div>
                 <div flex="box:mean" class="infos">
                     <div v-if="Number(fund.fundType)==4">
-                        <p class="f9">{{fund.yearlyRoe}}</p>
+                        <p class="f9">{{toPercentage(fund.yearlyRoe)}}</p>
                         <p>七日年化</p>
                     </div>
                     <div v-if="Number(fund.fundType)!=4&&fund.oneYearReturn">
-                        <p class="f9">{{fund.oneYearReturn}}</p>
+                        <p class="f9">{{toPercentage(fund.oneYearReturn)}}</p>
                         <p>近一年涨幅</p>
                     </div>
                     <div v-if="Number(fund.fundType)!=4&&!fund.oneYearReturn">
-                        <p class="f9">{{fund.thisYearReturn}}</p>
+                        <p class="f9">{{toPercentage(fund.thisYearReturn)}}</p>
                         <p>今年以来涨幅</p>
                     </div>
                     <div class="border-left">
@@ -42,7 +42,8 @@
                 <line-chart :data="datas" :options="options" :chart-data="datas" class="chart seperate"></line-chart>
             </div>
             <div v-if="active">
-                <line-chart :data="navDatas" :options="navOptions" :chart-data="navDatas" class="chart seperate"></line-chart>
+                <line-chart :data="navDatas" :options="navOptions" :chart-data="navDatas"
+                            class="chart seperate"></line-chart>
             </div>
             <div class="content-3">
                 <div class="duration-box f6" flex="box:mean">
@@ -111,13 +112,14 @@
                     基金销售服务由<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">盈米财富</a>提供
                 </div>
                 <div class="quali">
-                    基金销售资格证号：000000378<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">详情</a>
+                    基金销售资格证号：000000378<a class="link"
+                                         href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">详情</a>
                 </div>
             </div>
         </div>
 
         <div class="bottom f8" flex-box="0" flex="box:mean" v-if="!fund.isPurchFund">
-           <!-- <p class="p blue">定投</p>-->
+            <!-- <p class="p blue">定投</p>-->
             <p class="p red" @click.stop="pathCheck()">申购（1折）</p>
         </div>
         <div class="bottom f8" flex-box="0" flex="box:mean" v-if="fund.isPurchFund">
@@ -125,14 +127,15 @@
             <p class="p red" @click.stop="pathCheck">追加投资</p>
         </div>
 
-        <king-message v-if="showMessage" @confirmBack="againTest" @cancelBack="toBuy" :options="msgOption"></king-message>
+        <king-message v-if="showMessage" @confirmBack="againTest" @cancelBack="toBuy"
+                      :options="msgOption"></king-message>
     </div>
 </template>
 
 <script>
     import $api from '../tools/api';
     import {mapState} from 'vuex';
-    import { MessageBox } from 'mint-ui';
+    import {MessageBox} from 'mint-ui';
     import KingMessage from '../components/Message/KingMessage.vue';
     import $device from '../tools/device';
     import '../less/fund/detail.less';
@@ -140,15 +143,15 @@
     export default {
         name: 'detail',
         components: {
-            LineChart,KingMessage
+            LineChart, KingMessage
         },
         data(){
             return {
                 active: 0,
                 duration: '1m',
                 datacollection: null,
-                navDValue:0,
-                navChangeLast:0,
+                navDValue: 0,
+                navChangeLast: 0,
                 datas: {},
                 navDatas: {},
                 options: {
@@ -245,20 +248,29 @@
                 .then(resp => {
                     if (resp.code == 200) {
                         this.fund = resp.data;
-                        window.sessionStorage.setItem('purchRate',resp.data.frontEndPurchRate);/*申购费率*/
-                        window.sessionStorage.setItem('redRate',resp.data.redRate);/*赎回费率*/
-                        window.sessionStorage.setItem('managementRate',resp.data.managementRate);/*管理费率*/
-                        window.sessionStorage.setItem('custodianRate',resp.data.custodianRate);/*基金托管费*/
-                        window.sessionStorage.setItem('assetAllocation',resp.data.assetAllocation);/*持仓分析*/
-                        this.fund.navDate = this.dateFormat(resp.data.navDate)/*最新净值日期*/
+
+                        this.setSession('purchRate', resp.data.frontEndPurchRate)
+                        /*申购费率*/
+                        this.setSession('redRate', resp.data.redRate);
+                        /*赎回费率*/
+                        this.setSession('managementRate', resp.data.managementRate);
+                        /*管理费率*/
+                        this.setSession('custodianRate', resp.data.custodianRate);
+                        /*基金托管费*/
+                        this.setSession('assetAllocation', resp.data.assetAllocation);
+                        /*持仓分析*/
+
+                        this.fund.navDate = this.dateFormat(resp.data.navDate)
+                        /*最新净值日期*/
                         let minRate = 0;
-                        if(resp.data.frontEndPurchRate){
-                            minRate =this.calMinRate(JSON.parse(resp.data.frontEndPurchRate));
+                        if (resp.data.frontEndPurchRate) {
+                            minRate = this.calMinRate(JSON.parse(resp.data.frontEndPurchRate));
                         }
-                        this.fund.frontEndPurchRate = minRate;/*购买费率（取数组中最小的）*/
-                        if(resp.data.fundManager){
+                        this.fund.frontEndPurchRate = minRate;
+                        /*购买费率（取数组中最小的）*/
+                        if (resp.data.fundManager) {
                             let managerList = JSON.parse(resp.data.fundManager);
-                            if(managerList&&managerList.length){
+                            if (managerList && managerList.length) {
                                 this.fund.manager = managerList[0].name;
                             }
                         }
@@ -281,9 +293,9 @@
         methods: {
             calMinRate(arr){
                 let minRate = Infinity;
-                if(arr){
+                if (arr) {
                     arr.map(item => {
-                        if(item.feeRatio==null){
+                        if (item.feeRatio == null) {
                             return 0
                         }
                         if (minRate > item.feeRatio && item.feeRatio) {
@@ -302,7 +314,7 @@
                 this.getCharts();
             },
             pathTo(path, q){
-                if(q){
+                if (q) {
                     this.$router.push({
                         path: path,
                         query: q
@@ -310,37 +322,37 @@
                     return;
                 }
                 this.$router.push({
-                    path:'/funds' + path,
-                    query:{
-                        code:this.$route.query.code
+                    path: '/funds' + path,
+                    query: {
+                        code: this.$route.query.code
                     }
                 });
             },
             pathCheck(){
                 //是否开户
-                if(this.accountStatus<1){
-                    this.pathTo('/funds/open-count',{});
+                if (this.accountStatus < 1) {
+                    this.pathTo('/funds/open-count', {});
                     return false;
                 }
                 //是否设置初始密码
-                else if(this.accountStatus<2){
-                    this.pathTo('/set-pay-password',{isFund:1});
+                else if (this.accountStatus < 2) {
+                    this.pathTo('/set-pay-password', {isFund: 1});
                     return false;
                 }
                 //是否录入适当性管理信息，3：完成
-                else if(this.accountStatus < 3){
-                    this.pathTo('/funds/info',{});
+                else if (this.accountStatus < 3) {
+                    this.pathTo('/funds/info', {});
                     return false;
                 }
                 //是否完成风险测评
-                if(this.investorRiskScore == 0){
-                    this.pathTo('/risk-assessment/wechat',{});
+                if (this.investorRiskScore == 0) {
+                    this.pathTo('/risk-assessment/wechat', {});
                     return false;
                 }
                 //风险评估验证是否匹配
-                if(Number(this.riskGrade5) < this.fund.riskLevel){
+                if (Number(this.riskGrade5) < this.fund.riskLevel) {
                     //用户的风险测评为最低
-                    if(this.minRiskGrade){
+                    if (this.minRiskGrade) {
                         let lowMsg = '<div class="center">该产品为高风险产品，投资此产品超过了您的风险承受范围。</div>';
                         this.msgOption = {
                             title: '风险提示',
@@ -360,7 +372,7 @@
                         showCancelButton: true
                     };
                     this.showMessage = true;
-                }else{
+                } else {
                     this.toPurchase();
                 }
             },
@@ -369,26 +381,26 @@
                 let minSub = this.fund.isPurchFund == 1 ? this.fund.minAmtIndiFirstPurch : this.fund.minAmtIndiAddPurch;
                 let maxSub = this.fund.maxAmtIndiPurch;
                 let query = {
-                    code:this.$route.query.code,
+                    code: this.$route.query.code,
                     name: this.fund.fundAbbrName,
                     mins: minSub,
                     maxs: maxSub
                 };
-                if(again == 'isRiskConfirmAgain'){
+                if (again == 'isRiskConfirmAgain') {
                     query.again = 1;
                 }
                 this.$router.push({
-                    path:'/funds/purchase',
-                    query:query
+                    path: '/funds/purchase',
+                    query: query
                 });
             },
             //风险匹配结果弹层回调
             againTest(type){
                 this.showMessage = false;
-                if(type == 'close'){
+                if (type == 'close') {
                     return false;
                 }
-                this.pathTo('/risk-assessment/wechat',{retest:1});
+                this.pathTo('/risk-assessment/wechat', {retest: 1});
             },
             //坚持购买
             toBuy(){
@@ -414,14 +426,14 @@
                                     navData.push(item.nav)
                                 })
                                 let length = resp.data.list[0].navSeries.length;
-                                this.navDValue = resp.data.list[0].navSeries[length-1].nav - resp.data.list[0].navSeries[0].nav;
-                                if(!isNaN(this.navDValue)){
+                                this.navDValue = resp.data.list[0].navSeries[length - 1].nav - resp.data.list[0].navSeries[0].nav;
+                                if (!isNaN(this.navDValue)) {
                                     this.navDValue = this.navDValue.toFixed(2);
-                                }else{
+                                } else {
                                     this.navDValue = 0
                                 }
-                                this.navChangeLast = resp.data.list[0].navSeries[length-1].sameFundChange;
-                                if(!this.navChangeLast){
+                                this.navChangeLast = resp.data.list[0].navSeries[length - 1].sameFundChange;
+                                if (!this.navChangeLast) {
                                     this.navChangeLast = 0;
                                 }
                                 return resp;
@@ -481,6 +493,18 @@
                 let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : '' + (date.getMonth() + 1);
                 let d = date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate();
                 return m + '-' + d;
+            },
+            setSession(str, data){
+                if (data) {
+                    window.sessionStorage.setItem(str, data);
+                } else {
+                    window.sessionStorage.removeItem(str);
+                }
+            },
+            toPercentage(num){
+                if(num){
+                    return (num*100).toFixed(2)+'%'
+                }
             }
         },
         destroyed(){

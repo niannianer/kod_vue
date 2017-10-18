@@ -1,6 +1,6 @@
 <template>
-    <div class="open-count" flex="dir:top">
-        <div class="wrap" flex-box="1">
+    <div class="open-count" ref="openCount">
+        <div class="wrap">
             <div class="tip">
                 请确认您的个人信息，用于基金账户的开立
             </div>
@@ -58,8 +58,8 @@
                 <p class="f6 p">确认开户代表您同意《盈米财富基金电子交易远程服务协议》和《委托支付协议》服务协议。</p>
             </div>
         </div>
-        <div class="bottom" flex-box="0">
-            <p @click.stop="openCount">确认基金开户</p>
+        <div class="bottom">
+            <button class="btn-primary btn-open" @click.stop="openCount">确认基金开户</button>
         </div>
     </div>
 </template>
@@ -253,6 +253,9 @@
                     this.getBankType();
                 }
             }
+        },
+        mounted(){
+            this.$refs.openCount.style.minHeight = window.innerHeight+'px';
         },
         destroyed()
         {

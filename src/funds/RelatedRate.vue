@@ -1,6 +1,6 @@
 <template>
     <div class="related-rate">
-        <div class="content">
+        <div class="content" v-if="hasPurchRate">
             <div class="f8 item bl" flex="cross:center">
                 <p class="title" flex="cross:center">申购费率</p>
             </div>
@@ -15,7 +15,7 @@
                 <p class="right">{{item.feeRatio}}</p>
             </div>
         </div>
-        <div class="content seperate">
+        <div class="content seperate" v-if="hasRedeemRate">
             <div class="f8 item bl" flex="cross:center">
                 <p class="title" flex="cross:center">赎回费率</p>
             </div>
@@ -28,7 +28,7 @@
                 <p flex-box="0">{{item.feeRatio}}</p>
             </div>
         </div>
-        <div class="content seperate">
+        <div class="content" :class="{'seperate':hasPurchRate||hasRedeemRate}">
             <div class="f8 item bl" flex="cross:center">
                 <p class="title" flex="cross:center">基金运作费用</p>
             </div>
@@ -90,7 +90,9 @@
                 purchRate: [],
                 redRate: [],
                 managementRate: '',
-                custodianRate:''
+                custodianRate: '',
+                hasPurchRate: false,
+                hasRedeemRate: false
             }
         },
         created(){
@@ -102,51 +104,56 @@
         computed: {},
         methods: {
             purcaseRate(){
-                let purchRate = JSON.parse(window.sessionStorage.getItem('purchRate'));
-                console.log(purchRate)
-                purchRate.map(item => {
-                    let dur = '';
-                    let feeRatio = '';
-                    item.lowerLimit = item.lowerLimit / 10000;
-                    item.upperLimit = item.upperLimit / 10000;
-                    if (item.lowerLimit == '0') {
-                        dur = 'X<' + item.upperLimit + '万元';
-                        feeRatio = item.feeRatio + '%';
-                    }
-                    else if (isNaN(item.upperLimit)) {
-                        dur = 'X≥' + item.lowerLimit + '万元';
-                        feeRatio = item.fixedFee + '元';
-                    }
-                    else {
-                        dur = item.lowerLimit + '万元≤X<' + item.upperLimit + '万元';
-                        feeRatio = item.feeRatio + '%';
-                    }
-                    this.purchRate.push({
-                        dur,
-                        feeRatio
+                if (window.sessionStorage.getItem('purchRate')) {
+                    this.hasPurchRate = true
+                    let purchRate = JSON.parse(window.sessionStorage.getItem('purchRate'));
+                    purchRate.map(item => {
+                        let dur = '';
+                        let feeRatio = '';
+                        item.lowerLimit = item.lowerLimit / 10000;
+                        item.upperLimit = item.upperLimit / 10000;
+                        if (item.lowerLimit == '0') {
+                            dur = 'X<' + item.upperLimit + '万元';
+                            feeRatio = item.feeRatio + '%';
+                        }
+                        else if (isNaN(item.upperLimit)) {
+                            dur = 'X≥' + item.lowerLimit + '万元';
+                            feeRatio = item.fixedFee + '元';
+                        }
+                        else {
+                            dur = item.lowerLimit + '万元≤X<' + item.upperLimit + '万元';
+                            feeRatio = item.feeRatio + '%';
+                        }
+                        this.purchRate.push({
+                            dur,
+                            feeRatio
+                        })
                     })
-                })
+                }
             },
             redeemRate(){
-                let redRate = JSON.parse(window.sessionStorage.getItem('redRate'));
-                redRate.map(item => {
-                    let dur = '';
-                    let feeRatio = '';
-                    if (item.lowerLimit == '0') {
-                        dur = 'X<' + item.upperLimit + '天';
-                    }
-                    else if (item.upperLimit == 'INF') {
-                        dur = 'X≥' + item.lowerLimit + '天';
-                    }
-                    else {
-                        dur = item.lowerLimit + '天≤X<' + item.upperLimit + '天';
-                    }
-                    feeRatio = item.feeRatio + '%';
-                    this.redRate.push({
-                        dur,
-                        feeRatio
+                if (window.sessionStorage.getItem('redRate')) {
+                    this.hasRedeemRate = true;
+                    let redRate = JSON.parse(window.sessionStorage.getItem('redRate'));
+                    redRate.map(item => {
+                        let dur = '';
+                        let feeRatio = '';
+                        if (item.lowerLimit == '0') {
+                            dur = 'X<' + item.upperLimit + '天';
+                        }
+                        else if (item.upperLimit == 'INF') {
+                            dur = 'X≥' + item.lowerLimit + '天';
+                        }
+                        else {
+                            dur = item.lowerLimit + '天≤X<' + item.upperLimit + '天';
+                        }
+                        feeRatio = item.feeRatio + '%';
+                        this.redRate.push({
+                            dur,
+                            feeRatio
+                        })
                     })
-                })
+                }
             }
         },
         destroyed(){

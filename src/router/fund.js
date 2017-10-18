@@ -61,14 +61,6 @@ let fundRoutes = [
                     title: '基金详情',
                     withoutLogin: true
                 }
-            },{
-                path: 'detail-app',
-                name: 'detail-app',
-                component: DetailApp,
-                meta: {
-                    title: '基金详情',
-                    withoutLogin: true
-                }
             },
             {
                 path: 'gains-list',
@@ -91,8 +83,7 @@ let fundRoutes = [
                 name: 'info',
                 component: Info,
                 meta: {
-                    title: '适当性信息录入',
-                    withoutLogin: true
+                    title: '适当性信息录入'
                 }
             }, {
                 path: 'lists',
@@ -145,13 +136,12 @@ let fundRoutes = [
                 meta: {
                     title: '申购'
                 }
-            },{
+            }, {
                 path: 'redeem',
                 name: 'redeem',
                 component: Redeem,
                 meta: {
-                    title: '赎回',
-                    withoutLogin: true
+                    title: '赎回'
                 }
             }, {
                 path: 'related-rate',
@@ -160,7 +150,7 @@ let fundRoutes = [
                 meta: {
                     title: '相关费率'
                 }
-            },{
+            }, {
                 path: 'verify',
                 name: 'verify',
                 component: Verify,

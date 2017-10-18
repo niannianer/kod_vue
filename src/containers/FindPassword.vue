@@ -189,6 +189,8 @@
                                 this.$store.dispatch('getAccountBaofoo');
                                 this.$store.dispatch('getBankInfo');
                                 this.$store.dispatch('getUserInfo');
+                                this.$store.dispatch('getAccountInfo');
+                                this.$store.dispatch('getPaymentInfo');
                             }
                             return false;
                         }

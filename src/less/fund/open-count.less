@@ -1,35 +1,38 @@
 @import "../variables";
-.open-count{
+
+.open-count {
     width: 100%;
-    height:100%;
-    .f6{
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 2.2rem;
+    .f6 {
         font-size: .6rem;
     }
-    .f8{
+    .f8 {
         font-size: .8rem;
     }
-    .tip{
-        padding:.3rem .8rem;
+    .tip {
+        padding: .3rem .8rem;
     }
-    .seperate{
+    .seperate {
         margin-top: .5rem;
     }
-    .bl{
+    .bl {
         border-bottom: 1px solid @color-split;
     }
-    .nametip{
+    .nametip {
         color: @color-text-gray;
         font-size: .7rem;
     }
-    .content{
+    .content {
         padding: 0 .8rem;
         background: @bg-content;
-        .item{
+        .item {
             height: 2.2rem;
-            .item-title{
+            .item-title {
                 width: 7rem;
             }
-            .input{
+            .input {
                 font-size: .8rem;
                 color: @color-text-secondary;
             }
@@ -37,35 +40,35 @@
                 color: @color-text-gray;
                 font-size: .7rem;
             }
-            .plus{
+            .plus {
                 width: 1rem;
-                height:1rem;
+                height: 1rem;
                 margin-right: .5rem;
             }
         }
     }
-    .content-1{
-        padding-left:.8rem;
+    .content-1 {
+        padding-left: .8rem;
         background: @bg-content;
-        .bank-info{
+        .bank-info {
             position: relative;
             padding: .8rem 0;
-            .title{
+            .title {
                 font-size: .9rem;
-                color:@color-text;
-                .span{
+                color: @color-text;
+                .span {
                     font-size: .7rem;
                 }
             }
-            .info{
+            .info {
                 color: @color-text;
             }
-            .bank-logo{
+            .bank-logo {
                 width: 2.2rem;
                 height: 2.2rem;
                 margin-right: .5rem;
             }
-            &:after{
+            &:after {
                 content: '';
                 position: absolute;
                 right: -2px;
@@ -75,9 +78,9 @@
                 background-image: url("../../images/bank/bank-icon.png");
                 background-size: cover;
             }
-            &.abandon{
+            &.abandon {
                 opacity: .5;
-                &:after{
+                &:after {
                     content: '';
                     position: absolute;
                     right: -2px;
@@ -91,25 +94,29 @@
         }
 
     }
-    .tip-box{
+    .tip-box {
         padding: .6rem .7rem 0 .7rem;
-        .tip-img{
+        .tip-img {
             width: .8rem;
-            height:.8rem;
+            height: .8rem;
         }
-        .p{
+        .p {
             margin-left: .25rem;
         }
     }
-    .img{
+    .img {
         width: .5rem;
-        height:.8rem;
+        height: .8rem;
     }
-    .bottom{
-        background: @bg-button;
-        color: @bg-content;
-        text-align: center;
-        font-size: .9rem;
-        padding: .5rem 0;
+    .bottom {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        .btn-open {
+            border-radius: 0;
+            font-size: .9rem;
+            width: 100%;
+            height: 2.2rem;
+        }
     }
 }

@@ -39,7 +39,7 @@
                     <div class="min-width">
                         <div flex >
                             <div class="title-item bg-grey" @click.stop="checkOrder('unitYield')"
-                                 flex="main:center cross:center" v-if="fundType==4" style="width: 6rem">
+                                 flex="main:center cross:center" v-if="fundType==4" style="width: 6rem;min-width:6rem;">
                                 <p>万份收益（元）</p>
                                 <img src="../images/area.png" alt="" class="area">
                             </div>
@@ -88,7 +88,7 @@
                             infinite-scroll-distance="10">
                             <li flex v-for="(item,index) in list" @click.stop="pathTo(item.fundCode)">
                                 <div class="item-info bg-grey" flex="dir:top cross:center main:center" v-if="fundType==4"
-                                     style="width: 6rem">
+                                     style="width: 6rem;min-width:6rem;">
                                     <p>{{item.unitYield}}<!--万份收益--></p>
                                     <p v-if="item.updateTime">{{dateFormat(item.updateTime)}}</p>
                                 </div>

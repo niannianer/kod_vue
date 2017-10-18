@@ -1,6 +1,6 @@
 <template>
     <div class="login" ref="login">
-        <div class="logo-warp" >
+        <div class="logo-warp">
             <img class="logo" src="../images/logo.png"/>
         </div>
         <div class="title">金疙瘩</div>
@@ -13,8 +13,8 @@
                            v-model.trim="username"
                            placeholder="请输入手机号"
                            class="input" id="username"/>
-                    <div   flex="main:right cross:center" >
-                        <img  class="input-img" src="../images/login/pwd-show@2x.png"/>
+                    <div flex="main:right cross:center">
+                        <img class="input-img" src="../images/login/pwd-show@2x.png"/>
                     </div>
                 </div>
             </label>
@@ -50,10 +50,10 @@
             <button class="btn-primary btn-login" @click.stop="login">登  录</button>
         </div>
         <!--footer -->
-      <div class="footer" flex>
-          <router-link class="link" flex-box="1" :to="{path:'/register'}" replace>立即注册</router-link>
-          <router-link class="link" flex-box="1" :to="{path:'/find-password'}" replace>忘记密码</router-link>
-      </div>
+        <div class="footer" flex>
+            <router-link class="link" flex-box="1" :to="{path:'/register'}" replace>立即注册</router-link>
+            <router-link class="link" flex-box="1" :to="{path:'/find-password'}" replace>忘记密码</router-link>
+        </div>
     </div>
 </template>
 <script>
@@ -143,18 +143,21 @@
                             window.sessionStorage.removeItem('logoutUrl');
                             window.sessionStorage.removeItem('logoutIndex');
                             logoutUrl = decodeURIComponent(logoutUrl);
-                            if(logoutUrl&&/http/.test(logoutUrl)){
+                            if (logoutUrl && /http/.test(logoutUrl)) {
                                 window.location.replace(logoutUrl);
-                            }else {
+                            } else {
 
                                 this.$store.dispatch('getAccountBaofoo');
                                 this.$store.dispatch('getBankInfo');
                                 this.$store.dispatch('getPersonalCenterMsg');
+                                this.$store.dispatch('getAccountInfo');
+                                this.$store.dispatch('getPaymentInfo');
                                 this.$router.replace('/personal-center');
+
 
                             }
                             return false;
-                        }else {
+                        } else {
                             Toast(data.msg);
                         }
 
@@ -166,7 +169,7 @@
         },
         mounted(){
             let heigth = window.innerHeight;
-            this.$refs.login.style.height = heigth+'px';
+            this.$refs.login.style.height = heigth + 'px';
         }
     }
 </script>
