@@ -21,7 +21,7 @@
             <div class="content seperate">
                 <div class="item f8" flex="cross:center">
                     <p class="item-title">申购金额</p>
-                    <input class="fee-input" v-bind:placeholder="placeholder" v-model="orderAmt" @keyup.stop="getFee">
+                    <input class="fee-input" v-bind:placeholder="placeholder" type="number" v-model.trim="orderAmt" @keyup.stop="getFee">
                 </div>
             </div>
             <p class="tip" v-if="orderAmt && buy.discount">费率：
@@ -42,7 +42,7 @@
                 基金销售资格证号：000000378<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">详情</a>
             </div>
         </div>
-        <button class="bottom f8" flex-box="0" :disabled="!orderAmt" @click.stop="toBuy">
+        <button class="bottom f8" flex-box="0" :disabled="btnDisabled" @click.stop="toBuy">
           确认购买
         </button>
 
@@ -58,6 +58,7 @@
     import $device from '../tools/device';
     import {Toast} from 'mint-ui';
     import EventBus from  '../tools/event-bus';
+    import {currencyInputValidate} from '../tools/operation';
     import '../less/fund/purchase.less';
     export default {
         name: 'purchase',
@@ -73,7 +74,8 @@
                 terminalInfo: '',
                 inputPassword: false,
                 timer: '',
-                placeholder: ''
+                placeholder: '',
+                btnDisabled: true
             }
         },
         components: {PasswordInput},
@@ -99,14 +101,14 @@
                 if(this.timer){
                     clearTimeout(this.timer);
                 }
-                if(!this.orderAmt){
-                    this.buy = {};
-                    return false;
-                }
-                /*if(this.orderAmt < 1000 || this.orderAmt > 1000000){
-                    return false;
-                }*/
                 this.timer = setTimeout(()=>{
+                    this.orderAmt = currencyInputValidate(this.orderAmt);
+                    if(!this.orderAmt || this.orderAmt == 0){
+                        this.btnDisabled = true;
+                        this.buy = {};
+                        return false;
+                    }
+                    this.btnDisabled = false;
                     let {fundCode, orderAmt} = this;
                     $api.get('/fund/purch/fee',{
                         fundCode,
@@ -122,8 +124,8 @@
                 this.tradePurch(password);
             },
             toBuy(){
-                if(this.orderAmt < this.minSub){
-                    Toast(`申购金额最低${this.minSub}！元`);
+                /*if(this.orderAmt < this.minSub){
+                    Toast(`申购金额最低${this.minSub}元！`);
                     return false;
                 }
                 if(this.orderAmt > this.$route.query.maxs){
@@ -133,7 +135,7 @@
                 if(this.orderAmt > this.maxRapidPayAmountPerTxn){
                     Toast(`申购单笔限额${this.maxRapidPayAmountPerTxn/10000}万元！`);
                     return false;
-                }
+                }*/
                 this.inputPassword = true;
             },
             tradePurch(password){
