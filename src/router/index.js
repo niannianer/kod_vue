@@ -548,7 +548,7 @@ let routes = [
         name: 'bank-list',
         component: BankList,
         meta: {
-            title: '支持绑卡的银行及限额'
+            title: '支持银行及限额'
         }
     },
     {
