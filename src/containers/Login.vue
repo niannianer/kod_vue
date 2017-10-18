@@ -149,7 +149,14 @@
 
                                 this.$store.dispatch('getAccountBaofoo');
                                 this.$store.dispatch('getBankInfo');
-                                this.$store.dispatch('getPersonalCenterMsg');
+                                this.$store.dispatch('getPersonalCenterMsg').then((resp) => {
+                                    if(resp.code == 200){
+                                        //做过风险评估，调用查询风险评估数据
+                                        if(resp.data.user.investorRiskScore != 0){
+                                            this.$store.dispatch('getRiskInfo');
+                                        }
+                                    }
+                                });
                                 this.$store.dispatch('getAccountInfo');
                                 this.$store.dispatch('getPaymentInfo');
                                 this.$router.replace('/personal-center');
