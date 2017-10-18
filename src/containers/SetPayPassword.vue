@@ -46,7 +46,7 @@
         name: 'withdraw',
         data(){
             return {
-                pTitle: '请设置金疙瘩交易密码，用于交易验证',//
+                pTitle: '',//
                 password: '',
                 storagePassword: '',
                 pShow: false,
