@@ -347,19 +347,19 @@
                     return false;
                 }
                 //风险评估验证是否匹配
-                //用户的风险测评为最低
-                if (this.isMinRiskLevel && this.investorRiskType == 1) {
-                    let lowMsg = '<div class="center">该产品为高风险产品，投资此产品超过了您的风险承受范围。</div>';
-                    this.msgOption = {
-                        title: '风险提示',
-                        msg: lowMsg,
-                        confirmText: '重新测评'
-                    };
-                    this.showMessage = true;
-                    return false;
-                }
                 //风险结果不匹配
                 if (Number(this.investorRiskType) < this.fund.riskLevelFundIsoc) {
+                    //用户的风险测评为最低
+                    if (this.isMinRiskLevel) {
+                        let lowMsg = '<div class="center">该产品为高风险产品，投资此产品超过了您的风险承受范围。</div>';
+                        this.msgOption = {
+                            title: '风险提示',
+                            msg: lowMsg,
+                            confirmText: '重新测评'
+                        };
+                        this.showMessage = true;
+                        return false;
+                    }
                     this.msgOption = {
                         title: '风险提示',
                         msg: '该产品为高风险产品，投资此产品超过了您的风险承受范围。' +
