@@ -121,18 +121,5 @@ actions.getPaymentInfo = ({commit}) => {
         });
 };
 
-//  获取风险评估结果
-let getRiskInfo = () => {
-    let terminalInfo = $device.os + '-' + $device.osVersion;
-    return $api.get('/fund/account/risk',{terminalInfo});
-};
-actions.getRiskInfo = ({commit}) => {
-    return getRiskInfo()
-        .then(data => {
-            if (data.code == 200) {
-                commit('setRiskInfo', data.data);
-            }
-            return data;
-        });
-};
+
 export default actions;
