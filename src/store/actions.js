@@ -5,6 +5,7 @@
 'use strict';
 const actions = {};
 import $api from '../tools/api';
+import requestHybrid from '../tools/hybrid';
 import $device from '../tools/device';
 
 //资产信息
@@ -45,9 +46,7 @@ actions.getBankInfo = ({commit}) => {
             }
         });
 };
-
-import requestHybrid from '../tools/hybrid';
-import $device from '../tools/device';
+// 刷新app个人信息
 let refreshApp = () => {
     if ($device.kingold && $device.kingoldVersion >= '1.0.5') {
         requestHybrid({
