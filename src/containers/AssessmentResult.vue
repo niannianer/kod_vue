@@ -136,7 +136,8 @@
                     requestHybrid({
                         tagname: 'back',
                         param: {
-                            done: 0// "完成测评",
+                            done: 0,// "完成测评",
+                            backAndRefresh: 1,
                         }
                     });
                 } else {

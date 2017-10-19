@@ -1,110 +1,3 @@
-<!--<template>
-    <div class="product-subscription" flex="dir:top">
-        <div class="body" flex-box="1" style="overflow-y: auto">
-            <div class="product-info">
-                <p class="title">{{productName}}</p>
-                <div flex class="info-center">
-                    <div flex-box="1">
-                        <p class="info">{{annualInterestRate}}</p>
-                        <p class="title">预期年化收益率</p>
-                    </div>
-                    <div flex-box="1">
-                        <p class="info">{{productPeriod}}</p>
-                        <p class="title">期限</p>
-                    </div>
-                </div>
-            </div>
-            <div class="fund-info">
-                <div class="bg-outer">
-                    <div class="bg-middle">
-                        <div class="bg-inner"></div>
-                    </div>
-                </div>
-                <div class="fund-center" flex="dir:top">
-                    <p flex-box="1" class="fund-title">认购金额</p>
-                    <div flex-box="1" flex class="fund-chart">
-                        <img src="../images/money-chart-reverse.png" alt="money">
-                        <p>{{amount | currencyFormat}}元</p>
-                    </div>
-                    <div class="fund-detail" flex-box="1" flex>
-                        <div flex-box="1">
-                            <p class="info">{{expectEarn | currencyFormat}}元</p>
-                            <p class="title">预计收益</p>
-                        </div>
-                        <div flex-box="1">
-                            <p class="info">{{this.accountCashAmount}}元</p>
-                            <p class="title">账户余额</p>
-                        </div>
-                    </div>
-                    <div class="ticket-bar" flex-box="0" flex="cross:center" @click.stop="showTicketList">
-                        <p flex-box="1">优惠券</p>
-                        <img flex-box="0" src="../images/arrow-down-double.png" alt="arrow" v-if="ticketList.length">
-                        <p flex-box="1" style="text-align: right" v-if="ticketList.length">{{faceValueText}}</p>
-                        <p flex-box="1" style="text-align: right" v-else>暂无可用</p>
-                    </div>
-                </div>
-            </div>
-            <transition-group name="list-complete" tag="div">
-                <div class="list-complete-item" v-show="ticketListBoolean" v-bind:key="0">
-                    <div flex-box="1" class="ticket-list" ref="ticketList">
-                        <div class="ticket-item" flex v-for="item in ticketList"
-                             @click.stop="chooseCode(item)"
-                             :class="{'active':couponExtendCode==item.couponExtendCode}">
-                            <p flex-box="1">满{{item.applyTradeAmount}}元减{{item.faceValue}}元</p>
-                            <p flex-box="1">{{item.leftText}}</p>
-                            <div flex-box="0" class="check-box">
-                                <div class="box-inner"></div>
-                            </div>
-                        </div>
-                        <div class="ticket-item default" flex @click.stop="chooseCode()"
-                             :class="{'active':!couponExtendCode}">
-                            <p flex-box="1">暂不使用优惠券</p>
-                            <div flex-box="0" class="check-box">
-                                <div class="box-inner"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="list-complete-item" v-bind:key="1">
-                    <div v-if="isLack" class="tip">
-                        <p>银行卡限额：单笔{{single_limit}}元，单日{{perday_limit}}元</p>
-                    </div>
-                    <div class="recharge-info" v-if="isLack">
-                        <div class="item" flex>
-                            <p flex-box="1">待支付金额</p>
-                            <input class="rechargeNum" flex-box="1" type="number" v-model="rechargeNum">
-                            <p flex-box="0" class="yuan">元</p>
-                        </div>
-                    </div>
-                    <div class="deal" flex="box:first">
-                        <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
-                        <div v-if="!isLack" style="margin-top: 1px">
-                            我已阅读并同意
-                            <span @click.stop="agreement(0)" class="agreement">《产品认购相关协议》</span>，
-                            <span @click.stop="agreement(1)" class="agreement">《入会申请及承诺》</span>
-                        </div>
-                        <div v-if="isLack" style="margin-top: 1px">
-                            我已同意<span class="agreement" @click.stop="agreement(2)">《宝付科技电子支付账户协议》</span>
-                        </div>
-                    </div>
-                </div>
-            </transition-group>
-            <password-input v-show="inputPassword"
-                            title="购买产品" @close="inputPassword=false"
-                            @callBack="tradeCallback">
-            </password-input>
-
-        </div>
-        <div class="btn" flex-box="0" @click.stop="rechargeHandle()" v-if="isLack">
-            立即充值
-        </div>
-        <div class="btn" flex-box="0" @click.stop="investHandle()" v-else>
-            确认认购
-        </div>
-
-    </div>
-</template>-->
 <template>
     <div class="product-subscription" flex="dir:top">
         <div class="body" flex-box="1">
@@ -191,8 +84,8 @@
             ></password-input>
         </div>
         <div class="bottom seperate" flex-box="0">
-            <div v-if="isLack" class="tip">
-                <p>银行卡限额：单笔{{single_limit}}元，单日{{perday_limit}}元</p>
+            <div v-if="isLack&&singleLimit" class="tip">
+                <p>银行卡限额：单笔{{singleLimit}}元，单日{{perdayLimit}}元</p>
             </div>
             <div class="recharge-info" v-if="isLack">
                 <div class="item" flex="cross:center">
@@ -278,7 +171,7 @@
 
         },
         computed: {
-            ...mapState(['accountCashAmount', 'bank_code', 'bankUserCardNo', 'bank_name', 'userId', 'single_limit', 'perday_limit', 'single_limit_value']),
+            ...mapState(['accountCashAmount', 'bankCode', 'bankUserCardNo', 'bankName', 'userId', 'singleLimit', 'perdayLimit', 'singleLimitValue']),
             isLack(){
                 return this.leastPay > 0;
             },
@@ -434,7 +327,7 @@
                     Toast('输入金额不能小于待支付金额，请重新输入');
                     return false;
                 }
-                if (Number(this.rechargeNum) > Number(this.single_limit_value)) {
+                if (this.singleLimit&&Number(this.rechargeNum) > Number(this.singleLimitValue)) {
                     Toast('输入金额不能大于银行单笔限额，请重新输入');
                     return false;
                 }
@@ -538,6 +431,8 @@
                     this.useAssetsValue = 0;
                 }
                 else{
+                    let event = ['_trackEvent', '认购信息确认页', 'CLICK', '认购信息页-勾选使用账户余额', '认购信息页-勾选使用余额'];
+                    window._hmt.push(event);
                     this.useAssetsValue = this.accountCashAmount;
                 }
                 this.rechargeNum = this.leastPay;

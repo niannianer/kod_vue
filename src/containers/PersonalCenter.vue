@@ -280,6 +280,27 @@
                     lable = '个人中心-关于我们-点击';
                     value = '在个人中心点击关于我们';
                 }
+                if (path == '/funds/my-fund') {
+                    lable = '个人中心-我的基金-点击';
+                    value = '在个人中心点击我的基金';
+                }
+                if (path =='/land-share.html') {
+                    lable = '个人中心-一起赚-点击';
+                    value = '在个人中心点击一起赚';
+                }
+
+                if (path == '/financial?tab=FIXI'||path == '/financial') {
+                    lable = '个人中心-定期理财-点击';
+                    value = '在个人中心点击定期理财';
+                }
+                if (path == '/financial?tab=PRIF') {
+                    lable = '个人中心-高端理财-点击';
+                    value = '在个人中心点击高端理财';
+                }
+                if(path == appUrl){
+                    lable = '从个人中心进入app下载页';
+                    value = '从个人中心进入app下载页';
+                }
                 let event = ['_trackEvent', '个人中心', 'CLICK', lable, value];
                 window._hmt.push(event);
                 if (boolean) {

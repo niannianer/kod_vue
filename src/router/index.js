@@ -58,6 +58,7 @@ const FindPassword = () => import('../containers/FindPassword');
 const FixiGoodsDetail = () => import('../containers/FixiGoodsDetail');
 const Feedback = () => import('../containers/Feedback');
 const FixiFinancial = () => import('../containers/FixiFinancial');
+const AccountComplete = () => import('../containers/AccountComplete')
 
 const HouseOne = PensionOne;
 
@@ -547,7 +548,7 @@ let routes = [
         name: 'bank-list',
         component: BankList,
         meta: {
-            title: '支持绑定的银行卡'
+            title: '支持银行及限额'
         }
     },
     {
@@ -590,6 +591,14 @@ let routes = [
         component: FixiFinancial,
         meta: {
             title: '定期理财'
+        }
+    },
+    {
+        path: '/account-complete',
+        name: 'account-complete',
+        component: AccountComplete,
+        meta: {
+            title: '开户成功'
         }
     }
 ];

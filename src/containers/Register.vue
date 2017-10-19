@@ -209,12 +209,16 @@
                 params.registerActivityBatch = window.localStorage.getItem('registerActivityBatch') || '';
                 params.registerChannelCode = window.localStorage.getItem('registerChannelCode') || 'H5_weixin';
                 params.registerDeviceOs = $device.os + '-' + $device.osVersion;
+                let event = ['_trackEvent', '注册', 'CLICK', '在注册页面点击注册按钮', '注册-点击注册'];
+                window._hmt.push(event);
                 $api.post('/regist', params)
                     .then(data => {
                         if (data.code == 200) {
                             let logoutUrl = window.sessionStorage.getItem('logoutUrl');
                             window.sessionStorage.removeItem('logoutUrl');
                             logoutUrl = decodeURIComponent(logoutUrl);
+                            let event = ['_trackEvent', '注册', 'SHOW', '在注册页面注册成功', '注册-注册成功'];
+                            window._hmt.push(event);
                             if (logoutUrl && /http/.test(logoutUrl)) {
                                 window.location.replace(logoutUrl);
                             } else {

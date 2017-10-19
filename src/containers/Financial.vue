@@ -61,11 +61,13 @@
                         <div class="item" v-for="(item,index) in lists"
                              @click.stop="getDetail(item,'/fixi-goods-detail')"
                              :class="{'stat': item.productStatus =='已告罄','novice-label':item.isNoviceLabelProduct  }">
-                            <div v-if="item.isNoviceLabelProduct"><!--新手标-->
+                            <!--新手标-->
+                            <div v-if="item.isNoviceLabelProduct">
                                 <div flex="cross:center" class="title-part">
                                     <div class="fund-name ellipsis" flex-box="1">{{item.productName}}</div>
                                     <div class="ticket-wrap" v-if="item.productLabel" flex flex-box="0">
                                         <div class="ticket-item" style="margin:0 0 0 .4rem"
+                                             v-if="index==0"
                                              :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
                                              v-for="(ticketItem,index) in item.productLabel">{{ticketItem}}
                                         </div>
@@ -110,12 +112,12 @@
                                     <div class="rate" flex-box="1"
                                          :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                                         <div flex>
-                                            <p>
+                                            <span>
                                                 {{item.annualInterestRate}}
-                                            </p>
-                                            <p v-if="item.couponMaxProfit" class="max-profit">
+                                            </span>
+                                            <span v-if="item.couponMaxProfit" class="max-profit">
                                                 +{{item.couponMaxProfit}}
-                                            </p>
+                                            </span>
                                         </div>
                                         <div class="sub-text">预计年化收益率</div>
                                         <div class="float-tip" v-if="item.couponMaxProfit">
