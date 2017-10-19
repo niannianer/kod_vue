@@ -45,9 +45,20 @@ actions.getBankInfo = ({commit}) => {
             }
         });
 };
-// 个人信息
 
+import requestHybrid from '../tools/hybrid';
+import $device from '../tools/device';
+let refreshApp = () => {
+    if ($device.kingold && $device.kingoldVersion >= '1.0.5') {
+        requestHybrid({
+            tagname: 'refreshUserInfo',
+            param: {}
+        });
+    }
+};
+// 个人信息
 let getUserInfo = () => {
+    refreshApp();
     return $api.get('/getUserInfo');
 };
 actions.getUserInfo = ({commit}) => {
@@ -59,14 +70,14 @@ actions.getUserInfo = ({commit}) => {
             return data;
         });
 };
-actions.setEligibleInvestor = ({commit},data) => {
-    commit('setEligibleInvestor',data);
+actions.setEligibleInvestor = ({commit}, data) => {
+    commit('setEligibleInvestor', data);
 };
 
 
 //获取体验金总资产收益等
 
-let getExperienceSum = () =>{
+let getExperienceSum = () => {
     return $api.get('/experience/sum');
 }
 actions.getExperienceSum = ({commit}) => {
@@ -79,7 +90,7 @@ actions.getExperienceSum = ({commit}) => {
         });
 };
 
-let getPersonalCenterMsg = () =>{
+let getPersonalCenterMsg = () => {
     return $api.get('/personalCenter');
 }
 actions.getPersonalCenterMsg = ({commit}) => {
