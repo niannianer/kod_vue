@@ -110,7 +110,7 @@ if (env == 'production' || env == 'stage' || env == 'test' || env == 'test2') {
     console.log('------->', env)
     config.devtool = '';
     config.output.publicPath = 'https://static-test.zj-hf.cn/dist/';
-    if (env == 'stage') {
+    if (env == 'test2') {
         config.output.publicPath = 'https://static-test2.zj-hf.cn/dist/';
     }
     if (env == 'stage') {
