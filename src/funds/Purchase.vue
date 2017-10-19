@@ -1,5 +1,5 @@
 <template>
-    <div class="purchase" flex="dir:top">
+    <div class="purchase" flex="dir:top" ref="purchase">
         <div class="wrap"  flex-box="1">
             <div class="content">
                 <div class="item f8 name" flex="cross:center">
@@ -35,7 +35,7 @@
                 <p class="deal-info">点击确认购买代表您同意《委托支付协议》</p>
             </div>
         </div>
-        <div class="footer">
+        <div class="footer" flex-box="0">
             <div class="server">
                 基金销售服务由<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">盈米财富</a>提供
             </div>
@@ -43,7 +43,7 @@
                 基金销售资格证号：000000378<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">详情</a>
             </div>
         </div>
-        <button class="bottom f8" flex-box="0" :disabled="btnDisabled" @click.stop="toBuy">
+        <button class="bottom f8" :disabled="btnDisabled" @click.stop="toBuy">
           确认购买
         </button>
 
@@ -169,6 +169,7 @@
             }
         },
         mounted(){
+            this.$refs.purchase.style.minHeight = window.innerHeight+'px';
         },
         destroyed(){
 

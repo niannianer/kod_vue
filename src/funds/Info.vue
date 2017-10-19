@@ -1,9 +1,9 @@
 <template>
-    <div class="info">
-        <div class="header">
+    <div class="info" flex="dir:top" ref="info">
+        <div class="header" flex-box="0">
             根据证监会《证券期货投资者适当性管理办法》规定，投资者需要留存自己的详细住址信息。
         </div>
-        <div class="content">
+        <div class="content" flex-box="1">
             <div class="card-item" flex @click="selecting('address')">
                 <div class="title" flex-box="1">请选择所在省</div>
                 <div flex-box="0" class="icon-warp">
@@ -233,6 +233,9 @@
                 });
 
             }
+        },
+        mounted(){
+            this.$refs.info.style.minHeight = window.innerHeight+'px';
         },
         destroyed(){
 
