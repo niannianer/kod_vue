@@ -15,6 +15,8 @@ const state = {
     isEligibleInvestor:0,
     isSetPayPassword:0,
     investorRiskType:0,
+    isMinRiskLevel:0,//是否为最低标准型
+    investorRiskProductDesc:'',
     investorRiskTypeDesc:'',
     investorRiskLevel:0, //
     investorRiskLevelDesc:'',
