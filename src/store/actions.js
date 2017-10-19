@@ -5,6 +5,8 @@
 'use strict';
 const actions = {};
 import $api from '../tools/api';
+import requestHybrid from '../tools/hybrid';
+import $device from '../tools/device';
 
 //资产信息
 let getAccountBaofoo = () => {
@@ -44,9 +46,7 @@ actions.getBankInfo = ({commit}) => {
             }
         });
 };
-
-import requestHybrid from '../tools/hybrid';
-import $device from '../tools/device';
+// 刷新app个人信息
 let refreshApp = () => {
     if ($device.kingold && $device.kingoldVersion >= '1.0.5') {
         requestHybrid({
@@ -98,6 +98,49 @@ actions.getPersonalCenterMsg = ({commit}) => {
             if (data.code == 200) {
                 commit('setPersonalCenterMsg', data.data);
                 commit('setUserInfo', data.data.user)
+            }
+            return data;
+        });
+};
+
+//  获取基金账户信息
+let getAccountInfo = () => {
+    return $api.get('/fund/account/info');
+};
+actions.getAccountInfo = ({commit}) => {
+    return getAccountInfo()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setAccountInfo', data.data);
+            }
+            return data;
+        });
+};
+
+//  获取绑定盈米支付信息
+let getPaymentInfo = () => {
+    return $api.get('/fund/account/payment');
+};
+actions.getPaymentInfo = ({commit}) => {
+    return getPaymentInfo()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setPaymentInfo', data.data);
+            }
+            return data;
+        });
+};
+
+//  获取风险评估结果
+let getRiskInfo = () => {
+    let terminalInfo = $device.os + '-' + $device.osVersion;
+    return $api.get('/fund/account/risk', {terminalInfo});
+};
+actions.getRiskInfo = ({commit}) => {
+    return getRiskInfo()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setRiskInfo', data.data);
             }
             return data;
         });
