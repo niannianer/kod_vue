@@ -2,9 +2,9 @@
     <div class="authentication" flex-box="1">
         <div class="authentication-lint">为保障您账号安全，请进行实名认证</div>
         <div class="steps" flex="box:mean">
-            <div class="item" flex="main:center">
-                <span class="round active">1</span>
-                <div class="line-right active"></div>
+            <div class="item"  flex="main:center">
+                <span class="round active" :class="{'app':isApp}">1</span>
+                <div class="line-right active" :class="{'app':isApp}"></div>
             </div>
             <div class="item" flex="main:center">
                 <span class="round">2</span>
@@ -33,7 +33,7 @@
         </dl>
         <div class="authentication-bottom">
             <div class="authentication-btn">
-                <button @click.stop="btnAction">下一步</button>
+                <button @click.stop="btnAction" :class="{'app':isApp}">下一步</button>
             </div>
             <div class="auth-text">个人信息由公安部认证</div>
         </div>
@@ -47,13 +47,13 @@
                             <input type="text" placeholder="请输入验证码" v-model="smsCode" maxlength="6">
                         </dt>
                         <dd>
-                            <button :class="{'active':btnActive}" @click.stop="transmit">{{btnText}}</button>
+                            <button :class="{'active':btnActive,'app':isApp}" @click.stop="transmit">{{btnText}}</button>
                         </dd>
                     </dl>
                     <div class="close" flex="main:center cross:center" @click.stop="curse">×</div>
                 </div>
                 <div class="win-btn" flex-box="0" flex>
-                    <button flex-box="1" class="sure" @click.stop="sure" :disabled="loading">确定</button>
+                    <button flex-box="1" class="sure" :class="{'app':isApp}" @click.stop="sure" :disabled="loading">确定</button>
                 </div>
             </div>
         </div>
@@ -63,6 +63,7 @@
 <script>
     import '../less/authentication.less';
     import $api from '../tools/api';
+    import $device from '../tools/device';
     import {mapState} from 'vuex';
     import $fun from '../tools/fun';
     import {Toast} from 'mint-ui';
@@ -85,11 +86,16 @@
             let event = ['_trackEvent', '实名认证', 'SHOW', '进入实名认证页面', '进入实名认证页面'];
             window._hmt.push(event);
         },
-        computed: mapState([
-                'investorMobile',
-                'userId'
-            ]
-        ),
+        computed: {
+            ...mapState([
+                    'investorMobile',
+                    'userId'
+                ]
+            ),
+            isApp(){
+                return $device.kingold
+            }
+        },
         methods: {
             //下一步
             btnAction(){

@@ -2,6 +2,7 @@
 @import "variables";
 
 @tab-active: #1D72C0;
+@tab-active-app:#7C4F2B;
 .authentication {
     position: relative;
     width: 100%;
@@ -33,6 +34,9 @@
                 font-size: .8rem;
                 &.active {
                     background: @bg-active;
+                    &.app{
+                        background:@tab-active-app
+                    }
                 }
             }
             .line-left {
@@ -46,6 +50,9 @@
                 background: @color-split;
                 &.active {
                     background: @bg-active;
+                    &.app{
+                        background:@tab-active-app
+                    }
                 }
 
             }
@@ -60,6 +67,9 @@
                 background: @color-split;
                 &.active {
                     background: @bg-active;
+                    &.app{
+                        background:@tab-active-app
+                    }
                 }
 
             }
@@ -109,6 +119,10 @@
             width: 15.85rem;
             border: 1px solid @tab-active;
             margin: 0 auto;
+            &.app{
+                color:@tab-active-app;
+                border: 1px solid @tab-active-app;
+            }
         }
     }
 
@@ -198,6 +212,9 @@
                         }
                         .active {
                             background-color: @bg-button;
+                            &.app{
+                                background-color:@tab-active-app;
+                            }
                         }
                     }
                 }
@@ -214,6 +231,9 @@
                 button.sure {
                     color: @color-active;
                     border-left: @border-default;
+                    &.app{
+                        color:@tab-active-app;
+                    }
                 }
             }
         }

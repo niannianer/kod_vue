@@ -85,24 +85,26 @@
                 });
             },
             pathTo(path,boolean){
-                /*  let oper = '';
-                 switch (num) {
-                 case 1:
-                 oper = '金疙瘩';
-                 break;
-                 case 2:
-                 oper = '银疙瘩';
-                 break;
-                 case 3:
-                 oper = '铜疙瘩';
-                 break;
-                 }
-                 let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击' + oper + '好友', '我的好友页面-点击' + oper + '好友'];
-                 window._hmt.push(event);
-                 if (num == 1) {
-                 this.$router.push('/relation-list-gold')
-                 return false;
-                 }*/
+                if(path=='/land-share.html'){
+                    let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击一起赚','我的好友-一起赚-点击'];
+                    window._hmt.push(event);
+                }
+                if(path=='/reward'){
+                    let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击我的奖励', '我的好友-我的奖励-点击'];
+                    window._hmt.push(event);
+                }
+                if(path=='/relation-list-gold'){
+                    let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击金疙瘩', '我的好友-金疙瘩-点击'];
+                    window._hmt.push(event);
+                }
+                if(path==' /relation-list?level=2'){
+                    let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击银疙瘩', '我的好友-银疙瘩-点击'];
+                    window._hmt.push(event);
+                }
+                if(path==' /relation-list?level=3'){
+                    let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击铜疙瘩', '我的好友-铜疙瘩-点击'];
+                    window._hmt.push(event);
+                }
                 if(boolean){
                     window.location.href=path;
                     return false;
