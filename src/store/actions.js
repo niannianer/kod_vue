@@ -5,6 +5,8 @@
 'use strict';
 const actions = {};
 import $api from '../tools/api';
+import requestHybrid from '../tools/hybrid';
+import $device from '../tools/device';
 
 //资产信息
 let getAccountBaofoo = () => {
@@ -44,9 +46,18 @@ actions.getBankInfo = ({commit}) => {
             }
         });
 };
+// 刷新app个人信息
+let refreshApp = () => {
+    if ($device.kingold && $device.kingoldVersion >= '1.0.5') {
+        requestHybrid({
+            tagname: 'refreshUserInfo',
+            param: {}
+        });
+    }
+};
 // 个人信息
-
 let getUserInfo = () => {
+    refreshApp();
     return $api.get('/getUserInfo');
 };
 actions.getUserInfo = ({commit}) => {
@@ -58,14 +69,14 @@ actions.getUserInfo = ({commit}) => {
             return data;
         });
 };
-actions.setEligibleInvestor = ({commit},data) => {
-    commit('setEligibleInvestor',data);
+actions.setEligibleInvestor = ({commit}, data) => {
+    commit('setEligibleInvestor', data);
 };
 
 
 //获取体验金总资产收益等
 
-let getExperienceSum = () =>{
+let getExperienceSum = () => {
     return $api.get('/experience/sum');
 }
 actions.getExperienceSum = ({commit}) => {
@@ -78,7 +89,7 @@ actions.getExperienceSum = ({commit}) => {
         });
 };
 
-let getPersonalCenterMsg = () =>{
+let getPersonalCenterMsg = () => {
     return $api.get('/personalCenter');
 }
 actions.getPersonalCenterMsg = ({commit}) => {
@@ -87,6 +98,49 @@ actions.getPersonalCenterMsg = ({commit}) => {
             if (data.code == 200) {
                 commit('setPersonalCenterMsg', data.data);
                 commit('setUserInfo', data.data.user)
+            }
+            return data;
+        });
+};
+
+//  获取基金账户信息
+let getAccountInfo = () => {
+    return $api.get('/fund/account/info');
+};
+actions.getAccountInfo = ({commit}) => {
+    return getAccountInfo()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setAccountInfo', data.data);
+            }
+            return data;
+        });
+};
+
+//  获取绑定盈米支付信息
+let getPaymentInfo = () => {
+    return $api.get('/fund/account/payment');
+};
+actions.getPaymentInfo = ({commit}) => {
+    return getPaymentInfo()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setPaymentInfo', data.data);
+            }
+            return data;
+        });
+};
+
+//  获取风险评估结果
+let getRiskInfo = () => {
+    let terminalInfo = $device.os + '-' + $device.osVersion;
+    return $api.get('/fund/account/risk', {terminalInfo});
+};
+actions.getRiskInfo = ({commit}) => {
+    return getRiskInfo()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setRiskInfo', data.data);
             }
             return data;
         });
