@@ -15,6 +15,8 @@ const state = {
     isEligibleInvestor:0,
     isSetPayPassword:0,
     investorRiskType:0,
+    isMinRiskLevel:0,//是否为最低标准型
+    investorRiskProductDesc:'',
     investorRiskTypeDesc:'',
     investorRiskLevel:0, //
     investorRiskLevelDesc:'',
@@ -56,11 +58,7 @@ const state = {
     name: '',
     maxRapidPayAmountPerTxn: 0,
     maxRapidPayAmountPerDay: 0,
-    investorRiskVersion:'',//风险测评版本 2:新版
-
-    minRiskGrade: '',//是否为最低风险投资者
-    riskGrade5:'',//用户风险等级
-    riskGrade5Desc: ''//用户风险等级描述语
+    investorRiskVersion:''//风险测评版本 2:新版
 
 
 };

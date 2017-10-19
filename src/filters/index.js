@@ -235,17 +235,23 @@ export let fundType =(input)=>{
     }
     return output;
 };
-export let riskLevel =(input)=>{
+export let riskLevelFundIsoc =(input)=>{
     let output = '';
     switch (input){
         case 1:
-            output = '保守型';
+            output = '低风险';
             break;
         case 2:
-            output = '稳健型';
+            output = '中低风险';
             break;
         case 3:
-            output = '进取型';
+            output = '中风险';
+            break;
+        case 4:
+            output = '中高风险';
+            break;
+        case 5:
+            output = '高风险';
             break;
         default:
             output = '未评估过';
@@ -253,4 +259,5 @@ export let riskLevel =(input)=>{
     }
     return output;
 };
+
 

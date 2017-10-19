@@ -5,10 +5,10 @@
                 <p>{{fund.fundAbbrName}}&nbsp&nbsp&nbsp&nbsp{{fund.fundCode}}</p>
                 <div flex="box:mean" class="tags">
                     <div flex="main:center">
-                        <p class="p f6">{{fundType[Number(fund.fundType)]}}</p>
+                        <p class="p f6">{{fund.fundType | fundType}}</p>
                     </div>
                     <div flex="main:center">
-                        <p class="p f6">{{riskLevel[Number(fund.riskLevel)]}}</p>
+                        <p class="p f6">{{fund.riskLevelFundIsoc | riskLevelFundIsoc}}</p>
                     </div>
                 </div>
                 <div flex="box:mean" class="infos">
@@ -66,8 +66,7 @@
                     <p flex-box="0" v-if="fund.frontEndPurchRate">{{fund.frontEndPurchRate}}%</p>
                     <p flex-box="0" v-else class="btn f6">免费率</p>
                     <!-- <p flex-box="0" class="line-through">1.50%</p>
-                     <p flex-box="0" class="red normal">0.15</p>
-                     <p flex-box="0" class="btn f6">1折</p>-->
+                     <p flex-box="0" class="red normal">0.15</p>-->
                 </div>
                 <div flex="cross:center" class="item">
                     <p flex-box="1">起投金额</p>
@@ -109,11 +108,12 @@
             </div>
             <div class="footer">
                 <div class="server">
-                    基金销售服务由<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">盈米财富</a>提供
+                    基金销售服务由
+                    <a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">盈米财富</a>提供
                 </div>
                 <div class="quali">
-                    基金销售资格证号：000000378<a class="link"
-                                         href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">详情</a>
+                    基金销售资格证号：000000378
+                    <a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">详情</a>
                 </div>
             </div>
         </div>
@@ -233,8 +233,6 @@
                     maintainAspectRatio: false
                 },
                 fund: {},
-                fundType: ['其他类型', '股票型', '债券型', '混合型', '货币型', '保本型', '指数型', 'QDII', '商品型', '短期理财'],
-                riskLevel: ['未评估过', '保守型', '稳健型', '进取型'],
                 timer: 3,
                 showMessage: false,
                 msgOption: {}
@@ -284,8 +282,8 @@
                     'isSetPayPassword',
                     'accountStatus',
                     'investorRiskScore',
-                    'riskGrade5',
-                    'minRiskGrade'
+                    'investorRiskType',
+                    'isMinRiskLevel'
                 ]
             )
         },
@@ -349,9 +347,10 @@
                     return false;
                 }
                 //风险评估验证是否匹配
-                if (Number(this.riskGrade5) < this.fund.riskLevel) {
+                //风险结果不匹配
+                if (Number(this.investorRiskType) < this.fund.riskLevelFundIsoc) {
                     //用户的风险测评为最低
-                    if (this.minRiskGrade) {
+                    if (this.isMinRiskLevel) {
                         let lowMsg = '<div class="center">该产品为高风险产品，投资此产品超过了您的风险承受范围。</div>';
                         this.msgOption = {
                             title: '风险提示',
@@ -361,7 +360,6 @@
                         this.showMessage = true;
                         return false;
                     }
-                    //风险结果不匹配
                     this.msgOption = {
                         title: '风险提示',
                         msg: '该产品为高风险产品，投资此产品超过了您的风险承受范围。' +
@@ -502,8 +500,8 @@
                 }
             },
             toPercentage(num){
-                if(num){
-                    return (num*100).toFixed(2)+'%'
+                if (num) {
+                    return (num * 100).toFixed(2) + '%'
                 }
             }
         },

@@ -8,7 +8,7 @@
             <div class="content" >
                 <div flex class="item">
                     <div flex-box="0" class="left">
-                        <div class="spot"></div>
+                        <div class="spot">1</div>
                         <div class="line"></div>
                     </div>
                     <div flex-box="1" class="right">
@@ -19,7 +19,7 @@
                 <div flex="cross:bottom" class="item">
                     <div flex-box="0" class="left last">
                         <div class="line"></div>
-                        <div class="spot"></div>
+                        <div class="spot">2</div>
                     </div>
                     <div flex-box="1" class="right">
                         等待基金公司确认

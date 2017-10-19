@@ -34,7 +34,7 @@
                     </div>
                     <div flex-box="0" class="tag-list">
                         <span class="tag">{{item.fundType|fundType}}</span>
-                        <span class="tag">{{item.riskLevel|riskLevel}}</span>
+                        <span class="tag">{{item.riskLevelFundIsoc|riskLevelFundIsoc}}</span>
                     </div>
                 </div>
             </div>
