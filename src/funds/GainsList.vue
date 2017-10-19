@@ -36,52 +36,79 @@
                     </div>
                 </div>
                 <div class="title-list" flex-box="1" flex style="overflow-x: auto">
-                    <div class="min-width">
+                    <div class="min-width" :class="{'min-width-bigger':fundType==4}">
                         <div flex >
                             <div class="title-item bg-grey" @click.stop="checkOrder('unitYield')"
                                  flex="main:center cross:center" v-if="fundType==4" style="width: 6rem;min-width:6rem;">
                                 <p>万份收益（元）</p>
-                                <img src="../images/area.png" alt="" class="area">
+                                <div class="order">
+                                    <p class="p desc" :class="{'active':orderBy=='unitYield'&&!isDesc}">▲</p>
+                                    <p class="p asc" :class="{'active':orderBy=='unitYield'&&isDesc}">▼</p>
+                                </div>
                             </div>
                             <div class="title-item bg-content" @click.stop="checkOrder('yearlyRoe')"
                                  flex="main:center cross:center" v-if="fundType==4">
                                 <p>七日年化</p>
-                                <img src="../images/area.png" alt="" class="area">
+                                <div class="order">
+                                    <p class="p desc" :class="{'active':orderBy=='yearlyRoe'&&!isDesc}">▲</p>
+                                    <p class="p asc" :class="{'active':orderBy=='yearlyRoe'&&isDesc}">▼</p>
+                                </div>
                             </div>
                             <div class="title-item bg-grey" @click.stop="checkOrder('nav')"
                                  flex="main:center cross:center" v-if="fundType!=4">
                                 <p>单位净值</p>
-                                <img src="../images/area.png" alt="" class="area">
+                                <div class="order">
+                                    <p class="p desc" :class="{'active':orderBy=='nav'&&!isDesc}">▲</p>
+                                    <p class="p asc" :class="{'active':orderBy=='nav'&&isDesc}">▼</p>
+                                </div>
                             </div>
                             <div class="title-item bg-content" @click.stop="checkOrder('dayReturn')"
                                  flex="main:center cross:center" v-if="fundType!=4">
                                 <p> 日涨幅</p>
-                                <img src="../images/area.png" alt="" class="area">
+                                <div class="order">
+                                    <p class="p desc" :class="{'active':orderBy=='dayReturn'&&!isDesc}">▲</p>
+                                    <p class="p asc" :class="{'active':orderBy=='dayReturn'&&isDesc}">▼</p>
+                                </div>
                             </div>
                             <div class="title-item bg-grey" @click.stop="checkOrder('oneWeekReturn')"
                                  flex="main:center cross:center">
                                 <p>周涨幅</p>
-                                <img src="../images/area.png" alt="" class="area">
+                                <div class="order">
+                                    <p class="p desc" :class="{'active':orderBy=='oneWeekReturn'&&!isDesc}">▲</p>
+                                    <p class="p asc" :class="{'active':orderBy=='oneWeekReturn'&&isDesc}">▼</p>
+                                </div>
                             </div>
                             <div class="title-item bg-content" @click.stop="checkOrder('oneMonthReturn')"
                                  flex="main:center cross:center">
                                 <p>月涨幅</p>
-                                <img src="../images/area.png" alt="" class="area">
+                                <div class="order">
+                                    <p class="p desc" :class="{'active':orderBy=='oneMonthReturn'&&!isDesc}">▲</p>
+                                    <p class="p asc" :class="{'active':orderBy=='oneMonthReturn'&&isDesc}">▼</p>
+                                </div>
                             </div>
                             <div class="title-item bg-grey" @click.stop="checkOrder('quarterReturn')"
                                  flex="main:center cross:center">
                                 <p>季涨幅</p>
-                                <img src="../images/area.png" alt="" class="area">
+                                <div class="order">
+                                    <p class="p desc" :class="{'active':orderBy=='quarterReturn'&&!isDesc}">▲</p>
+                                    <p class="p asc" :class="{'active':orderBy=='quarterReturn'&&isDesc}">▼</p>
+                                </div>
                             </div>
                             <div class="title-item bg-content" @click.stop="checkOrder('oneYearReturn')"
                                  flex="main:center cross:center">
                                 <p> 近一年涨幅</p>
-                                <img src="../images/area.png" alt="" class="area">
+                                <div class="order">
+                                    <p class="p desc" :class="{'active':orderBy=='oneYearReturn'&&!isDesc}">▲</p>
+                                    <p class="p asc" :class="{'active':orderBy=='oneYearReturn'&&isDesc}">▼</p>
+                                </div>
                             </div>
                             <div class="title-item bg-grey" @click.stop="checkOrder('thisYearReturn')"
                                  flex="main:center cross:center">
                                 <p> 今年涨幅</p>
-                                <img src="../images/area.png" alt="" class="area">
+                                <div class="order">
+                                    <p class="p desc" :class="{'active':orderBy=='thisYearReturn'&&!isDesc}">▲</p>
+                                    <p class="p asc" :class="{'active':orderBy=='thisYearReturn'&&isDesc}">▼</p>
+                                </div>
                             </div>
                         </div>
                         <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"

@@ -29,6 +29,7 @@
     .f8 {
         font-size: .8rem;
     }
+
     .check-list {
         background: #FFFFFF;
         border-bottom: 1px solid @color-split;
@@ -47,12 +48,38 @@
         text-align: center;
         .min-width{
             min-width: 32.55rem;
+            &.min-width-bigger{
+                min-width: 34rem;
+            }
         }
         .title-item {
+            position: relative;
             padding: .6rem 0;
             width: 4.65rem;
             min-width: 4.65rem;
             border-bottom: 1px solid @color-split;
+            .order{
+                font-size: .6rem;
+                position: absolute;
+                height: 1.3rem;
+                right:.6rem;
+                transform: scale(.72);
+                .p{
+                    position: absolute;
+                    &.desc{
+                        top:0;
+                        &.active{
+                            color:@bg-button
+                        }
+                    }
+                    &.asc{
+                        bottom:0;
+                        &.active{
+                            color:@bg-button
+                        }
+                    }
+                }
+            }
         }
         .item-info {
             height: 3rem;
