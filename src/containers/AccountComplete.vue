@@ -31,6 +31,11 @@
         },
         methods: {
             complete(){
+                if (window.sessionStorage.getItem('noviceUrl')) {
+                    window.location.href = decodeURIComponent(window.sessionStorage.getItem('noviceUrl'));
+                    return false;
+                }
+
                 this.$router.push('/personal-center');
             }
         },

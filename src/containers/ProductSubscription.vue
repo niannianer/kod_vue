@@ -431,6 +431,8 @@
                     this.useAssetsValue = 0;
                 }
                 else{
+                    let event = ['_trackEvent', '认购信息确认页', 'CLICK', '认购信息页-勾选使用账户余额', '认购信息页-勾选使用余额'];
+                    window._hmt.push(event);
                     this.useAssetsValue = this.accountCashAmount;
                 }
                 this.rechargeNum = this.leastPay;

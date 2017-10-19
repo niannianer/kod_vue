@@ -20,6 +20,13 @@ if (process.env.kingold == 'test') {
     baofooCallUrl = `${protocol}//notify-test.zj-hf.cn`;
     apiNode = `${protocol}//market-test.zj-hf.cn`;
 }
+/*test2 env*/
+if (process.env.kingold == 'test2') {
+    apiUrl = `${protocol}//weixin-test.zj-hf.cn`;
+    baofooUrl = 'https://paytest.baofoo.com/baofoo-custody/custody/';
+    baofooCallUrl = `${protocol}//notify-test.zj-hf.cn`;
+    apiNode = `${protocol}//market-test.zj-hf.cn`;
+}
 /*stage env*/
 if (process.env.kingold == 'stage') {
     apiUrl = `${protocol}//pre-zj-weixin.zj-hf.cn`;

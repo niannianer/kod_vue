@@ -1,81 +1,33 @@
 <template>
     <div class="financail" flex="dir:top">
 
-            <div class="item-list" flex-box="1">
-                <mt-loadmore :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill"
-                             :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText"
-                             :bottomAllLoaded="!(loading &&hasMore)">
-                    <div class="infinite-scroll"
-                         v-infinite-scroll="loadMore"
-                         infinite-scroll-disabled="disLoad"
-                         infinite-scroll-distance="70">
+        <div class="item-list" flex-box="1">
+            <mt-loadmore :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill"
+                         :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText"
+                         :bottomAllLoaded="!(loading &&hasMore)">
+                <div class="infinite-scroll"
+                     v-infinite-scroll="loadMore"
+                     infinite-scroll-disabled="disLoad"
+                     infinite-scroll-distance="70">
 
-                        <div class="item" v-for="(item,index) in lists"
-                             @click.stop="getDetail(item,'/fixi-goods-detail')"
-                             :class="{'stat': item.productStatus =='已告罄','novice-label':item.isNoviceLabelProduct  }">
-                            <div v-if="item.isNoviceLabelProduct"><!--新手标-->
-                                <div flex="cross:center" class="title-part">
-                                    <div class="fund-name ellipsis" flex-box="1">{{item.productName}}</div>
-                                    <div class="ticket-wrap" v-if="item.productLabel" flex flex-box="0">
-                                        <div class="ticket-item" style="margin:0 0 0 .4rem"
-                                             :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
-                                             v-for="(ticketItem,index) in item.productLabel">{{ticketItem}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="rate-part">
-                                    <p class="rate">{{item.annualInterestRate}}</p>
-                                    <p>{{item.productPeriod}}限期</p>
-                                    <div class="progress-part">
-                                        <div class="progress-line">
-                                            <div class="done" :style="'width:' + item. productProgress+ '%'"
-                                                 :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
-                                            <div class="round" :style="'left:' +( item. productProgress-1) + '%'"
-                                                 :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                                <div
-                                                    :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
-                                            </div>
-                                        </div>
-                                        <div class="progress-num" style="font-size:.7rem">{{item.productProgress}}%
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="m-part" flex>
-                                    <p flex-box="1">{{item.productMinInvestment}}</p>
-                                    <p flex-box="0" v-if="item.productMaxInvestment">
-                                        每人限投{{item.productMaxInvestment}}</p>
-                                </div>
-
-                            </div>
-                            <div v-else><!--非新手标-->
-                                <div class="fund-name ellipsis">{{item.productName}}</div>
-                                <div class="ticket-wrap" v-if="item.productLabel" flex>
-                                    <div class="ticket-item"
+                    <div class="item" v-for="(item,index) in lists"
+                         @click.stop="getDetail(item,'/fixi-goods-detail')"
+                         :class="{'stat': item.productStatus =='已告罄','novice-label':item.isNoviceLabelProduct  }">
+                        <!--新手标-->
+                        <div v-if="item.isNoviceLabelProduct">
+                            <div flex="cross:center" class="title-part">
+                                <div class="fund-name ellipsis" flex-box="1">{{item.productName}}</div>
+                                <div class="ticket-wrap" v-if="item.productLabel" flex flex-box="0">
+                                    <div class="ticket-item" style="margin:0 0 0 .4rem"
+                                         v-if="index==0"
                                          :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
                                          v-for="(ticketItem,index) in item.productLabel">{{ticketItem}}
                                     </div>
                                 </div>
-                                <div flex="dir:left" class="fund-middle-fix"
-                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                    <div class="rate" flex-box="1"
-                                         :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                        <div>{{item.annualInterestRate}}</div>
-                                        <div class="sub-text">预计年化收益率</div>
-                                    </div>
-                                    <div class="cycle" flex-box="3"
-                                         :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                        <div flex="main:center">{{item.productPeriod}}</div>
-                                        <div class="sub-text" flex="main:center">期限</div>
-                                    </div>
-                                    <div class="status" flex-box="0" flex="cross:center"
-                                         :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                            <span :class="{'hot':item.productStatusCode==1,
-                    'raise':item.productStatusCode==2,
-                    'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
-                            >{{item.productStatus}}</span>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="rate-part">
+                                <p class="rate">{{item.annualInterestRate}}</p>
+                                <p>{{item.productPeriod}}限期</p>
                                 <div class="progress-part">
                                     <div class="progress-line">
                                         <div class="done" :style="'width:' + item. productProgress+ '%'"
@@ -86,20 +38,76 @@
                                                 :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
                                         </div>
                                     </div>
-                                    <div class="progress-num">{{item.productProgress}}%</div>
+                                    <div class="progress-num" style="font-size:.7rem">{{item.productProgress}}%
+                                    </div>
                                 </div>
-                                <div class="buttom">{{item.productMinInvestment}}</div>
+                            </div>
+
+                            <div class="m-part" flex>
+                                <p flex-box="1">{{item.productMinInvestment}}</p>
+                                <p flex-box="0" v-if="item.productMaxInvestment">
+                                    每人限投{{item.productMaxInvestment}}</p>
                             </div>
 
                         </div>
-                        <p v-if="loading" class="loading" style="text-align: center;padding: .5rem 0 4rem 0;">
-                            没有更多...</p>
+                        <!--非新手标-->
+                        <div v-else>
+                            <div class="fund-name ellipsis">{{item.productName}}</div>
+                            <div class="ticket-wrap" v-if="item.productLabel" flex>
+                                <div class="ticket-item"
+                                     :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
+                                     v-for="(ticketItem,index) in item.productLabel">{{ticketItem}}
+                                </div>
+                            </div>
+                            <div flex="dir:left" class="fund-middle-fix"
+                                 :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                                <div class="rate" flex-box="1"
+                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                                    <div>
+                                        {{item.annualInterestRate}}
+                                        <span v-if="item.couponMaxProfit">
+                                                +{{item.couponMaxProfit}}
+                                            </span>
+                                    </div>
+                                    <div class="sub-text">预计年化收益率</div>
+                                </div>
+                                <div class="cycle" flex-box="3"
+                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                                    <div flex="main:center">{{item.productPeriod}}</div>
+                                    <div class="sub-text" flex="main:center">期限</div>
+                                </div>
+                                <div class="status" flex-box="0" flex="cross:center"
+                                     :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                            <span :class="{'hot':item.productStatusCode==1,
+                    'raise':item.productStatusCode==2,
+                    'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
+                            >{{item.productStatus}}</span>
+                                </div>
+                            </div>
+                            <div class="progress-part">
+                                <div class="progress-line">
+                                    <div class="done" :style="'width:' + item. productProgress+ '%'"
+                                         :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
+                                    <div class="round" :style="'left:' +( item. productProgress-1) + '%'"
+                                         :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                                        <div
+                                            :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-num">{{item.productProgress}}%</div>
+                            </div>
+                            <div class="buttom">{{item.productMinInvestment}}</div>
+                        </div>
+
                     </div>
-                </mt-loadmore>
-            </div>
-            <div class="download-app" flex-box="0">
-                <a href="/land-download.html">查看更多理财，请下载app</a>
-            </div>
+                    <p v-if="loading" class="loading" style="text-align: center;padding: .5rem 0 4rem 0;">
+                        没有更多...</p>
+                </div>
+            </mt-loadmore>
+        </div>
+        <div class="download-app" flex-box="0">
+            <a href="/land-download.html">查看更多理财，请下载app</a>
+        </div>
 
     </div>
 </template>

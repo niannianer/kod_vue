@@ -50,10 +50,10 @@
             <button class="btn-primary btn-login" @click.stop="login">登  录</button>
         </div>
         <!--footer -->
-        <div class="footer" flex>
-            <router-link class="link" flex-box="1" :to="{path:'/register'}" replace>立即注册</router-link>
-            <router-link class="link" flex-box="1" :to="{path:'/find-password'}" replace>忘记密码</router-link>
-        </div>
+      <div class="footer" flex>
+          <span class="link" flex-box="1" @click.stop="pathTo('/register')">立即注册</span>
+          <router-link class="link" flex-box="1" :to="{path:'/find-password'}" replace>忘记密码</router-link>
+      </div>
     </div>
 </template>
 <script>
@@ -161,7 +161,6 @@
                                 this.$store.dispatch('getPaymentInfo');
                                 this.$router.replace('/personal-center');
 
-
                             }
                             return false;
                         } else {
@@ -171,6 +170,13 @@
                     });
                 }
 
+            },
+            pathTo(path){
+                if(path == '/register'){
+                    let event = ['_trackEvent', '注册', 'SHOW', '从登录页进入注册页', '从登录页进入注册页'];
+                    window._hmt.push(event);
+                }
+                this.$router.replace(path)
             }
 
         },
