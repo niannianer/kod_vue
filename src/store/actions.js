@@ -5,6 +5,7 @@
 'use strict';
 const actions = {};
 import $api from '../tools/api';
+import requestHybrid from '../tools/hybrid';
 import $device from '../tools/device';
 
 //资产信息
@@ -45,9 +46,18 @@ actions.getBankInfo = ({commit}) => {
             }
         });
 };
+// 刷新app个人信息
+let refreshApp = () => {
+    if ($device.kingold && $device.kingoldVersion >= '1.0.5') {
+        requestHybrid({
+            tagname: 'refreshUserInfo',
+            param: {}
+        });
+    }
+};
 // 个人信息
-
 let getUserInfo = () => {
+    refreshApp();
     return $api.get('/getUserInfo');
 };
 actions.getUserInfo = ({commit}) => {
@@ -59,14 +69,14 @@ actions.getUserInfo = ({commit}) => {
             return data;
         });
 };
-actions.setEligibleInvestor = ({commit},data) => {
-    commit('setEligibleInvestor',data);
+actions.setEligibleInvestor = ({commit}, data) => {
+    commit('setEligibleInvestor', data);
 };
 
 
 //获取体验金总资产收益等
 
-let getExperienceSum = () =>{
+let getExperienceSum = () => {
     return $api.get('/experience/sum');
 }
 actions.getExperienceSum = ({commit}) => {
@@ -79,7 +89,7 @@ actions.getExperienceSum = ({commit}) => {
         });
 };
 
-let getPersonalCenterMsg = () =>{
+let getPersonalCenterMsg = () => {
     return $api.get('/personalCenter');
 }
 actions.getPersonalCenterMsg = ({commit}) => {
@@ -121,5 +131,18 @@ actions.getPaymentInfo = ({commit}) => {
         });
 };
 
-
+//  获取风险评估结果
+let getRiskInfo = () => {
+    let terminalInfo = $device.os + '-' + $device.osVersion;
+    return $api.get('/fund/account/risk',{terminalInfo});
+};
+actions.getRiskInfo = ({commit}) => {
+    return getRiskInfo()
+        .then(data => {
+            if (data.code == 200) {
+                commit('setRiskInfo', data.data);
+            }
+            return data;
+        });
+};
 export default actions;
