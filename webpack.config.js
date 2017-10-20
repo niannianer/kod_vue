@@ -7,6 +7,7 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
+const version = Math.random().toString().substr(0, 8);
 let resolve = (dir) => {
     return path.join(__dirname, '..', dir)
 }
@@ -88,13 +89,11 @@ const config = {
             minChunks: Infinity
         }),
         new webpack.NoEmitOnErrorsPlugin(),
-        // new WebpackMd5Hash(),
         new HtmlWebpackPlugin({
             title: '金疙瘩',
             favicon: './src/images/logo.png',
             chunks: ['ventor', 'tools', 'main'],
             inject: 'body',
-            hash: true,
             filename: path.resolve(__dirname, 'html/index.html'),
             template: './index.ejs',
             minify: {//压缩HTML文件
@@ -119,8 +118,8 @@ if (env == 'production' || env == 'stage' || env == 'test' || env == 'test2') {
     if (env === 'production') {
         config.output.publicPath = 'https://zj-static.zj-hf.cn/dist/';
     }
-    config.output.filename = '[name].[chunkhash:8].js';
-    config.output.chunkFilename = '[chunkhash:8].[id].chunk.js';
+    config.output.filename = `[name].[chunkhash:8].${version}.js`;
+    config.output.chunkFilename = `[chunkhash:8].[id].chunk.${version}.js`;
     config.plugins = (config.plugins || []).concat([
         new webpack.DefinePlugin({
             'process.env': {
@@ -129,7 +128,7 @@ if (env == 'production' || env == 'stage' || env == 'test' || env == 'test2') {
             }
         }),
         new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
+            sourceMap: false,
             comments: false,
             compress: {
                 warnings: false,
