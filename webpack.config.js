@@ -7,7 +7,7 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
-const version = Math.random().toString().substr(0, 8);
+const version = Math.random().toString().substr(2, 8);
 let resolve = (dir) => {
     return path.join(__dirname, '..', dir)
 }
