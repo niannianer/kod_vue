@@ -376,7 +376,7 @@
             },
             //进入基金申购页面
             toPurchase(again){
-                let minSub = this.fund.isPurchFund == 1 ? this.fund.minAmtIndiFirstPurch : this.fund.minAmtIndiAddPurch;
+                let minSub = this.fund.isPurchFund == 0 ? this.fund.minAmtIndiFirstPurch : this.fund.minAmtIndiAddPurch;
                 let maxSub = this.fund.maxAmtIndiPurch;
                 let query = {
                     code: this.$route.query.code,
