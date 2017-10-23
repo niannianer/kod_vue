@@ -15,8 +15,7 @@
         },
         data(){
             return {
-                dataset: {
-                },
+                dataset: {},
                 options: {
                     legend: {
                         display: true,
@@ -25,6 +24,15 @@
                             boxWidth: 10,
                             /*usePointStyle:true*/
                         }
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        callbacks: {
+                            label(item, data){
+                                return data.datasets[0].data[item.index] + '%'
+                            }
+                        }
+
                     },
                     responsive: true,
                     maintainAspectRatio: false
@@ -38,18 +46,18 @@
         methods: {
             getAssetAllocation(){
                 if (window.sessionStorage.getItem('assetAllocation')) {
-                    let labels =[];
-                    let data =[];
+                    let labels = [];
+                    let data = [];
                     let assetAllocation = JSON.parse(window.sessionStorage.getItem('assetAllocation'));
-                    if(assetAllocation&&assetAllocation.length){
-                        assetAllocation.map(item=>{
-                            if(parseFloat(item.ratio)){
+                    if (assetAllocation && assetAllocation.length) {
+                        assetAllocation.map(item => {
+                            if (parseFloat(item.ratio)) {
                                 labels.push(item.name);
                                 data.push(parseFloat(item.ratio));
                             }
                         })
                     }
-                    console.log(labels,data)
+                    console.log(labels, data)
                     this.dataset = {
                         labels,
                         datasets: [
