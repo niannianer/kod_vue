@@ -42,8 +42,10 @@
                     let assetAllocation = JSON.parse(window.sessionStorage.getItem('assetAllocation'));
                     if(assetAllocation&&assetAllocation.length){
                         assetAllocation.map(item=>{
-                            labels.push(item.name);
-                            data.push(item.value);
+                            if(parseFloat(item.ratio)){
+                                labels.push(item.name);
+                                data.push(parseFloat(item.ratio));
+                            }
                         })
                     }
                     console.log(labels,data)
