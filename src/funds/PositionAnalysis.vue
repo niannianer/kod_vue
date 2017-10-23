@@ -48,12 +48,12 @@
                     }
                     console.log(labels,data)
                     this.dataset = {
-                        labels:['股票', '债券', '现金'],
+                        labels,
                         datasets: [
                             {
                                 label: 'Data One',
                                 backgroundColor: ['#4990E2', '#F6A623', '#9013FE', '#D70000'],
-                                data:[68681409.5500, 0.0000, 3594044.1200],
+                                data,
                                 borderWidth: 0
                             }
                         ]
