@@ -78,6 +78,7 @@
     import $device from '../tools/device';
     import '../less/bind-bank-card.less';
     import $api from '../tools/api';
+    import {refreshApp} from '../tools/operation';
     import {mapState} from 'vuex';
     import _ from 'lodash/core';
     import {checkPhone} from '../tools/fun';
@@ -226,6 +227,7 @@
                         window._hmt.push(event);
                         setTimeout(() => {
                             this.loading = false;
+                            refreshApp();
                             this.$store.dispatch('getBankInfo');
                             this.$router.replace('/set-pay-password')
                         }, 1000)

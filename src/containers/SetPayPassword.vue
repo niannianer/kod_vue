@@ -39,6 +39,7 @@
 <script>
     import $device from '../tools/device';
     import $api from '../tools/api';
+    import {refreshApp} from '../tools/operation';
     import EventBus from  '../tools/event-bus';
     import {Toast} from 'mint-ui';
     import Keyboard from '../components/Keyboard';
@@ -59,7 +60,7 @@
         components: {
             Keyboard
         },
-        computed:{
+        computed: {
             isApp(){
                 return $device.kingold
             }
@@ -116,6 +117,7 @@
                         if (msg.code == 200) {
                             this.$router.replace('/account-complete');
                             setTimeout(() => {
+                                refreshApp();
                                 this.$store.dispatch('getPersonalCenterMsg');
                                 this.$store.dispatch('getBankInfo');
                             }, 1000);

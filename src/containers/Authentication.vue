@@ -2,7 +2,7 @@
     <div class="authentication" flex-box="1">
         <div class="authentication-lint">为保障您账号安全，请进行实名认证</div>
         <div class="steps" flex="box:mean">
-            <div class="item"  flex="main:center">
+            <div class="item" flex="main:center">
                 <span class="round active" :class="{'app':isApp}">1</span>
                 <div class="line-right active" :class="{'app':isApp}"></div>
             </div>
@@ -47,13 +47,15 @@
                             <input type="text" placeholder="请输入验证码" v-model="smsCode" maxlength="6">
                         </dt>
                         <dd>
-                            <button :class="{'active':btnActive,'app':isApp}" @click.stop="transmit">{{btnText}}</button>
+                            <button :class="{'active':btnActive,'app':isApp}" @click.stop="transmit">{{btnText}}
+                            </button>
                         </dd>
                     </dl>
                     <div class="close" flex="main:center cross:center" @click.stop="curse">×</div>
                 </div>
                 <div class="win-btn" flex-box="0" flex>
-                    <button flex-box="1" class="sure" :class="{'app':isApp}" @click.stop="sure" :disabled="loading">确定</button>
+                    <button flex-box="1" class="sure" :class="{'app':isApp}" @click.stop="sure" :disabled="loading">确定
+                    </button>
                 </div>
             </div>
         </div>
@@ -64,6 +66,7 @@
     import '../less/authentication.less';
     import $api from '../tools/api';
     import $device from '../tools/device';
+    import {refreshApp} from '../tools/operation';
     import {mapState} from 'vuex';
     import $fun from '../tools/fun';
     import {Toast} from 'mint-ui';
@@ -137,7 +140,9 @@
                     if (msg.code == 200) {
                         Toast("身份认证成功！");
                         this.popup = false;
+
                         setTimeout(() => {
+                            refreshApp();
                             this.$store.dispatch('getUserInfo');
                             this.$router.replace('/bind-bank-card');
                         }, 1000);
