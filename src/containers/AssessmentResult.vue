@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="re-submit">
-            <button class="btn-default btn-done" @click.stop="done" :class="{'app':isApp}" v-if="isNewApp">完成测评</button>
+            <button class="btn-default btn-done" @click.stop="done" :class="{'app':isApp}" v-show="isNewApp">完成测评</button>
             <button class="btn-default btn-submit" @click.stop="reSubmit" :class="{'app':isApp}">重新测评</button>
         </div>
 

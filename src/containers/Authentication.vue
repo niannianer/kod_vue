@@ -66,7 +66,6 @@
     import '../less/authentication.less';
     import $api from '../tools/api';
     import $device from '../tools/device';
-    import {refreshApp} from '../tools/operation';
     import {mapState} from 'vuex';
     import $fun from '../tools/fun';
     import {Toast} from 'mint-ui';
@@ -142,7 +141,7 @@
                         this.popup = false;
 
                         setTimeout(() => {
-                            refreshApp();
+
                             this.$store.dispatch('getUserInfo');
                             this.$router.replace('/bind-bank-card');
                         }, 1000);

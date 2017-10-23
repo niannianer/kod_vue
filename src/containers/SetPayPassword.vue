@@ -66,6 +66,7 @@
             }
         },
         created(){
+            refreshApp();
             let event = ['_trackEvent', '设置交易密码', 'SHOW', '进入设置交易密码页面', '进入设置交易密码页面'];
             window._hmt.push(event);
         },
@@ -117,7 +118,7 @@
                         if (msg.code == 200) {
                             this.$router.replace('/account-complete');
                             setTimeout(() => {
-                                refreshApp();
+
                                 this.$store.dispatch('getPersonalCenterMsg');
                                 this.$store.dispatch('getBankInfo');
                             }, 1000);

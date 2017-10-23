@@ -227,7 +227,6 @@
                         window._hmt.push(event);
                         setTimeout(() => {
                             this.loading = false;
-                            refreshApp();
                             this.$store.dispatch('getBankInfo');
                             this.$router.replace('/set-pay-password')
                         }, 1000)
@@ -247,7 +246,7 @@
             }
         },
         created(){
-
+            refreshApp();
             let event = ['_trackEvent', '绑定银行卡', 'SHOW', '进入绑定银行卡页面', '进入绑定银行卡页面'];
             window._hmt.push(event);
             if (window.sessionStorage.getItem('bind-card-info')) {
