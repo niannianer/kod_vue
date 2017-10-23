@@ -1,5 +1,6 @@
 <template>
     <div class="position-analysis">
+        <p class="title">资产配置明细</p>
         <pie-chart :data="dataset" :options="options" :chart-data="dataset" class="pie"></pie-chart>
     </div>
 </template>
