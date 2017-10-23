@@ -135,7 +135,6 @@
 <script>
     import $api from '../tools/api';
     import {mapState} from 'vuex';
-    import {MessageBox} from 'mint-ui';
     import KingMessage from '../components/Message/KingMessage.vue';
     import $device from '../tools/device';
     import '../less/fund/detail.less';
