@@ -7,6 +7,7 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
+const version = Math.random().toString().substr(0, 8);
 let resolve = (dir) => {
     return path.join(__dirname, '..', dir)
 }
@@ -70,7 +71,6 @@ const config = {
                 loader: 'style-loader!css-loader'
 
 
-
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
@@ -107,7 +107,7 @@ const config = {
     ],
     devtool: '#eval-source-map'
 }
-if (env == 'production'|| env == 'stage' || env == 'test') {
+if (env == 'production' || env == 'stage' || env == 'test') {
     console.log('------->', env)
     config.devtool = '';
     config.output.publicPath = 'https://static-test.zj-hf.cn/dist/';
@@ -117,8 +117,8 @@ if (env == 'production'|| env == 'stage' || env == 'test') {
     if (env === 'production') {
         config.output.publicPath = 'https://zj-static.zj-hf.cn/dist/';
     }
-    config.output.filename = '[name].[chunkhash:8].js';
-    config.output.chunkFilename = '[chunkhash:8].[id].chunk.js';
+    config.output.filename = `[name].[chunkhash:8].${version}.js`;
+    config.output.chunkFilename = `[chunkhash:8].[id].${version}.chunk.js`;
     config.plugins = (config.plugins || []).concat([
         new webpack.DefinePlugin({
             'process.env': {
