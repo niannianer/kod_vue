@@ -118,8 +118,9 @@
                                 <div class="item-info bg-grey" flex="dir:top cross:center main:center"
                                      v-if="fundType==4"
                                      style="width: 6rem;min-width:6rem;">
-                                    <p>{{item.unitYield}}<!--万份收益--></p>
-                                    <p v-if="item.updateTime">{{dateFormat(item.updateTime)}}</p>
+                                    <p v-if="item.unitYield">{{item.unitYield}}<!--万份收益--></p>
+                                    <p v-if="item.updateTime&&item.unitYield">{{dateFormat(item.updateTime)}}</p>
+                                    <p v-if="!item.unitYield">--</p>
                                 </div>
                                 <div class="item-info bg-content" flex="cross:center main:center" v-if="fundType==4">
                                     {{item.yearlyRoe}}<!--七日年化-->
@@ -127,8 +128,9 @@
                                 </div>
                                 <div class="item-info bg-grey" flex="dir:top cross:center main:center"
                                      v-if="fundType!=4">
-                                    <p> {{item.nav}}<!--单位净值--></p>
-                                    <p v-if="item.navDate">{{dateFormat(item.navDate)}}</p><!--净值日期-->
+                                    <p v-if="item.nav"> {{item.nav}}<!--单位净值--></p>
+                                    <p v-if="item.navDate&&item.nav">{{dateFormat(item.navDate)}}</p><!--净值日期-->
+                                    <p v-if="!item.nav">--</p>
                                 </div>
                                 <div class="item-info red f8 bg-content" flex="cross:center main:center"
                                      v-if="fundType!=4">
@@ -180,7 +182,7 @@
                 autoFill: false,
                 currentPage: 0,
                 pageSize: 10,
-                loading: true,
+                loading: false,
                 orderBy: 'nav',
                 isDesc: true,
                 scrollLeft: 0,
