@@ -24,8 +24,18 @@ actions.getAccountBaofoo = ({commit}) => {
 
         });
 };
+// 刷新app个人信息
+let refreshApp = () => {
+    if ($device.kingold && $device.kingoldVersion >= '1.0.5') {
+        requestHybrid({
+            tagname: 'refreshUserInfo',
+            param: {}
+        });
+    }
+};
 //  银行卡信息
 let getBankInfo = () => {
+    refreshApp();
     return $api.get('/getUserBankCardInfo');
 };
 actions.getBankInfo = ({commit}) => {
@@ -46,15 +56,7 @@ actions.getBankInfo = ({commit}) => {
             }
         });
 };
-// 刷新app个人信息
-let refreshApp = () => {
-    if ($device.kingold && $device.kingoldVersion >= '1.0.5') {
-        requestHybrid({
-            tagname: 'refreshUserInfo',
-            param: {}
-        });
-    }
-};
+
 // 个人信息
 let getUserInfo = () => {
     refreshApp();
