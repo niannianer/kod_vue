@@ -5,7 +5,7 @@
             <div class="img-warp">
                 <img :src="typeUrl"/>
             </div>
-            <div class="type-text">{{investorRiskTypeDesc}}</div>
+            <div class="type-text">{{investorRiskTypeDesc}}投资者</div>
             <div class="sub-text">{{typeDesc(investorRiskType,isMinRiskLevel)}}</div>
             <div style="text-align: center">
                 <span v-if="investorRiskType == 1&&isMinRiskLevel">您仅适合</span>
