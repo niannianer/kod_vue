@@ -95,7 +95,6 @@ const config = {
             favicon: './src/images/logo.png',
             chunks: ['ventor', 'tools', 'main'],
             inject: 'body',
-            hash: true,
             filename: path.resolve(__dirname, 'html/index.html'),
             template: './index.ejs',
             minify: {//压缩HTML文件
