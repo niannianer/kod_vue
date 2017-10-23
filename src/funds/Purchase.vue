@@ -32,7 +32,7 @@
             <p class="tip">手续费及申购时间以基金公司确认结果为准</p>
             <div class="deal" flex="cross:center">
                 <img src="../images/tip.png" alt="" class="img">
-                <p class="deal-info">点击确认购买代表您同意《委托支付协议》</p>
+                <p class="deal-info">点击确认购买代表您同意<router-link class="link" to="/funds/pay-agreement">《委托支付协议》</router-link></p>
             </div>
         </div>
         <div class="footer" flex-box="0">

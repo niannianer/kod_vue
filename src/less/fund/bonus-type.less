@@ -1,0 +1,21 @@
+@charset "UTF-8";
+@import "../variables";
+
+.bonus-type{
+    .type-item{
+        background: #fff;
+        box-shadow: 0 1px 3px 0 rgba(180,180,180,0.50);
+        margin: .5rem .8rem 0;
+        padding: .8rem 20% .8rem .8rem;
+        &.active{
+            background: url("../../images/fund/select-icon.png") right center no-repeat #fff;
+            background-size: 1.9rem;
+            background-position-x: 94%;
+        }
+        .name{
+            color: @color-text;
+            font-size: .8rem;
+            margin-bottom: .6rem;
+        }
+    }
+}

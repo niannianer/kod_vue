@@ -55,7 +55,10 @@
             </div>
             <div class="tip-box" flex>
                 <img src="../images/tip.png" alt="" class="tip-img">
-                <p class="f6 p">确认开户代表您同意《盈米财富基金电子交易远程服务协议》和《委托支付协议》服务协议。</p>
+                <p class="f6 p">确认开户代表您同意
+                    <router-link to="/funds/serve-agreement" class="link">《盈米财富基金电子交易远程服务协议》</router-link>和
+                    <router-link to="/funds/pay-agreement" class="link">《委托支付协议》</router-link>服务协议。
+                </p>
             </div>
         </div>
         <div class="bottom">

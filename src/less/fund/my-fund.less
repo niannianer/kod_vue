@@ -65,14 +65,37 @@
             border-radius: 4px;
             background: @bg-content;
             .item-title{
-                padding: .4rem .7rem;
-                border-bottom: 2px solid #4990E2;;
+                margin: 0 .7rem;
+                padding: 0.4rem 0;
+                border-bottom: 1px solid #4990E2;;
             }
             .item-info{
                 text-align: center;
                 padding: .7rem;
                 .info{
                     margin-top: .3rem;
+                }
+            }
+            .item-footer{
+                .btn-item{
+                    border-top: 1px solid #4990E2;
+                    padding: .5rem .8rem;
+                    &.bonus{
+                        color: #D70000;
+                    }
+                    &.revoked{
+                        color: #2975BB;
+                        text-align: right;
+                    }
+                }
+
+                .footer-right{
+                    text-align: right;
+                    .img{
+                        width: .6rem;
+                        height: .9rem;
+                        vertical-align: bottom;
+                    }
                 }
             }
         }

@@ -67,11 +67,6 @@
                             </div>
                             <div>
                                 <p class="f8 bold">
-
-
-
-
-
                                     {{item.totalShareAsset | currencyFormat}}
                                 </p>
                                 <p class="info"> 市值（元）</p>
@@ -127,16 +122,29 @@
                                 </p>
                             </div>
                         </div>
+                        <div class="item-footer">
+                            <div flex  v-if="listNum == 0 || listNum == 5" class="btn-item bonus" @click.stop="bonusType">
+                                <div flex-box="0">分红方式</div>
+                                <div flex-box="1" class="footer-right">
+                                    现金红包
+                                    <img src="../images/fund/red-right.png" class="img"/>
+                                </div>
+                            </div>
+                            <div v-if="listNum == 3" class="btn-item revoked" @click.stop="toRevoked(item)">撤销</div>
+                        </div>
                     </li>
                 </ul>
             </mt-loadmore>
         </div>
+        <password-input v-show="inputPassword" :title="revoked.fundAbbrName" header="撤销订单" @close="inputPassword=false"
+                        @callBack="submitRevoked"></password-input>
     </div>
 </template>
 
 <script>
     import Vue from 'vue';
     import {Loadmore, InfiniteScroll} from 'mint-ui';
+    import PasswordInput from '../components/PasswordInput';
     Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
     import $api from '../tools/api';
@@ -153,9 +161,12 @@
                 currentPage: 0,
                 autoFill: false,
                 pageSize:10,
-                loading:true
+                loading:true,
+                inputPassword: false,
+                revoked: {}
             }
         },
+        components: {PasswordInput},
         created(){
             this.getAssetes();
             this.loadData();
@@ -164,6 +175,13 @@
             ...mapState(['investorRiskScore', 'investorRiskTypeDesc','accountStatus']),
         },
         methods: {
+            submitRevoked(password){
+
+            },
+            toRevoked(item){
+                this.inputPassword = true;
+                this.revoked = item;
+            },
             loadTop(){
                 this.list = [];
                 this.currentPage = 0;
@@ -254,6 +272,11 @@
                 this.currentPage = 0;
                 this.list = [];
                 this.loadData();
+            },
+            bonusType(){
+                this.$router.replace({
+                    path: '/funds/bonus-type'
+                });
             }
         },
         destroyed(){

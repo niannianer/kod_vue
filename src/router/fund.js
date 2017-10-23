@@ -36,6 +36,9 @@ const Redeem = () => import('../funds/Redeem');
 const RedeemResult = () => import('../funds/RedeemResult');
 const RelatedRate = () => import('../funds/RelatedRate');
 const Verify = () => import('../funds/Verify');
+const BonusType = () => import('../funds/BonusType');
+const PayAgreement = () => import('../funds/PayAgreement');
+const ServeAgreement = () => import('../funds/ServeAgreement');
 let fundRoutes = [
     {
         path: '/funds',
@@ -164,6 +167,27 @@ let fundRoutes = [
                 component: Verify,
                 meta: {
                     title: '基金开户'
+                }
+            }, {
+                path: 'bonus-type',
+                name: 'bonus-type',
+                component: BonusType,
+                meta: {
+                    title: '修改分红方式'
+                }
+            }, {
+                path: 'pay-agreement',
+                name: 'pay-agreement',
+                component: PayAgreement,
+                meta: {
+                    title: '委托支付协议'
+                }
+            }, {
+                path: 'serve-agreement',
+                name: 'serve-agreement',
+                component: ServeAgreement,
+                meta: {
+                    title: '基金电子交易远程服务协议'
                 }
             }]
     }
