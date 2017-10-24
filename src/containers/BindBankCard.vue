@@ -78,6 +78,7 @@
     import $device from '../tools/device';
     import '../less/bind-bank-card.less';
     import $api from '../tools/api';
+    import {refreshApp} from '../tools/operation';
     import {mapState} from 'vuex';
     import _ from 'lodash/core';
     import {checkPhone} from '../tools/fun';
@@ -245,7 +246,7 @@
             }
         },
         created(){
-
+            refreshApp();
             let event = ['_trackEvent', '绑定银行卡', 'SHOW', '进入绑定银行卡页面', '进入绑定银行卡页面'];
             window._hmt.push(event);
             if (window.sessionStorage.getItem('bind-card-info')) {

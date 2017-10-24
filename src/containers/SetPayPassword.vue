@@ -40,6 +40,7 @@
     import {mapState} from 'vuex';
     import $device from '../tools/device';
     import $api from '../tools/api';
+    import {refreshApp} from '../tools/operation';
     import EventBus from  '../tools/event-bus';
     import {Toast} from 'mint-ui';
     import Keyboard from '../components/Keyboard';
@@ -61,6 +62,7 @@
             Keyboard
         },
         created(){
+            refreshApp();
             let event = ['_trackEvent', '设置交易密码', 'SHOW', '进入设置交易密码页面', '进入设置交易密码页面'];
             window._hmt.push(event);
         },
@@ -130,6 +132,7 @@
                                 });
                             }
                             setTimeout(() => {
+
                                 this.$store.dispatch('getAccountInfo');
                                 this.$store.dispatch('getPersonalCenterMsg');
                                 this.$store.dispatch('getBankInfo');
