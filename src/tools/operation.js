@@ -163,6 +163,15 @@ export let logout = () => {
         window.location.replace('/login');
     }
 };
+// 刷新app个人信息
+export let refreshApp = () => {
+    if ($device.kingold && $device.kingoldVersion >= '1.0.5') {
+        requestHybrid({
+            tagname: 'refreshUserInfo',
+            param: {}
+        });
+    }
+};
 let $operation = {
     setTitle
 }

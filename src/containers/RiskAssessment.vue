@@ -134,6 +134,7 @@
                     if (data.code == 200) {
                         console.log(12);
                         this.$store.dispatch('getUserInfo');
+                        this.$store.dispatch('getRiskInfo');
                         // return;
                         if (this.isApp) {
                             this.$router.replace({

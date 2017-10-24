@@ -21,7 +21,7 @@
             <div class="tip">
                 仅限绑定与实名信息一致的借记卡
             </div>
-            <div class="content-1" v-if="userVerifyStatus>2" @click.stop="useNewCard=false">
+            <div class="content-1" v-if="userVerifyStatus>2&&showCheckCard" @click.stop="useNewCard=false">
                 <div flex class="bank-info" :class="{'abandon':useNewCard}">
                     <img :src="imgUrls.yingmi[bankType]" alt="" class="bank-logo">
                     <div>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="content seperate" v-if="userVerifyStatus>2" @click.stop="useNewCard=true">
+            <div class="content seperate" v-if="userVerifyStatus>2&&showCheckCard" @click.stop="useNewCard=true">
                 <div flex="cross:center" class="item">
                     <img src="../images/fund/open-count/plus.png" alt="" class="plus">
                     <p class="f8">使用新的银行卡</p>
@@ -39,7 +39,8 @@
             <div class="content" v-if="!(userVerifyStatus>2)||useNewCard">
                 <div class="item bl f8" flex="cross:center">
                     <p class="item-title" flex-box="0">银行卡号</p>
-                    <input type="text" flex-box="1" placeholder="请输入银行卡号" class="input" v-model="paymentNo" @input="change"
+                    <input type="text" flex-box="1" placeholder="请输入银行卡号" class="input" v-model="paymentNo"
+                           @input="change"
                            @propertychange="change">
                 </div>
                 <div class="item bl f8" flex="cross:center" @click.stop="checkBankName">
@@ -54,8 +55,8 @@
                 </div>
             </div>
             <div class="tip-box" flex>
-                <img src="../images/tip.png" alt="" class="tip-img">
-                <p class="f6 p">确认开户代表您同意
+                <img src="../images/tip.png" alt="" class="tip-img" class="tip-img" flex-box="0">
+                <p class="f6 p" flex-box="1">确认开户代表您同意
                     <router-link to="/funds/serve-agreement" class="link">《盈米财富基金电子交易远程服务协议》</router-link>和
                     <router-link to="/funds/pay-agreement" class="link">《委托支付协议》</router-link>服务协议。
                 </p>
@@ -87,7 +88,8 @@
                 istip: true,
                 phone: '',
                 paymentType: '',
-                bankType: ''
+                bankType: '',
+                showCheckCard:true
             }
         },
         created(){
@@ -140,6 +142,10 @@
                     .then(resp => {
                         if (resp.code == 200) {
                             this.bankType = resp.data.paymentType
+                        }
+                        if (resp.code == 5602) {
+                            this.showCheckCard = false;
+                            this.useNewCard = true;
                         }
                     })
             },
@@ -258,7 +264,7 @@
             }
         },
         mounted(){
-            this.$refs.openCount.style.minHeight = window.innerHeight+'px';
+            this.$refs.openCount.style.minHeight = window.innerHeight + 'px';
         },
         destroyed()
         {

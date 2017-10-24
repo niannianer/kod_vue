@@ -80,10 +80,14 @@
                     </div>
                 </div>
             </transition-group>
-            <password-input v-show="inputPassword" title="购买产品" @close="inputPassword=false" @callBack="tradeCallback"
-            ></password-input>
+            <password-input
+                v-show="inputPassword"
+                title="购买产品"
+                @close="inputPassword=false"
+                @callBack="tradeCallback">
+            </password-input>
         </div>
-        <div class="bottom seperate" flex-box="0">
+        <div class="bottom seperate" flex-box="0"  v-show="!inputPassword">
             <div v-if="isLack&&singleLimit" class="tip">
                 <p>银行卡限额：单笔{{singleLimit}}元，单日{{perdayLimit}}元</p>
             </div>

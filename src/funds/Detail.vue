@@ -64,7 +64,7 @@
                 <div flex="cross:center" class="item bl">
                     <p flex-box="1">购买费率</p>
                     <p flex-box="0" v-if="fund.frontEndPurchRate">{{fund.frontEndPurchRate}}%</p>
-                    <p flex-box="0" v-else class="btn f6">免费率</p>
+                    <p flex-box="0" class="btn f6" v-else >免费率</p>
                     <!-- <p flex-box="0" class="line-through">1.50%</p>
                      <p flex-box="0" class="red normal">0.15</p>-->
                 </div>
@@ -81,7 +81,7 @@
                     <p flex-box="1">分红方式</p>
                     <p flex-box="0">{{fund.defaultBonusType == 0 ? '红利资金再投' : '现金分红'}}</p>
                 </div>
-                <div flex="cross:center" class="item bl" @click.stop="pathTo('/manager')">
+                <div flex="cross:center" class="item bl" @click.stop="pathTo('/manager')" v-if="fund.manager">
                     <p flex-box="1">基金经理</p>
                     <p flex-box="0">{{fund.manager}}</p>
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="img">
@@ -95,7 +95,7 @@
                     <p flex-box="0"></p>
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="img">
                 </div>
-                <div flex="cross:center" class="item bl" @click.stop="pathTo('/bulletin')">
+                <div flex="cross:center" class="item bl" @click.stop="pathTo('/bulletin')" >
                     <p flex-box="1">基金公告</p>
                     <p flex-box="0">详细</p>
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="img">
