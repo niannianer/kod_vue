@@ -29,15 +29,16 @@
                         <div class="title-item">
                             基金名称
                         </div>
-                        <div class="item-info" flex="dir:top cross:center main:center" v-for="(item,index) in list" @click.stop="pathTo(item.fundCode)">
+                        <div class="item-info" flex="dir:top cross:center main:center" v-for="(item,index) in list"
+                             @click.stop="pathTo(item.fundCode)">
                             <p class="fund-abbr-name">{{item.fundAbbrName}}</p>
                             <p>{{item.fundCode}}</p>
-                        </div><!--内容溢出怎么办？-->
+                        </div>
                     </div>
                 </div>
-                <div class="title-list" flex-box="1" flex style="overflow-x: auto">
-                    <div class="min-width" :class="{'min-width-bigger':fundType==4}">
-                        <div flex >
+                <div class="title-list scroll-target" flex-box="1" flex>
+                    <div class="min-width " :class="{'min-width-bigger':fundType==4}">
+                        <div flex>
                             <div class="title-item bg-grey" @click.stop="checkOrder('unitYield')"
                                  flex="main:center cross:center" v-if="fundType==4" style="width: 6rem;min-width:6rem;">
                                 <p>万份收益（元）</p>
@@ -114,18 +115,22 @@
                         <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"
                             infinite-scroll-distance="10">
                             <li flex v-for="(item,index) in list" @click.stop="pathTo(item.fundCode)">
-                                <div class="item-info bg-grey" flex="dir:top cross:center main:center" v-if="fundType==4"
+                                <div class="item-info bg-grey" flex="dir:top cross:center main:center"
+                                     v-if="fundType==4"
                                      style="width: 6rem;min-width:6rem;">
-                                    <p>{{item.unitYield}}<!--万份收益--></p>
-                                    <p v-if="item.updateTime">{{dateFormat(item.updateTime)}}</p>
+                                    <p v-if="item.unitYield">{{item.unitYield}}<!--万份收益--></p>
+                                    <p v-if="item.updateTime&&item.unitYield">{{dateFormat(item.updateTime)}}</p>
+                                    <p v-if="!item.unitYield">--</p>
                                 </div>
                                 <div class="item-info bg-content" flex="cross:center main:center" v-if="fundType==4">
                                     {{item.yearlyRoe}}<!--七日年化-->
                                     <p v-if="!item.yearlyRoe">--</p>
                                 </div>
-                                <div class="item-info bg-grey" flex="dir:top cross:center main:center" v-if="fundType!=4">
-                                    <p> {{item.nav}}<!--单位净值--></p>
-                                    <p v-if="item.navDate">{{dateFormat(item.navDate)}}</p><!--净值日期-->
+                                <div class="item-info bg-grey" flex="dir:top cross:center main:center"
+                                     v-if="fundType!=4">
+                                    <p v-if="item.nav"> {{item.nav}}<!--单位净值--></p>
+                                    <p v-if="item.navDate&&item.nav">{{dateFormat(item.navDate)}}</p><!--净值日期-->
+                                    <p v-if="!item.nav">--</p>
                                 </div>
                                 <div class="item-info red f8 bg-content" flex="cross:center main:center"
                                      v-if="fundType!=4">
@@ -164,7 +169,7 @@
 <script>
     import $api from '../tools/api';
     import Vue from 'vue';
-    import {Loadmore, InfiniteScroll} from 'mint-ui';
+    import {Loadmore, InfiniteScroll, Indicator, Toast} from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
     import '../less/fund/gains-list.less';
@@ -177,12 +182,33 @@
                 autoFill: false,
                 currentPage: 0,
                 pageSize: 10,
-                loading: true,
+                loading: false,
                 orderBy: 'nav',
-                isDesc: true
+                isDesc: true,
+                scrollLeft: 0,
+                scrollTop:0
             }
         },
         created(){
+            let fundsDetail = window.sessionStorage.getItem('fundsDetail');
+            if (fundsDetail) {
+                let {fundType, list, orderBy, isDesc, scrollLeft,scrollTop} = JSON.parse(fundsDetail);
+                this.fundType = fundType;
+                this.list = list;
+                this.orderBy = orderBy;
+                this.isDesc = isDesc;
+                this.scrollLeft = scrollLeft;
+                this.loading = false;
+                this.scrollTop = scrollTop;
+                this.$nextTick(() => {
+                    let dom = document.querySelector('.scroll-target');
+                    dom.scrollLeft = this.scrollLeft;
+                    let body = document.querySelector('.body');
+                    body.scrollTop = this.scrollTop;
+                })
+                window.sessionStorage.removeItem('fundsDetail');
+                return false
+            }
             this.loadData();
         },
         computed: {
@@ -192,13 +218,21 @@
         },
         methods: {
             checkOrder(str){
+                let dom = document.querySelector('.scroll-target');
+                this.scrollLeft = dom.scrollLeft;
                 if (str == this.orderBy) {
                     this.isDesc = !this.isDesc;
                 }
                 this.orderBy = str;
-                this.list = [];
+                // this.list = [];
                 this.currentPage = 0;
-                this.loadData();
+                this.loadData('type')
+                    .then(() => {
+                        this.$nextTick(() => {
+                            dom.scrollLeft = this.scrollLeft;
+                        })
+                    });
+
             },
             checkFundType(num){
                 this.fundType = num;
@@ -213,7 +247,8 @@
                     this.$refs.loadmore.onTopLoaded();
                 });
             },
-            loadData(){
+            loadData(type){
+                Indicator.open();
                 return $api.get('/fund/info/increase/list', {
                     startRow: this.currentPage * this.pageSize,
                     pageSize: this.pageSize,
@@ -223,16 +258,23 @@
                 })
                     .then(msg => {
                         if (msg.code == 200) {
-                            msg.data.list.map(item=>{
+                            msg.data.list.map(item => {
                                 for (let key in item) {
-                                    if(key=='yearlyRoe'||key=='dayReturn'||key=='oneWeekReturn'||key=='oneMonthReturn'||key=='quarterReturn'||key=='oneYearReturn'||key=='thisYearReturn'){
-                                        item[key] = (item[key]*100).toFixed(2)+'%'
-                                    }else{
+                                    if (key == 'yearlyRoe' || key == 'dayReturn' || key == 'oneWeekReturn' || key == 'oneMonthReturn' || key == 'quarterReturn' || key == 'oneYearReturn' || key == 'thisYearReturn') {
+                                        item[key] = (item[key] * 100).toFixed(2) + '%'
+                                    } else {
                                         continue
                                     }
                                 }
                             })
-                            this.list = this.list.concat(msg.data.list);
+                            if (type == 'type') {
+                                this.list = (msg.data.list);
+                            }
+                            else {
+                                this.list = this.list.concat(msg.data.list);
+                            }
+
+                            Indicator.close();
                             if (msg.data.list.length < this.pageSize) {
                                 this.loading = true;
                             } else {
@@ -252,12 +294,14 @@
                 let y = date.getFullYear();
                 let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : '' + (date.getMonth() + 1);
                 let d = date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate();
-                return y+'-'+m + '-' + d;
+                return y + '-' + m + '-' + d;
             },
             pathTo(code){
+                this.scrollTop = document.querySelector('.body').scrollTop;
+                window.sessionStorage.setItem('fundsDetail', JSON.stringify(this.$data));
                 this.$router.push({
-                    path:'/funds/detail',
-                    query:{
+                    path: '/funds/detail',
+                    query: {
                         code
                     }
                 })

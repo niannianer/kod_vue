@@ -16,6 +16,7 @@
 <script>
     import {mapState} from 'vuex';
     import '../less/account-complete.less';
+    import {refreshApp} from '../tools/operation';
     export default {
         name: 'base',
         data(){
@@ -23,6 +24,7 @@
         },
         components: {},
         created(){
+            refreshApp();
         },
         computed: {
             ...mapState(

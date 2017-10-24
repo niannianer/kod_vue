@@ -21,7 +21,7 @@
             <div class="tip">
                 仅限绑定与实名信息一致的借记卡
             </div>
-            <div class="content-1" v-if="userVerifyStatus>2" @click.stop="useNewCard=false">
+            <div class="content-1" v-if="userVerifyStatus>2&&showCheckCard" @click.stop="useNewCard=false">
                 <div flex class="bank-info" :class="{'abandon':useNewCard}">
                     <img :src="imgUrls.yingmi[bankType]" alt="" class="bank-logo">
                     <div>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="content seperate" v-if="userVerifyStatus>2" @click.stop="useNewCard=true">
+            <div class="content seperate" v-if="userVerifyStatus>2&&showCheckCard" @click.stop="useNewCard=true">
                 <div flex="cross:center" class="item">
                     <img src="../images/fund/open-count/plus.png" alt="" class="plus">
                     <p class="f8">使用新的银行卡</p>
@@ -87,7 +87,8 @@
                 istip: true,
                 phone: '',
                 paymentType: '',
-                bankType: ''
+                bankType: '',
+                showCheckCard:true
             }
         },
         created(){
@@ -140,6 +141,10 @@
                     .then(resp => {
                         if (resp.code == 200) {
                             this.bankType = resp.data.paymentType
+                        }
+                        if (resp.code == 5602) {
+                            this.showCheckCard = false;
+                            this.useNewCard = true;
                         }
                     })
             },
@@ -258,7 +263,7 @@
             }
         },
         mounted(){
-            this.$refs.openCount.style.minHeight = window.innerHeight+'px';
+            this.$refs.openCount.style.minHeight = window.innerHeight + 'px';
         },
         destroyed()
         {

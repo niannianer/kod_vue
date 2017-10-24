@@ -124,7 +124,8 @@ let fundRoutes = [
                 name: 'position-analysis',
                 component: PositionAnalysis,
                 meta: {
-                    title: '持仓分析'
+                    title: '持仓分析',
+                    withoutLogin: true
                 }
             }, {
                 path: 'purchase',

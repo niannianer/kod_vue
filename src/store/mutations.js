@@ -88,5 +88,12 @@ mutations.setPersonalCenterMsg = (state,data) =>{
     });
 
 };
+mutations.setRiskInfo = (state,data) =>{
+    _.forEach(state, (value, key) => {
+        if (data.hasOwnProperty(key)) {
+            state[key] = data[key];
+        }
+    });
 
+};
 export default  mutations;
