@@ -117,7 +117,9 @@
                     }).then((resp) => {
                         if(resp.code == 200){
                             this.buy = resp.data || {};
-                            this.buy.pate = (this.buy.buyFeeRatio*this.buy.discount).toFixed(2);
+                            this.buy.pate = this.buy.buyFeeRatio ? (this.buy.buyFeeRatio*this.buy.discount).toFixed(2) : '0';
+                        }else{
+                            this.buy = {};
                         }
                     });
                 },500);
