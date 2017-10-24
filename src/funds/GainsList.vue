@@ -209,7 +209,7 @@
                 window.sessionStorage.removeItem('fundsDetail');
                 return false
             }
-            this.loadData();
+            //this.loadData();
         },
         computed: {
             sort(){
@@ -272,8 +272,12 @@
                             }
                             else {
                                 this.list = this.list.concat(msg.data.list);
+                                console.log( this.currentPage * this.pageSize)
+                                this.list.map(item=>{
+                                    console.log(item.nav)
+                                })
                             }
-
+                            this.currentPage++;
                             Indicator.close();
                             if (msg.data.list.length < this.pageSize) {
                                 this.loading = true;
@@ -286,7 +290,6 @@
             },
             loadMore(){
                 this.loading = true;
-                this.currentPage++;
                 this.loadData();
             },
             dateFormat(timestamp){
