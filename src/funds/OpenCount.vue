@@ -39,8 +39,7 @@
             <div class="content" v-if="!(userVerifyStatus>2)||useNewCard">
                 <div class="item bl f8" flex="cross:center">
                     <p class="item-title" flex-box="0">银行卡号</p>
-                    <input type="text" flex-box="1" placeholder="请输入银行卡号" class="input" v-model="paymentNo"
-                           @input="change"
+                    <input type="text" flex-box="1" placeholder="请输入银行卡号" class="input" v-model="paymentNo" @input="change"
                            @propertychange="change">
                 </div>
                 <div class="item bl f8" flex="cross:center" @click.stop="checkBankName">
@@ -55,8 +54,8 @@
                 </div>
             </div>
             <div class="tip-box" flex>
-                <img src="../images/tip.png" alt="" class="tip-img" class="tip-img" flex-box="0">
-                <p class="f6 p" flex-box="1">确认开户代表您同意
+                <img src="../images/tip.png" alt="" class="tip-img">
+                <p class="f6 p">确认开户代表您同意
                     <router-link to="/funds/serve-agreement" class="link">《盈米财富基金电子交易远程服务协议》</router-link>和
                     <router-link to="/funds/pay-agreement" class="link">《委托支付协议》</router-link>服务协议。
                 </p>
