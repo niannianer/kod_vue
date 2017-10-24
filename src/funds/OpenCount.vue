@@ -90,6 +90,7 @@
             }
         },
         created(){
+            Toast('bank1')
             if (window.sessionStorage.getItem('open-count')) {
                 let openCountData = JSON.parse(window.sessionStorage.getItem('open-count'));
                 window.sessionStorage.removeItem('open-count');
@@ -110,7 +111,9 @@
             if (this.investorIdCardNo) {
                 this.identityNo = this.investorIdCardNo;
             }
+
             if (this.bankUserCardNo) {
+                Toast('bank')
                 this.getBankType();
             }
         },
@@ -133,14 +136,17 @@
                 })
             },
             getBankType(){
+                Toast('aaaaaaaaaaaaaaaaaaaa')
                 $api.get('/fund/account/bank/info', {
                     bankCardNo: this.bankUserCardNo
                 })
                     .then(resp => {
+                        Toast(resp.code+'')
                         if (resp.code == 200) {
                             this.bankType = resp.data.paymentType
                         }
                         if (resp.code == 5602) {
+
                             this.showCheckCard = false;
                             this.useNewCard = true;
                         }
