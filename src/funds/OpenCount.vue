@@ -90,7 +90,6 @@
             }
         },
         created(){
-            Toast('bank1')
             if (window.sessionStorage.getItem('open-count')) {
                 let openCountData = JSON.parse(window.sessionStorage.getItem('open-count'));
                 window.sessionStorage.removeItem('open-count');
