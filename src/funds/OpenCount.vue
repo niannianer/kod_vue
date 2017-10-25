@@ -113,7 +113,6 @@
             }
 
             if (this.bankUserCardNo) {
-                Toast('bank')
                 this.getBankType();
             }
         },
@@ -136,12 +135,10 @@
                 })
             },
             getBankType(){
-                Toast('aaaaaaaaaaaaaaaaaaaa')
                 $api.get('/fund/account/bank/info', {
                     bankCardNo: this.bankUserCardNo
                 })
                     .then(resp => {
-                        Toast(resp.code+'')
                         if (resp.code == 200) {
                             this.bankType = resp.data.paymentType
                         }
