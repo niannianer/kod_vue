@@ -134,8 +134,12 @@
                         <div class="item-footer">
                             <div flex  v-if="listNum == 0" class="btn-item bonus" @click.stop="bonusType(item)">
                                 <div flex-box="0">分红方式</div>
-                                <div flex-box="1" class="footer-right">
-                                    <span v-if="!item.allowUpdateDividendMethod">(变更中)</span>
+                                <div flex-box="1" class="footer-right" v-if="item.setDividendMethodStatus">
+                                    (变更中)
+                                    {{item.setDividendMethod == 1 ? '现金红包' : '红利资金再投'}}
+                                    <img src="../images/fund/red-right.png" class="img" v-if="item.allowUpdateDividendMethod"/>
+                                </div>
+                                <div flex-box="1" class="footer-right" v-else >
                                     {{item.dividendMethod == 1 ? '现金红包' : '红利资金再投'}}
                                     <img src="../images/fund/red-right.png" class="img" v-if="item.allowUpdateDividendMethod"/>
                                 </div>
@@ -197,6 +201,7 @@
             ...mapState(['investorRiskScore', 'investorRiskTypeDesc','accountStatus','userUuid']),
         },
         methods: {
+            /*撤单*/
             submitRevoked(userPayPassword){
                 this.inputPassword = false;
                 let {userUuid} = this;
@@ -253,10 +258,10 @@
                     })
                         .then(resp => {
                             if (resp.code == 200) {
-                                let list = resp.data.list || [];
-                                this.list = this.list.concat(list);
-                                this.checkTimer();
-                                if (list.length < this.pageSize) {
+                                let lists = resp.data.list || [];
+                                lists = this.checkTimer(lists);
+                                this.list = this.list.concat(lists);
+                                if(this.list.length < this.pageSize) {
                                     this.loading = true;
                                 } else {
                                     this.loading = false;
@@ -267,12 +272,13 @@
                 }
 
             },
-            checkTimer(){
-                this.list.map((val)=>{
+            checkTimer(list){
+                list.map((val)=>{
                     if(this.beforeTodayThree(val.orderTradeDate)){
                         val.canCancel = true;
                     }
                 });
+                return list;
             },
             loadMore(){
                 this.loading = true;

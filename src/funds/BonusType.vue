@@ -19,6 +19,7 @@
     import {mapState} from 'vuex';
     import KingMessage from '../components/Message/KingMessage.vue';
     import '../less/fund/bonus-type.less';
+    import successImg from '../images/fund/submit-success.png';
 
     export default {
         name: 'base',
@@ -79,7 +80,7 @@
                     if(resp.code == 200){
                         this.msgOption = {
                             title: '提交成功',
-                            msg: '<img src="../images/fund/submit-success.png"/>'
+                            msg: `<img src="${successImg}" style="width: 1.6rem;"/>`
                         };
                         this.type = 'success';
                         return false;
