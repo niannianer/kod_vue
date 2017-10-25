@@ -2,7 +2,7 @@
     <div class="redeem" flex="dir:top">
         <div class="wrap" flex-box="1">
             <div class="header">
-                <p class="title">宏得优选100000</p>
+                <p class="title">{{fundAbbrName}}{{fundCode}}</p>
                 <p class="tip f8">可赎回份额(份){{share}}</p>
             </div>
             <div class="content seperate">
@@ -63,11 +63,15 @@
                 share: 0,//持有份额
                 redShare: '',// 赎回份额
                 redAssets: 0,//赎回资产
-                timer: null //键盘事件延时器
+                timer: null, //键盘事件延时器
+                fundAbbrName: '',
+                fundCode: ''
             }
         },
         created(){
             this.getShares();
+            this.fundCode = this.$route.query.code;
+            this.fundAbbrName = this.$route.query.name;
         },
         computed: {
             nagtive(){

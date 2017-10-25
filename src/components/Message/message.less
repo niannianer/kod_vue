@@ -3,7 +3,7 @@
 @charset "UTF-8";
 .msg-box {
     .msg-wrapper{
-        position: absolute;
+        position: fixed;
         z-index: 9;
         left: 0;
         top: 0;
@@ -17,7 +17,7 @@
         left: 10%;
         background-color: #fff;
         width: 80%;
-        border-radius: 3px;
+        border-radius: 10px;
         overflow: hidden;
         backface-visibility: hidden;
         transition: .2s;
@@ -33,25 +33,33 @@
             padding: .5rem 1rem .75rem;
             border-bottom: 1px solid #ddd;
             line-height: 1rem;
+            text-align: center;
+            .left{
+                text-align: left;
+            }
         }
         .msg-btns{
             display: flex;
             height: 40px;
             line-height: 40px;
             .btn-confirm {
-                border-right: 1px solid #ddd;
                 color: #4A90E2;
-            }
-            .close {
-                color: @color-text-secondary;
+                font-size: .8rem;
+                &.gray{
+                    color: @color-text-secondary;
+                }
                 &.disabled{
                     color: #bbb;
                 }
             }
+            .close {
+                border-right: 1px solid #ddd;
+                color: @color-text-secondary;
+                font-size: .8rem;
+                &.blue{
+                    color: #4990E2;
+                }
+            }
         }
-        .center{
-            text-align: center;
-        }
-
     }
 }

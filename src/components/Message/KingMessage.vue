@@ -2,16 +2,16 @@
     <div class="msg-box">
         <div class="msg-wrapper" @click.stop="wrapClose"></div>
         <div class="modal-body" >
-            <div class="msg-header">
+            <div class="msg-header" v-if="!options.hideTitle">
                 {{options.title||'提示'}}
             </div>
             <div class="msg-body" v-html="options.msg"></div>
             <div class="msg-btns" flex="box:mean">
-                <button class="btn-confirm" @click="okAction" flex-box="1">
-                    {{options.confirmText||'确认'}}
-                </button>
-                <button flex-box="1" class="close" @click="cancelAction" v-if="options.showCancelButton" :class="{'disabled':timer}">
+                <button flex-box="1" class="close" @click="cancelAction" v-if="options.showCancelButton" :class="[{'disabled':timer},options.closeClass]">
                     {{options.closeText||'取消'}}
+                </button>
+                <button class="btn-confirm" @click="okAction" flex-box="1" :class="[{'disabled':timer},options.confirmClass]">
+                    {{options.confirmText||'确认'}}
                     <span v-if="timer">（{{timer}}）</span>
                 </button>
             </div>
@@ -39,19 +39,19 @@
         },
         methods: {
             okAction(result) {
+                if(this.timer){
+                    return;
+                }
                 this.closeFn();
                 this.$emit('confirmBack', result)
             },
             cancelAction(){
-                if(this.timer){
-                    return;
-                }
                 this.closeFn();
                 this.$emit('cancelBack');
             },
             wrapClose(){
                 this.closeFn();
-                this.$emit('confirmBack','close');
+                this.$emit('cancelBack','close');
             },
             closeFn(){
                 this.close = true;

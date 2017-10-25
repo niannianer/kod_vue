@@ -81,12 +81,12 @@
                     <p flex-box="1">分红方式</p>
                     <p flex-box="0">{{fund.defaultBonusType == 0 ? '红利资金再投' : '现金分红'}}</p>
                 </div>
-                <div flex="cross:center" class="item bl" @click.stop="pathTo('/manager')" v-if="fund.manager">
+                <div flex="cross:center" class="item bl" @click.stop="pathTo('/manager')" v-if="fund.manager.length">
                     <p flex-box="1">基金经理</p>
-                    <p flex-box="0">{{fund.manager}}</p>
+                    <p flex-box="0">{{fund.manager.join('、')}}</p>
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="img">
                 </div>
-                <div flex="cross:center" class="item bl">
+                <div flex="cross:center" class="item bl" v-if="fund.fundCustodian">
                     <p flex-box="1">基金公司</p>
                     <p flex-box="0">{{fund.fundCustodian}}</p>
                 </div>
@@ -123,11 +123,11 @@
             <p class="p red" @click.stop="pathCheck()">申购</p>
         </div>
         <div class="bottom f8" flex-box="0" flex="box:mean" v-if="fund.isPurchFund">
-            <p class="p yellow" @click.stop="pathTo('/redeem')">赎回</p>
+            <p class="p yellow" @click.stop="pathTo('/funds/redeem',{name:fund.fundAbbrName,code:fund.fundCode})">赎回</p>
             <p class="p red" @click.stop="pathCheck">追加投资</p>
         </div>
 
-        <king-message v-if="showMessage" @confirmBack="againTest" @cancelBack="toBuy"
+        <king-message v-if="showMessage" @confirmBack="toBuy" @cancelBack="againTest"
                       :options="msgOption"></king-message>
     </div>
 </template>
@@ -231,7 +231,9 @@
                     responsive: true,
                     maintainAspectRatio: false
                 },
-                fund: {},
+                fund: {
+                    manager: []
+                },
                 timer: 3,
                 showMessage: false,
                 msgOption: {}
@@ -265,11 +267,13 @@
                         }
                         this.fund.frontEndPurchRate = minRate;
                         /*购买费率（取数组中最小的）*/
+                        this.fund.manager = [];
                         if (resp.data.fundManager) {
                             let managerList = JSON.parse(resp.data.fundManager);
-                            if (managerList && managerList.length) {
-                                this.fund.manager = managerList[0].name;
-                            }
+                            managerList.map((val) => {
+                                this.fund.manager.push(val.name);
+                            });
+                            this.fund.manager = this.fund.manager.slice(0,3);
                         }
                     }
                 })
@@ -350,21 +354,24 @@
                 if (Number(this.investorRiskType) < this.fund.riskLevelFundIsoc) {
                     //用户的风险测评为最低
                     if (this.isMinRiskLevel) {
-                        let lowMsg = '<div class="center">该产品为高风险产品，投资此产品超过了您的风险承受范围。</div>';
+                        let lowMsg = '该产品为高风险产品，投资此产品超过了您的风险承受范围。';
                         this.msgOption = {
                             title: '风险提示',
                             msg: lowMsg,
-                            confirmText: '重新测评'
+                            closeText: '重新测评',
+                            closeClass: 'blue'
                         };
                         this.showMessage = true;
                         return false;
                     }
                     this.msgOption = {
                         title: '风险提示',
-                        msg: '该产品为高风险产品，投资此产品超过了您的风险承受范围。' +
-                        '若仍选择投资，则表明在上述情况下，您仍自愿投资该产品，并愿意承担可能由此产生的风险。',
-                        closeText: '坚持购买',
-                        confirmText: '重新测评',
+                        msg: '<div class="left">该产品为高风险产品，投资此产品超过了您的风险承受范围。' +
+                        '若仍选择投资，则表明在上述情况下，您仍自愿投资该产品，并愿意承担可能由此产生的风险。</div>',
+                        closeText: '重新测评',
+                        closeClass: 'blue',
+                        confirmText: '坚持购买',
+                        confirmClass: 'gray',
                         countDown: 3,
                         showCancelButton: true
                     };

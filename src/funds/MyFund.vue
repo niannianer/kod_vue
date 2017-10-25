@@ -41,7 +41,7 @@
                     <li class="list-item" v-for="(item,index) in list"
                         @click.stop="pathTo('/funds/detail',item.fundCode)">
                         <div flex class="item-title">
-                            <p flex-box="1">
+                            <p flex-box="1" class="name">
                                 {{item.fundFullName}}
                             </p>
                             <p flex-box="0">
@@ -50,7 +50,7 @@
                         </div>
                         <div flex="box:mean" class="item-info" v-if="listNum == 0">
                             <div>
-                                <p class="f8 green bold">
+                                <p class="f8 green">
                                     {{item.previousProfit | currencyFormat}}
                                 </p>
                                 <p class="info">
@@ -58,7 +58,7 @@
                                 </p>
                             </div>
                             <div>
-                                <p class="f8 red bold">
+                                <p class="f8 red">
                                     {{item.accumulatedProfit | currencyFormat}}
                                 </p>
                                 <p class="info">
@@ -66,71 +66,84 @@
                                 </p>
                             </div>
                             <div>
-                                <p class="f8 bold">
+                                <p class="f8">
                                     {{item.totalShareAsset | currencyFormat}}
                                 </p>
                                 <p class="info"> 市值（元）</p>
                             </div>
                         </div>
                         <div flex="box:mean" class="item-info" v-if="listNum == 3">
-                            <div>
-                                <p class="f8 green bold">
-                                    {{item.tradeAmount | currencyFormat}}
-                                </p>
-                                <p class="info">
-                                    申购（元）
-                                </p>
+                            <!--申购-->
+                            <div v-if="item.bizCode == '022'">
+                                <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
+                                <p class="info">申购（元）</p>
+                            </div>
+                            <!--赎回-->
+                            <div v-if="item.bizCode == '024'">
+                                <p class="f8 bold">{{item.tradeShare}}</p>
+                                <p class="info">赎回（份）</p>
+                            </div>
+                            <!--分红-->
+                            <div v-if="item.bizCode == '029'">
+                                <p class="f8 bold">{{item.setdividendMethod == 1 ? '现金分红' : '红利资金再投'}}</p>
+                                <p class="info">修改分红方式</p>
                             </div>
                             <div>
-                                <p class="f8 red bold">
-                                    {{dateFormat(item.orderTradeDate)}}
-                                </p>
-                                <p class="info">
-                                    申购日期
-                                </p>
+                                <p class="f8 bold">{{item.orderTradeDate | timeFormat('mouthToday')}}</p>
+                                <p class="info" v-if="item.bizCode == '022'">申购日期</p>
+                                <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
+                                <p class="info" v-if="item.bizCode == '029'">操作日期</p>
                             </div>
                             <div>
-                                <p class="f8 bold">
-                                    {{dateFormat(item.orderOonfirmDate)}}
-                                </p>
+                                <p class="f8 bold">{{dateFormat(item.orderConfirmDate)}}</p>
                                 <p class="info"> 预计确认日期</p>
                             </div>
+
                         </div>
                         <div flex="box:mean" class="item-info" v-if="listNum == 5">
-                            <div>
-                                <p class="f8 green bold">
-                                    {{item.tradeAmount | currencyFormat}}
-                                </p>
-                                <p class="info">
-                                    申购（元）
-                                </p>
+                            <!--申购、红利再投、现金分红-->
+                            <div v-if="item.bizCode == '022' || item.bizCode == '043'">
+                                <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
+                                <p class="info">申购（元）</p>
+                            </div>
+                            <!--赎回-->
+                            <div v-if="item.bizCode == '024'">
+                                <p class="f8 bold">{{item.tradeShare}}</p>
+                                <p class="info">赎回（份）</p>
+                            </div>
+                            <!--设置分红方式-->
+                            <div v-if="item.bizCode == '029'">
+                                <p class="f8 bold">{{item.setdividendMethod == 1 ? '现金分红' : '红利资金再投'}}</p>
+                                <p class="info">修改分红方式</p>
                             </div>
                             <div>
-                                <p class="f8 red bold">
-                                    {{dateFormat(item.orderOonfirmDate)}}
-                                </p>
-                                <p class="info">
-                                    申购日期
-                                </p>
+                                <p class="f8 red bold">{{item.orderConfirmDate | timeFormat('mouthToday')}}</p>
+                                <p class="info" v-if="item.bizCode == '022' || item.bizCode == '043'">申购日期</p>
+                                <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
+                                <p class="info" v-if="item.bizCode == '029'">操作日期</p>
                             </div>
                             <div flex="cross:center main:center">
-                                <p class="f8 bold" v-if="!item.shareBonus">
-                                    {{item.confirm ? '成功' : '失败'}}
+                                <p class="f8 bold" v-if="item.bizCode == '043'">
+                                    {{item.isShareBonus ? '红利再投' : '现金分红'}}
                                 </p>
-                                <p class="f8 bold" v-if="item.shareBonus">
-                                    分红收益
+                                <p class="f8 bold" v-else :class="{'red': item.tradeStatus==-1}">
+                                    {{tradeStatus(item.tradeStatus)}}
                                 </p>
                             </div>
                         </div>
                         <div class="item-footer">
-                            <div flex  v-if="listNum == 0 || listNum == 5" class="btn-item bonus" @click.stop="bonusType">
+                            <div flex  v-if="listNum == 0" class="btn-item bonus" @click.stop="bonusType(item)">
                                 <div flex-box="0">分红方式</div>
                                 <div flex-box="1" class="footer-right">
-                                    现金红包
-                                    <img src="../images/fund/red-right.png" class="img"/>
+                                    <span v-if="!item.allowUpdateDividendMethod">(变更中)</span>
+                                    {{item.dividendMethod == 1 ? '现金红包' : '红利资金再投'}}
+                                    <img src="../images/fund/red-right.png" class="img" v-if="item.allowUpdateDividendMethod"/>
                                 </div>
                             </div>
-                            <div v-if="listNum == 3" class="btn-item revoked" @click.stop="toRevoked(item)">撤销</div>
+                            <div v-if="listNum == 3 && item.canCancel" class="btn-item revoked" @click.stop="toRevoked(item)">撤销</div>
+                            <div v-if="listNum == 5 && item.stringMessage" class="btn-item f6">
+                                {{item.stringMessage}}
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -138,6 +151,8 @@
         </div>
         <password-input v-show="inputPassword" :title="revoked.fundAbbrName" header="撤销订单" @close="inputPassword=false"
                         @callBack="submitRevoked"></password-input>
+        <king-message v-if="showMessage" @confirmBack="showMessage = false"
+                      :options="options"></king-message>
     </div>
 </template>
 
@@ -145,15 +160,19 @@
     import Vue from 'vue';
     import {Loadmore, InfiniteScroll} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
+    import KingMessage from '../components/Message/KingMessage.vue';
     Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
+    import EventBus from  '../tools/event-bus';
     import $api from '../tools/api';
     import '../less/fund/my-fund.less';
     import {mapState} from 'vuex';
+    import successImg from '../images/fund/submit-success.png';
     export default {
         name: 'my-fund',
         data(){
             return {
+                successImg,
                 listNum: 0,
                 fundAssets: {},
                 list: [],
@@ -163,24 +182,50 @@
                 pageSize:10,
                 loading:true,
                 inputPassword: false,
-                revoked: {}
+                revoked: {},
+                showMessage: false,
+                options: {},
+                timer: ''
             }
         },
-        components: {PasswordInput},
+        components: {PasswordInput, KingMessage},
         created(){
             this.getAssetes();
             this.loadData();
         },
         computed: {
-            ...mapState(['investorRiskScore', 'investorRiskTypeDesc','accountStatus']),
+            ...mapState(['investorRiskScore', 'investorRiskTypeDesc','accountStatus','userUuid']),
         },
         methods: {
-            submitRevoked(password){
-
+            submitRevoked(userPayPassword){
+                this.inputPassword = false;
+                let {userUuid} = this;
+                $api.post('/fund/purch/cancelFundOrder',{
+                    orderId: this.revoked.orderId,
+                    userUuid,
+                    userPayPassword
+                }).then((resp) => {
+                    this.showMessage = true;
+                    if(resp.code == 200){
+                        this.options = {
+                            title: '撤销订单成功',
+                            msg: `<img src="${successImg}" style="width: 1.6rem;"/>`
+                        };
+                    }else{
+                        EventBus.$emit('clearInput');
+                        this.options = {
+                            title: '撤销订单失败',
+                            msg: resp.msg
+                        };
+                    }
+                });
             },
             toRevoked(item){
                 this.inputPassword = true;
                 this.revoked = item;
+            },
+            tradeStatus(val){
+                return (val == -1 ? '失败' : (val == 9 ? '已撤销' : '成功'));
             },
             loadTop(){
                 this.list = [];
@@ -201,15 +246,17 @@
                         })
                 }
                 else {
-                    return $api.get('/fund/purch/my/buy', {
+                    return $api.get('/fund/purch/my/trade', {
                         buyStatus: this.listNum, /*3进行中  5已完成*/
                         startRow: this.currentPage * this.pageSize,
                         pageSize: this.pageSize
                     })
                         .then(resp => {
                             if (resp.code == 200) {
-                                this.list = this.list.concat(resp.data.list);
-                                if (resp.data.list.length < this.pageSize) {
+                                let list = resp.data.list || [];
+                                this.list = this.list.concat(list);
+                                this.checkTimer();
+                                if (list.length < this.pageSize) {
                                     this.loading = true;
                                 } else {
                                     this.loading = false;
@@ -219,6 +266,13 @@
                         })
                 }
 
+            },
+            checkTimer(){
+                this.list.map((val)=>{
+                    if(this.beforeTodayThree(val.orderTradeDate)){
+                        val.canCancel = true;
+                    }
+                });
             },
             loadMore(){
                 this.loading = true;
@@ -273,10 +327,34 @@
                 this.list = [];
                 this.loadData();
             },
-            bonusType(){
-                this.$router.replace({
-                    path: '/funds/bonus-type'
+            bonusType(item){
+                if(!item.allowUpdateDividendMethod){
+                    return;
+                }
+                this.$router.push({
+                    path: '/funds/bonus-type',
+                    query: {
+                        bonus: item.dividendMethod,
+                        fundCode: item.fundCode
+                    }
                 });
+            },
+            beforeTodayThree(str){
+                //当天
+                if (new Date(str).toDateString() === new Date().toDateString()) {
+                    let date = new Date();
+                    date.setHours(15);
+                    date.setMinutes(0);
+                    date.setSeconds(0);
+                    date.setMilliseconds(0);
+                    if(new Date().getTime() < date.getTime()){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                } else if (new Date(str) < new Date()){
+                    return false;
+                }
             }
         },
         destroyed(){
