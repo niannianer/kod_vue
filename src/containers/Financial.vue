@@ -220,7 +220,7 @@
             };
         },
         created(){
-            this.tab = this.$route.query.t || 2;
+            this.tab = this.$route.query.tab || 2;
 
             let goodsDetail = window.sessionStorage.getItem('goodsDetail');
             if (goodsDetail) {
@@ -255,7 +255,7 @@
                 this.settings.title = '优质稀缺大类资产，就在金疙瘩。';
                 this.getListWithLogin();
 
-            } else {
+            } else if(this.$route.query.tab !== '0'){
                 let event = ['_trackEvent', '产品列表', 'SHOW', '进入定期理财列表页', '进入定期理财列表页'];
                 window._hmt.push(event);
                 this.settings.title = '金疙瘩系列定期产品——闲散资金定制理财';
@@ -286,7 +286,7 @@
             },
             changeTab(tab){
                 this.tab = tab;
-                this.$router.replace('/financial?t='+this.tab);
+                this.$router.replace('/financial?tab='+this.tab);
                 this.startRow = 0;
                 this.$nextTick(() => {
                     let dom = document.querySelector('.item-list');
