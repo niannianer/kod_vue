@@ -75,7 +75,7 @@
 </template>
 
 <script>
-    import '../less/fund/pay-agreement.less';
+    import '../less/fund/agreement.less';
     export default {
         name: 'base',
         data(){

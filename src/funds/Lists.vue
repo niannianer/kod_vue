@@ -22,7 +22,7 @@
             <div class="header">
                 热销基金
             </div>
-            <div class="fund-card" flex v-for="(item, index) in hotList" key="index" @click.stop="toDetail(item.fundCode)">
+            <div class="fund-card" flex v-for="(item, index) in hotList" key="index" @click.stop="toDetail(item.fundCode, item.fundType)">
                 <div class="card-left" flex-box="0">
                     <div class="number">{{item.rate|translatePate}}</div>
                     <div class="text">{{item.rateText}}</div>
@@ -98,12 +98,13 @@
                     path: path
                 })
             },
-            toDetail(fundCode){
+            toDetail(code, type){
                 window.sessionStorage.setItem('fund-detail',1);
                 this.$router.push({
                     path: '/funds/detail',
                     query:{
-                        code: fundCode
+                        code,
+                        type
                     }
                 })
             }

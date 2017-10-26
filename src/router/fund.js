@@ -181,14 +181,16 @@ let fundRoutes = [
                 name: 'pay-agreement',
                 component: PayAgreement,
                 meta: {
-                    title: '委托支付协议'
+                    title: '委托支付协议',
+                    withoutLogin: true
                 }
             }, {
                 path: 'serve-agreement',
                 name: 'serve-agreement',
                 component: ServeAgreement,
                 meta: {
-                    title: '基金电子交易远程服务协议'
+                    title: '基金电子交易远程服务协议',
+                    withoutLogin: true
                 }
             }]
     }

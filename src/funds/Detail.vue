@@ -30,20 +30,47 @@
                     </div>
                 </div>
             </div>
-            <div class="content-1 f8" flex="box:mean">
-                <p class="check-item" :class="{'active':active==0}" @click.stop="activeCheck(0)">净值增长率 </p>
-                <p class="check-item" :class="{'active':active==1}" @click.stop="activeCheck(1)">净值走势  </p>
+            <!--货币型基金-->
+            <div v-if="fundTypes==4">
+                <div class="content-1 f8" flex="box:mean">
+                    <p class="check-item" :class="{'active':active==0}" @click.stop="activeCheck(0)">七日年化 </p>
+                    <p class="check-item" :class="{'active':active==1}" @click.stop="activeCheck(1)">万份收益 </p>
+                </div>
+                <div class="content-2 seperate" flex="box:mean">
+                    <p class="p p-left" v-if="active==0" >七日年化
+                        <span class="red span">{{yearlyRoeLast.yearlyRoe|translatePate}}</span>
+                            {{yearlyRoeLast.date}}
+                    </p>
+                    <p class="p p-left" v-else >万份收益
+                        <span class="red span">{{unitYieldLast.unitYield}}元</span>
+                            {{unitYieldLast.date}}
+                    </p>
+                </div>
+                <div v-if="!active">
+                    <line-chart :data="datas" :options="options" :chart-data="datas" class="chart seperate"></line-chart>
+                </div>
+                <div v-if="active">
+                    <line-chart :data="navDatas" :options="navOptions" :chart-data="navDatas"
+                                class="chart seperate"></line-chart>
+                </div>
             </div>
-            <div class="content-2 seperate" flex="box:mean">
-                <p class="p">期间涨跌<span class="red span">{{navDValue}}%</span></p>
-                <p class="p">同类平均<span class="red span">{{navChangeLast}}%</span></p>
-            </div>
-            <div v-if="!active">
-                <line-chart :data="datas" :options="options" :chart-data="datas" class="chart seperate"></line-chart>
-            </div>
-            <div v-if="active">
-                <line-chart :data="navDatas" :options="navOptions" :chart-data="navDatas"
-                            class="chart seperate"></line-chart>
+            <!--非货币型基金-->
+            <div v-else>
+                <div class="content-1 f8" flex="box:mean">
+                    <p class="check-item" :class="{'active':active==0}" @click.stop="activeCheck(0)">净值增长率 </p>
+                    <p class="check-item" :class="{'active':active==1}" @click.stop="activeCheck(1)">净值走势  </p>
+                </div>
+                <div class="content-2 seperate" flex="box:mean">
+                    <p class="p">期间涨跌<span class="red span">{{navDValue}}%</span></p>
+                    <p class="p">同类平均<span class="red span">{{navChangeLast}}%</span></p>
+                </div>
+                <div v-if="!active">
+                    <line-chart :data="datas" :options="options" :chart-data="datas" class="chart seperate"></line-chart>
+                </div>
+                <div v-if="active">
+                    <line-chart :data="navDatas" :options="navOptions" :chart-data="navDatas"
+                                class="chart seperate"></line-chart>
+                </div>
             </div>
             <div class="content-3">
                 <div class="duration-box f6" flex="box:mean">
@@ -151,6 +178,8 @@
                 datacollection: null,
                 navDValue: 0,
                 navChangeLast: 0,
+                yearlyRoeLast: {},
+                unitYieldLast: {},
                 datas: {},
                 navDatas: {},
                 options: {
@@ -240,6 +269,10 @@
             }
         },
         created(){
+            this.fundTypes = this.$route.query.type;
+            if(this.fundTypes == 4){
+                this.options.legend.display = false;
+            }
             this.getCharts();
             $api.get('/fund/info/detail', {
                 fundCode: this.$route.query.code
@@ -247,7 +280,7 @@
                 .then(resp => {
                     if (resp.code == 200) {
                         this.fund = resp.data;
-
+                        this.fundTypes = this.fund.fundType;
                         this.setSession('purchRate', resp.data.frontEndPurchRate)
                         /*申购费率*/
                         this.setSession('redRate', resp.data.redRate);
@@ -412,10 +445,7 @@
                 this.toPurchase('isRiskConfirmAgain');
             },
             getCharts(){
-                let labels = [];
-                let nowData = [];
-                let avgData = [];
-                let navData = [];
+                let result = {};
                 $api.get('/fund/info/nav/series', {
                     fundCode: this.$route.query.code,
                     period: this.duration
@@ -423,73 +453,138 @@
                     .then(resp => {
                         if (resp.code == 200) {
                             if (resp.data.list && resp.data.list.length) {
-                                resp.data.list[0].navSeries.map(item => {
-                                    labels.push(item.date)
-                                    nowData.push(item.change)
-                                    avgData.push(item.sameFundChange)
-                                    navData.push(item.nav)
-                                })
-                                let length = resp.data.list[0].navSeries.length;
-                                this.navDValue = resp.data.list[0].navSeries[length - 1].nav - resp.data.list[0].navSeries[0].nav;
-                                if (!isNaN(this.navDValue)) {
-                                    this.navDValue = this.navDValue.toFixed(2);
-                                } else {
-                                    this.navDValue = 0
-                                }
-                                this.navChangeLast = resp.data.list[0].navSeries[length - 1].sameFundChange;
-                                if (!this.navChangeLast) {
-                                    this.navChangeLast = 0;
-                                }
+                                result = this.formatData(resp.data.list);
                                 return resp;
                             }
                         }
                     })
                     .then(resp => {
-                        this.datas = {
-                            labels,
-                            datasets: [
-                                {
-                                    label: '当前基金',
-                                    backgroundColor: '#417505',
-                                    data: nowData,
-                                    borderColor: '#417505',
-                                    fill: false,
-                                    borderWidth: 1,
-                                    pointBackgroundColor: 'transparent',
-                                    pointStyle: 'circle',
-                                    hitRadius: 10,
-                                    radius: 0
-                                }, {
-                                    label: '同类均值',
-                                    backgroundColor: '#D0021B',
-                                    borderColor: '#D0021B',
-                                    data: avgData,
-                                    fill: false,
-                                    borderWidth: 1,
-                                    pointBackgroundColor: 'transparent',
-                                    pointStyle: 'dash'
-                                }
-                            ]
-                        }
-                        this.navDatas = {
-                            labels,
-                            datasets: [
-                                {
-                                    backgroundColor: '#417505',
-                                    data: navData,
-                                    borderColor: '#417505',
-                                    fill: false,
-                                    borderWidth: 1,
-                                    pointBackgroundColor: 'transparent',
-                                    pointStyle: 'circle',
-                                    hitRadius: 10,
-                                    radius: 0
-                                }
-                            ]
-                        }
-                        /*console.log(this.datas.labels)
-                         console.log(this.datas.datasets[0].data)*/
+                        this.lineData(result);
                     })
+            },
+            formatData(list){
+                let labels = [];
+                let nowData = [];
+                let avgData = [];
+                let navData = [];
+                let unitYieldData = [];//万分收益
+                let yearlyRoeData = [];//七日年华
+                list[0].navSeries.map(item => {
+                    labels.push(item.date)
+                    if(this.fundTypes == 4){
+                        unitYieldData.push(item.unitYield);
+                        yearlyRoeData.push(item.yearlyRoe);
+                    }else{
+                        nowData.push(item.change);
+                        avgData.push(item.sameFundChange);
+                        navData.push(item.nav);
+                    }
+
+                });
+                let length = list[0].navSeries.length;
+                //货币型基金
+                if(this.fundTypes == 4){
+                    this.unitYieldLast = list[0].navSeries[length - 1];
+                    this.yearlyRoeLast = list[0].navSeries[length - 1];
+                    this.unitYieldLast.date = (this.unitYieldLast.date).split('-').join('.');
+                    this.yearlyRoeLast.date = (this.yearlyRoeLast.date).split('-').join('.');
+                }else{
+                    //非货币型基金
+                    this.navDValue = list[0].navSeries[length - 1].nav - list[0].navSeries[0].nav;
+                    if (!isNaN(this.navDValue)) {
+                        this.navDValue = this.navDValue.toFixed(2);
+                    } else {
+                        this.navDValue = 0
+                    }
+                    this.navChangeLast = list[0].navSeries[length - 1].sameFundChange;
+                    if (!this.navChangeLast) {
+                        this.navChangeLast = 0;
+                    }
+                }
+                return {labels,nowData,avgData,navData,yearlyRoeData,unitYieldData}
+            },
+            lineData(result){
+                let {labels, nowData, avgData, navData, yearlyRoeData,unitYieldData} = result;
+                if(this.fundTypes == 4){
+                    this.datas = {
+                        labels,
+                        datasets: [
+                            {
+                                label: '七日年化',
+                                backgroundColor: '#417505',
+                                data: yearlyRoeData,
+                                borderColor: '#417505',
+                                fill: false,
+                                borderWidth: 1,
+                                pointBackgroundColor: 'transparent',
+                                pointStyle: 'circle',
+                                hitRadius: 10,
+                                radius: 0
+                            }
+                        ]
+                    };
+                    this.navDatas = {
+                        labels,
+                        datasets: [
+                            {
+                                backgroundColor: '#417505',
+                                data: unitYieldData,
+                                borderColor: '#417505',
+                                fill: false,
+                                borderWidth: 1,
+                                pointBackgroundColor: 'transparent',
+                                pointStyle: 'circle',
+                                hitRadius: 10,
+                                radius: 0
+                            }
+                        ]
+                    };
+                    return;
+                }
+                this.datas = {
+                    labels,
+                    datasets: [
+                        {
+                            label: '当前基金',
+                            backgroundColor: '#417505',
+                            data: nowData,
+                            borderColor: '#417505',
+                            fill: false,
+                            borderWidth: 1,
+                            pointBackgroundColor: 'transparent',
+                            pointStyle: 'circle',
+                            hitRadius: 10,
+                            radius: 0
+                        }, {
+                            label: '同类均值',
+                            backgroundColor: '#D0021B',
+                            borderColor: '#D0021B',
+                            data: avgData,
+                            fill: false,
+                            borderWidth: 1,
+                            pointBackgroundColor: 'transparent',
+                            pointStyle: 'dash'
+                        }
+                    ]
+                }
+                this.navDatas = {
+                    labels,
+                    datasets: [
+                        {
+                            backgroundColor: '#417505',
+                            data: navData,
+                            borderColor: '#417505',
+                            fill: false,
+                            borderWidth: 1,
+                            pointBackgroundColor: 'transparent',
+                            pointStyle: 'circle',
+                            hitRadius: 10,
+                            radius: 0
+                        }
+                    ]
+                }
+                /*console.log(this.datas.labels)
+                 console.log(this.datas.datasets[0].data)*/
             },
             dateFormat(timestamp){
                 let date = new Date(timestamp);

@@ -2,7 +2,7 @@
     <div class="hot-list">
         <mt-loadmore :top-method="loadTop" ref="loadmore" :auto-fill="autoFill">
             <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-                <li class="item" v-for="(item,index) in lists" @click.stop="pathTo(item.fundCode)">
+                <li class="item" v-for="(item,index) in lists" @click.stop="pathTo(item.fundCode, item.fundType)">
                     <div class="float left"></div>
                     <div class="float right"></div>
                     <div class="title-part" flex="cross:center">
@@ -71,11 +71,12 @@
         },
         computed: {},
         methods: {
-            pathTo(code){
+            pathTo(code, type){
                 this.$router.push({
                     path:'/funds/detail',
                     query:{
-                        code
+                        code,
+                        type
                     }
                 })
             },

@@ -39,7 +39,7 @@
                 <ul class="list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"
                     infinite-scroll-distance="10">
                     <li class="list-item" v-for="(item,index) in list"
-                        @click.stop="pathTo('/funds/detail',item.fundCode)">
+                        @click.stop="pathTo('/funds/detail',{code:item.fundCode,type:item.fundType})">
                         <div flex class="item-title">
                             <p flex-box="1" class="name">
                                 {{item.fundFullName}}
@@ -80,7 +80,7 @@
                             </div>
                             <!--赎回-->
                             <div v-if="item.bizCode == '024'">
-                                <p class="f8 bold">{{item.tradeShare}}</p>
+                                <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
                                 <p class="info">赎回（份）</p>
                             </div>
                             <!--分红-->
@@ -90,7 +90,7 @@
                             </div>
                             <div>
                                 <p class="f8 bold">{{item.orderTradeDate | timeFormat('mouthToday')}}</p>
-                                <p class="info" v-if="item.bizCode == '022'">申购日期</p>
+                                <p class="info" v-if="item.bizCode == '022' || item.bizCode == '043'">申购日期</p>
                                 <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
                                 <p class="info" v-if="item.bizCode == '029'">操作日期</p>
                             </div>
@@ -108,7 +108,7 @@
                             </div>
                             <!--赎回-->
                             <div v-if="item.bizCode == '024'">
-                                <p class="f8 bold">{{item.tradeShare}}</p>
+                                <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
                                 <p class="info">赎回（份）</p>
                             </div>
                             <!--设置分红方式-->
@@ -144,7 +144,10 @@
                                     <img src="../images/fund/red-right.png" class="img" v-if="item.allowUpdateDividendMethod"/>
                                 </div>
                             </div>
-                            <div v-if="listNum == 3 && item.canCancel" class="btn-item revoked" @click.stop="toRevoked(item)">撤销</div>
+                            <div v-if="listNum == 3 && (item.enableCancel == 1) && item.bizCode!='029'"
+                                 class="btn-item revoked" @click.stop="toRevoked(item)">
+                                撤销
+                            </div>
                             <div v-if="listNum == 5 && item.stringMessage" class="btn-item f6">
                                 {{item.stringMessage}}
                             </div>
@@ -209,13 +212,14 @@
                     orderId: this.revoked.orderId,
                     userUuid,
                     userPayPassword
-                }).then((resp) => {
+                },'正在等待交易结果').then((resp) => {
                     this.showMessage = true;
                     if(resp.code == 200){
                         this.options = {
                             title: '撤销订单成功',
                             msg: `<img src="${successImg}" style="width: 1.6rem;"/>`
                         };
+                        this.loadData();
                     }else{
                         EventBus.$emit('clearInput');
                         this.options = {
@@ -259,9 +263,9 @@
                         .then(resp => {
                             if (resp.code == 200) {
                                 let lists = resp.data.list || [];
-                                lists = this.checkTimer(lists);
+                                //lists = this.checkTimer(lists);
                                 this.list = this.list.concat(lists);
-                                if(this.list.length < this.pageSize) {
+                                if(lists.length < this.pageSize) {
                                     this.loading = true;
                                 } else {
                                     this.loading = false;
@@ -301,13 +305,11 @@
                     this.$router.push('/funds/info')
                 }
             },
-            pathTo(path, code){
-                if (code) {
+            pathTo(path, q){
+                if (q) {
                     this.$router.push({
                         path,
-                        query: {
-                            code
-                        }
+                        query: q
                     });
                 } else {
                     this.$router.push(path);

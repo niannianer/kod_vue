@@ -305,7 +305,8 @@
                 this.$router.push({
                     path: '/funds/detail',
                     query: {
-                        code
+                        code,
+                        type: this.fundType
                     }
                 })
             },

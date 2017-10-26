@@ -97,10 +97,10 @@ let getNode = (path, data = {}) => {
 };
 import  {logout} from './operation';
 import {Indicator} from 'mint-ui';
-let post = (path, data = {}) => {
+let post = (path, data = {}, indicator = '') => {
     data.callSystemID = '1003';
     let url = `${serverUrl + path}`;
-    Indicator.open();
+    Indicator.open(indicator);
     return axios({
         url,
         method: 'post',
