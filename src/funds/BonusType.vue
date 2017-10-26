@@ -75,12 +75,13 @@
                     dividendMethod,
                     fundCode,
                     userUuid
-                }).then((resp) => {
+                },'正在等待确认').then((resp) => {
                     this.showMessage = true;
                     if(resp.code == 200){
                         this.msgOption = {
                             title: '提交成功',
-                            msg: `<img src="${successImg}" style="width: 1.6rem;"/>`
+                            msg: `<img src="${successImg}" style="width: 1.6rem;"/>`,
+                            confirmText: '确定'
                         };
                         this.type = 'success';
                         return false;
@@ -88,7 +89,8 @@
                     this.type = 'fail';
                     this.msgOption = {
                         title: '提交失败',
-                        msg: resp.msg
+                        msg: resp.msg,
+                        confirmText: '确定'
                     };
                 });
             }

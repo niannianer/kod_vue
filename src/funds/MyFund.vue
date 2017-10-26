@@ -217,14 +217,17 @@
                     if(resp.code == 200){
                         this.options = {
                             title: '撤销订单成功',
-                            msg: `<img src="${successImg}" style="width: 1.6rem;"/>`
+                            msg: `<img src="${successImg}" style="width: 1.6rem;"/>`,
+                            confirmText: '确定'
                         };
+                        this.list = [];
                         this.loadData();
                     }else{
                         EventBus.$emit('clearInput');
                         this.options = {
                             title: '撤销订单失败',
-                            msg: resp.msg
+                            msg: resp.msg,
+                            confirmText: '确定'
                         };
                     }
                 });
@@ -263,7 +266,6 @@
                         .then(resp => {
                             if (resp.code == 200) {
                                 let lists = resp.data.list || [];
-                                //lists = this.checkTimer(lists);
                                 this.list = this.list.concat(lists);
                                 if(lists.length < this.pageSize) {
                                     this.loading = true;
@@ -275,14 +277,6 @@
                         })
                 }
 
-            },
-            checkTimer(list){
-                list.map((val)=>{
-                    if(this.beforeTodayThree(val.orderTradeDate)){
-                        val.canCancel = true;
-                    }
-                });
-                return list;
             },
             loadMore(){
                 this.loading = true;
@@ -346,23 +340,6 @@
                         fundCode: item.fundCode
                     }
                 });
-            },
-            beforeTodayThree(str){
-                //当天
-                if (new Date(str).toDateString() === new Date().toDateString()) {
-                    let date = new Date();
-                    date.setHours(15);
-                    date.setMinutes(0);
-                    date.setSeconds(0);
-                    date.setMilliseconds(0);
-                    if(new Date().getTime() < date.getTime()){
-                        return true;
-                    }else{
-                        return false;
-                    }
-                } else if (new Date(str) < new Date()){
-                    return false;
-                }
             }
         },
         destroyed(){
