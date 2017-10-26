@@ -124,6 +124,9 @@
                             dur = item.lowerLimit + '万元≤X<' + item.upperLimit + '万元';
                             feeRatio = item.feeRatio + '%';
                         }
+                        if(!feeRatio){
+                            feeRatio = 0;
+                        }
                         this.purchRate.push({
                             dur,
                             feeRatio
@@ -146,6 +149,9 @@
                         }
                         else {
                             dur = item.lowerLimit + '天≤X<' + item.upperLimit + '天';
+                        }
+                        if(!item.feeRatio){
+                            item.feeRatio = 0;
                         }
                         feeRatio = item.feeRatio + '%';
                         this.redRate.push({

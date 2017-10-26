@@ -112,6 +112,7 @@
             if (this.investorIdCardNo) {
                 this.identityNo = this.investorIdCardNo;
             }
+
             if (this.bankUserCardNo) {
                 this.getBankType();
             }
@@ -143,6 +144,7 @@
                             this.bankType = resp.data.paymentType
                         }
                         if (resp.code == 5602) {
+
                             this.showCheckCard = false;
                             this.useNewCard = true;
                         }
