@@ -160,6 +160,7 @@
                         @callBack="submitRevoked"></password-input>
         <king-message v-if="showMessage" @confirmBack="showMessage = false"
                       :options="options"></king-message>
+        <ymi-message v-if="showYmi" @callBack="enterYmi"></ymi-message>
     </div>
 </template>
 
@@ -171,6 +172,7 @@
     Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
     import EventBus from  '../tools/event-bus';
+    import YmiMessage from '../components/YmiMessage/YmiMessage';
     import $api from '../tools/api';
     import '../less/fund/my-fund.less';
     import {mapState} from 'vuex';
@@ -192,10 +194,11 @@
                 revoked: {},
                 showMessage: false,
                 options: {},
-                timer: ''
+                timer: '',
+                showYmi: false
             }
         },
-        components: {PasswordInput, KingMessage},
+        components: {PasswordInput, KingMessage, YmiMessage},
         created(){
             this.listNum = this.$route.query.t || 0;
             this.getAssetes();
@@ -242,6 +245,15 @@
             toRevoked(item){
                 this.inputPassword = true;
                 this.revoked = item;
+            },
+            enterYmi(result){
+              if(result == 0){
+                  this.showYmi = false;
+                  return;
+              }
+                this.$router.push({
+                    path:'/funds/open-count'
+                })
             },
             tradeStatus(val){
                 return (val == -1 ? '失败' : (val == 9 ? '已撤销' : '成功'));
@@ -292,9 +304,8 @@
             },
             fundAccountStep(){
                 if(this.accountStatus<1){
-                    this.$router.push({
-                        path:'/funds/open-count'
-                    })
+                    //显示即将进入盈米弹层
+                    this.showYmi = true;
                 }else if(this.accountStatus<2){
                     this.$router.push({
                         path:'/set-pay-password',

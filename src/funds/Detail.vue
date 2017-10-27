@@ -150,26 +150,28 @@
             <p class="p red" @click.stop="pathCheck()">申购</p>
         </div>
         <div class="bottom f8" flex-box="0" flex="box:mean" v-if="fund.isPurchFund">
-            <p class="p yellow" @click.stop="pathTo('/funds/redeem',{name:fund.fundAbbrName,code:fund.fundCode})">赎回</p>
+            <p class="p yellow" @click.stop="toRedeem">赎回</p>
             <p class="p red" @click.stop="pathCheck">追加投资</p>
         </div>
 
         <king-message v-if="showMessage" @confirmBack="toBuy" @cancelBack="againTest"
                       :options="msgOption"></king-message>
+        <ymi-message v-if="showYmi" @callBack="enterYmi"></ymi-message>
     </div>
 </template>
 
 <script>
     import $api from '../tools/api';
     import {mapState} from 'vuex';
-    import KingMessage from '../components/Message/KingMessage.vue';
+    import KingMessage from '../components/Message/KingMessage';
     import $device from '../tools/device';
     import '../less/fund/detail.less';
     import LineChart from '../components/LineChart/line';
+    import YmiMessage from '../components/YmiMessage/YmiMessage';
     export default {
         name: 'detail',
         components: {
-            LineChart, KingMessage
+            LineChart, KingMessage, YmiMessage
         },
         data(){
             return {
@@ -265,7 +267,9 @@
                 },
                 timer: 3,
                 showMessage: false,
-                msgOption: {}
+                msgOption: {},
+                showYmi: false,
+                enterPath: ''
             }
         },
         created(){
@@ -364,7 +368,9 @@
             pathCheck(){
                 //是否开户
                 if (this.accountStatus < 1) {
-                    this.pathTo('/funds/open-count', {});
+                    //显示即将进入盈米弹层
+                    this.enterPath = 'openCount';
+                    this.showYmi = true;
                     return false;
                 }
                 //是否设置初始密码
@@ -412,7 +418,7 @@
                     };
                     this.showMessage = true;
                 } else {
-                    this.toPurchase();
+                    this.toBuy();
                 }
             },
             //进入基金申购页面
@@ -444,7 +450,33 @@
             //坚持购买
             toBuy(){
                 this.showMessage = false;
-                this.toPurchase('isRiskConfirmAgain');
+                this.showYmi = true;
+                this.enterPath = 'purchase';
+            },
+            //申购
+            toRedeem(){
+                this.showYmi = true;
+                this.enterPath = 'redeem';
+            },
+            //进入盈米
+            enterYmi(result){
+                if(result == 0){
+                    this.showYmi = false;
+                    return;
+                }
+                switch (this.enterPath){
+                    case 'purchase':
+                        this.toPurchase('isRiskConfirmAgain');
+                        break;
+                    case 'redeem':
+                        this.pathTo('/funds/redeem',{name:this.fund.fundAbbrName,code:this.fund.fundCode});
+                        break;
+                    case 'openCount':
+                        this.pathTo('/funds/open-count', {});
+                        break;
+                    default:
+                        break;
+                }
             },
             getCharts(){
                 let result = {};
