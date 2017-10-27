@@ -10,7 +10,7 @@
                 <button flex-box="1" class="close" @click="cancelAction" v-if="options.showCancelButton" :class="[{'disabled':timer},options.closeClass]">
                     {{options.closeText||'取消'}}
                 </button>
-                <button class="btn-confirm" @click="okAction" flex-box="1" :class="[{'disabled':timer},options.confirmClass]">
+                <button class="btn-confirm" @click="okAction" flex-box="1" v-if="options.showConfirmButton" :class="[{'disabled':timer},options.confirmClass]">
                     {{options.confirmText||'确认'}}
                     <span v-if="timer">（{{timer}}）</span>
                 </button>
@@ -19,8 +19,13 @@
     </div>
 
 </template>
-
 <script>
+    /**
+     * showConfirmButton:是否显示确认按钮，默认true，显示
+     * showCancelButton:是否显示取消按钮，默认false，隐藏
+     *  hideTitle:是否隐藏标题，默认false，不隐藏
+     *  timer:确认按钮倒计时时间，默认空，无倒计时
+     * */
     import './message.less';
     export default {
         name: 'message',
@@ -33,6 +38,8 @@
         },
         created(){
           this.timer = this.options.countDown;
+          let showConfirmButton = this.options.showConfirmButton;
+          this.options.showConfirmButton = showConfirmButton == undefined ? true : showConfirmButton;
           if(this.timer){
               this.countDownFn();
           }

@@ -74,7 +74,7 @@
                         </div>
                         <div flex="box:mean" class="item-info" v-if="listNum == 3">
                             <!--申购-->
-                            <div v-if="item.bizCode == '022'">
+                            <div v-if="item.bizCode == '022' || item.bizCode == '043'">
                                 <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
                                 <p class="info">申购（元）</p>
                             </div>
@@ -123,10 +123,10 @@
                                 <p class="info" v-if="item.bizCode == '029'">操作日期</p>
                             </div>
                             <div flex="cross:center main:center">
-                                <p class="f8 bold" v-if="item.bizCode == '043'">
+                                <p class="f8" v-if="item.bizCode == '043'">
                                     {{item.isShareBonus ? '红利再投' : '现金分红'}}
                                 </p>
-                                <p class="f8 bold" v-else :class="{'red': item.tradeStatus==-1}">
+                                <p class="f8" v-else :class="{'red': item.tradeStatus==-1}">
                                     {{tradeStatus(item.tradeStatus)}}
                                 </p>
                             </div>
@@ -165,7 +165,7 @@
 
 <script>
     import Vue from 'vue';
-    import {Loadmore, InfiniteScroll} from 'mint-ui';
+    import {Loadmore, InfiniteScroll, Toast} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
     import KingMessage from '../components/Message/KingMessage.vue';
     Vue.component(Loadmore.name, Loadmore);
@@ -197,6 +197,7 @@
         },
         components: {PasswordInput, KingMessage},
         created(){
+            this.listNum = this.$route.query.t || 0;
             this.getAssetes();
             this.loadData();
         },
@@ -206,15 +207,16 @@
         methods: {
             /*撤单*/
             submitRevoked(userPayPassword){
-                this.inputPassword = false;
                 let {userUuid} = this;
                 $api.post('/fund/purch/cancelFundOrder',{
                     orderId: this.revoked.orderId,
                     userUuid,
                     userPayPassword
                 },'正在等待交易结果').then((resp) => {
-                    this.showMessage = true;
+                    EventBus.$emit('clearInput');
                     if(resp.code == 200){
+                        this.showMessage = true;
+                        this.inputPassword = false;
                         this.options = {
                             title: '撤销订单成功',
                             msg: `<img src="${successImg}" style="width: 1.6rem;"/>`,
@@ -223,7 +225,12 @@
                         this.list = [];
                         this.loadData();
                     }else{
-                        EventBus.$emit('clearInput');
+                        if(resp.code == 1108){
+                            Toast(resp.msg);
+                            return;
+                        }
+                        this.showMessage = true;
+                        this.inputPassword = false;
                         this.options = {
                             title: '撤销订单失败',
                             msg: resp.msg,
@@ -325,6 +332,12 @@
             },
             checkFund(num){
                 this.listNum = num;
+                this.$router.replace({
+                    path: '/funds/my-fund',
+                    query: {
+                        t: this.listNum
+                    }
+                });
                 this.currentPage = 0;
                 this.list = [];
                 this.loadData();

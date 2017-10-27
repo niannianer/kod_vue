@@ -392,7 +392,9 @@
                             title: '风险提示',
                             msg: lowMsg,
                             closeText: '重新测评',
-                            closeClass: 'blue'
+                            closeClass: 'blue',
+                            showConfirmButton: false,
+                            showCancelButton: true
                         };
                         this.showMessage = true;
                         return false;
