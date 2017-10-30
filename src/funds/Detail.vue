@@ -24,7 +24,11 @@
                         <p class="f9">{{toPercentage(fund.thisYearReturn)}}</p>
                         <p>今年以来涨幅</p>
                     </div>
-                    <div class="border-left">
+                    <div class="border-left" v-if="Number(fund.fundType)==4">
+                        <p class="f9">{{fund.unitYield}}</p>
+                        <p>万份收益（{{dateFormat(fund.unitYieldDate)}}）</p>
+                    </div>
+                    <div class="border-left" v-else >
                         <p class="f9">{{fund.nav}}</p>
                         <p>最新净值（{{fund.navDate}}）</p>
                     </div>
