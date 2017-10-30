@@ -469,14 +469,8 @@
             },
             //申购
             toRedeem(){
-                this.$store.dispatch('getAccountBaofoo').then(data => {
-                    if (data.code == '401') {
-                        logout();
-                    } else {
-                        this.showYmi = true;
-                        this.enterPath = 'redeem';
-                    }
-                });
+                this.showYmi = true;
+                this.enterPath = 'redeem';
             },
             //进入盈米
             enterYmi(result){
