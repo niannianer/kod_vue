@@ -107,7 +107,7 @@
                 }
             },
             getCode(){
-                $api.get('/sendVerifyCode',{investorMobile:this.investorMobile,imageCode:this.imageCode,bussType:2}).then(msg=>{
+                $api.post('/sendVerifyCode',{investorMobile:this.investorMobile,imageCode:this.imageCode,bussType:2}).then(msg=>{
                     if(msg.code == 200){
                         //隐藏图形验证
                         this.imgcodeShow = false;
