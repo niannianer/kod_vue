@@ -42,7 +42,7 @@
                 </div>
                 <div class="content-2 seperate" flex="box:mean">
                     <p class="p p-left" v-if="active==0" >七日年化
-                        <span class="red span">{{(yearlyRoeLast.yearlyRoe||0)*100}}%</span>
+                        <span class="red span">{{(yearlyRoeLast.yearlyRoe||0)*1000/10}}%</span>
                             {{yearlyRoeLast.date}}
                     </p>
                     <p class="p p-left" v-else >万份收益
