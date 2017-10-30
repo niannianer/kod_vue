@@ -1,6 +1,6 @@
 <template>
     <div class="detail" flex="dir:top">
-        <div class="wrap" flex-box="1">
+        <div class="wrap" flex-box="1" :class="{'blurry': showYmi}">
             <div class="header">
                 <p>{{fund.fundAbbrName}}&nbsp&nbsp&nbsp&nbsp{{fund.fundCode}}</p>
                 <div flex="box:mean" class="tags">
@@ -172,6 +172,7 @@
     import '../less/fund/detail.less';
     import LineChart from '../components/LineChart/line';
     import YmiMessage from '../components/YmiMessage/YmiMessage';
+    import {logout} from '../tools/operation';
     export default {
         name: 'detail',
         components: {
@@ -370,6 +371,15 @@
                 });
             },
             pathCheck(){
+                this.$store.dispatch('getAccountBaofoo').then(data => {
+                    if (data.code == '401') {
+                        logout();
+                    } else {
+                        this.purseNext();
+                    }
+                });
+            },
+            purseNext(){
                 //是否开户
                 if (this.accountStatus < 1) {
                     //显示即将进入盈米弹层
@@ -459,8 +469,14 @@
             },
             //申购
             toRedeem(){
-                this.showYmi = true;
-                this.enterPath = 'redeem';
+                this.$store.dispatch('getAccountBaofoo').then(data => {
+                    if (data.code == '401') {
+                        logout();
+                    } else {
+                        this.showYmi = true;
+                        this.enterPath = 'redeem';
+                    }
+                });
             },
             //进入盈米
             enterYmi(result){
