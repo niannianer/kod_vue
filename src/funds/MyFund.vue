@@ -1,185 +1,187 @@
 <template>
     <div class="my-fund">
-        <div class="header">
-            <div flex="box:justify cross:center">
-                <div>
-                    <p class="border" v-if="!investorRiskScore" @click.stop="pathTo('/risk-assessment/wechat')">去测评</p>
-                    <p class="border" v-else @click.stop="pathTo('/assessment-result')">{{investorRiskTypeDesc}}</p>
+        <div :class="{'blurry':showYmi}">
+            <div class="header">
+                <div flex="box:justify cross:center">
+                    <div>
+                        <p class="border" v-if="!investorRiskScore" @click.stop="pathTo('/risk-assessment/wechat')">去测评</p>
+                        <p class="border" v-else @click.stop="pathTo('/assessment-result')">{{investorRiskTypeDesc}}</p>
+                    </div>
+                    <p class="f9">昨日收益（元）</p>
+                    <div>
+                        <p class="border" @click.stop="fundAccountStep">用户信息</p>
+                    </div>
                 </div>
-                <p class="f9">昨日收益（元）</p>
-                <div>
-                    <p class="border" @click.stop="fundAccountStep">用户信息</p>
+                <p class="date" v-if="fundAssets.previousProfitTradeDate">{{dateFormat(fundAssets.previousProfitTradeDate)}}</p>
+                <p class="rate">{{fundAssets.previousProfit | currencyFormat}}</p>
+                <div flex="box:mean" class="info-box">
+                    <div>
+                        <p>总市值（元）</p>
+                        <p class="data">{{fundAssets.totalShareAsset | currencyFormat}}</p>
+                    </div>
+                    <div>
+                        <p>累计盈亏（元）</p>
+                        <p class="data">{{fundAssets.accumulatedProfit | currencyFormat}}</p>
+                    </div>
+                    <div>
+                        <p>在途资金（元）</p>
+                        <p class="data">{{fundAssets.fundsTransit | currencyFormat}}</p>
+                    </div>
                 </div>
             </div>
-            <p class="date" v-if="fundAssets.previousProfitTradeDate">{{dateFormat(fundAssets.previousProfitTradeDate)}}</p>
-            <p class="rate">{{fundAssets.previousProfit | currencyFormat}}</p>
-            <div flex="box:mean" class="info-box">
-                <div>
-                    <p>总市值（元）</p>
-                    <p class="data">{{fundAssets.totalShareAsset | currencyFormat}}</p>
+            <div class="body">
+                <div class="title-box f8" flex="box:mean">
+                    <p class="p" :class="{'active':listNum == 0}" @click.stop="checkFund(0)">我持有的基金</p>
+                    <p class="p" :class="{'active':listNum == 3}" @click.stop="checkFund(3)">进行中</p>
+                    <p class="p" :class="{'active':listNum == 5}" @click.stop="checkFund(5)">已完成</p>
                 </div>
-                <div>
-                    <p>累计盈亏（元）</p>
-                    <p class="data">{{fundAssets.accumulatedProfit | currencyFormat}}</p>
-                </div>
-                <div>
-                    <p>在途资金（元）</p>
-                    <p class="data">{{fundAssets.fundsTransit | currencyFormat}}</p>
-                </div>
-            </div>
-        </div>
-        <div class="body">
-            <div class="title-box f8" flex="box:mean">
-                <p class="p" :class="{'active':listNum == 0}" @click.stop="checkFund(0)">我持有的基金</p>
-                <p class="p" :class="{'active':listNum == 3}" @click.stop="checkFund(3)">进行中</p>
-                <p class="p" :class="{'active':listNum == 5}" @click.stop="checkFund(5)">已完成</p>
-            </div>
-            <div v-if="!this.list.length" style="text-align: center;padding-top: .5rem;">暂无内容</div>
-            <mt-loadmore :top-method="loadTop" ref="loadmore" :auto-fill="autoFill">
-                <ul class="list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"
-                    infinite-scroll-distance="10">
-                    <li class="list-item" v-for="(item,index) in list"
-                        @click.stop="pathTo('/funds/detail',{code:item.fundCode,type:item.fundType})">
-                        <div flex class="item-title">
-                            <p flex-box="1" class="name">
-                                {{item.fundAbbrName}}
-                            </p>
-                            <p flex-box="0">
-                                {{fundType[item.fundType]}}
-                            </p>
-                        </div>
-                        <div flex="box:mean" class="item-info" v-if="listNum == 0">
-                            <div>
-                                <p class="f8 green">
-                                    {{item.previousProfit | currencyFormat}}
+                <div v-if="!this.list.length" style="text-align: center;padding-top: .5rem;">暂无内容</div>
+                <mt-loadmore :top-method="loadTop" ref="loadmore" :auto-fill="autoFill">
+                    <ul class="list-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"
+                        infinite-scroll-distance="10">
+                        <li class="list-item" v-for="(item,index) in list"
+                            @click.stop="pathTo('/funds/detail',{code:item.fundCode,type:item.fundType})">
+                            <div flex class="item-title">
+                                <p flex-box="1" class="name">
+                                    {{item.fundAbbrName}}
                                 </p>
-                                <p class="info">
-                                    最新收益（元）
+                                <p flex-box="0">
+                                    {{fundType[item.fundType]}}
                                 </p>
                             </div>
-                            <div>
-                                <p class="f8 red">
-                                    {{item.accumulatedProfit | currencyFormat}}
-                                </p>
-                                <p class="info">
-                                    累计盈亏（元）
-                                </p>
-                            </div>
-                            <div>
-                                <p class="f8">
-                                    {{item.totalShareAsset | currencyFormat}}
-                                </p>
-                                <p class="info"> 市值（元）</p>
-                            </div>
-                        </div>
-                        <div flex="box:mean" class="item-info" v-if="listNum == 3">
-                            <!--申购-->
-                            <div v-if="item.bizCode == '022'">
-                                <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
-                                <p class="info">申购（元）</p>
-                            </div>
-                            <!--赎回-->
-                            <div v-if="item.bizCode == '024'">
-                                <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
-                                <p class="info">赎回（份）</p>
-                            </div>
-                            <!--设置分红方式-->
-                            <div v-if="item.bizCode == '029'">
-                                <p class="f8 bold">{{item.setdividendMethod == 1 ? '现金分红' : '红利资金再投'}}</p>
-                                <p class="info">修改分红方式</p>
-                            </div>
-                            <div>
-                                <p class="f8 bold" v-if="item.bizCode == '022' || item.bizCode == '024'">
-                                    {{item.orderTradeDate | timeFormat('mouthToday')}}
-                                </p>
-                                <p class="f8 bold" v-if="item.bizCode == '029'">
-                                    {{item.createTime | timeFormat('mouthToday')}}
-                                </p>
-                                <p class="info" v-if="item.bizCode == '022'">申购日期</p>
-                                <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
-                                <p class="info" v-if="item.bizCode == '029'">操作日期</p>
-                            </div>
-                            <div>
-                                <p class="f8 bold">{{dateFormat(item.orderConfirmDate)}}</p>
-                                <p class="info"> 预计确认日期</p>
-                            </div>
-
-                        </div>
-                        <div flex="box:mean" class="item-info" v-if="listNum == 5">
-                            <!--金额开始-->
-                            <!--申购-->
-                            <div v-if="item.bizCode == '022'">
-                                <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
-                                <p class="info">申购（元）</p>
-                            </div>
-                            <!--赎回-->
-                            <div v-if="item.bizCode == '024'">
-                                <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
-                                <p class="info">赎回（份）</p>
-                            </div>
-                            <!--设置分红方式-->
-                            <div v-if="item.bizCode == '029'">
-                                <p class="f8 bold">{{item.setdividendMethod == 1 ? '现金分红' : '红利资金再投'}}</p>
-                                <p class="info">修改分红方式</p>
-                            </div>
-                            <!--分红：红利再投-->
-                            <div v-if="item.bizCode == '043' && item.shareBonus">
-                                <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
-                                <p class="info">份额（份）</p>
-                            </div>
-                            <!--分红：现金分红-->
-                            <div v-if="item.bizCode == '043' && !item.shareBonus">
-                                <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
-                                <p class="info">金额（元）</p>
-                            </div>
-                            <!--金额结束-->
-
-                            <!--日期时间开始-->
-                            <div>
-                                <p class="f8 red bold">{{item.orderTradeDate | timeFormat('mouthToday')}}</p>
-                                <p class="info" v-if="item.bizCode == '022'">申购日期</p>
-                                <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
-                                <p class="info" v-if="item.bizCode == '029'">操作日期</p>
-                                <p class="info" v-if="item.bizCode == '043'">日期</p>
-                            </div>
-                            <!--日期时间结束-->
-
-                            <!--结果-->
-                            <div flex="cross:center main:center">
-                                <!--分红-->
-                                <p class="f8" v-if="item.bizCode == '043'">
-                                    {{item.shareBonus ? '红利再投' : '现金分红'}}
-                                </p>
-                                <!--成功、失败、已撤销-->
-                                <p class="f8" v-else :class="{'red': item.tradeStatus==-1}">
-                                    {{tradeStatus(item.tradeStatus)}}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="item-footer">
-                            <div flex  v-if="listNum == 0" class="btn-item bonus" @click.stop="bonusType(item)">
-                                <div flex-box="0">分红方式</div>
-                                <div flex-box="1" class="footer-right" v-if="item.setDividendMethodStatus">
-                                    (变更中)
-                                    {{item.setDividendMethod == 1 ? '现金红包' : '红利资金再投'}}
-                                    <img src="../images/fund/red-right.png" class="img" v-if="item.allowUpdateDividendMethod"/>
+                            <div flex="box:mean" class="item-info" v-if="listNum == 0">
+                                <div>
+                                    <p class="f8 green">
+                                        {{item.previousProfit | currencyFormat}}
+                                    </p>
+                                    <p class="info">
+                                        最新收益（元）
+                                    </p>
                                 </div>
-                                <div flex-box="1" class="footer-right" v-else >
-                                    {{item.dividendMethod == 1 ? '现金红包' : '红利资金再投'}}
-                                    <img src="../images/fund/red-right.png" class="img" v-if="item.allowUpdateDividendMethod"/>
+                                <div>
+                                    <p class="f8 red">
+                                        {{item.accumulatedProfit | currencyFormat}}
+                                    </p>
+                                    <p class="info">
+                                        累计盈亏（元）
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="f8">
+                                        {{item.totalShareAsset | currencyFormat}}
+                                    </p>
+                                    <p class="info"> 市值（元）</p>
                                 </div>
                             </div>
-                            <div v-if="listNum == 3 && (item.enableCancel == 1) && item.bizCode!='029'"
-                                 class="btn-item revoked" @click.stop="toRevoked(item)">
-                                撤销
+                            <div flex="box:mean" class="item-info" v-if="listNum == 3">
+                                <!--申购-->
+                                <div v-if="item.bizCode == '022'">
+                                    <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
+                                    <p class="info">申购（元）</p>
+                                </div>
+                                <!--赎回-->
+                                <div v-if="item.bizCode == '024'">
+                                    <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
+                                    <p class="info">赎回（份）</p>
+                                </div>
+                                <!--设置分红方式-->
+                                <div v-if="item.bizCode == '029'">
+                                    <p class="f8 bold">{{item.setdividendMethod == 1 ? '现金分红' : '红利资金再投'}}</p>
+                                    <p class="info">修改分红方式</p>
+                                </div>
+                                <div>
+                                    <p class="f8 bold" v-if="item.bizCode == '022' || item.bizCode == '024'">
+                                        {{item.orderTradeDate | timeFormat('mouthToday')}}
+                                    </p>
+                                    <p class="f8 bold" v-if="item.bizCode == '029'">
+                                        {{item.createTime | timeFormat('mouthToday')}}
+                                    </p>
+                                    <p class="info" v-if="item.bizCode == '022'">申购日期</p>
+                                    <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
+                                    <p class="info" v-if="item.bizCode == '029'">操作日期</p>
+                                </div>
+                                <div>
+                                    <p class="f8 bold">{{dateFormat(item.orderConfirmDate)}}</p>
+                                    <p class="info"> 预计确认日期</p>
+                                </div>
+
                             </div>
-                            <div v-if="listNum == 5 && item.stringMessage" class="btn-item f6">
-                                {{item.stringMessage}}
+                            <div flex="box:mean" class="item-info" v-if="listNum == 5">
+                                <!--金额开始-->
+                                <!--申购-->
+                                <div v-if="item.bizCode == '022'">
+                                    <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
+                                    <p class="info">申购（元）</p>
+                                </div>
+                                <!--赎回-->
+                                <div v-if="item.bizCode == '024'">
+                                    <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
+                                    <p class="info">赎回（份）</p>
+                                </div>
+                                <!--设置分红方式-->
+                                <div v-if="item.bizCode == '029'">
+                                    <p class="f8 bold">{{item.setdividendMethod == 1 ? '现金分红' : '红利资金再投'}}</p>
+                                    <p class="info">修改分红方式</p>
+                                </div>
+                                <!--分红：红利再投-->
+                                <div v-if="item.bizCode == '043' && item.shareBonus">
+                                    <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
+                                    <p class="info">份额（份）</p>
+                                </div>
+                                <!--分红：现金分红-->
+                                <div v-if="item.bizCode == '043' && !item.shareBonus">
+                                    <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
+                                    <p class="info">金额（元）</p>
+                                </div>
+                                <!--金额结束-->
+
+                                <!--日期时间开始-->
+                                <div>
+                                    <p class="f8 red bold">{{item.orderTradeDate | timeFormat('mouthToday')}}</p>
+                                    <p class="info" v-if="item.bizCode == '022'">申购日期</p>
+                                    <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
+                                    <p class="info" v-if="item.bizCode == '029'">操作日期</p>
+                                    <p class="info" v-if="item.bizCode == '043'">日期</p>
+                                </div>
+                                <!--日期时间结束-->
+
+                                <!--结果-->
+                                <div flex="cross:center main:center">
+                                    <!--分红-->
+                                    <p class="f8" v-if="item.bizCode == '043'">
+                                        {{item.shareBonus ? '红利再投' : '现金分红'}}
+                                    </p>
+                                    <!--成功、失败、已撤销-->
+                                    <p class="f8" v-else :class="{'red': item.tradeStatus==-1}">
+                                        {{tradeStatus(item.tradeStatus)}}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                </ul>
-            </mt-loadmore>
+                            <div class="item-footer">
+                                <div flex  v-if="listNum == 0" class="btn-item bonus" @click.stop="bonusType(item)">
+                                    <div flex-box="0">分红方式</div>
+                                    <div flex-box="1" class="footer-right" v-if="item.setDividendMethodStatus">
+                                        (变更中)
+                                        {{item.setDividendMethod == 1 ? '现金红包' : '红利资金再投'}}
+                                        <img src="../images/fund/red-right.png" class="img" v-if="item.allowUpdateDividendMethod"/>
+                                    </div>
+                                    <div flex-box="1" class="footer-right" v-else >
+                                        {{item.dividendMethod == 1 ? '现金红包' : '红利资金再投'}}
+                                        <img src="../images/fund/red-right.png" class="img" v-if="item.allowUpdateDividendMethod"/>
+                                    </div>
+                                </div>
+                                <div v-if="listNum == 3 && (item.enableCancel == 1) && item.bizCode!='029'"
+                                     class="btn-item revoked" @click.stop="toRevoked(item)">
+                                    撤销
+                                </div>
+                                <div v-if="listNum == 5 && item.stringMessage" class="btn-item f6">
+                                    {{item.stringMessage}}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </mt-loadmore>
+            </div>
         </div>
         <password-input v-show="inputPassword" :title="revoked.fundAbbrName" header="撤销订单" @close="inputPassword=false"
                         @callBack="submitRevoked"></password-input>
