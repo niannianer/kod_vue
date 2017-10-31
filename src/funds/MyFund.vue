@@ -74,35 +74,7 @@
                         </div>
                         <div flex="box:mean" class="item-info" v-if="listNum == 3">
                             <!--申购-->
-                            <div v-if="item.bizCode == '022' || item.bizCode == '043'">
-                                <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
-                                <p class="info">申购（元）</p>
-                            </div>
-                            <!--赎回-->
-                            <div v-if="item.bizCode == '024'">
-                                <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
-                                <p class="info">赎回（份）</p>
-                            </div>
-                            <!--分红-->
-                            <div v-if="item.bizCode == '029'">
-                                <p class="f8 bold">{{item.setdividendMethod == 1 ? '现金分红' : '红利资金再投'}}</p>
-                                <p class="info">修改分红方式</p>
-                            </div>
-                            <div>
-                                <p class="f8 bold">{{item.orderTradeDate | timeFormat('mouthToday')}}</p>
-                                <p class="info" v-if="item.bizCode == '022' || item.bizCode == '043'">申购日期</p>
-                                <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
-                                <p class="info" v-if="item.bizCode == '029'">操作日期</p>
-                            </div>
-                            <div>
-                                <p class="f8 bold">{{dateFormat(item.orderConfirmDate)}}</p>
-                                <p class="info"> 预计确认日期</p>
-                            </div>
-
-                        </div>
-                        <div flex="box:mean" class="item-info" v-if="listNum == 5">
-                            <!--申购、红利再投、现金分红-->
-                            <div v-if="item.bizCode == '022' || item.bizCode == '043'">
+                            <div v-if="item.bizCode == '022'">
                                 <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
                                 <p class="info">申购（元）</p>
                             </div>
@@ -117,15 +89,68 @@
                                 <p class="info">修改分红方式</p>
                             </div>
                             <div>
-                                <p class="f8 red bold">{{item.orderConfirmDate | timeFormat('mouthToday')}}</p>
-                                <p class="info" v-if="item.bizCode == '022' || item.bizCode == '043'">申购日期</p>
+                                <p class="f8 bold" v-if="item.bizCode == '022' || item.bizCode == '024'">
+                                    {{item.orderTradeDate | timeFormat('mouthToday')}}
+                                </p>
+                                <p class="f8 bold" v-if="item.bizCode == '029'">
+                                    {{item.createTime | timeFormat('mouthToday')}}
+                                </p>
+                                <p class="info" v-if="item.bizCode == '022'">申购日期</p>
                                 <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
                                 <p class="info" v-if="item.bizCode == '029'">操作日期</p>
                             </div>
+                            <div>
+                                <p class="f8 bold">{{dateFormat(item.orderConfirmDate)}}</p>
+                                <p class="info"> 预计确认日期</p>
+                            </div>
+
+                        </div>
+                        <div flex="box:mean" class="item-info" v-if="listNum == 5">
+                            <!--金额开始-->
+                            <!--申购-->
+                            <div v-if="item.bizCode == '022'">
+                                <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
+                                <p class="info">申购（元）</p>
+                            </div>
+                            <!--赎回-->
+                            <div v-if="item.bizCode == '024'">
+                                <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
+                                <p class="info">赎回（份）</p>
+                            </div>
+                            <!--设置分红方式-->
+                            <div v-if="item.bizCode == '029'">
+                                <p class="f8 bold">{{item.setdividendMethod == 1 ? '现金分红' : '红利资金再投'}}</p>
+                                <p class="info">修改分红方式</p>
+                            </div>
+                            <!--分红：红利再投-->
+                            <div v-if="item.bizCode == '043' && item.shareBonus">
+                                <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
+                                <p class="info">份额（份）</p>
+                            </div>
+                            <!--分红：现金分红-->
+                            <div v-if="item.bizCode == '043' && !item.shareBonus">
+                                <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
+                                <p class="info">金额（元）</p>
+                            </div>
+                            <!--金额结束-->
+
+                            <!--日期时间开始-->
+                            <div>
+                                <p class="f8 red bold">{{item.orderTradeDate | timeFormat('mouthToday')}}</p>
+                                <p class="info" v-if="item.bizCode == '022'">申购日期</p>
+                                <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
+                                <p class="info" v-if="item.bizCode == '029'">操作日期</p>
+                                <p class="info" v-if="item.bizCode == '043'">日期</p>
+                            </div>
+                            <!--日期时间结束-->
+
+                            <!--结果-->
                             <div flex="cross:center main:center">
+                                <!--分红-->
                                 <p class="f8" v-if="item.bizCode == '043'">
-                                    {{item.isShareBonus ? '红利再投' : '现金分红'}}
+                                    {{item.shareBonus ? '红利再投' : '现金分红'}}
                                 </p>
+                                <!--成功、失败、已撤销-->
                                 <p class="f8" v-else :class="{'red': item.tradeStatus==-1}">
                                     {{tradeStatus(item.tradeStatus)}}
                                 </p>
