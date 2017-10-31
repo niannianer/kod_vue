@@ -42,7 +42,7 @@
                         @click.stop="pathTo('/funds/detail',{code:item.fundCode,type:item.fundType})">
                         <div flex class="item-title">
                             <p flex-box="1" class="name">
-                                {{item.fundFullName}}
+                                {{item.fundAbbrName}}
                             </p>
                             <p flex-box="0">
                                 {{fundType[item.fundType]}}
