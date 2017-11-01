@@ -91,10 +91,10 @@
                                 </div>
                                 <div>
                                     <p class="f8 bold" v-if="item.bizCode == '022' || item.bizCode == '024'">
-                                        {{item.orderTradeDate | timeFormat('mouthToday')}}
+                                        {{dateFormat(item.orderTradeDate)}}
                                     </p>
                                     <p class="f8 bold" v-if="item.bizCode == '029'">
-                                        {{item.createTime | timeFormat('mouthToday')}}
+                                        {{dateFormat(item.createTime)}}
                                     </p>
                                     <p class="info" v-if="item.bizCode == '022'">申购日期</p>
                                     <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
@@ -137,7 +137,7 @@
 
                                 <!--日期时间开始-->
                                 <div>
-                                    <p class="f8 red bold">{{item.orderTradeDate | timeFormat('mouthToday')}}</p>
+                                    <p class="f8 red bold">{{dateFormat(item.orderTradeDate)}}</p>
                                     <p class="info" v-if="item.bizCode == '022'">申购日期</p>
                                     <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
                                     <p class="info" v-if="item.bizCode == '029'">操作日期</p>
