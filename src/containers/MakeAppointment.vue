@@ -135,7 +135,7 @@
                 timeLeft = 59;
                 this.timeCount();
                 this.verifyText = '重新发送';
-                $api.get('/sendVerifyCode', {investorMobile, imageCode, bussType})
+                $api.post('/sendVerifyCode', {investorMobile, imageCode, bussType})
                     .then(data => {
                         if (data.code == 200) {
                             return false;
