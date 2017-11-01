@@ -20,15 +20,17 @@
         <dl class="authentication-input">
             <dd flex>
                 <span class="span-left">真实姓名</span>
-                <div class="span-right" flex="cross:center">
+                <div class="span-right" flex="cross:center" v-if="accountStatus==0">
                     <input type="text" placeholder="请输入您的真实姓名" v-model="userName">
                 </div>
+                <p v-else>{{investorRealName}}</p>
             </dd>
             <dd flex>
                 <span class="span-left">身份证号</span>
-                <div class="span-right" flex="cross:center">
+                <div class="span-right" flex="cross:center" v-if="accountStatus==0">
                     <input type="text" placeholder="请输入您的身份证号码" v-model="userIdCardNumber">
                 </div>
+                <p v-else>{{investorIdCardNo}}</p>
             </dd>
         </dl>
         <div class="authentication-bottom">
@@ -81,7 +83,8 @@
                 smsCode: '',
                 btnText: '获取验证码',
                 nextClick: true,
-                flag: true
+                flag: true,
+                type: ''
             };
         },
         created(){
@@ -91,7 +94,10 @@
         computed: {
             ...mapState([
                     'investorMobile',
-                    'userId'
+                    'userId',
+                    'accountStatus',
+                    'investorRealName',
+                    'investorIdCardNo'
                 ]
             ),
             isApp(){
@@ -108,15 +114,20 @@
                 setTimeout(() => {
                     this.nextClick = true;
                 }, 2000);
-
                 let {userName, userIdCardNumber} = this;
-                if (!$fun.valiRealName(userName)) {
-                    Toast('请输入真实姓名');
-                    return
-                }
-                if (!$fun.valiIdCard(userIdCardNumber)) {
-                    Toast('请输入正确身份证号');
-                    return
+                if (this.accountStatus < 1) {
+                    if (!$fun.valiRealName(userName)) {
+                        Toast('请输入真实姓名');
+                        return
+                    }
+                    if (!$fun.valiIdCard(userIdCardNumber)) {
+                        Toast('请输入正确身份证号');
+                        return
+                    }
+                }else{
+                    this.type = 1;
+                    this.userName = this.investorRealName;
+                    this.userIdCardNumber = this.investorIdCardNo;
                 }
                 let event = ['_trackEvent', '实名认证', 'CLICK', '实名认证页面-点击下一步', '实名认证页面-点击下一步'];
                 window._hmt.push(event);
@@ -124,15 +135,17 @@
             },
             //提交数据
             getAccount(){
-
-                let {userName, userIdCardNumber, smsCode} = this;
+                let {userName, userIdCardNumber, smsCode, type} = this;
                 let data = {
-                    userName: userName, userIdCardNumber: userIdCardNumber
-                }
+                    userName, userIdCardNumber
+                };
                 if (this.popup) {
                     data = {
-                        userName: userName, userIdCardNumber: userIdCardNumber, smsCode: smsCode
+                        userName, userIdCardNumber, smsCode
                     }
+                }
+                if(type){
+                    data.type = type;
                 }
                 $api.post('/openAccount', data).then(msg => {
 
@@ -209,6 +222,18 @@
                 };
                 recursion();
             }
-        }
+        },
+        watch: {
+            investorRealName(){
+                if (this.investorRealName) {
+                    this.userName = this.investorRealName;
+                }
+            },
+            investorIdCardNo(){
+                if (this.investorIdCardNo) {
+                    this.userIdCardNumber = this.investorIdCardNo;
+                }
+            }
+        },
     }
 </script>
