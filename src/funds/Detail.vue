@@ -328,7 +328,8 @@
                     'accountStatus',
                     'investorRiskScore',
                     'investorRiskType',
-                    'isMinRiskLevel'
+                    'isMinRiskLevel',
+                    'investorRiskVersion'
                 ]
             )
         },
@@ -397,9 +398,12 @@
                     this.pathTo('/funds/info', {});
                     return false;
                 }
-                //是否完成风险测评
+                //未完成风险测评
                 if (this.investorRiskScore == 0) {
                     this.pathTo('/risk-assessment/wechat', {});
+                    return false;
+                }else if(this.investorRiskVersion == 1){
+                    this.pathTo('/risk-assessment/wechat', {retest:1});
                     return false;
                 }
                 //风险评估验证是否匹配
