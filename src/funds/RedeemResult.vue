@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            <button class="buttom" @click.stop="pathTo('funds/my-fund')">查看我的账户</button>
+            <button class="buttom" @click.stop="pathTo('/funds/my-fund')">查看我的账户</button>
         </div>
     </div>
 </template>

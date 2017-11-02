@@ -1,24 +1,21 @@
 <template>
     <div class="bulletin">
-        <mt-loadmore :top-method="loadTop" ref="loadmore" :auto-fill="autoFill">
-            <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-                <li class="item bl" v-for="(item,index) in lists" :key="index" @click.stop="openPDF(item)">
-                    <div class="content">
-                        {{item.title}}
-                    </div>
-                    <div class="time">
-                        {{dateFormat(item.announceDate)}}
-                    </div>
-                </li>
-            </ul>
-        </mt-loadmore>
+        <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+            <li class="item bl" v-for="(item,index) in lists" :key="index" @click.stop="openPDF(item)">
+                <div class="content">
+                    {{item.title}}
+                </div>
+                <div class="time">
+                    {{dateFormat(item.announceDate)}}
+                </div>
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
     import Vue from 'vue';
-    import {Loadmore, InfiniteScroll} from 'mint-ui';
-    Vue.component(Loadmore.name, Loadmore);
+    import {InfiniteScroll} from 'mint-ui';
     Vue.use(InfiniteScroll);
     import $api from '../tools/api';
     import '../less/fund/bulletin.less';
@@ -38,16 +35,9 @@
         },
         computed: {},
         methods: {
-            loadTop(){
-                this.lists = [];
-                this.currentPage = 0;
-                this.loadData().then(() => {
-                    this.$refs.loadmore.onTopLoaded();
-                });
-            },
             loadData(){
                 return $api.get('/fund/info/announcement', {
-                    fundCode:this.$route.query.code,
+                    fundCode: this.$route.query.code,
                     startRow: this.currentPage * this.pageSize,
                     pageSize: this.pageSize
                 })
@@ -69,11 +59,11 @@
                 this.loadData();
             },
             dateFormat(timestamp){
-               let date = new Date(timestamp);
-               let y = date.getFullYear();
-               let m = (date.getMonth()+1)<10?'0'+(date.getMonth()+1):''+(date.getMonth()+1);
-               let d = date.getDate()<10?'0'+date.getDate():''+date.getDate();
-               return y+'-'+m+'-'+d;
+                let date = new Date(timestamp);
+                let y = date.getFullYear();
+                let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : '' + (date.getMonth() + 1);
+                let d = date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate();
+                return y + '-' + m + '-' + d;
             },
             openPDF(item){
                 if (item.url) {
