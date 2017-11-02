@@ -254,6 +254,7 @@
                         };
                         this.list = [];
                         this.loadData();
+                        this.getAssetes();
                     }else{
                         if(resp.code == 1108){
                             Toast(resp.msg);
