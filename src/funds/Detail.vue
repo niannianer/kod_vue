@@ -42,7 +42,7 @@
                 </div>
                 <div class="content-2 seperate" flex="box:mean">
                     <p class="p p-left" v-if="active==0" >七日年化
-                        <span class="red span">{{(yearlyRoeLast.yearlyRoe||0)*1000/10}}%</span>
+                        <span class="red span">{{roeRate(yearlyRoeLast.yearlyRoe)}}</span>
                             {{yearlyRoeLast.date}}
                     </p>
                     <p class="p p-left" v-else >万份收益
@@ -652,7 +652,18 @@
                 if (num) {
                     return (num * 100).toFixed(2) + '%'
                 }
-            }
+            },
+            roeRate(num1=0){
+                let num2 = 100;
+                let m=0,s1=num1.toString(),s2=num2.toString();
+                if(s1.split(".")[1]){
+                    m+=s1.split(".")[1].length
+                }
+                if(s2.split(".")[1]){
+                    m+=s2.split(".")[1].length
+                }
+                return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m))+'%';
+            },
         },
         destroyed(){
 

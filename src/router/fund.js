@@ -21,7 +21,6 @@ let beforeEach = ((to, from, next) => {
 const Fund = () => import('../containers/Fund');
 const Bulletin = () => import('../funds/Bulletin');
 const Detail = () => import('../funds/Detail');
-const DetailApp = () => import('../funds/DetailApp');
 const GainsList = () => import('../funds/GainsList');
 const HotList = () => import('../funds/HotList');
 const Info = () => import('../funds/Info');

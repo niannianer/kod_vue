@@ -98,7 +98,7 @@ export let timeFormat = (input, input2) => {
     if (input2 != 'minute') {
         ouputs += ':' + setTime(s);//年月日时分
     }
-    if (input2 == 'day') {//年月日
+    if (input2 == 'day') {//年-月-日
         ouputs = y + '-' + setTime(m) + '-' + setTime(d);
     }
     if(input2 == 'mouthToday'){//月日，如：9月9日
