@@ -28,7 +28,7 @@
                 verifyTimeLeft: '',
                 verifyText: '重新发送',
                 type: '',
-                phone:''
+                phone: ''
             }
         },
         created(){
@@ -45,7 +45,7 @@
             this.type = this.$route.query.type;
         },
         computed: {
-            ...mapState(['isSetPayPassword'])
+            ...mapState(['isSetPayPassword','accountStatus'])
         },
         methods: {
             reSend(){
@@ -95,7 +95,11 @@
                     type
                 })
                     .then(resp => {
-                        if (resp.code == 200) {
+                        if (resp.code == 1003) {
+                            setTimeout(()=>{
+                                this.$store.dispatch('getAccountInfo');
+                                this.$store.dispatch('getPaymentInfo');
+                            },100)
                             if (!this.isSetPayPassword) {
                                 this.$router.replace({
                                     path: '/set-pay-password',
@@ -103,17 +107,13 @@
                                         isFund: 1
                                     }
                                 })
-                            } else if(this.accountStatus < 3){
+                            } else if (this.accountStatus < 3) {
                                 this.$router.replace({
                                     path: '/funds/info'
                                 });
-                            }else{
+                            } else {
                                 this.$router.back();
                             }
-                            setTimeout(() => {
-                                this.$store.dispatch('getAccountInfo');
-                                this.$store.dispatch('getPaymentInfo');
-                            })
                         }
                         else {
                             Toast(resp.msg);
