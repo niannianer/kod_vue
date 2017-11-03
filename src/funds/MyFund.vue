@@ -145,7 +145,12 @@
                                     <p class="f8 red bold" v-if="item.bizCode == '144' || item.bizCode == '145'||item.bizCode == '142'">
                                         {{dateFormat(item.orderConfirmDate)}}
                                     </p>
-                                    <p class="f8 red bold" v-else >{{dateFormat(item.orderTradeDate)}}</p>
+                                    <p class="f8 red bold" v-if="item.bizCode == '022' || item.bizCode == '024'||item.bizCode == '043'" >
+                                        {{dateFormat(item.orderTradeDate)}}
+                                    </p>
+                                    <p class="f8 red bold" v-if="item.bizCode == '029'" >
+                                        {{dateFormat(item.createTime)}}
+                                    </p>
                                     <p class="info" v-if="item.bizCode == '022'">申购日期</p>
                                     <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
                                     <p class="info" v-if="item.bizCode == '029'">操作日期</p>
