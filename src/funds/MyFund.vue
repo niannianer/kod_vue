@@ -297,10 +297,10 @@
                 let out = '';
                 switch (bizCode){
                     case '144':
-                        out = '强制调增';
+                        out = '强行调增';
                         break;
                     case '145':
-                        out = '强制调减';
+                        out = '强行调减';
                         break;
                     case '142':
                         out = '强制赎回';
