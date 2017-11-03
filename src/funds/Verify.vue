@@ -95,7 +95,7 @@
                     type
                 })
                     .then(resp => {
-                        if (resp.code == 1003) {
+                        if (resp.code == 200) {
                             setTimeout(()=>{
                                 this.$store.dispatch('getAccountInfo');
                                 this.$store.dispatch('getPaymentInfo');
