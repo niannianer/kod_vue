@@ -18,7 +18,7 @@
         <div class="item-list"  flex-box="1" v-infinite-scroll="loadMore"
              infinite-scroll-disabled="disLoad"
              infinite-scroll-distance="70">
-                <div flex="dir:left" class="item" v-for="(item,index) in rewardList"  @click.stop="link(item.rewardBillCode)">
+                <div flex="dir:left" class="item" :key="index" v-for="(item,index) in rewardList"  @click.stop="link(item.rewardBillCode)">
                     <div class="left" flex="dir:top main:center" >
                             <p class='info'>{{item.rewardStatus == 2 ? item.payAmount : item.rewardAmount | currencyFormat}}元</p>
                             <p class='tile'>奖励</p>
