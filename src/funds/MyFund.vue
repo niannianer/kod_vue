@@ -133,15 +133,25 @@
                                     <p class="f8 bold">{{item.tradeAmount | currencyFormat}}</p>
                                     <p class="info">金额（元）</p>
                                 </div>
+                                <!--强行调增、调减、赎回订单-->
+                                <div v-if="item.bizCode == '144' || item.bizCode == '145'||item.bizCode == '142'">
+                                    <p class="f8 bold">{{item.tradeShare | currencyFormat}}</p>
+                                    <p class="info">份额（份）</p>
+                                </div>
                                 <!--金额结束-->
 
                                 <!--日期时间开始-->
                                 <div>
-                                    <p class="f8 red bold">{{dateFormat(item.orderTradeDate)}}</p>
+                                    <p class="f8 red bold" v-if="item.bizCode == '144' || item.bizCode == '145'||item.bizCode == '142'">
+                                        {{dateFormat(item.orderConfirmDate)}}
+                                    </p>
+                                    <p class="f8 red bold" v-else >{{dateFormat(item.orderTradeDate)}}</p>
                                     <p class="info" v-if="item.bizCode == '022'">申购日期</p>
                                     <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
                                     <p class="info" v-if="item.bizCode == '029'">操作日期</p>
-                                    <p class="info" v-if="item.bizCode == '043'">日期</p>
+                                    <p class="info" v-if="item.bizCode == '043' || item.bizCode == '144' || item.bizCode == '145'||item.bizCode == '142'">
+                                        日期
+                                    </p>
                                 </div>
                                 <!--日期时间结束-->
 
@@ -151,9 +161,9 @@
                                     <p class="f8" v-if="item.bizCode == '043'">
                                         {{item.shareBonus ? '红利再投' : '现金分红'}}
                                     </p>
-                                    <!--成功、失败、已撤销-->
+                                    <!--成功、失败、已撤销、强制调增、强制调减、强制赎回-->
                                     <p class="f8" v-else :class="{'red': item.tradeStatus==-1}">
-                                        {{tradeStatus(item.tradeStatus)}}
+                                        {{tradeStatus(item.tradeStatus,item.bizCode)}}
                                     </p>
                                 </div>
                             </div>
@@ -283,8 +293,23 @@
                     path:'/funds/open-count'
                 })
             },
-            tradeStatus(val){
-                return (val == -1 ? '失败' : (val == 9 ? '已撤销' : '成功'));
+            tradeStatus(val,bizCode){
+                let out = '';
+                switch (bizCode){
+                    case '144':
+                        out = '强制调增';
+                        break;
+                    case '145':
+                        out = '强制调减';
+                        break;
+                    case '142':
+                        out = '强制赎回';
+                        break;
+                    default:
+                        out = (val == -1 ? '失败' : (val == 9 ? '已撤销' : '成功'));
+                        break;
+                }
+                return out;
             },
             loadTop(){
                 this.list = [];
