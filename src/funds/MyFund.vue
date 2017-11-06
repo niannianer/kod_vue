@@ -167,7 +167,7 @@
                                         {{item.shareBonus ? '红利再投' : '现金分红'}}
                                     </p>
                                     <!--成功、失败、已撤销、强制调增、强制调减、强制赎回-->
-                                    <p class="f8" v-else :class="{'red': item.tradeStatus==-1}">
+                                    <p class="f8" v-else :class="{'red': item.tradeStatus==4||item.tradeStatus==6}">
                                         {{tradeStatus(item.tradeStatus,item.bizCode)}}
                                     </p>
                                 </div>
@@ -300,19 +300,29 @@
             },
             tradeStatus(val,bizCode){
                 let out = '';
-                switch (bizCode){
-                    case '144':
-                        out = '强行调增';
-                        break;
-                    case '145':
-                        out = '强行调减';
-                        break;
-                    case '142':
-                        out = '强制赎回';
-                        break;
-                    default:
-                        out = (val == -1 ? '失败' : (val == 9 ? '已撤销' : '成功'));
-                        break;
+                if(bizCode == '144'){
+                    out = '强行调增';
+                }else if(bizCode == '145'){
+                    out = '强行调减';
+                }else if(bizCode == '142'){
+                    out = '强制赎回';
+                }else{
+                    switch (val){
+                        case 5:
+                            out = '已确认';
+                            break;
+                        case 9:
+                            out = '已撤销';
+                            break;
+                        case 4:
+                            out = '支付失败';
+                            break;
+                        case 6:
+                            out = '确认失败';
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 return out;
             },
