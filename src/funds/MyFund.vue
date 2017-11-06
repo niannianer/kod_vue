@@ -309,16 +309,14 @@
                 }else{
                     switch (val){
                         case 5:
-                            out = '已确认';
+                            out = '成功';
                             break;
                         case 9:
                             out = '已撤销';
                             break;
                         case 4:
-                            out = '支付失败';
-                            break;
                         case 6:
-                            out = '确认失败';
+                            out = '失败';
                             break;
                         default:
                             break;
