@@ -1,25 +1,8 @@
 <template>
-    <!--<div class="login" ref="login">
-        <div class="logo-warp" >
-            <img class="logo" src="../images/logo.png"/>
-        </div>
-        <div class="title">金疙瘩</div>
-
-
-
-        <div class="btn-warp">
-            <button class="btn-primary btn-login" @click.stop="login">登  录</button>
-        </div>
-        &lt;!&ndash;footer &ndash;&gt;
-      <div class="footer" flex>
-          <span class="link" flex-box="1" @click.stop="pathTo('/register')">立即注册</span>
-          <router-link class="link" flex-box="1" :to="{path:'/find-password'}" replace>忘记密码</router-link>
-      </div>
-    </div>-->
     <div class="login">
         <div class="header" flex="box:mean">
-            <p>密码登录</p>
-            <p>验证码登录</p>
+            <p class="p" @click.stop="checkType" :class="{'active':isPassType}">密码登录</p>
+            <p class="p" @click.stop="checkType" :class="{'active':!isPassType}">验证码登录</p>
         </div>
         <div class="body">
             <div class="form">
@@ -30,12 +13,12 @@
                                v-model.trim="username"
                                placeholder="请输入手机号码"
                                class="input" id="username"/>
-                        <div   flex="main:right cross:center" >
-                            <img  class="input-img" src="../images/login/pwd-show@2x.png"/>
+                        <div flex="main:right cross:center">
+                            <img class="input-img" src="../images/login/pwd-show@2x.png"/>
                         </div>
                     </div>
                 </label>
-                <label for="password">
+                <label for="password" v-if="isPassType" flex >
                     <div class="input-warp" flex="cross:center">
                         <img flex-box="0" class="phone" src="../images/login/key_icon@2x.png"/>
                         <input v-if="showPassword" type="text" class="input" flex-box="1" id="password"
@@ -48,11 +31,23 @@
                             <img class="show-hide" v-if="showPassword" src="../images/login/pwd-show@2x.png"/>
                             <img class="show-hide" src="../images/login/pwd-hide@2x.png" v-else/>
                         </div>
-
                     </div>
                 </label>
+                <label for="verifycode" v-else flex>
+                    <div class="input-warp" flex="cross:center" flex-box="1">
+                        <img flex-box="0" class="phone" src="../images/login/key_icon@2x.png"/>
+                        <input type="tel" class="input"
+                               placeholder="请输入验证码" id="verifycode"
+                               flex-box="1" v-model.trim="verifyCode"/>
+
+                    </div>
+                    <button flex-box="0" @click.stop="getVerify"
+                            v-if="verifyTimeLeft<=0" class="btn-code">{{verifyText}}
+                    </button>
+                    <button flex-box="0" v-else class="btn-code disable">{{verifyTimeLeft}}</button>
+                </label>
                 <label for="image-code" class="label-warp" flex v-if="imageCode">
-                    <div class="code-warp" flex-box="1">
+                    <div class="code-warp" flex-box="1" flex="cross:center">
                         <input id="image-code" class="input"
                                v-model.trim="inputCode"
                                placeholder="请输入图形校验码"/>
@@ -62,6 +57,15 @@
                     </div>
                 </label>
             </div>
+            <div flex="box:justify" class="oper-box">
+                <p @click.stop="pathTo('/register')">注册新用户</p>
+                <p></p>
+                <p @click.stop="pathTo('/find-password')">忘记密码？</p>
+            </div>
+        </div>
+        <div class="bottom">
+            <p class="btn" @click.stop="login" v-if="isPassType">登录</p>
+            <p class="btn" @click.stop="smsLogin" v-if="!isPassType">登录</p>
         </div>
     </div>
 </template>
@@ -78,7 +82,12 @@
                 showPassword: false,
                 passType: 'password',
                 imageCode: '',
-                inputCode: ''
+                inputCode: '',
+                isPassType: true,
+                verifyCode: '',
+                verifyTimeLeft: '',
+                verifyText: '获取验证码'
+
             }
         },
         created(){
@@ -86,6 +95,68 @@
         },
         computed: {},
         methods: {
+            checkType(){
+                this.isPassType = !this.isPassType;
+            },
+            getVerify(){
+                if (!this.checkPhone()) {
+                    return false
+                }
+                if (this.imageCode && !this.inputCode) {
+                    Toast('请输入图形验证码');
+                    return false;
+                }
+                let imageCode = this.inputCode;
+                let bussType = 4;
+                /*bussType 4  短信登录*/
+                this.verifyTimeLeft = 59;
+                this.timeCount();
+                this.verifyText = '重新发送';
+                $api.post('/sendVerifyCode', {
+                    investorMobile: this.username,
+                    imageCode,
+                    bussType
+                })
+                    .then(data => {
+                        if (data.code == 200) {
+                            return false;
+                        }
+                        else {
+                            this.clearTimeCount();
+                        }
+                        if (data.code == 1001) {
+                            Toast('验证码错发送失败!');
+                            return false;
+                        }
+                        if (data.code == 1004) {
+                            if (this.inputCode) {
+                                Toast('图片验证码错误!');
+                            } else {
+                                Toast('请输入图片验证码!');
+                            }
+
+                            this.imageCode = data.data.imageCode;
+                            return false;
+                        }
+
+                        Toast(data.msg);
+                    })
+
+            },
+            timeCount(){
+                this.timer = setTimeout(() => {
+                    this.verifyTimeLeft = this.verifyTimeLeft - 1;
+                    if (this.verifyTimeLeft >= 1) {
+                        this.timeCount();
+                    }
+                }, 1000);
+            },
+            clearTimeCount(){
+                this.verifyTimeLeft = 0;
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
+            },
             checkPhone(){
                 if (!this.username) {
                     Toast('请输入手机号码');
@@ -148,20 +219,7 @@
                             return false;
                         }
                         if (data.code == 200) {
-                            let logoutUrl = window.sessionStorage.getItem('logoutUrl');
-                            window.sessionStorage.removeItem('logoutUrl');
-                            window.sessionStorage.removeItem('logoutIndex');
-                            logoutUrl = decodeURIComponent(logoutUrl);
-                            if (logoutUrl && /http/.test(logoutUrl)) {
-                                window.location.replace(logoutUrl);
-                            } else {
-
-                                this.$store.dispatch('getAccountBaofoo');
-                                this.$store.dispatch('getBankInfo');
-                                this.$store.dispatch('getPersonalCenterMsg');
-                                this.$router.replace('/personal-center');
-
-                            }
+                            this.loginSucc();
                             return false;
                         } else {
                             Toast(data.msg);
@@ -171,18 +229,62 @@
                 }
 
             },
+            smsLogin(){
+                if (!this.checkPhone()) {
+                    return false;
+                }
+                if (!this.verifyCode) {
+                    Toast('请输入短信验证码');
+                    return false;
+                }
+                $api.post('/smsLogin', {
+                    investorMobile: this.username,
+                    smsCode: this.verifyCode
+                })
+                    .then(data => {
+                        if (data.code == 200) {
+                            this.loginSucc();
+                            return false;
+                        }
+                        if (data.code == 1002) {
+                            Toast('验证码错误或失效');
+                            return false;
+                        }
+                        if (data.code == 1101) {
+                            Toast('注册人手机号已经存在,请直接登录');
+                            return false;
+                        }
+                        if (data.code == 1102) {
+                            Toast('邀请人手机号不存在');
+                            return false;
+                        }
+                        Toast(data.msg);
+                    });
+            },
             pathTo(path){
                 if (path == '/register') {
                     let event = ['_trackEvent', '注册', 'SHOW', '从登录页进入注册页', '从登录页进入注册页'];
                     window._hmt.push(event);
                 }
                 this.$router.replace(path)
+            },
+            loginSucc(){
+                let logoutUrl = window.sessionStorage.getItem('logoutUrl');
+                window.sessionStorage.removeItem('logoutUrl');
+                window.sessionStorage.removeItem('logoutIndex');
+                logoutUrl = decodeURIComponent(logoutUrl);
+                if (logoutUrl && /http/.test(logoutUrl)) {
+                    window.location.replace(logoutUrl);
+                } else {
+
+                    this.$store.dispatch('getAccountBaofoo');
+                    this.$store.dispatch('getBankInfo');
+                    this.$store.dispatch('getPersonalCenterMsg');
+                    this.$router.replace('/personal-center');
+
+                }
             }
 
-        },
-        mounted(){
-            let heigth = window.innerHeight;
-            //  this.$refs.login.style.height = heigth+'px';
         }
     }
 </script>
