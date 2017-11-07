@@ -7,6 +7,10 @@ let ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
 let ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
 let iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
 let device = {};
+device.mobile = false;
+if ('ontouchstart' in window) {
+    device.mobile = true;
+}
 device.ios = device.android = device.iphone = device.ipad = device.androidChrome = device.kingold = false;
 device.kingold = /kingold/i.test(ua);
 device.kingoldVersion = '0.0.0';

@@ -62,7 +62,7 @@
         },
         computed: {
             isApp(){
-                return $device.kingold
+                return true;
             }
         },
         created(){
