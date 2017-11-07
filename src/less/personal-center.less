@@ -73,7 +73,18 @@
                     color: @app-ticket-context;
                 }
                 .title {
+                    position: relative;
                     color: @color-text-secondary;
+                    &.redTip:after{
+                        position: absolute;
+                        content: "";
+                        width: .4rem;
+                        height: .4rem;
+                        margin-left: 1px;
+                        margin-top: 1px;
+                        border-radius:50% ;
+                        background: #F61C1C;
+                    }
                 }
             }
         }

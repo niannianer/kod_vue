@@ -56,6 +56,7 @@
         name: 'ticket-list',
         data(){
             return {
+                hasUnread:1,
                 isActive:true,
                 couponType:1,
                 lists:[],
@@ -88,6 +89,9 @@
                 })
                     .then(resp => {
                         if (resp.code == 200) {
+                            if(this.hasUnread){
+                                this.delUnread();
+                            }
                             resp.data.couponList.map(item=>{
                                 switch (item.couponStatus){
                                     case 1:
@@ -113,6 +117,14 @@
                             }
                         }
                         return resp
+                    })
+            },
+            delUnread(){
+                $api.post('/user/destroy/unread')
+                    .then(resp=>{
+                        if(resp.code==200){
+                            this.hasUnread = 0;
+                        }
                     })
             },
             remainTime(end,now){

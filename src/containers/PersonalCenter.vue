@@ -50,7 +50,7 @@
                     </div>
                     <div flex="box:mean" class="ticket-detail" @click.stop="getPath('/ticket-list')">
                         <div flex-box="1" class="rl">
-                            <p class="title">现金劵</p>
+                            <p class="title" :class="{redTip:couponUnreadMessage}">现金劵</p>
                             <p class="info">{{cashCouponCount}}个</p>
                         </div>
                         <div flex-box="1" @click.stop="getPath('/experience-fund')">
@@ -165,7 +165,8 @@
                 mode: true,
                 showModal: false,
                 orderBillCode: '',
-                appUrl
+                appUrl,
+                couponUnreadMessage:0
             }
         },
         created(){
@@ -173,6 +174,7 @@
             if ($device.isWeixin) {
                 this.getShare();
             }
+            this.getUnread();
             let event = ['_trackEvent', '个人中心', 'SHOW', '进入个人中心页面且已登录', '进入已登录个人中心'];
             window._hmt.push(event);
             if (this.$route.query.t) {
@@ -211,6 +213,14 @@
             ])
         },
         methods: {
+            getUnread(){
+                $api.get('/user/unread')
+                    .then(resp=>{
+                        if(resp.code==200){
+                            this.couponUnreadMessage = resp.data.couponUnreadMessage;
+                        }
+                    })
+            },
             getBaofoo(){
                 this.$store.dispatch('getAccountBaofoo');
             },
