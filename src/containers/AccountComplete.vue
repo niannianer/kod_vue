@@ -9,19 +9,22 @@
         <div class="complete">
             <button class="btn-primary btn-complete" @click.stop="complete">完成</button>
         </div>
-
+        <advertise></advertise>
     </div>
 </template>
 
 <script>
     import '../less/account-complete.less';
+    import Advertise from '../components/Advertise';
     import {refreshApp} from '../tools/operation';
     export default {
         name: 'base',
         data(){
             return {}
         },
-        components: {},
+        components: {
+            Advertise
+        },
         created(){
             refreshApp();
         },

@@ -6,15 +6,16 @@
     width: 100%;
     height: 100%;
     .top {
-        position: relative;padding-bottom: 1.4rem;
+        position: relative;
+        padding-bottom: 1.4rem;
         background: @bg-content url('../images/personal-center/person-center-bg.jpg') no-repeat;
         background-size: 100% 83%;
-        .switch-mode{
-            right:0;
+        .switch-mode {
+            right: 0;
             padding: .8rem .8rem 0 0;
-            position:absolute;
-            img{
-                width:1rem;
+            position: absolute;
+            img {
+                width: 1rem;
             }
         }
         .user-head {
@@ -32,91 +33,111 @@
             text-align: center;
             color: #fff;
         }
-        .fund-center{
-            text-align: center;margin-top: 1rem;
-            .info{
-                color:@color-progress;font-size: .8rem;
+        .fund-center {
+            text-align: center;
+            margin-top: 1rem;
+            .info {
+                color: @bg-content;
+                font-size: .8rem;
             }
-            .title{
-                color:@bg-content;padding-top: .25rem;
+            .title {
+                color: @app-context;
+                padding-top: .25rem;
             }
         }
-        .ticket-center{
-            background: #FFFFFF;margin:1.3rem .8rem 0 .8rem;padding:.8rem 0;
-            box-shadow: 0 2px 4px 0 rgba(140,140,140,0.50);
-            border-radius: 2px;text-align: center;
-            .btn{
-                background: #226AC5;margin-bottom:3px;
-                box-shadow: 0 2px 4px 0 #68ABFF;
+        .ticket-center {
+            background: #FFFFFF;
+            margin: 1.3rem .8rem 0 .8rem;
+            padding: .8rem 0;
+            box-shadow: 0 2px 4px 0 rgba(140, 140, 140, 0.50);
+            border-radius: 2px;
+            text-align: center;
+            .btn-border{
+                background: @app-bg-color;
+                padding: 2px;
                 border-radius: 100px;
-                color:#fff;padding:.25rem 1.25rem;
+                box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
             }
-            .rl{
-                border-right:1px solid @color-split;
+            .btn {
+                background: #fff;
+                border-radius: 100px;
+                color: @app-context;
+                padding: .25rem 1.25rem;
             }
-            .ticket-detail{
+            .rl {
+                border-right: 1px solid @color-split;
+            }
+            .ticket-detail {
                 margin-top: .7rem;
-                .info{
-                    color:#226AC5;
+                .info {
+                    color: @app-ticket-context;
                 }
-                .title{
-                    color:@color-text;
+                .title {
+                    color: @color-text-secondary;
                 }
             }
         }
     }
-    .body{
-        .section{
-            background-color: @bg-content;padding:0 .8rem;
-            .assessment{
-                font-size: .6rem;padding:.6rem 0;color:@color-text
+    .body {
+        .section {
+            background-color: @bg-content;
+            padding: 0 .8rem;
+            .assessment {
+                font-size: .6rem;
+                padding: .6rem 0;
+                color: @color-text
             }
-            .arrow{
-                width:.5rem;height:.8rem;margin-left: .5rem;
+            .arrow {
+                width: .5rem;
+                height: .8rem;
+                margin-left: .5rem;
             }
 
-            .bl{
+            .bl {
                 border-bottom: 1px solid @color-split;
             }
-            .item{
-                padding:.6rem 0;
-                .logo{
-                    width:1.3rem;height:1.3rem;margin-right: .6rem;
+            .item {
+                padding: .6rem 0;
+                .logo {
+                    width: 1.3rem;
+                    height: 1.3rem;
+                    margin-right: .6rem;
                 }
-                p{
-                    font-size: .8rem;color:@color-text;
+                p {
+                    font-size: .8rem;
+                    color: @color-text;
                 }
             }
         }
-        .seperate{
+        .seperate {
             margin-top: .5rem;
         }
     }
     .cantact-us {
         text-align: center;
         font-size: .6rem;
-        margin:.6rem auto 1.3rem auto;
-        a{
-            color: rgba(29, 115, 194, 1);
+        margin: .6rem auto 1.3rem auto;
+        a {
+            color: @app-contact-us;
             text-decoration: none;
         }
     }
-    .btn{
-        background-color: @bg-button;
-        color:@bg-content;
+    .btn {
+        background-image: @app-bg-color;
+        color: @bg-content;
         text-align: center;
         padding: .6rem 0;
         border-radius: @border-radius;
-        &.logout{
+        &.logout {
             margin: 1.5rem;
         }
     }
-    .nav{
+    .nav {
         background: #FFFFFF;
         box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.2) inset;
         text-align: center;
         padding: .3rem 0;
-        img{
+        img {
             width: 1.3rem;
         }
     }

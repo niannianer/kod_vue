@@ -34,14 +34,18 @@
                 <div class="ticket-center">
                     <div flex>
                         <div flex-box="1" flex="main:center">
-                            <p class="btn" @click.stop="getPath('/recharge')">
-                                充值
-                            </p>
+                            <div class="btn-border">
+                                <p class="btn" @click.stop="getPath('/recharge')">
+                                    充值
+                                </p>
+                            </div>
                         </div>
                         <div flex-box="1" flex="main:center">
-                            <p class="btn" @click.stop="getPath('/withdraw')">
-                                提现
-                            </p>
+                            <div class="btn-border">
+                                <p class="btn" @click.stop="getPath('/withdraw')">
+                                    提现
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div flex="box:mean" class="ticket-detail" @click.stop="getPath('/ticket-list')">
@@ -101,7 +105,8 @@
                 </div>
 
                 <div class="section seperate" flex="dir:top">
-                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-about-us.html',true)">
+                    <div class="item" flex-box="1" flex="cross:center"
+                         @click.stop="getPath('/land-about-us.html',true)">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/about-us.png" alt="financial">
                         </div>
@@ -113,7 +118,7 @@
                 </div>
             </div>
             <div class="cantact-us">
-                <a  :href="'tel:'+telNumber">
+                <a :href="'tel:'+telNumber">
                     联系我们：{{telNumber}}
                 </a>
             </div>
@@ -145,7 +150,7 @@
     import {appUrl} from '../tools/config';
     import {mapState} from 'vuex';
     import Modal from '../components/Modal';
-    import {Toast,Indicator,MessageBox} from 'mint-ui';
+    import {Toast, Indicator, MessageBox} from 'mint-ui';
     import {telNumber} from '../tools/config';
     import $api from '../tools/api';
     import wx from '../tools/wx';
@@ -159,14 +164,14 @@
                 telNumber,
                 mode: true,
                 showModal: false,
-                orderBillCode:'',
+                orderBillCode: '',
                 appUrl
             }
         },
         created(){
             this.mode = window.localStorage.getItem('mode') == 'true' ? true : false;
             if ($device.isWeixin) {
-                this.getShare() ;
+                this.getShare();
             }
             let event = ['_trackEvent', '个人中心', 'SHOW', '进入个人中心页面且已登录', '进入已登录个人中心'];
             window._hmt.push(event);
@@ -284,12 +289,12 @@
                     lable = '个人中心-我的基金-点击';
                     value = '在个人中心点击我的基金';
                 }
-                if (path =='/land-share.html') {
+                if (path == '/land-share.html') {
                     lable = '个人中心-一起赚-点击';
                     value = '在个人中心点击一起赚';
                 }
 
-                if (path == '/financial?tab=FIXI'||path == '/financial') {
+                if (path == '/financial?tab=FIXI' || path == '/financial') {
                     lable = '个人中心-定期理财-点击';
                     value = '在个人中心点击定期理财';
                 }
@@ -297,7 +302,7 @@
                     lable = '个人中心-高端理财-点击';
                     value = '在个人中心点击高端理财';
                 }
-                if(path == appUrl){
+                if (path == appUrl) {
                     lable = '从个人中心进入app下载页';
                     value = '从个人中心进入app下载页';
                 }
@@ -325,7 +330,7 @@
                 });
             },
             getTradeRecharge(){
-                if(!this.orderBillCode){
+                if (!this.orderBillCode) {
                     return false;
                 }
                 Indicator.open('正在等待银行返回结果...');

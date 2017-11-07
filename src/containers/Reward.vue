@@ -26,11 +26,14 @@
                 <p @click="allowance(2)" class="direct" flex-box="1">直接邀请津贴</p>
                 <p @click="allowance(3)" class='indirect' flex-box="1">间接邀请津贴</p>
             </div>
+            <advertise></advertise>
         </div>
+
     </div>
 </template>
 
 <script>
+    import Advertise from '../components/Advertise';
     import {mapState} from 'vuex';
     import '../less/reward.less';
     import $api from '../tools/api';
@@ -46,6 +49,9 @@
             }
         },
         computed: mapState(['userUuid']),
+        components:{
+            Advertise
+        },
         methods: {
             allowance(num){
                 let oper = '';

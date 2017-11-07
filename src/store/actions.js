@@ -38,7 +38,7 @@ actions.getBankInfo = ({commit}) => {
                 if (!bankUserCardNo) {
                     return false;
                 }
-                return $api.get('/getBankInfo', {bankNo: bankUserCardNo.substring(0, 6)})
+                return $api.get('/getBankInfo', {bankNo: bankUserCardNo})
                     .then(data => {
                         if (data.code == 200) {
                             commit('setBankInfo', data.data);

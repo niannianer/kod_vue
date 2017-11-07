@@ -50,10 +50,12 @@
         <div class="bottom">
             <p class="btn" @click.stop="pathTo('/invest-list')">查看我的定期理财</p>
         </div>
+        <advertise></advertise>
     </div>
 </template>
 
 <script>
+    import Advertise from '../components/Advertise';
     import '../less/invest-succ.less'
     export default {
         name: 'invest-succ',
@@ -85,6 +87,9 @@
             window._hmt.push(event);
         },
         computed: {},
+        components:{
+            Advertise
+        },
         methods: {
             pathTo(path){
                 this.$router.push(path);
