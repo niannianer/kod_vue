@@ -8,9 +8,10 @@
                 <div flex-box="1" class="tab" @click.stop="changeTab(1)">
                     <div class="tab-item" :class="{'active':tab==1}">高端理财</div>
                 </div>
-                <div flex-box="1" class="tab" @click.stop="changeTab(0)">
+                <!--hide jijin-->
+               <!-- <div flex-box="1" class="tab" @click.stop="changeTab(0)">
                     <div class="tab-item" :class="{'active':tab==0}">基金</div>
-                </div>
+                </div>-->
             </div>
             <div class="item-list" flex-box="1" v-if="tab==1">
                 <mt-loadmore :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill"

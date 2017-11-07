@@ -87,7 +87,8 @@
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
-                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/funds/my-fund')">
+                    <!--hide 基金-->
+                    <!--<div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/funds/my-fund')">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/fund.png" alt="my-fund">
                         </div>
@@ -95,7 +96,7 @@
                         <div flex-box="0">
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="section seperate" flex="dir:top">
                     <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-share.html',true)">
