@@ -1,5 +1,5 @@
 <template>
-    <div class="authentication" flex-box="1">
+    <div class="authentication" flex-box="1" @click.stop="showCard=false">
         <div class="authentication-lint">为保障您账号安全，请进行实名认证</div>
         <div class="steps" flex="box:mean">
             <div class="item" flex="main:center">
@@ -24,10 +24,10 @@
                     <input type="text" placeholder="请输入您的真实姓名" v-model="userName">
                 </div>
             </dd>
-            <dd flex>
+            <dd flex @click.stop="showCard=true">
                 <span class="span-left">身份证号</span>
                 <div class="span-right" flex="cross:center">
-                    <input type="text" placeholder="请输入您的身份证号码" v-model="userIdCardNumber">
+                    <input type="text" placeholder="请输入您的身份证号码" v-model="userIdCardNumber" readonly>
                 </div>
             </dd>
         </dl>
@@ -57,8 +57,17 @@
                     <button flex-box="1" class="sure" :class="{'app':isApp}" @click.stop="sure" :disabled="loading">确定
                     </button>
                 </div>
+
             </div>
         </div>
+        <card-input v-show="showCard"
+                    title="请输入身份证号码"
+                    @close="showCard=false"
+                    @callBack="getCardText"></card-input>
+        <div flex="dir:right">
+            <div class="customer-service" @click.stop="callService"></div>
+        </div>
+
     </div>
 </template>
 
@@ -69,6 +78,8 @@
     import {mapState} from 'vuex';
     import $fun from '../tools/fun';
     import {Toast} from 'mint-ui';
+    import CardInput from '../components/CardInput';
+    import {telNumber} from '../tools/config';
     export default {
         name: 'authentication',
         data(){
@@ -81,8 +92,12 @@
                 smsCode: '',
                 btnText: '获取验证码',
                 nextClick: true,
-                flag: true
+                flag: true,
+                showCard: false
             };
+        },
+        components: {
+            CardInput
         },
         created(){
             let event = ['_trackEvent', '实名认证', 'SHOW', '进入实名认证页面', '进入实名认证页面'];
@@ -95,7 +110,7 @@
                 ]
             ),
             isApp(){
-                return $device.kingold
+                return true;
             }
         },
         methods: {
@@ -208,6 +223,15 @@
                     }
                 };
                 recursion();
+            },
+            // 获取数字键盘的身份证号
+            getCardText(text){
+                this.userIdCardNumber = text;
+            },
+            callService(){
+                if ($device.mobile) {
+                    window.open('tel:' + telNumber.replace(/-/g, ''));
+                }
             }
         }
     }

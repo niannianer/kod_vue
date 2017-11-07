@@ -29,7 +29,7 @@
             <dl flex class="bank-card" :style="cardStyle">
                 <dt>储蓄卡卡号</dt>
                 <dd>
-                    <input type="tel" placeholder="请输入银行卡号" @input="change" @propertychange="change" v-model="bankCard"
+                    <input type="tel" placeholder="请输入银行卡号" @blur="getCardInfo" @keyup="change" v-model="bankCard"
                            maxlength="24">
                 </dd>
             </dl>
@@ -41,10 +41,14 @@
                     <span>单笔限额{{singleLimit}}元，每日限额{{perdayLimit}}元</span>
                 </div>
             </div>
-            <dl class="bind-mobile" flex>
+            <dl class="bind-mobile" flex="cross:center">
                 <div class="virtur-border" v-show="!isDiff"></div>
-                <dt>银行预留手机号</dt>
-                <dd><input type="tel" placeholder="请输入银行预留手机号" maxlength="11" v-model="bankUserPhone"></dd>
+                <dt flex-box="0">银行预留手机号</dt>
+                <dd flex-box="1">
+                    <input type="tel" placeholder="请输入银行预留手机号" maxlength="11" v-model="bankUserPhone">
+                </dd>
+                <img flex-box="0" src="../images/bank-tel-icon.png" style="width: 1rem;height: 1rem"
+                     @click="showCardTel">
             </dl>
             <p class="p-lint" v-show="isDiff">
                 <span>验证码已发送到注册手机{{investorMobile | mobileFormat}}</span>
@@ -71,6 +75,9 @@
                 <p>绑卡验证服务由央行许可支付牌照的宝付支付为您提供</p>
             </div>
         </div>
+        <div flex="dir:right">
+            <div class="customer-service" @click.stop="callService"></div>
+        </div>
     </div>
 </template>
 
@@ -82,8 +89,9 @@
     import {mapState} from 'vuex';
     import _ from 'lodash/core';
     import {checkPhone} from '../tools/fun';
-    import {Toast} from 'mint-ui';
+    import {Toast, MessageBox} from 'mint-ui';
     import * as imgUrls from '../tools/bank';
+    import {telNumber} from '../tools/config';
     export default {
         name: 'bind-bank-card',
         data(){
@@ -123,29 +131,28 @@
                 }
             },
             isApp(){
-                return $device.kingold
+                return true;
             }
         },
         methods: {
+            getCardInfo(){
+                let card = this.bankCard.replace(/[^\d]/g, '');
+                return $api.get('/getBankInfo', {bankNo: card}).then(msg => {
+                    if (msg.code == 200) {
+                        this.bankHint = true;
+                        this.singleLimit = msg.data.singleLimit;
+                        this.perdayLimit = msg.data.perdayLimit;
+                        if (msg.data.bankCode && msg.data.bankName)
+                            this.html = `<span class="bank-inner" style="background-image:url(${this.imgUrls[msg.data.bankCode]})">${msg.data.bankName}</span>`;
+                    } else {
+                        Toast(msg.msg)
+                    }
+                });
+            },
             change(){
                 this.bankCard = this.bankCard.replace(/\D/g, '').replace(/....(?!$)/g, '$& ');
-                let card = this.bankCard.replace(/[^\d]/g, '');
-                if (card.length < 6) {
-                    this.html = '储蓄卡卡号';
-                    this.bankHint = false;
-                } else if (card.length == 6) {
-                    $api.get('/getBankInfo', {bankNo: card}).then(msg => {
-                        if (msg.code == 200) {
-                            this.bankHint = true;
-                            this.singleLimit = msg.data.singleLimit;
-                            this.perdayLimit = msg.data.perdayLimit;
-                            if (msg.data.bankCode && msg.data.bankName)
-                                this.html = `<span class="bank-inner" style="background-image:url(${this.imgUrls[msg.data.bankCode]})">${msg.data.bankName}</span>`;
-                        } else {
-                            Toast(msg.msg)
-                        }
-                    });
-                }
+                this.bankHint = false;
+                this.html = '储蓄卡卡号';
             },
             //下发验证码
             send(time){
@@ -243,6 +250,19 @@
             linkTo(){
                 window.sessionStorage.setItem('bind-card-info', JSON.stringify(this.$data));
                 window.location.href = '/baofoo-certification.html';
+            },
+            showCardTel(){
+                MessageBox({
+                    title: '银行预留手机号说明',
+                    message: '银行预留手机号是您办理银行卡时所填的手机号码。如忘记手机号请联系银行客服进行处理。',
+                    confirmButtonText: '我知道了'
+                })
+            },
+            callService(){
+                if ($device.mobile) {
+                    window.open('tel:' + telNumber.replace(/-/g, ''));
+                }
+
             }
         },
         created(){
@@ -256,6 +276,9 @@
                 });
                 window.sessionStorage.removeItem('bind-card-info');
             }
+        },
+        destroyed(){
+            MessageBox.close();
         }
     }
 </script>
