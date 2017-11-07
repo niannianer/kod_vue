@@ -9,19 +9,23 @@
     .tabs {
         /* height: 1.8rem;*/
         .tab {
+            background: @bg-content;
             text-align: center;
             cursor: pointer;
+            border-bottom: 2px solid transparent;
+            &.active {
+                border-image: @app-border-bottom;
+                .tab-item{
+                    color: @app-color;
+                }
+            }
             .tab-item {
                 color: @color-text-gray;
                 font-size: .8rem;
                 display: inline-block;
-                line-height: 1.8rem;
+                height: 2.2rem;
+                line-height: 2.2rem;
                 padding: 0 .2rem;
-                border-bottom: .1rem solid @bg-body;
-                &.active {
-                    color: @tab-active;
-                    border-bottom-color: @tab-active;
-                }
             }
         }
     }
@@ -56,10 +60,9 @@
             }
             .ticket-wrap {
                 .ticket-item {
-                    color: #4387c5;
-                    background-color: #e7f3ff;
+                    color: @app-ticket-context;
                     font-size: .6rem;
-                    border: 1px solid #84c4ff;
+                    border: 1px solid @app-ticket-context;
                     margin: .4rem 1rem 0 0;
                     padding: .05rem .35rem;
                     border-radius: 2px;
@@ -84,7 +87,7 @@
                     background-color: @color-active; //预热
                 }
                 &.raise {
-                    background-color: @color-interest; //募集
+                    background-color: @app-red; //募集
                 }
                 &.sell-out {
                     background-color: @bg-sell-out; // 售罄
@@ -95,15 +98,16 @@
                 padding-top: .1rem;
                 line-height: .8rem;
                 font-size: .8rem;
-                color: @color-text-secondary;
+                color: @color-text;
                 max-width: 80%;
+                font-weight: bold;
             }
             .fund-middle {
                 margin-top: .5rem;
                 margin-bottom: .2rem;
                 .rate, .cycle {
                     font-size: .9rem;
-                    color: @color-interest;
+                    color: @app-red;
                     line-height: 50px;
                     .sub-text {
                         padding-top: .1rem;
@@ -127,14 +131,14 @@
                 }
                 .rate, .cycle {
                     font-size: .9rem;
-                    color: @color-interest;
+                    color: @app-red;
                     //line-height: 1.2rem;
                     line-height: 50px;
                     &.hot {
                         color: @color-active;
                     }
                     &.raise {
-                        color: @color-interest;
+                        color: @app-red;
                     }
                     &.sell-out {
                         color: @bg-sell-out;
@@ -154,7 +158,7 @@
                         position: absolute;
                         font-size: .6rem;
                         color: @bg-content;
-                        background: @color-interest;
+                        background: @app-red;
                         top: -.8rem;
                         right: -3rem;
                         height: 1rem;
@@ -171,9 +175,9 @@
                         font-size: .9rem;
                     }
                 }
-                .status.sell-out {
+            /*    .status.sell-out {
                     transform: rotate(-30deg);
-                }
+                }*/
                 .status {
                     margin-right: .1rem;
                     margin-top: .1rem;
@@ -190,8 +194,8 @@
                             box-shadow: 0 0 10px @color-active;
                         }
                         &.raise {
-                            background-color: @color-interest;
-                            box-shadow: 0 0 10px @color-interest;
+                            background-color: @app-red;
+                            box-shadow: 0 0 10px @app-red;
                         }
                         &.sell-out {
                             background-color: @bg-sell-out; // 售罄
@@ -208,7 +212,7 @@
                     margin: .6rem 0;
                     position: relative;
                     .done {
-                        background: #FF6D00;
+                        background: @app-progress;
                         height: 100%;
                         &.hot {
                             background-color: @color-active;
@@ -222,7 +226,7 @@
                     }
                     .round {
                         position: absolute;
-                        background: rgba(255, 109, 0, 0.5);
+                        background: rgba(246, 215,145, 0.5);
                         width: .8rem;
                         height: .8rem;
                         border-radius: 50%;
@@ -234,7 +238,7 @@
                             border-radius: 50%;
                             width: .5rem;
                             height: .5rem;
-                            background: #FF6D00;
+                            background: @app-progress;
                             position: absolute;
                             top: .15rem;
                             left: .15rem;

@@ -2,11 +2,11 @@
     <div v-cloak class="financail" flex-box="1" flex="dir:top">
         <div flex="dir:top" flex-box="1">
             <div class="tabs" flex flex-box="0">
-                <div flex-box="1" class="tab" @click.stop="changeTab(2)">
-                    <div class="tab-item" :class="{'active':tab==2}">定期理财</div>
+                <div flex-box="1" class="tab" @click.stop="changeTab(2)" :class="{'active':tab==2}">
+                    <div class="tab-item" >定期理财</div>
                 </div>
-                <div flex-box="1" class="tab" @click.stop="changeTab(1)">
-                    <div class="tab-item" :class="{'active':tab==1}">高端理财</div>
+                <div flex-box="1" class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">
+                    <div class="tab-item" >高端理财</div>
                 </div>
             </div>
             <div class="item-list" flex-box="1" v-if="tab==1">

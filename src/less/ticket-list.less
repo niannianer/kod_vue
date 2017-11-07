@@ -1,74 +1,100 @@
 @import "variables";
-.ticket-list{
+
+.ticket-list {
     .header {
         font-size: .7rem;
         line-height: .7rem;
-        ul{
-            margin:.6rem auto 0 auto;
-            li{
-                padding:.45rem 1.4rem;border:1px solid @bg-button;color:@bg-button;
-                &.app{
-                    border:1px solid @app-color;color:@app-color;
+        ul {
+            margin: .6rem auto 0 auto;
+            li {
+                padding: .45rem 1.4rem;
+                border: 1px solid @bg-button;
+                color: @bg-button;
+                &.app {
+                    border: 1px solid @app-color;
+                    color: @app-color;
                 }
             }
-            .left{
-                -webkit-border-radius:5px 0 0 5px;
-                -moz-border-radius:5px 0 0 5px;
-                border-radius:5px 0 0 5px;
+            .left {
+                -webkit-border-radius: 5px 0 0 5px;
+                -moz-border-radius: 5px 0 0 5px;
+                border-radius: 5px 0 0 5px;
             }
-            .right{
-                -webkit-border-radius:0 5px 5px 0;
-                -moz-border-radius:0 5px 5px 0;
-                border-radius:0 5px 5px 0;
+            .right {
+                -webkit-border-radius: 0 5px 5px 0;
+                -moz-border-radius: 0 5px 5px 0;
+                border-radius: 0 5px 5px 0;
             }
-            .active{
-                background-color: @bg-button;color:@bg-content;
-                &.app{
-                    background-color: @app-color;color:#fff;
+            .active {
+                background-color: @bg-button;
+                color: @bg-content;
+                &.app {
+                    background-color: @app-color;
+                    color: #fff;
                 }
             }
         }
     }
-    .body{
-        padding:0 .8rem;
-        .nothing{
-            text-align: center;margin-top: 0.5rem;
+    .body {
+        padding: 0 .8rem;
+        .nothing {
+            text-align: center;
+            margin-top: 0.5rem;
         }
-        .item{
-            margin-top:.5rem;box-shadow: 0 2px 4px 0 rgba(143,143,143,0.50);background-color: @bg-content;
+        .item {
+            margin-top: .5rem;
+            box-shadow: 0 2px 4px 0 rgba(143, 143, 143, 0.50);
+            background-color: @bg-content;
         }
-        .item-l{
-            width:5rem;color:@bg-content;
+        .item-l {
+            width: 5rem;
+            color: @bg-content;
             background: @bg-cash url('../images/experience-fund/ticket-bg.png') repeat-y right;
-            &.rate{
+            &.rate {
                 background-color: @bg-rate;
             }
-            &.disabled{
-                background-color:@bg-disable;
+            &.disabled {
+                background-color: @bg-disable;
             }
-            .title{
+            .title {
                 font-size: .8rem;
             }
-            .info{
+            .info {
                 font-size: 1.2rem;
             }
         }
-        .item-r{
-            padding:.8rem;font-size: .8rem;color:#323232;
-            p{
+        .item-r {
+            padding: .8rem;
+            font-size: .8rem;
+            color: #323232;
+            position: relative;
+            p {
                 padding-top: .8rem;
             }
-            p:nth-of-type(1){
+            p:nth-of-type(1) {
                 padding-top: 0;
             }
-            .expired-time{
-                font-size: .7rem;color:@color-text-secondary;padding-top: 1rem;
-                .btn{
-                    background-color: @color-progress;border-radius: .6rem;font-size: .6rem;
-                    color:@bg-content;padding:.25rem 1.1rem;line-height: .6rem;
-                    &.disabled{
+            .expired-time {
+                font-size: .7rem;
+                color: @color-text-secondary;
+                padding-top: 1rem;
+                .btn {
+                    background-color: @color-progress;
+                    border-radius: .6rem;
+                    font-size: .6rem;
+                    color: @bg-content;
+                    padding: .25rem 1.1rem;
+                    line-height: .6rem;
+                    &.disabled {
                         background-color: @bg-disable;
                     }
+                }
+                .img {
+                    position: absolute;
+                    bottom: 0;
+                    right: .5rem;
+                    width: 3.75rem;
+                    height: 2.5rem;
                 }
             }
         }

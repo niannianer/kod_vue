@@ -35,7 +35,8 @@
                             <p flex-box="1" v-if="item.couponStatus==1">{{item.expiredDate}}</p>
                             <p flex-box="1" v-else></p>
                             <p flex-box="0" class="btn" v-if="item.couponStatus==1" @click.stop="useTicket(item.ccCode)">{{item.couponStatusText}}</p>
-                            <p flex-box="0" class="btn disabled" v-else>{{item.couponStatusText}}</p>
+                            <img src="../images/experience-fund/used.png" alt="used" v-if="item.couponStatus==2" class="img">
+                            <img src="../images/experience-fund/expired.png" alt="expired" v-if="item.couponStatus==3" class="img">
                         </div>
                     </div>
                 </li>

@@ -2,7 +2,7 @@
     <div class="cicle-progress">
         <svg class="progress">
             <circle :cx="cx" :cy="cy" :r="r" stroke="#979797" stroke-width="4" stroke-opacity="0.5" fill="#fff"/>
-            <path :d="path" stroke="#ff6500" stroke-width="4" fill="#fff"></path>
+            <path :d="path" stroke="#F61C1C" stroke-width="4" fill="#fff"></path>
 
         </svg>
         <div class="text-progress">{{progress}}%</div>
