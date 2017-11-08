@@ -13,7 +13,6 @@
 
         </div>
         <div class="bank-item" v-for="item in yingmi"
-             @click.stop="setBank(item)"
              flex="cross:center" v-if="bank=='yingmi'">
             <div flex-box="0" class="bank">
                 <img class="img" :src="imgUrls.yingmi[item.paymentType]"/>

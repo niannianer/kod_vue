@@ -286,10 +286,6 @@
                         return msg
                     })
             },
-            loadMore(){
-                /*  this.loading = true;
-                 this.loadData();*/
-            },
             domScroll(e){
                 if (this.timer) {
                     clearTimeout(this.timer);

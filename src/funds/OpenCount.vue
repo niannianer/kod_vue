@@ -18,8 +18,9 @@
                     <p v-else>{{investorIdCardNo}}</p>
                 </div>
             </div>
-            <div class="tip">
-                仅限绑定与实名信息一致的借记卡
+            <div class="tip f6" flex>
+                <p flex-bpx="0">仅限绑定与实名信息一致的借记卡</p>
+                <p flex-box="1" class="bank-tip" @click.stop="getBankList">支持绑卡的银行和限额</p>
             </div>
             <div class="content-1" v-if="userVerifyStatus>2&&showCheckCard" @click.stop="useNewCard=false">
                 <div flex class="bank-info" :class="{'abandon':useNewCard}">
@@ -39,7 +40,8 @@
             <div class="content" v-if="!(userVerifyStatus>2)||useNewCard">
                 <div class="item bl f8" flex="cross:center">
                     <p class="item-title" flex-box="0">银行卡号</p>
-                    <input type="text" flex-box="1" placeholder="请输入银行卡号" class="input" v-model="paymentNo" @input="change"
+                    <input type="text" flex-box="1" placeholder="请输入银行卡号" class="input" v-model="paymentNo"
+                           @input="change"
                            @propertychange="change">
                 </div>
                 <div class="item bl f8" flex="cross:center" @click.stop="checkBankName">
@@ -56,18 +58,23 @@
             <div class="tip-box" flex>
                 <span><img src="../images/tip.png" alt="" class="tip-img"></span>
                 <div class="f6 p">确认开户代表您同意
-                    <router-link to="/funds/serve-agreement" class="link">《盈米财富基金电子交易远程服务协议》</router-link>和
-                    <router-link to="/funds/pay-agreement" class="link">《委托支付协议》</router-link>服务协议。
+                    <router-link to="/funds/serve-agreement" class="link">《盈米财富基金电子交易远程服务协议》</router-link>
+                    和
+                    <router-link to="/funds/pay-agreement" class="link">《委托支付协议》</router-link>
+                    服务协议。
                 </div>
             </div>
         </div>
         <div class="bottom">
             <button class="btn-primary btn-open" @click.stop="openCount">确认基金开户</button>
         </div>
+        <kingold-picker v-if="showPicker" :default-index="0"
+                        :list="ymList" @back="pickerBack"></kingold-picker>
     </div>
 </template>
 
 <script>
+    import KingoldPicker from '../components/KingoldPicker'
     import {Toast} from 'mint-ui';
     import {mapState} from 'vuex';
     import * as imgUrls from '../tools/bank';
@@ -88,23 +95,19 @@
                 phone: '',
                 paymentType: '',
                 bankType: '',
-                showCheckCard:true
+                showCheckCard: true,
+                showPicker: false,
+                ymList: ''
             }
         },
         created(){
+            this.getPickerList();
             if (window.sessionStorage.getItem('open-count')) {
                 let openCountData = JSON.parse(window.sessionStorage.getItem('open-count'));
                 window.sessionStorage.removeItem('open-count');
                 for (let key in openCountData) {
                     this[key] = openCountData[key];
                 }
-            }
-            if (window.sessionStorage.getItem('bank-info')) {
-                let bankInfo = JSON.parse(window.sessionStorage.getItem('bank-info'));
-                window.sessionStorage.removeItem('bank-info')
-                this.bankNameYM = bankInfo.name;
-                this.istip = false;
-                this.paymentType = bankInfo.paymentType;
             }
             if (this.investorRealName) {
                 this.accountName = this.investorRealName;
@@ -125,8 +128,20 @@
                 return this.bankUserCardNo.substring(this.bankUserCardNo.length - 4);
             }
         },
+        components: {
+            KingoldPicker
+        },
         methods: {
-            checkBankName(){
+            getPickerList(){
+                $api.get('/fund/account/bank/list')
+                    .then(res => {
+                        if (res.code == 200) {
+                            console.log(res.data.list);
+                            this.ymList = res.data.list;
+                        }
+                    });
+            },
+            getBankList(){
                 window.sessionStorage.setItem('open-count', JSON.stringify(this.$data));
                 this.$router.push({
                     path: '/bank-list',
@@ -134,6 +149,15 @@
                         yingmi: '1'
                     }
                 })
+            },
+            checkBankName(){
+                this.showPicker = true;
+            },
+            pickerBack(result){
+                this.showPicker = false;
+                this.paymentType = result.paymentType;
+                this.bankNameYM = result.name;
+                this.istip = false;
             },
             getBankType(){
                 $api.get('/fund/account/bank/info', {
@@ -267,8 +291,7 @@
         mounted(){
             this.$refs.openCount.style.minHeight = window.innerHeight + 'px';
         },
-        destroyed()
-        {
+        destroyed(){
 
         }
     }
