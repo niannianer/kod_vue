@@ -15,7 +15,7 @@
 
 <script>
     import Vue from 'vue';
-    import {InfiniteScroll} from 'mint-ui';
+    import {InfiniteScroll,Toast} from 'mint-ui';
     Vue.use(InfiniteScroll);
     import $api from '../tools/api';
     import '../less/fund/bulletin.less';
@@ -66,13 +66,29 @@
                 return y + '-' + m + '-' + d;
             },
             openPDF(item){
-                if (item.url) {
+                $api.get('/fund/info/noticeFileUri',{
+                    ymUri:item.url
+                })
+                    .then(resp=>{
+                        if(resp.code==200){
+                            let pdfUrl = resp.data;
+                            let pdfName = item.title;
+                            pdfUrl = pdfUrl.replace(/^http\.*:/, 'https:');
+                            window.location.href = '/pdf/web/viewer.html?src='
+                                + encodeURIComponent(pdfUrl) + '&name=' + encodeURIComponent(pdfName);
+                        }else{
+                            Toast('暂时无法查看');
+                        }
+                        console.log(resp);
+                    })
+
+             /*   if (item.url) {
                     let pdfUrl = item.url;
                     let pdfName = item.title;
                     pdfUrl = pdfUrl.replace(/^http\.*:/, 'https:');
                     window.location.href = '/pdf/web/viewer.html?src='
                         + encodeURIComponent(pdfUrl) + '&name=' + encodeURIComponent(pdfName);
-                }
+                }*/
             },
         },
         destroyed(){
