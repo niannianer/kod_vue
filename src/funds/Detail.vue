@@ -92,14 +92,14 @@
                 <div class="f8 item bl" flex="cross:center">
                     <p class="title" flex="cross:center">购买信息</p>
                 </div>
-                <div flex="cross:center" class="item bl">
+                <div flex="cross:center" class="item" :class="{'bl':fund.minAmtIndiFirstPurch}">
                     <p flex-box="1">购买费率</p>
                     <p flex-box="0" v-if="fund.frontEndPurchRate">{{fund.frontEndPurchRate}}%</p>
                     <p flex-box="0" class="btn f6" v-else >免费率</p>
                     <!-- <p flex-box="0" class="line-through">1.50%</p>
                      <p flex-box="0" class="red normal">0.15</p>-->
                 </div>
-                <div flex="cross:center" class="item">
+                <div flex="cross:center" class="item" v-if="fund.minAmtIndiFirstPurch">
                     <p flex-box="1">起投金额</p>
                     <p flex-box="0">{{fund.minAmtIndiFirstPurch}}元</p>
                 </div>
