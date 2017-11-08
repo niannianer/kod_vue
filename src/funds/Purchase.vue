@@ -83,10 +83,20 @@
         created(){
             this.fundAbbrName = this.$route.query.name;
             this.fundCode = this.$route.query.code;
-            this.minSub = this.$route.query.mins || 0;
-            this.maxSub = (this.$route.query.maxs || 0)/10000;
+            let min = this.$route.query.mins;
+            let max = this.$route.query.maxs;
+            this.minSub = min || 0;
+            this.maxSub = (max || 0)/10000;
             this.isRiskConfirmAgain = this.$route.query.again;
-            this.placeholder = `最低${this.minSub}元，投资上限${this.maxSub}万`
+            if(min && !max){
+                this.placeholder = `最低${this.minSub}元`;
+            }
+            else if(!min && max){
+                this.placeholder = `投资上限${this.maxSub}万`;
+            }
+            else if(min && max){
+                this.placeholder = `最低${this.minSub}元，投资上限${this.maxSub}万`
+            }
         },
         computed: {
             ...mapState(
