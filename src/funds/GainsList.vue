@@ -1,6 +1,6 @@
 <template>
-    <div class="gains-list" flex="dir:top">
-        <div class="header" flex-box="0">
+    <div class="gains-list">
+        <div class="header">
             <div class="check-list" flex="box:mean">
                 <div class="check-item" :class="{'active':fundType==256}" @click.stop="checkFundType(256)">
                     全部
@@ -22,144 +22,141 @@
                 </div>
             </div>
         </div>
-        <div class="body" flex-box="1">
-            <div flex>
-                <div flex-box="0" class="title-list">
-                    <div class="bg-content fund-name" flex-box="0">
-                        <div class="title-item">
-                            基金名称
-                        </div>
-                        <div class="item-info" flex="dir:top cross:center main:center" v-for="(item,index) in list"
-                             @click.stop="pathTo(item.fundCode)">
-                            <p class="fund-abbr-name">{{item.fundAbbrName}}</p>
-                            <p>{{item.fundCode}}</p>
-                        </div>
+        <div class="body" id="body">
+            <div class="title-list">
+                <div class="bg-content fund-name">
+                    <div class="title-item">
+                        基金名称
+                    </div>
+                    <div class="item-info" flex="dir:top cross:center main:center" v-for="(item,index) in list"
+                         @click.stop="pathTo(item.fundCode)">
+                        <p class="fund-abbr-name">{{item.fundAbbrName}}</p>
+                        <p>{{item.fundCode}}</p>
                     </div>
                 </div>
-                <div class="title-list scroll-target" flex-box="1" flex>
-                    <div class="min-width " :class="{'min-width-bigger':fundType==4}">
-                        <div flex>
-                            <div class="title-item bg-grey" @click.stop="checkOrder('unitYield')"
-                                 flex="main:center cross:center" v-if="fundType==4" style="width: 6rem;min-width:6rem;">
-                                <p>万份收益（元）</p>
-                                <div class="order">
-                                    <p class="p desc" :class="{'active':orderBy=='unitYield'&&!isDesc}">▲</p>
-                                    <p class="p asc" :class="{'active':orderBy=='unitYield'&&isDesc}">▼</p>
-                                </div>
-                            </div>
-                            <div class="title-item bg-content" @click.stop="checkOrder('yearlyRoe')"
-                                 flex="main:center cross:center" v-if="fundType==4">
-                                <p>七日年化</p>
-                                <div class="order">
-                                    <p class="p desc" :class="{'active':orderBy=='yearlyRoe'&&!isDesc}">▲</p>
-                                    <p class="p asc" :class="{'active':orderBy=='yearlyRoe'&&isDesc}">▼</p>
-                                </div>
-                            </div>
-                            <div class="title-item bg-grey" @click.stop="checkOrder('nav')"
-                                 flex="main:center cross:center" v-if="fundType!=4">
-                                <p>单位净值</p>
-                                <div class="order">
-                                    <p class="p desc" :class="{'active':orderBy=='nav'&&!isDesc}">▲</p>
-                                    <p class="p asc" :class="{'active':orderBy=='nav'&&isDesc}">▼</p>
-                                </div>
-                            </div>
-                            <div class="title-item bg-content" @click.stop="checkOrder('dayReturn')"
-                                 flex="main:center cross:center" v-if="fundType!=4">
-                                <p> 日涨幅</p>
-                                <div class="order">
-                                    <p class="p desc" :class="{'active':orderBy=='dayReturn'&&!isDesc}">▲</p>
-                                    <p class="p asc" :class="{'active':orderBy=='dayReturn'&&isDesc}">▼</p>
-                                </div>
-                            </div>
-                            <div class="title-item bg-grey" @click.stop="checkOrder('oneWeekReturn')"
-                                 flex="main:center cross:center">
-                                <p>周涨幅</p>
-                                <div class="order">
-                                    <p class="p desc" :class="{'active':orderBy=='oneWeekReturn'&&!isDesc}">▲</p>
-                                    <p class="p asc" :class="{'active':orderBy=='oneWeekReturn'&&isDesc}">▼</p>
-                                </div>
-                            </div>
-                            <div class="title-item bg-content" @click.stop="checkOrder('oneMonthReturn')"
-                                 flex="main:center cross:center">
-                                <p>月涨幅</p>
-                                <div class="order">
-                                    <p class="p desc" :class="{'active':orderBy=='oneMonthReturn'&&!isDesc}">▲</p>
-                                    <p class="p asc" :class="{'active':orderBy=='oneMonthReturn'&&isDesc}">▼</p>
-                                </div>
-                            </div>
-                            <div class="title-item bg-grey" @click.stop="checkOrder('quarterReturn')"
-                                 flex="main:center cross:center">
-                                <p>季涨幅</p>
-                                <div class="order">
-                                    <p class="p desc" :class="{'active':orderBy=='quarterReturn'&&!isDesc}">▲</p>
-                                    <p class="p asc" :class="{'active':orderBy=='quarterReturn'&&isDesc}">▼</p>
-                                </div>
-                            </div>
-                            <div class="title-item bg-content" @click.stop="checkOrder('oneYearReturn')"
-                                 flex="main:center cross:center">
-                                <p> 近一年涨幅</p>
-                                <div class="order">
-                                    <p class="p desc" :class="{'active':orderBy=='oneYearReturn'&&!isDesc}">▲</p>
-                                    <p class="p asc" :class="{'active':orderBy=='oneYearReturn'&&isDesc}">▼</p>
-                                </div>
-                            </div>
-                            <div class="title-item bg-grey" @click.stop="checkOrder('thisYearReturn')"
-                                 flex="main:center cross:center">
-                                <p> 今年涨幅</p>
-                                <div class="order">
-                                    <p class="p desc" :class="{'active':orderBy=='thisYearReturn'&&!isDesc}">▲</p>
-                                    <p class="p asc" :class="{'active':orderBy=='thisYearReturn'&&isDesc}">▼</p>
-                                </div>
+            </div>
+            <div class="scroll-target" ref="scroll">
+                <div class="min-width " :class="{'min-width-bigger':fundType==4}">
+                    <div flex>
+                        <div class="title-item bg-grey" @click.stop="checkOrder('unitYield')"
+                             flex="main:center cross:center" v-if="fundType==4" style="width: 6rem;min-width:6rem;">
+                            <p>万份收益（元）</p>
+                            <div class="order">
+                                <p class="p desc" :class="{'active':orderBy=='unitYield'&&!isDesc}">▲</p>
+                                <p class="p asc" :class="{'active':orderBy=='unitYield'&&isDesc}">▼</p>
                             </div>
                         </div>
-                        <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"
-                            infinite-scroll-distance="10">
-                            <li flex v-for="(item,index) in list" @click.stop="pathTo(item.fundCode)">
-                                <div class="item-info bg-grey" flex="dir:top cross:center main:center"
-                                     v-if="fundType==4"
-                                     style="width: 6rem;min-width:6rem;">
-                                    <p v-if="item.unitYield">{{item.unitYield}}<!--万份收益--></p>
-                                    <p v-if="item.updateTime&&item.unitYield">{{dateFormat(item.updateTime)}}</p>
-                                    <p v-if="!item.unitYield">--</p>
-                                </div>
-                                <div class="item-info bg-content" flex="cross:center main:center" v-if="fundType==4">
-                                    {{item.yearlyRoe}}<!--七日年化-->
-                                    <p v-if="!item.yearlyRoe">--</p>
-                                </div>
-                                <div class="item-info bg-grey" flex="dir:top cross:center main:center"
-                                     v-if="fundType!=4">
-                                    <p v-if="item.nav"> {{item.nav}}<!--单位净值--></p>
-                                    <p v-if="item.navDate&&item.nav">{{dateFormat(item.navDate)}}</p><!--净值日期-->
-                                    <p v-if="!item.nav">--</p>
-                                </div>
-                                <div class="item-info red f8 bg-content" flex="cross:center main:center"
-                                     v-if="fundType!=4">
-                                    {{item.dayReturn}}<!--日涨幅-->
-                                    <p v-if="!item.dayReturn">--</p>
-                                </div>
-                                <div class="item-info red f8 bg-grey" flex="cross:center main:center">
-                                    {{item.oneWeekReturn}}<!--周-->
-                                    <p v-if="!item.oneWeekReturn">--</p>
-                                </div>
-                                <div class="item-info bg-content" flex="cross:center main:center">
-                                    {{item.oneMonthReturn}}<!--月-->
-                                    <p v-if="!item.oneMonthReturn">--</p>
-                                </div>
-                                <div class="item-info bg-grey" flex="cross:center main:center">
-                                    {{item.quarterReturn}}<!--季-->
-                                    <p v-if="!item.quarterReturn">--</p>
-                                </div>
-                                <div class="item-info bg-content" flex="cross:center main:center">
-                                    {{item.oneYearReturn}}<!--1年-->
-                                    <p v-if="!item.oneYearReturn">--</p>
-                                </div>
-                                <div class="item-info bg-grey" flex="cross:center main:center">
-                                    {{item.thisYearReturn}}<!--今年-->
-                                    <p v-if="!item.thisYearReturn">--</p>
-                                </div>
-                            </li>
-                        </ul>
+                        <div class="title-item bg-content" @click.stop="checkOrder('yearlyRoe')"
+                             flex="main:center cross:center" v-if="fundType==4">
+                            <p>七日年化</p>
+                            <div class="order">
+                                <p class="p desc" :class="{'active':orderBy=='yearlyRoe'&&!isDesc}">▲</p>
+                                <p class="p asc" :class="{'active':orderBy=='yearlyRoe'&&isDesc}">▼</p>
+                            </div>
+                        </div>
+                        <div class="title-item bg-grey" @click.stop="checkOrder('nav')"
+                             flex="main:center cross:center" v-if="fundType!=4">
+                            <p>单位净值</p>
+                            <div class="order">
+                                <p class="p desc" :class="{'active':orderBy=='nav'&&!isDesc}">▲</p>
+                                <p class="p asc" :class="{'active':orderBy=='nav'&&isDesc}">▼</p>
+                            </div>
+                        </div>
+                        <div class="title-item bg-content" @click.stop="checkOrder('dayReturn')"
+                             flex="main:center cross:center" v-if="fundType!=4">
+                            <p> 日涨幅</p>
+                            <div class="order">
+                                <p class="p desc" :class="{'active':orderBy=='dayReturn'&&!isDesc}">▲</p>
+                                <p class="p asc" :class="{'active':orderBy=='dayReturn'&&isDesc}">▼</p>
+                            </div>
+                        </div>
+                        <div class="title-item bg-grey" @click.stop="checkOrder('oneWeekReturn')"
+                             flex="main:center cross:center">
+                            <p>周涨幅</p>
+                            <div class="order">
+                                <p class="p desc" :class="{'active':orderBy=='oneWeekReturn'&&!isDesc}">▲</p>
+                                <p class="p asc" :class="{'active':orderBy=='oneWeekReturn'&&isDesc}">▼</p>
+                            </div>
+                        </div>
+                        <div class="title-item bg-content" @click.stop="checkOrder('oneMonthReturn')"
+                             flex="main:center cross:center">
+                            <p>月涨幅</p>
+                            <div class="order">
+                                <p class="p desc" :class="{'active':orderBy=='oneMonthReturn'&&!isDesc}">▲</p>
+                                <p class="p asc" :class="{'active':orderBy=='oneMonthReturn'&&isDesc}">▼</p>
+                            </div>
+                        </div>
+                        <div class="title-item bg-grey" @click.stop="checkOrder('quarterReturn')"
+                             flex="main:center cross:center">
+                            <p>季涨幅</p>
+                            <div class="order">
+                                <p class="p desc" :class="{'active':orderBy=='quarterReturn'&&!isDesc}">▲</p>
+                                <p class="p asc" :class="{'active':orderBy=='quarterReturn'&&isDesc}">▼</p>
+                            </div>
+                        </div>
+                        <div class="title-item bg-content" @click.stop="checkOrder('oneYearReturn')"
+                             flex="main:center cross:center">
+                            <p> 近一年涨幅</p>
+                            <div class="order">
+                                <p class="p desc" :class="{'active':orderBy=='oneYearReturn'&&!isDesc}">▲</p>
+                                <p class="p asc" :class="{'active':orderBy=='oneYearReturn'&&isDesc}">▼</p>
+                            </div>
+                        </div>
+                        <div class="title-item bg-grey" @click.stop="checkOrder('thisYearReturn')"
+                             flex="main:center cross:center">
+                            <p> 今年涨幅</p>
+                            <div class="order">
+                                <p class="p desc" :class="{'active':orderBy=='thisYearReturn'&&!isDesc}">▲</p>
+                                <p class="p asc" :class="{'active':orderBy=='thisYearReturn'&&isDesc}">▼</p>
+                            </div>
+                        </div>
                     </div>
+                    <ul>
+                        <li flex v-for="(item,index) in list" @click.stop="pathTo(item.fundCode)">
+                            <div class="item-info bg-grey" flex="dir:top cross:center main:center"
+                                 v-if="fundType==4"
+                                 style="width: 6rem;min-width:6rem;">
+                                <p v-if="item.unitYield">{{item.unitYield}}<!--万份收益--></p>
+                                <p v-if="item.updateTime&&item.unitYield">{{dateFormat(item.updateTime)}}</p>
+                                <p v-if="!item.unitYield">--</p>
+                            </div>
+                            <div class="item-info bg-content" flex="cross:center main:center" v-if="fundType==4">
+                                {{item.yearlyRoe}}<!--七日年化-->
+                                <p v-if="!item.yearlyRoe">--</p>
+                            </div>
+                            <div class="item-info bg-grey" flex="dir:top cross:center main:center"
+                                 v-if="fundType!=4">
+                                <p v-if="item.nav"> {{item.nav}}<!--单位净值--></p>
+                                <p v-if="item.navDate&&item.nav">{{dateFormat(item.navDate)}}</p><!--净值日期-->
+                                <p v-if="!item.nav">--</p>
+                            </div>
+                            <div class="item-info red f8 bg-content" flex="cross:center main:center"
+                                 v-if="fundType!=4">
+                                {{item.dayReturn}}<!--日涨幅-->
+                                <p v-if="!item.dayReturn">--</p>
+                            </div>
+                            <div class="item-info red f8 bg-grey" flex="cross:center main:center">
+                                {{item.oneWeekReturn}}<!--周-->
+                                <p v-if="!item.oneWeekReturn">--</p>
+                            </div>
+                            <div class="item-info bg-content" flex="cross:center main:center">
+                                {{item.oneMonthReturn}}<!--月-->
+                                <p v-if="!item.oneMonthReturn">--</p>
+                            </div>
+                            <div class="item-info bg-grey" flex="cross:center main:center">
+                                {{item.quarterReturn}}<!--季-->
+                                <p v-if="!item.quarterReturn">--</p>
+                            </div>
+                            <div class="item-info bg-content" flex="cross:center main:center">
+                                {{item.oneYearReturn}}<!--1年-->
+                                <p v-if="!item.oneYearReturn">--</p>
+                            </div>
+                            <div class="item-info bg-grey" flex="cross:center main:center">
+                                {{item.thisYearReturn}}<!--今年-->
+                                <p v-if="!item.thisYearReturn">--</p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -182,17 +179,18 @@
                 autoFill: false,
                 currentPage: 0,
                 pageSize: 10,
-                loading: false,
+                loading: true,
                 orderBy: 'nav',
                 isDesc: true,
                 scrollLeft: 0,
-                scrollTop:0
+                scrollTop: 0,
+                timer: null
             }
         },
         created(){
             let fundsDetail = window.sessionStorage.getItem('fundsDetail');
             if (fundsDetail) {
-                let {fundType, list, orderBy, isDesc, scrollLeft,scrollTop} = JSON.parse(fundsDetail);
+                let {fundType, list, orderBy, isDesc, scrollLeft, scrollTop} = JSON.parse(fundsDetail);
                 this.fundType = fundType;
                 this.list = list;
                 this.orderBy = orderBy;
@@ -209,7 +207,7 @@
                 window.sessionStorage.removeItem('fundsDetail');
                 return false
             }
-            //this.loadData();
+            this.loadData();
         },
         computed: {
             sort(){
@@ -272,8 +270,8 @@
                             }
                             else {
                                 this.list = this.list.concat(msg.data.list);
-                                console.log( this.currentPage * this.pageSize)
-                                this.list.map(item=>{
+                                console.log(this.currentPage * this.pageSize)
+                                this.list.map(item => {
                                     console.log(item.nav)
                                 })
                             }
@@ -289,8 +287,31 @@
                     })
             },
             loadMore(){
-                this.loading = true;
-                this.loadData();
+                /*  this.loading = true;
+                 this.loadData();*/
+            },
+            domScroll(e){
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
+                let event = e;
+                let w = window.innerWidth;
+                let h = window.innerHeight
+                let rem = w * 20 / 375;
+                let bodyHeight = h - 2.1 * rem
+                this.timer = setTimeout(() => {
+                    console.log(event);
+                    let {target} = event;
+                    let {scrollTop} = target;
+                    console.log(scrollTop + bodyHeight);
+                    let offsetHeight = this.$refs.scroll.offsetHeight;
+                    console.log(offsetHeight);
+                    if (scrollTop + bodyHeight + 50 >= offsetHeight) {
+                        this.loadData();
+                    }
+
+
+                }, 500);
             },
             dateFormat(timestamp){
                 let date = new Date(timestamp);
@@ -310,6 +331,9 @@
                     }
                 })
             },
+        },
+        mounted(){
+            document.getElementById('body').addEventListener('scroll', this.domScroll);
         },
         destroyed(){
 
