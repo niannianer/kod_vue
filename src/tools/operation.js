@@ -34,7 +34,7 @@ export let submitRecharge = (params) => {
     let {userId, orderBillCode, amount, returnUrl} = params;
     let backUrl = window.location.origin + '/land-recharge-result.html';
     returnUrl = `${baofooCallUrl}/baofoo/notification/recharge`;
-    let pageUrl = `${baofooCallUrl}/baofoo/h5/notification/recharge?backUrl=${backUrl}`;
+    let pageUrl = `${config.apiUrl}/baofoo/h5/notification/recharge?backUrl=${backUrl}`;
     $api.post('/baofoo/rechargeParam', {
         amount,
         userId,
@@ -113,7 +113,7 @@ export let submitAuthorization = (pUserId) => {
     input = document.createElement('input');
     input.setAttribute('name', 'page_url');
     input.setAttribute('type', 'hidden');
-    input.value = baofooCallUrl + '/baofoo/h5/notification/auth';
+    input.value = config.apiUrl + '/baofoo/h5/notification/auth';
     form.appendChild(input);
 
     document.body.appendChild(form);
