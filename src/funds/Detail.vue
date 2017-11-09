@@ -303,12 +303,12 @@
 
                         this.fund.navDate = this.dateFormat(resp.data.navDate)
                         /*最新净值日期*/
-                        let minRate = 0;
+                        let maxRate = Infinity;
                         if (resp.data.frontEndPurchRate) {
-                            minRate = this.calMinRate(JSON.parse(resp.data.frontEndPurchRate));
+                            maxRate = this.calMaxRate(JSON.parse(resp.data.frontEndPurchRate));
                         }
-                        this.fund.frontEndPurchRate = minRate;
-                        /*购买费率（取数组中最小的）*/
+                        this.fund.frontEndPurchRate = maxRate;
+                        /*购买费率（取数组中最大的）*/
                         this.fund.manager = [];
                         if (resp.data.fundManager) {
                             let managerList = JSON.parse(resp.data.fundManager);
@@ -334,18 +334,18 @@
             )
         },
         methods: {
-            calMinRate(arr){
-                let minRate = Infinity;
+            calMaxRate(arr){
+                let maxRate = -Infinity;
                 if (arr) {
                     arr.map(item => {
                         if (item.feeRatio == null) {
                             return 0
                         }
-                        if (minRate > item.feeRatio && item.feeRatio) {
-                            minRate = item.feeRatio;
+                        if (maxRate < item.feeRatio && item.feeRatio) {
+                            maxRate = item.feeRatio;
                         }
                     })
-                    return minRate;
+                    return maxRate;
                 }
             },
             activeCheck(num){
