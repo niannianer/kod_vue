@@ -20,6 +20,7 @@ const ReserveProfessionalList = () => import('../containers/ReserveProfessionalL
 const Reward = () => import('../containers/Reward');
 const TicketList = () => import('../containers/TicketList');
 const TicketAug = () => import('../containers/TicketAug');
+const TotalAssets = () => import('../containers/TotalAssets');
 const UsableFinancial = () => import('../containers/UsableFinancial');
 const MyCount = () => import('../containers/MyCount');
 const InvitationRewardDetal = () => import('../containers/InvitationRewardDetal');
@@ -64,22 +65,17 @@ const HouseOne = PensionOne;
 
 import {setTitle} from '../tools/operation';
 let beforeEach = ((to, from, next) => {
-    let {meta} = to;
-    if (meta.withoutLogin) {
-        next();
+    if (store.state.userId) {
+        next()
     } else {
-        if (store.state.userId) {
-            next()
-        } else {
-            store.dispatch('getAccountBaofoo')
-                .then(data => {
-                    if (data.code == '401') {
-                        logout();
-                    } else {
-                        next()
-                    }
-                });
-        }
+        store.dispatch('getAccountBaofoo')
+            .then(data => {
+                if (data.code == '401') {
+                    logout();
+                } else {
+                    next()
+                }
+            });
     }
 })
 let routes = [
@@ -100,8 +96,8 @@ let routes = [
         component: AuthResult
     },
     {
-        path: '/experience-fund',
-        name: 'experience-fund',
+        path: '/experience-funds',
+        name: 'experience-funds',
         meta: {
             title: '我的体验金'
         },
@@ -228,6 +224,13 @@ let routes = [
             title: '送你一场红包雨'
         },
         component: TicketAug
+    }, {
+        path: '/total-assets',
+        name: 'total-assets',
+        meta: {
+            title: '总资产'
+        },
+        component: TotalAssets
     },
     {
         path: '/usable-financial',
@@ -631,6 +634,8 @@ routes.map(route => {
         }
     };
 });
+import fundRoutes from './fund';
+routes = routes.concat(fundRoutes);
 routes.push({
     path: '*',
     redirect: '/personal-center'

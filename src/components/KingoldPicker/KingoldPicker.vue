@@ -20,7 +20,7 @@
     import './kingold-picker.less';
     export default {
         name: 'kingold-picker',
-        props: ['title', 'list', 'default-index'],
+        props: ['title', 'list', 'default-index', 'multipick','slots'],
         data(){
             return {
                 result: {},
@@ -34,6 +34,9 @@
         },
         computed: {
             array(){
+                if(this.multipick){
+                    return this.slots
+                }
                 return [{
                     textAlign: 'center',
                     values: this.list,
@@ -44,6 +47,12 @@
         methods: {
             onValuesChange(picker, values){
                 this.result = values[0];
+                if(this.multipick){
+                    this.result = values;
+                }
+                setTimeout(() => {
+                    this.$emit('onValuesChange', picker, values);
+                }, 500)
             },
             cancel(){
                 this.visible = false;

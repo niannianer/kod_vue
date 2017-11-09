@@ -19,9 +19,16 @@ new Vue({
 });
 store.dispatch('getAccountBaofoo');
 store.dispatch('getBankInfo');
-/*store.dispatch('getUserInfo');*/
-/*store.dispatch('getExperienceSum');*/
-store.dispatch('getPersonalCenterMsg')
+store.dispatch('getPersonalCenterMsg').then((resp) => {
+    if(resp.code == 200){
+        //做过风险评估，调用同步盈米风险评估数据
+        if(resp.data.user.investorRiskScore != 0){
+            store.dispatch('getRiskInfo');
+        }
+    }
+});
+store.dispatch('getAccountInfo');
+store.dispatch('getPaymentInfo');
 window.onload = () => {
     FastClick.attach(document.body);
 };

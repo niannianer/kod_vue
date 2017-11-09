@@ -37,6 +37,7 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex';
     import $device from '../tools/device';
     import $api from '../tools/api';
     import {refreshApp} from '../tools/operation';
@@ -45,7 +46,7 @@
     import Keyboard from '../components/Keyboard';
     import '../less/set-pay-password.less';
     export default {
-        name: 'withdraw',
+        name: 'set-pay-password',
         data(){
             return {
                 pTitle: '',//
@@ -60,15 +61,16 @@
         components: {
             Keyboard
         },
-        computed: {
-            isApp(){
-                return true;
-            }
-        },
         created(){
             refreshApp();
             let event = ['_trackEvent', '设置交易密码', 'SHOW', '进入设置交易密码页面', '进入设置交易密码页面'];
             window._hmt.push(event);
+        },
+        computed: {
+            ...mapState(['accountStatus']),
+            isApp(){
+                return true;
+            }
         },
         methods: {
             callBack(password){
@@ -116,9 +118,22 @@
                         let event = ['_trackEvent', '设置交易密码', 'SHOW', '确认交易密码页面-点击完成', '确认交易密码页面-点击完成'];
                         window._hmt.push(event);
                         if (msg.code == 200) {
-                            this.$router.replace('/account-complete');
+                            //没有录入适当性管理信息，跳适当性录入信息页面
+                            if (isFund && this.accountStatus < 3) {
+                                this.$router.replace({
+                                    path: '/funds/info'
+                                });
+                            } else if (isFund) {
+                                //完成录入适当性管理信息，跳基金详情页
+                                this.$router.back();
+                            } else {
+                                this.$router.replace({
+                                    path: '/account-complete'
+                                });
+                            }
                             setTimeout(() => {
 
+                                this.$store.dispatch('getAccountInfo');
                                 this.$store.dispatch('getPersonalCenterMsg');
                                 this.$store.dispatch('getBankInfo');
                             }, 1000);

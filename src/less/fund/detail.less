@@ -1,0 +1,184 @@
+@import "../variables";
+
+.detail {
+    width: 100%;
+    height: 100%;
+    .wrap{
+        overflow: auto;
+        &.blurry{
+            filter: blur(3px);
+            overflow: hidden;
+        }
+    }
+    .f6 {
+        font-size: .6rem;
+    }
+    .f8 {
+        font-size: .8rem;
+    }
+    .f9 {
+        font-size: .9rem;
+        min-height: 1.2rem;
+    }
+    .red {
+        color: #D0011B;
+    }
+    .seperate {
+        margin-top: .5rem;
+    }
+    .header {
+        background: #4A90E2;
+        text-align: center;
+        color: @bg-content;
+        padding-top: .9rem;
+        .tags {
+            width: 14.5rem;
+            margin: .9rem auto 0 auto;
+            .p {
+                color: #2975BB;
+                background: @bg-content;
+                border-radius: 3px;
+                padding: .1rem .6rem;
+            }
+        }
+        .infos {
+            padding: 1.4rem 0 1rem 0;
+            .border-left {
+                border-left: 1px solid @bg-content;
+            }
+        }
+    }
+    .content-1 {
+        color: @color-text;
+        background: @bg-content;
+        text-align: center;
+        .check-item {
+            padding: .5rem 0;
+        }
+        .active {
+            color: @bg-button;
+            border-bottom: 2px solid @bg-button;
+        }
+    }
+    .content-2 {
+        background: @bg-content;
+        text-align: center;
+        padding: .6rem .8rem;
+        color: @color-text;
+        .p {
+            background: #F0F0F0;
+            padding: .2rem 0;
+            &.p-left{
+                text-align: left;
+                padding-left: .8rem;
+                span{
+                    padding-right: .5rem;
+                }
+            }
+            .span {
+                padding-left: .5rem;
+            }
+        }
+    }
+    .content-3 {
+        background: @bg-content;
+        text-align: center;
+        padding: .8rem;
+        .duration-box {
+            border: 1px solid #D5D5D5;
+            border-radius: 2rem;
+        }
+        .duration-check {
+            padding: .3rem 0;
+            &.active {
+                background: @bg-button;
+                color: @bg-content;
+            }
+        }
+        .border-right {
+            border-right: 1px solid #D5D5D5;
+        }
+    }
+    .content-4 {
+        background: @bg-content;
+        padding: 0 .8rem;
+        .bl {
+            border-bottom: 1px solid @color-split;
+        }
+        .title {
+            overflow: visible;
+            height: .8rem;
+            padding-left: .3rem;
+            color: @color-text;
+            border-left: 4px solid @bg-button;
+        }
+        .item {
+            height: 2.2rem;
+        }
+        .line-through {
+            margin-left: .5rem;
+            text-decoration: line-through;
+            color: @color-text-gray
+        }
+        .normal{
+            margin-left: .5rem;
+        }
+        .btn{
+            margin-left: .5rem;
+            color: #2975BB;
+            background: #C5DFFF ;
+            border: 1px solid #4A90E2;
+            border-radius: 3px;
+            padding:0 .2rem;
+        }
+        .img{
+            width: .5rem;
+            height: .8rem;
+            margin-left: .5rem;
+        }
+        &.margin-bottom{
+            margin-bottom: 4rem;
+        }
+    }
+    .footer{
+        text-align: center;
+        margin: .7rem 0;
+        .link{
+            color: @bg-primary;
+        }
+        .server{
+            font-size: .6rem;
+            /* transform: scale(.92);*/
+        }
+        .quali{
+            font-size: .6rem;
+            /*  transform: scale(.8);*/
+        }
+    }
+    .bottom{
+        background: @bg-content;
+        text-align: center;
+        border-top: 1px solid #d8d8d8;
+        .p{
+            padding: .6rem;
+            border-left:1px solid #d8d8d8;
+            &:nth-of-type(1){
+                border: none;
+            }
+            &.yellow{
+                color: #F6A623;
+            }
+            &.blue{
+                color: #4990E2;
+            }
+        }
+    }
+    .chart {
+        width: 100%;
+        height: 10rem;
+        background: @bg-content;
+        padding-top: 1rem;
+    }
+}
+
+

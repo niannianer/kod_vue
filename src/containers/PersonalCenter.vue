@@ -53,7 +53,7 @@
                             <p class="title" :class="{redTip:couponUnreadMessage}">现金劵</p>
                             <p class="info">{{cashCouponCount}}个</p>
                         </div>
-                        <div flex-box="1" @click.stop="getPath('/experience-fund')">
+                        <div flex-box="1" @click.stop="getPath('/experience-funds')">
                             <p class="title">体验金</p>
                             <p class="info">{{experienceAmount}}元</p>
                         </div>
@@ -81,7 +81,7 @@
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
-                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/reserve-list')">
+                    <div class="item bl" flex-box="1" flex="cross:center" @click.stop="getPath('/reserve-list')">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/financial-prif.png" alt="financial">
                         </div>
@@ -91,6 +91,16 @@
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
+                    <!--hide 基金-->
+                    <!--<div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/funds/my-fund')">
+                        <div flex-box="0">
+                            <img class="logo" src="../images/personal-center/fund.png" alt="my-fund">
+                        </div>
+                        <p flex-box="1">我的基金</p>
+                        <div flex-box="0">
+                            <img class="arrow" src="../images/arrow-right.png" alt="arrow">
+                        </div>
+                    </div>-->
                 </div>
                 <div class="section seperate" flex="dir:top">
                     <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-share.html',true)">

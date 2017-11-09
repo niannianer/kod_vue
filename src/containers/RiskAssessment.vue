@@ -47,7 +47,8 @@
                 currentIndex: 99,
                 isApp: false,
                 answers: [],
-                scores: []
+                scores: [],
+                options:[]
             }
         },
         created(){
@@ -97,6 +98,7 @@
                 if (quLen == this.scores.length) {
                     this.scores.pop();
                     this.scores.push(item.score);
+                    this.options.push(index+1);
                     return false;
                 }
                 if (timer) {
@@ -104,6 +106,7 @@
                 }
                 timer = setTimeout(() => {
                     this.scores.push(item.score);
+                    this.options.push(index+1);
                     if (quLen > this.scores.length) {
                         this.currentIndex = 99;
                     }
@@ -120,7 +123,7 @@
                     investorRiskScore += score;
                 })
                 let investorRiskVersion = 2;/*风险测评第二版（10道题）*/
-                let investorRiskAnswer = this.scores.join('$$');
+                let investorRiskAnswer = this.options.join('$$');
 
 
                 $api.post('/updateUserInfo', {
@@ -131,6 +134,7 @@
                     if (data.code == 200) {
                         console.log(12);
                         this.$store.dispatch('getUserInfo');
+                        this.$store.dispatch('getRiskInfo');
                         // return;
                         if (this.isApp) {
                             this.$router.replace({

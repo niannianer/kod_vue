@@ -1,0 +1,80 @@
+@import "../variables";
+
+.purchase {
+    width: 100%;
+    height:100%;
+    .f8 {
+        font-size: .8rem;
+    }
+    .seperate {
+        margin-top: .5rem;
+    }
+    .blue {
+        color: @bg-button;
+    }
+    .content {
+        background: @bg-content;
+        padding: 0 .8rem;
+        .item {
+            height: 2.2rem;
+            &.name{
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                display: block;
+                line-height: 2.2rem;
+            }
+            .item-title {
+                width: 5.5rem;
+            }
+            .fee-input{
+                width: 73%;
+            }
+        }
+    }
+    .tip {
+        font-size: .6rem;
+        padding-left: .8rem;
+        padding-top: .5rem;
+    }
+    .deal {
+        padding: 1rem .8rem;
+        .img {
+            width: .8rem;
+            height: .8rem;
+            margin-right: .25rem;
+        }
+        .deal-info{
+            font-size: .6rem;
+        }
+        .link{
+            color: @bg-primary;
+        }
+    }
+    .footer{
+        text-align: center;
+        margin: .7rem 0;
+        .link{
+            color: @bg-primary;
+        }
+        .server{
+            font-size: .6rem;
+            /* transform: scale(.92);*/
+        }
+        .quali{
+            font-size: .6rem;
+            /*  transform: scale(.8);*/
+        }
+    }
+    .bottom{
+        background: @bg-button;
+        color: @bg-content;
+        height: 2.5rem;
+        line-height: 2.5rem;
+        text-align: center;
+        border-radius: 0;
+        &:disabled{
+            background: #ccc;
+        }
+    }
+}

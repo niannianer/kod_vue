@@ -1,0 +1,66 @@
+@charset "UTF-8";
+@import "../variables";
+
+.info{
+    height: 100%;
+    .header{
+        background: #4A90E2;
+        color: #fff;
+        padding: .8rem;
+        font-size: .65rem;
+        line-height: 1.1rem;
+    }
+    .content{
+        background: #fff;
+        margin: 0 0 .5rem 0;
+        padding-left: .8rem;
+        .card-item{
+            font-size: .8rem;
+            padding: .8rem 0;
+            line-height: 1rem;
+            border-top: 1px solid rgba(151,151,151,.2);
+            &:first-child{
+                border: none;
+            }
+            .title{
+                color: @color-text-secondary;
+                padding: 0 .8rem 0 0;
+            }
+            .address{
+                padding: .7rem .8rem 0 0;
+                .textarea{
+                    border: 1px solid #ADADAD;
+                    border-radius: 2px;
+                    width: 100%;
+                    height: 3.2rem;
+                    padding: .4rem;
+                }
+            }
+            .icon-warp {
+                text-align: right;
+                width: 50%;
+                padding-right: .8rem;
+                a{
+                    color: @color-text-secondary;
+                    text-decoration: none;
+                }
+                img{
+                    width: .6rem;
+                    height: .8rem;
+                    vertical-align: middle;
+                    margin-left: .5rem;
+                }
+            }
+        }
+    }
+    .footer{
+        background: #4A90E2;
+        color: #fff;
+        font-size: .9rem;
+        height: 2.5rem;
+        line-height: 2.5rem;
+        text-align: center;
+        width: 100%;
+    }
+}
+

@@ -137,7 +137,7 @@
                 faceValueText: '暂不使用',
                 faceValue:0,
                 useAssetsValue:0,
-                isUseRemain:false/*是否使用账户余额*/,
+                isUseRemain:true/*是否使用账户余额*/,
                 expcRate:0
             }
         },
@@ -168,11 +168,11 @@
             }
             this.productUuid = this.$route.query.u;
             this.amount = this.$route.query.a;
+            this.useAssetsValue = this.accountCashAmount;
             this.rechargeNum = this.leastPay;
             this.getDetail();
             this.getAvailableCoupon();
             this.eventTracking();
-
         },
         computed: {
             ...mapState(['accountCashAmount', 'bankCode', 'bankUserCardNo', 'bankName', 'userId', 'singleLimit', 'perdayLimit', 'singleLimitValue']),
@@ -227,6 +227,7 @@
                             if (data.rechargeStatus === 1) {
                                 this.getBaofoo();
                                 Indicator.close();
+                                this.inputPassword = true;
                             }
                             /*充值失败*/
                             if (data.rechargeStatus === 2) {

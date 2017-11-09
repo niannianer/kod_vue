@@ -80,7 +80,7 @@
     import {InfiniteScroll,MessageBox,Toast} from 'mint-ui';
     Vue.use(InfiniteScroll);
     export default {
-        name: 'experience-fund',
+        name: 'experience-funds',
         data(){
             return {
                 experienceList:[],

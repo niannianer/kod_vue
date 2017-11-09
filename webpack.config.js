@@ -89,7 +89,6 @@ const config = {
             minChunks: Infinity
         }),
         new webpack.NoEmitOnErrorsPlugin(),
-        // new WebpackMd5Hash(),
         new HtmlWebpackPlugin({
             title: '金疙瘩',
             favicon: './src/images/logo.png',
@@ -106,10 +105,13 @@ const config = {
     ],
     devtool: '#eval-source-map'
 }
-if (env == 'production' || env == 'stage' || env == 'test') {
+if (env == 'production' || env == 'stage' || env == 'test' || env == 'test2') {
     console.log('------->', env)
     config.devtool = '';
     config.output.publicPath = 'https://static-test.zj-hf.cn/dist/';
+    if (env == 'test2') {
+        config.output.publicPath = 'https://static-test2.zj-hf.cn/dist/';
+    }
     if (env == 'stage') {
         config.output.publicPath = 'https://pre-zj-static.zj-hf.cn/dist/';
     }
@@ -117,7 +119,7 @@ if (env == 'production' || env == 'stage' || env == 'test') {
         config.output.publicPath = 'https://zj-static.zj-hf.cn/dist/';
     }
     config.output.filename = `[name].[chunkhash:8].${version}.js`;
-    config.output.chunkFilename = `[chunkhash:8].[id].${version}.chunk.js`;
+    config.output.chunkFilename = `[chunkhash:8].[id].chunk.${version}.js`;
     config.plugins = (config.plugins || []).concat([
         new webpack.DefinePlugin({
             'process.env': {
@@ -126,7 +128,7 @@ if (env == 'production' || env == 'stage' || env == 'test') {
             }
         }),
         new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
+            sourceMap: false,
             comments: false,
             compress: {
                 warnings: false,

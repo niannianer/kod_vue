@@ -76,7 +76,7 @@ export let bankCardNoFormat=(input)=>{
     }
 
 };
-export let timeFormat = (input) => {
+export let timeFormat = (input, input2) => {
     if (!input) {
         return '';
     }
@@ -94,7 +94,16 @@ export let timeFormat = (input) => {
         }
         return t ;
     }
-    let ouputs = (y+'-'+setTime(m)+'-'+setTime(d)+' '+setTime(h)+':'+setTime(f)+':'+setTime(s));
+    let ouputs = y + '-' + setTime(m) + '-' + setTime(d) + ' ' + setTime(h) + ':' + setTime(f);
+    if (input2 != 'minute') {
+        ouputs += ':' + setTime(s);//年月日时分
+    }
+    if (input2 == 'day') {//年-月-日
+        ouputs = y + '-' + setTime(m) + '-' + setTime(d);
+    }
+    if(input2 == 'mouthToday'){//月日，如：9月9日
+        ouputs = setTime(m) + '月' + setTime(d) + '日';
+    }
     return ouputs;
 };
 export let periodType = (input) => {
@@ -190,4 +199,65 @@ export let numMulti =(num1,num2)=>{
         * Number(num2.toString().replace(".", ""))
         / Math.pow(10, baseNum)
 };
+export let fundType =(input)=>{
+    let output = '';
+    switch (input){
+        case '1':
+            output = '股票型';
+            break;
+        case '2':
+            output = '债券型';
+            break;
+        case '3':
+            output = '混合型';
+            break;
+        case '4':
+            output = '货币型';
+            break;
+        case '5':
+            output = '保本型';
+            break;
+        case '6':
+            output = '指数型';
+            break;
+        case '7':
+            output = 'QDII';
+            break;
+        case '8':
+            output = '商品型';
+            break;
+        case '9':
+            output = '短期理财';
+            break;
+        default:
+            output = '其他类型';
+            break;
+    }
+    return output;
+};
+export let riskLevelFundIsoc =(input)=>{
+    let output = '';
+    switch (input){
+        case 1:
+            output = '低风险';
+            break;
+        case 2:
+            output = '中低风险';
+            break;
+        case 3:
+            output = '中风险';
+            break;
+        case 4:
+            output = '中高风险';
+            break;
+        case 5:
+            output = '高风险';
+            break;
+        default:
+            output = '未评估过';
+            break;
+    }
+    return output;
+};
+
 

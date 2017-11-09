@@ -14,6 +14,7 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex';
     import '../less/account-complete.less';
     import Advertise from '../components/Advertise';
     import {refreshApp} from '../tools/operation';
@@ -28,7 +29,11 @@
         created(){
             refreshApp();
         },
-        computed: {},
+        computed: {
+            ...mapState(
+                ['investorRiskScore']
+            )
+        },
         methods: {
             complete(){
                 if (window.sessionStorage.getItem('noviceUrl')) {

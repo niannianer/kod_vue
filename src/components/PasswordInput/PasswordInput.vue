@@ -4,7 +4,7 @@
         <div class="input-content" flex-box="1" flex="main:center cross:center">
             <div class="input-body">
                 <div class="title">
-                    请输入交易密码
+                    {{header || '请输入交易密码'}}
                     <span class="close" @click.stop="close">×</span>
                 </div>
                 <div class="props-info">{{title}}</div>
@@ -67,7 +67,7 @@
     import './password-input.less';
     export default {
         name: 'password-input',
-        props: ['title'],
+        props: ['title','header'],
         data(){
             return {
                 passwords: [],

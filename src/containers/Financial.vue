@@ -8,6 +8,10 @@
                 <div flex-box="1" class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">
                     <div class="tab-item" >高端理财</div>
                 </div>
+                <!--hide jijin-->
+               <!-- <div flex-box="1" class="tab" @click.stop="changeTab(0)">
+                    <div class="tab-item" :class="{'active':tab==0}">基金</div>
+                </div>-->
             </div>
             <div class="item-list" flex-box="1" v-if="tab==1">
                 <mt-loadmore :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill"
@@ -49,7 +53,7 @@
                 </mt-loadmore>
             </div>
             <!--固收-->
-            <div class="item-list" flex-box="1" v-else>
+            <div class="item-list" flex-box="1" v-if="tab==2">
                 <mt-loadmore :bottom-method="loadBottom" ref="loadmore" :auto-fill="autoFill"
                              :bottomPullText="bottomLoadingText" :bottomLoadingText="bottomLoadingText"
                              :bottomAllLoaded="!(loading &&hasMore)">
@@ -108,7 +112,7 @@
                                 </div>
                                 <div flex="dir:left" class="fund-middle-fix"
                                      :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2),'padding-top':item.couponMaxProfit}"
-                                     >
+                                >
                                     <div class="rate" flex-box="1"
                                          :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                                         <div flex>
@@ -159,6 +163,9 @@
                     </div>
                 </mt-loadmore>
             </div>
+            <div class="item-list" flex-box="1" v-if="tab==0">
+                <lists></lists>
+            </div>
             <!--遮罩层-->
             <div class="mask" v-show="show">
                 <div class="content">
@@ -190,10 +197,11 @@
     import '../less/financial.less';
     import CicleProgress from '../components/CicleProgress/CicleProgress';
     import $api from '../tools/api';
+    import lists from '../funds/Lists.vue'
     export default {
         name: 'financial',
         components: {
-            CicleProgress
+            CicleProgress, lists
         },
         data(){
             return {
@@ -213,6 +221,7 @@
             };
         },
         created(){
+            this.tab = this.$route.query.tab || 2;
 
             let goodsDetail = window.sessionStorage.getItem('goodsDetail');
             if (goodsDetail) {
@@ -233,6 +242,11 @@
                 window.sessionStorage.removeItem('goodsDetail');
                 return false;
             }
+            /*基金详情*/
+            if (window.sessionStorage.getItem('fund-detail')) {
+                this.tab = 0;
+                window.sessionStorage.removeItem('fund-detail');
+            }
             // 私募
             if (this.$route.query.tab == 'PRIF') {
 
@@ -242,7 +256,7 @@
                 this.settings.title = '优质稀缺大类资产，就在金疙瘩。';
                 this.getListWithLogin();
 
-            } else {
+            } else if(this.$route.query.tab !== '0'){
                 let event = ['_trackEvent', '产品列表', 'SHOW', '进入定期理财列表页', '进入定期理财列表页'];
                 window._hmt.push(event);
                 this.settings.title = '金疙瘩系列定期产品——闲散资金定制理财';
@@ -273,16 +287,18 @@
             },
             changeTab(tab){
                 this.tab = tab;
+                this.$router.replace('/financial?tab='+this.tab);
                 this.startRow = 0;
                 this.$nextTick(() => {
                     let dom = document.querySelector('.item-list');
                     dom.scrollTop = 0;
                 });
+
                 if (this.tab == 1) {
                     let event = ['_trackEvent', '产品列表', 'CLICK', '定期理财列表页点击高端理财tab', '定期理财列表页-点击高端理财tab'];
                     window._hmt.push(event);
                     this.getListWithLogin();
-                } else {
+                } else if (this.tab == 2) {
                     let event = ['_trackEvent', '产品列表', 'CLICK', '高端理财列表页点击定期理财tab', '高端理财列表页-点击定期理财tab'];
                     window._hmt.push(event);
                     this.getGoodsList('refresh');

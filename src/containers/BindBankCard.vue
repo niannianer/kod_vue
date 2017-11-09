@@ -119,7 +119,8 @@
             ... mapState([
                     'investorMobile',
                     'investorRealName',
-                    'userId'
+                    'userId',
+                    'accountStatus'
                 ]
             ),
             cardStyle(){
@@ -235,7 +236,14 @@
                         setTimeout(() => {
                             this.loading = false;
                             this.$store.dispatch('getBankInfo');
-                            this.$router.replace('/set-pay-password')
+                            this.$store.dispatch('getUserInfo');
+                            if (this.accountStatus > 1) {
+                                this.$router.replace({
+                                    path: '/account-complete'
+                                });
+                            } else {
+                                this.$router.replace('/set-pay-password')
+                            }
                         }, 1000)
                     } else {
                         this.loading = false;

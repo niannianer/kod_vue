@@ -44,6 +44,31 @@ mutations.setUserInfo = (state, data) => {
     }
 
 };
+// 基金账户信息
+mutations.setAccountInfo = (state, data) => {
+    if (data.userUuid) {
+        _.forEach(state, (value, key) => {
+            if (data.hasOwnProperty(key)) {
+                state[key] = data[key];
+            }
+        });
+
+    }
+
+};
+
+// 绑定盈米支付信息
+mutations.setPaymentInfo = (state, data) => {
+    if (data.userUuid) {
+        _.forEach(state, (value, key) => {
+            if (data.hasOwnProperty(key)) {
+                state[key] = data[key];
+            }
+        });
+
+    }
+
+};
 mutations.setEligibleInvestor = (state, data) => {
     state.isEligibleInvestor = data;
 };
@@ -54,7 +79,7 @@ mutations.setExperienceSum = (state,data) =>{
             state[key] = data[key];
         }
     });
-}
+};
 mutations.setPersonalCenterMsg = (state,data) =>{
     _.forEach(state, (value, key) => {
         if (data.hasOwnProperty(key)) {
@@ -62,5 +87,13 @@ mutations.setPersonalCenterMsg = (state,data) =>{
         }
     });
 
-}
+};
+mutations.setRiskInfo = (state,data) =>{
+    _.forEach(state, (value, key) => {
+        if (data.hasOwnProperty(key)) {
+            state[key] = data[key];
+        }
+    });
+
+};
 export default  mutations;

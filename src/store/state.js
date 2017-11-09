@@ -13,7 +13,11 @@ const state = {
     investorMobile:'',// mobile
     investorRealName:'',// realname,
     isEligibleInvestor:0,
+    isSetPayPassword:0,
     investorRiskType:0,
+    isMinRiskLevel:0,//是否为最低标准型
+    investorRiskProductDesc:'',
+    investorRiskTypeDesc:'',
     investorRiskLevel:0, //
     investorRiskLevelDesc:'',
     investorType:'',
@@ -47,7 +51,14 @@ const state = {
     totalExperience:'',
 
     cashCouponCount:'0',//现金券数量
-    experienceAmount:'0'//体验金数额
+    experienceAmount:'0',//体验金数额
+
+    accountStatus: 0,//是否录入适当性管理信息，1：已基金开户，2：已基金交易密码，3：完成
+    paymentNo: '',
+    name: '',
+    maxRapidPayAmountPerTxn: 0,
+    maxRapidPayAmountPerDay: 0,
+    investorRiskVersion:''//风险测评版本 2:新版
 
 
 };

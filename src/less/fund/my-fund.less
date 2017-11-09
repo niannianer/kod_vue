@@ -1,0 +1,117 @@
+@import "../variables";
+.my-fund {
+    .blurry{
+        filter: blur(3px);
+        overflow: hidden;
+    }
+    li{
+        list-style: none;
+    }
+    .f9{
+        font-size: .9rem;
+    }
+    .f8{
+        font-size: .8rem;
+    }
+    .green{
+        color:#417505;
+    }
+    .red{
+        color:#D0011B;
+    }
+    .bold{
+        color: @color-text;
+    }
+    .f6{
+        font-size: .6rem;
+    }
+    .header {
+        padding: .6rem .8rem;
+        text-align: center;
+        background: url('../../images/fund/my-fund/fund-bg.png');
+        background-size: 100% 100%;
+        color: @bg-content;
+        .border{
+            border:1px solid @bg-content;
+            border-radius:2px;
+            font-size: .6rem;
+            padding: 0 .3rem;
+        }
+        .date{
+            margin-top: .4rem;
+        }
+        .rate{
+            margin-top:1rem;
+            font-size: 1.6rem;
+        }
+        .info-box{
+            margin-top: 1.5rem;
+            margin-bottom: 1.25rem;
+            .data{
+                font-size: 1rem;
+            }
+        }
+    }
+    .body{
+        .title-box{
+            text-align: center;
+            background: @bg-content;
+            .p{
+                padding: .6rem 0;
+            }
+            .active{
+                border-bottom:2px solid @bg-button;
+            }
+        }
+        .list-box{
+            padding-bottom: .6rem;
+        }
+        .list-item{
+            margin: .6rem 1rem 0 1rem;
+            border:1px solid @bg-button;
+            border-radius: 4px;
+            background: @bg-content;
+            .item-title{
+                margin: 0 .7rem;
+                padding: 0.4rem 0;
+                border-bottom: 1px solid #4990E2;
+                .name{
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    color: @color-text;
+                    margin-right: .2rem;
+                }
+            }
+            .item-info{
+                text-align: center;
+                padding: .7rem;
+                .info{
+                    margin-top: .3rem;
+                }
+            }
+            .item-footer{
+                .btn-item{
+                    border-top: 1px solid #4990E2;
+                    padding: .5rem .8rem;
+                    &.bonus{
+                        color: #D70000;
+                    }
+                    &.revoked{
+                        color: #2975BB;
+                        text-align: right;
+                    }
+                }
+
+                .footer-right{
+                    text-align: right;
+                    .img{
+                        width: .6rem;
+                        height: .9rem;
+                        vertical-align: bottom;
+                    }
+                }
+            }
+        }
+    }
+}
