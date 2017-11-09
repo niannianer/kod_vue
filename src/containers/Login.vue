@@ -1,8 +1,8 @@
 <template>
     <div class="login">
         <div class="header" flex="box:mean">
-            <p class="p" @click.stop="checkType" :class="{'active':isPassType}">密码登录</p>
-            <p class="p" @click.stop="checkType" :class="{'active':!isPassType}">验证码登录</p>
+            <p class="p" @click.stop="checkType" :class="{'active':!isCodeType}">密码登录</p>
+            <p class="p" @click.stop="checkType" :class="{'active':isCodeType}">验证码登录</p>
         </div>
         <div class="body">
             <div class="form">
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </label>
-                <label for="password" v-if="isPassType" flex >
+                <label for="password" v-if="!isCodeType" flex>
                     <div class="input-warp" flex="cross:center">
                         <img flex-box="0" class="phone" src="../images/login/key_icon@2x.png"/>
                         <input v-if="showPassword" type="text" class="input" flex-box="1" id="password"
@@ -64,8 +64,8 @@
             </div>
         </div>
         <div class="bottom">
-            <p class="btn" @click.stop="login" v-if="isPassType">登录</p>
-            <p class="btn" @click.stop="smsLogin" v-if="!isPassType">登录</p>
+            <p class="btn" @click.stop="login" v-if="!isCodeType">登录</p>
+            <p class="btn" @click.stop="smsLogin" v-if="isCodeType">登录</p>
         </div>
     </div>
 </template>
@@ -80,10 +80,9 @@
                 username: '',
                 password: '',
                 showPassword: false,
-                passType: 'password',
                 imageCode: '',
                 inputCode: '',
-                isPassType: true,
+                isCodeType: false,
                 verifyCode: '',
                 verifyTimeLeft: '',
                 verifyText: '获取验证码'
@@ -91,14 +90,15 @@
             }
         },
         created(){
-
+            console.log(this.$route.query.type);
+           this.isCodeType =  !!Number(this.$route.query.type);
         },
         computed: {},
         methods: {
             checkType(){
-                this.isPassType = !this.isPassType;
+                this.isCodeType = !this.isCodeType;
                 this.imageCode = '';
-                this.inputCode ='';
+                this.inputCode = '';
             },
             getVerify(){
                 if (!this.checkPhone()) {
@@ -121,6 +121,8 @@
                 })
                     .then(data => {
                         if (data.code == 200) {
+                            this.imageCode = '';
+                            this.inputCode = '';
                             return false;
                         }
                         else {
