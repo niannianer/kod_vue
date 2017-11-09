@@ -13,6 +13,9 @@ device.kingoldVersion = '0.0.0';
 if (device.kingold) {
     device.kingoldVersion = ua.match(/([\d.]+)?$/)[0];
 }
+// default
+device.os = 'PC';
+device.osVersion = 'default';
 // Android
 if (android) {
     device.os = 'android';
