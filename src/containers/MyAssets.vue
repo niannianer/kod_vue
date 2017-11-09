@@ -191,7 +191,7 @@
                 }
                 let event = ['_trackEvent', '我的资产', 'CLICK', '在我的资产页面点击充值按钮', '我的资产页面-点击充值按钮'];
                 window._hmt.push(event);
-                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0]) + '?t=' + new Date().getTime());
+                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0]+ '?t=' + new Date().getTime()));
                 this.$router.push('/recharge');
 
             },
