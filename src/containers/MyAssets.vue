@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="item" @click.stop="billList" flex>
-                <div flex-box="1" class="item-left" >
+                <div flex-box="1" class="item-left">
                     我的账户明细
                 </div>
             </div>
@@ -79,22 +79,11 @@
                 this.getShare();
             }
             this.getBaofoo();
-            if (this.$route.query.t) {
-                window.sessionStorage.setItem('fromBaoFoo', '1');
-                if (window.location.href.indexOf('test') > -1) {
-                    window.location.replace('https://static-test.zj-hf.cn/my-assets');
-                } else {
-                    window.location.replace('https://zj-static.zj-hf.cn/my-assets');
-                }
-            } else {
-                let rechargeOrderBillCode = window.sessionStorage.getItem('rechargeOrderBillCode');
-                let fromBaoFoo = window.sessionStorage.getItem('fromBaoFoo');
-                if (fromBaoFoo) {
-                    this.orderBillCode = rechargeOrderBillCode;
-                    window.sessionStorage.removeItem('rechargeOrderBillCode');
-                    window.sessionStorage.removeItem('fromBaoFoo');
-                    this.getTradeRecharge();
-                }
+            let rechargeOrderBillCode = window.sessionStorage.getItem('rechargeOrderBillCode');
+            if (rechargeOrderBillCode) {
+                this.orderBillCode = rechargeOrderBillCode;
+                window.sessionStorage.removeItem('rechargeOrderBillCode');
+                this.getTradeRecharge();
             }
             let event = ['_trackEvent', '我的资产', 'SHOW', '进入我的资产页面', '进入我的资产页面'];
             window._hmt.push(event);
@@ -112,7 +101,7 @@
             getTradeRecharge(){
 
                 let rechargeBillCode = this.orderBillCode;
-                if(!rechargeBillCode){
+                if (!rechargeBillCode) {
                     return false;
                 }
                 Indicator.open('正在等待银行返回结果...');
@@ -141,7 +130,7 @@
                                 Indicator.close();
                                 Toast('充值失败')
                             }
-                        }else {
+                        } else {
                             Indicator.close();
                         }
 
@@ -191,7 +180,7 @@
                 }
                 let event = ['_trackEvent', '我的资产', 'CLICK', '在我的资产页面点击充值按钮', '我的资产页面-点击充值按钮'];
                 window._hmt.push(event);
-                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0]) + '?t=' + new Date().getTime());
+                window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href));
                 this.$router.push('/recharge');
 
             },
@@ -209,7 +198,8 @@
             },
             createUser(){
 
-                this.goStep(); /*直接去开户，而不需要弹框提示*/
+                this.goStep();
+                /*直接去开户，而不需要弹框提示*/
                 let event = ['_trackEvent', '我的资产', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
                 window._hmt.push(event);
             },

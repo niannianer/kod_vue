@@ -187,21 +187,10 @@
             this.getUnread();
             let event = ['_trackEvent', '个人中心', 'SHOW', '进入个人中心页面且已登录', '进入已登录个人中心'];
             window._hmt.push(event);
-            if (this.$route.query.t) {
-                window.sessionStorage.setItem('fromBaoFoo', '1');
-                if (window.location.href.indexOf('test') > -1) {
-                    window.location.replace('https://static-test.zj-hf.cn/personal-center');
-                } else {
-                    window.location.replace('https://zj-static.zj-hf.cn/personal-center');
-                }
-                return false;
-            }
             let rechargeOrderBillCode = window.sessionStorage.getItem('rechargeOrderBillCode');
-            let fromBaoFoo = window.sessionStorage.getItem('fromBaoFoo');
-            if (rechargeOrderBillCode && fromBaoFoo) {
+            if (rechargeOrderBillCode) {
                 this.orderBillCode = rechargeOrderBillCode;
                 window.sessionStorage.removeItem('rechargeOrderBillCode');
-                window.sessionStorage.removeItem('fromBaoFoo');
                 this.getTradeRecharge();
             }
 
@@ -339,7 +328,7 @@
                         window._hmt.push(event);
                         return false;
                     }
-                    window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href.split('?')[0]) + '?t=' + new Date().getTime());
+                    window.sessionStorage.setItem('backUrl', encodeURIComponent(window.location.href));
                 }
                 this.$router.push(path);
 

@@ -32,13 +32,9 @@ let terminal_id = config.terminal_id;
 // baofoo 充值
 export let submitRecharge = (params) => {
     let {userId, orderBillCode, amount, returnUrl} = params;
-    let backUrl = window.sessionStorage.getItem('backUrl');
-    if (!backUrl) {
-        backUrl = window.location.origin + '/my-assets?t=' + new Date().getTime();
-    }
+    let backUrl = window.location.origin + '/land-recharge-result.html';
     returnUrl = `${baofooCallUrl}/baofoo/notification/recharge`;
     let pageUrl = `${baofooCallUrl}/baofoo/h5/notification/recharge?backUrl=${backUrl}`;
-    let backUrlParams = window.sessionStorage.getItem('backUrlParams');
     $api.post('/baofoo/rechargeParam', {
         amount,
         userId,
@@ -155,9 +151,9 @@ export let logout = () => {
         });
     } else {
         let logoutIndex = window.sessionStorage.getItem('logoutIndex');
-        if(logoutIndex){/* 首页（未登录）点击需登录页。登录后自动跳至需登录页。*/
+        if (logoutIndex) {/* 首页（未登录）点击需登录页。登录后自动跳至需登录页。*/
             window.sessionStorage.setItem('logoutUrl', logoutIndex);
-        }else{
+        } else {
             window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
         }
         window.location.replace('/login');
