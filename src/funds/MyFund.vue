@@ -398,6 +398,9 @@
                 let y = date.getFullYear();
                 let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : '' + (date.getMonth() + 1);
                 let d = date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate();
+                if(isNaN(m)||isNaN(d)){
+                    return ''
+                }
                 return m + '-' + d;
             },
             getAssetes(){
