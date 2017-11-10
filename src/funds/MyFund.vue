@@ -90,10 +90,7 @@
                                     <p class="info">修改分红方式</p>
                                 </div>
                                 <div>
-                                    <p class="f8 bold" v-if="item.bizCode == '022' || item.bizCode == '024'">
-                                        {{dateFormat(item.orderTradeDate)}}
-                                    </p>
-                                    <p class="f8 bold" v-if="item.bizCode == '029'">
+                                    <p class="f8 bold">
                                         {{dateFormat(item.createTime)}}
                                     </p>
                                     <p class="info" v-if="item.bizCode == '022'">申购日期</p>
@@ -145,10 +142,7 @@
                                     <p class="f8 red bold" v-if="item.bizCode == '144' || item.bizCode == '145'||item.bizCode == '142'">
                                         {{dateFormat(item.orderConfirmDate)}}
                                     </p>
-                                    <p class="f8 red bold" v-if="item.bizCode == '022' || item.bizCode == '024'||item.bizCode == '043'" >
-                                        {{dateFormat(item.orderTradeDate)}}
-                                    </p>
-                                    <p class="f8 red bold" v-if="item.bizCode == '029'" >
+                                    <p class="f8 red bold" v-else >
                                         {{dateFormat(item.createTime)}}
                                     </p>
                                     <p class="info" v-if="item.bizCode == '022'">申购日期</p>
