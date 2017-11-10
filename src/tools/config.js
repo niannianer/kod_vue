@@ -22,9 +22,9 @@ if (process.env.kingold == 'test'||1) {
 }
 /*test2 env*/
 if (process.env.kingold == 'test2') {
-    apiUrl = `${protocol}//weixin-test.zj-hf.cn`;
+    apiUrl = `${protocol}//weixin-test2.zj-hf.cn`;
     baofooUrl = 'https://paytest.baofoo.com/baofoo-custody/custody/';
-    baofooCallUrl = `${protocol}//notify-test.zj-hf.cn`;
+    baofooCallUrl = `${protocol}//notify-test2.zj-hf.cn`;
     apiNode = `${protocol}//market-test.zj-hf.cn`;
 }
 /*stage env*/
