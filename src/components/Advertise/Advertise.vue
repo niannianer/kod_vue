@@ -16,7 +16,8 @@
         data(){
             return {
                 pictureUrl:'',
-                skipLinkUrl:''
+                skipLinkUrl:'',
+                skipLinkTitle:''
             }
         },
         props: ['pagetype'],
@@ -29,6 +30,7 @@
                                 if (item.pageType == this.pagetype) {
                                     this.pictureUrl = item.pictureUrl;
                                     this.skipLinkUrl = item.skipLinkUrl;
+                                    this.skipLinkTitle = item.skipLinkTitle;
                                 }
                             })
                         }
@@ -42,7 +44,11 @@
                 if(!path){
                     return false;
                 }
-                window.location.href = path;
+                if(this.skipLinkTitle){
+                    window.location.href = path+'?skiplinktitle='+encodeURIComponent(this.skipLinkTitle);
+                }else{
+                    window.location.href = path;
+                }
             },
         },
         destroyed(){
