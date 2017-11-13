@@ -40,8 +40,11 @@
                     window.location.href = decodeURIComponent(window.sessionStorage.getItem('noviceUrl'));
                     return false;
                 }
-
-                this.$router.push('/personal-center');
+                if (window.sessionStorage.getItem('detail')) {
+                    this.$router.back();
+                } else {
+                    this.$router.push('/financial');
+                }
             }
         },
         mounted(){

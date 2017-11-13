@@ -356,6 +356,7 @@
                 window._hmt.push(event);
             },
             goStep(){
+                window.sessionStorage.setItem('detail',1)
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {
                     case 0:
