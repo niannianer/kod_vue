@@ -1,6 +1,6 @@
 <template>
     <div class="advertise" v-if="pictureUrl">
-        <img :src=item.pictureUrl alt="index-bg" @click.stop="pathTo(skipLinkUrl)" class="img">
+        <img :src=pictureUrl @click.stop="pathTo(skipLinkUrl)" class="img">
     </div>
 </template>
 
@@ -24,10 +24,9 @@
             $api.get('/management/getAdvertList')
                 .then(resp => {
                     if (resp.code == 200) {
-                        console.log(this.pagetype);
                         if (resp.data.positionList && resp.data.positionList.length) {
                             resp.data.positionList.map(item => {
-                                if (item.pageType == this.pageType) {
+                                if (item.pageType == this.pagetype) {
                                     this.pictureUrl = item.pictureUrl;
                                     this.skipLinkUrl = item.skipLinkUrl;
                                 }
@@ -40,6 +39,9 @@
         computed: {},
         methods: {
             pathTo(path){
+                if(!path){
+                    return false;
+                }
                 window.location.href = path;
             },
         },
