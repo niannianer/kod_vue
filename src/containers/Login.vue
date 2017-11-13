@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </label>
-                <label for="password" v-if="!isCodeType" flex>
+                <label for="password" v-if="!isCodeType" >
                     <div class="input-warp" flex="cross:center">
                         <img flex-box="0" class="phone" src="../images/login/key_icon@2x.png"/>
                         <input v-if="showPassword" type="text" class="input" flex-box="1" id="password"
