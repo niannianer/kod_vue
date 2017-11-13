@@ -146,7 +146,7 @@
                         if (msg.data.bankCode && msg.data.bankName)
                             this.html = `<span class="bank-inner" style="background-image:url(${this.imgUrls[msg.data.bankCode]})">${msg.data.bankName}</span>`;
                     } else {
-                        Toast(msg.msg)
+                       // Toast(msg.msg)   //bug2728 查询不到银行卡不提示。
                     }
                 });
             },

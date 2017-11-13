@@ -26,7 +26,7 @@
             $api.get('/management/getAdvertList')
                 .then(resp => {
                     if (resp.code == 200) {
-                        this.bannerList = resp.data.advertList;
+                        this.bannerList = resp.data.positionList;
                     }
                 })
         },
