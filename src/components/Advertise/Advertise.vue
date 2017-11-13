@@ -1,15 +1,11 @@
 <template>
-    <div class="advertise" v-if="bannerList.length">
-        <mt-swipe :auto="4000" >
-            <mt-swipe-item v-for="(item,index) in bannerList" :key="index">
-                <img :src=item.advertImage alt="index-bg" @click.stop="pathTo(item.advertLink,true)" class="img">
-            </mt-swipe-item>
-        </mt-swipe>
+    <div class="advertise" v-if="pictureUrl">
+        <img :src=item.pictureUrl alt="index-bg" @click.stop="pathTo(skipLinkUrl)" class="img">
     </div>
 </template>
 
 <script>
-    import { Swipe, SwipeItem } from 'mint-ui';
+    import {Swipe, SwipeItem} from 'mint-ui';
     import Vue from 'vue';
     import $api from '../../tools/api';
     import './advertise.less';
@@ -19,14 +15,25 @@
         name: 'base',
         data(){
             return {
-                bannerList:[],
+                pictureUrl:'',
+                skipLinkUrl:''
             }
         },
+        props: ['pagetype'],
         created(){
             $api.get('/management/getAdvertList')
                 .then(resp => {
                     if (resp.code == 200) {
-                        this.bannerList = resp.data.positionList;
+                        console.log(this.pagetype);
+                        if (resp.data.positionList && resp.data.positionList.length) {
+                            resp.data.positionList.map(item => {
+                                if (item.pageType == this.pageType) {
+                                    this.pictureUrl = item.pictureUrl;
+                                    this.skipLinkUrl = item.skipLinkUrl;
+                                }
+                            })
+                        }
+
                     }
                 })
         },

@@ -9,7 +9,7 @@
         <div class="complete">
             <button class="btn-primary btn-complete" @click.stop="complete">完成</button>
         </div>
-        <advertise></advertise>
+        <advertise :pagetype="'KHCG'"></advertise>
     </div>
 </template>
 

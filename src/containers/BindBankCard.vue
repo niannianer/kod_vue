@@ -138,6 +138,9 @@
         methods: {
             getCardInfo(){
                 let card = this.bankCard.replace(/[^\d]/g, '');
+                if(!card){
+                    return false;
+                }
                 return $api.get('/getBankInfo', {bankNo: card}).then(msg => {
                     if (msg.code == 200) {
                         this.bankHint = true;
