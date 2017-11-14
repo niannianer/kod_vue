@@ -50,7 +50,7 @@
         <div class="bottom">
             <p class="btn" @click.stop="pathTo('/invest-list')">查看我的定期理财</p>
         </div>
-        <advertise></advertise>
+        <advertise :pagetype="'GMCG'"></advertise>
     </div>
 </template>
 

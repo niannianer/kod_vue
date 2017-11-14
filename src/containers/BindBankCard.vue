@@ -138,6 +138,9 @@
         methods: {
             getCardInfo(){
                 let card = this.bankCard.replace(/[^\d]/g, '');
+                if(!card){
+                    return false;
+                }
                 return $api.get('/getBankInfo', {bankNo: card}).then(msg => {
                     if (msg.code == 200) {
                         this.bankHint = true;
@@ -146,7 +149,7 @@
                         if (msg.data.bankCode && msg.data.bankName)
                             this.html = `<span class="bank-inner" style="background-image:url(${this.imgUrls[msg.data.bankCode]})">${msg.data.bankName}</span>`;
                     } else {
-                        Toast(msg.msg)
+                       // Toast(msg.msg)   //bug2728 查询不到银行卡不提示。
                     }
                 });
             },

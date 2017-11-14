@@ -1,15 +1,11 @@
 <template>
-    <div class="advertise" v-if="bannerList.length">
-        <mt-swipe :auto="4000" >
-            <mt-swipe-item v-for="(item,index) in bannerList" :key="index">
-                <img :src=item.advertImage alt="index-bg" @click.stop="pathTo(item.advertLink,true)" class="img">
-            </mt-swipe-item>
-        </mt-swipe>
+    <div class="advertise" v-if="pictureUrl">
+        <img :src=pictureUrl @click.stop="pathTo(skipLinkUrl)" class="img">
     </div>
 </template>
 
 <script>
-    import { Swipe, SwipeItem } from 'mint-ui';
+    import {Swipe, SwipeItem} from 'mint-ui';
     import Vue from 'vue';
     import $api from '../../tools/api';
     import './advertise.less';
@@ -19,21 +15,40 @@
         name: 'base',
         data(){
             return {
-                bannerList:[],
+                pictureUrl:'',
+                skipLinkUrl:'',
+                skipLinkTitle:''
             }
         },
+        props: ['pagetype'],
         created(){
             $api.get('/management/getAdvertList')
                 .then(resp => {
                     if (resp.code == 200) {
-                        this.bannerList = resp.data.advertList;
+                        if (resp.data.positionList && resp.data.positionList.length) {
+                            resp.data.positionList.map(item => {
+                                if (item.pageType == this.pagetype) {
+                                    this.pictureUrl = item.pictureUrl;
+                                    this.skipLinkUrl = item.skipLinkUrl;
+                                    this.skipLinkTitle = item.skipLinkTitle;
+                                }
+                            })
+                        }
+
                     }
                 })
         },
         computed: {},
         methods: {
             pathTo(path){
-                window.location.href = path;
+                if(!path){
+                    return false;
+                }
+                if(this.skipLinkTitle){
+                    window.location.href = path+'?skiplinktitle='+encodeURIComponent(this.skipLinkTitle);
+                }else{
+                    window.location.href = path;
+                }
             },
         },
         destroyed(){

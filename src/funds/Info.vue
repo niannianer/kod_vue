@@ -27,7 +27,7 @@
                     <img src="../images/arrow-right.png"/>
                 </div>
             </div>
-            <div class="card-item" >
+            <div class="card-item">
                 <div class="title" flex-box="1">请输入详细地址</div>
                 <div class="address">
                     <textarea class="textarea" v-model="detailAddress"></textarea>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex';
     import $api from '../tools/api';
     import KingoldPicker from '../components/KingoldPicker';
     import $device from '../tools/device';
@@ -67,13 +68,13 @@
                 slots: [],
                 isPick: false,
                 careers: [
-                    {code: '01',name:'党政机关、事业单位'},
-                    {code: '02',name:'企业单位'},
-                    {code: '03',name:'自由业主'},
-                    {code: '04',name:'学生'},
-                    {code: '05',name:'军人'},
-                    {code: '06',name:'其他'}
-                    ],
+                    {code: '01', name: '党政机关、事业单位'},
+                    {code: '02', name: '企业单位'},
+                    {code: '03', name: '自由业主'},
+                    {code: '04', name: '学生'},
+                    {code: '05', name: '军人'},
+                    {code: '06', name: '其他'}
+                ],
                 careerPick: false,
                 careerText: '',
                 career: '',
@@ -86,15 +87,18 @@
         created(){
             this.getArea();
             this.terminalInfo = $device.os + '-' + $device.osVersion;
+            this.getInfo();
         },
-        computed: {},
+        computed: {
+            ...mapState(['userUuid'])
+        },
         methods: {
             setData(){
-                if(!this.checkWord()){
+                if (!this.checkWord()) {
                     return;
                 }
                 let {career, provinceName, cityName, countyName, detailAddress, terminalInfo, provinceCode, cityCode, countyCode} = this;
-                $api.post('/fund/account/save/adequacy',{
+                $api.post('/fund/account/save/adequacy', {
                     career,
                     provinceName,
                     cityName,
@@ -105,10 +109,10 @@
                     countyCode,
                     terminalInfo
                 }).then((resp) => {
-                    if(resp.code == 200){
+                    if (resp.code == 200) {
                         this.$store.dispatch('getAccountInfo');
                         this.$router.back();
-                    }else{
+                    } else {
                         Toast(resp.msg);
                     }
                 });
@@ -122,7 +126,7 @@
                     Toast('请输入详细地址');
                     return false;
                 }
-                let patt=/[\ud800-\udbff][\udc00-\udfff]/g;
+                let patt = /[\ud800-\udbff][\udc00-\udfff]/g;
                 if (patt.test(this.detailAddress)) {
                     Toast('请输入正确的详细地址');
                     return false;
@@ -135,7 +139,7 @@
             },
             careerBack(result){
                 this.careerPick = false;
-                if(result == 0){
+                if (result == 0) {
                     return;
                 }
                 result = result || this.careers[2];
@@ -143,19 +147,19 @@
                 this.careerText = result.name;
             },
             selecting(t){
-                if(t == 'address'){
+                if (t == 'address') {
                     this.isPick = true;
-                }else{
+                } else {
                     this.careerPick = true;
                 }
             },
-            onValuesChange(picker,values){
+            onValuesChange(picker, values){
                 let cities = [];
                 let areas = [];
-                if(!values[0]){
+                if (!values[0]) {
                     cities = this.provinces[2].cities;
                     areas = values[1] ? values[1].areas : this.provinces[2].cities[2].areas;
-                }else{
+                } else {
                     cities = values[0].cities;
                     areas = values[1].areas;
                 }
@@ -164,10 +168,10 @@
             },
             callback(result){
                 this.isPick = false;
-                if(result == 0){
+                if (result == 0) {
                     return;
                 }
-                if(!result[0]){
+                if (!result[0]) {
                     result[0] = this.provinces[2];
                 }
                 this.provinceCode = result[0].code;
@@ -232,10 +236,32 @@
                     }, 200);
                 });
 
+            },
+            getInfo(){
+                $api.get('/fund/account/adequacy', {
+                    userUuid: this.userUuid
+                })
+                    .then(resp => {
+                        this.provinceCode = resp.data.provinceCode;
+                        this.provinceName = resp.data.provinceName;
+                        this.cityCode = resp.data.cityCode;
+                        this.cityName = resp.data.cityName;
+                        this.countyCode = resp.data.countyCode;
+                        this.countyName = resp.data.countyName;
+                        this.detailAddress = resp.data.address;
+                        this.career = resp.data.career;
+                        if(this.career){
+                            this.careers.map(item => {
+                                if (item.code == this.career) {
+                                    this.careerText = item.name
+                                }
+                            })
+                        }
+                    })
             }
         },
         mounted(){
-            this.$refs.info.style.minHeight = window.innerHeight+'px';
+            this.$refs.info.style.minHeight = window.innerHeight + 'px';
         },
         destroyed(){
 

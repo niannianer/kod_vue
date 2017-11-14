@@ -1,8 +1,8 @@
 <template>
     <div class="login">
         <div class="header" flex="box:mean">
-            <p class="p" @click.stop="checkType" :class="{'active':!isCodeType}">密码登录</p>
-            <p class="p" @click.stop="checkType" :class="{'active':isCodeType}">验证码登录</p>
+            <p class="p" @click.stop="checkType('pass')" :class="{'active':!isCodeType}">密码登录</p>
+            <p class="p" @click.stop="checkType('code')" :class="{'active':isCodeType}">验证码登录</p>
         </div>
         <div class="body">
             <div class="form">
@@ -12,13 +12,13 @@
                         <input type="tel" flex-box="1"
                                v-model.trim="username"
                                placeholder="请输入手机号码"
-                               class="input" id="username"/>
+                               class="input" id="username" @keyup="change"/>
                         <div flex="main:right cross:center">
                             <img class="input-img" src="../images/login/pwd-show@2x.png"/>
                         </div>
                     </div>
                 </label>
-                <label for="password" v-if="!isCodeType" flex>
+                <label for="password" v-if="!isCodeType" >
                     <div class="input-warp" flex="cross:center">
                         <img flex-box="0" class="phone" src="../images/login/key_icon@2x.png"/>
                         <input v-if="showPassword" type="text" class="input" flex-box="1" id="password"
@@ -91,12 +91,31 @@
         },
         created(){
             console.log(this.$route.query.type);
-           this.isCodeType =  !!Number(this.$route.query.type);
+            this.isCodeType = !!Number(this.$route.query.type);
         },
         computed: {},
         methods: {
-            checkType(){
-                this.isCodeType = !this.isCodeType;
+            change(){
+                if(this.username.length<6){
+                    console.log(this.username.length)
+                    this.username = this.username.replace(/(^(\d{3})(\d+))/, ($1, $2, $3, $4) => {
+                        return $3 + ' ' + $4;
+                    });
+                }else{
+                    console.log('sss')
+                    this.username = this.username.replace(/(^(\d{3})\s(\d{4})(\d+))/, ($1, $2, $3, $4, $5) => {
+                        return $3 + ' ' + $4 + ' ' + $5;
+                    });
+                }
+
+
+                /*  newNum = newNum.replace(/\s+/g, "");//去除空格方法
+                 document.getElementById("cellphoneNumber1").value = newNum;*/
+                /*this.username = this.username.replace(/\D/g, '').replace(/...(?!$)/g, '$& ');
+                 console.log(this.username)*/
+            },
+            checkType(str){
+                this.isCodeType = str=='code';
                 this.imageCode = '';
                 this.inputCode = '';
             },
@@ -167,7 +186,7 @@
                     return false;
                 }
                 let reg = /^1[3|4|5|7|8]\d{9}$/;
-                if (!reg.test(this.username)) {
+                if (!reg.test(this.username.replace(/\D/g,''))) {
                     Toast('请输入正确的手机号码');
                     return false;
                 }
@@ -201,7 +220,7 @@
                         Toast('请输入图形验证码');
                         return false;
                     }
-                    let investorMobile = this.username;
+                    let investorMobile = this.username.replace(/\D/g,'');
                     let userLoginPassword = this.password;
                     let imageCode = this.inputCode;
                     $api.post('/login', {
