@@ -81,7 +81,7 @@
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
-                    <div class="item bl" flex-box="1" flex="cross:center" @click.stop="getPath('/reserve-list')">
+                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/reserve-list')">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/financial-prif.png" alt="financial">
                         </div>
