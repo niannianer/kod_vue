@@ -44,7 +44,7 @@
                     <button flex-box="0" @click.stop="getVerify"
                             v-if="verifyTimeLeft<=0" class="btn-code">{{verifyText}}
                     </button>
-                    <button flex-box="0" v-else class="btn-code disable">{{verifyTimeLeft}}</button>
+                    <button flex-box="0"  class="btn-code disable" v-else>{{verifyTimeLeft}}</button>
                 </label>
                 <label for="image-code" class="label-warp" flex v-if="imageCode">
                     <div class="code-warp" flex-box="1" flex="cross:center">
