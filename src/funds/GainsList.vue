@@ -249,6 +249,7 @@
                     orderBy: this.orderBy
                 })
                     .then(msg => {
+                        Indicator.close();
                         if (msg.code == 200) {
                             msg.data.list.map(item => {
                                 for (let key in item) {
@@ -270,12 +271,14 @@
                                 })
                             }
                             this.currentPage++;
-                            Indicator.close();
+
                             if (msg.data.list.length < this.pageSize) {
                                 this.loading = true;
                             } else {
                                 this.loading = false;
                             }
+                        } else {
+                            Toast(msg.msg);
                         }
                         return msg
                     })
