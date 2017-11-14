@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="body" id="body">
+        <div class="body" id="body" ref="body">
             <div class="title-list">
                 <div class="bg-content fund-name">
                     <div class="title-item">
@@ -237,13 +237,7 @@
                 this.list = [];
                 this.currentPage = 0;
                 this.loadData();
-            },
-            loadTop(){
-                this.lists = [];
-                this.currentPage = 0;
-                this.loadData().then(() => {
-                    this.$refs.loadmore.onTopLoaded();
-                });
+                this.$refs.body.scrollTop = 0;
             },
             loadData(type){
                 Indicator.open();
@@ -272,7 +266,7 @@
                                 this.list = this.list.concat(msg.data.list);
                                 console.log(this.currentPage * this.pageSize)
                                 this.list.map(item => {
-                                    console.log(item.nav)
+                                    //  console.log(item.nav)
                                 })
                             }
                             this.currentPage++;
@@ -299,12 +293,14 @@
                     console.log(event);
                     let {target} = event;
                     let {scrollTop} = target;
+
                     console.log(scrollTop + bodyHeight);
                     let offsetHeight = this.$refs.scroll.offsetHeight;
                     console.log(offsetHeight);
-                    if (scrollTop + bodyHeight + 50 >= offsetHeight) {
+                    if (scrollTop + bodyHeight + 50 >= offsetHeight && scrollTop > this.scrollTop) {
                         this.loadData();
                     }
+                    this.scrollTop = scrollTop;
 
 
                 }, 500);
