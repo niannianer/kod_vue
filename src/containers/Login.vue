@@ -133,8 +133,9 @@
                 this.verifyTimeLeft = 59;
                 this.timeCount();
                 this.verifyText = '重新发送';
+                let investorMobile = this.username.replace(/\D/g,'');
                 $api.post('/sendVerifyCode', {
-                    investorMobile: this.username,
+                    investorMobile,
                     imageCode,
                     bussType
                 })
@@ -260,8 +261,9 @@
                     Toast('请输入短信验证码');
                     return false;
                 }
+                let investorMobile = this.username.replace(/\D/g,'');
                 $api.post('/smsLogin', {
-                    investorMobile: this.username,
+                    investorMobile,
                     smsCode: this.verifyCode
                 })
                     .then(data => {
