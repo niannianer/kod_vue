@@ -1,40 +1,69 @@
 <template>
     <div flex="dir:top" class="relation">
         <div flex-box="1">
-            <div class="item bl seperate" flex="cross:center" flex-box="0"
-                 @click.stop="pathTo('/land-share.html',true)">
-                <img src="../images/relation/share.png" alt="logo" flex-box="0" class="logo">
-                <p class="info" flex-box="1">一起赚</p>
-                <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+            <div class="total" flex="box:mean" v-if="userUuid">
+                <div class="box">
+                    <div>累积奖励（元）</div>
+                    <div class="num">
+                        <span class="big">100.5</span>元
+                    </div>
+                </div>
+                <div class="box">
+                    <div>累积好友（人）</div>
+                    <div class="num">
+                        <span class="big">34</span>
+                        个
+                    </div>
+                </div>
             </div>
-            <div class="item" flex="cross:center" flex-box="0" @click.stop="pathTo('/reward')">
-                <img src="../images/relation/reward.png" alt="logo" flex-box="0" class="logo">
-                <p class="info" flex-box="1">我的奖励</p>
-                <p class="info" flex-box="0">{{rewardSum | currencyFormat}}</p>
-                <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+            <div v-else @click.stop="pathTo('/land-share.html',true)">
+                <img src="../images/relation/yao-bg.png" class="yao-img"/>
             </div>
-            <div class="item seperate bl" flex="cross:center" flex-box="0" @click.stop="pathTo('/relation-list-gold')">
-                <img src="../images/relation/relation-1.png" alt="logo" flex-box="0" class="logo">
-                <p class="info" flex-box="1">金疙瘩好友</p>
-                <p class="info" flex-box="0">{{levelOneCount}}</p>
-                <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+            <div class="pattern seperate" flex="box:mean">
+                <div @click.stop="pathTo('/land-share.html',true)">
+                    <img src="../images/relation/yao.png" class="img"/>
+                    <div>邀友得现金</div>
+                </div>
+                <div @click.stop="pathTo('/reward')">
+                    <img src="../images/relation/jiang.png" class="img"/>
+                    <div>查奖励</div>
+                </div>
+                <div>
+                    <img src="../images/relation/bang.png" class="img"/>
+                    <div>理财排行榜</div>
+                </div>
+                <div>
+                    <img src="../images/relation/quan.png" class="img"/>
+                    <div>达人特权</div>
+                </div>
             </div>
-            <div class="item bl" flex="cross:center" flex-box="0" @click.stop="pathTo('/relation-list?level=2')">
-                <img src="../images/relation/relation-2.png" alt="logo" flex-box="0" class="logo">
-                <p class="info" flex-box="1">银疙瘩好友</p>
-                <p class="info" flex-box="0">{{levelTwoCount}}</p>
-                <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+            <div class="b2 seperate">
+                <div class="item title">我的好友</div>
+                <div class="item bl" flex="cross:center" flex-box="0" @click.stop="pathTo('/relation-list-gold')">
+                    <img src="../images/relation/relation-1.png" alt="logo" flex-box="0" class="logo">
+                    <p class="info" flex-box="1">金疙瘩好友</p>
+                    <p class="num" flex-box="0">{{levelOneCount}}</p>
+                    <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+                </div>
+                <div class="item bl" flex="cross:center" flex-box="0" @click.stop="pathTo('/relation-list?level=2')">
+                    <img src="../images/relation/relation-2.png" alt="logo" flex-box="0" class="logo">
+                    <p class="info" flex-box="1">银疙瘩好友</p>
+                    <p class="num" flex-box="0">{{levelTwoCount}}</p>
+                    <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+                </div>
+                <div class="item" flex="cross:center" flex-box="0" @click.stop="pathTo('/relation-list?level=3')">
+                    <img src="../images/relation/relation-3.png" alt="logo" flex-box="0" class="logo">
+                    <p class="info" flex-box="1">铜疙瘩好友</p>
+                    <p class="num" flex-box="0">{{levelThreeCount}}</p>
+                    <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
+                </div>
             </div>
-            <div class="item" flex="cross:center" flex-box="0" @click.stop="pathTo('/relation-list?level=3')">
-                <img src="../images/relation/relation-3.png" alt="logo" flex-box="0" class="logo">
-                <p class="info" flex-box="1">铜疙瘩好友</p>
-                <p class="info" flex-box="0">{{levelThreeCount}}</p>
-                <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
-            </div>
-            <div class="cantact-us">
-                <a :href="'tel:'+telNumber">
-                    联系我们：{{telNumber}}
-                </a>
+            <div class="privilege">
+                <div class="warp"></div>
+                <div class="prv-modal">
+                    <img src="../images/relation/open-privilege.png"/>
+                    <button class="btn">开启</button>
+                </div>
             </div>
         </div>
     </div>

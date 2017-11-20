@@ -59,7 +59,8 @@ const FindPassword = () => import('../containers/FindPassword');
 const FixiGoodsDetail = () => import('../containers/FixiGoodsDetail');
 const Feedback = () => import('../containers/Feedback');
 const FixiFinancial = () => import('../containers/FixiFinancial');
-const AccountComplete = () => import('../containers/AccountComplete')
+const AccountComplete = () => import('../containers/AccountComplete');
+const MasterList = () => import('../containers/MasterList');
 
 const HouseOne = PensionOne;
 
@@ -282,6 +283,14 @@ let routes = [
             title: '邀请奖励详情'
         },
         component: InvitationRewardDetal
+    },
+    {
+        path: '/master-list',
+        name: 'master-list',
+        meta: {
+            title: '达人奖励'
+        },
+        component: MasterList
     },
     {
         path: '/account-detail',
@@ -517,7 +526,8 @@ let routes = [
         name: 'relation',
         component: Relation,
         meta: {
-            title: '我的好友'
+            title: '好友',
+            withoutLogin: true
         }
     },
     {

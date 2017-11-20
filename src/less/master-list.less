@@ -1,0 +1,142 @@
+@charset "UTF-8";
+@import "variables";
+.master-list {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    padding-bottom: .5rem;
+    .header{
+        .tabs{
+            background: #444;
+            font-size: .9rem;
+            li{
+                text-align: center;
+                color: #999;
+                padding:.7rem 0;
+                border: 2px solid #444;
+                border-bottom: 2px solid #363636;
+                .info{
+                    font-size: .8rem;
+                }
+                .title{
+                    font-size: .65rem;
+                }
+                &.active{
+                    background: #4E4E4E;
+                    border-bottom: 0;
+                    color: #fff;
+                }
+                &:nth-child(1).active{
+                    border-right: 2px solid #363636;
+                }
+                &:nth-child(2).active{
+                    border-right: 2px solid #363636;
+                    border-left: 2px solid #363636;
+                }
+                &:nth-child(3).active{
+                    border-left: 2px solid #363636;
+                }
+            }
+        }
+        .header-info{
+            background: #4E4E4E;
+            padding: 2.2rem 0 1.8rem;
+            text-align: center;
+            color: #EDD7A8;
+            .num{
+                font-size: 1.1rem;
+            }
+            .ul{
+                li:first-child{
+                    border-right: 1px solid #3F3F3F;
+                }
+            }
+        }
+        .bottom{
+            background: url("../images/reward/header-bg.png") center top no-repeat #fff;
+            background-size: contain;
+            height: 1.2rem;
+        }
+    }
+    .item-list{
+        overflow-y: auto;
+    	width: 100%;
+        padding-bottom: .75rem;
+    	.item{
+            margin: .5rem .6rem 0;
+			background: url("../images/reward/item-bg.png") center no-repeat;
+            background-size: 100%;
+			position: relative;
+            padding: .8rem .7rem;
+			.left{
+                width: 6rem;
+				p{
+					text-align: center;
+					vertical-align: middle;
+					line-height: 1rem;
+                }
+				.info{
+					padding-bottom:.5rem;
+                    .num{
+                        font-size: 1.1rem;
+                    }
+				}
+                .tile{
+                    color: #E9C97F;
+                    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#E9C97F), to(#C19D60));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+                .blue{
+                    color: #88ACFF;
+                }
+                .orange{
+                    color: #FF6A37;
+                }
+				.title{
+					font-size: .7rem;
+					color: #333;
+				}
+			}
+			.right{
+				li{
+                    &.black{
+                        color: #151515;
+                        margin-bottom: .1rem;
+                    }
+				}
+				.last{
+					padding-bottom: 0;
+				}
+			}
+			.icon{
+      			display: inline-block;
+      			width:3.5rem;
+                height:3.5rem;
+      			position: absolute;
+                top: -0.4rem;
+                right: .5rem;
+      			i{
+      			    display: block;
+      			    width:100%;height:100%;
+      			    color:#fff;font-size:.5rem;
+      			    font-style: normal;
+      			    position: absolute;
+      			    right:0;top:.5rem;
+      			}
+                &.cancel{
+                    background: url(../images/reward/no-finish.png) center no-repeat;
+                    i:after{
+                        content: "待结算";
+                    }
+                }
+                &.finish{
+                    background: url(../images/reward/finish.png) center no-repeat;
+                    i:after{
+                        content: "已结算";
+                    }
+                }
+    		}
+    	}
+    }
+}
