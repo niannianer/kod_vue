@@ -24,14 +24,14 @@
                     <p flex-box="1">预计收益</p>
                     <p flex-box="0">{{expectEarn | currencyFormat}}元</p>
                 </div>
-                <div class="item  use-remain bl" flex >
+                <div class="item  use-remain bl" flex>
                     <div flex-box="1" flex="cross:center">
-                        <div class="chec" :class="{'active':isUseRemain}"  flex-box="0" @click.stop="useRemain"></div>
+                        <div class="chec" :class="{'active':isUseRemain}" flex-box="0" @click.stop="useRemain"></div>
                         <p>使用账户余额</p>
                     </div>
                     <p flex-box="0">{{this.accountCashAmount}}元</p>
                 </div>
-                <div class="item" flex >
+                <div class="item" flex>
                     <p flex-box="1">实付金额</p>
                     <p flex-box="0">{{actualPay|currencyFormat}}元</p>
                 </div>
@@ -42,17 +42,21 @@
                     <div flex-box="0" class="blue" flex="cross:center">
                         <p v-if="ticketList.length">{{faceValueText}}</p>
                         <p v-else>暂无可用</p>
-                        <img src="../images/arraw-down.png" alt="" :class="{'rotate':ticketListBoolean}" v-if="ticketList.length">
+                        <img src="../images/arraw-down.png" alt="" :class="{'rotate':ticketListBoolean}"
+                             v-if="ticketList.length">
                     </div>
                 </div>
             </div>
             <transition-group name="list-complete" tag="div">
-                <div class="list-complete-item" v-show="ticketListBoolean" v-bind:key="0">
+                <div class="list-complete-item" v-show="ticketListBoolean" :key="0">
                     <div flex-box="1" class="ticket-list" ref="ticketList">
-                        <div class="ticket-item" flex v-for="item in ticketList" @click.stop="chooseCode(item)"
+                        <div class="ticket-item" flex="cross:center" v-for="item in ticketList"
+                             @click.stop="chooseCode(item)"
                              :class="{'active':couponExtendCode==item.couponExtendCode}">
-                            <p flex-box="1">满{{item.applyTradeAmount}}元减{{item.faceValue}}元</p>
-                            <p flex-box="1">{{item.leftText}}</p>
+                            <p flex-box="1" v-if="item.couponType==1">
+                                满{{item.applyTradeAmount}}元减{{item.faceValue}}元</p>
+                            <p flex-box="1" v-if="item.couponType==2">+{{item.couponInterestYieldRate}}</p>
+                            <p flex-box="0" style="width: 5rem">{{item.leftText}}</p>
                             <div flex-box="0" class="check-box">
                                 <div class="box-inner"></div>
                             </div>
@@ -67,7 +71,7 @@
                     </div>
 
                 </div>
-                <div class="list-complete-item" v-bind:key="1">
+                <div class="list-complete-item" :key="1">
                     <div class="deal" flex="box:first cross:top">
                         <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
                         <div v-if="!isLack">
@@ -87,7 +91,7 @@
                 @callBack="tradeCallback">
             </password-input>
         </div>
-        <div class="bottom seperate" flex-box="0"  v-show="!inputPassword">
+        <div class="bottom seperate" flex-box="0" v-show="!inputPassword">
             <div v-if="isLack&&singleLimit" class="tip">
                 <p>银行卡限额：单笔{{singleLimit}}元，单日{{perdayLimit}}元</p>
             </div>
@@ -121,7 +125,7 @@
         name: 'product-subscription',
         data(){
             return {
-                enable: true,/*是否勾选协议*/
+                enable: true, /*是否勾选协议*/
                 productUuid: '',
                 amount: '',
                 productName: '',
@@ -135,10 +139,11 @@
                 item: {},
                 orderBillCode: '',
                 faceValueText: '暂不使用',
-                faceValue:0,
-                useAssetsValue:0,
-                isUseRemain:true/*是否使用账户余额*/,
-                expcRate:0
+                faceValue: 0,
+                useAssetsValue: 0,
+                isUseRemain: true/*是否使用账户余额*/,
+                expcRate: 0,
+                jiaxiRate: 0 //jiaxi 后的利息
             }
         },
         components: {
@@ -154,7 +159,7 @@
                 _.forEach(investDetail, (value, key) => {
                     this[key] = value
                 });
-             /*   this.leastPay = 0;*/
+                /*   this.leastPay = 0;*/
                 //点击宝付方‘返回商户’跳回本页面
                 if (this.$route.query.t) {
                     this.isUseRemain = true;
@@ -180,14 +185,14 @@
                 return this.leastPay > 0;
             },
             expectEarn(){
-                console.log(this.amount, parseFloat(this.expcRate), parseInt(this.productPeriod) );
-                return this.amount * parseFloat(this.expcRate) * parseInt(this.productPeriod) / 365;
+                console.log(this.amount, parseFloat(this.expcRate), parseInt(this.productPeriod));
+                return this.amount * parseFloat(this.jiaxiRate) * parseInt(this.productPeriod) / 365;
             },
             actualPay(){
-                return numAdd(this.amount,-this.faceValue)
+                return numAdd(this.amount, -this.faceValue)
             },
             leastPay(){
-                return numAdd(numAdd(this.amount,-this.useAssetsValue),-this.faceValue);
+                return numAdd(numAdd(this.amount, -this.useAssetsValue), -this.faceValue);
             }
         },
         watch: {},
@@ -239,6 +244,7 @@
 
                     });
             },
+            // keyong  huodong quan
             getAvailableCoupon(){
 
                 let orderAmount = this.amount;
@@ -266,6 +272,7 @@
                         }
                     })
             },
+            // 产品详情
             getDetail(){
                 $api.get('/product/getDetail', {
                     'productUuid': this.productUuid,
@@ -278,23 +285,39 @@
                         if (msg.data.increaseInterestRateValue) {
                             this.expcRate = numAdd(msg.data.increaseInterestRateValue, this.expcRate);
                         }
+                        this.jiaxiRate = this.expcRate;
                         this.productPeriod = msg.data.productPeriod;
                     }
                 })
             },
             chooseCode(item){
-                if (item && item.couponExtendCode) {
+                if (item && item.couponExtendCode && item.couponType == 1) {
+                    // xianjin quan
                     this.item = item;
                     this.couponExtendCode = item.couponExtendCode;
                     this.faceValue = item.faceValue;
                     this.rechargeNum = this.leastPay;
-                    this.faceValueText = item.faceValue + '元'
-                } else {
+                    this.faceValueText = item.faceValue + '元';
+                    this.jiaxiRate =this.expcRate;
+                }
+                else if (item && item.couponExtendCode && item.couponType == 2) {
+                    // jiaxi quan
+                    this.item = item;
+                    this.couponExtendCode = item.couponExtendCode;
+                    this.faceValue = item.faceValue;
+                    this.rechargeNum = this.leastPay;
+                    this.jiaxiRate = numAdd(this.expcRate, parseFloat(item.couponInterestYieldRate)/100);
+
+
+                }
+                else {
+                    // not use
                     this.item = {};
                     this.couponExtendCode = '';
                     this.faceValue = 0;
                     this.rechargeNum = this.leastPay;
                     this.faceValueText = '暂不使用';
+                    this.jiaxiRate =this.expcRate;
 
                 }
             },
@@ -304,6 +327,7 @@
                     this.ticketListBoolean = !this.ticketListBoolean;
                 }
             },
+            // 各种协议
             agreement(num){
                 if (num == 0) {
                     window.location.href = '/product-subscription-agreement.html'
@@ -318,6 +342,7 @@
             agreeDeal(){
                 this.enable = !this.enable;
             },
+            // 充值 投资
             rechargeHandle(){
                 if (!this.enable) {
                     Toast('请勾选同意《宝付科技电子支付账户协议》');
@@ -332,7 +357,7 @@
                     Toast('输入金额不能小于待支付金额，请重新输入');
                     return false;
                 }
-                if (this.singleLimit&&Number(this.rechargeNum) > Number(this.singleLimitValue)) {
+                if (this.singleLimit && Number(this.rechargeNum) > Number(this.singleLimitValue)) {
                     Toast('输入金额不能大于银行单笔限额，请重新输入');
                     return false;
                 }
@@ -432,10 +457,10 @@
             },
             useRemain(){
                 this.isUseRemain = !this.isUseRemain;
-                if(!this.isUseRemain){
+                if (!this.isUseRemain) {
                     this.useAssetsValue = 0;
                 }
-                else{
+                else {
                     let event = ['_trackEvent', '认购信息确认页', 'CLICK', '认购信息页-勾选使用账户余额', '认购信息页-勾选使用余额'];
                     window._hmt.push(event);
                     this.useAssetsValue = this.accountCashAmount;

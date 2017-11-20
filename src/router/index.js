@@ -11,6 +11,7 @@ const Index = () => import('../containers/Index');
 const Financial = () => import('../containers/Financial');
 const MyAssets = () => import('../containers/MyAssets');
 const MakeAppointment = () => import('../containers/MakeAppointment');
+const MessageCenter = () => import('../containers/MessageCenter');
 const Login = () => import('../containers/Login');
 const Recharge = () => import('../containers/Recharge');
 const Withdraw = () => import('../containers/Withdraw');
@@ -152,6 +153,13 @@ let routes = [
             withoutLogin: true
         },
         component: MakeAppointment
+    },{
+        path: '/message-center',
+        name: 'message-center',
+        meta: {
+            title: '消息中心',
+        },
+        component: MessageCenter
     }, {
         path: '/login',
         name: 'login',
