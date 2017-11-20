@@ -48,14 +48,14 @@
                             </div>
                         </div>
                     </div>
-                    <div flex="box:mean" class="ticket-detail" @click.stop="getPath('/ticket-list')">
-                        <div flex-box="1" class="rl">
+                    <div flex="box:mean" class="ticket-detail">
+                        <div flex-box="1" class="rl" @click.stop="getPath('/ticket-list?code=1')">
                             <p class="title" :class="{redTip:couponUnreadMessage}">现金劵</p>
                             <p class="info">{{cashCouponCount}}个</p>
                         </div>
-                        <div flex-box="1" class="rl">
-                            <p class="title" :class="{redTip:couponUnreadMessage}">加息劵</p>
-                            <p class="info">{{cashCouponCount}}个</p>
+                        <div flex-box="1" class="rl" @click.stop="getPath('/ticket-list?code=2')">
+                            <p class="title" :class="{redTip:interestCouponUnreadMessage}">加息劵</p>
+                            <p class="info">{{interestCouponCount}}个</p>
                         </div>
                         <div flex-box="1" @click.stop="getPath('/experience-funds')">
                             <p class="title">体验金</p>
@@ -180,7 +180,8 @@
                 showModal: false,
                 orderBillCode: '',
                 appUrl,
-                couponUnreadMessage:0
+                couponUnreadMessage: 0,
+                interestCouponUnreadMessage: 0
             }
         },
         created(){
@@ -212,15 +213,17 @@
                 'reservationCount',
                 'investmentAmount',
                 'rewardSum',
-                'relationCount'
+                'relationCount',
+                'interestCouponCount',
             ])
         },
         methods: {
             getUnread(){
                 $api.get('/user/unread')
-                    .then(resp=>{
-                        if(resp.code==200){
+                    .then(resp => {
+                        if (resp.code == 200) {
                             this.couponUnreadMessage = resp.data.couponUnreadMessage;
+                            this.interestCouponUnreadMessage = resp.data.interestCouponUnreadMessage;
                         }
                     })
             },
