@@ -126,11 +126,17 @@
 
                 let {userName, userIdCardNumber} = this;
                 if (!$fun.valiRealName(userName)) {
-                    Toast('请输入真实姓名');
+                    Toast({
+                        message: '请输入真实姓名',
+                        duration: 5000
+                    });
                     return
                 }
                 if (!$fun.valiIdCard(userIdCardNumber)) {
-                    Toast('请输入正确身份证号');
+                    Toast({
+                        message: '请输入正确身份证号',
+                        duration: 5000
+                    });
                     return
                 }
                 let event = ['_trackEvent', '实名认证', 'CLICK', '实名认证页面-点击下一步', '实名认证页面-点击下一步'];
@@ -152,7 +158,10 @@
                 $api.post('/openAccount', data).then(msg => {
 
                     if (msg.code == 200) {
-                        Toast("身份认证成功！");
+                        Toast({
+                            message: '身份认证成功！',
+                            duration: 5000
+                        });
                         this.popup = false;
 
                         setTimeout(() => {
@@ -170,7 +179,10 @@
                         window._hmt.push(event);
                         this.transmit();
                     } else {
-                        Toast(msg.msg)
+                        Toast({
+                            message: msg.msg,
+                            duration: 5000
+                        });
                     }
                 });
             },
@@ -179,7 +191,10 @@
                 if (this.btnActive) {
                     $api.get('/sendBaofooAuthSMS', {type: 2}).then(msg => {
                         if (msg.code != 200) {
-                            Toast(msg.msg);
+                            Toast({
+                                message: msg.msg,
+                                duration: 5000
+                            });
                             this.btnText = '获取验证码';
                             this.btnActive = true;
                             this.flag = false;
@@ -194,7 +209,10 @@
                 if (this.smsCode.length >= 4) {
                     this.getAccount();
                 } else {
-                    Toast('请输入正确验证码！')
+                    Toast({
+                        message: '请输入正确验证码！',
+                        duration: 5000
+                    });
                 }
             },
             //取消

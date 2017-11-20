@@ -138,7 +138,10 @@
                                 this.$store.dispatch('getBankInfo');
                             }, 1000);
                         } else {
-                            Toast(msg.msg);
+                            Toast({
+                                message: msg.msg,
+                                duration: 5000
+                            });
                         }
                     });
                 } else {

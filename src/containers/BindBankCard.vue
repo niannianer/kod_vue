@@ -189,7 +189,10 @@
                             //显示提示
                             //this.pShow = true;
                         } else {
-                            Toast(msg.msg);
+                            Toast({
+                                message: msg.msg,
+                                duration: 5000
+                            });
                             this.btnText = '重新获取';
                             this.btnActive = true;
                             this.flag = false;
@@ -202,21 +205,33 @@
             },
             submit(){
                 if (!this.agreement) {
-                    Toast('请勾选相关协议');
+                    Toast({
+                        message: '请勾选相关协议',
+                        duration: 5000
+                    });
                     return;
                 }
                 let {investorRealName, bankCard, bankUserPhone, verifyCode} = this;
                 let bankUserCardNo = bankCard.replace(/[^\d]/g, '');
                 if (bankUserCardNo.length < 6) {
-                    Toast('请输入正确银行卡号')
+                    Toast({
+                        message: '请输入正确银行卡号',
+                        duration: 5000
+                    });
                     return
                 }
                 if (!checkPhone(bankUserPhone)) {
-                    Toast('手机号输入有误')
+                    Toast({
+                        message: '手机号输入有误',
+                        duration: 5000
+                    });
                     return
                 }
                 if (verifyCode.length < 4) {
-                    Toast('请输入正确验证码')
+                    Toast({
+                        message: '请输入正确验证码',
+                        duration: 5000
+                    });
                     return
                 }
                 if (this.loading) {
@@ -233,7 +248,10 @@
                     let event = ['_trackEvent', '绑定银行卡', 'CLICK', '绑定银行卡页面-点击完成', '绑定银行卡页面-点击完成'];
                     window._hmt.push(event);
                     if (msg.code == 200) {
-                        Toast('绑卡成功');
+                        Toast({
+                            message: '绑卡成功',
+                            duration: 5000
+                        });
                         let event = ['_trackEvent', '绑卡成功', 'SHOW', '绑卡请求成功', '绑卡请求成功'];
                         window._hmt.push(event);
                         setTimeout(() => {
@@ -250,7 +268,10 @@
                         }, 1000)
                     } else {
                         this.loading = false;
-                        Toast(msg.msg);
+                        Toast({
+                            message: msg.msg,
+                            duration: 5000
+                        });
                     }
                 });
             },
