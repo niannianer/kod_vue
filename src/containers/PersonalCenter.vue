@@ -53,6 +53,10 @@
                             <p class="title" :class="{redTip:couponUnreadMessage}">现金劵</p>
                             <p class="info">{{cashCouponCount}}个</p>
                         </div>
+                        <div flex-box="1" class="rl">
+                            <p class="title" :class="{redTip:couponUnreadMessage}">加息劵</p>
+                            <p class="info">{{cashCouponCount}}个</p>
+                        </div>
                         <div flex-box="1" @click.stop="getPath('/experience-funds')">
                             <p class="title">体验金</p>
                             <p class="info">{{experienceAmount}}元</p>
