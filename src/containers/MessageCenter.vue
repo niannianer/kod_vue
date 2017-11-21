@@ -11,7 +11,7 @@
             <div v-else class="item" v-for="(item,index) in msgList">
                 <div flex="cross:center" class="item-content">
                     <img :src="item.coverImageUrl" alt="" class="img" flex-box="0">
-                    <div>
+                    <div flex-box="1">
                         <p class="title">
                             {{item.title}}
                         </p>
