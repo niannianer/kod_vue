@@ -11,11 +11,30 @@
         background: @bg-content url('../images/personal-center/person-center-bg.jpg') no-repeat;
         background-size: 100% 83%;
         .switch-mode {
-            right: 0;
-            padding: .8rem .8rem 0 0;
+            right: 2.2rem;
+            top: 4rem;
+            padding: .8rem;
             position: absolute;
             img {
                 width: 1rem;
+            }
+        }
+        .msg {
+            right: 0;
+            padding: .8rem;
+            position: absolute;
+            .img {
+                width: .8rem;
+            }
+            &.redTip:after {
+                position: absolute;
+                content: "";
+                width: .4rem;
+                height: .4rem;
+                margin-left: 1px;
+                margin-top: 1px;
+                border-radius: 50%;
+                background: #F61C1C;
             }
         }
         .user-head {
@@ -52,11 +71,11 @@
             box-shadow: 0 2px 4px 0 rgba(140, 140, 140, 0.50);
             border-radius: 2px;
             text-align: center;
-            .btn-border{
+            .btn-border {
                 background: @app-bg-color;
                 padding: 2px;
                 border-radius: 100px;
-                box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
             }
             .btn {
                 background: #fff;
@@ -75,14 +94,14 @@
                 .title {
                     position: relative;
                     color: @color-text-secondary;
-                    &.redTip:after{
+                    &.redTip:after {
                         position: absolute;
                         content: "";
                         width: .4rem;
                         height: .4rem;
                         margin-left: 1px;
                         margin-top: 1px;
-                        border-radius:50% ;
+                        border-radius: 50%;
                         background: #F61C1C;
                     }
                 }

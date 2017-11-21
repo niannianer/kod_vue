@@ -190,7 +190,7 @@
         created(){
             let fundsDetail = window.sessionStorage.getItem('fundsDetail');
             if (fundsDetail) {
-                let {fundType, list, orderBy, isDesc, scrollLeft, scrollTop} = JSON.parse(fundsDetail);
+                let {fundType, list, orderBy, isDesc, scrollLeft, scrollTop,currentPage} = JSON.parse(fundsDetail);
                 this.fundType = fundType;
                 this.list = list;
                 this.orderBy = orderBy;
@@ -198,6 +198,7 @@
                 this.scrollLeft = scrollLeft;
                 this.loading = false;
                 this.scrollTop = scrollTop;
+                this.currentPage = currentPage;
                 this.$nextTick(() => {
                     let dom = document.querySelector('.scroll-target');
                     dom.scrollLeft = this.scrollLeft;

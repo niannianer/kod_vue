@@ -6,6 +6,9 @@
                     <img src="../images/login/pwd-show@2x.png" alt="show" v-show="mode">
                     <img src="../images/login/pwd-hide@2x.png" alt="show" v-show="!mode">
                 </div>
+                <div class="msg" @click.stop="getPath('/message-center')" :class="{redTip:articleUnreadMessage}">
+                    <img src="../images/personal-center/msg.png" alt="" class="img"/>
+                </div>
                 <div class="user-head">
                     <img v-if="!investorMobile" src="../images/personal-center/user-head.png"/>
                     <img src="../images/personal-center/user-default.png" v-else/>
@@ -181,7 +184,8 @@
                 orderBillCode: '',
                 appUrl,
                 couponUnreadMessage: 0,
-                interestCouponUnreadMessage: 0
+                interestCouponUnreadMessage: 0,
+                articleUnreadMessage: 0
             }
         },
         created(){
@@ -224,6 +228,7 @@
                         if (resp.code == 200) {
                             this.couponUnreadMessage = resp.data.couponUnreadMessage;
                             this.interestCouponUnreadMessage = resp.data.interestCouponUnreadMessage;
+                            this.articleUnreadMessage = resp.data.articleUnreadMessage;
                         }
                     })
             },

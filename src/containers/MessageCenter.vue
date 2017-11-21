@@ -47,8 +47,10 @@
                 tabId: 1,
                 currentPage: 0,
                 msgList: [],
-                loading:false,
-                pageSize:10
+                loading:true,
+                pageSize:10,
+                hasUnread:1,
+                msgCode:3
             }
         },
         components: {},
@@ -85,6 +87,9 @@
                     .then(resp => {
                         if (resp.code == 200) {
                             Indicator.close();
+                            if(this.hasUnread){
+                                this.delUnread();
+                            }
                             this.msgList = this.msgList.concat(resp.data.list);
                             if (resp.data.list.length < this.pageSize) {
                                 this.loading = true;
@@ -102,7 +107,16 @@
             },
             msgDetail(id){
                 window.location.href = '/land-message.html?id='+id;
-            }
+            },
+            delUnread(){
+                let {msgCode} = this;
+                $api.post('/user/destroy/unread', {msgCode})
+                    .then(resp => {
+                        if (resp.code == 200) {
+                            this.hasUnread = 0;
+                        }
+                    })
+            },
         },
         mounted(){
         },
