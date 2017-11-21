@@ -62,6 +62,7 @@ const Feedback = () => import('../containers/Feedback');
 const FixiFinancial = () => import('../containers/FixiFinancial');
 const AccountComplete = () => import('../containers/AccountComplete');
 const MasterList = () => import('../containers/MasterList');
+const RewardList = () => import('../containers/RewardList');
 
 const HouseOne = PensionOne;
 
@@ -212,6 +213,13 @@ let routes = [
             title: '我的奖励'
         },
         component: Reward
+    }, {
+        path: '/reward-list',
+        name: 'reward-list',
+        meta: {
+            title: '奖励细则'
+        },
+        component: RewardList
     }, {
         path: '/reward-detail',
         name: 'reward-detail',

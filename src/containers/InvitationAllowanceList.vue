@@ -1,51 +1,55 @@
 <template>
     <div flex="dir:top" flex-box="1" class="invitation-allowance-list">
-        <div class="header" flex-box="0">
-            <!--<div class="title">-->
-                <!--<p class="right"  @click="show=true">说明</p>-->
-            <!--</div>-->
-            <div class="tabs" flex='main:center'>
-                <div flex-box="1" class="tab" :class="{'tab-active':tab==1}" @click.stop="changeTab(1)">
-                    <div class="tab-item">直接邀请津贴</div>
-                </div>
-                <div flex-box="1" class="tab" :class="{'tab-active':tab==2}" @click.stop="changeTab(2)">
-                    <div class="tab-item">间接邀请津贴</div>
-                </div>
-            </div>
-            <ul flex="main:center">
-                <li flex-box="1">
-                    <p class='info'>{{sumData.unpaid | currencyFormat}}元</p>
-                    <p class='tile'>待结算（税前）</p>
-                </li>
-                <li flex-box="1">
-                    <p class='info'>{{sumData.paidWithTax | currencyFormat}}元</p>
-                    <p class='tile'>已结算（税后）</p>
-                </li>
+        <div class="header">
+            <ul class="tabs" flex="mean:center" >
+                <li flex-box="1" :class="{'active': tab == 1,'br': tab == 2}" @click.stop="changeTab(1)">直接邀请津贴</li>
+                <li flex-box="1" :class="{'active': tab == 2,'bl': tab == 1}" @click.stop="changeTab(2)">间接邀请津贴</li>
             </ul>
+            <div class="header-info">
+                <ul flex class="ul">
+                    <li flex-box="1">
+                        <p class='tile'>待结算（税前）</p>
+                        <p class='info'>
+                            <span class="num">{{sumData.unpaid | currencyFormat}}</span>
+                            元
+                        </p>
+                    </li>
+                    <li flex-box="1">
+                        <p class='tile'>已结算（税后）</p>
+                        <p class='info'>
+                            <span class="num">{{sumData.paidWithTax | currencyFormat}}</span>
+                            元
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom"></div>
         </div>
         <div class="item-list" flex-box='1'
              v-infinite-scroll="loadMore"
              infinite-scroll-disabled="disLoad"
              infinite-scroll-distance="70">
             <div flex="dir:left" class="item" v-for="(item,index) in tabList">
-                <div class="left" flex-box="1">
-                    <p class='info'>{{item.rewardStatus == 2 ? item.payAmount : item.rewardAmount | currencyFormat}}元</p>
+                <div class="left" flex-box="1"  flex="dir:top main:center">
+                    <p class='info' :class='item.rewardStatus == 2 ? "blue" : "orange"' >
+                        <span class="num">
+                            {{item.rewardStatus == 2 ? item.payAmount : item.rewardAmount | currencyFormat}}
+                        </span>元
+                    </p>
                     <p class='tile'>奖励</p>
                 </div>
                 <div class="right" flex-box="2">
                     <ul>
-                        <li flex>
+                        <li flex class="black">
                             <div flex-box="0">好友：</div>
                             <div flex-box="0">{{item.beInvitedMobile | mobileFormat}}</div>
                         </li>
-                        <li flex class="last">
+                        <li flex>
                             <div flex-box="0">投资时间：</div>
-                            <div flex-box="0">{{item.createTime | timeFormat}}</div>
+                            <div flex-box="0">{{item.createTime|timeFormat}}</div>
                         </li>
                     </ul>
-                    <span class="icon" :class='item.rewardStatus == 2 ? "finish" : "cancel"'>
-                            <i></i>
-                        </span>
+                    <span class="icon" :class='item.rewardStatus == 2 ? "finish" : "cancel"'></span>
                 </div>
             </div>
             <p v-show="loading&&hasMore" class="loading">加载更多...</p>

@@ -2,7 +2,7 @@
     <div flex="dir:top" flex-box="1" class="reward">
         <div class="header" flex-box="0">
             <div class="header-info">
-                <p class="right" @click.stop="$router.push('/reward-detail')">奖励细则</p>
+                <div class="right" @click.stop="$router.push('/reward-list')">奖励细则</div>
                 <ul flex class="ul">
                     <li flex-box="1">
                         <p class='tile'>待结算（税前）</p>
@@ -23,9 +23,9 @@
             <div class="bottom"></div>
         </div>
         <div class="body" flex-box="1">
-            <div class='bind-mind' flex @click.stop="rewardList" v-if="userVerifyStatus < 3">
+            <div class='bind-mind' flex @click.stop="toPath('bind')" v-if="userVerifyStatus < 3 && userVerifyStatusDesc">
                 <p flex-box="1">
-                    <img src="../images/reward/horn.png" class="icon"/>
+                    <span><img src="../images/reward/horn.png" class="icon"/></span>
                     实名绑卡后才可以领取奖励！
                 </p>
                 <div flex-box="0">
@@ -48,13 +48,13 @@
                         <img src="../images/arrow-right.png" alt="arrow" class="arrow">
                     </div>
                 </div>
-                <div class='invite-subsidy' flex>
+                <!--<div class='invite-subsidy' flex>
                     <p @click="allowance(2)" class="direct" flex-box="1">直接邀请津贴</p>
                     <p @click="allowance(3)" class='indirect' flex-box="1">间接邀请津贴</p>
-                </div>
+                </div>-->
             </div>
             <div class="section">
-                <div @click="toMaster" class='item' flex>
+                <div @click.stop="toPath('/master-list')" class='item' flex>
                     <p flex-box="1">达人奖励</p>
                     <div flex-box="0">
                         <span class="text">{{datas.masterReward}}</span>
@@ -85,7 +85,17 @@
                 paid: ''
             }
         },
-        computed: mapState(['userUuid','userVerifyStatus']),
+        computed: mapState(['userUuid','userVerifyStatus','userVerifyStatusDesc']),
+        created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
+            if (this.userUuid) {
+                this.getSum();
+            }
+            let event = ['_trackEvent', '我的奖励', 'SHOW', '进入我的奖励页面', '进入我的奖励页面'];
+            window._hmt.push(event);
+        },
         components:{
             Advertise
         },
@@ -108,9 +118,18 @@
                 window._hmt.push(event);
 
             },
-            toMaster(){
+            toPath(path){
+                if(path =='bind'){
+                    if(this.userVerifyStatus <= 1){
+                        path = '/authentication'
+                    }else if(this.userVerifyStatus == 2){
+                        path = '/bind-bank-card'
+                    }else if(this.userVerifyStatus == 3){
+                        path = '/set-pay-password'
+                    }
+                }
                 this.$router.push({
-                    path: '/master-list'
+                    path: path
                 });
             },
             getSum(){
@@ -144,16 +163,6 @@
                     this.getSum();
                 }
             }
-        },
-        created(){
-            if ($device.isWeixin) {
-                this.getShare();
-            }
-            if (this.userUuid) {
-                this.getSum();
-            }
-            let event = ['_trackEvent', '我的奖励', 'SHOW', '进入我的奖励页面', '进入我的奖励页面'];
-            window._hmt.push(event);
         }
     }
 </script>
