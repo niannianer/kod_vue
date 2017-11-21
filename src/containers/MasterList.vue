@@ -2,11 +2,14 @@
     <div flex="dir:top" flex-box="1" class="master-list">
         <div class="header">
             <ul class="tabs" flex="mean:center" >
-                <li flex-box="1" :class="{'active': rewardType == 11}" @click.stop="toTab(11)">一级奖励</li>
-                <li flex-box="1" :class="{'active': rewardType == 12}" class="tab2" @click.stop="toTab(12)">二级奖励</li>
-                <li flex-box="1" :class="{'active': rewardType == 13}" @click.stop="toTab(13)">三级奖励</li>
+                <li flex-box="1" :class="{'active': rewardType == 11,'br': rewardType == 12}" @click.stop="toTab(11)">一级奖励</li>
+                <li flex-box="1" :class="{'active': rewardType == 12,'bl': rewardType == 11,'br': rewardType == 13}" @click.stop="toTab(12)">二级奖励</li>
+                <li flex-box="1" :class="{'active': rewardType == 13,'bl': rewardType == 12}" @click.stop="toTab(13)">三级奖励</li>
             </ul>
+        </div>
+        <div class="count-info" v-if="rewardList.length">
             <div class="header-info">
+                <div class="right" @click.stop="$router.push('/reward-list')">奖励细则</div>
                 <ul flex class="ul">
                     <li flex-box="1">
                         <p class='tile'>待结算（税前）</p>
@@ -26,11 +29,13 @@
             </div>
             <div class="bottom"></div>
         </div>
-
         <div class="item-list"  flex-box="1" v-infinite-scroll="loadMore"
              infinite-scroll-disabled="disLoad"
-             infinite-scroll-distance="70">
-                <div flex="dir:left" flex-box="0" class="item" :key="index" v-for="(item,index) in rewardList"  @click.stop="link(item.rewardBillCode)">
+             infinite-scroll-distance="70"
+             v-if="rewardList.length">
+                <div flex="dir:left" flex-box="0" class="item" :key="index"
+                     v-for="(item,index) in rewardList"
+                     :class="{'short': rewardType == 12||rewardType == 13}">
                     <div class="left" flex="dir:top main:center" >
                         <p class='info' :class='item.rewardStatus == 2 ? "blue" : "orange"' >
                             <span class="num">
@@ -40,28 +45,30 @@
                         <p class='tile'>奖励</p>
                     </div>
                     <div class="right" flex-box="1">
-                        <ul>
-                            <li flex class="black">
-                                 <div flex-box="0">好友：</div>
-                                 <div flex-box="0">{{item.beInvitedMobile|mobileFormat}}</div>
+                        <ul class="ul" flex="dir:top cross: center">
+                            <li class="li black" flex-box="1">
+                                 <div>好友：{{item.beInvitedMobile|mobileFormat}}</div>
                             </li>
-                            <li flex>
-                                 <div flex-box="0">投资金额：</div>
-                                 <div flex-box="0">{{item.investAmount | currencyFormat}}元</div>
+                            <li class="li" flex-box="1" v-if="rewardType == 11">
+                                 <div>投资金额：{{item.investAmount | currencyFormat}}元</div>
                             </li>
-                            <li flex>
-                                 <div flex-box="0">奖励比例：</div>
-                                 <div flex-box="0" class="width">{{item.rewardFactor}}</div>
+                            <li class="li" flex-box="1" v-if="rewardType == 11">
+                                 <div>奖励比例：{{item.rewardFactor}}</div>
                             </li>
-                            <li flex class="last">
-                                 <div flex-box="0">投资时间：</div>
-                                 <div flex-box="0">{{item.createTime|timeFormat}}</div>
+                            <li class="li" flex-box="1">
+                                 投资时间：{{item.createTime|timeFormat('minute')}}
                             </li>
                         </ul>
                         <span class="icon" :class='item.rewardStatus == 2 ? "finish" : "cancel"'></span>
                     </div>
                 </div>
             <p v-show="loading&&hasMore" class="loading">加载更多...</p>
+        </div>
+        <div class="remind-msg" v-if="!rewardList.length && !initing">
+            <img src="../images/reward/cry.png" class="img"/>
+            <div>您还没有开启理财达人特权</div>
+            <div>开启才能获得奖励哦</div>
+            <button class="btn open-btn">去开启特权</button>
         </div>
     </div>
 </template>
@@ -84,11 +91,12 @@
                 isRefreshing:false,
                 loading:false,
                 hasMore:false,
-                rewardType: 11
+                rewardType: 11,
+                initing: true
             }
         },
         created(){
-           this.getList(this.rewardType);
+           this.getList('refresh');
         },
         computed: {
             disLoad(){
@@ -98,6 +106,7 @@
         methods:{
             toTab(rewardType){
                 this.rewardType = rewardType;
+                this.getList('refresh');
             },
             loadMore(){
                 if (this.loading) {
@@ -120,6 +129,7 @@
                             this.sumData = msg.data.sumData;
                             if(type == 'refresh'){
                                 this.rewardList = msg.data.rewardList;
+                                this.initing = false;
                             }
                             msg.data.rewardList.map(el => {
                                 this.rewardList.push(el);

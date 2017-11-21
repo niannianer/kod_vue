@@ -28,7 +28,7 @@
                     <img src="../images/relation/jiang.png" class="img"/>
                     <div>查奖励</div>
                 </div>
-                <div>
+                <div @click.stop="pathTo('/land-rank.html',true)">
                     <img src="../images/relation/bang.png" class="img"/>
                     <div>理财排行榜</div>
                 </div>
@@ -58,11 +58,11 @@
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
                 </div>
             </div>
-            <div class="privilege">
+            <div class="privilege" v-if="availableUpgrade">
                 <div class="warp"></div>
                 <div class="prv-modal">
                     <img src="../images/relation/open-privilege.png"/>
-                    <button class="btn">开启</button>
+                    <button class="btn" @click.stop="openPrivilege">开启</button>
                 </div>
             </div>
         </div>
@@ -78,6 +78,7 @@
     import QRCode from 'qrcode';
     import wx from '../tools/wx';
     import $device from '../tools/device';
+    import Toast from "../components/Toast/toast";
     Vue.use(QRCode)
     export default {
         name: 'relation',
@@ -88,10 +89,54 @@
                 levelTwoCount: 0,
                 levelThreeCount: 0,
                 codes: '',
-                imgSrc: ''
+                imgSrc: '',
+                availableUpgrade: 0
             }
         },
+        created(){
+            if ($device.isWeixin) {
+                this.getShare();
+            }
+            this.relationCount();
+            this.achievement();
+            let event = ['_trackEvent', '我的好友', 'SHOW', '进入我的好友页面', '进入我的好友页面'];
+            window._hmt.push(event);
+        },
+        computed: {
+            ...mapState(['investorMobile', 'userUuid','rewardSum']),
+            total(){
+                let total = Number(this.levelOneCount) + Number(this.levelTwoCount) + Number(this.levelThreeCount);
+                if (!isNaN(total)) {
+                    return total
+                }
+                return 0
+            }
+
+        },
         methods: {
+            relationCount(){
+                $api.get('/relation/count').then(data => {
+                    if (data.code == 200) {
+                        this.levelOneCount = data.data.levelOneCount;
+                        this.levelTwoCount = data.data.levelTwoCount;
+                        this.levelThreeCount = data.data.levelThreeCount || 0;
+                    }
+                });
+            },
+            openPrivilege(){
+                $api.post('/user/upgradeTalent/apply').then((resp) => {
+                    if(resp.code == 200){
+                        Toast('开启成功,用户身份升级为理财达人');
+                    }
+                });
+            },
+            achievement(){
+                $api.get('/user/achievement').then((resp) => {
+                   if(resp.code == 200){
+                        this.availableUpgrade = resp.data.availableUpgrade;
+                   }
+                });
+            },
             useqrcode(){
                 const canvas = document.getElementById('canvas');
                 const signcode = md5('null' + this.userUuid + this.investorMobile + 'signCode')
@@ -139,20 +184,7 @@
                     return false;
                 }
                 this.$router.push(path)
-
             }
-
-        },
-        computed: {
-            ...mapState(['investorMobile', 'userUuid','rewardSum']),
-            total(){
-                let total = Number(this.levelOneCount) + Number(this.levelTwoCount) + Number(this.levelThreeCount);
-                if (!isNaN(total)) {
-                    return total
-                }
-                return 0
-            }
-
         },
         mounted(){
             /*       if (this.investorMobile) {
@@ -163,21 +195,9 @@
              this.useqrcode();
              })
              }*/
-
         },
-        created(){
-            if ($device.isWeixin) {
-                this.getShare();
-            }
-            $api.get('/relation/count').then(data => {
-                if (data.code == 200) {
-                    this.levelOneCount = data.data.levelOneCount;
-                    this.levelTwoCount = data.data.levelTwoCount;
-                    this.levelThreeCount = data.data.levelThreeCount || 0;
-                }
-            })
-            let event = ['_trackEvent', '我的好友', 'SHOW', '进入我的好友页面', '进入我的好友页面'];
-            window._hmt.push(event);
+        destroyed(){
+
         }
     }
 </script>
