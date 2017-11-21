@@ -43,11 +43,11 @@
                 <div class="content-2 seperate" flex="box:mean">
                     <p class="p p-left" v-if="active==0" >七日年化
                         <span class="red span">{{roeRate(yearlyRoeLast.yearlyRoe)}}</span>
-                            {{yearlyRoeLast.date}}
+                        {{yearlyRoeLast.date}}
                     </p>
                     <p class="p p-left" v-else >万份收益
                         <span class="red span">{{unitYieldLast.unitYield}}元</span>
-                            {{unitYieldLast.date}}
+                        {{unitYieldLast.date}}
                     </p>
                 </div>
                 <div v-if="!active">
@@ -148,7 +148,6 @@
                 </div>
             </div>
         </div>
-
         <div class="bottom f8" flex-box="0" flex="box:mean" v-if="!fund.isPurchFund">
             <!-- <p class="p blue">定投</p>-->
             <p class="p red" @click.stop="pathCheck()">申购</p>
@@ -157,13 +156,11 @@
             <p class="p yellow" @click.stop="toRedeem">赎回</p>
             <p class="p red" @click.stop="pathCheck">追加投资</p>
         </div>
-
         <king-message v-if="showMessage" @confirmBack="toBuy" @cancelBack="againTest"
                       :options="msgOption"></king-message>
         <ymi-message v-if="showYmi" @callBack="enterYmi"></ymi-message>
     </div>
 </template>
-
 <script>
     import $api from '../tools/api';
     import {mapState} from 'vuex';
@@ -300,10 +297,9 @@
                         /*基金托管费*/
                         this.setSession('assetAllocation', resp.data.assetAllocation);
                         /*持仓分析*/
-
                         this.fund.navDate = this.dateFormat(resp.data.navDate)
                         /*最新净值日期*/
-                        let maxRate = Infinity;
+                        let maxRate = 0;
                         if (resp.data.frontEndPurchRate) {
                             maxRate = this.calMaxRate(JSON.parse(resp.data.frontEndPurchRate));
                         }
@@ -338,8 +334,8 @@
                 let maxRate = -Infinity;
                 if (arr) {
                     arr.map(item => {
-                        if (item.feeRatio == null) {
-                            return 0
+                        if ((!item.feeRatio||item.feeRatio == null)&&maxRate<0) {
+                            maxRate = 0
                         }
                         if (maxRate < item.feeRatio && item.feeRatio) {
                             maxRate = item.feeRatio;
@@ -531,7 +527,6 @@
                         avgData.push(item.sameFundChange);
                         navData.push(item.nav);
                     }
-
                 });
                 let length = list[0].navSeries.length;
                 //货币型基金
@@ -670,7 +665,6 @@
             },
         },
         destroyed(){
-
         }
     }
 </script>

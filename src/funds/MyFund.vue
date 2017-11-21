@@ -59,7 +59,7 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <p class="f8" :class="{'green':item.previousProfit>=0,'red':item.previousProfit<0}">
+                                    <p class="f8" :class="{'green':item.accumulatedProfit>=0,'red':item.accumulatedProfit<0}">
                                         {{item.accumulatedProfit | currencyFormat}}
                                     </p>
                                     <p class="info">
