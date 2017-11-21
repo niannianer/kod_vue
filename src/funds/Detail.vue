@@ -303,7 +303,7 @@
 
                         this.fund.navDate = this.dateFormat(resp.data.navDate)
                         /*最新净值日期*/
-                        let maxRate = Infinity;
+                        let maxRate = 0;
                         if (resp.data.frontEndPurchRate) {
                             maxRate = this.calMaxRate(JSON.parse(resp.data.frontEndPurchRate));
                         }
@@ -338,8 +338,8 @@
                 let maxRate = -Infinity;
                 if (arr) {
                     arr.map(item => {
-                        if (item.feeRatio == null) {
-                            return 0
+                        if ((!item.feeRatio||item.feeRatio == null)&&maxRate<0) {
+                            maxRate = 0
                         }
                         if (maxRate < item.feeRatio && item.feeRatio) {
                             maxRate = item.feeRatio;
