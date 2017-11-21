@@ -7,7 +7,7 @@
                 <li flex-box="1" :class="{'active': rewardType == 13,'bl': rewardType == 12}" @click.stop="toTab(13)">三级奖励</li>
             </ul>
         </div>
-        <div class="count-info" v-if="rewardList.length">
+        <div class="count-info" v-if="investorType == 12">
             <div class="header-info">
                 <div class="right" @click.stop="$router.push('/reward-list')">奖励细则</div>
                 <ul flex class="ul">
@@ -64,7 +64,7 @@
                 </div>
             <p v-show="loading&&hasMore" class="loading">加载更多...</p>
         </div>
-        <div class="remind-msg" v-if="!rewardList.length && !initing">
+        <div class="remind-msg" v-if="investorType != 12">
             <img src="../images/reward/cry.png" class="img"/>
             <div>您还没有开启理财达人特权</div>
             <div>开启才能获得奖励哦</div>
@@ -76,6 +76,7 @@
 <script>
     import Vue from 'vue';
     import '../less/master-list.less';
+    import {mapState} from 'vuex';
     import $api from '../tools/api';
     import {InfiniteScroll, Toast} from 'mint-ui';
     Vue.use(InfiniteScroll);
@@ -101,11 +102,14 @@
         computed: {
             disLoad(){
                 return this.loading || (!this.hasMore);
-            }
+            },
+            ...mapState(['investorType'])
         },
         methods:{
             toTab(rewardType){
                 this.rewardType = rewardType;
+                this.rewardList = [];
+                this.initing = true;
                 this.getList('refresh');
             },
             loadMore(){
@@ -128,7 +132,7 @@
                         if(msg.code == 200){
                             this.sumData = msg.data.sumData;
                             if(type == 'refresh'){
-                                this.rewardList = msg.data.rewardList;
+                                this.rewardList = [];
                                 this.initing = false;
                             }
                             msg.data.rewardList.map(el => {
@@ -136,9 +140,9 @@
                             });
                             if(this.rewardList.length >= msg.data.count){
                                 this.hasMore = false;
-                                }else{
+                            }else{
                                 this.hasMore = true;
-                                }
+                            }
                         }
                         else{
                             this.hasMore = false;

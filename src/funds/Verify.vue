@@ -45,7 +45,7 @@
             this.type = this.$route.query.type;
         },
         computed: {
-            ...mapState(['isSetPayPassword','accountStatus'])
+            ...mapState(['isSetPayPassword','accountStatus','investorRiskScore'])
         },
         methods: {
             reSend(){
@@ -99,6 +99,9 @@
                             setTimeout(()=>{
                                 this.$store.dispatch('getAccountInfo');
                                 this.$store.dispatch('getPaymentInfo');
+                                if(this.investorRiskScore !=0 ){
+                                    this.$store.dispatch('getRiskInfo');
+                                }
                             },100)
                             if (!this.isSetPayPassword) {
                                 this.$router.replace({

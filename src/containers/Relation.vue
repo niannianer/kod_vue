@@ -5,14 +5,13 @@
                 <div class="box">
                     <div>累积奖励（元）</div>
                     <div class="num">
-                        <span class="big">100.5</span>元
+                        <span class="big">{{rewardSum | currencyFormat}}</span>
                     </div>
                 </div>
                 <div class="box">
                     <div>累积好友（人）</div>
                     <div class="num">
-                        <span class="big">34</span>
-                        个
+                        <span class="big">{{totalCount}}</span>
                     </div>
                 </div>
             </div>
@@ -58,7 +57,7 @@
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
                 </div>
             </div>
-            <div class="privilege" v-if="availableUpgrade">
+            <div class="privilege" v-if="availableUpgrade && investorType != 12">
                 <div class="warp"></div>
                 <div class="prv-modal">
                     <img src="../images/relation/open-privilege.png"/>
@@ -69,7 +68,6 @@
     </div>
 </template>
 <script>
-    import {telNumber} from '../tools/config';
     import md5 from 'md5';
     import Vue from 'vue';
     import {mapState} from 'vuex';
@@ -84,10 +82,10 @@
         name: 'relation',
         data() {
             return {
-                telNumber,
                 levelOneCount: 0,
                 levelTwoCount: 0,
                 levelThreeCount: 0,
+                totalCount: 0,
                 codes: '',
                 imgSrc: '',
                 availableUpgrade: 0
@@ -103,7 +101,7 @@
             window._hmt.push(event);
         },
         computed: {
-            ...mapState(['investorMobile', 'userUuid','rewardSum']),
+            ...mapState(['investorMobile', 'userUuid','rewardSum','investorType']),
             total(){
                 let total = Number(this.levelOneCount) + Number(this.levelTwoCount) + Number(this.levelThreeCount);
                 if (!isNaN(total)) {
@@ -120,6 +118,7 @@
                         this.levelOneCount = data.data.levelOneCount;
                         this.levelTwoCount = data.data.levelTwoCount;
                         this.levelThreeCount = data.data.levelThreeCount || 0;
+                        this.totalCount = this.levelOneCount + this.levelTwoCount + this.levelThreeCount;
                     }
                 });
             },
@@ -127,6 +126,9 @@
                 $api.post('/user/upgradeTalent/apply').then((resp) => {
                     if(resp.code == 200){
                         Toast('开启成功,用户身份升级为理财达人');
+                        this.$store.commit('setPersonalCenterMsg',{
+                            investorType: 12
+                        });
                     }
                 });
             },

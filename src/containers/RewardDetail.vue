@@ -14,7 +14,7 @@
             <div class="title bl" flex="box:mean" flex-box="0">
                 <p>产品名称</p>
                 <p>投资金额（元）</p>
-                <p>奖励比例{{this.titleRate}}</p>
+                <p>奖励比例{{titleRate}}</p>
             </div>
         </div>
         <div class="body">
@@ -26,12 +26,12 @@
                                :class="{'app':isApp}"
                                class="product-name">{{item.productAbbrName}}</p>
                             <ul flex="dir:top main:center">
-                                <li v-for="(itemRange,indexRange) in item.productAward" :key="indexRange">
+                                <li v-for="(itemRange,indexRange) in item.award" :key="indexRange">
                                     {{itemRange.range}}
                                 </li>
                             </ul>
                             <ul flex="dir:top main:center">
-                                <li v-for="(itemRate,indexRate) in item.productAward" :key="indexRate">
+                                <li v-for="(itemRate,indexRate) in item.award" :key="indexRate">
                                     {{itemRate.rate}}
                                 </li>
                             </ul>
@@ -63,10 +63,12 @@
                 pageSize: 10,
                 loading: true,
                 titleRate: '(年化)',
-                isApp: false
+                isApp: false,
+                type: 0
             }
         },
         created(){
+            this.type = this.$route.query.type;
             this.loadData();
             if ($device.kingold) {
                 this.isApp = true;
@@ -98,15 +100,20 @@
                 this.loadData();
             },
             loadData(){
-                return $api.get('/product/reward/list', {
-                    'productType': this.tabMenu,
+                let url = this.type == 1 ? '/product/talent/reward/list' : '/product/reward/list';
+                return $api.get(url, {
+                    productType: this.tabMenu,
                     startRow: this.currentPage * this.pageSize,
                     pageSize: this.pageSize
                 })
                     .then(msg => {
                         if (msg.code == 200) {
-                            this.lists = this.lists.concat(msg.data.rewardList);
-                            if (msg.data.rewardList.length < this.pageSize) {
+                            let list = this.type == 1 ? msg.data.talentRewardList : msg.data.rewardList;
+                            list.map((val) => {
+                                val.award = this.type == 1 ? val.productTalentAward : val.productAward;
+                            });
+                            this.lists = this.lists.concat(list);
+                            if (list.length < this.pageSize) {
                                 this.loading = true;
                             } else {
                                 this.loading = false;
