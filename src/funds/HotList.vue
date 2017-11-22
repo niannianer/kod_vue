@@ -12,15 +12,15 @@
                     </div>
                     <div class="info-part" flex="box:mean">
                         <div class="info-box" v-if="Number(item.fundType)==4">
-                            <p class="orange f9">{{toPercentage(item.yearlyRoe)}}</p>
+                            <p class="orange f9">{{item.yearlyRoe|translatePate}}</p>
                             <p class="info-title">七日年化</p>
                         </div>
                         <div class="info-box" v-if="Number(item.fundType)!=4&&item.oneYearReturn">
-                            <p class="orange f9">{{item.oneYearReturn}}</p>
+                            <p class="orange f9">{{item.oneYearReturn|translatePate}}</p>
                             <p class="info-title">近一年涨幅</p>
                         </div>
                         <div class="info-box" v-if="Number(item.fundType)!=4&&!item.oneYearReturn">
-                            <p class="orange f9 min-height">{{item.thisYearReturn}}</p>
+                            <p class="orange f9 min-height">{{item.thisYearReturn|translatePate}}</p>
                             <p class="info-title">今年以来涨幅</p>
                         </div>
                         <div class="info-box">
@@ -37,7 +37,7 @@
         </mt-loadmore>
         <div class="footer">
             <div class="server">
-                基金销售服务由<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">盈米财富</a>提供
+                基金销售服务由<a class="link" href="https ://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">盈米财富</a>提供
             </div>
             <div class="quali">
                 基金销售资格证号：000000378<a class="link" href="https://asset.yingmi.cn/sites/compliance/qualifications-mobile.html">详情</a>
@@ -108,9 +108,6 @@
                 this.loading = true;
                 this.currentPage++;
                 this.loadData();
-            },
-            toPercentage(num){
-                return (num*100).toFixed(2)+'%'
             }
         },
         destroyed(){
