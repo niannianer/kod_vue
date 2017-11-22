@@ -23,7 +23,7 @@
             <div class="bottom"></div>
         </div>
         <div class="body" flex-box="1">
-            <div class='bind-mind' flex @click.stop="toPath('bind')" v-if="userVerifyStatus < 3 && userVerifyStatusDesc">
+            <div class='bind-mind' flex @click.stop="toPath('bind')" v-if="userVerifyStatus < 3 && (unpaid != 0.00 || paidWithTax != 0.00)">
                 <p flex-box="1">
                     <span><img src="../images/reward/horn.png" class="icon"/></span>
                     实名绑卡后才可以领取奖励！

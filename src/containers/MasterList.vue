@@ -68,7 +68,7 @@
             <img src="../images/reward/cry.png" class="img"/>
             <div>您还没有开启理财达人特权</div>
             <div>开启才能获得奖励哦</div>
-            <button class="btn open-btn">去开启特权</button>
+            <button class="btn open-btn" @click.stop="toPath('/land-financial-master.html')">去开启特权</button>
         </div>
     </div>
 </template>
@@ -160,8 +160,10 @@
                         rewardBillCode
                     }
                 })
+            },
+            toPath(path){
+                window.location.href = path;
             }
-
         },
 
     }

@@ -1,7 +1,7 @@
 <template>
     <div flex="dir:top" class="relation">
         <div flex-box="1">
-            <div class="total" flex="box:mean" v-if="userUuid">
+            <div class="total" flex="box:mean" v-if="userUuid && rewardSum != 0.00">
                 <div class="box">
                     <div>累积奖励（元）</div>
                     <div class="num">
@@ -31,7 +31,7 @@
                     <img src="../images/relation/bang.png" class="img"/>
                     <div>理财排行榜</div>
                 </div>
-                <div>
+                <div @click.stop="pathTo('/land-financial-master.html',true)">
                     <img src="../images/relation/quan.png" class="img"/>
                     <div>达人特权</div>
                 </div>

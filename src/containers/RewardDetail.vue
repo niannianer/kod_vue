@@ -49,6 +49,7 @@
     import $api from '../tools/api';
     import requestHybrid from '../tools/hybrid';
     import {Loadmore, InfiniteScroll} from 'mint-ui';
+    import {setTitle} from '../tools/operation';
     Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
     export default {
@@ -69,6 +70,8 @@
         },
         created(){
             this.type = this.$route.query.type;
+            let title = this.type == 1 ? '达人奖励细则' : '邀请奖励细则';
+            setTitle(title);
             this.loadData();
             if ($device.kingold) {
                 this.isApp = true;
@@ -94,7 +97,7 @@
             rewardTab(string){
                 this.isActive = 'FIXI' == string ? true : false;
                 this.tabMenu = string;
-                this.titleRate = this.tabMenu == 'FIXI' ? '(年化)' : ''
+                this.titleRate = this.tabMenu == 'FIXI' ? '(年化)' : '';
                 this.lists = [];
                 this.currentPage = 0;
                 this.loadData();
