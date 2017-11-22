@@ -32,7 +32,7 @@
         <div class="item-list"  flex-box="1" v-infinite-scroll="loadMore"
              infinite-scroll-disabled="disLoad"
              infinite-scroll-distance="70"
-             v-if="rewardList.length">
+             v-if="investorType == 12">
                 <div flex="dir:left" flex-box="0" class="item" :key="index"
                      v-for="(item,index) in rewardList"
                      :class="{'short': rewardType == 12||rewardType == 13}">
