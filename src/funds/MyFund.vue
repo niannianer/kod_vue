@@ -202,7 +202,7 @@
 
 <script>
     import Vue from 'vue';
-    import {Loadmore, InfiniteScroll, Toast} from 'mint-ui';
+    import {Loadmore, InfiniteScroll, Toast,Indicator} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
     import KingMessage from '../components/Message/KingMessage.vue';
     Vue.component(Loadmore.name, Loadmore);
@@ -326,10 +326,12 @@
                 });
             },
             loadData(){
+                Indicator.open();
                 if (this.listNum == 0) {
                     return $api.get('/fund/purch/my/share')
                         .then(resp => {
                             if (resp.code == 200) {
+                                Indicator.close();
                                 this.list =resp.data.list;
                                 this.loading = true;
                             }
@@ -344,6 +346,7 @@
                     })
                         .then(resp => {
                             if (resp.code == 200) {
+                                Indicator.close();
                                 let lists = resp.data.list || [];
                                 this.list = this.list.concat(lists);
                                 if(lists.length < this.pageSize) {
