@@ -22,7 +22,7 @@
                     <div class="item-l" :class="{'rate':!isActive,'disabled':item.couponStatus!=1}" flex flex-box="0">
                         <div flex-box="1" flex="dir:top cross:center">
                             <div flex-box="1" class="title" flex="cross:center">
-                                <p>{{item.couponType ==1?'现金券':'加息券'}}</p>
+                                <p>{{item.couponType == 1 ? '现金券' : '加息券'}}</p>
                             </div>
                             <p flex-box="1" class="info" v-if="item.couponType ==1">￥{{item.couponFaceValue}}</p>
                             <p flex-box="1" class="info" v-else>{{item.couponInterestYieldRate}}</p>
@@ -57,6 +57,8 @@
     import {InfiniteScroll} from 'mint-ui';
     import {Toast} from 'mint-ui';
     Vue.use(InfiniteScroll);
+    import axios from 'axios';
+
     export default {
         name: 'ticket-list',
         data(){
@@ -67,6 +69,7 @@
                 currentPage: 0,
                 pageSize: 10,
                 stop: true,
+                source:{},
                 msgCode: 1 //default jiaxijuan
             }
         },
@@ -84,9 +87,10 @@
         },
         methods: {
             ticketTab(string){
-                this.isActive = 'cash' == string ? true : false;
                 this.couponType = 'cash' == string ? 1 : 2;
+                this.msgCode = this.couponType;
                 this.lists = [];
+                this.source.cancel();
                 this.loadData();
             },
             loadMore(){
@@ -95,42 +99,43 @@
                 this.loadData();
             },
             loadData(){
+                let CancelToken = axios.CancelToken;
+                this.source = CancelToken.source();
                 return $api.get('/cashCoupon/list', {
                     couponType: this.couponType,
                     startRow: this.currentPage * this.pageSize,
                     pageSize: this.pageSize
-                })
-                    .then(resp => {
-                        if (resp.code == 200) {
-                            if (this.hasUnread) {
-                                this.delUnread();
-                            }
-                            resp.data.couponList.map(item => {
-                                switch (item.couponStatus) {
-                                    case 1:
-                                        item.couponStatusText = '去使用';
-                                        break;
-                                    case 2:
-                                        item.couponStatusText = '已使用';
-                                        break;
-                                    case 3:
-                                        item.couponStatusText = '已过期';
-                                        break;
-                                    case 4:
-                                        item.couponStatusText = '已作废';
-                                        break;
-                                }
-                                item.expiredDate = this.remainTime(item.validEndTime, item.serverTime);
-                            })
-                            this.lists = this.lists.concat(resp.data.couponList);
-                            if (this.lists.length < resp.data.couponCount) {
-                                this.stop = false;
-                            } else {
-                                this.stop = true;
-                            }
+                }, this.source).then(resp => {
+                    if (resp.code == 200) {
+                        if (this.hasUnread) {
+                            this.delUnread();
                         }
-                        return resp
-                    })
+                        resp.data.couponList.map(item => {
+                            switch (item.couponStatus) {
+                                case 1:
+                                    item.couponStatusText = '去使用';
+                                    break;
+                                case 2:
+                                    item.couponStatusText = '已使用';
+                                    break;
+                                case 3:
+                                    item.couponStatusText = '已过期';
+                                    break;
+                                case 4:
+                                    item.couponStatusText = '已作废';
+                                    break;
+                            }
+                            item.expiredDate = this.remainTime(item.validEndTime, item.serverTime);
+                        })
+                        this.lists = this.lists.concat(resp.data.couponList);
+                        if (this.lists.length < resp.data.couponCount) {
+                            this.stop = false;
+                        } else {
+                            this.stop = true;
+                        }
+                    }
+                    return resp
+                })
             },
             delUnread(){
                 let {msgCode} = this;
