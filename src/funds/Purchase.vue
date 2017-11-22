@@ -13,9 +13,9 @@
                 </div>
             </div>
             <div class="tip" flex>
-                <p v-if="!maxRapidPayAmountPerTxn">单笔无限额</p>
+                <p v-if="!maxRapidPayAmountPerTxn">单笔限额无限制</p>
                 <p v-else>单笔限额<span class="blue">{{maxRapidPayAmountPerTxn / 10000}}万元</span></p>
-                <p v-if="!maxRapidPayAmountPerDay">，单日无限额</p>
+                <p v-if="!maxRapidPayAmountPerDay">，单日限额无限制</p>
                 <p v-else>
                     ，单日限额
                     <span class="blue">{{maxRapidPayAmountPerDay / 10000}}万元</span>
