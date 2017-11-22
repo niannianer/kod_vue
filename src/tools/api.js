@@ -48,7 +48,7 @@ let get = (path, data = {}, source = {}) => {
     return axios({
         url,
         method: 'get',
-        cancelToken: source.token,
+        cancelToken: source.token || '',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
