@@ -41,13 +41,14 @@ let $query = (data) => {
     }
     return str.join('&');
 };
-let get = (path, data = {}) => {
+let get = (path, data = {}, source = {}) => {
     data.callSystemID = '1003';
     data.t = new Date().getTime();
     let url = `${serverUrl + path}`;
     return axios({
         url,
         method: 'get',
+        cancelToken: source.token,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -71,6 +72,7 @@ let get = (path, data = {}) => {
 
     }).catch(err => {
         console.error('error,--->', err);
+        return {};
     });
 };
 let getNode = (path, data = {}) => {
