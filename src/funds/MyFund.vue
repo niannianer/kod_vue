@@ -339,10 +339,10 @@
                     return $api.get('/fund/purch/my/share')
                         .then(resp => {
                             if (resp.code == 200) {
-                                Indicator.close();
                                 this.list = resp.data.list;
                                 this.loading = true;
                             }
+                            Indicator.close();
                             return resp
                         })
                 }
@@ -354,7 +354,6 @@
                     })
                         .then(resp => {
                             if (resp.code == 200) {
-                                Indicator.close();
                                 let lists = resp.data.list || [];
                                 this.list = this.list.concat(lists);
                                 if (lists.length < this.pageSize) {
@@ -363,10 +362,10 @@
                                     this.loading = false;
                                 }
                             }
+                            Indicator.close();
                             return resp
                         })
                 }
-
             },
             loadMore(){
                 this.loading = true;
@@ -441,7 +440,6 @@
             }
         },
         destroyed(){
-            Indicator.close();
         }
     }
 </script>
