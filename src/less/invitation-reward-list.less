@@ -89,7 +89,7 @@
                 width:3.5rem;
                 height:3.5rem;
                 position: absolute;
-                top: -0.4rem;
+                top: -0.25rem;
                 right: .5rem;
                 i{
                     display: block;
@@ -101,17 +101,17 @@
                 }
                 &.cancel{
                     background: url(../images/reward/no-finish.png) center no-repeat;
-                    i:after{
-                        content: "待结算";
-                    }
+                    background-size: contain;
                 }
                 &.finish{
                     background: url(../images/reward/finish.png) center no-repeat;
-                    i:after{
-                        content: "已结算";
-                    }
+                    background-size: contain;
                 }
             }
         }
+    }
+    .loading{
+        text-align: center;
+        margin-top: .2rem;
     }
 }

@@ -69,7 +69,7 @@
             }
         },
         created(){
-            this.type = this.$route.query.type;
+            this.type = this.$route.query.type || 0;
             let title = this.type == 1 ? '达人奖励细则' : '邀请奖励细则';
             setTitle(title);
             this.loadData();
