@@ -306,6 +306,7 @@
                     this.couponExtendCode = item.couponExtendCode;
                     this.faceValue = item.faceValue;
                     this.rechargeNum = this.leastPay;
+                    this.faceValueText = '+'+item.couponInterestYieldRate;
                     this.jiaxiRate = numAdd(this.expcRate, parseFloat(item.couponInterestYieldRate)/100);
 
 
