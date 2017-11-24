@@ -87,10 +87,12 @@
             getLast(){
                 if (quLen == this.scores.length) {
                     this.scores.pop();
+                    this.options.pop();
                 }
                 this.quIndex--;
                 this.setIndex();
                 this.scores.pop();
+                this.options.pop();
                 this.currentIndex = 99;
             },
             selectItem(item, index){
