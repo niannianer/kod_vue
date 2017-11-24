@@ -121,8 +121,9 @@
                                 <p v-if="!item.unitYield">--</p>
                             </div>
                             <div class="item-info bg-content" flex="cross:center main:center" v-if="fundType==4">
-                                {{item.yearlyRoe}}<!--七日年化-->
-                                <p v-if="!item.yearlyRoe">--</p>
+                                <!--七日年化-->
+                                <p v-if="!item.yearlyRoe&&item.yearlyRoe!=0">--</p>
+                                <p v-else :class="{'green':item.yearlyRoe<=0,'red':item.yearlyRoe>0}">{{item.yearlyRoe|translatePate}}</p>
                             </div>
                             <div class="item-info bg-grey" flex="dir:top cross:center main:center"
                                  v-if="fundType!=4">
@@ -130,30 +131,30 @@
                                 <p v-if="item.navDate&&item.nav">{{dateFormat(item.navDate)}}</p><!--净值日期-->
                                 <p v-if="!item.nav">--</p>
                             </div>
-                            <div class="item-info red f8 bg-content" flex="cross:center main:center"
-                                 v-if="fundType!=4">
-                                {{item.dayReturn}}<!--日涨幅-->
-                                <p v-if="!item.dayReturn">--</p>
+                            <div class="item-info f8 bg-content" flex="cross:center main:center"
+                                 v-if="fundType!=4"><!--日涨幅-->
+                                <p v-if="!item.dayReturn&&item.dayReturn!=0">--</p>
+                                <p v-else :class="{'green':item.dayReturn<=0,'red':item.dayReturn>0}">{{item.dayReturn|translatePate}}</p>
                             </div>
-                            <div class="item-info red f8 bg-grey" flex="cross:center main:center">
-                                {{item.oneWeekReturn}}<!--周-->
-                                <p v-if="!item.oneWeekReturn">--</p>
-                            </div>
-                            <div class="item-info bg-content" flex="cross:center main:center">
-                                {{item.oneMonthReturn}}<!--月-->
-                                <p v-if="!item.oneMonthReturn">--</p>
-                            </div>
-                            <div class="item-info bg-grey" flex="cross:center main:center">
-                                {{item.quarterReturn}}<!--季-->
-                                <p v-if="!item.quarterReturn">--</p>
+                            <div class="item-info f8 bg-grey" flex="cross:center main:center">
+                                <p v-if="!item.oneWeekReturn&&item.oneWeekReturn!=0">--</p><!--周涨幅-->
+                                <p v-else :class="{'green':item.oneWeekReturn<=0,'red':item.oneWeekReturn>0}">{{item.oneWeekReturn|translatePate}}</p>
                             </div>
                             <div class="item-info bg-content" flex="cross:center main:center">
-                                {{item.oneYearReturn}}<!--1年-->
-                                <p v-if="!item.oneYearReturn">--</p>
+                                <p v-if="!item.oneMonthReturn&&item.oneMonthReturn!=0">--</p><!--月涨幅-->
+                                <p v-else :class="{'green':item.oneMonthReturn<=0,'red':item.oneMonthReturn>0}">{{item.oneMonthReturn|translatePate}}</p>
                             </div>
                             <div class="item-info bg-grey" flex="cross:center main:center">
-                                {{item.thisYearReturn}}<!--今年-->
-                                <p v-if="!item.thisYearReturn">--</p>
+                                <p v-if="!item.quarterReturn&&item.quarterReturn!=0">--</p><!--季涨幅-->
+                                <p v-else :class="{'green':item.quarterReturn<=0,'red':item.quarterReturn>0}">{{item.quarterReturn|translatePate}}</p>
+                            </div>
+                            <div class="item-info bg-content" flex="cross:center main:center">
+                                <p v-if="!item.oneYearReturn&&item.oneYearReturn!=0">--</p><!--1年涨幅-->
+                                <p v-else :class="{'green':item.oneYearReturn<=0,'red':item.oneYearReturn>0}">{{item.oneYearReturn|translatePate}}</p>
+                            </div>
+                            <div class="item-info bg-grey" flex="cross:center main:center">
+                                <p v-if="!item.thisYearReturn&&item.thisYearReturn!=0">--</p><!--今年涨幅-->
+                                <p v-else :class="{'green':item.thisYearReturn<=0,'red':item.thisYearReturn>0}">{{item.thisYearReturn|translatePate}}</p>
                             </div>
                         </li>
                     </ul>
@@ -162,7 +163,6 @@
         </div>
     </div>
 </template>
-
 <script>
     import $api from '../tools/api';
     import Vue from 'vue';
@@ -231,7 +231,6 @@
                             dom.scrollLeft = this.scrollLeft;
                         })
                     });
-
             },
             checkFundType(num){
                 this.fundType = num;
@@ -252,15 +251,6 @@
                     .then(msg => {
                         Indicator.close();
                         if (msg.code == 200) {
-                            msg.data.list.map(item => {
-                                for (let key in item) {
-                                    if (key == 'yearlyRoe' || key == 'dayReturn' || key == 'oneWeekReturn' || key == 'oneMonthReturn' || key == 'quarterReturn' || key == 'oneYearReturn' || key == 'thisYearReturn') {
-                                        item[key] = (item[key] * 100).toFixed(2) + '%'
-                                    } else {
-                                        continue
-                                    }
-                                }
-                            })
                             if (type == 'type') {
                                 this.list = (msg.data.list);
                             }
@@ -272,7 +262,6 @@
                                 })
                             }
                             this.currentPage++;
-
                             if (msg.data.list.length < this.pageSize) {
                                 this.loading = true;
                             } else {
@@ -297,7 +286,6 @@
                     console.log(event);
                     let {target} = event;
                     let {scrollTop} = target;
-
                     console.log(scrollTop + bodyHeight);
                     let offsetHeight = this.$refs.scroll.offsetHeight;
                     console.log(offsetHeight);
@@ -305,8 +293,6 @@
                         this.loadData();
                     }
                     this.scrollTop = scrollTop;
-
-
                 }, 500);
             },
             dateFormat(timestamp){
@@ -332,7 +318,6 @@
             document.getElementById('body').addEventListener('scroll', this.domScroll);
         },
         destroyed(){
-
         }
     }
 </script>
