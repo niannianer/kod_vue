@@ -25,7 +25,7 @@
                 </div>
                 <div @click.stop="pathTo('/reward')">
                     <img src="../images/relation/jiang.png" class="img"/>
-                    <div>查奖励</div>
+                    <div>我的奖励</div>
                 </div>
                 <div @click.stop="pathTo('/land-rank.html',true)">
                     <img src="../images/relation/bang.png" class="img"/>
