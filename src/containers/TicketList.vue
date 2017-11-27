@@ -152,7 +152,7 @@
                     return ''
                 }
                 if (remainTime < 0) {
-                    return '还有1分过期'
+                    return '还有1分钟过期'
                 }
                 let day = Math.floor(remainTime / 3600 / 24);
                 if (day > 0) {
@@ -160,14 +160,14 @@
                 }
                 let hours = Math.floor(remainTime / 60 / 60);
                 if (hours > 0) {
-                    return '还有' + hours + '时过期'
+                    return '还有' + hours + '小时过期'
                 }
                 let minutes = Math.floor(remainTime / 60);
                 if ((remainTime / 60) < 1) {
-                    return '还有1分过期'
+                    return '还有1分钟过期'
                 }
                 if (minutes > 0) {
-                    return '还有' + minutes + '分过期'
+                    return '还有' + minutes + '分钟过期'
                 }
                 return ''
             },
