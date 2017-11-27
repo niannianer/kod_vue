@@ -9,7 +9,7 @@
             <div v-if="!msgList.length" class="no-content">暂无内容</div>
             <div v-else class="item" v-for="(item,index) in msgList">
                 <div flex="cross:center" class="item-content">
-                    <img :src="item.coverImageUrl" alt="" class="img" flex-box="0">
+                    <img :src="item.coverImageUrl||defaultImg" alt="" class="img" flex-box="0" @error="imgError(index)">
                     <div flex-box="1">
                         <p class="title">
                             {{item.title}}
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+    const defaultImg = require('../images/msg-logo.png');
     import {InfiniteScroll, Indicator} from 'mint-ui';
     import $api from '../tools/api';
     import '../less/message-center.less';
@@ -50,7 +51,8 @@
                 pageSize: 10,
                 hasUnread: 1,
                 msgCode: 3,
-                scrollTop:0
+                scrollTop:0,
+                defaultImg
             }
         },
         components: {},
@@ -144,6 +146,9 @@
                         }
                     })
             },
+            imgError(index){/*图片加载失败时替换为默认金疙瘩logo图*/
+                this.msgList[index].coverImageUrl = this.defaultImg;
+            }
         },
         mounted(){
         },
