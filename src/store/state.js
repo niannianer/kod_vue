@@ -52,7 +52,7 @@ const state = {
 
     cashCouponCount:'0',//现金券数量
     experienceAmount:'0',//体验金数额
-    interestCouponCount:'',// jiaxi quan
+    interestCouponCount:'0',// jiaxi quan
 
     accountStatus: 0,//是否录入适当性管理信息，1：已基金开户，2：已基金交易密码，3：完成
     paymentNo: '',
