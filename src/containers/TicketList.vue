@@ -55,7 +55,7 @@
     import '../less/ticket-list.less';
     import $api from '../tools/api';
     import {InfiniteScroll} from 'mint-ui';
-    import {Toast} from 'mint-ui';
+    import {Toast,Indicator} from 'mint-ui';
     Vue.use(InfiniteScroll);
     import axios from 'axios';
 
@@ -99,6 +99,7 @@
                 this.loadData();
             },
             loadData(){
+                Indicator.open();
                 let CancelToken = axios.CancelToken;
                 this.source = CancelToken.source();
                 return $api.get('/cashCoupon/list', {
@@ -134,6 +135,7 @@
                             this.stop = true;
                         }
                     }
+                    Indicator.close();
                     return resp
                 })
             },
