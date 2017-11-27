@@ -29,14 +29,17 @@
             <img src="../images/arraw-down.png" alt="arrow" flex-box="0">
         </div>
         <div class="service">
-            <div class="callnum" v-if="isApp" @click.stop="callService">400-640-3606</div>
-            <a href="tel:400-640-3606" class="callnum" v-else>400-640-3606</a>
+            <div class="callnum" v-if="isApp" @click.stop="callService">{telNumber}</div>
+            <a :href="'tel:'+telNumber" class="callnum" v-else>
+                {{telNumber}}
+            </a>
             <p class="tip">人工服务时间 工作日9：00-18：00</p>
         </div>
     </div>
 </template>
 
 <script>
+    import {telNumber} from '../tools/config';
     import $device from '../tools/device';
     import questions from '../tools/helpQA';
     import requestHybrid from '../tools/hybrid';
@@ -80,7 +83,7 @@
                 requestHybrid({
                     tagname: 'tel',
                     param: {
-                        callService: '400-640-3606'
+                        callService: telNumber
                     }
                 })
             }

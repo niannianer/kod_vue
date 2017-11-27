@@ -80,6 +80,7 @@
     import {Toast} from 'mint-ui';
     import CardInput from '../components/CardInput';
     import {telNumber} from '../tools/config';
+    import requestHybrid from '../tools/hybrid';
     export default {
         name: 'authentication',
         data(){
@@ -93,13 +94,17 @@
                 btnText: '获取验证码',
                 nextClick: true,
                 flag: true,
-                showCard: false
+                showCard: false,
+                isApp: false
             };
         },
         components: {
             CardInput
         },
         created(){
+            if ($device.kingold) {
+                this.isApp = true;
+            }
             let event = ['_trackEvent', '实名认证', 'SHOW', '进入实名认证页面', '进入实名认证页面'];
             window._hmt.push(event);
         },
@@ -247,6 +252,15 @@
                 this.userIdCardNumber = text;
             },
             callService(){
+                if (this.isApp) {
+                    requestHybrid({
+                        tagname: 'tel',
+                        param: {
+                            callService: telNumber
+                        }
+                    })
+                    return false
+                }
                 if ($device.mobile) {
                     window.open('tel:' + telNumber.replace(/-/g, ''));
                 }
