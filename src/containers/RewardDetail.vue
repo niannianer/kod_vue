@@ -69,7 +69,7 @@
             }
         },
         created(){
-            this.type = this.$route.query.type;
+            this.type = this.$route.query.type || 0;
             let title = this.type == 1 ? '达人奖励细则' : '邀请奖励细则';
             setTitle(title);
             this.loadData();
@@ -80,7 +80,7 @@
                     param: {
                         backtype: 0,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
                         backAndRefresh: 1,
-                        title:'奖励细则',
+                        title: title,
                         keyboard_mode: 0//0 adjustresize 1 adjustpan
                     }
                 })

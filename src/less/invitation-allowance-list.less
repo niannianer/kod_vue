@@ -129,28 +129,26 @@
                 }
                 &.cancel{
                     background: url(../images/reward/no-finish.png) center no-repeat;
-                    i:after{
-                        content: "待结算";
-                    }
+                    background-size: contain;
                 }
                 &.finish{
                     background: url(../images/reward/finish.png) center no-repeat;
-                    i:after{
-                        content: "已结算";
-                    }
+                    background-size: contain;
                 }
             }
         }
     }
+    .loading{
+        text-align: center;
+        margin-top: .2rem;
+    }
 
 }
 .shade{
-  width: 100%;
-  height: 100%;
-  position: fixed;
-    top: 0%;
-    width: 100%;
-    height: 100%;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+    top: 0;
     background: rgba(0,0,0,0.7);
     font-size:.7rem;
     color: #fff;

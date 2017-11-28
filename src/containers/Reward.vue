@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <!--<advertise :pagetype="'WDJL'"></advertise>-->
+            <advertise :pagetype="'WDJL'"></advertise>
         </div>
 
     </div>

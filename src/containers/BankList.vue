@@ -20,7 +20,7 @@
             <div flex-box="1">
                 <p class="main">{{item.name}}</p>
                 <p class="sub">
-                    限额： 单笔{{item.maxRapidPayAmountPerTxn||'无限额'}}，单日{{item.maxRapidPayAmountPerDay||'无限额'}}
+                    限额： 单笔{{item.maxRapidPayAmountPerTxn||'无限制'}}，单日{{item.maxRapidPayAmountPerDay||'无限制'}}
                 </p>
             </div>
 

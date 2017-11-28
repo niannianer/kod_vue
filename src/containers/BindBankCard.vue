@@ -82,6 +82,7 @@
 </template>
 
 <script>
+    import requestHybrid from '../tools/hybrid';
     import $device from '../tools/device';
     import '../less/bind-bank-card.less';
     import $api from '../tools/api';
@@ -112,7 +113,8 @@
                 imgUrls,
                 loading: false,
                 isDiff: false,
-                timeLeft: 0
+                timeLeft: 0,
+                isApp: false
             };
         },
         computed: {
@@ -135,10 +137,25 @@
                 return true;
             }
         },
+        created(){
+            if ($device.kingold) {
+                this.isApp = true;
+            }
+            refreshApp();
+            let event = ['_trackEvent', '绑定银行卡', 'SHOW', '进入绑定银行卡页面', '进入绑定银行卡页面'];
+            window._hmt.push(event);
+            if (window.sessionStorage.getItem('bind-card-info')) {
+                let bank = JSON.parse(window.sessionStorage.getItem('bind-card-info'));
+                _.forEach(bank, (val, key) => {
+                    this[key] = val;
+                });
+                window.sessionStorage.removeItem('bind-card-info');
+            }
+        },
         methods: {
             getCardInfo(){
                 let card = this.bankCard.replace(/[^\d]/g, '');
-                if(!card){
+                if (!card) {
                     return false;
                 }
                 return $api.get('/getBankInfo', {bankNo: card}).then(msg => {
@@ -149,7 +166,7 @@
                         if (msg.data.bankCode && msg.data.bankName)
                             this.html = `<span class="bank-inner" style="background-image:url(${this.imgUrls[msg.data.bankCode]})">${msg.data.bankName}</span>`;
                     } else {
-                       // Toast(msg.msg)   //bug2728 查询不到银行卡不提示。
+                        // Toast(msg.msg)   //bug2728 查询不到银行卡不提示。
                     }
                 });
             },
@@ -291,22 +308,19 @@
                 })
             },
             callService(){
+                if (this.isApp) {
+                    requestHybrid({
+                        tagname: 'tel',
+                        param: {
+                            callService: telNumber
+                        }
+                    })
+                    return false
+                }
                 if ($device.mobile) {
                     window.open('tel:' + telNumber.replace(/-/g, ''));
                 }
 
-            }
-        },
-        created(){
-            refreshApp();
-            let event = ['_trackEvent', '绑定银行卡', 'SHOW', '进入绑定银行卡页面', '进入绑定银行卡页面'];
-            window._hmt.push(event);
-            if (window.sessionStorage.getItem('bind-card-info')) {
-                let bank = JSON.parse(window.sessionStorage.getItem('bind-card-info'));
-                _.forEach(bank, (val, key) => {
-                    this[key] = val;
-                });
-                window.sessionStorage.removeItem('bind-card-info');
             }
         },
         destroyed(){
