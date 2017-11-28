@@ -1,6 +1,6 @@
 <template>
-    <div class="ticket-list">
-        <div class="header" flex="dir:top">
+    <div class="ticket-list" flex="dir:top" style="height: 100%">
+        <div class="header" flex-box="0">
             <div flex-box="1" class="tab bl" flex>
                 <ul flex>
                     <li :class="{'left':true,'active':isActive}" flex-box="1" @click="ticketTab('cash')">
@@ -12,12 +12,13 @@
                 </ul>
             </div>
         </div>
-        <div class="body">
+        <div class="body" flex-box="1" style="overflow-y: auto">
             <div class="nothing" v-if="!lists.length">暂无内容</div>
-            <ul v-else
+            <ul v-show="lists.length"
+                ref="infiniteScroll"
                 v-infinite-scroll="loadMore"
                 infinite-scroll-disabled="stop"
-                infinite-scroll-distance="10">
+                infinite-scroll-distance="70">
                 <li class="item" flex v-for="(item,index) in lists">
                     <div class="item-l" :class="{'rate':!isActive,'disabled':item.couponStatus!=1}" flex flex-box="0">
                         <div flex-box="1" flex="dir:top cross:center">
@@ -55,7 +56,7 @@
     import '../less/ticket-list.less';
     import $api from '../tools/api';
     import {InfiniteScroll} from 'mint-ui';
-    import {Toast,Indicator} from 'mint-ui';
+    import {Toast, Indicator} from 'mint-ui';
     Vue.use(InfiniteScroll);
     import axios from 'axios';
 
@@ -69,7 +70,7 @@
                 currentPage: 0,
                 pageSize: 10,
                 stop: true,
-                source:{},
+                source: {},
                 msgCode: 1 //default jiaxijuan
             }
         },
@@ -89,6 +90,7 @@
             ticketTab(string){
                 this.couponType = 'cash' == string ? 1 : 2;
                 this.msgCode = this.couponType;
+                this.currentPage = 0;
                 this.lists = [];
                 this.source.cancel();
                 this.loadData();
@@ -129,11 +131,15 @@
                             item.expiredDate = this.remainTime(item.validEndTime, item.serverTime);
                         })
                         this.lists = this.lists.concat(resp.data.couponList);
-                        if (this.lists.length < resp.data.couponCount) {
-                            this.stop = false;
-                        } else {
-                            this.stop = true;
-                        }
+
+                        this.$nextTick(() => {
+                            if (this.lists.length < resp.data.couponCount && resp.data.couponList.length) {
+                                this.stop = false;
+                            } else {
+                                this.stop = true;
+                            }
+                        })
+
                     }
                     Indicator.close();
                     return resp
@@ -200,7 +206,7 @@
 
         },
         destroyed(){
-
+            Indicator.close();
         }
     }
 </script>
