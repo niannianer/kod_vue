@@ -4,8 +4,7 @@
             <div class="header">
                 <div flex="box:justify cross:center">
                     <div>
-                        <p class="border" v-if="!investorRiskScore" @click.stop="pathTo('/risk-assessment/wechat')">
-                            去测评</p>
+                        <p class="border" v-if="!investorRiskScore" @click.stop="pathTo('/risk-assessment/wechat')">去测评</p>
                         <p class="border" v-else @click.stop="pathTo('/assessment-result')">{{investorRiskTypeDesc}}</p>
                     </div>
                     <p class="f9">昨日收益（元）</p>
@@ -13,8 +12,7 @@
                         <p class="border" @click.stop="fundAccountStep">用户信息</p>
                     </div>
                 </div>
-                <p class="date" v-if="fundAssets.previousProfitTradeDate">
-                    {{dateFormat(fundAssets.previousProfitTradeDate)}}</p>
+                <p class="date" v-if="fundAssets.previousProfitTradeDate">{{dateFormat(fundAssets.previousProfitTradeDate)}}</p>
                 <p class="rate">{{fundAssets.previousProfit | currencyFormat}}</p>
                 <div flex="box:mean" class="info-box">
                     <div>
@@ -53,8 +51,7 @@
                             </div>
                             <div flex="box:mean" class="item-info" v-if="listNum == 0">
                                 <div>
-                                    <p class="f8 "
-                                       :class="{'red':item.previousProfit>=0,'green':item.previousProfit<0}">
+                                    <p class="f8 " :class="{'red':item.previousProfit>=0,'green':item.previousProfit<0}">
                                         {{item.previousProfit | currencyFormat}}
                                     </p>
                                     <p class="info">
@@ -62,8 +59,7 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <p class="f8"
-                                       :class="{'red':item.accumulatedProfit>=0,'green':item.accumulatedProfit<0}">
+                                    <p class="f8" :class="{'red':item.accumulatedProfit>=0,'green':item.accumulatedProfit<0}">
                                         {{item.accumulatedProfit | currencyFormat}}
                                     </p>
                                     <p class="info">
@@ -143,18 +139,16 @@
 
                                 <!--日期时间开始-->
                                 <div>
-                                    <p class="f8 red bold"
-                                       v-if="item.bizCode == '144' || item.bizCode == '145'||item.bizCode == '142'">
+                                    <p class="f8 red bold" v-if="item.bizCode == '144' || item.bizCode == '145'||item.bizCode == '142'">
                                         {{dateFormat(item.orderConfirmDate)}}
                                     </p>
-                                    <p class="f8 red bold" v-else>
+                                    <p class="f8 red bold" v-else >
                                         {{dateFormat(item.createTime)}}
                                     </p>
                                     <p class="info" v-if="item.bizCode == '022'">申购日期</p>
                                     <p class="info" v-if="item.bizCode == '024'">赎回日期</p>
                                     <p class="info" v-if="item.bizCode == '029'">操作日期</p>
-                                    <p class="info"
-                                       v-if="item.bizCode == '043' || item.bizCode == '144' || item.bizCode == '145'||item.bizCode == '142'">
+                                    <p class="info" v-if="item.bizCode == '043' || item.bizCode == '144' || item.bizCode == '145'||item.bizCode == '142'">
                                         日期
                                     </p>
                                 </div>
@@ -168,23 +162,21 @@
                                     </p>
                                     <!--成功、失败、已撤销、强制调增、强制调减、强制赎回-->
                                     <p class="f8" v-else :class="{'red': item.tradeStatus==4||item.tradeStatus==6}">
-                                        {{tradeStatus(item.tradeStatus, item.bizCode)}}
+                                        {{tradeStatus(item.tradeStatus,item.bizCode)}}
                                     </p>
                                 </div>
                             </div>
                             <div class="item-footer">
-                                <div flex v-if="listNum == 0" class="btn-item bonus" @click.stop="bonusType(item)">
+                                <div flex  v-if="listNum == 0" class="btn-item bonus" @click.stop="bonusType(item)">
                                     <div flex-box="0">分红方式</div>
                                     <div flex-box="1" class="footer-right" v-if="item.setDividendMethodStatus">
                                         (变更中)
                                         {{item.setDividendMethod == 1 ? '现金红包' : '红利资金再投'}}
-                                        <img src="../images/fund/red-right.png" class="img"
-                                             v-if="item.allowUpdateDividendMethod"/>
+                                        <img src="../images/fund/red-right.png" class="img" v-if="item.allowUpdateDividendMethod"/>
                                     </div>
-                                    <div flex-box="1" class="footer-right" v-else>
+                                    <div flex-box="1" class="footer-right" v-else >
                                         {{item.dividendMethod == 1 ? '现金红包' : '红利资金再投'}}
-                                        <img src="../images/fund/red-right.png" class="img"
-                                             v-if="item.allowUpdateDividendMethod"/>
+                                        <img src="../images/fund/red-right.png" class="img" v-if="item.allowUpdateDividendMethod"/>
                                     </div>
                                 </div>
                                 <div v-if="listNum == 3 && (item.enableCancel == 1) && item.bizCode!='029'"
@@ -210,7 +202,7 @@
 
 <script>
     import Vue from 'vue';
-    import {Loadmore, InfiniteScroll, Toast, Indicator} from 'mint-ui';
+    import {Loadmore, InfiniteScroll, Toast,Indicator} from 'mint-ui';
     import PasswordInput from '../components/PasswordInput';
     import KingMessage from '../components/Message/KingMessage.vue';
     Vue.component(Loadmore.name, Loadmore);
@@ -232,8 +224,8 @@
                 fundType: ['其他类型', '股票型', '债券型', '混合型', '货币型', '保本型', '指数型', 'QDII', '商品型', '短期理财'],
                 currentPage: 0,
                 autoFill: false,
-                pageSize: 10,
-                loading: true,
+                pageSize:10,
+                loading:true,
                 inputPassword: false,
                 revoked: {},
                 showMessage: false,
@@ -249,19 +241,19 @@
             this.loadData();
         },
         computed: {
-            ...mapState(['investorRiskScore', 'investorRiskTypeDesc', 'accountStatus', 'userUuid']),
+            ...mapState(['investorRiskScore', 'investorRiskTypeDesc','accountStatus','userUuid']),
         },
         methods: {
             /*撤单*/
             submitRevoked(userPayPassword){
                 let {userUuid} = this;
-                $api.post('/fund/purch/cancelFundOrder', {
+                $api.post('/fund/purch/cancelFundOrder',{
                     orderId: this.revoked.orderId,
                     userUuid,
                     userPayPassword
-                }, '正在等待交易结果').then((resp) => {
+                },'正在等待交易结果').then((resp) => {
                     EventBus.$emit('clearInput');
-                    if (resp.code == 200) {
+                    if(resp.code == 200){
                         this.showMessage = true;
                         this.inputPassword = false;
                         this.options = {
@@ -272,8 +264,8 @@
                         this.list = [];
                         this.loadData();
                         this.getAssetes();
-                    } else {
-                        if (resp.code == 1108) {
+                    }else{
+                        if(resp.code == 1108){
                             Toast(resp.msg);
                             return;
                         }
@@ -292,24 +284,24 @@
                 this.revoked = item;
             },
             enterYmi(result){
-                if (result == 0) {
-                    this.showYmi = false;
-                    return;
-                }
+              if(result == 0){
+                  this.showYmi = false;
+                  return;
+              }
                 this.$router.push({
-                    path: '/funds/open-count'
+                    path:'/funds/open-count'
                 })
             },
-            tradeStatus(val, bizCode){
+            tradeStatus(val,bizCode){
                 let out = '';
-                if (bizCode == '144') {
+                if(bizCode == '144'){
                     out = '强行调增';
-                } else if (bizCode == '145') {
+                }else if(bizCode == '145'){
                     out = '强行调减';
-                } else if (bizCode == '142') {
+                }else if(bizCode == '142'){
                     out = '强制赎回';
-                } else {
-                    switch (val) {
+                }else{
+                    switch (val){
                         case 5:
                             out = '成功';
                             break;
@@ -339,7 +331,7 @@
                     return $api.get('/fund/purch/my/share')
                         .then(resp => {
                             if (resp.code == 200) {
-                                this.list = resp.data.list;
+                                this.list =resp.data.list;
                                 this.loading = true;
                             }
                             Indicator.close();
@@ -356,7 +348,7 @@
                             if (resp.code == 200) {
                                 let lists = resp.data.list || [];
                                 this.list = this.list.concat(lists);
-                                if (lists.length < this.pageSize) {
+                                if(lists.length < this.pageSize) {
                                     this.loading = true;
                                 } else {
                                     this.loading = false;
@@ -366,6 +358,7 @@
                             return resp
                         })
                 }
+
             },
             loadMore(){
                 this.loading = true;
@@ -373,17 +366,17 @@
                 this.loadData();
             },
             fundAccountStep(){
-                if (this.accountStatus < 1) {
+                if(this.accountStatus<1){
                     //显示即将进入盈米弹层
                     this.showYmi = true;
-                } else if (this.accountStatus < 2) {
+                }else if(this.accountStatus<2){
                     this.$router.push({
-                        path: '/set-pay-password',
-                        query: {
-                            isFund: 1
+                        path:'/set-pay-password',
+                        query:{
+                            isFund:1
                         }
                     })
-                } else {
+                }else{
                     this.$router.push('/funds/info')
                 }
             },
@@ -402,7 +395,7 @@
                 let y = date.getFullYear();
                 let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : '' + (date.getMonth() + 1);
                 let d = date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate();
-                if (isNaN(m) || isNaN(d)) {
+                if(isNaN(m)||isNaN(d)){
                     return ''
                 }
                 return m + '-' + d;
@@ -427,7 +420,7 @@
                 this.loadData();
             },
             bonusType(item){
-                if (!item.allowUpdateDividendMethod) {
+                if(!item.allowUpdateDividendMethod){
                     return;
                 }
                 this.$router.push({
