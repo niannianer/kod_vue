@@ -75,7 +75,7 @@
             this.loadData();
             if ($device.kingold) {
                 this.isApp = true;
-                /*requestHybrid({
+                requestHybrid({
                     tagname: 'title',
                     param: {
                         backtype: 0,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
@@ -83,7 +83,7 @@
                         title: title,
                         keyboard_mode: 0//0 adjustresize 1 adjustpan
                     }
-                })*/
+                })
             }
         },
         methods: {
