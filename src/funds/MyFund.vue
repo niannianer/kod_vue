@@ -440,6 +440,7 @@
             }
         },
         destroyed(){
+            Indicator.close();
         }
     }
 </script>
