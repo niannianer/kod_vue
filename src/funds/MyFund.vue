@@ -51,7 +51,7 @@
                             </div>
                             <div flex="box:mean" class="item-info" v-if="listNum == 0">
                                 <div>
-                                    <p class="f8 " :class="{'green':item.previousProfit>=0,'red':item.previousProfit<0}">
+                                    <p class="f8 " :class="{'red':item.previousProfit>=0,'green':item.previousProfit<0}">
                                         {{item.previousProfit | currencyFormat}}
                                     </p>
                                     <p class="info">
@@ -59,7 +59,7 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <p class="f8" :class="{'green':item.accumulatedProfit>=0,'red':item.accumulatedProfit<0}">
+                                    <p class="f8" :class="{'red':item.accumulatedProfit>=0,'green':item.accumulatedProfit<0}">
                                         {{item.accumulatedProfit | currencyFormat}}
                                     </p>
                                     <p class="info">
