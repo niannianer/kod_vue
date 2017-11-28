@@ -57,8 +57,8 @@
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
                 </div>
             </div>
-            <div class="privilege" v-if="availableUpgrade && investorType != 12">
-                <div class="warp"></div>
+            <div class="privilege" v-if="availableUpgrade && investorType != 12 && showPri">
+                <div class="warp" @click.stop="showPri=false"></div>
                 <div class="prv-modal">
                     <img src="../images/relation/open-privilege.png"/>
                     <button class="btn" @click.stop="openPrivilege">开启</button>
@@ -88,7 +88,8 @@
                 totalCount: 0,
                 codes: '',
                 imgSrc: '',
-                availableUpgrade: 0
+                availableUpgrade: 0,
+                showPri: true
             }
         },
         created(){

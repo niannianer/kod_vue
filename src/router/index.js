@@ -224,7 +224,6 @@ let routes = [
         path: '/reward-detail',
         name: 'reward-detail',
         meta: {
-            title: '奖励细则'
         },
         component: RewardDetail
     }, {
@@ -641,7 +640,7 @@ routes.map(route => {
         let {meta} = to;
         let {title} = meta;
         setTitle(title);
-        if ($device.kingold) {
+        if ($device.kingold && title) {
             requestHybrid({
                 tagname: 'title',
                 param: {
