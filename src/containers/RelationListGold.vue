@@ -94,14 +94,14 @@
                 })
             },
             tab(order,isInvest){
+                this.list = [];
                 this.order = order;
                 this.isInvest = isInvest;
                 this.stopLoad = true;
               /*  this.tabMenu = string;
                 this.titleRate = this.tabMenu == 'FIXI' ? '(年化)' : ''*/
-                this.list = [];
                 this.currentPage = 0;
-                this.loadData();
+                this.loadData('refresh');
             },
             loadTop(){
                 this.list = [];
@@ -110,7 +110,7 @@
                     this.$refs.loadmore.onTopLoaded();
                 });
             },
-            loadData(){
+            loadData(type){
                 return  $api.get('/relation/gold/list', {
                     isInvest: this.isInvest,
                     order: this.order,
@@ -119,6 +119,9 @@
                 })
                     .then(resp => {
                         if (resp.code == 200) {
+                            if(type == 'refresh'){
+                                this.list = [];
+                            }
                             this.list = this.list.concat(resp.data.list);
                             if (resp.data.list.length < this.pageSize) {
                                 this.stopLoad = true;/*没有更多。*/

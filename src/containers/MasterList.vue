@@ -29,8 +29,9 @@
             </div>
             <div class="bottom"></div>
         </div>
-        <div class="item-list"  flex-box="1" v-infinite-scroll="loadMore"
-             infinite-scroll-disabled="disLoad"
+        <div class="item-list"  flex-box="1"
+             v-infinite-scroll="loadMore"
+             infinite-scroll-disabled="stopLoad"
              infinite-scroll-distance="70"
              v-if="investorType == 12">
                 <div flex="dir:left" flex-box="0" class="item" :key="index"
@@ -62,7 +63,7 @@
                         <span class="icon" :class='item.rewardStatus == 2 ? "finish" : "cancel"'></span>
                     </div>
                 </div>
-            <p v-show="loading&&hasMore" class="loading">加载更多...</p>
+            <p v-show="loading&&!noMore" class="loading">加载更多...</p>
         </div>
         <div class="remind-msg" v-if="investorType != 12">
             <img src="../images/reward/cry.png" class="img"/>
@@ -90,8 +91,8 @@
                 rewardList:[],
                 pageNo:1,
                 isRefreshing:false,
-                loading:false,
-                hasMore:false,
+                loading: false,
+                noMore: true,
                 rewardType: 11,
                 initing: true
             }
@@ -100,20 +101,18 @@
            this.getList('refresh');
         },
         computed: {
-            disLoad(){
-                return this.loading || (!this.hasMore);
-            },
             ...mapState(['investorType'])
         },
         methods:{
             toTab(rewardType){
                 this.rewardType = rewardType;
                 this.rewardList = [];
+                this.pageNo = 1;
                 this.initing = true;
                 this.getList('refresh');
             },
             loadMore(){
-                if (this.loading) {
+                if (this.loading || this.noMore) {
                     return false;
                 }
                 this.pageNo++;
@@ -139,13 +138,13 @@
                                 this.rewardList.push(el);
                             });
                             if(this.rewardList.length >= msg.data.count){
-                                this.hasMore = false;
+                                this.noMore = true;
                             }else{
-                                this.hasMore = true;
+                                this.noMore = false;
                             }
                         }
                         else{
-                            this.hasMore = false;
+                            this.noMore = true;
                             Toast(msg.msg);
                         }
                     })
