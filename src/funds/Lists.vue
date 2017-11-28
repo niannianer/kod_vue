@@ -53,7 +53,7 @@
 <script>
     import $api from '../tools/api';
     import '../less/fund/lists.less';
-    import banner from '../images/fund/my-fund/fund-default.png';
+    import banner from '../images/index-bg.png';
     export default {
         name: 'base',
         data(){
