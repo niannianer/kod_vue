@@ -94,17 +94,13 @@
                 btnText: '获取验证码',
                 nextClick: true,
                 flag: true,
-                showCard: false,
-                isApp: false
+                showCard: false
             };
         },
         components: {
             CardInput
         },
         created(){
-            if ($device.kingold) {
-                this.isApp = true;
-            }
             let event = ['_trackEvent', '实名认证', 'SHOW', '进入实名认证页面', '进入实名认证页面'];
             window._hmt.push(event);
         },
