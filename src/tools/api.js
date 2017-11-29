@@ -9,8 +9,8 @@ import axios from 'axios';
 if (!window.Promise) {
     window.Promise = Promise;
 }
+// aes encrypt
 import {encryptFun, decryptFun} from './crypto';
-
 import 'whatwg-fetch';
 import config, {doEncrypt} from './config';
 let serverUrl = config.apiUrl;
@@ -41,10 +41,16 @@ let $query = (data) => {
     }
     return str.join('&');
 };
+import {getDeviceID, getAuthKey} from './operation';
 let get = (path, data = {}, source = {}) => {
+    data.deviceID = getDeviceID();
     data.callSystemID = '1003';
-    data.t = new Date().getTime();
-    let url = `${serverUrl + path}`;
+    let search = query(data);
+    let url = `${path}?${search}`;
+    let key = getAuthKey(url);
+    let value = encryptFun(key + 'slat');
+    data.auth = `${key}|${value}`;
+    url = `${serverUrl + path}?${query(data)}`;
     return axios({
         url,
         method: 'get',
@@ -52,7 +58,6 @@ let get = (path, data = {}, source = {}) => {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        params: data,
         withCredentials: true
     }).then(response => {
         if (response.status == 200) {

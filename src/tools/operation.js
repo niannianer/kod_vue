@@ -206,13 +206,27 @@ let makeRandom = (len) => {
 
     return text;
 }
+import {local} from './store';
 export let getUuid = () => {
-    if (window.localStorage.getItem('randomUuid')) {
-        return window.localStorage.getItem('randomUuid');
+    if (local.getItem('randomUuid')) {
+        return local.getItem('randomUuid');
     }
     let randomUuid = makeRandom(16);
-    window.localStorage.setItem('randomUuid', randomUuid);
+    local.setItem('randomUuid', randomUuid);
     return randomUuid;
 
 };
+export let getDeviceID = () => {
+    if (local.getItem('deviceID')) {
+        return local.getItem('deviceID');
+    }
+    let deviceID = makeRandom(32);
+    local.setItem('deviceID', deviceID);
+    return deviceID;
+};
+import md5 from 'md5';
+export let getAuthKey = (url) => {
+    let key = md5(url + 'slat');
+    return key;
+}
 
