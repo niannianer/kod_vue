@@ -21,7 +21,7 @@
                 </div>
                 <div flex class="item-bottom">
                     <p flex-box="0">
-                        {{item.createTime | timeFormat}}
+                        {{item.createTime | timeFormat('day')}}
                     </p>
                     <p flex-box="1" class="detail" @click.stop="msgDetail(item.id)">
                         查看详情
