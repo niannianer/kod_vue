@@ -271,7 +271,8 @@
                 showMessage: false,
                 msgOption: {},
                 showYmi: false,
-                enterPath: ''
+                enterPath: '',
+                isRiskConfirmAgain: false
             }
         },
         created(){
@@ -419,6 +420,7 @@
                         this.showMessage = true;
                         return false;
                     }
+                    //坚持购买
                     this.msgOption = {
                         title: '风险提示',
                         msg: '<div class="left">该产品为高风险产品，投资此产品超过了您的风险承受范围。' +
@@ -431,7 +433,9 @@
                         showCancelButton: true
                     };
                     this.showMessage = true;
+                    this.isRiskConfirmAgain = true;
                 } else {
+                    this.isRiskConfirmAgain = false;
                     this.toBuy();
                 }
             },
@@ -445,7 +449,7 @@
                     mins: minSub,
                     maxs: maxSub
                 };
-                if (again == 'isRiskConfirmAgain') {
+                if (again) {
                     query.again = 1;
                 }
                 this.$router.push({
@@ -461,13 +465,13 @@
                 }
                 this.pathTo('/risk-assessment/wechat', {retest: 1});
             },
-            //坚持购买
+            //坚持购买、购买
             toBuy(){
                 this.showMessage = false;
                 this.showYmi = true;
                 this.enterPath = 'purchase';
             },
-            //申购
+            //赎回
             toRedeem(){
                 this.showYmi = true;
                 this.enterPath = 'redeem';
@@ -480,7 +484,7 @@
                 }
                 switch (this.enterPath){
                     case 'purchase':
-                        this.toPurchase('isRiskConfirmAgain');
+                        this.toPurchase(this.isRiskConfirmAgain);
                         break;
                     case 'redeem':
                         this.pathTo('/funds/redeem',{name:this.fund.fundAbbrName,code:this.fund.fundCode});
