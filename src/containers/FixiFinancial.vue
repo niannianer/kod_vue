@@ -96,7 +96,10 @@
                                 </div>
                                 <div class="progress-num">{{item.productProgress}}%</div>
                             </div>
-                            <div class="buttom">{{item.productMinInvestment}}</div>
+                            <div class="buttom" flex="main:justify">
+                                <span>{{item.productMinInvestment}}</span>
+                                <span v-if="item.talentAwardMaxRate">达人奖励系数{{item.talentAwardMaxRate}}%</span>
+                            </div>
                         </div>
 
                     </div>

@@ -1,6 +1,10 @@
 <template>
     <div class="fixi-goods-detail">
         <div class="warp">
+            <div class="master-hint" flex="cross:center main:justify">
+                <span>达人奖励系数1.15%</span>
+                <span class="how" @click.stop="getMasterPage">如何获得达人奖励</span>
+            </div>
             <div class="top">
                 <div class="main-title ellipsis">{{production.productAbbrName}}</div>
                 <div class="sub-title">预计年化收益率</div>
@@ -356,7 +360,7 @@
                 window._hmt.push(event);
             },
             goStep(){
-                window.sessionStorage.setItem('detail',1)
+                window.sessionStorage.setItem('detail', 1)
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {
                     case 0:
@@ -432,6 +436,9 @@
             },
             hot(){
                 Toast('产品在预热中，请稍后再进行购买');
+            },
+            getMasterPage(){
+                window.location.href = '/land-financial-master.html';
             }
 
 

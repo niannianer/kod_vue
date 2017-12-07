@@ -78,6 +78,39 @@
                     </div>
                 </div>
                 <div class="section seperate" flex="dir:top">
+                    <div class="item bl" flex-box="1" flex="cross:center"
+                         @click.stop="getPath('/land-share.html',true)">
+                        <div flex-box="0">
+                            <img class="logo" src="../images/personal-center/share.png" alt="share">
+                        </div>
+                        <span flex-box="1">一起赚</span>
+
+                        <div flex-box="0">
+                            <img class="arrow" src="../images/arrow-right.png" alt="arrow">
+                        </div>
+                    </div>
+                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-financial-master.html',true)">
+                        <div flex-box="0">
+                            <img class="logo" src="../images/personal-center/master-icon.png" alt="master">
+                        </div>
+                        <span flex-box="0">达人特权</span>
+                        <div flex-box="1">
+                            <div class="slide-warp">
+                                <transition name="slide-fade">
+                                    <div class="silde-up" v-for="(text ,index) in masterList" v-if="index==currentIndex"
+                                         :key="index">
+                                        {{text}}
+                                    </div>
+                                </transition>
+                            </div>
+
+                        </div>
+                        <div flex-box="0">
+                            <img class="arrow" src="../images/arrow-right.png" alt="arrow">
+                        </div>
+                    </div>
+                </div>
+                <div class="section seperate" flex="dir:top">
                     <div class="item bl" flex-box="1" flex="cross:center" @click.stop="getPath('/invest-list')">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/financial-fixi.png" alt="financial">
@@ -108,17 +141,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="section seperate" flex="dir:top">
-                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-share.html',true)">
-                        <div flex-box="0">
-                            <img class="logo" src="../images/personal-center/share.png" alt="share">
-                        </div>
-                        <p flex-box="1">一起赚</p>
-                        <div flex-box="0">
-                            <img class="arrow" src="../images/arrow-right.png" alt="arrow">
-                        </div>
-                    </div>
-                </div>
+
 
                 <div class="section seperate" flex="dir:top">
                     <div class="item" flex-box="1" flex="cross:center"
@@ -173,6 +196,7 @@
     import $device from '../tools/device';
     import '../less/personal-center.less';
     import {submitAuthorization} from '../tools/operation';
+    let timer = null;
     export default {
         name: 'personal-center',
         data(){
@@ -184,7 +208,9 @@
                 appUrl,
                 couponUnreadMessage: 0,
                 interestCouponUnreadMessage: 0,
-                articleUnreadMessage: 0
+                articleUnreadMessage: 0,
+                relationInvest: 0,//投资好友人数,
+                currentIndex: 0 //达人当前展示文案
             }
         },
         created(){
@@ -192,9 +218,17 @@
             if ($device.isWeixin) {
                 this.getShare();
             }
+            timer = setInterval(() => {
+                let len = this.masterList.length;
+                this.currentIndex = (this.currentIndex + 1) % len;
+            }, 4000);
+            // 获取未读
             this.getUnread();
+            // 获取投资好友人数
+            this.getMaster();
             let event = ['_trackEvent', '个人中心', 'SHOW', '进入个人中心页面且已登录', '进入已登录个人中心'];
             window._hmt.push(event);
+            // 是否是充值回来
             let rechargeOrderBillCode = window.sessionStorage.getItem('rechargeOrderBillCode');
             if (rechargeOrderBillCode) {
                 this.orderBillCode = rechargeOrderBillCode;
@@ -218,9 +252,25 @@
                 'rewardSum',
                 'relationCount',
                 'interestCouponCount',
-            ])
+            ]),
+            masterList(){
+                // 投资好友大于10人
+                if (this.relationInvest >= 10) {
+                    return ['理财达人，长期奖励', '额外奖励   收益加速']
+                }
+                return ['理财达人，长期奖励', `还需${10 - this.relationInvest}个投资好友`, '额外奖励   收益加速']
+            }
         },
         methods: {
+            getMaster(){
+                return $api.get('/user/achievement')
+                    .then(res => {
+                        if (res.code == 200) {
+                            //
+                            this.relationInvest = res.data.relationInvestCount;
+                        }
+                    })
+            },
             getUnread(){
                 $api.get('/user/unread')
                     .then(resp => {
@@ -234,23 +284,20 @@
             getBaofoo(){
                 this.$store.dispatch('getAccountBaofoo');
             },
+            // 开户流程
             goStep(){
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {
                     case 0:
-                        //  window.location.href = '/realnameBased.html';
                         this.$router.push('/authentication');
                         break;
                     case 1:
-                        // window.location.href = '/baoFoo.html?uid=' + this.$store.state.userId;
                         submitAuthorization(this.$store.state.userId);
                         break;
                     case 2:
-                        // window.location.href = '/bindBankCard.html';
                         this.$router.push('/bind-bank-card');
                         break;
                     case 3:
-                        //  window.location.href = '/setPayPassword.html';
                         this.$router.push('/set-pay-password');
                         break;
                     default:
@@ -389,7 +436,7 @@
             Modal
         },
         destroyed(){
-
+            clearInterval(timer)
         }
     }
 </script>

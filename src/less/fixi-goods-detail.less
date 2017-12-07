@@ -5,13 +5,26 @@
     position: relative;
     width: 100%;
     height: 100%;
-    .warp{
+    .warp {
         position: absolute;
         top: 0;
         bottom: 2.5rem;
         padding-bottom: .4rem;
         width: 100%;
         overflow-y: auto;
+    }
+    .master-hint {
+        padding: 0 .8rem;
+        height: 2rem;
+        background: #FFF7E6;
+        font-size: .6rem;
+        color: #EF7446;
+        .how {
+            background: #EF7446;
+            color: #fff;
+            padding: .3rem;
+        }
+
     }
     .top {
         background: #4E4E4E;
@@ -60,7 +73,7 @@
             .progress {
                 position: relative;
                 background-color: #fff;
-                height:.5rem;
+                height: .5rem;
                 .active {
                     position: absolute;
                     left: 0;
@@ -72,16 +85,16 @@
         }
 
     }
-    .ticket-wrap{
+    .ticket-wrap {
         background-color: @bg-content;
         margin-top: .5rem;
-        padding:0 .8rem;
-        .ticket-item{
-            color:#4387c5;
-            background-color:#e7f3ff;
+        padding: 0 .8rem;
+        .ticket-item {
+            color: #4387c5;
+            background-color: #e7f3ff;
             font-size: .6rem;
-            border:1px solid #84c4ff;
-            margin:.4rem 1rem .4rem 0;
+            border: 1px solid #84c4ff;
+            margin: .4rem 1rem .4rem 0;
             padding: 0 .35rem;
         }
     }
@@ -204,36 +217,36 @@
                 opacity: 1;
                 padding-top: .5rem;
             }
-            .product-attachment{
+            .product-attachment {
                 line-height: 1.2rem;
                 color: @color-active;
             }
         }
     }
-    .bottom{
+    .bottom {
         position: absolute;
         bottom: 0;
         height: 2.5rem;
         width: 100%;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-        .min-invest{
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
+        .min-invest {
             text-align: center;
             background-color: #fff;
             color: @color-text-secondary;
             line-height: 2.5rem;
             border-radius: 0;
         }
-        .do-invest{
+        .do-invest {
             text-align: center;
             background-color: #FA3D1F;
             color: #fff;
             line-height: 2.5rem;
             border-radius: 0;
         }
-        .can-not-buy{
+        .can-not-buy {
             text-align: center;
             line-height: 2.5rem;
-            color:#fff;
+            color: #fff;
             background-color: #d8d8d8;
         }
     }
