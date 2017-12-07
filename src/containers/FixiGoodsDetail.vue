@@ -1,8 +1,8 @@
 <template>
     <div class="fixi-goods-detail">
         <div class="warp">
-            <div class="master-hint" flex="cross:center main:justify">
-                <span>达人奖励系数1.15%</span>
+            <div class="master-hint" flex="cross:center main:justify" v-if="production.talentAwardMaxRate">
+                <span>达人奖励系数{{production.talentAwardMaxRate}}</span>
                 <span class="how" @click.stop="getMasterPage">如何获得达人奖励</span>
             </div>
             <div class="top">

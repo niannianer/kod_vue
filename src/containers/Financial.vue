@@ -155,7 +155,7 @@
                                 </div>
                                 <div class="buttom" flex="main:justify">
                                     <span>{{item.productMinInvestment}}</span>
-                                    <span v-if="item.talentAwardMaxRate">达人奖励系数{{item.talentAwardMaxRate}}%</span>
+                                    <span v-if="item.talentAwardMaxRate">达人奖励系数{{item.talentAwardMaxRate}}</span>
                                 </div>
                             </div>
 
