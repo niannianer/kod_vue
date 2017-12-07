@@ -21,7 +21,7 @@ if (process.env.kingold == 'test' || 1) {
     apiNode = `${protocol}//market-test.zj-hf.cn`;
 }
 /*test2 env*/
-if (process.env.kingold == 'test2') {
+if (process.env.kingold == 'test2'||1) {
     apiUrl = `${protocol}//weixin-test2.zj-hf.cn`;
     baofooUrl = 'https://paytest.baofoo.com/baofoo-custody/custody/';
     baofooCallUrl = `${protocol}//notify-test2.zj-hf.cn`;
