@@ -248,7 +248,7 @@
                 this.userIdCardNumber = text;
             },
             callService(){
-                if (this.isApp) {
+                if ($device.kingold) {
                     requestHybrid({
                         tagname: 'tel',
                         param: {
