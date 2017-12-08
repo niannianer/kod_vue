@@ -119,8 +119,7 @@
                 </div>
                 <div flex="cross:center" class="item bl" v-if="fund.fundCustodian">
                     <p flex-box="1">基金公司</p>
-                    <p flex-box="0" v-if="fund.administrator&&JSON.parse(fund.administrator).name">{{JSON.parse(fund.administrator).name}}</p>
-                    <p flex-box="0" v-else></p>
+                    <p flex-box="0" >{{fund.administrator}}</p>
                 </div>
                 <div flex="cross:center" class="item bl" @click.stop="pathTo('/related-rate')">
                     <p flex-box="1">相关费率</p>
