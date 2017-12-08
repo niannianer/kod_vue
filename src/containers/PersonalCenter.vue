@@ -83,8 +83,16 @@
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/share.png" alt="share">
                         </div>
-                        <span flex-box="1">一起赚</span>
+                        <span flex-box="0">一起赚</span>
+                        <div flex-box="1">
+                            <div class="slide-warp">
+                                    <div class="silde-up">
+                                        分享即得加息券
+                                    </div>
 
+                            </div>
+
+                        </div>
                         <div flex-box="0">
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
