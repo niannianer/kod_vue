@@ -53,11 +53,11 @@
                     </div>
                     <div flex="box:mean" class="ticket-detail">
                         <div flex-box="1" class="rl" @click.stop="getPath('/ticket-list?code=1')">
-                            <p class="title" :class="{redTip:couponUnreadMessage}">现金劵</p>
+                            <p class="title" :class="{redTip:couponUnreadMessage}">现金券</p>
                             <p class="info-text">{{cashCouponCount}}个</p>
                         </div>
                         <div flex-box="1" class="rl" @click.stop="getPath('/ticket-list?code=2')">
-                            <p class="title" :class="{redTip:interestCouponUnreadMessage}">加息劵</p>
+                            <p class="title" :class="{redTip:interestCouponUnreadMessage}">加息券</p>
                             <p class="info-text">{{interestCouponCount}}个</p>
                         </div>
                         <div flex-box="1" @click.stop="getPath('/experience-funds')">
