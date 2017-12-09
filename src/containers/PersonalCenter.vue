@@ -19,18 +19,18 @@
                 </div>
                 <div class="fund-center" flex @click.stop="getPath('/my-assets')">
                     <div flex-box="1">
-                        <p class="info" v-if="mode">{{accountTotalAssets | currencyFormat}}元</p>
-                        <p class="info" v-else="mode">****元</p>
+                        <p class="info-text" v-if="mode">{{accountTotalAssets | currencyFormat}}元</p>
+                        <p class="info-text" v-else="mode">****元</p>
                         <p class="title">总资产</p>
                     </div>
                     <div flex-box="1">
-                        <p class="info" v-if="mode">{{accountCashAmount | currencyFormat}}元</p>
-                        <p class="info" v-else="mode">****元</p>
+                        <p class="info-text" v-if="mode">{{accountCashAmount | currencyFormat}}元</p>
+                        <p class="info-text" v-else="mode">****元</p>
                         <p class="title">可用余额</p>
                     </div>
                     <div flex-box="1">
-                        <p class="info" v-if="mode">{{accountTotalInterests | currencyFormat}}元</p>
-                        <p class="info" v-else="mode">****元</p>
+                        <p class="info-text" v-if="mode">{{accountTotalInterests | currencyFormat}}元</p>
+                        <p class="info-text" v-else="mode">****元</p>
                         <p class="title">累计收益</p>
                     </div>
                 </div>
@@ -54,15 +54,15 @@
                     <div flex="box:mean" class="ticket-detail">
                         <div flex-box="1" class="rl" @click.stop="getPath('/ticket-list?code=1')">
                             <p class="title" :class="{redTip:couponUnreadMessage}">现金劵</p>
-                            <p class="info">{{cashCouponCount}}个</p>
+                            <p class="info-text">{{cashCouponCount}}个</p>
                         </div>
                         <div flex-box="1" class="rl" @click.stop="getPath('/ticket-list?code=2')">
                             <p class="title" :class="{redTip:interestCouponUnreadMessage}">加息劵</p>
-                            <p class="info">{{interestCouponCount}}个</p>
+                            <p class="info-text">{{interestCouponCount}}个</p>
                         </div>
                         <div flex-box="1" @click.stop="getPath('/experience-funds')">
                             <p class="title">体验金</p>
-                            <p class="info">{{experienceAmount}}元</p>
+                            <p class="info-text">{{experienceAmount}}元</p>
                         </div>
                     </div>
                 </div>
@@ -123,8 +123,8 @@
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/financial-fixi.png" alt="financial">
                         </div>
-                        <p flex-box="1">定期理财</p>
-                        <p flex-box="0">{{investmentAmount | currencyFormat}}</p>
+                        <span flex-box="1">定期理财</span>
+                        <span flex-box="0">{{investmentAmount | currencyFormat}}</span>
                         <div flex-box="0">
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
@@ -133,8 +133,8 @@
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/financial-prif.png" alt="financial">
                         </div>
-                        <p flex-box="1">高端理财</p>
-                        <p flex-box="0">{{reservationCount}}个</p>
+                        <span flex-box="1">高端理财</span>
+                        <span flex-box="0">{{reservationCount}}个</span>
                         <div flex-box="0">
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
@@ -143,7 +143,7 @@
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/fund.png" alt="my-fund">
                         </div>
-                        <p flex-box="1">我的基金</p>
+                        <span flex-box="1">我的基金</span>
                         <div flex-box="0">
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
@@ -157,7 +157,7 @@
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/about-us.png" alt="financial">
                         </div>
-                        <p flex-box="1">关于我们</p>
+                        <span flex-box="1">关于我们</span>
                         <div flex-box="0">
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
