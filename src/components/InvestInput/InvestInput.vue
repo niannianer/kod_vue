@@ -133,6 +133,7 @@
                 if(this.passwords.length==0){
                     this.hintText = '';
                     this.disabled = true;
+                    this.setHintText();
                     return false;
                 }
                 this.setHintText();
@@ -157,7 +158,6 @@
                         } else {
                             let shouyi = this.amount * parseFloat(this.rate)  * parseInt(this.period) / 365;
                             shouyi = currencyFormat(shouyi);
-
                             this.hintText = `预期收益${shouyi}元`;
                             this.disabled = false;
                         }
