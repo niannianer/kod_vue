@@ -49,11 +49,7 @@ let get = (path, data = {}, source = {}) => {
     let url = `${path}?${search}`;
     let key = getAuthKey(url); // md5(url+'slat')
     let value = encryptFun(key + 'slat');
-    data.auth = `${value}`;
-    console.log(url)
-    console.log(key)
-    console.log(value)
-    url = `${serverUrl + path}?${query(data)}`;
+    url = `${serverUrl + url}&auth=${value}`;
 
     return axios({
         url,
