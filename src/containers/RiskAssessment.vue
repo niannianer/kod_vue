@@ -99,6 +99,7 @@
                 this.currentIndex = index;
                 if (quLen == this.scores.length) {
                     this.scores.pop();
+                    this.options.pop();
                     this.scores.push(item.score);
                     this.options.push(index+1);
                     return false;

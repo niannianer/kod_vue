@@ -113,8 +113,7 @@
                 imgUrls,
                 loading: false,
                 isDiff: false,
-                timeLeft: 0,
-                isApp: false
+                timeLeft: 0
             };
         },
         computed: {
@@ -138,9 +137,6 @@
             }
         },
         created(){
-            if ($device.kingold) {
-                this.isApp = true;
-            }
             refreshApp();
             let event = ['_trackEvent', '绑定银行卡', 'SHOW', '进入绑定银行卡页面', '进入绑定银行卡页面'];
             window._hmt.push(event);
@@ -308,7 +304,7 @@
                 })
             },
             callService(){
-                if (this.isApp) {
+                if ($device.kingold) {
                     requestHybrid({
                         tagname: 'tel',
                         param: {
