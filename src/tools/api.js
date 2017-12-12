@@ -4,6 +4,7 @@
 import Promise from 'promise-polyfill';
 import axios from 'axios';
 import Vue from 'vue';
+import {Indicator} from 'mint-ui'
 
 
 // To add to window
@@ -12,7 +13,14 @@ if (!window.Promise) {
 }
 // aes encrypt
 import {encryptFun, decryptFun} from './crypto';
+ // opreation
+import {getDeviceID, getAuthKey} from './operation';
+import  {logout, addHive} from './operation';
+
+
 import 'whatwg-fetch';
+import {local, session} from './store';
+import $device from './device';
 import config, {doEncrypt} from './config';
 let serverUrl = config.apiUrl;
 let nodeUrl = config.apiNode;
@@ -42,7 +50,6 @@ let $query = (data) => {
     }
     return str.join('&');
 };
-import {getDeviceID, getAuthKey} from './operation';
 let get = (path, data = {}, source = {}) => {
     data.deviceID = getDeviceID();
     data.callSystemID = '1003';
@@ -103,8 +110,6 @@ let getNode = (path, data = {}) => {
         console.error('error,--->', err);
     })
 };
-import  {logout, addHive} from './operation';
-import {Indicator} from 'mint-ui';
 let post = (path, data = {}, indicator = '') => {
     data.callSystemID = '1003';
     let url = `${serverUrl + path}`;
@@ -171,8 +176,7 @@ let postNode = (path, data = {}) => {
         console.error('error,--->', err);
     });
 };
-import {local, session} from './store';
-import $device from './device';
+
 export let postHive = () => {
     let url = 'http://39.106.42.180:50000';
     if (session.getItem('hiveSend')) {
