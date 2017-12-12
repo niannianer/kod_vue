@@ -3,6 +3,7 @@
  */
 import Promise from 'promise-polyfill';
 import axios from 'axios';
+import Vue from 'vue';
 
 
 // To add to window
@@ -102,7 +103,7 @@ let getNode = (path, data = {}) => {
         console.error('error,--->', err);
     })
 };
-import  {logout} from './operation';
+import  {logout, addHive} from './operation';
 import {Indicator} from 'mint-ui';
 let post = (path, data = {}, indicator = '') => {
     data.callSystemID = '1003';
@@ -170,6 +171,43 @@ let postNode = (path, data = {}) => {
         console.error('error,--->', err);
     });
 };
+import {local, session} from './store';
+import $device from './device';
+export let postHive = () => {
+    let url = 'http://39.106.42.180:50000';
+    if (session.getItem('hiveSend')) {
+        return false;
+    }
+    let hives = local.getItem('post_hives');
+    if (!hives) {
+        return false;
+    }
+    let body = hives.join('|');
+    let data = [{
+        headers: {
+            v_app: '0.0.0',  //app版本
+            channel: local.getItem('registerChannelCode') || 'H5_weixin', //渠道
+            imei: 'imei', //imei
+            d_uuid: getDeviceID(), //app/h5生成的设备编号
+            os: window.navigator.platform, //操作系统
+            device: $device.os + '-' + $device.osVersion, //设备类型
+            reso: window.innerWidth + '*' + window.innerHeight //分辨率
+        },
+        body: body
+    }];
+    session.setItem('hiveSend', true);
+    local.removeItem('hives');
+    return axios({
+        url,
+        method: 'post',
+        headers: {
+            'Content-Type': 'text/plain'
+        },
+        data: JSON.stringify(data)
+    })
+};
+// 收集用户行为，存放在storage里
+Vue.prototype.addHive = addHive;
 const $api = {
     get,
     post,

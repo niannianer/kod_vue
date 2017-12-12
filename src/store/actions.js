@@ -89,7 +89,9 @@ actions.getPersonalCenterMsg = ({commit}) => {
         .then(data => {
             if (data.code == 200) {
                 commit('setPersonalCenterMsg', data.data);
-                commit('setUserInfo', data.data.user)
+                commit('setUserInfo', data.data.user);
+                // 存放uuid 用户行为统计
+                window.localStorage.setItem('userUuid', data.data.user.userUuid);
             }
             return data;
         });
@@ -126,7 +128,7 @@ actions.getPaymentInfo = ({commit}) => {
 //  获取风险评估结果
 let getRiskInfo = () => {
     let terminalInfo = $device.os + '-' + $device.osVersion;
-    return $api.get('/fund/account/risk',{terminalInfo});
+    return $api.get('/fund/account/risk', {terminalInfo});
 };
 actions.getRiskInfo = ({commit}) => {
     return getRiskInfo()

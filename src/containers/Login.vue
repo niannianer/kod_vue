@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </label>
-                <label for="password" v-if="!isCodeType" >
+                <label for="password" v-if="!isCodeType">
                     <div class="input-warp" flex="cross:center">
                         <img flex-box="0" class="phone" src="../images/login/key_icon@2x.png"/>
                         <input v-if="showPassword" type="text" class="input" flex-box="1" id="password"
@@ -44,7 +44,7 @@
                     <button flex-box="0" @click.stop="getVerify"
                             v-if="verifyTimeLeft<=0" class="btn-code">{{verifyText}}
                     </button>
-                    <button flex-box="0"  class="btn-code disable" v-else>{{verifyTimeLeft}}</button>
+                    <button flex-box="0" class="btn-code disable" v-else>{{verifyTimeLeft}}</button>
                 </label>
                 <label for="image-code" class="label-warp" flex v-if="imageCode">
                     <div class="code-warp" flex-box="1" flex="cross:center">
@@ -96,12 +96,12 @@
         computed: {},
         methods: {
             change(){
-                if(this.username.length<6){
+                if (this.username.length < 6) {
                     console.log(this.username.length)
                     this.username = this.username.replace(/(^(\d{3})(\d+))/, ($1, $2, $3, $4) => {
                         return $3 + ' ' + $4;
                     });
-                }else{
+                } else {
                     console.log('sss')
                     this.username = this.username.replace(/(^(\d{3})\s(\d{4})(\d+))/, ($1, $2, $3, $4, $5) => {
                         return $3 + ' ' + $4 + ' ' + $5;
@@ -115,7 +115,7 @@
                  console.log(this.username)*/
             },
             checkType(str){
-                this.isCodeType = str=='code';
+                this.isCodeType = str == 'code';
                 this.imageCode = '';
                 this.inputCode = '';
             },
@@ -133,7 +133,7 @@
                 this.verifyTimeLeft = 59;
                 this.timeCount();
                 this.verifyText = '重新发送';
-                let investorMobile = this.username.replace(/\D/g,'');
+                let investorMobile = this.username.replace(/\D/g, '');
                 $api.post('/sendVerifyCode', {
                     investorMobile,
                     imageCode,
@@ -187,7 +187,7 @@
                     return false;
                 }
                 let reg = /^1[3|4|5|7|8]\d{9}$/;
-                if (!reg.test(this.username.replace(/\D/g,''))) {
+                if (!reg.test(this.username.replace(/\D/g, ''))) {
                     Toast('请输入正确的手机号码');
                     return false;
                 }
@@ -216,12 +216,13 @@
                 return true;
             },
             login(){
+                this.addHive(0, 'login_btn_login');
                 if (this.checkPhone() && this.checkPassword()) {
                     if (this.imageCode && !this.inputCode) {
                         Toast('请输入图形验证码');
                         return false;
                     }
-                    let investorMobile = this.username.replace(/\D/g,'');
+                    let investorMobile = this.username.replace(/\D/g, '');
                     let userLoginPassword = this.password;
                     let imageCode = this.inputCode;
                     $api.post('/login', {
@@ -261,7 +262,7 @@
                     Toast('请输入短信验证码');
                     return false;
                 }
-                let investorMobile = this.username.replace(/\D/g,'');
+                let investorMobile = this.username.replace(/\D/g, '');
                 $api.post('/smsLogin', {
                     investorMobile,
                     smsCode: this.verifyCode
@@ -290,6 +291,7 @@
                 if (path == '/register') {
                     let event = ['_trackEvent', '注册', 'SHOW', '从登录页进入注册页', '从登录页进入注册页'];
                     window._hmt.push(event);
+                    this.addHive(2, 'login_to_register');
                 }
                 this.$router.replace(path)
             },
@@ -305,9 +307,9 @@
                     this.$store.dispatch('getAccountBaofoo');
                     this.$store.dispatch('getBankInfo');
                     this.$store.dispatch('getPersonalCenterMsg').then((resp) => {
-                        if(resp.code == 200){
+                        if (resp.code == 200) {
                             //做过风险评估，调用查询风险评估数据
-                            if(resp.data.user.investorRiskScore != 0){
+                            if (resp.data.user.investorRiskScore != 0) {
                                 this.$store.dispatch('getRiskInfo');
                             }
                         }

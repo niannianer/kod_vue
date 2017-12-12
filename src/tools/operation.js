@@ -228,5 +228,14 @@ import md5 from 'md5';
 export let getAuthKey = (url) => {
     let key = md5(url + 'slat');
     return key;
-}
+};
+export let addHive = (action = 1, label = 'login_btn_login') => {
+    let time = new Date().getTime();
+    let userUuid = local.getItem('userUuid') || '0';
+    let wifi = '0';
+    let hive = `${time},${userUuid},${wifi},${action},${label}`;
+    let hives = local.getItem('post_hives') || [];
+    hives.push(hive);
+    local.setItem('post_hives', hives);
+};
 
