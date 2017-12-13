@@ -75,11 +75,13 @@
                     <div class="deal" flex="box:first cross:top">
                         <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
                         <div v-if="!isLack">
-                            我已仔细阅读《产品说明书》和《风险提示函》，并同意《认购协议》和
-                            <span @click.stop="agreement(0)" class="agreement">《金疙瘩平台免责声明》</span>
+                            我已阅读并同意
+                            <span @click.stop="agreement(0)"  class="agreement">《产品认购相关协议》</span>
+                            和
+                            <span @click.stop="agreement(1)" class="agreement">《入会申请及承诺》</span>
                         </div>
                         <div v-if="isLack">
-                            我已同意<span class="agreement" @click.stop="agreement(1)">《宝付科技电子支付账户协议》</span>
+                            我已同意<span class="agreement" @click.stop="agreement(2)">《宝付科技电子支付账户协议》</span>
                         </div>
                     </div>
                 </div>
