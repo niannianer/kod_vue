@@ -140,6 +140,7 @@
             refreshApp();
             let event = ['_trackEvent', '绑定银行卡', 'SHOW', '进入绑定银行卡页面', '进入绑定银行卡页面'];
             window._hmt.push(event);
+            this.addHive(1, 'bind-bank-card');
             if (window.sessionStorage.getItem('bind-card-info')) {
                 let bank = JSON.parse(window.sessionStorage.getItem('bind-card-info'));
                 _.forEach(bank, (val, key) => {
@@ -167,6 +168,7 @@
                 });
             },
             change(){
+
                 this.bankCard = this.bankCard.replace(/\D/g, '').replace(/....(?!$)/g, '$& ');
                 this.bankHint = false;
                 this.html = '储蓄卡卡号';
@@ -193,6 +195,7 @@
                 recursion();
             },
             transmit(){
+                this.addHive(0, 'bindBankCard_btn_sms');
                 if (this.btnActive) {
                     $api.get('/sendBaofooAuthSMS', {type: 1}).then(msg => {
                         if (msg.code == 200) {
@@ -217,6 +220,7 @@
                 }
             },
             submit(){
+                this.addHive(0, 'bindBankCard_btn_submit');
                 if (!this.agreement) {
                     Toast({
                         message: '请勾选相关协议',
@@ -293,10 +297,12 @@
                 this.$router.push('/bank-list');
             },
             linkTo(){
+                this.addHive(0, 'bindBankCard_link_cardInfo');
                 window.sessionStorage.setItem('bind-card-info', JSON.stringify(this.$data));
                 window.location.href = '/baofoo-certification.html';
             },
             showCardTel(){
+                this.addHive(5, 'bindBankCard_modal_mobile');
                 MessageBox({
                     title: '银行预留手机号说明',
                     message: '银行预留手机号是您办理银行卡时所填的手机号码。如忘记手机号请联系银行客服进行处理。',
@@ -304,6 +310,7 @@
                 })
             },
             callService(){
+                this.addHive(0, 'bindBankCard_btn_call');
                 if ($device.kingold) {
                     requestHybrid({
                         tagname: 'tel',
@@ -321,6 +328,7 @@
         },
         destroyed(){
             MessageBox.close();
+            this.addHive(2, 'bindBankCard');
         }
     }
 </script>

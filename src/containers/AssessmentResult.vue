@@ -41,6 +41,7 @@
             }
         },
         created(){
+            this.addHive(1, 'assessment-result');
             if ($device.isWeixin) {
                 this.getShare();
             }
@@ -84,6 +85,7 @@
                 });
             },
             reSubmit(){
+                this.addHive(0, 'assessmentResult_btn_test');
                 if (this.isApp) {
                     this.$router.replace({
                         path: '/risk-assessment/app',
@@ -102,6 +104,7 @@
 
             },
             done(){
+                this.addHive(0, 'assessmentResult_btn_complete');
                 if (this.isApp) {
                     requestHybrid({
                         tagname: 'back',
@@ -141,6 +144,7 @@
             }
         },
         destroyed(){
+            this.addHive(2, 'assessment-result');
         }
     }
 </script>

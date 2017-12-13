@@ -3,13 +3,13 @@
         <div flex="dir:top" flex-box="1">
             <div class="tabs" flex flex-box="0">
                 <div flex-box="1" class="tab" @click.stop="changeTab(2)" :class="{'active':tab==2}">
-                    <div class="tab-item" >定期理财</div>
+                    <div class="tab-item">定期理财</div>
                 </div>
                 <div flex-box="1" class="tab" @click.stop="changeTab(1)" :class="{'active':tab==1}">
-                    <div class="tab-item" >高端理财</div>
+                    <div class="tab-item">高端理财</div>
                 </div>
                 <div flex-box="1" class="tab" @click.stop="changeTab(0)" :class="{'active':tab==0}">
-                    <div class="tab-item" >基金</div>
+                    <div class="tab-item">基金</div>
                 </div>
             </div>
             <div class="item-list" flex-box="1" v-if="tab==1">
@@ -223,6 +223,7 @@
             };
         },
         created(){
+            this.addHive(1, 'financial');
             this.tab = this.$route.query.tab || 2;
 
             let goodsDetail = window.sessionStorage.getItem('goodsDetail');
@@ -258,7 +259,7 @@
                 this.settings.title = '优质稀缺大类资产，就在金疙瘩。';
                 this.getListWithLogin();
 
-            } else if(this.$route.query.tab !== '0'){
+            } else if (this.$route.query.tab !== '0') {
                 let event = ['_trackEvent', '产品列表', 'SHOW', '进入定期理财列表页', '进入定期理财列表页'];
                 window._hmt.push(event);
                 this.settings.title = '金疙瘩系列定期产品——闲散资金定制理财';
@@ -288,8 +289,10 @@
                 this.$refs.loadmore.onBottomLoaded();
             },
             changeTab(tab){
+                let type = tab == 1 ? 'prif' : (tab == 2 ? 'fixi' : 'fund');
+                this.addHive(0, 'financial_tab_' + type);
                 this.tab = tab;
-                this.$router.replace('/financial?tab='+this.tab);
+                this.$router.replace('/financial?tab=' + this.tab);
                 this.startRow = 0;
                 this.$nextTick(() => {
                     let dom = document.querySelector('.item-list');
@@ -321,6 +324,7 @@
                 }
             },
             loadMore(){
+                this.addHive(0, 'financial_scroll_loading');
                 this.loading = true;
                 this.startRow = this.lists.length;
                 this.getGoodsList();
@@ -366,12 +370,15 @@
 
             },
             getDetail(item, url){
+
                 let dom = document.querySelector('.item-list');
                 this.scrollTop = dom.scrollTop;
                 if (url.indexOf('fixi') > -1) {
+                    this.addHive(0, 'financial_list_fixi');
                     let event = ['_trackEvent', '产品列表', 'CLICK', '在定期理财列表页点击查看详情', '定期理财列表页-点击详情'];
                     window._hmt.push(event);
                 } else {
+                    this.addHive(0, 'financial_list_prif');
                     let event = ['_trackEvent', '产品列表', 'CLICK', '在高端理财列表页点击查看详情', '高端理财列表页-点击详情'];
                     window._hmt.push(event);
                 }
@@ -387,6 +394,7 @@
                 wx.getShare(this.settings);
             },
             pathTo(path, boolean){
+                this.addHive(0, 'financial_link' + path.replace('/', ''));
                 if (boolean) {
                     window.location.href = path;
                     return false;

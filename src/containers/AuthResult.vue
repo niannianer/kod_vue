@@ -30,6 +30,7 @@
             }
         },
         created(){
+            this.addHive(1, 'auth-result');
             let time = 1;
             this.getStatus();
             const _this = this;
@@ -57,6 +58,7 @@
                     })
             },
             reSend(){
+                this.addHive(0, 'authResult_reSend');
                 this.isLoad = true;
                 this.getStatus(true);
                 setTimeout(()=>{
@@ -64,11 +66,12 @@
                 },1000)
             },
             reAuth(){
+                this.addHive(0, 'authResult_reAuth');
                 submitAuthorization(this.userId);
             }
         },
         destroyed(){
-
+            this.addHive(2, 'auth-result');
         }
     }
 </script>

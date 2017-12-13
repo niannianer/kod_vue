@@ -145,6 +145,7 @@
         },
         components: {},
         created(){
+            this.addHive(1, 'fixi-finacial');
             let goodsDetail = window.sessionStorage.getItem('goodsDetail');
             this.settings.title = '金疙瘩系列定期产品——闲散资金定制理财';
             if ($device.isWeixin) {
@@ -181,6 +182,7 @@
                 this.$refs.loadmore.onBottomLoaded();
             },
             loadMore(){
+                this.addHive(0, 'fixiFinacial_scroll_loading');
                 this.loading = true;
                 this.startRow = this.lists.length;
                 this.getGoodsList();
@@ -214,6 +216,7 @@
                 });
             },
             getDetail(item, url){
+                this.addHive(0, 'fixiFinacial_list_fixi');
                 let dom = document.querySelector('.item-list');
                 this.scrollTop = dom.scrollTop;
                 window.sessionStorage.setItem('goodsDetail', JSON.stringify(this.$data));
@@ -228,6 +231,7 @@
                 wx.getShare(this.settings);
             },
             pathTo(path, boolean){
+                this.addHive(0, 'fixiFinacial_link_' + path.replace('/', ''));
                 if (boolean) {
                     window.location.href = path;
                     return false;
@@ -238,7 +242,7 @@
         mounted(){
         },
         destroyed(){
-
+            this.addHive(2, 'fixi-finacial');
         }
     }
 </script>

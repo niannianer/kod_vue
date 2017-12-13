@@ -33,6 +33,7 @@
             }
         },
         created(){
+            this.addHive(1, 'feedback');
             if ($device.kingold) {
                 this.isApp = true;
                 requestHybrid({
@@ -58,6 +59,7 @@
                 this.isDisable = !this.context.length
             },
             submit(){
+                this.addHive(0, 'feedback_btn_submit');
                 if (!this.isDisable) {
                     Indicator.open('提交中。。。');
                     let content = encodeURIComponent(this.context);
@@ -95,7 +97,7 @@
         },
         destroyed()
         {
-
+            this.addHive(2, 'feedback');
         }
     }
 </script>

@@ -20,7 +20,7 @@
             <div flex-box="1">
                 <p class="main">{{item.name}}</p>
                 <p class="sub">
-                    限额： 单笔{{item.maxRapidPayAmountPerTxn||'无限制'}}，单日{{item.maxRapidPayAmountPerDay||'无限制'}}
+                    限额： 单笔{{item.maxRapidPayAmountPerTxn || '无限制'}}，单日{{item.maxRapidPayAmountPerDay || '无限制'}}
                 </p>
             </div>
 
@@ -44,6 +44,7 @@
             };
         },
         created(){
+            this.addHive(1, 'bank-list');
             this.getYingmi();
             this.getBaofoo();
             if (this.$route.query.yingmi) {
@@ -78,6 +79,7 @@
                     });
             },
             setBank(item){
+                this.addHive(0, 'bankList_list_bank');
                 window.sessionStorage.setItem('bank-info', JSON.stringify(item));
                 this.$router.back();
             }

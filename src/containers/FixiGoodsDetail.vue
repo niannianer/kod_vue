@@ -200,6 +200,7 @@
             }
         },
         created(){
+            this.addHive(1, 'fixi-goods-detail');
             this.$store.dispatch('getAccountBaofoo');
             this.productUuid = this.$route.query.productUuid;
             this.getGoodsDetail();
@@ -263,6 +264,7 @@
         },
         methods: {
             setExpend(index){
+                this.addHive(0, 'fixiGoodsDetail_item_expend');
                 this.production.productInformation[index].expend = !this.production.productInformation[index].expend;
                 let oper = '收起';
                 if (this.production.productInformation[index].expend) {
@@ -292,10 +294,12 @@
                 if (this.attachmentUp) {
                     oper = '打开';
                 }
+                this.addHive(0, 'fixiGoodsDetail_item_file');
                 let event = ['_trackEvent', '定期理财详情', 'CLICK', '在定期理财详情页' + oper + '产品附件', '定期理财详情页-' + oper + '产品附件'];
                 window._hmt.push(event);
             },
             openPDF(item){
+                this.addHive(0, 'fixiGoodsDetail_link_pdf');
                 if (item.attachmentLink) {
                     let pdfUrl = item.attachmentLink;
                     let pdfName = item.attachmentName
@@ -352,7 +356,7 @@
                     this.showModal = true;
                     let event = ['_trackEvent', '定期理财详情', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
                     window._hmt.push(event);
-                    // this.goStep();
+                    this.addHive(5, 'fixiGoodsDetail_modal_pdf');
                 } else {
                     this.checkRiskAssess();
                 }
