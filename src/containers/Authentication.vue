@@ -103,6 +103,7 @@
         created(){
             let event = ['_trackEvent', '实名认证', 'SHOW', '进入实名认证页面', '进入实名认证页面'];
             window._hmt.push(event);
+            this.addHive(1, 'authentication');
         },
         computed: {
             ...mapState([
@@ -117,6 +118,7 @@
         methods: {
             //下一步
             btnAction(){
+                this.addHive(0, 'authentication_btn_next');
                 if (!this.nextClick) {
                     return
                 }
@@ -146,7 +148,7 @@
             },
             //提交数据
             getAccount(){
-
+                this.addHive(0, 'authentication_btn_submit');
                 let {userName, userIdCardNumber, smsCode} = this;
                 let data = {
                     userName: userName, userIdCardNumber: userIdCardNumber
@@ -189,6 +191,7 @@
             },
             //下发按钮
             transmit(){
+                this.addHive(0, 'authentication_btn_sms');
                 if (this.btnActive) {
                     $api.get('/sendBaofooAuthSMS', {type: 2}).then(msg => {
                         if (msg.code != 200) {
@@ -207,6 +210,7 @@
             },
             //确定
             sure(){
+                this.addHive(0, 'authentication_ensure');
                 if (this.smsCode.length >= 4) {
                     this.getAccount();
                 } else {
@@ -248,6 +252,7 @@
                 this.userIdCardNumber = text;
             },
             callService(){
+                this.addHive(0, 'authentication_btn_call');
                 if ($device.kingold) {
                     requestHybrid({
                         tagname: 'tel',
