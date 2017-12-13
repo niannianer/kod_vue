@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="privilege" v-if="availableUpgrade && investorType != 12 && showPri">
-                <div class="warp" @click.stop="showPri=false"></div>
+                <div class="warp" @click.stop="closeModal"></div>
                 <div class="prv-modal">
                     <img src="../images/relation/open-privilege.png"/>
                     <button class="btn" @click.stop="openPrivilege">开启</button>
@@ -93,6 +93,7 @@
             }
         },
         created(){
+            this.addHive(1, 'relation');
             if ($device.isWeixin) {
                 this.getShare();
             }
@@ -123,7 +124,16 @@
                     }
                 });
             },
+            closeModal(){
+                this.showPri=false;
+                this.addHive(0, 'relation_btn_closePribilegeModal');
+                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面关闭达人弹窗','我的好友-关闭弹窗-点击'];
+                window._hmt.push(event);
+            },
             openPrivilege(){
+                this.addHive(0, 'relation_btn_openPribilege');
+                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击开启达人','我的好友-开启达人-点击'];
+                window._hmt.push(event);
                 $api.post('/user/upgradeTalent/apply').then((resp) => {
                     if(resp.code == 200){
                         Toast('开启成功,用户身份升级为理财达人');
@@ -140,28 +150,15 @@
                    }
                 });
             },
-            useqrcode(){
-                const canvas = document.getElementById('canvas');
-                const signcode = md5('null' + this.userUuid + this.investorMobile + 'signCode')
-                const url = window.location.origin + '/land-register-relation.html?o=null&u=' + this.userUuid + '&n=' + this.investorMobile + '&m=' + signcode
-                QRCode.toCanvas(canvas, url, (error) => {
-                    if (error) console.log(error)
-//                    console.log(state.investorMobile);
-                    this.imgSrc = canvas.toDataURL("image/png");
-                });
-
-            },
-            link(){
-                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击邀请好友', '我的好友页面-点击邀请好友'];
-                window._hmt.push(event);
-                window.location.href = '/land-share-relation.html';
-            },
             getShare(){
                 wx.getShare({
                     title: '金疙瘩——我的好友'
                 });
             },
             pathTo(path,boolean){
+                let oper = path.replace('/','');
+                this.addHive(0, 'relation_btn_'+oper);
+                this.addHive(2, 'relation_to_'+oper);
                 if(path=='/land-share.html'){
                     let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击一起赚','我的好友-一起赚-点击'];
                     window._hmt.push(event);
@@ -184,20 +181,14 @@
                 }
                 if(boolean){
                     window.location.href=path;
+                    let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击'+oper, '我的好友-'+oper+'-点击'];
+                    window._hmt.push(event);
                     return false;
                 }
                 this.$router.push(path)
             }
         },
         mounted(){
-            /*       if (this.investorMobile) {
-             this.useqrcode();
-             } else {
-             this.$store.dispatch('getUserInfo')
-             .then(() => {
-             this.useqrcode();
-             })
-             }*/
         },
         destroyed(){
 

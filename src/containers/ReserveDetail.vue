@@ -82,9 +82,13 @@
         },
         methods: {
             link(productUuid){
+                this.addHive(0, 'reserveDetail_link_productDetail');
+                let event = ['_trackEvent', '预约单详情', 'CLICK', '预约单详情-点击产品','预约单详情-点击产品'];
+                window._hmt.push(event);
                 $api.get('/checkProductOnStatus', {productUuid: productUuid}).then(msg => {
                     if (msg.code == 200) {
                         //
+                        this.addHive(2, 'reserveDetail_to_productDetail');
                         this.$router.push({
                             path: '/goods-detail-prif',
                             query: {
@@ -113,6 +117,7 @@
             MessageBox.close();
         },
         created(){
+            this.addHive(1, 'reserveDetail');
             let event = ['_trackEvent', '预约单详情', 'SHOW', '进入我的预约单详情页', '进入我的预约单详情页'];
             window._hmt.push(event);
         }

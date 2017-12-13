@@ -100,8 +100,16 @@
             'investorMobile',
             'investorRealName']
         ),
+        created(){
+            this.addHive(1, 'resetPayPassword');
+            let event = ['_trackEvent', '重置交易密码', 'SHOW', '进入重置交易密码页面','进入重置交易密码页面'];
+            window._hmt.push(event);
+        },
         methods: {
             sendCode(){
+                this.addHive(0, 'resetPayPassword_btn_getVerifyCode');
+                let event = ['_trackEvent', '重置交易密码', 'CLICK', '重置交易密码-获取验证码','重置交易密码-获取验证码'];
+                window._hmt.push(event);
                 if(this.spanActive){
                     this.getCode()
                 }
@@ -144,6 +152,9 @@
             },
             next(){
                 if(this.verifyCard){
+                    this.addHive(0, 'resetPayPassword_btn_checkIdCard');
+                    let event = ['_trackEvent', '重置交易密码', 'CLICK', '重置交易密码-点击下一步校验身份证','重置交易密码-点击下一步校验身份证'];
+                    window._hmt.push(event);
                     if(this.idCardTail.length >= 4){
                         $api.post('/checkIdCard',{idCardTail:this.idCardTail}).then(msg=>{
                             if(msg.code == 200){
@@ -155,6 +166,9 @@
                         });
                     }
                 }else{
+                    this.addHive(0, 'resetPayPassword_btn_checkVerifyCode');
+                    let event = ['_trackEvent', '重置交易密码', 'CLICK', '重置交易密码-点击下一步校验验证码','重置交易密码-点击下一步校验验证码'];
+                    window._hmt.push(event);
                     if(this.verifyCode.length >= 6){
                         $api.post('/checkVerifyCode',{verifyCode:this.verifyCode,investorMobile:this.investorMobile,bussType:2}).then(msg=>{
                             if(msg.code == 200){
@@ -192,12 +206,16 @@
                 }
             },
             submit(){
+                this.addHive(0, 'resetPayPassword_btn_submit');
+                let event = ['_trackEvent', '重置交易密码', 'CLICK', '重置交易密码-点击设置交易密码','重置交易密码-点击设置交易密码'];
+                window._hmt.push(event);
                 if(!this.btnActive){return}
                 let {password,storagePassword,idCardTail,verifyCode,investorMobile} = this;
                 if(password == storagePassword){
                     $api.post('/resetPayPassword',{idCardTail:idCardTail,userPayPassword:password,investorMobile:investorMobile,verifyCode:verifyCode}).then(msg=>{
                         if(msg.code == 200){
                             Toast('重置交易密码成功');
+                            this.addHive(2, 'resetPayPassword_to_lastPage');
                             setTimeout(()=>{
                                 this.$router.go(-1);
                             },3000);

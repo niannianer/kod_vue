@@ -62,6 +62,7 @@
         created(){
             let event = ['_trackEvent', '充值', 'SHOW', '进入充值页面', '进入充值页面'];
             window._hmt.push(event);
+            this.addHive(1, 'recharge');
         },
         computed: {
             ...mapState([
@@ -104,13 +105,14 @@
                     Toast('正在等待银行返回结果...');
                     return false;
                 }
+                this.addHive(0, 'recharge_btn_recharge');
+                let event = ['_trackEvent', '充值', 'CLICK', '充值页面点击确认充值', '充值页面点击确认充值'];
+                window._hmt.push(event);
                 let param = {
                     amount: this.rechargeMoney
                 }
                 $api.post('/trade/recharge', param)
                     .then(data => {
-                        let event = ['_trackEvent', '充值', 'CLICK', '充值页面点击确认充值', '充值页面点击确认充值'];
-                        window._hmt.push(event);
                         if (data.code == 200) {
                             console.log(data);
                             let params = data.data || {};

@@ -215,6 +215,7 @@
             return {}
         },
         created(){
+            this.addHive(1, 'registerAgreement');
         },
         computed: {},
         methods: {},

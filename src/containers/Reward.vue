@@ -87,6 +87,7 @@
         },
         computed: mapState(['userUuid','userVerifyStatus','userVerifyStatusDesc']),
         created(){
+            this.addHive(1, 'reward');
             if ($device.isWeixin) {
                 this.getShare();
             }
@@ -101,13 +102,19 @@
         },
         methods: {
             allowance(num){
+
                 let oper = '';
+                let oper2 = ''
                 if (num == 2) {
                     oper = '直接';
+                    oper2 = 'gold'
                 }
                 else {
                     oper = '间接';
+                    oper2 = 'sliver'
                 }
+                this.addHive(0, 'reward_btn_allowance'+oper2);
+                this.addHive(2, 'reward_to_allowance'+oper2);
                 this.$router.push({
                     path: '/invitation-allowance-list',
                     query: {
@@ -120,13 +127,26 @@
             },
             toPath(path){
                 if(path =='bind'){
+                    this.addHive(0, 'reward_div_openCount');
+                    let event = ['_trackEvent', '我的奖励', 'CLICK', '我的奖励-开户', '我的奖励-开户'];
+                    window._hmt.push(event);
                     if(this.userVerifyStatus <= 1){
+                        this.addHive(2, 'reward_to_authentication');
                         path = '/authentication'
                     }else if(this.userVerifyStatus == 2){
+                        this.addHive(2, 'reward_to_bindBankCard');
                         path = '/bind-bank-card'
                     }else if(this.userVerifyStatus == 3){
+                        this.addHive(2, 'reward_to_setPayPass');
                         path = '/set-pay-password'
                     }
+                }
+                else{
+                    let oper = path.replace('/','');
+                    this.addHive(0, 'reward_link_'+oper);
+                    this.addHive(2, 'reward_to_'+oper);
+                    let event = ['_trackEvent', '我的奖励', 'CLICK', '我的奖励-'+oper, '我的奖励-'+oper];
+                    window._hmt.push(event);
                 }
                 this.$router.push({
                     path: path
@@ -152,6 +172,8 @@
                 });
             },
             rewardList(){
+                this.addHive(0, 'reward_link_rewardList');
+                this.addHive(2, 'reward_to_rewardList');
                 let event = ['_trackEvent', '我的奖励', 'CLICK', '在我的奖励页面点击邀请奖励', '我的奖励页面-点击邀请奖励'];
                 window._hmt.push(event);
                 this.$router.push('/invitation-reward-list');

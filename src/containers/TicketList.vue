@@ -75,6 +75,9 @@
             }
         },
         created(){
+            this.addHive(1, 'ticketList');
+            let event = ['_trackEvent', '我的优惠券', 'SHOW', '进入我的优惠券页面', '进入我的优惠券页面'];
+            window._hmt.push(event);
             this.msgCode = this.$route.query.code || 1;
             if (this.msgCode == 2) {
                 this.couponType = 2;
@@ -88,6 +91,9 @@
         },
         methods: {
             ticketTab(string){
+                this.addHive(0, 'ticketList_tab_checkTab');
+                let event = ['_trackEvent', '我的优惠券', 'CLICK', '我的优惠券-点击tab', '我的优惠券-点击tab'];
+                window._hmt.push(event);
                 this.couponType = 'cash' == string ? 1 : 2;
                 this.msgCode = this.couponType;
                 this.currentPage = 0;
@@ -180,6 +186,9 @@
                 return ''
             },
             useTicket(ccCode){
+                this.addHive(0, 'ticketList_item_useTicket');
+                let event = ['_trackEvent', '我的优惠券', 'CLICK', '我的优惠券-点击使用', '我的优惠券-点击使用'];
+                window._hmt.push(event);
                 /*有可用产品时跳转。只需取1条即可知是否跳转*/
                 $api.get('/adaptProduct/list', {
                     ccCode,
@@ -189,6 +198,7 @@
                     .then(resp => {
                         if (resp.code == 200) {
                             if (resp.data.list && resp.data.list.length) {
+                                this.addHive(2, 'ticketList_item_usableFinancial');
                                 this.$router.push({
                                     path: '/usable-financial',
                                     query: {

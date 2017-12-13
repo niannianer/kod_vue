@@ -84,6 +84,7 @@
             PasswordInput
         },
         created(){
+            this.addHive(1, 'withdraw');
             let event = ['_trackEvent', '提现', 'SHOW', '进入提现页面', '进入提现页面'];
             window._hmt.push(event);
         },
@@ -136,6 +137,9 @@
             },
             // 提现
             getWithdraw(){
+                this.addHive(0, 'withdraw_btn_withdraw');
+                let event = ['_trackEvent', '提现', 'CLICK', '提现页面点击立即提现', '提现页面点击立即提现'];
+                window._hmt.push(event);
                 this.getTradeFeeType()
                     .then(data => {
                         if (data.code == 200) {
@@ -145,13 +149,11 @@
                                 let amountAll = parseFloat(amount) + parseFloat(this.withdrawMount);
                                 if (this.accountCashAmount < amountAll) {
                                     Toast('您当前的账户余额不足支付手续费，无法提现');
-
                                 } else {
                                     let vm = this;
                                     MessageBox.confirm(`本次提现需收取${amount}元手续费，请确认是否继续？`, '提示').then(action => {
                                         vm.confirmFun(action);
                                     });
-
                                 }
                                 return false;
                             }
@@ -159,12 +161,12 @@
 
                         } else {
                             Toast(data.msg)
-
                         }
                     })
             },
             // 全部提取
             withdrawAll(){
+                this.addHive(0, 'withdraw_link_withdrawAll');
                 this.withdrawMount = this.accountCashAmount;
                 this.myKeyup();
                 let event = ['_trackEvent', '提现', 'CLICK', '提现页面点击全部提现', '提现页面点击全部提现'];
@@ -173,7 +175,8 @@
             confirmFun(result){
                 if (result) {
                     this.inputPassword = true;
-                    let event = ['_trackEvent', '提现', 'CLICK', '提现页面点击立即提现', '提现页面点击立即提现'];
+                    this.addHive(5, 'withdraw_modal_inputPass');
+                    let event = ['_trackEvent', '提现', 'SHOW', '提现页面-输入交易密码弹窗', '提现页面-输入交易密码弹窗'];
                     window._hmt.push(event);
                 }
             },
@@ -188,6 +191,7 @@
                         Indicator.close();
                         if (data.code == 200) {
                             Toast('提现申请成功');
+                            this.addHive(2, 'withdraw_to_lastPage');
                             history.back();
                             this.$store.dispatch('getAccountBaofoo');
                         } else {

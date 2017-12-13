@@ -65,11 +65,10 @@
                 active: 0
             }
         },
-        mounted(){
-            this.pieChart(this.$refs.box, [60, 20, 20], 126, 126,
-                ['#1D72C0', '#fe9c53', '#D0021B'])
-        },
         computed: {},
+        created(){
+            this.addHive(1, 'totalAssets');
+        },
         methods: {
             pieChart(svgObj, data, width, height, colors){
                 let cx = width / 2;
@@ -126,8 +125,11 @@
                 }
             }
         },
+        mounted(){
+            this.pieChart(this.$refs.box, [60, 20, 20], 126, 126,
+                ['#1D72C0', '#fe9c53', '#D0021B'])
+        },
         destroyed(){
-
         }
     }
 </script>
