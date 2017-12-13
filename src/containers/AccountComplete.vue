@@ -19,7 +19,7 @@
     import Advertise from '../components/Advertise';
     import {refreshApp} from '../tools/operation';
     export default {
-        name: 'base',
+        name: 'account-complete',
         data(){
             return {}
         },
@@ -27,6 +27,7 @@
             Advertise
         },
         created(){
+            this.addHive(1, 'account-complete');
             refreshApp();
         },
         computed: {
@@ -36,6 +37,8 @@
         },
         methods: {
             complete(){
+                this.addHive(0, 'accountComplete_btn_complete');
+
                 if (window.sessionStorage.getItem('noviceUrl')) {
                     window.location.href = decodeURIComponent(window.sessionStorage.getItem('noviceUrl'));
                     return false;
@@ -50,7 +53,7 @@
         mounted(){
         },
         destroyed(){
-
+            this.addHive(2, 'account-complete');
         }
     }
 </script>

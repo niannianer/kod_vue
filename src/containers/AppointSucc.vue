@@ -20,6 +20,7 @@
             return {}
         },
         created(){
+            this.addHive(1, 'appoint-succ');
         },
         computed: {},
         methods: {
@@ -33,7 +34,7 @@
             }
         },
         destroyed(){
-
+            this.addHive(2, 'appoint-succ');
         }
     }
 </script>
