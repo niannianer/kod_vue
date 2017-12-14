@@ -164,6 +164,9 @@
         },
         components: {},
         created(){
+            this.addHive(1, 'fundsServeAgreement');
+            let event = ['_trackEvent', '基金电子交易远程服务协议', 'SHOW', '进入基金电子交易远程服务协议页面', '进入基金电子交易远程服务协议页面'];
+            window._hmt.push(event);
         },
         computed: {},
         methods: {

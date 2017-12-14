@@ -64,6 +64,9 @@
         },
         components: {},
         created(){
+            this.addHive(1, 'fundsList');
+            let event = ['_trackEvent', '基金列表', 'SHOW', '进入基金列表页面', '进入基金列表页面'];
+            window._hmt.push(event);
             this.hostList();
         },
         computed: {},
@@ -93,12 +96,34 @@
                 });
             },
             toPage(path){
+                let oper = '';
+                let oper2='';
+                if(path=='/funds/hot-list'){
+                    oper='fundsHotList';
+                    oper2 = '基金热销榜';
+                }
+                if(path=='/funds/gains-list'){
+                    oper='fundsGainsList';
+                    oper2 = '基金涨幅榜';
+                }
+                if(path=='/planning'){
+                    oper='planning';
+                    oper2 = '理财规划';
+                }
+                this.addHive(0, 'fundsList_link_'+oper);
+                this.addHive(2, 'fundsList_to_'+oper);
+                let event = ['_trackEvent', '基金列表', 'CLICK', '基金列表-点击'+oper2, '基金列表-点击'+oper2];
+                window._hmt.push(event);
                 window.sessionStorage.setItem('fund-detail',1);
                 this.$router.push({
                     path: path
                 })
             },
             toDetail(code, type){
+                this.addHive(0, 'fundsList_item_fundsDetail');
+                this.addHive(2, 'fundsList_to_fundsDetail');
+                let event = ['_trackEvent', '基金列表', 'CLICK', '基金列表-点击详情', '基金列表-点击详情'];
+                window._hmt.push(event);
                 window.sessionStorage.setItem('fund-detail',1);
                 this.$router.push({
                     path: '/funds/detail',

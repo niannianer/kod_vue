@@ -96,6 +96,9 @@
             }
         },
         created(){
+            this.addHive(1, 'fundsRelatedRate');
+            let event = ['_trackEvent', '基金相关费率', 'SHOW', '进入基金相关费率页面', '进入基金相关费率页面'];
+            window._hmt.push(event);
             this.purcaseRate();
             this.redeemRate();
             this.managementRate = window.sessionStorage.getItem('managementRate');

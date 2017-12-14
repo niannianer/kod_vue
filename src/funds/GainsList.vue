@@ -117,7 +117,7 @@
                                  v-if="fundType==4"
                                  style="width: 6rem;min-width:6rem;">
                                 <p v-if="item.unitYield">{{item.unitYield}}<!--万份收益--></p>
-                                <p v-if="item.updateTime&&item.unitYield">{{dateFormat(item.updateTime)}}</p>
+                                <p v-if="item.updateTime&&item.unitYield">{{item.updateTime|timeFormater('yyyy-MM-dd')}}</p>
                                 <p v-if="!item.unitYield">--</p>
                             </div>
                             <div class="item-info bg-content" flex="cross:center main:center" v-if="fundType==4">
@@ -128,7 +128,7 @@
                             <div class="item-info bg-grey" flex="dir:top cross:center main:center"
                                  v-if="fundType!=4">
                                 <p v-if="item.nav"> {{item.nav}}<!--单位净值--></p>
-                                <p v-if="item.navDate&&item.nav">{{dateFormat(item.navDate)}}</p><!--净值日期-->
+                                <p v-if="item.navDate&&item.nav">{{item.navDate|timeFormater('yyyy-MM-dd')}}</p><!--净值日期-->
                                 <p v-if="!item.nav">--</p>
                             </div>
                             <div class="item-info f8 bg-content" flex="cross:center main:center"
@@ -188,6 +188,9 @@
             }
         },
         created(){
+            this.addHive(1, 'fundsGainsList');
+            let event = ['_trackEvent', '基金涨幅榜', 'SHOW', '进入基金涨幅榜页面', '进入基金涨幅榜页面'];
+            window._hmt.push(event);
             let fundsDetail = window.sessionStorage.getItem('fundsDetail');
             if (fundsDetail) {
                 let {fundType, list, orderBy, isDesc, scrollLeft, scrollTop,currentPage} = JSON.parse(fundsDetail);
@@ -217,6 +220,9 @@
         },
         methods: {
             checkOrder(str){
+                this.addHive(0, 'fundsGainsList_link_sort');
+                let event = ['_trackEvent', '基金涨幅榜', 'CLICK', '基金涨幅榜-排序', '基金涨幅榜-排序'];
+                window._hmt.push(event);
                 let dom = document.querySelector('.scroll-target');
                 this.scrollLeft = dom.scrollLeft;
                 if (str == this.orderBy) {
@@ -233,6 +239,9 @@
                     });
             },
             checkFundType(num){
+                this.addHive(0, 'fundsGainsList_tab_checkTab');
+                let event = ['_trackEvent', '基金涨幅榜', 'CLICK', '基金涨幅榜-点击tab', '基金涨幅榜-点击tab'];
+                window._hmt.push(event);
                 this.fundType = num;
                 this.list = [];
                 this.currentPage = 0;
@@ -295,14 +304,11 @@
                     this.scrollTop = scrollTop;
                 }, 500);
             },
-            dateFormat(timestamp){
-                let date = new Date(timestamp);
-                let y = date.getFullYear();
-                let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : '' + (date.getMonth() + 1);
-                let d = date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate();
-                return y + '-' + m + '-' + d;
-            },
             pathTo(code){
+                this.addHive(0, 'fundsGainsList_item_fundsDetail');
+                this.addHive(2, 'fundsGainsList_to_fundsDetail');
+                let event = ['_trackEvent', '基金涨幅榜', 'CLICK', '基金涨幅榜-点击详情', '基金涨幅榜-点击详情'];
+                window._hmt.push(event);
                 this.scrollTop = document.querySelector('.body').scrollTop;
                 window.sessionStorage.setItem('fundsDetail', JSON.stringify(this.$data));
                 this.$router.push({

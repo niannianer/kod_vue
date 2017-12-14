@@ -84,6 +84,9 @@
         },
         components: {},
         created(){
+            this.addHive(1, 'fundsPayAgreement');
+            let event = ['_trackEvent', '基金委托支付协议', 'SHOW', '进入基金委托支付协议页面', '进入基金委托支付协议页面'];
+            window._hmt.push(event);
         },
         computed: {},
         methods: {

@@ -18,6 +18,9 @@
             }
         },
         created(){
+            this.addHive(1, 'fundsManager');
+            let event = ['_trackEvent', '基金经理', 'SHOW', '进入基金经理页面', '进入基金经理页面'];
+            window._hmt.push(event);
             $api.get('/fund/info/manager', {
                 fundCode: this.$route.query.code
             })

@@ -9,7 +9,7 @@
             </div>
         </div>
         <button class="btn" @click.stop="confirmSet">确认修改</button>
-        <king-message v-if="showMessage" @confirmBack="confirms" @cancelBack="showMessage = false"
+        <king-message v-if="showMessage" @confirmBack="confirms" @cancelBack="cancel"
                       :options="msgOption"></king-message>
     </div>
 </template>
@@ -45,12 +45,18 @@
         created() {
             this.dividendMethod = this.$route.query.bonus || 0;
             this.fundCode = this.$route.query.fundCode || 0;
+            this.addHive(1, 'fundsBonusType');
+            let event = ['_trackEvent', '修改分红方式', 'SHOW', '进入修改分红方式页面', '进入修改分红方式页面'];
+            window._hmt.push(event);
         },
         computed: {
             ...mapState(['userUuid']),
         },
         methods: {
             confirmSet(){
+                this.addHive(0, 'fundsBonusType_btn_confirm');
+                let event = ['_trackEvent', '修改分红方式', 'SHOW', '修改分红方式-确认修改', '修改分红方式-确认修改'];
+                window._hmt.push(event);
                 this.showMessage = true;
                 this.type = 'confirm';
                 this.msgOption = {
@@ -61,23 +67,38 @@
             },
             confirms() {
                 this.showMessage = false;
-                if(this.type == 'confirm'){
+                if (this.type == 'confirm') {
+                    this.addHive(0, 'fundsBonusType_modal_confirm');
+                    let event = ['_trackEvent', '修改分红方式', 'CLICK', '修改分红方式-弹窗-确认', '修改分红方式-弹窗-确认'];
+                    window._hmt.push(event);
                     this.setDividendMethod();
-                }else if(this.type == 'success'){
+                } else if (this.type == 'success') {
+                    this.addHive(0, 'fundsBonusType_modal_confirmSucc');
+                    let event = ['_trackEvent', '修改分红方式', 'CLICK', '修改分红方式-弹窗-修改成功确认', '修改分红方式-弹窗-修改成功确认'];
+                    window._hmt.push(event);
                     this.$router.back();
-                }else{
+                } else {
+                    this.addHive(0, 'fundsBonusType_modal_confirmFail');
+                    let event = ['_trackEvent', '修改分红方式', 'CLICK', '修改分红方式-弹窗-修改失败确认', '修改分红方式-弹窗-修改失败确认'];
+                    window._hmt.push(event);
                     this.$router.back();
                 }
             },
+            cancel(){
+                this.addHive(0, 'fundsBonusType_modal_cancel');
+                let event = ['_trackEvent', '修改分红方式', 'CLICK', '修改分红方式-弹窗-取消', '修改分红方式-弹窗-取消'];
+                window._hmt.push(event);
+                this.showMessage = false
+            },
             setDividendMethod(){
                 let {dividendMethod, fundCode, userUuid} = this;
-                $api.post('/fund/purch/setDividendMethod',{
+                $api.post('/fund/purch/setDividendMethod', {
                     dividendMethod,
                     fundCode,
                     userUuid
-                },'正在等待确认').then((resp) => {
+                }, '正在等待确认').then((resp) => {
                     this.showMessage = true;
-                    if(resp.code == 200){
+                    if (resp.code == 200) {
                         this.msgOption = {
                             title: '提交成功',
                             msg: `<img src="${successImg}" style="width: 1.6rem;"/>`,

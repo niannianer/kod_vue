@@ -13,24 +13,24 @@
                 </div>
                 <div flex="box:mean" class="infos">
                     <div v-if="Number(fund.fundType)==4">
-                        <p class="f9">{{toPercentage(fund.yearlyRoe)}}</p>
+                        <p class="f9">{{fund.yearlyRoe | translatePate}}</p>
                         <p>七日年化</p>
                     </div>
                     <div v-if="Number(fund.fundType)!=4&&fund.oneYearReturn">
-                        <p class="f9">{{toPercentage(fund.oneYearReturn)}}</p>
+                        <p class="f9">{{fund.oneYearReturn | translatePate}}</p>
                         <p>近一年涨幅</p>
                     </div>
                     <div v-if="Number(fund.fundType)!=4&&!fund.oneYearReturn">
-                        <p class="f9">{{toPercentage(fund.thisYearReturn)}}</p>
+                        <p class="f9">{{fund.thisYearReturn | translatePate}}</p>
                         <p>今年以来涨幅</p>
                     </div>
                     <div class="border-left" v-if="Number(fund.fundType)==4">
                         <p class="f9">{{fund.unitYield}}</p>
-                        <p>万份收益（{{dateFormat(fund.unitYieldDate)}}）</p>
+                        <p>万份收益（{{fund.unitYieldDate | timeFormater('M-d')}}）</p>
                     </div>
-                    <div class="border-left" v-else >
+                    <div class="border-left" v-else>
                         <p class="f9">{{fund.nav}}</p>
-                        <p>最新净值（{{fund.navDate}}）</p>
+                        <p>最新净值（{{fund.navDate | timeFormater('M-d')}}）</p>
                     </div>
                 </div>
             </div>
@@ -41,17 +41,18 @@
                     <p class="check-item" :class="{'active':active==1}" @click.stop="activeCheck(1)">万份收益 </p>
                 </div>
                 <div class="content-2 seperate" flex="box:mean">
-                    <p class="p p-left" v-if="active==0" >七日年化
+                    <p class="p p-left" v-if="active==0">七日年化
                         <span class="red span">{{roeRate(yearlyRoeLast.yearlyRoe)}}</span>
                         {{yearlyRoeLast.date}}
                     </p>
-                    <p class="p p-left" v-else >万份收益
+                    <p class="p p-left" v-else>万份收益
                         <span class="red span">{{unitYieldLast.unitYield}}元</span>
                         {{unitYieldLast.date}}
                     </p>
                 </div>
                 <div v-if="!active">
-                    <line-chart :data="datas" :options="options" :chart-data="datas" class="chart seperate"></line-chart>
+                    <line-chart :data="datas" :options="options" :chart-data="datas"
+                                class="chart seperate"></line-chart>
                 </div>
                 <div v-if="active">
                     <line-chart :data="navDatas" :options="navOptions" :chart-data="navDatas"
@@ -69,7 +70,8 @@
                     <p class="p">同类平均<span class="red span">{{navChangeLast}}%</span></p>
                 </div>
                 <div v-if="!active">
-                    <line-chart :data="datas" :options="options" :chart-data="datas" class="chart seperate"></line-chart>
+                    <line-chart :data="datas" :options="options" :chart-data="datas"
+                                class="chart seperate"></line-chart>
                 </div>
                 <div v-if="active">
                     <line-chart :data="navDatas" :options="navOptions" :chart-data="navDatas"
@@ -95,7 +97,7 @@
                 <div flex="cross:center" class="item" :class="{'bl':fund.minAmtIndiFirstPurch}">
                     <p flex-box="1">购买费率</p>
                     <p flex-box="0" v-if="fund.frontEndPurchRate">{{fund.frontEndPurchRate}}%</p>
-                    <p flex-box="0" class="btn f6" v-else >免费率</p>
+                    <p flex-box="0" class="btn f6" v-else>免费率</p>
                     <!-- <p flex-box="0" class="line-through">1.50%</p>
                      <p flex-box="0" class="red normal">0.15</p>-->
                 </div>
@@ -119,14 +121,14 @@
                 </div>
                 <div flex="cross:center" class="item bl" v-if="fund.fundCustodian">
                     <p flex-box="1">基金公司</p>
-                    <p flex-box="0" >{{fund.administrator}}</p>
+                    <p flex-box="0">{{fund.administrator}}</p>
                 </div>
                 <div flex="cross:center" class="item bl" @click.stop="pathTo('/related-rate')">
                     <p flex-box="1">相关费率</p>
                     <p flex-box="0"></p>
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="img">
                 </div>
-                <div flex="cross:center" class="item bl" @click.stop="pathTo('/bulletin')" >
+                <div flex="cross:center" class="item bl" @click.stop="pathTo('/bulletin')">
                     <p flex-box="1">基金公告</p>
                     <p flex-box="0">详细</p>
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="img">
@@ -203,15 +205,6 @@
                                 display: true,
                             }
                         }],
-                        /*  yAxes: [{
-                         id: 'left-y-axis',
-                         type: 'linear',
-                         position: 'left'
-                         }, {
-                         id: 'right-y-axis',
-                         type: 'linear',
-                         position: 'right'
-                         }],*/
                         xAxes: [{
                             gridLines: {
                                 display: false,
@@ -242,15 +235,6 @@
                                 display: true,
                             }
                         }],
-                        /*  yAxes: [{
-                         id: 'left-y-axis',
-                         type: 'linear',
-                         position: 'left'
-                         }, {
-                         id: 'right-y-axis',
-                         type: 'linear',
-                         position: 'right'
-                         }],*/
                         xAxes: [{
                             gridLines: {
                                 display: false,
@@ -276,46 +260,15 @@
             }
         },
         created(){
+            this.addHive(1, 'fundsDetail');
+            let event = ['_trackEvent', '基金详情', 'SHOW', '进入基金详情页面', '进入基金详情页面'];
+            window._hmt.push(event);
             this.fundTypes = this.$route.query.type;
-            if(this.fundTypes == 4){
+            if (this.fundTypes == 4) {
                 this.options.legend.display = false;
             }
             this.getCharts();
-            $api.get('/fund/info/detail', {
-                fundCode: this.$route.query.code
-            })
-                .then(resp => {
-                    if (resp.code == 200) {
-                        this.fund = resp.data;
-                        this.fundTypes = this.fund.fundType;
-                        this.setSession('purchRate', resp.data.frontEndPurchRate)
-                        /*申购费率*/
-                        this.setSession('redRate', resp.data.redRate);
-                        /*赎回费率*/
-                        this.setSession('managementRate', resp.data.managementRate);
-                        /*管理费率*/
-                        this.setSession('custodianRate', resp.data.custodianRate);
-                        /*基金托管费*/
-                        this.setSession('assetAllocation', resp.data.assetAllocation);
-                        /*持仓分析*/
-                        this.fund.navDate = this.dateFormat(resp.data.navDate)
-                        /*最新净值日期*/
-                        let maxRate = 0;
-                        if (resp.data.frontEndPurchRate) {
-                            maxRate = this.calMaxRate(JSON.parse(resp.data.frontEndPurchRate));
-                        }
-                        this.fund.frontEndPurchRate = maxRate;
-                        /*购买费率（取数组中最大的）*/
-                        this.fund.manager = [];
-                        if (resp.data.fundManager) {
-                            let managerList = JSON.parse(resp.data.fundManager);
-                            managerList.map((val) => {
-                                this.fund.manager.push(val.name);
-                            });
-                            this.fund.manager = this.fund.manager.slice(0,3);
-                        }
-                    }
-                })
+            this.loadData();
         },
         computed: {
             ...mapState(
@@ -331,11 +284,48 @@
             )
         },
         methods: {
+            loadData(){
+                $api.get('/fund/info/detail', {
+                    fundCode: this.$route.query.code
+                })
+                    .then(resp => {
+                        if (resp.code == 200) {
+                            this.fund = resp.data;
+                            this.fundTypes = this.fund.fundType;
+                            this.setSession('purchRate', resp.data.frontEndPurchRate)
+                            /*申购费率*/
+                            this.setSession('redRate', resp.data.redRate);
+                            /*赎回费率*/
+                            this.setSession('managementRate', resp.data.managementRate);
+                            /*管理费率*/
+                            this.setSession('custodianRate', resp.data.custodianRate);
+                            /*基金托管费*/
+                            this.setSession('assetAllocation', resp.data.assetAllocation);
+                            /*持仓分析*/
+                            this.fund.navDate = resp.data.navDate
+                            /*最新净值日期*/
+                            let maxRate = 0;
+                            if (resp.data.frontEndPurchRate) {
+                                maxRate = this.calMaxRate(JSON.parse(resp.data.frontEndPurchRate));
+                            }
+                            this.fund.frontEndPurchRate = maxRate;
+                            /*购买费率（取数组中最大的）*/
+                            this.fund.manager = [];
+                            if (resp.data.fundManager) {
+                                let managerList = JSON.parse(resp.data.fundManager);
+                                managerList.map((val) => {
+                                    this.fund.manager.push(val.name);
+                                });
+                                this.fund.manager = this.fund.manager.slice(0, 3);
+                            }
+                        }
+                    })
+            },
             calMaxRate(arr){
                 let maxRate = -Infinity;
                 if (arr) {
                     arr.map(item => {
-                        if ((!item.feeRatio||item.feeRatio == null)&&maxRate<0) {
+                        if ((!item.feeRatio || item.feeRatio == null) && maxRate < 0) {
                             maxRate = 0
                         }
                         if (maxRate < item.feeRatio && item.feeRatio) {
@@ -346,14 +336,43 @@
                 }
             },
             activeCheck(num){
+                this.addHive(0, 'fundsDetail_tab_checkTab');
+                let event = ['_trackEvent', '基金详情', 'CLICK', '基金详情-点击tab', '基金详情-点击tab'];
+                window._hmt.push(event);
                 this.active = num;
                 this.getCharts();
             },
             durationCheck(str){
+                this.addHive(0, 'fundsDetail_tab_checkDurationTab');
+                let event = ['_trackEvent', '基金详情', 'CLICK', '基金详情-点击时间tab', '基金详情-点击时间tab'];
+                window._hmt.push(event);
                 this.duration = str;
                 this.getCharts();
             },
             pathTo(path, q){
+                let oper = '';
+                let pathname = path.replace('/', '').replace(/[-|//](\w)/g, ($1, $2) => {
+                    return $2.toUpperCase();
+                });
+                if (path == '/manager') {
+                    oper = '基金经理';
+                }
+                if (path == '/related-rate') {
+                    oper = '相关费率';
+                }
+                if (path == '/bulletin') {
+                    oper = '基金公告';
+                }
+                if (path == '/position-analysis') {
+                    oper = '持仓分析';
+                }
+                if(oper){/*页面点击*/
+                    this.addHive(0, 'fundsDetail_link_' + pathname);
+                    let event = ['_trackEvent', '基金详情', 'CLICK', '基金详情-点击' + oper, '基金详情-点击' + oper];
+                    window._hmt.push(event);
+                }
+                /*页面内逻辑调用*/
+                this.addHive(2, 'fundsDetail_to_' + pathname);
                 if (q) {
                     this.$router.push({
                         path: path,
@@ -369,6 +388,7 @@
                 });
             },
             pathCheck(){
+
                 this.$store.dispatch('getAccountBaofoo').then(data => {
                     if (data.code == '401') {
                         logout();
@@ -399,8 +419,8 @@
                 if (this.investorRiskScore == 0) {
                     this.pathTo('/risk-assessment/wechat', {});
                     return false;
-                }else if(this.investorRiskVersion == 1){
-                    this.pathTo('/risk-assessment/wechat', {retest:1});
+                } else if (this.investorRiskVersion == 1) {
+                    this.pathTo('/risk-assessment/wechat', {retest: 1});
                     return false;
                 }
                 //风险评估验证是否匹配
@@ -478,16 +498,16 @@
             },
             //进入盈米
             enterYmi(result){
-                if(result == 0){
+                if (result == 0) {
                     this.showYmi = false;
                     return;
                 }
-                switch (this.enterPath){
+                switch (this.enterPath) {
                     case 'purchase':
                         this.toPurchase(this.isRiskConfirmAgain);
                         break;
                     case 'redeem':
-                        this.pathTo('/funds/redeem',{name:this.fund.fundAbbrName,code:this.fund.fundCode});
+                        this.pathTo('/funds/redeem', {name: this.fund.fundAbbrName, code: this.fund.fundCode});
                         break;
                     case 'openCount':
                         this.pathTo('/funds/open-count', {});
@@ -523,10 +543,10 @@
                 let yearlyRoeData = [];//七日年华
                 list[0].navSeries.map(item => {
                     labels.push(item.date)
-                    if(this.fundTypes == 4){
+                    if (this.fundTypes == 4) {
                         unitYieldData.push(item.unitYield);
                         yearlyRoeData.push(item.yearlyRoe);
-                    }else{
+                    } else {
                         nowData.push(item.change);
                         avgData.push(item.sameFundChange);
                         navData.push(item.nav);
@@ -534,12 +554,12 @@
                 });
                 let length = list[0].navSeries.length;
                 //货币型基金
-                if(this.fundTypes == 4){
+                if (this.fundTypes == 4) {
                     this.unitYieldLast = list[0].navSeries[length - 1];
                     this.yearlyRoeLast = list[0].navSeries[length - 1];
                     this.unitYieldLast.date = (this.unitYieldLast.date).split('-').join('.');
                     this.yearlyRoeLast.date = (this.yearlyRoeLast.date).split('-').join('.');
-                }else{
+                } else {
                     //非货币型基金
                     this.navDValue = list[0].navSeries[length - 1].nav - list[0].navSeries[0].nav;
                     if (!isNaN(this.navDValue)) {
@@ -552,11 +572,11 @@
                         this.navChangeLast = 0;
                     }
                 }
-                return {labels,nowData,avgData,navData,yearlyRoeData,unitYieldData}
+                return {labels, nowData, avgData, navData, yearlyRoeData, unitYieldData}
             },
             lineData(result){
-                let {labels, nowData, avgData, navData, yearlyRoeData,unitYieldData} = result;
-                if(this.fundTypes == 4){
+                let {labels, nowData, avgData, navData, yearlyRoeData, unitYieldData} = result;
+                if (this.fundTypes == 4) {
                     this.datas = {
                         labels,
                         datasets: [
@@ -634,15 +654,6 @@
                         }
                     ]
                 }
-                /*console.log(this.datas.labels)
-                 console.log(this.datas.datasets[0].data)*/
-            },
-            dateFormat(timestamp){
-                let date = new Date(timestamp);
-                let y = date.getFullYear();
-                let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : '' + (date.getMonth() + 1);
-                let d = date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate();
-                return m + '-' + d;
             },
             setSession(str, data){
                 if (data) {
@@ -651,21 +662,16 @@
                     window.sessionStorage.removeItem(str);
                 }
             },
-            toPercentage(num){
-                if (num) {
-                    return (num * 100).toFixed(2) + '%'
-                }
-            },
-            roeRate(num1=0){
+            roeRate(num1 = 0){
                 let num2 = 100;
-                let m=0,s1=num1.toString(),s2=num2.toString();
-                if(s1.split(".")[1]){
-                    m+=s1.split(".")[1].length
+                let m = 0, s1 = num1.toString(), s2 = num2.toString();
+                if (s1.split(".")[1]) {
+                    m += s1.split(".")[1].length
                 }
-                if(s2.split(".")[1]){
-                    m+=s2.split(".")[1].length
+                if (s2.split(".")[1]) {
+                    m += s2.split(".")[1].length
                 }
-                return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m))+'%';
+                return (Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)) + '%';
             },
         },
         destroyed(){

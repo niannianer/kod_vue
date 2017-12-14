@@ -32,6 +32,9 @@
             }
         },
         created(){
+            this.addHive(1, 'fundsVerify');
+            let event = ['_trackEvent', '基金开户验证', 'SHOW', '进入基金开户验证页面', '进入基金开户验证页面'];
+            window._hmt.push(event);
             console.log(this.isSetPayPassword);
             let phone = this.$route.query.phone;
             this.starPhone = phone.substr(0, 3) + '****' + phone.substr(7);
@@ -49,6 +52,9 @@
         },
         methods: {
             reSend(){
+                this.addHive(0, 'fundsVerify_btn_getVerify');
+                let event = ['_trackEvent', '基金开户验证', 'CLICK', '基金开户验证-点击获取验证码', '基金开户验证-点击获取验证码'];
+                window._hmt.push(event);
                 let {accountName, identityNo, paymentType, paymentNo, phone, type} = this;
                 $api.post('/fund/account/open/prepare', {
                     accountName,
@@ -80,6 +86,9 @@
                 }
             },
             confirm(){
+                this.addHive(0, 'fundsVerify_btn_confirmVerify');
+                let event = ['_trackEvent', '基金开户验证', 'CLICK', '基金开户验证-点击确认', '基金开户验证-点击确认'];
+                window._hmt.push(event);
                 if (!this.verifyCode || this.verifyCode.length != 6) {
                     Toast('请输入正确的验证码')
                     return
@@ -104,6 +113,7 @@
                                 }
                             },100)
                             if (!this.isSetPayPassword) {
+                                this.addHive(2, 'fundsVerify_to_setPayPass');
                                 this.$router.replace({
                                     path: '/set-pay-password',
                                     query: {
@@ -111,10 +121,12 @@
                                     }
                                 })
                             } else if (this.accountStatus < 3) {
+                                this.addHive(2, 'fundsVerify_to_fundsInfo');
                                 this.$router.replace({
                                     path: '/funds/info'
                                 });
                             } else {
+                                this.addHive(2, 'fundsVerify_to_lastPage');
                                 this.$router.back();
                             }
                         }

@@ -85,6 +85,9 @@
             KingoldPicker
         },
         created(){
+            this.addHive(1, 'fundsInfo');
+            let event = ['_trackEvent', '适当性信息录入', 'SHOW', '进入适当性信息录入页面', '进入适当性信息录入页面'];
+            window._hmt.push(event);
             this.getArea();
             this.terminalInfo = $device.os + '-' + $device.osVersion;
             this.getInfo();
@@ -94,6 +97,9 @@
         },
         methods: {
             setData(){
+                this.addHive(0, 'fundsInfo_btn_submit');
+                let event = ['_trackEvent', '适当性信息录入', 'CLICK', '适当性信息录入-点击提交', '适当性信息录入-点击提交'];
+                window._hmt.push(event);
                 if (!this.checkWord()) {
                     return;
                 }
@@ -111,6 +117,7 @@
                 }).then((resp) => {
                     if (resp.code == 200) {
                         this.$store.dispatch('getAccountInfo');
+                        this.addHive(2, 'fundsInfo_to_lastPage');
                         this.$router.back();
                     } else {
                         Toast(resp.msg);
@@ -148,8 +155,14 @@
             },
             selecting(t){
                 if (t == 'address') {
+                    this.addHive(0, 'fundsInfo_btn_selectAddress');
+                    let event = ['_trackEvent', '适当性信息录入', 'CLICK', '适当性信息录入-选择地址', '适当性信息录入-选择地址'];
+                    window._hmt.push(event);
                     this.isPick = true;
                 } else {
+                    this.addHive(0, 'fundsInfo_btn_selectCareer');
+                    let event = ['_trackEvent', '适当性信息录入', 'CLICK', '适当性信息录入-选择职业', '适当性信息录入-选择职业'];
+                    window._hmt.push(event);
                     this.careerPick = true;
                 }
             },

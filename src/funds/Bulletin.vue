@@ -6,7 +6,7 @@
                     {{item.title}}
                 </div>
                 <div class="time">
-                    {{dateFormat(item.announceDate)}}
+                    {{item.announceDate|timeFormater('yyyy-MM-dd')}}
                 </div>
             </li>
         </ul>
@@ -31,6 +31,9 @@
             }
         },
         created(){
+            this.addHive(1, 'fundsBulletin');
+            let event = ['_trackEvent', '基金公告', 'SHOW', '进入基金公告页面', '进入基金公告页面'];
+            window._hmt.push(event);
             this.loadData();
         },
         computed: {},
@@ -58,14 +61,10 @@
                 this.currentPage++;
                 this.loadData();
             },
-            dateFormat(timestamp){
-                let date = new Date(timestamp);
-                let y = date.getFullYear();
-                let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : '' + (date.getMonth() + 1);
-                let d = date.getDate() < 10 ? '0' + date.getDate() : '' + date.getDate();
-                return y + '-' + m + '-' + d;
-            },
             openPDF(item){
+                this.addHive(0, 'fundsBulletin_item_openPdf');
+                let event = ['_trackEvent', '基金公告', 'CLICK', '基金公告-点击详情', '基金公告-点击详情'];
+                window._hmt.push(event);
                 $api.get('/fund/info/noticeFileUri',{
                     ymUri:item.url
                 })
@@ -81,14 +80,6 @@
                         }
                         console.log(resp);
                     })
-
-             /*   if (item.url) {
-                    let pdfUrl = item.url;
-                    let pdfName = item.title;
-                    pdfUrl = pdfUrl.replace(/^http\.*:/, 'https:');
-                    window.location.href = '/pdf/web/viewer.html?src='
-                        + encodeURIComponent(pdfUrl) + '&name=' + encodeURIComponent(pdfName);
-                }*/
             },
         },
         destroyed(){

@@ -67,11 +67,18 @@
             }
         },
         created(){
+            this.addHive(1, 'fundsHotList');
+            let event = ['_trackEvent', '基金热销榜', 'SHOW', '进入基金热销榜页面', '进入基金热销榜页面'];
+            window._hmt.push(event);
             this.loadData();
         },
         computed: {},
         methods: {
             pathTo(code, type){
+                this.addHive(0, 'fundsHotList_item_fundsDetail');
+                this.addHive(2, 'fundsHotList_to_fundsDetail');
+                let event = ['_trackEvent', '基金热销榜', 'CLICK', '基金热销榜-点击详情', '基金热销榜-点击详情'];
+                window._hmt.push(event);
                 this.$router.push({
                     path:'/funds/detail',
                     query:{

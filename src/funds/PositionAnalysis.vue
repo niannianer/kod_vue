@@ -40,6 +40,9 @@
             }
         },
         created(){
+            this.addHive(1, 'fundsPositionAnalysis');
+            let event = ['_trackEvent', '基金持仓分析', 'SHOW', '进入基金持仓分析页面', '进入基金持仓分析页面'];
+            window._hmt.push(event);
             this.getAssetAllocation();
         },
         computed: {},

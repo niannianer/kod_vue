@@ -57,6 +57,9 @@
             }
         },
         created(){
+            this.addHive(1, 'fundsPurchaseResult');
+            let event = ['_trackEvent', '基金申购结果', 'SHOW', '进入基金申购结果页面', '进入基金申购结果页面'];
+            window._hmt.push(event);
             this.orderId = this.$route.query.id;
             this.getStatus();
             this.timeout();
@@ -83,6 +86,10 @@
                 })
             },
             toMine(){
+                this.addHive(0, 'fundsPurchaseResult_btn_fundsMyFund');
+                this.addHive(2, 'fundsPurchaseResult_to_fundsMyFund');
+                let event = ['_trackEvent', '基金申购结果', 'SHOW', '基金申购结果-点击我的账户', '基金申购结果-点击我的账户'];
+                window._hmt.push(event);
                 this.$router.push({
                     path: '/funds/my-fund'
                 });
