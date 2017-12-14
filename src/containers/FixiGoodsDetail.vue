@@ -356,7 +356,7 @@
                     this.showModal = true;
                     let event = ['_trackEvent', '定期理财详情', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
                     window._hmt.push(event);
-                    this.addHive(5, 'fixiGoodsDetail_modal_pdf');
+                    this.addHive(5, 'fixiGoodsDetail_modal_auth');
                 } else {
                     this.checkRiskAssess();
                 }
@@ -442,6 +442,7 @@
                 Toast('产品在预热中，请稍后再进行购买');
             },
             getMasterPage(){
+                this.addHive(0, 'fixiDoodsDetail_link_financialMaster');
                 window.location.href = '/land-financial-master.html';
             }
 
@@ -449,7 +450,7 @@
         },
         destroyed()
         {
-
+            this.addHive(2, 'fixi-goods-detail');
         }
     }
 </script>
