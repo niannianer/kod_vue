@@ -85,6 +85,9 @@
             }
         },
         created(){
+            this.addHive(1, 'relationList'+this.level);
+            let event = ['_trackEvent', '我的'+this.title, 'SHOW', '进入'+this.title+'页面','进入'+this.title+'页面'];
+            window._hmt.push(event);
             $operation.setTitle(this.title);
         }
     }

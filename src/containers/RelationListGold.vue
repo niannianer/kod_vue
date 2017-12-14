@@ -78,6 +78,9 @@
             }
         },
         created(){
+            this.addHive(1, 'relationListGold');
+            let event = ['_trackEvent', '我的金疙瘩好友', 'SHOW', '进入我的金疙瘩好友页面','进入我的金疙瘩好友页面'];
+            window._hmt.push(event);
             this.loadData();
         },
         computed: {
@@ -94,6 +97,9 @@
                 })
             },
             tab(order,isInvest){
+                this.addHive(0, 'relationListGold_tab_checkTab');
+                let event = ['_trackEvent', '我的金疙瘩好友', 'CLICK', '我的金疙瘩好友-点击tab','我的金疙瘩好友-点击tab'];
+                window._hmt.push(event);
                 this.list = [];
                 this.order = order;
                 this.isInvest = isInvest;

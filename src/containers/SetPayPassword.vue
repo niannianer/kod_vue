@@ -62,6 +62,7 @@
             Keyboard
         },
         created(){
+            this.addHive(1, 'setPayPassword');
             refreshApp();
             let event = ['_trackEvent', '设置交易密码', 'SHOW', '进入设置交易密码页面', '进入设置交易密码页面'];
             window._hmt.push(event);
@@ -101,6 +102,9 @@
                 }
             },
             submit(){
+                this.addHive(0, 'setPayPassword_btn_submit');
+                let event = ['_trackEvent', '设置交易密码', 'SHOW', '确认交易密码页面-点击完成', '确认交易密码页面-点击完成'];
+                window._hmt.push(event);
                 if (!this.btnActive) {
                     return
                 }
@@ -115,18 +119,19 @@
                             userPayPassword: password,
                             isFund
                         }).then(msg => {
-                        let event = ['_trackEvent', '设置交易密码', 'SHOW', '确认交易密码页面-点击完成', '确认交易密码页面-点击完成'];
-                        window._hmt.push(event);
                         if (msg.code == 200) {
                             //没有录入适当性管理信息，跳适当性录入信息页面
                             if (isFund && this.accountStatus < 3) {
+                                this.addHive(2, 'setPayPassword_to_fundsInfo');
                                 this.$router.replace({
                                     path: '/funds/info'
                                 });
                             } else if (isFund) {
                                 //完成录入适当性管理信息，跳基金详情页
+                                this.addHive(2, 'setPayPassword_to_fundsDetail');
                                 this.$router.back();
                             } else {
+                                this.addHive(2, 'setPayPassword_to_accountComplete');
                                 this.$router.replace({
                                     path: '/account-complete'
                                 });

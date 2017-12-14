@@ -52,11 +52,19 @@
                     pending:{},
                     processed:{},
                     canceled:{}
-                } 
+                }
             }
+        },
+        created(){
+            this.addHive(1, 'reserveProfessionalList');
+            let event = ['_trackEvent', '专职理财师预约单管理', 'SHOW', '进入专职理财师预约单管理页面','进入专职理财师预约单管理页面'];
+            window._hmt.push(event);
         },
         methods: {
             changeTab(tab){
+                this.addHive(0, 'reserveProfessionalList_tab_checkTab');
+                let event = ['_trackEvent', '专职理财师预约单管理', 'CLICK', '专职理财师预约单管理-点击tab','专职理财师预约单管理-点击tab'];
+                window._hmt.push(event);
                 this.status = tab;
             },
             //分页未做

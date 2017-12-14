@@ -70,8 +70,12 @@
         },
         created(){
             this.type = this.$route.query.type || 0;
-            let title = this.type == 1 ? '达人奖励细则' : '邀请奖励细则';
-            setTitle(title);
+          //  let title = this.type == 1 ? '达人奖励细则' : '邀请奖励细则';
+            let oper = this.type == 1 ? 'master' : '';
+            this.addHive(1, 'rewardDetail' + oper);
+            let event = ['_trackEvent', this.title, 'SHOW', '进入' + this.title + '页面', '进入' + this.title + '页面'];
+            window._hmt.push(event);
+            setTitle(this.title);
             this.loadData();
             if ($device.kingold) {
                 this.isApp = true;
@@ -80,10 +84,15 @@
                     param: {
                         backtype: 0,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
                         backAndRefresh: 1,
-                        title: title,
+                        title: this.title,
                         keyboard_mode: 0//0 adjustresize 1 adjustpan
                     }
                 })
+            }
+        },
+        computed:{
+            title(){
+                return this.type == 1 ? '达人奖励细则' : '邀请奖励细则';
             }
         },
         methods: {
@@ -95,6 +104,9 @@
                 });
             },
             rewardTab(string){
+                this.addHive(0, 'rewardDetail_tab_checkTab');
+                let event = ['_trackEvent', this.title, 'CLICK', this.title+'点击tab', this.title+'点击tab'];
+                window._hmt.push(event);
                 this.isActive = 'FIXI' == string ? true : false;
                 this.tabMenu = string;
                 this.titleRate = this.tabMenu == 'FIXI' ? '(年化)' : '';

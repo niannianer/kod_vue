@@ -82,6 +82,12 @@
                 timer: null
             }
         },
+        created(){
+            this.addHive(1, 'register');
+            let event = ['_trackEvent', '注册', 'SHOW', '进入注册页面', '进入注册页面'];
+            window._hmt.push(event);
+
+        },
         methods: {
             checkPhone(){
                 if (!this.investorMobile) {
@@ -126,6 +132,9 @@
                 return true;
             },
             getVerify(){
+                this.addHive(0, 'register_btn_getVerify');
+                let event = ['_trackEvent', '注册', 'CLICK', '注册页面获取验证码', '注册-获取验证码'];
+                window._hmt.push(event);
                 if (!this.checkPhone()) {
                     return false
                 }
@@ -186,9 +195,16 @@
                 }
             },
             login(){
+                this.addHive(0, 'register_btn_login');
+                this.addHive(2, 'register_to_login');
+                let event = ['_trackEvent', '注册', 'CLICK', '注册页面点击登录', '注册页面点击登录'];
+                window._hmt.push(event);
                 this.$router.replace('/login');
             },
             register(){
+                this.addHive(0, 'register_btn_register');
+                let event = ['_trackEvent', '注册', 'CLICK', '在注册页面点击注册按钮', '注册-点击注册'];
+                window._hmt.push(event);
                 if (!this.checkPhone()) {
                     return false;
                 }
@@ -211,8 +227,7 @@
                 params.registerActivityBatch = window.localStorage.getItem('registerActivityBatch') || '';
                 params.registerChannelCode = window.localStorage.getItem('registerChannelCode') || 'H5_weixin';
                 params.registerDeviceOs = $device.os + '-' + $device.osVersion;
-                let event = ['_trackEvent', '注册', 'CLICK', '在注册页面点击注册按钮', '注册-点击注册'];
-                window._hmt.push(event);
+
                 $api.post('/regist', params)
                     .then(data => {
                         if (data.code == 200) {
@@ -224,6 +239,7 @@
                             if (logoutUrl && /http/.test(logoutUrl)) {
                                 window.location.replace(logoutUrl);
                             } else {
+                                this.addHive(2, 'register_to_personalCenter');
                                 this.$router.replace('/personal-center');
                                 this.$store.dispatch('getAccountBaofoo');
                                 this.$store.dispatch('getPersonalCenterMsg');
@@ -247,6 +263,10 @@
                     });
             },
             link(src){
+                this.addHive(0, 'register_link_deal');
+                this.addHive(2, 'register_to_deal');
+                let event = ['_trackEvent', '注册', 'CLICK', '在注册页面点击协议', '注册-点击协议'];
+                window._hmt.push(event);
                 window.location.href = src;
             }
 
