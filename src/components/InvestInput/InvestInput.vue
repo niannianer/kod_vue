@@ -130,10 +130,9 @@
             },
             deletePassword(){
                 this.passwords.pop();
-                if(this.passwords.length==0){
+                if (this.passwords.length == 0) {
                     this.hintText = '';
                     this.disabled = true;
-                    return false;
                 }
                 this.setHintText();
             },
@@ -142,6 +141,10 @@
                     clearTimeout(this.timer);
                 }
                 this.timer = setTimeout(() => {
+                    if (isNaN(this.amount)) {
+                        this.disabled = true;
+                        return false;
+                    }
                     if (this.amount < this.minInvest) {
                         this.hintText = `起投金额${this.minInvest}元`;
                         this.disabled = true;
@@ -155,9 +158,8 @@
                             this.hintText = `投资金额需以${this.stepValue}元递增`;
                             this.disabled = true;
                         } else {
-                            let shouyi = this.amount * parseFloat(this.rate)  * parseInt(this.period) / 365;
+                            let shouyi = this.amount * parseFloat(this.rate) * parseInt(this.period) / 365;
                             shouyi = currencyFormat(shouyi);
-
                             this.hintText = `预期收益${shouyi}元`;
                             this.disabled = false;
                         }
@@ -197,7 +199,7 @@
                             MessageBox.alert('用户身份未认证或者开户未完成', '提示');
                             return false;
                         }
-                        if(data.code == 6005){
+                        if (data.code == 6005) {
                             this.hintText = `超出本产品单人投资上限，请重新输入`;
                             return false;
                         }

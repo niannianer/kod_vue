@@ -415,6 +415,7 @@
             if ($device.isWeixin) {
                 this.getShare();
             }
+            this.addHive(1, 'house-three');
             this.get();
             if($device.kingold){
                 requestHybrid({

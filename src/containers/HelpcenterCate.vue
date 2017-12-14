@@ -38,6 +38,7 @@
             }
         },
         created(){
+            this.addHive(1, 'help-center-cate');
             if ($device.kingold) {
                 this.isApp = true;
                 requestHybrid({
@@ -58,6 +59,7 @@
         },
         methods: {
             callService(){
+                this.addHive(0, 'helpCenterCate_call_mobile');
                 requestHybrid({
                     tagname: 'tel',
                     param: {
@@ -67,7 +69,7 @@
             }
         },
         destroyed(){
-
+            this.addHive(2, 'help-center-cate');
         }
     }
 </script>

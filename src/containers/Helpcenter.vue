@@ -6,19 +6,19 @@
                     <p class="category">{{item.category}}</p>
                     <div class="more" flex="main:center">
                         <p>更多</p><span>&gt</span>
-                       <!-- <img src="../images/arrow-right.png" alt="more">-->
+                        <!-- <img src="../images/arrow-right.png" alt="more">-->
                     </div>
                 </div>
             </div>
             <div class="questions-list" flex-box="1">
                 <div class="question-item" flex-box="1" v-for="(qitem,index) in item.qList" :key="index">
-                    <div flex="cross:center" v-if="item.openIndex != index" @click.sop="item.openIndex = index" >
+                    <div flex="cross:center" v-if="item.openIndex != index" @click.sop="item.openIndex = index">
                         <p flex-box="1" class="q">{{qitem.q}}</p>
-                        <img src="../images/arraw-down.png" alt="arrow" flex-box="0" >
+                        <img src="../images/arraw-down.png" alt="arrow" flex-box="0">
                     </div>
-                    <div flex="cross:center" v-else  @click.sop="item.openIndex = -1">
+                    <div flex="cross:center" v-else @click.sop="item.openIndex = -1">
                         <p flex-box="1" class="q">{{qitem.q}}</p>
-                        <img src="../images/arraw-down.png" alt="arrow" flex-box="0"  class="collapse" >
+                        <img src="../images/arraw-down.png" alt="arrow" flex-box="0" class="collapse">
                     </div>
                     <p class="a" v-show="item.openIndex == index">{{qitem.a}}</p>
                 </div>
@@ -49,10 +49,11 @@
         data(){
             return {
                 questions: questions,
-                isApp:false
+                isApp: false
             }
         },
         created(){
+            this.addHive(1, 'help-center');
             if ($device.kingold) {
                 this.isApp = true;
                 requestHybrid({
@@ -60,7 +61,7 @@
                     param: {
                         backtype: 1,// "0 : 后退 1 : 直接关闭 2: 弹对话框",
                         backAndRefresh: 1,
-                        title:'帮助中心',
+                        title: '帮助中心',
                         keyboard_mode: 0//0 adjustresize 1 adjustpan
                     }
                 })
@@ -69,17 +70,20 @@
         computed: {},
         methods: {
             pathTo(num){
+                this.addHive(0, 'helpCenter_link_helpCenterCate');
                 this.$router.push({
-                    path:'/helpcenter-cate',
-                    query:{
-                        cate:num
+                    path: '/helpcenter-cate',
+                    query: {
+                        cate: num
                     }
                 })
             },
             fedback(){
+                this.addHive(0, 'helpCenter_link_feedback');
                 this.$router.push('/feedback');
             },
             callService(){
+                this.addHive(0, 'helpCenter_call_mobile');
                 requestHybrid({
                     tagname: 'tel',
                     param: {
@@ -89,6 +93,7 @@
             }
         },
         destroyed(){
+            this.addHive(2, 'help-center');
         }
     }
 </script>

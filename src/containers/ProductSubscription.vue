@@ -33,7 +33,7 @@
                 </div>
                 <div class="item" flex>
                     <p flex-box="1">实付金额</p>
-                    <p flex-box="0">{{actualPay|currencyFormat}}元</p>
+                    <p flex-box="0">{{actualPay | currencyFormat}}元</p>
                 </div>
             </div>
             <div class="section seprate">
@@ -75,11 +75,13 @@
                     <div class="deal" flex="box:first cross:top">
                         <div class="chec" :class="{'active':enable}" @click="agreeDeal"></div>
                         <div v-if="!isLack">
-                            我已仔细阅读《产品说明书》和《风险提示函》，并同意《认购协议》和
-                            <span @click.stop="agreement(0)" class="agreement">《金疙瘩平台免责声明》</span>
+                            我已阅读并同意
+                            <span @click.stop="agreement(0)" class="agreement">《产品认购相关协议》</span>
+                            和
+                            <span @click.stop="agreement(1)" class="agreement">《入会申请及承诺》</span>
                         </div>
                         <div v-if="isLack">
-                            我已同意<span class="agreement" @click.stop="agreement(1)">《宝付科技电子支付账户协议》</span>
+                            我已同意<span class="agreement" @click.stop="agreement(2)">《宝付科技电子支付账户协议》</span>
                         </div>
                     </div>
                 </div>
@@ -138,6 +140,7 @@
                 couponExtendCode: '',
                 item: {},
                 orderBillCode: '',
+                productProtocolType:'',
                 faceValueText: '暂不使用',
                 faceValue: 0,
                 useAssetsValue: 0,
@@ -287,6 +290,7 @@
                         }
                         this.jiaxiRate = this.expcRate;
                         this.productPeriod = msg.data.productPeriod;
+                        this.productProtocolType = msg.data.productProtocolType;
                     }
                 })
             },
@@ -298,7 +302,7 @@
                     this.faceValue = item.faceValue;
                     this.rechargeNum = this.leastPay;
                     this.faceValueText = item.faceValue + '元';
-                    this.jiaxiRate =this.expcRate;
+                    this.jiaxiRate = this.expcRate;
                 }
                 else if (item && item.couponExtendCode && item.couponType == 2) {
                     // jiaxi quan
@@ -306,8 +310,8 @@
                     this.couponExtendCode = item.couponExtendCode;
                     this.faceValue = item.faceValue;
                     this.rechargeNum = this.leastPay;
-                    this.faceValueText = '+'+item.couponInterestYieldRate;
-                    this.jiaxiRate = numAdd(this.expcRate, parseFloat(item.couponInterestYieldRate)/100);
+                    this.faceValueText = '+' + item.couponInterestYieldRate;
+                    this.jiaxiRate = numAdd(this.expcRate, parseFloat(item.couponInterestYieldRate) / 100);
 
 
                 }
@@ -318,7 +322,7 @@
                     this.faceValue = 0;
                     this.rechargeNum = this.leastPay;
                     this.faceValueText = '暂不使用';
-                    this.jiaxiRate =this.expcRate;
+                    this.jiaxiRate = this.expcRate;
 
                 }
             },
@@ -331,7 +335,13 @@
             // 各种协议
             agreement(num){
                 if (num == 0) {
-                    window.location.href = '/product-subscription-agreement.html'
+                    if (this.productProtocolType == 'ZJBL') {
+                        window.location.href = '/product-zjbl.html'
+                    }
+                    else {
+                        window.location.href = '/product-subscription-agreement.html'
+                    }
+
                 }
                 if (num == 1) {
                     window.location.href = '/application-commitment.html';

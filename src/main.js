@@ -32,5 +32,8 @@ store.dispatch('getPaymentInfo');
 window.onload = () => {
     FastClick.attach(document.body);
 };
+/*
+
 import {postHive} from './tools/api';
 postHive();
+*/
