@@ -81,6 +81,7 @@
             setBank(item){
                 this.addHive(0, 'bankList_list_bank');
                 window.sessionStorage.setItem('bank-info', JSON.stringify(item));
+                this.addHive(2, 'bank-list');
                 this.$router.back();
             }
         }

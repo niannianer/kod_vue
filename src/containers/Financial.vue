@@ -395,6 +395,7 @@
             },
             pathTo(path, boolean){
                 this.addHive(0, 'financial_link' + path.replace('/', ''));
+                this.addHive(2, 'financial');
                 if (boolean) {
                     window.location.href = path;
                     return false;

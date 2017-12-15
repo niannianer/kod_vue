@@ -255,6 +255,9 @@
                     return false;
                 }
                 this.loading = true;
+
+                let event = ['_trackEvent', '绑定银行卡', 'CLICK', '绑定银行卡页面-点击完成', '绑定银行卡页面-点击完成'];
+                window._hmt.push(event);
                 $api.post('/bindBankCard', {
                     userName: investorRealName,
                     bankUserCardNo: bankUserCardNo,
@@ -262,14 +265,13 @@
                     verifyCode: verifyCode
                 }).then(msg => {
 
-                    let event = ['_trackEvent', '绑定银行卡', 'CLICK', '绑定银行卡页面-点击完成', '绑定银行卡页面-点击完成'];
-                    window._hmt.push(event);
                     if (msg.code == 200) {
                         Toast({
                             message: '绑卡成功',
                             duration: 5000
                         });
                         let event = ['_trackEvent', '绑卡成功', 'SHOW', '绑卡请求成功', '绑卡请求成功'];
+                        this.addHive(0,'bindBankCard_fetch_succ');
                         window._hmt.push(event);
                         setTimeout(() => {
                             this.loading = false;
@@ -293,6 +295,7 @@
                 });
             },
             getBankList(){
+                this.addHive(0,'bindBankCard_link_bankList')
                 window.sessionStorage.setItem('bind-card-info', JSON.stringify(this.$data));
                 this.$router.push('/bank-list');
             },
@@ -328,7 +331,7 @@
         },
         destroyed(){
             MessageBox.close();
-            this.addHive(2, 'bindBankCard');
+            this.addHive(2, 'bind-bank-card');
         }
     }
 </script>

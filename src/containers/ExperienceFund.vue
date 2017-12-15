@@ -90,7 +90,7 @@
             }
         },
         created(){
-            this.addHive(1, 'experience-funds');
+            this.addHive(1, 'experience-fund');
             this.loadData();
             this.$store.dispatch('getExperienceSum');
         },
@@ -115,13 +115,13 @@
                     })
             },
             loadMore(){
-                this.addHive(0, 'experienceFunds_scroll_loading');
+                this.addHive(0, 'experienceFund_scroll_loading');
                 this.stopLoad = true;
                 this.currentPage++;
                 this.loadData();
             },
             toFinancial(){
-                this.addHive(0, 'experienceFunds_link_financial');
+                this.addHive(0, 'experienceFund_link_financial');
                 this.$router.push('/financial');
             },
             recieve(item){
