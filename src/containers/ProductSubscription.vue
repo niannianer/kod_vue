@@ -140,7 +140,7 @@
                 couponExtendCode: '',
                 item: {},
                 orderBillCode: '',
-                productProtocolType:'',
+                productProtocolType: '',
                 faceValueText: '暂不使用',
                 faceValue: 0,
                 useAssetsValue: 0,
@@ -155,6 +155,7 @@
         created(){
             /*获取账户余额并选择默认优惠券*/
             this.getBaofoo();
+            this.addHive(1, 'product-subscription');
             /*充值回来*/
             if (window.sessionStorage.getItem('investDetail')) {
                 let investDetail = window.sessionStorage.getItem('investDetail');
@@ -295,6 +296,7 @@
                 })
             },
             chooseCode(item){
+                this.addHive(0,'productSubscription_item_couponExtendCode');
                 if (item && item.couponExtendCode && item.couponType == 1) {
                     // xianjin quan
                     this.item = item;
@@ -334,6 +336,7 @@
             },
             // 各种协议
             agreement(num){
+                this.addHive(0, 'productSubscription_link_agreement');
                 if (num == 0) {
                     if (this.productProtocolType == 'ZJBL') {
                         window.location.href = '/product-zjbl.html'
@@ -351,10 +354,12 @@
                 }
             },
             agreeDeal(){
+                this.addHive(0, 'productSubscription_checkbox_agreement');
                 this.enable = !this.enable;
             },
             // 充值 投资
             rechargeHandle(){
+                this.addHive(0, 'productSubscription_btn_recharge');
                 if (!this.enable) {
                     Toast('请勾选同意《宝付科技电子支付账户协议》');
                     return false;
@@ -394,6 +399,7 @@
                 this.doInvest(password);
             },
             doInvest(password){
+                this.addHive(0, 'productSubscription_btn_invest');
                 Indicator.open('提交中...');
                 $api.post('/trade/invest', {
                     'productUuid': this.productUuid,
@@ -439,8 +445,10 @@
                     Toast('请勾选同意《产品认购相关协议》和《入会申请及承诺》');
                     return false;
                 }
+                this.addHive(0, 'productSubscription_btn_subscription');
                 let event = ['_trackEvent', '认购信息确认页', 'SHOW', '认购信息页面直接购买', '认购信息页-点击立即购买'];
                 window._hmt.push(event);
+                this.addHive(5, 'productSubscription_modal_inputpassword');
                 event = ['_trackEvent', '认购信息确认页', 'SHOW', '弹出支付密码弹框', '弹出支付密码弹框'];
                 window._hmt.push(event);
                 this.inputPassword = true;
@@ -472,6 +480,7 @@
                     this.useAssetsValue = 0;
                 }
                 else {
+                    this.addHive(0, 'productSubscription_checkbox_subscription');
                     let event = ['_trackEvent', '认购信息确认页', 'CLICK', '认购信息页-勾选使用账户余额', '认购信息页-勾选使用余额'];
                     window._hmt.push(event);
                     this.useAssetsValue = this.accountCashAmount;
@@ -482,6 +491,7 @@
         },
         destroyed(){
             Indicator.close();
+            this.addHive(2, 'product-subscription');
         }
     }
 </script>

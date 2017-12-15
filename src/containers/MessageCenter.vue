@@ -51,21 +51,22 @@
                 pageSize: 10,
                 hasUnread: 1,
                 msgCode: 3,
-                scrollTop:0,
+                scrollTop: 0,
                 defaultImg
             }
         },
         components: {},
         created(){
+            this.addHive(1, 'message-center');
             if (window.sessionStorage.getItem('message')) {/*详情页返回时重现离开时位置*/
-                let {currentPage, hasUnread, msgList, tabId, tabList,scrollTop,loading} = JSON.parse(window.sessionStorage.getItem('message'));
+                let {currentPage, hasUnread, msgList, tabId, tabList, scrollTop, loading} = JSON.parse(window.sessionStorage.getItem('message'));
                 this.currentPage = currentPage;
                 this.hasUnread = hasUnread;
                 this.msgList = msgList;
                 this.tabId = tabId;
                 this.tabList = tabList;
                 this.loading = loading;
-                if(scrollTop){
+                if (scrollTop) {
                     this.$nextTick(() => {
                         let dom = document.querySelector('.content');
                         dom.scrollTop = scrollTop;
@@ -85,7 +86,7 @@
                         if (resp.code == 200) {
                             this.tabList = resp.data.list;
                             if (this.tabList.length) {
-                                if (this.$route.query&&this.$route.query.tab) {
+                                if (this.$route.query && this.$route.query.tab) {
                                     this.tabId = this.$route.query.tab;
                                     Indicator.open();
                                     this.getList();
@@ -98,6 +99,7 @@
                     })
             },
             checkTab(num){
+                this.addHive(0, 'messageCenter_tab_type');
                 this.tabId = num;
                 this.currentPage = 0;
                 this.$router.replace('/message-center?tab=' + this.tabId);
@@ -128,17 +130,20 @@
                     })
             },
             loadMore(){
+                this.addHive(0, 'messageCenter_scroll_loading');
                 this.loading = true;
                 this.currentPage++;
                 this.getList();
             },
             msgDetail(id){
+                this.addHive(0, 'messageCenter_btn_detail');
                 this.scrollTop = this.$refs.scroll.scrollTop;
                 window.sessionStorage.setItem('message', JSON.stringify(this.$data));
                 window.location.href = '/land-message.html?id=' + id;
             },
             delUnread(){/*删除未读  msgCode 3：文章*/
                 let {msgCode} = this;
+                this.addHive(0, 'messageCenter_btn_delete');
                 $api.post('/user/destroy/unread', {msgCode})
                     .then(resp => {
                         if (resp.code == 200) {
@@ -153,7 +158,7 @@
         mounted(){
         },
         destroyed(){
-
+            this.addHive(2, 'message-center');
         }
     }
 </script>

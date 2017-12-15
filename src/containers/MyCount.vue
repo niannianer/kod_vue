@@ -52,12 +52,13 @@
                 'investorIdCardNo',
                 'bankUserPhone']),
             bankImg(){
-                 return imgUrls[this.bankCode];
+                return imgUrls[this.bankCode];
             }
         },
         created(){
             let event = ['_trackEvent', '我的银行卡', 'SHOW', '进入我的银行卡页面', '进入我的银行卡页面'];
             window._hmt.push(event);
+            this.addHive(1, 'my-count');
         }
     }
 </script>

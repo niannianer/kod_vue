@@ -25,14 +25,17 @@
             }
         },
         created(){
+            this.addHive(1,'planning');
         },
         computed: {
         },
         methods: {
             getPage(type){
                 if(type=='house'){
+                    this.addHive(0,'planning_link_house');
                     this.$router.push('/house-one');
                 }else {
+                    this.addHive(0,'planning_link_pension');
                     this.$router.push('/pension-one');
                 }
             },
@@ -45,7 +48,7 @@
             },
         },
         destroyed(){
-
+            this.addHive(2,'planning');
         }
     }
 </script>
