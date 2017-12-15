@@ -85,6 +85,7 @@
             this.productExpiringDate = invsetInfo.productExpiringDate;
             let event = ['_trackEvent', '购买成功', 'SHOW', '进入购买成功页面', '进入购买成功页面'];
             window._hmt.push(event);
+            this.addHive(1,'invest-succ');
         },
         computed: {},
         components:{
@@ -92,10 +93,12 @@
         },
         methods: {
             pathTo(path){
+                this.addHive(0,'investSucc_link_path');
                 this.$router.push(path);
             }
         },
         destroyed(){
+            this.addHive(2,'invest-succ');
         }
     }
 </script>

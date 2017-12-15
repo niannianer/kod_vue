@@ -1,7 +1,7 @@
 <template>
     <div flex="dir:top" flex-box="1" class="invitation-allowance-list">
         <div class="header">
-            <ul class="tabs" flex="mean:center" >
+            <ul class="tabs" flex="mean:center">
                 <li flex-box="1" :class="{'active': tab == 1,'br': tab == 2}" @click.stop="changeTab(1)">直接邀请津贴</li>
                 <li flex-box="1" :class="{'active': tab == 2,'bl': tab == 1}" @click.stop="changeTab(2)">间接邀请津贴</li>
             </ul>
@@ -30,8 +30,8 @@
              infinite-scroll-disabled="disLoad"
              infinite-scroll-distance="70">
             <div flex="dir:left" class="item" v-for="(item,index) in tabList">
-                <div class="left" flex-box="1"  flex="dir:top main:center">
-                    <p class='info' :class='item.rewardStatus == 2 ? "blue" : "orange"' >
+                <div class="left" flex-box="1" flex="dir:top main:center">
+                    <p class='info' :class='item.rewardStatus == 2 ? "blue" : "orange"'>
                         <span class="num">
                             {{item.rewardStatus == 2 ? item.payAmount : item.rewardAmount | currencyFormat}}
                         </span>元
@@ -55,21 +55,21 @@
             <p v-show="loading&&hasMore" class="loading">加载更多...</p>
         </div>
         <!--<div flex="dir:top" flex-box="1" class="shade"  v-show="show">-->
-            <!--<div class="cancel" flex='main:right' flex-box='1'  @click="show=false">关闭</div>-->
-            <!--<div class="content"flex-box='4'>-->
-                <!--<div>-->
-                    <!--<p>您的直接理财师好友推荐客户购买平台产品后， 您将获得直接邀请津贴。</p>-->
-                    <!--<p>奖励金额=好友奖励*奖励系数</p>-->
-                <!--</div>-->
-                <!--<div>-->
-                    <!--<p>您的间接理财师好友推荐客户购买平台产品后， 您将获得间接邀请奖励。</p>-->
-                    <!--<p>奖励金额=好友奖励*奖励系数</p>-->
-                <!--</div>-->
-                <!--<div>-->
-                    <!--<p>注：直接邀请奖励系数为16%</p>-->
-                    <!--<p>间接邀请奖励系数为4%</p>-->
-                <!--</div>-->
-            <!--</div>-->
+        <!--<div class="cancel" flex='main:right' flex-box='1'  @click="show=false">关闭</div>-->
+        <!--<div class="content"flex-box='4'>-->
+        <!--<div>-->
+        <!--<p>您的直接理财师好友推荐客户购买平台产品后， 您将获得直接邀请津贴。</p>-->
+        <!--<p>奖励金额=好友奖励*奖励系数</p>-->
+        <!--</div>-->
+        <!--<div>-->
+        <!--<p>您的间接理财师好友推荐客户购买平台产品后， 您将获得间接邀请奖励。</p>-->
+        <!--<p>奖励金额=好友奖励*奖励系数</p>-->
+        <!--</div>-->
+        <!--<div>-->
+        <!--<p>注：直接邀请奖励系数为16%</p>-->
+        <!--<p>间接邀请奖励系数为4%</p>-->
+        <!--</div>-->
+        <!--</div>-->
         <!--</div>-->
     </div>
 </template>
@@ -83,18 +83,19 @@
         name: 'invitation-allowance-list',
         data(){
             return {
-                tab: this.$route.query.rewardType-1,
+                tab: this.$route.query.rewardType - 1,
                 pageSize: 10,
                 pageNo: 1,
                 hasMore: false,
                 loading: false,
                 sumData: {},
                 tabList: [],
-                show:false
+                show: false
 
             }
         },
         created(){
+            this.addHive(1, 'invitation-allowance-list');
             this.getRewardList('refresh');
 
         },
@@ -105,12 +106,14 @@
         },
         methods: {
             changeTab(tab){
+                this.addHive(0, 'invitationAllowanceList_tab_status');
                 this.tab = tab;
-                this.pageNo=1;
+                this.pageNo = 1;
                 this.getRewardList('refresh')
 
             },
             loadMore(){
+                this.addHive(0, 'invitationAllowanceList_scroll_loading');
                 if (this.loading) {
                     return false;
                 }

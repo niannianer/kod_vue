@@ -1,20 +1,20 @@
 <template>
     <div class="index" flex="dir:top">
         <div class="header" flex-box="0">
-            <mt-swipe :auto="4000" >
+            <mt-swipe :auto="4000">
                 <mt-swipe-item v-for="(item,index) in bannerList" :key="index">
                     <img :src=item.advertImage alt="index-bg" @click.stop="pathTo(item.advertLink,true)">
                 </mt-swipe-item>
             </mt-swipe>
-            <span class="login-btn"  @click.stop="pathTo('/login')" v-show="!isLogin">登录</span>
+            <span class="login-btn" @click.stop="pathTo('/login')" v-show="!isLogin">登录</span>
         </div>
         <div class="body" flex-box="0">
             <div class="section" @click.stop="pathTo('/person-center')">
                 <div flex="cross:center">
                     <p class="title" flex-box="1">个人中心</p>
                     <div v-show="isLogin" flex-box="0">
-                        <p  v-show="mode" @click.stop="switchMode">隐藏金额</p>
-                        <p  v-show="!mode" @click.stop="switchMode">显示金额</p>
+                        <p v-show="mode" @click.stop="switchMode">隐藏金额</p>
+                        <p v-show="!mode" @click.stop="switchMode">显示金额</p>
                     </div>
                     <img src="../images/arrow-right.png" alt="" flex-box="0" class="arrow">
                 </div>
@@ -62,7 +62,8 @@
                 </div>
                 <div flex="box:mean">
                     <p style="border-top:none" @click.stop="pathTo('/planning')">理财规划</p>
-                    <p style="border-top:none;border-left:none" @click.stop="pathTo('/land-about-us.html',true)">关于我们</p>
+                    <p style="border-top:none;border-left:none" @click.stop="pathTo('/land-about-us.html',true)">
+                        关于我们</p>
                 </div>
             </div>
             <div class="download" @click.stop="pathTo('/land-download.html',true)">下载app</div>
@@ -71,7 +72,7 @@
 </template>
 
 <script>
-    import { Swipe, SwipeItem } from 'mint-ui';
+    import {Swipe, SwipeItem} from 'mint-ui';
     import Vue from 'vue';
     import $api from '../tools/api';
     import '../less/index.less';
@@ -83,16 +84,17 @@
         data(){
             return {
                 recommend: {},
-                bannerList:[],
-                mode:true,
-                isLogin:false
+                bannerList: [],
+                mode: true,
+                isLogin: false
             }
         },
         components: {},
         created(){
+            this.addHive(1, 'index');
             $api.get('/getAccountBaofoo')
-                .then(resp=>{
-                    if(resp.code==200){
+                .then(resp => {
+                    if (resp.code == 200) {
                         this.isLogin = true;
                     }
                 })
@@ -112,17 +114,17 @@
                     }
                 });
         },
-        computed: mapState(['accountTotalAssets','accountTotalInterests']),
-        watch:{
+        computed: mapState(['accountTotalAssets', 'accountTotalInterests']),
+        watch: {
             accountTotalAssets(){
-                if(this.accountTotalAssets){
-                  //  window.sessionStorage.removeItem('logoutUrl');
+                if (this.accountTotalAssets) {
+                    //  window.sessionStorage.removeItem('logoutUrl');
                     this.isLogin = true;
-                }else{
+                } else {
                     $api.get('/getAccountBaofoo')
-                        .then(resp=>{
-                            if(resp.code==200){
-                              //  window.sessionStorage.removeItem('logoutUrl');
+                        .then(resp => {
+                            if (resp.code == 200) {
+                                //  window.sessionStorage.removeItem('logoutUrl');
                                 this.isLogin = true;
                             }
                         })
@@ -130,16 +132,17 @@
             }
         },
         methods: {
-            pathTo(path,boolean){
-                if(boolean){
+            pathTo(path, boolean){
+                this.addHive(0, `index_link_${path.replace('/', '')}`);
+                if (boolean) {
                     window.location.href = path;
                     return false;
                 }
-                if(path=='/login'){/*banner部分登录按钮登录后回到首页*/
+                if (path == '/login') {/*banner部分登录按钮登录后回到首页*/
                     window.sessionStorage.setItem('logoutUrl', encodeURIComponent(window.location.href));
                 }
-                if(path=='/relation'||path=='/reward'){
-                    window.sessionStorage.setItem('logoutIndex', encodeURIComponent(window.location.origin+path));
+                if (path == '/relation' || path == '/reward') {
+                    window.sessionStorage.setItem('logoutIndex', encodeURIComponent(window.location.origin + path));
                 }
                 this.$router.push(path);
             },
@@ -149,6 +152,7 @@
             }
         },
         destroyed(){
+          this.addHive(2,'index');
 
         }
     }

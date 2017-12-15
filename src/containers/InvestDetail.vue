@@ -67,6 +67,7 @@
             }
         },
         created(){
+          this.addHive(1,'invest-detail');
             this.expectProfitTitle = this.status == 1 ? '预期收益' : '实际收益';
             $api.get('/investment/detail', {
                 orderBillCode: this.$route.query.orderBillCode
@@ -81,6 +82,7 @@
         },
         methods: {
             linkpdf(){
+                this.addHive(0,'investDetail_link_pdf');
                 let pdfUrl = this.lists.subcontractFilepath;
                 let pdfName = '认购相关协议';
                 pdfUrl = pdfUrl.replace(/^http\.*:/, 'https:');

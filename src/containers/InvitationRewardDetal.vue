@@ -5,8 +5,10 @@
                 <li flex>
                     <div v-if="data.rewardStatus == 2">奖励金额（税后）：</div>
                     <div v-else>奖励金额（税前）：</div>
-                    <div class="color2" v-if="data.rewardStatus == 2"><span class="color-red">{{data.payAmount | currencyFormat}}</span>元</div>
-                    <div class="color2" v-else ><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
+                    <div class="color2" v-if="data.rewardStatus == 2"><span class="color-red">{{data.payAmount | currencyFormat}}</span>元
+                    </div>
+                    <div class="color2" v-else><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元
+                    </div>
                 </li>
                 <li flex>
                     <div>好友投资金额：</div>
@@ -38,7 +40,8 @@
             <ul class="detail-ul">
                 <li flex>
                     <div>投资产品：</div>
-                    <div class="width color"><span @click.stop="link(data.productUuid)">{{data.productName}}</span></div>
+                    <div class="width color"><span @click.stop="link(data.productUuid)">{{data.productName}}</span>
+                    </div>
                 </li>
                 <li flex>
                     <div>投资时间：</div>
@@ -58,8 +61,10 @@
                 <li flex>
                     <div v-if="data.rewardStatus == 2">奖励金额（税后）：</div>
                     <div v-else>奖励金额（税前）：</div>
-                    <div v-if="data.rewardStatus == 2"><span class="color-red">{{data.payAmount | currencyFormat}}</span>元</div>
-                    <div v-else ><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
+                    <div v-if="data.rewardStatus == 2"><span
+                        class="color-red">{{data.payAmount | currencyFormat}}</span>元
+                    </div>
+                    <div v-else><span class="color-red">{{data.rewardAmount | currencyFormat}}</span>元</div>
                 </li>
                 <li flex>
                     <div>好友投资金额：</div>
@@ -81,7 +86,8 @@
                 </li>
                 <li flex>
                     <div>投资产品：</div>
-                    <div class="color width"><span @click.stop="link(data.productUuid)">{{data.productName}}</span></div>
+                    <div class="color width"><span @click.stop="link(data.productUuid)">{{data.productName}}</span>
+                    </div>
                 </li>
                 <li flex>
                     <div>投资时间：</div>
@@ -107,19 +113,20 @@
         name: 'reserve-detail',
         data(){
             return {
-                productPeriodType:'',
-                classArr:['wait','wait','accounted'],
+                productPeriodType: '',
+                classArr: ['wait', 'wait', 'accounted'],
                 "data": {}
             }
         },
-        methods:{
+        methods: {
             link(productUuid){
+                this.addHive(0, 'invitationRewardDetail_link_productDetail');
                 $api.get('/checkProductOnStatus', {productUuid: productUuid}).then(msg => {
                     if (msg.code == 200) {
                         let path = '';
-                        if(this.data.productType == 'PRIF'){
+                        if (this.data.productType == 'PRIF') {
                             path = '/goods-detail-prif';
-                        }else{
+                        } else {
                             path = '/fixi-goods-detail';
                         }
                         this.$router.push({
@@ -136,9 +143,10 @@
             }
         },
         mounted(){
+            this.addHive(1, 'invitation-reward-detail');
             let rewardBillCode = this.$route.query.rewardBillCode;
-            $api.get('/reward/detail',{rewardBillCode:rewardBillCode}).then(msg => {
-                if(msg.code == 200){
+            $api.get('/reward/detail', {rewardBillCode: rewardBillCode}).then(msg => {
+                if (msg.code == 200) {
                     this.data = msg.data;
                 }
             })

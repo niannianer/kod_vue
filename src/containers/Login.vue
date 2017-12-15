@@ -90,6 +90,7 @@
             }
         },
         created(){
+            this.addHive(1,'login');
             console.log(this.$route.query.type);
             this.isCodeType = !!Number(this.$route.query.type);
         },
@@ -120,6 +121,7 @@
                 this.inputCode = '';
             },
             getVerify(){
+                 this.addHive(0,'login_btn_verify');
                 if (!this.checkPhone()) {
                     return false
                 }
@@ -291,7 +293,7 @@
                 if (path == '/register') {
                     let event = ['_trackEvent', '注册', 'SHOW', '从登录页进入注册页', '从登录页进入注册页'];
                     window._hmt.push(event);
-                    this.addHive(2, 'login_to_register');
+                    this.addHive(0, 'login_link_register');
                 }
                 this.$router.replace(path)
             },

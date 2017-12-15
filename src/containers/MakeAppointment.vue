@@ -96,6 +96,7 @@
             }
         },
         created(){
+            this.addHive(1, 'make-appointment');
             this.productUuid = this.$route.query.productUuid;
             $api.getNode('/assets/getArea')
                 .then((msg) => {
@@ -109,18 +110,22 @@
         },
         methods: {
             stateChange(){
+                this.addHive(0, 'makeAppointment_select_province');
                 this.province = this.state.state;
                 this.cityList = this.state.cities;
             },
             areasChange(){
+                this.addHive(0, 'makeAppointment_select_city');
                 this.city = this.areas.city;
                 this.countryList = this.areas.areas;
             },
             areaChange(){
+                this.addHive(0, 'makeAppointment_select_country');
                 this.customerRegionCode = this.zone.code;
                 this.country = this.zone.area;
             },
             getVerify(){
+                this.addHive(0, 'makeAppointment_btn_verify');
                 if (!this.checkPhone()) {
                     return false;
                 }
@@ -230,6 +235,7 @@
                 return true;
             },
             appointHandle(){
+                this.addHive(0, 'makeAppointment_btn_appoint');
                 if (this.checkInputs() && this.checkPhone()) {
                     let {productUuid, customerName, customerMobile, verifyCode, customerIdCardNo, customerRegionCode} = this;
                     $api.post('/product/reserve', {
@@ -257,6 +263,7 @@
             }
         },
         destroyed(){
+            this.addHive(2, 'make-appointment');
 
         }
     }
