@@ -53,7 +53,7 @@
             }
         },
         created(){
-            this.addHive(1, 'help-center');
+            this.addHive(1, 'helpcenter');
             if ($device.kingold) {
                 this.isApp = true;
                 requestHybrid({
@@ -70,7 +70,7 @@
         computed: {},
         methods: {
             pathTo(num){
-                this.addHive(0, 'helpCenter_link_helpCenterCate');
+                this.addHive(0, 'helpcenter_link_helpcenterCate');
                 this.$router.push({
                     path: '/helpcenter-cate',
                     query: {
@@ -79,11 +79,11 @@
                 })
             },
             fedback(){
-                this.addHive(0, 'helpCenter_link_feedback');
+                this.addHive(0, 'helpcenter_link_feedback');
                 this.$router.push('/feedback');
             },
             callService(){
-                this.addHive(0, 'helpCenter_call_mobile');
+                this.addHive(0, 'helpcenter_call_mobile');
                 requestHybrid({
                     tagname: 'tel',
                     param: {
@@ -93,7 +93,7 @@
             }
         },
         destroyed(){
-            this.addHive(2, 'help-center');
+            this.addHive(2, 'helpcenter');
         }
     }
 </script>
