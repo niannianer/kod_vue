@@ -303,7 +303,7 @@
             this.$refs.openCount.style.minHeight = window.innerHeight + 'px';
         },
         destroyed(){
-
+            this.addHive(2, 'fundsOpenCount');
         }
     }
 </script>

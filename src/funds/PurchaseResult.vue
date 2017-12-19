@@ -87,7 +87,6 @@
             },
             toMine(){
                 this.addHive(0, 'fundsPurchaseResult_btn_fundsMyFund');
-                this.addHive(2, 'fundsPurchaseResult_to_fundsMyFund');
                 let event = ['_trackEvent', '基金申购结果', 'SHOW', '基金申购结果-点击我的账户', '基金申购结果-点击我的账户'];
                 window._hmt.push(event);
                 this.$router.push({
@@ -97,6 +96,7 @@
         },
         destroyed(){
             clearTimeout(this.timer);
+            this.addHive(2, 'fundsPurchaseResult');
         }
     }
 </script>

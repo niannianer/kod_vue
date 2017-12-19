@@ -203,7 +203,7 @@
             this.$refs.purchase.style.minHeight = window.innerHeight + 'px';
         },
         destroyed(){
-
+            this.addHive(2, 'fundsPurchase');
         }
     }
 </script>

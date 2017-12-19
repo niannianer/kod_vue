@@ -166,6 +166,7 @@
             }
         },
         destroyed(){
+            this.addHive(2, 'fundsRelatedRate');
         }
     }
 </script>

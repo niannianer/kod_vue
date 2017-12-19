@@ -137,7 +137,7 @@
             }
         },
         destroyed(){
-
+            this.addHive(2, 'fundsVerify');
         }
     }
 </script>

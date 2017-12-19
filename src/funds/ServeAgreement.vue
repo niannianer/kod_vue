@@ -174,6 +174,7 @@
         mounted(){
         },
         destroyed(){
+            this.addHive(2, 'fundsServeAgreement');
         }
     }
 </script>

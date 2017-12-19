@@ -67,7 +67,6 @@
             },
             pathTo(path){
                 this.addHive(0, 'fundsRedeemResult_btn_fundsMyFund');
-                this.addHive(2, 'fundsRedeemResult_to_fundsMyFund');
                 let event = ['_trackEvent', '基金赎回结果', 'SHOW', '基金赎回结果-点击我的账户', '基金赎回结果-点击我的账户'];
                 window._hmt.push(event);
                 this.$router.push(path);
@@ -75,6 +74,7 @@
         },
         destroyed(){
             clearTimeout(this.timer);
+            this.addHive(2, 'fundsRedeemResult');
         }
     }
 </script>

@@ -161,7 +161,7 @@
             }
         },
         destroyed(){
-
+            this.addHive(2, 'fundsRedeem');
         }
     }
 </script>

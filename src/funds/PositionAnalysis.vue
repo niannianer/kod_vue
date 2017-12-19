@@ -78,7 +78,7 @@
             }
         },
         destroyed(){
-
+            this.addHive(2, 'fundsPositionAnalysis');
         }
     }
 </script>
