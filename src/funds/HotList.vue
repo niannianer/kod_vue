@@ -114,11 +114,12 @@
             loadMore(){
                 this.loading = true;
                 this.currentPage++;
+                this.addHive(0,'fundsHotList_scroll_loading');
                 this.loadData();
             }
         },
         destroyed(){
-
+            this.addHive(2,'fundsHotList');
         }
     }
 </script>

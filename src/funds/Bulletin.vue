@@ -83,7 +83,7 @@
             },
         },
         destroyed(){
-
+            this.addHive(2, 'fundsBulletin');
         }
     }
 </script>

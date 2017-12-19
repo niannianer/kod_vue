@@ -675,6 +675,7 @@
             },
         },
         destroyed(){
+            this.addHive(2, 'fundsDetail');
         }
     }
 </script>

@@ -277,7 +277,7 @@
             this.$refs.info.style.minHeight = window.innerHeight + 'px';
         },
         destroyed(){
-
+            this.addHive(2, 'fundsInfo');
         }
     }
 </script>

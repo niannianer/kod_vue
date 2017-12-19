@@ -33,7 +33,7 @@
         computed: {},
         methods: {},
         destroyed(){
-
+            this.addHive(2, 'fundsManager');
         }
     }
 </script>

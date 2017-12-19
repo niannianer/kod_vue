@@ -137,7 +137,7 @@
         mounted(){
         },
         destroyed(){
-
+            this.addHive(2, 'fundsList');
         }
     }
 </script>

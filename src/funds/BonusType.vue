@@ -119,7 +119,7 @@
         mounted() {
         },
         destroyed() {
-
+            this.addHive(1, 'fundsBonusType');
         }
     }
 </script>

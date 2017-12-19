@@ -216,6 +216,7 @@
 
         },
         destroyed(){
+            this.addHive(2, 'ticketList');
             Indicator.close();
         }
     }

@@ -220,7 +220,7 @@
         },
         methods: {
             checkOrder(str){
-                this.addHive(0, 'fundsGainsList_link_sort');
+                this.addHive(0, 'fundsGainsList_icon_sort');
                 let event = ['_trackEvent', '基金涨幅榜', 'CLICK', '基金涨幅榜-排序', '基金涨幅榜-排序'];
                 window._hmt.push(event);
                 let dom = document.querySelector('.scroll-target');
@@ -299,6 +299,7 @@
                     let offsetHeight = this.$refs.scroll.offsetHeight;
                     console.log(offsetHeight);
                     if (scrollTop + bodyHeight + 50 >= offsetHeight && scrollTop > this.scrollTop) {
+                        this.addHive(0,'fundsGainsList_scroll_loading');
                         this.loadData();
                     }
                     this.scrollTop = scrollTop;
@@ -306,7 +307,7 @@
             },
             pathTo(code){
                 this.addHive(0, 'fundsGainsList_item_fundsDetail');
-                this.addHive(2, 'fundsGainsList_to_fundsDetail');
+
                 let event = ['_trackEvent', '基金涨幅榜', 'CLICK', '基金涨幅榜-点击详情', '基金涨幅榜-点击详情'];
                 window._hmt.push(event);
                 this.scrollTop = document.querySelector('.body').scrollTop;
@@ -324,6 +325,7 @@
             document.getElementById('body').addEventListener('scroll', this.domScroll);
         },
         destroyed(){
+            this.addHive(2, 'fundsGainsList');
         }
     }
 </script>
