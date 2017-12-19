@@ -28,7 +28,7 @@
         },
         created(){
             this.addHive(1, 'rewardList');
-            let event = ['_trackEvent', this.title, 'SHOW', '进入奖励细则页面', '进入奖励细则页面'];
+            let event = ['_trackEvent', '奖励细则', 'SHOW', '进入奖励细则页面', '进入奖励细则页面'];
             window._hmt.push(event);
         },
         computed: {},
@@ -40,7 +40,7 @@
                 let oper2 = type == 0 ? '邀请奖励细则' : '达人奖励细则'
                 this.addHive(0, 'rewardList_link_' + oper);
                 this.addHive(2, 'rewardList_to_rewardDetail' + type);
-                let event = ['_trackEvent', this.title, 'CLICK', '奖励细则点击'+oper2, '奖励细则点击'+oper2];
+                let event = ['_trackEvent', '奖励细则', 'CLICK', '奖励细则点击'+oper2, '奖励细则点击'+oper2];
                 window._hmt.push(event);
                 this.$router.push({
                     path: 'reward-detail',
