@@ -1,7 +1,7 @@
 <template>
     <div class="relation-list-gold">
         <div class="header">
-            <div class="tabs" flex flex-box="0" >
+            <div class="tabs" flex flex-box="0">
                 <div flex-box="1" class="tab" @click.stop="tab(order,0)">
                     <div class="tab-item" :class="{'active':isInvest==0}">全部</div>
                 </div>
@@ -40,10 +40,10 @@
                                 <p flex-box="1">绑定日期</p>
                                 <p flex-box="1">{{item.registerTime}}</p>
                             </div>
-                            <div flex class="relation-detail" v-if="item.rewardTotal" >
+                            <div flex class="relation-detail" v-if="item.rewardTotal">
                                 <div flex-box="1" flex="cross:center" @click.stop="showTip">
                                     <p>贡献奖励</p>
-                                    <img src="../images/tip.png" alt="tip" class="tip" >
+                                    <img src="../images/tip.png" alt="tip" class="tip">
                                 </div>
                                 <p flex-box="1">{{item.rewardTotal}}元</p>
                             </div>
@@ -61,7 +61,7 @@
     import $api from '../tools/api';
     import '../less/relation-list-gold.less';
     import Vue from 'vue';
-    import {Loadmore, InfiniteScroll,MessageBox,Toast} from 'mint-ui';
+    import {Loadmore, InfiniteScroll, MessageBox, Toast} from 'mint-ui';
     Vue.component(Loadmore.name, Loadmore);
     Vue.use(InfiniteScroll);
     export default {
@@ -69,17 +69,17 @@
         data(){
             return {
                 list: [],
-                pageSize:10,
-                currentPage:0,
-                isInvest:0,
-                order:1,
-                stopLoad:true,
-                autoFill:false,
+                pageSize: 10,
+                currentPage: 0,
+                isInvest: 0,
+                order: 1,
+                stopLoad: true,
+                autoFill: false,
             }
         },
         created(){
             this.addHive(1, 'relationListGold');
-            let event = ['_trackEvent', '我的金疙瘩好友', 'SHOW', '进入我的金疙瘩好友页面','进入我的金疙瘩好友页面'];
+            let event = ['_trackEvent', '我的金疙瘩好友', 'SHOW', '进入我的金疙瘩好友页面', '进入我的金疙瘩好友页面'];
             window._hmt.push(event);
             this.loadData();
         },
@@ -96,16 +96,16 @@
                     confirmButtonText: '知道了'
                 })
             },
-            tab(order,isInvest){
+            tab(order, isInvest){
                 this.addHive(0, 'relationListGold_tab_checkTab');
-                let event = ['_trackEvent', '我的金疙瘩好友', 'CLICK', '我的金疙瘩好友-点击tab','我的金疙瘩好友-点击tab'];
+                let event = ['_trackEvent', '我的金疙瘩好友', 'CLICK', '我的金疙瘩好友-点击tab', '我的金疙瘩好友-点击tab'];
                 window._hmt.push(event);
                 this.list = [];
                 this.order = order;
                 this.isInvest = isInvest;
                 this.stopLoad = true;
-              /*  this.tabMenu = string;
-                this.titleRate = this.tabMenu == 'FIXI' ? '(年化)' : ''*/
+                /*  this.tabMenu = string;
+                 this.titleRate = this.tabMenu == 'FIXI' ? '(年化)' : ''*/
                 this.currentPage = 0;
                 this.loadData('refresh');
             },
@@ -117,7 +117,7 @@
                 });
             },
             loadData(type){
-                return  $api.get('/relation/gold/list', {
+                return $api.get('/relation/gold/list', {
                     isInvest: this.isInvest,
                     order: this.order,
                     startRow: this.currentPage * this.pageSize,
@@ -125,12 +125,13 @@
                 })
                     .then(resp => {
                         if (resp.code == 200) {
-                            if(type == 'refresh'){
+                            if (type == 'refresh') {
                                 this.list = [];
                             }
                             this.list = this.list.concat(resp.data.list);
                             if (resp.data.list.length < this.pageSize) {
-                                this.stopLoad = true;/*没有更多。*/
+                                this.stopLoad = true;
+                                /*没有更多。*/
                             } else {
                                 this.stopLoad = false;
                             }
@@ -145,7 +146,7 @@
             }
         },
         destroyed(){
-
+            this.addHive(2, 'relationListGold');
         }
     }
 </script>

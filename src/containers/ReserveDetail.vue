@@ -1,5 +1,5 @@
 <template>
-    <div v-cloak class="reserve-detail" flex-box="1" flex="dir:top">
+    <div  class="reserve-detail" flex-box="1" flex="dir:top">
         <div class="detail">
             <ul class="detail-ul">
                 <li flex>
@@ -114,6 +114,7 @@
             this.git(this.productReservationUuid);
         },
         destroyed(){
+            this.addHive(2, 'reserveDetail');
             MessageBox.close();
         },
         created(){

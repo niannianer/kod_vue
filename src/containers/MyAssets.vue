@@ -221,6 +221,7 @@
                 });
             },
             billList(){
+                this.addHive(0,'myAssets_link_detail')
                 let event = ['_trackEvent', '我的资产', 'CLICK', '在我的资产页面点击账单', '我的资产页面-点击账单'];
                 window._hmt.push(event);
                 this.$router.push('/account-detail');

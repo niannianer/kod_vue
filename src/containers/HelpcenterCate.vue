@@ -59,7 +59,7 @@
         },
         methods: {
             callService(){
-                this.addHive(0, 'helpCenterCate_call_mobile');
+                this.addHive(0, 'helpcenterCate_call_mobile');
                 requestHybrid({
                     tagname: 'tel',
                     param: {
@@ -69,7 +69,7 @@
             }
         },
         destroyed(){
-            this.addHive(2, 'help-center-cate');
+            this.addHive(2, 'helpcenter-cate');
         }
     }
 </script>

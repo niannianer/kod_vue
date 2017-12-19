@@ -52,6 +52,7 @@
                 });
             },
             loadMore(){
+                this.addHive(0,'relationList_scroll_loading');
                 if ((this.data.list.length >= this.data.count) && (this.data.count != 0)) {
                     this.allLoaded = true;
                 } else {

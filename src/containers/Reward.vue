@@ -113,7 +113,7 @@
                     oper = '间接';
                     oper2 = 'sliver'
                 }
-                this.addHive(0, 'reward_btn_allowance'+oper2);
+                this.addHive(0, 'reward_link_allowance'+oper2);
                 this.addHive(2, 'reward_to_allowance'+oper2);
                 this.$router.push({
                     path: '/invitation-allowance-list',
@@ -127,7 +127,7 @@
             },
             toPath(path){
                 if(path =='bind'){
-                    this.addHive(0, 'reward_div_openCount');
+                    this.addHive(0, 'reward_btn_openCount');
                     let event = ['_trackEvent', '我的奖励', 'CLICK', '我的奖励-开户', '我的奖励-开户'];
                     window._hmt.push(event);
                     if(this.userVerifyStatus <= 1){

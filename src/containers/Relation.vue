@@ -103,7 +103,7 @@
             window._hmt.push(event);
         },
         computed: {
-            ...mapState(['investorMobile', 'userUuid','rewardSum','investorType']),
+            ...mapState(['investorMobile', 'userUuid', 'rewardSum', 'investorType']),
             total(){
                 let total = Number(this.levelOneCount) + Number(this.levelTwoCount) + Number(this.levelThreeCount);
                 if (!isNaN(total)) {
@@ -125,19 +125,19 @@
                 });
             },
             closeModal(){
-                this.showPri=false;
+                this.showPri = false;
                 this.addHive(0, 'relation_btn_closePribilegeModal');
-                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面关闭达人弹窗','我的好友-关闭弹窗-点击'];
+                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面关闭达人弹窗', '我的好友-关闭弹窗-点击'];
                 window._hmt.push(event);
             },
             openPrivilege(){
                 this.addHive(0, 'relation_btn_openPribilege');
-                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击开启达人','我的好友-开启达人-点击'];
+                let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击开启达人', '我的好友-开启达人-点击'];
                 window._hmt.push(event);
                 $api.post('/user/upgradeTalent/apply').then((resp) => {
-                    if(resp.code == 200){
+                    if (resp.code == 200) {
                         Toast('开启成功,用户身份升级为理财达人');
-                        this.$store.commit('setPersonalCenterMsg',{
+                        this.$store.commit('setPersonalCenterMsg', {
                             investorType: 12
                         });
                     }
@@ -145,9 +145,9 @@
             },
             achievement(){
                 $api.get('/user/achievement').then((resp) => {
-                   if(resp.code == 200){
+                    if (resp.code == 200) {
                         this.availableUpgrade = resp.data.availableUpgrade;
-                   }
+                    }
                 });
             },
             getShare(){
@@ -155,33 +155,33 @@
                     title: '金疙瘩——我的好友'
                 });
             },
-            pathTo(path,boolean){
-                let oper = path.replace('/','');
-                this.addHive(0, 'relation_btn_'+oper);
-                this.addHive(2, 'relation_to_'+oper);
-                if(path=='/land-share.html'){
-                    let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击一起赚','我的好友-一起赚-点击'];
+            pathTo(path, boolean){
+                let oper = path.replace('/', '');
+                this.addHive(0, 'relation_link_' + oper);
+                this.addHive(2, 'relation_to_' + oper);
+                if (path == '/land-share.html') {
+                    let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击一起赚', '我的好友-一起赚-点击'];
                     window._hmt.push(event);
                 }
-                if(path=='/reward'){
+                if (path == '/reward') {
                     let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击我的奖励', '我的好友-我的奖励-点击'];
                     window._hmt.push(event);
                 }
-                if(path=='/relation-list-gold'){
+                if (path == '/relation-list-gold') {
                     let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击金疙瘩', '我的好友-金疙瘩-点击'];
                     window._hmt.push(event);
                 }
-                if(path==' /relation-list?level=2'){
+                if (path == ' /relation-list?level=2') {
                     let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击银疙瘩', '我的好友-银疙瘩-点击'];
                     window._hmt.push(event);
                 }
-                if(path==' /relation-list?level=3'){
+                if (path == ' /relation-list?level=3') {
                     let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击铜疙瘩', '我的好友-铜疙瘩-点击'];
                     window._hmt.push(event);
                 }
-                if(boolean){
-                    window.location.href=path;
-                    let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击'+oper, '我的好友-'+oper+'-点击'];
+                if (boolean) {
+                    window.location.href = path;
+                    let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击' + oper, '我的好友-' + oper + '-点击'];
                     window._hmt.push(event);
                     return false;
                 }
@@ -191,7 +191,7 @@
         mounted(){
         },
         destroyed(){
-
+            this.addHive(2, 'relation')
         }
     }
 </script>
