@@ -13,7 +13,7 @@ if (!window.Promise) {
 }
 // aes encrypt
 import {encryptFun, decryptFun} from './crypto';
- // opreation
+// opreation
 import {getDeviceID, getAuthKey} from './operation';
 import  {logout, addHive} from './operation';
 
@@ -51,6 +51,7 @@ let $query = (data) => {
     return str.join('&');
 };
 let get = (path, data = {}, source = {}) => {
+    data.t = new Date().getTime();
     data.deviceID = getDeviceID();
     data.callSystemID = '1003';
     let search = query(data);
