@@ -29,9 +29,13 @@ store.dispatch('getPersonalCenterMsg').then((resp) => {
 });
 store.dispatch('getAccountInfo');
 store.dispatch('getPaymentInfo');
-window.onload = () => {
-    FastClick.attach(document.body);
-};
 
 import {postHive} from './tools/api';
-postHive();
+
+window.onload = () => {
+    FastClick.attach(document.body);
+    setTimeout(() => {
+        postHive();
+    }, 5000);
+};
+
