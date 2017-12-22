@@ -179,7 +179,7 @@ let postNode = (path, data = {}) => {
 };
 
 export let postHive = () => {
-    let url = 'http://39.106.42.180:50000';
+    let url = config.logUrl;
     if (session.getItem('hiveSend')) {
         return false;
     }
