@@ -36,7 +36,7 @@ if (process.env.kingold == 'stage') {
     baofooUrl = 'https://pm.baofoo.com/custody/';
     baofooCallUrl = `${protocol}//pre-callme.zj-hf.cn`;
     apiNode = `${protocol}//market.zj-hf.cn`;
-    logUrl = 'https://pre-ul.zj-hf.cn';
+    logUrl = 'https://ul.zj-hf.cn';
     merchant_id = '1172380';
     terminal_id = '34865';
     encrypt = true;
