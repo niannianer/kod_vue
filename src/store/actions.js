@@ -91,7 +91,7 @@ actions.getPersonalCenterMsg = ({commit}) => {
                 commit('setPersonalCenterMsg', data.data);
                 commit('setUserInfo', data.data.user);
                 // 存放uuid 用户行为统计
-                window.localStorage.setItem('userUuid', data.data.user.userUuid);
+                window.localStorage.setItem('userUuid', data.data.user.userId);
             }
             return data;
         });
