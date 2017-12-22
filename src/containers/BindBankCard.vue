@@ -121,7 +121,8 @@
                     'investorMobile',
                     'investorRealName',
                     'userId',
-                    'accountStatus'
+                    'accountStatus',
+                   'isSetPayPassword'
                 ]
             ),
             cardStyle(){
@@ -277,7 +278,7 @@
                             this.loading = false;
                             this.$store.dispatch('getBankInfo');
                             this.$store.dispatch('getUserInfo');
-                            if (this.accountStatus > 1) {
+                            if (this.isSetPayPassword) {
                                 this.$router.replace({
                                     path: '/account-complete'
                                 });
