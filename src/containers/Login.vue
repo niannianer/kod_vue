@@ -90,7 +90,7 @@
             }
         },
         created(){
-            this.addHive(1,'login');
+            this.addHive(1,'login',1023);
             console.log(this.$route.query.type);
             this.isCodeType = !!Number(this.$route.query.type);
         },
@@ -121,7 +121,7 @@
                 this.inputCode = '';
             },
             getVerify(){
-                 this.addHive(0,'login_btn_verify');
+                 this.addHive(0,'login_btn_verify',102301);
                 if (!this.checkPhone()) {
                     return false
                 }
@@ -218,7 +218,7 @@
                 return true;
             },
             login(){
-                this.addHive(0, 'login_btn_login');
+                this.addHive(0, 'login_btn_login',102302);
                 if (this.checkPhone() && this.checkPassword()) {
                     if (this.imageCode && !this.inputCode) {
                         Toast('请输入图形验证码');
@@ -293,7 +293,7 @@
                 if (path == '/register') {
                     let event = ['_trackEvent', '注册', 'SHOW', '从登录页进入注册页', '从登录页进入注册页'];
                     window._hmt.push(event);
-                    this.addHive(0, 'login_link_register');
+                    this.addHive(0, 'login_link_register',102303);
                 }
                 this.$router.replace(path)
             },

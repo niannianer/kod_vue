@@ -101,14 +101,14 @@
         },
         methods: {
             link(status, orderBillCode){
-                this.addHive(0, 'investList_link_detail');
+                this.addHive(0, 'investList_link_detail',101801);
                 if (this.isRefreshing) {
                     return false;
                 }
                 this.$router.push('/invest-detail?status=' + status + '&orderBillCode=' + orderBillCode);
             },
             changeTab(status){
-                this.addHive(0, 'investList_tab_status');
+                this.addHive(0, 'investList_tab_status',101802);
                 this.status = status;
             },
             get(status, type){
@@ -200,7 +200,7 @@
 
         },
         created(){
-            this.addHive(1, 'invest-list');
+            this.addHive(1, 'invest-list',1018);
 
             let event = ['_trackEvent', '我的投资列表', 'SHOW', '进入我的投资列表页面', '进入我的投资列表页面'];
             window._hmt.push(event);

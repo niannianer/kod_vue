@@ -98,7 +98,7 @@
             }
         },
         created(){
-            this.addHive(1,'master-list');
+            this.addHive(1,'master-list',1025);
            this.getList('refresh');
         },
         computed: {
@@ -106,7 +106,7 @@
         },
         methods:{
             toTab(rewardType){
-                this.addHive(0,'masterList_tab_type');
+                this.addHive(0,'masterList_tab_type',102501);
                 this.rewardType = rewardType;
                 this.rewardList = [];
                 this.pageNo = 1;
@@ -114,7 +114,7 @@
                 this.getList('refresh');
             },
             loadMore(){
-                this.addHive(0,'masterList_scroll_loading');
+                this.addHive(0,'masterList_scroll_loading',102502);
                 if (this.loading || this.noMore) {
                     return false;
                 }
@@ -153,7 +153,7 @@
                     })
             },
             link(rewardBillCode){
-                this.addHive(0,'masterList_link_detail');
+                this.addHive(0,'masterList_link_detail',102503);
                 if(this.isRefreshing){
                     return false;
                 }
@@ -165,7 +165,7 @@
                 })
             },
             toPath(path){
-                this.addHive(0,'masterList_link_path');
+                this.addHive(0,'masterList_link_path',102504);
                 window.location.href = path;
             }
         },

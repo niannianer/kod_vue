@@ -57,7 +57,7 @@
         },
         components: {},
         created(){
-            this.addHive(1, 'message-center');
+            this.addHive(1, 'message-center',1026);
             if (window.sessionStorage.getItem('message')) {/*详情页返回时重现离开时位置*/
                 let {currentPage, hasUnread, msgList, tabId, tabList, scrollTop, loading} = JSON.parse(window.sessionStorage.getItem('message'));
                 this.currentPage = currentPage;
@@ -99,7 +99,7 @@
                     })
             },
             checkTab(num){
-                this.addHive(0, 'messageCenter_tab_type');
+                this.addHive(0, 'messageCenter_tab_type',102601);
                 this.tabId = num;
                 this.currentPage = 0;
                 this.$router.replace('/message-center?tab=' + this.tabId);
@@ -130,20 +130,20 @@
                     })
             },
             loadMore(){
-                this.addHive(0, 'messageCenter_scroll_loading');
+                this.addHive(0, 'messageCenter_scroll_loading',102602);
                 this.loading = true;
                 this.currentPage++;
                 this.getList();
             },
             msgDetail(id){
-                this.addHive(0, 'messageCenter_btn_detail');
+                this.addHive(0, 'messageCenter_btn_detail',102603);
                 this.scrollTop = this.$refs.scroll.scrollTop;
                 window.sessionStorage.setItem('message', JSON.stringify(this.$data));
                 window.location.href = '/land-message.html?id=' + id;
             },
             delUnread(){/*删除未读  msgCode 3：文章*/
                 let {msgCode} = this;
-                this.addHive(0, 'messageCenter_btn_delete');
+                this.addHive(0, 'messageCenter_btn_delete',102604);
                 $api.post('/user/destroy/unread', {msgCode})
                     .then(resp => {
                         if (resp.code == 200) {
@@ -158,7 +158,7 @@
         mounted(){
         },
         destroyed(){
-            this.addHive(2, 'message-center');
+            this.addHive(2, 'message-center',1026);
         }
     }
 </script>

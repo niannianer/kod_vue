@@ -75,7 +75,7 @@
             Modal
         },
         created(){
-            this.addHive(1, 'my-assets');
+            this.addHive(1, 'my-assets',1027);
             if ($device.isWeixin) {
                 this.getShare();
             }
@@ -138,7 +138,7 @@
                     });
             },
             goStep(){
-                this.addHive(1, 'myAssets_btn_auth');
+                this.addHive(1, 'myAssets_btn_auth',102701);
                 let {userVerifyStatus} = this;
                 switch (userVerifyStatus) {
                     case 0:
@@ -162,7 +162,7 @@
             },
             addBankCard(){
                 this.showModal = true;
-                this.addHive(0,'myAssets_btn_addBank');
+                this.addHive(0,'myAssets_btn_addBank',102702);
                 let event = ['_trackEvent', '我的资产', 'CLICK', '我的资产页面-绑定银行卡', '在我的资产页面点击绑定银行卡'];
                 window._hmt.push(event);
                 event = ['_trackEvent', '我的资产', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
@@ -174,7 +174,7 @@
                 this.$router.push('/my-count')
             },
             recharge(){
-                this.addHive(0,'myAssets_btn_recharge');
+                this.addHive(0,'myAssets_btn_recharge',102703);
                 let {userVerifyStatus} = this;
                 if (userVerifyStatus != 9) {
                     this.showModal = true;
@@ -189,7 +189,7 @@
 
             },
             withdraw(){
-                this.addHive(0,'myAssets_btn_withdraw');
+                this.addHive(0,'myAssets_btn_withdraw',102704);
                 let {userVerifyStatus} = this;
                 if (userVerifyStatus != 9) {
                     this.showModal = true;
@@ -202,7 +202,7 @@
                 this.$router.push('/withdraw');
             },
             createUser(){
-                this.addHive(0,'myAssets_btn_openAccount');
+                this.addHive(0,'myAssets_btn_openAccount',102705);
                 this.goStep();
                 /*直接去开户，而不需要弹框提示*/
                 let event = ['_trackEvent', '我的资产', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
@@ -221,7 +221,7 @@
                 });
             },
             billList(){
-                this.addHive(0,'myAssets_link_detail')
+                this.addHive(0,'myAssets_link_detail',102706)
                 let event = ['_trackEvent', '我的资产', 'CLICK', '在我的资产页面点击账单', '我的资产页面-点击账单'];
                 window._hmt.push(event);
                 this.$router.push('/account-detail');
@@ -229,7 +229,7 @@
         },
         destroyed(){
             clearInterval(this.timer);
-            this.addHive(2,'my-assets');
+            this.addHive(2,'my-assets',1027);
         }
     }
 </script>

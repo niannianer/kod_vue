@@ -25,17 +25,17 @@
             }
         },
         created(){
-            this.addHive(1,'planning');
+            this.addHive(1,'planning',1029);
         },
         computed: {
         },
         methods: {
             getPage(type){
                 if(type=='house'){
-                    this.addHive(0,'planning_link_house');
+                    this.addHive(0,'planning_link_house',102901);
                     this.$router.push('/house-one');
                 }else {
-                    this.addHive(0,'planning_link_pension');
+                    this.addHive(0,'planning_link_pension',102902);
                     this.$router.push('/pension-one');
                 }
             },
@@ -48,7 +48,7 @@
             },
         },
         destroyed(){
-            this.addHive(2,'planning');
+            this.addHive(2,'planning',1029);
         }
     }
 </script>

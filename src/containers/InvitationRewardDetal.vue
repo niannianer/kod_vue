@@ -120,7 +120,8 @@
         },
         methods: {
             link(productUuid){
-                this.addHive(0, 'invitationRewardDetail_link_productDetail');
+                this.addHive(0, 'invitationRewardDetail_link_productDetail',102101);
+                this.addHive(2, 'invitationRewardDetail_to_productDetail',1021);
                 $api.get('/checkProductOnStatus', {productUuid: productUuid}).then(msg => {
                     if (msg.code == 200) {
                         let path = '';
@@ -143,7 +144,7 @@
             }
         },
         mounted(){
-            this.addHive(1, 'invitation-reward-detail');
+            this.addHive(1, 'invitation-reward-detail',1021);
             let rewardBillCode = this.$route.query.rewardBillCode;
             $api.get('/reward/detail', {rewardBillCode: rewardBillCode}).then(msg => {
                 if (msg.code == 200) {

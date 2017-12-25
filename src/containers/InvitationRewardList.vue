@@ -83,7 +83,7 @@
             }
         },
         created(){
-            this.addHive(1, 'invitation-reward-list');
+            this.addHive(1, 'invitation-reward-list',1022);
             this.getRewardList();
         },
         computed: {
@@ -93,7 +93,7 @@
         },
         methods: {
             loadMore(){
-                this.addHive(0, 'invitationRewardList_scroll_loading');
+                this.addHive(0, 'invitationRewardList_scroll_loading',102201);
                 if (this.loading) {
                     return false;
                 }
@@ -132,7 +132,8 @@
                     })
             },
             link(rewardBillCode){
-              this.addHive(0,'invitationRewardList_link_invitationRewardDetail');
+              this.addHive(0,'invitationRewardList_link_invitationRewardDetail',102202);
+                this.addHive(2,'invitationRewardList_to_invitationRewardDetail',1022);
                 if (this.isRefreshing) {
                     return false;
                 }

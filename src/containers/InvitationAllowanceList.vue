@@ -95,7 +95,7 @@
             }
         },
         created(){
-            this.addHive(1, 'invitation-allowance-list');
+            this.addHive(1, 'invitation-allowance-list',1020);
             this.getRewardList('refresh');
 
         },
@@ -106,14 +106,14 @@
         },
         methods: {
             changeTab(tab){
-                this.addHive(0, 'invitationAllowanceList_tab_status');
+                this.addHive(0, 'invitationAllowanceList_tab_status',102001);
                 this.tab = tab;
                 this.pageNo = 1;
                 this.getRewardList('refresh')
 
             },
             loadMore(){
-                this.addHive(0, 'invitationAllowanceList_scroll_loading');
+                this.addHive(0, 'invitationAllowanceList_scroll_loading',102002);
                 if (this.loading) {
                     return false;
                 }

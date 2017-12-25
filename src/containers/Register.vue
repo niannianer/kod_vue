@@ -83,7 +83,7 @@
             }
         },
         created(){
-            this.addHive(1, 'register');
+            this.addHive(1, 'register',1032);
             let event = ['_trackEvent', '注册', 'SHOW', '进入注册页面', '进入注册页面'];
             window._hmt.push(event);
 
@@ -132,7 +132,7 @@
                 return true;
             },
             getVerify(){
-                this.addHive(0, 'register_btn_getVerify');
+                this.addHive(0, 'register_btn_getVerify',103201);
                 let event = ['_trackEvent', '注册', 'CLICK', '注册页面获取验证码', '注册-获取验证码'];
                 window._hmt.push(event);
                 if (!this.checkPhone()) {
@@ -195,14 +195,14 @@
                 }
             },
             login(){
-                this.addHive(0, 'register_btn_login');
-                this.addHive(2, 'register_to_login');
+                this.addHive(0, 'register_btn_login',103202);
+                this.addHive(2, 'register_to_login',1032);
                 let event = ['_trackEvent', '注册', 'CLICK', '注册页面点击登录', '注册页面点击登录'];
                 window._hmt.push(event);
                 this.$router.replace('/login');
             },
             register(){
-                this.addHive(0, 'register_btn_register');
+                this.addHive(0, 'register_btn_register',103203);
                 let event = ['_trackEvent', '注册', 'CLICK', '在注册页面点击注册按钮', '注册-点击注册'];
                 window._hmt.push(event);
                 if (!this.checkPhone()) {
@@ -239,7 +239,7 @@
                             if (logoutUrl && /http/.test(logoutUrl)) {
                                 window.location.replace(logoutUrl);
                             } else {
-                                this.addHive(2, 'register_to_personalCenter');
+                                this.addHive(2, 'register_to_personalCenter',1032);
                                 this.$router.replace('/personal-center');
                                 this.$store.dispatch('getAccountBaofoo');
                                 this.$store.dispatch('getPersonalCenterMsg');
@@ -263,8 +263,8 @@
                     });
             },
             link(src){
-                this.addHive(0, 'register_link_deal');
-                this.addHive(2, 'register_to_deal');
+                this.addHive(0, 'register_link_deal',103204);
+                this.addHive(2, 'register_to_deal',1032);
                 let event = ['_trackEvent', '注册', 'CLICK', '在注册页面点击协议', '注册-点击协议'];
                 window._hmt.push(event);
                 window.location.href = src;
