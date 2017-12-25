@@ -29,7 +29,7 @@
             <dl flex class="bank-card" :style="cardStyle">
                 <dt>储蓄卡卡号</dt>
                 <dd>
-                    <input type="tel" placeholder="请输入银行卡号" @blur="getCardInfo" @keyup="change" v-model="bankCard"
+                    <input type="tel" placeholder="请输入银行卡号" @blur="getCardInfo"   v-model="bankCard"
                            maxlength="24">
                 </dd>
             </dl>
