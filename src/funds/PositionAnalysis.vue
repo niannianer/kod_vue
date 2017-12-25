@@ -40,7 +40,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fundsPositionAnalysis');
+            this.addHive(1, 'fundsPositionAnalysis',1059);
             let event = ['_trackEvent', '基金持仓分析', 'SHOW', '进入基金持仓分析页面', '进入基金持仓分析页面'];
             window._hmt.push(event);
             this.getAssetAllocation();
@@ -78,7 +78,7 @@
             }
         },
         destroyed(){
-            this.addHive(2, 'fundsPositionAnalysis');
+            this.addHive(2, 'fundsPositionAnalysis',1059);
         }
     }
 </script>

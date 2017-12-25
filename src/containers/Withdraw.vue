@@ -84,7 +84,7 @@
             PasswordInput
         },
         created(){
-            this.addHive(1, 'withdraw');
+            this.addHive(1, 'withdraw',1047);
             let event = ['_trackEvent', '提现', 'SHOW', '进入提现页面', '进入提现页面'];
             window._hmt.push(event);
         },
@@ -137,7 +137,7 @@
             },
             // 提现
             getWithdraw(){
-                this.addHive(0, 'withdraw_btn_withdraw');
+                this.addHive(0, 'withdraw_btn_withdraw',104701);
                 let event = ['_trackEvent', '提现', 'CLICK', '提现页面点击立即提现', '提现页面点击立即提现'];
                 window._hmt.push(event);
                 this.getTradeFeeType()
@@ -166,7 +166,7 @@
             },
             // 全部提取
             withdrawAll(){
-                this.addHive(0, 'withdraw_link_withdrawAll');
+                this.addHive(0, 'withdraw_link_withdrawAll',104702);
                 this.withdrawMount = this.accountCashAmount;
                 this.myKeyup();
                 let event = ['_trackEvent', '提现', 'CLICK', '提现页面点击全部提现', '提现页面点击全部提现'];
@@ -175,7 +175,7 @@
             confirmFun(result){
                 if (result) {
                     this.inputPassword = true;
-                    this.addHive(5, 'withdraw_modal_inputPass');
+                    this.addHive(5, 'withdraw_modal_inputPass',104791);
                     let event = ['_trackEvent', '提现', 'SHOW', '提现页面-输入交易密码弹窗', '提现页面-输入交易密码弹窗'];
                     window._hmt.push(event);
                 }
@@ -191,7 +191,7 @@
                         Indicator.close();
                         if (data.code == 200) {
                             Toast('提现申请成功');
-                            this.addHive(2, 'withdraw_to_lastPage');
+                            this.addHive(2, 'withdraw_to_lastPage',1047);
                             history.back();
                             this.$store.dispatch('getAccountBaofoo');
                         } else {

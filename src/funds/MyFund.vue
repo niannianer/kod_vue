@@ -236,7 +236,7 @@
         },
         components: {PasswordInput, KingMessage, YmiMessage},
         created(){
-            this.addHive(1,'fundsMyFund');
+            this.addHive(1,'fundsMyFund',1056);
             this.listNum = this.$route.query.t || 0;
             this.getAssetes();
             this.loadData();
@@ -248,7 +248,7 @@
             /*撤单*/
             submitRevoked(userPayPassword){
                 let {userUuid} = this;
-                this.addHive(0,'fundsMyFund_btn_revoked');
+                this.addHive(0,'fundsMyFund_btn_revoked',105601);
                 $api.post('/fund/purch/cancelFundOrder',{
                     orderId: this.revoked.orderId,
                     userUuid,
@@ -286,7 +286,7 @@
                 this.revoked = item;
             },
             enterYmi(result){
-                this.addHive(0,'fundsMyFund_link_Ymi');
+                this.addHive(0,'fundsMyFund_link_Ymi',105602);
               if(result == 0){
                   this.showYmi = false;
                   return;
@@ -365,14 +365,14 @@
             },
             loadMore(){
                 this.loading = true;
-                this.addHive(0,'fundsMyFund_scroll_loading');
+                this.addHive(0,'fundsMyFund_scroll_loading',105603);
                 this.currentPage++;
                 this.loadData();
             },
             fundAccountStep(){
                 if(this.accountStatus<1){
                     //显示即将进入盈米弹层
-                    this.addHive(5,'fundsMyFund_modal_openAccount');
+                    this.addHive(5,'fundsMyFund_modal_openAccount',105691);
                     this.showYmi = true;
                 }else if(this.accountStatus<2){
                     this.$router.push({
@@ -439,7 +439,7 @@
         },
         destroyed(){
             Indicator.close();
-            this.addHive(2,'fundsMyFund');
+            this.addHive(2,'fundsMyFund',1056);
         }
     }
 </script>

@@ -52,7 +52,7 @@
             }
         },
         created(){
-            this.addHive(1, 'riskAssessment');
+            this.addHive(1, 'riskAssessment',1043);
             let event = ['_trackEvent', '风险测评', 'SHOW', '进入风险测评页面', '进入风险测评页面'];
             window._hmt.push(event);
             if ($device.isWeixin) {
@@ -88,7 +88,7 @@
                 this.answers = qu.answers;
             },
             getLast(){
-                this.addHive(0, 'riskAssessment_btn_lastItem');
+                this.addHive(0, 'riskAssessment_btn_lastItem',104301);
                 let event = ['_trackEvent', '风险测评', 'CLICK', '风险测评页面-上一题', '风险测评页面-上一题'];
                 window._hmt.push(event);
                 if (quLen == this.scores.length) {
@@ -129,8 +129,8 @@
                 }, 500)
             },
             updateUserInfo(){
-                this.addHive(0, 'riskAssessment_btn_submitResult');
-                let event = ['_trackEvent', '风险测评', 'CLICK', '风险测评页面-选择答案', '风险测评页面-选择答案'];
+                this.addHive(0, 'riskAssessment_btn_submitResult',104302);
+                let event = ['_trackEvent', '风险测评', 'CLICK', '风险测评页面-提交结果', '风险测评页面-提交结果'];
                 window._hmt.push(event);
                 let investorRiskScore = 0;
                 this.scores.map(score => {
@@ -158,7 +158,7 @@
                                 }
                             })
                         } else {
-                            this.addHive(2, 'riskAssessment_to_assessmentResult');
+                            this.addHive(2, 'riskAssessment_to_assessmentResult',1043);
                             this.$router.replace('/assessment-result');
                         }
 

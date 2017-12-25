@@ -93,7 +93,7 @@
             }
         },
         created(){
-            this.addHive(1, 'relation');
+            this.addHive(1, 'relation',1033);
             if ($device.isWeixin) {
                 this.getShare();
             }
@@ -126,12 +126,12 @@
             },
             closeModal(){
                 this.showPri = false;
-                this.addHive(0, 'relation_btn_closePribilegeModal');
+                this.addHive(0, 'relation_btn_closePribilegeModal',103301);
                 let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面关闭达人弹窗', '我的好友-关闭弹窗-点击'];
                 window._hmt.push(event);
             },
             openPrivilege(){
-                this.addHive(0, 'relation_btn_openPribilege');
+                this.addHive(0, 'relation_btn_openPribilege',103302);
                 let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击开启达人', '我的好友-开启达人-点击'];
                 window._hmt.push(event);
                 $api.post('/user/upgradeTalent/apply').then((resp) => {
@@ -157,8 +157,8 @@
             },
             pathTo(path, boolean){
                 let oper = path.replace('/', '');
-                this.addHive(0, 'relation_link_' + oper);
-                this.addHive(2, 'relation_to_' + oper);
+                this.addHive(0, 'relation_link_' + oper,103303);
+                this.addHive(2, 'relation_to_' + oper,1033);
                 if (path == '/land-share.html') {
                     let event = ['_trackEvent', '我的好友', 'CLICK', '在我的好友页面点击一起赚', '我的好友-一起赚-点击'];
                     window._hmt.push(event);
@@ -191,7 +191,7 @@
         mounted(){
         },
         destroyed(){
-            this.addHive(2, 'relation')
+            this.addHive(2, 'relation',103303)
         }
     }
 </script>

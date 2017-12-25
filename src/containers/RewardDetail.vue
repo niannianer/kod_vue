@@ -72,7 +72,7 @@
             this.type = this.$route.query.type || 0;
           //  let title = this.type == 1 ? '达人奖励细则' : '邀请奖励细则';
             let oper = this.type == 1 ? 'master' : '';
-            this.addHive(1, 'rewardDetail' + oper);
+            this.addHive(1, 'rewardDetail' + oper,1041);
             let event = ['_trackEvent', this.title, 'SHOW', '进入' + this.title + '页面', '进入' + this.title + '页面'];
             window._hmt.push(event);
             setTitle(this.title);
@@ -104,7 +104,7 @@
                 });
             },
             rewardTab(string){
-                this.addHive(0, 'rewardDetail_tab_checkTab');
+                this.addHive(0, 'rewardDetail_tab_checkTab',104101);
                 let event = ['_trackEvent', this.title, 'CLICK', this.title+'点击tab', this.title+'点击tab'];
                 window._hmt.push(event);
                 this.isActive = 'FIXI' == string ? true : false;

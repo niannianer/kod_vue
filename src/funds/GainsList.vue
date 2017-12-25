@@ -188,7 +188,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fundsGainsList');
+            this.addHive(1, 'fundsGainsList',1051);
             let event = ['_trackEvent', '基金涨幅榜', 'SHOW', '进入基金涨幅榜页面', '进入基金涨幅榜页面'];
             window._hmt.push(event);
             let fundsDetail = window.sessionStorage.getItem('fundsDetail');
@@ -220,7 +220,7 @@
         },
         methods: {
             checkOrder(str){
-                this.addHive(0, 'fundsGainsList_icon_sort');
+                this.addHive(0, 'fundsGainsList_icon_sort',105101);
                 let event = ['_trackEvent', '基金涨幅榜', 'CLICK', '基金涨幅榜-排序', '基金涨幅榜-排序'];
                 window._hmt.push(event);
                 let dom = document.querySelector('.scroll-target');
@@ -239,7 +239,7 @@
                     });
             },
             checkFundType(num){
-                this.addHive(0, 'fundsGainsList_tab_checkTab');
+                this.addHive(0, 'fundsGainsList_tab_checkTab',105102);
                 let event = ['_trackEvent', '基金涨幅榜', 'CLICK', '基金涨幅榜-点击tab', '基金涨幅榜-点击tab'];
                 window._hmt.push(event);
                 this.fundType = num;
@@ -299,15 +299,15 @@
                     let offsetHeight = this.$refs.scroll.offsetHeight;
                     console.log(offsetHeight);
                     if (scrollTop + bodyHeight + 50 >= offsetHeight && scrollTop > this.scrollTop) {
-                        this.addHive(0,'fundsGainsList_scroll_loading');
+                        this.addHive(0,'fundsGainsList_scroll_loading',105103);
                         this.loadData();
                     }
                     this.scrollTop = scrollTop;
                 }, 500);
             },
             pathTo(code){
-                this.addHive(0, 'fundsGainsList_item_fundsDetail');
-
+                this.addHive(0, 'fundsGainsList_item_fundsDetail',105104);
+                this.addHive(2, 'fundsGainsList_to_fundsDetail',1051);
                 let event = ['_trackEvent', '基金涨幅榜', 'CLICK', '基金涨幅榜-点击详情', '基金涨幅榜-点击详情'];
                 window._hmt.push(event);
                 this.scrollTop = document.querySelector('.body').scrollTop;
@@ -325,7 +325,7 @@
             document.getElementById('body').addEventListener('scroll', this.domScroll);
         },
         destroyed(){
-            this.addHive(2, 'fundsGainsList');
+            this.addHive(2, 'fundsGainsList',1051);
         }
     }
 </script>

@@ -46,7 +46,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fundsRedeemResult');
+            this.addHive(1, 'fundsRedeemResult',1063);
             let event = ['_trackEvent', '基金赎回结果', 'SHOW', '进入基金赎回结果页面', '进入基金赎回结果页面'];
             window._hmt.push(event);
             this.tradeShare = this.$route.query.s;
@@ -66,7 +66,7 @@
                 })*/
             },
             pathTo(path){
-                this.addHive(0, 'fundsRedeemResult_btn_fundsMyFund');
+                this.addHive(0, 'fundsRedeemResult_btn_fundsMyFund',106301);
                 let event = ['_trackEvent', '基金赎回结果', 'SHOW', '基金赎回结果-点击我的账户', '基金赎回结果-点击我的账户'];
                 window._hmt.push(event);
                 this.$router.push(path);
@@ -74,7 +74,7 @@
         },
         destroyed(){
             clearTimeout(this.timer);
-            this.addHive(2, 'fundsRedeemResult');
+            this.addHive(2, 'fundsRedeemResult',1063);
         }
     }
 </script>

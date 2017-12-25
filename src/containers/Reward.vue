@@ -87,7 +87,7 @@
         },
         computed: mapState(['userUuid','userVerifyStatus','userVerifyStatusDesc']),
         created(){
-            this.addHive(1, 'reward');
+            this.addHive(1, 'reward',1040);
             if ($device.isWeixin) {
                 this.getShare();
             }
@@ -113,8 +113,8 @@
                     oper = '间接';
                     oper2 = 'sliver'
                 }
-                this.addHive(0, 'reward_link_allowance'+oper2);
-                this.addHive(2, 'reward_to_allowance'+oper2);
+                this.addHive(0, 'reward_link_allowance'+oper2,104001);
+                this.addHive(2, 'reward_to_allowance'+oper2,1040);
                 this.$router.push({
                     path: '/invitation-allowance-list',
                     query: {
@@ -127,24 +127,24 @@
             },
             toPath(path){
                 if(path =='bind'){
-                    this.addHive(0, 'reward_btn_openCount');
+                    this.addHive(0, 'reward_btn_openCount',104002);
                     let event = ['_trackEvent', '我的奖励', 'CLICK', '我的奖励-开户', '我的奖励-开户'];
                     window._hmt.push(event);
                     if(this.userVerifyStatus <= 1){
-                        this.addHive(2, 'reward_to_authentication');
+                        this.addHive(2, 'reward_to_authentication',1040);
                         path = '/authentication'
                     }else if(this.userVerifyStatus == 2){
-                        this.addHive(2, 'reward_to_bindBankCard');
+                        this.addHive(2, 'reward_to_bindBankCard',1040);
                         path = '/bind-bank-card'
                     }else if(this.userVerifyStatus == 3){
-                        this.addHive(2, 'reward_to_setPayPass');
+                        this.addHive(2, 'reward_to_setPayPass',1040);
                         path = '/set-pay-password'
                     }
                 }
                 else{
                     let oper = path.replace('/','');
-                    this.addHive(0, 'reward_link_'+oper);
-                    this.addHive(2, 'reward_to_'+oper);
+                    this.addHive(0, 'reward_link_'+oper,104004);
+                    this.addHive(2, 'reward_to_'+oper,1040);
                     let event = ['_trackEvent', '我的奖励', 'CLICK', '我的奖励-'+oper, '我的奖励-'+oper];
                     window._hmt.push(event);
                 }
@@ -172,8 +172,8 @@
                 });
             },
             rewardList(){
-                this.addHive(0, 'reward_link_rewardList');
-                this.addHive(2, 'reward_to_rewardList');
+                this.addHive(0, 'reward_link_rewardList',10403);
+                this.addHive(2, 'reward_to_rewardList',1040);
                 let event = ['_trackEvent', '我的奖励', 'CLICK', '在我的奖励页面点击邀请奖励', '我的奖励页面-点击邀请奖励'];
                 window._hmt.push(event);
                 this.$router.push('/invitation-reward-list');

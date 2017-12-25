@@ -45,7 +45,7 @@
             }
         },
         created(){
-            this.addHive(1, 'usableFinancial');
+            this.addHive(1, 'usableFinancial',1046);
             let event = ['_trackEvent', '可用产品', 'SHOW', '进入可用产品页面', '进入可用产品页面'];
             window._hmt.push(event);
             this.loadData();
@@ -53,7 +53,7 @@
         computed: {},
         methods: {
             toDetail(productUuid){
-                this.addHive(0, 'usableFinancial_item_useTicket');
+                this.addHive(0, 'usableFinancial_item_useTicket',104601);
                 let event = ['_trackEvent', '可用产品', 'CLICK', '可用产品-点击产品详情', '可用产品-点击产品详情'];
                 window._hmt.push(event);
                 if ($device.kingold) {
@@ -69,7 +69,7 @@
                     });
                     return;
                 }
-                this.addHive(2, 'usableFinancial_to_fixiGoodsDetail');
+                this.addHive(2, 'usableFinancial_to_fixiGoodsDetail',1046);
                 this.$router.push({
                     path: '/fixi-goods-detail',
                     query: {

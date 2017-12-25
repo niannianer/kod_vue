@@ -52,7 +52,7 @@
                 });
             },
             loadMore(){
-                this.addHive(0,'relationList_scroll_loading');
+                this.addHive(0,'relationList_scroll_loading',103401);
                 if ((this.data.list.length >= this.data.count) && (this.data.count != 0)) {
                     this.allLoaded = true;
                 } else {
@@ -86,7 +86,7 @@
             }
         },
         created(){
-            this.addHive(1, 'relationList'+this.level);
+            this.addHive(1, 'relationList'+this.level,1034);
             let event = ['_trackEvent', '我的'+this.title, 'SHOW', '进入'+this.title+'页面','进入'+this.title+'页面'];
             window._hmt.push(event);
             $operation.setTitle(this.title);

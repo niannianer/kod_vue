@@ -32,7 +32,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fundsVerify');
+            this.addHive(1, 'fundsVerify',1066);
             let event = ['_trackEvent', '基金开户验证', 'SHOW', '进入基金开户验证页面', '进入基金开户验证页面'];
             window._hmt.push(event);
             console.log(this.isSetPayPassword);
@@ -52,7 +52,7 @@
         },
         methods: {
             reSend(){
-                this.addHive(0, 'fundsVerify_btn_getVerify');
+                this.addHive(0, 'fundsVerify_btn_getVerify',106601);
                 let event = ['_trackEvent', '基金开户验证', 'CLICK', '基金开户验证-点击获取验证码', '基金开户验证-点击获取验证码'];
                 window._hmt.push(event);
                 let {accountName, identityNo, paymentType, paymentNo, phone, type} = this;
@@ -86,7 +86,7 @@
                 }
             },
             confirm(){
-                this.addHive(0, 'fundsVerify_btn_confirmVerify');
+                this.addHive(0, 'fundsVerify_btn_confirmVerify',106602);
                 let event = ['_trackEvent', '基金开户验证', 'CLICK', '基金开户验证-点击确认', '基金开户验证-点击确认'];
                 window._hmt.push(event);
                 if (!this.verifyCode || this.verifyCode.length != 6) {
@@ -113,7 +113,7 @@
                                 }
                             },100)
                             if (!this.isSetPayPassword) {
-                                this.addHive(2, 'fundsVerify_to_setPayPass');
+                                this.addHive(2, 'fundsVerify_to_setPayPass',1066);
                                 this.$router.replace({
                                     path: '/set-pay-password',
                                     query: {
@@ -121,12 +121,12 @@
                                     }
                                 })
                             } else if (this.accountStatus < 3) {
-                                this.addHive(2, 'fundsVerify_to_fundsInfo');
+                                this.addHive(2, 'fundsVerify_to_fundsInfo',1066);
                                 this.$router.replace({
                                     path: '/funds/info'
                                 });
                             } else {
-                                this.addHive(2, 'fundsVerify_to_lastPage');
+                                this.addHive(2, 'fundsVerify_to_lastPage',1066);
                                 this.$router.back();
                             }
                         }
@@ -137,7 +137,7 @@
             }
         },
         destroyed(){
-            this.addHive(2, 'fundsVerify');
+            this.addHive(2, 'fundsVerify',1066);
         }
     }
 </script>

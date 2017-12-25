@@ -113,15 +113,15 @@
         },
         methods: {
             changeTab(tab){
-                this.addHive(0, 'reserveList_tab_checkTab');
+                this.addHive(0, 'reserveList_tab_checkTab',103701);
                 let event = ['_trackEvent', '预约单管理', 'CLICK', '预约单管理-点击tab','预约单管理-点击tab'];
                 window._hmt.push(event);
 
                 this.status = tab;
             },
             link(uid){
-                this.addHive(0, 'reserveList_link_reserveDetail');
-                this.addHive(2, 'reserveList_to_reserveDetail');
+                this.addHive(0, 'reserveList_link_reserveDetail',103702);
+                this.addHive(2, 'reserveList_to_reserveDetail',1037);
                 let event = ['_trackEvent', '预约单管理', 'CLICK', '预约单管理-点击详情','预约单管理-点击详情'];
                 window._hmt.push(event);
                 if (this.isRefreshing) {
@@ -261,7 +261,7 @@
             }
         },
         created(){
-            this.addHive(1, 'reserveList');
+            this.addHive(1, 'reserveList',1037);
             let event = ['_trackEvent', '预约单管理', 'SHOW', '进入我的预约单列表页', '进入我的预约单列表页'];
             window._hmt.push(event);
         }

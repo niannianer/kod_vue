@@ -75,7 +75,7 @@
             }
         },
         created(){
-            this.addHive(1, 'ticketList');
+            this.addHive(1, 'ticketList',1045);
             let event = ['_trackEvent', '我的优惠券', 'SHOW', '进入我的优惠券页面', '进入我的优惠券页面'];
             window._hmt.push(event);
             this.msgCode = this.$route.query.code || 1;
@@ -91,7 +91,7 @@
         },
         methods: {
             ticketTab(string){
-                this.addHive(0, 'ticketList_tab_checkTab');
+                this.addHive(0, 'ticketList_tab_checkTab',104501);
                 let event = ['_trackEvent', '我的优惠券', 'CLICK', '我的优惠券-点击tab', '我的优惠券-点击tab'];
                 window._hmt.push(event);
                 this.couponType = 'cash' == string ? 1 : 2;
@@ -186,7 +186,7 @@
                 return ''
             },
             useTicket(ccCode){
-                this.addHive(0, 'ticketList_item_useTicket');
+                this.addHive(0, 'ticketList_item_useTicket',104502);
                 let event = ['_trackEvent', '我的优惠券', 'CLICK', '我的优惠券-点击使用', '我的优惠券-点击使用'];
                 window._hmt.push(event);
                 /*有可用产品时跳转。只需取1条即可知是否跳转*/
@@ -198,7 +198,7 @@
                     .then(resp => {
                         if (resp.code == 200) {
                             if (resp.data.list && resp.data.list.length) {
-                                this.addHive(2, 'ticketList_item_usableFinancial');
+                                this.addHive(2, 'ticketList_item_usableFinancial',1045);
                                 this.$router.push({
                                     path: '/usable-financial',
                                     query: {
@@ -216,7 +216,7 @@
 
         },
         destroyed(){
-            this.addHive(2, 'ticketList');
+            this.addHive(2, 'ticketList',1045);
             Indicator.close();
         }
     }

@@ -90,7 +90,7 @@
         },
         components: {PasswordInput},
         created(){
-            this.addHive(1, 'fundsPurchase');
+            this.addHive(1, 'fundsPurchase',1060);
             let event = ['_trackEvent', '基金申购', 'SHOW', '进入基金申购页面', '进入基金申购页面'];
             window._hmt.push(event);
             this.fundAbbrName = this.$route.query.name;
@@ -162,10 +162,10 @@
                  Toast(`申购单笔限额${this.maxRapidPayAmountPerTxn/10000}万元！`);
                  return false;
                  }*/
-                this.addHive(0, 'fundsPurchase_btn_submit');
+                this.addHive(0, 'fundsPurchase_btn_submit',106001);
                 let event = ['_trackEvent', '基金申购', 'CLICK', '基金申购-点击确认购买', '基金申购-点击确认购买'];
                 window._hmt.push(event);
-                this.addHive(5, 'fundsPurchase_modal_paypass');
+                this.addHive(5, 'fundsPurchase_modal_paypass',106091);
                 event = ['_trackEvent', '基金申购', 'SHOW', '基金申购-交易密码弹窗弹起', '基金申购-交易密码弹窗弹起'];
                 window._hmt.push(event);
                 this.inputPassword = true;
@@ -185,7 +185,7 @@
                 $api.post('/fund/purch', param).then((resp) => {
                     if (resp.code == 200) {
                         this.inputPassword = false;
-                        this.addHive(2, 'fundsPurchase_to_purchaseResult');
+                        this.addHive(2, 'fundsPurchase_to_purchaseResult',1060);
                         this.$router.push({
                             path: '/funds/purchase-result',
                             query: {
@@ -203,7 +203,7 @@
             this.$refs.purchase.style.minHeight = window.innerHeight + 'px';
         },
         destroyed(){
-            this.addHive(2, 'fundsPurchase');
+            this.addHive(2, 'fundsPurchase',1060);
         }
     }
 </script>

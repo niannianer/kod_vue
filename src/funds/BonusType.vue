@@ -45,7 +45,7 @@
         created() {
             this.dividendMethod = this.$route.query.bonus || 0;
             this.fundCode = this.$route.query.fundCode || 0;
-            this.addHive(1, 'fundsBonusType');
+            this.addHive(1, 'fundsBonusType',1048);
             let event = ['_trackEvent', '修改分红方式', 'SHOW', '进入修改分红方式页面', '进入修改分红方式页面'];
             window._hmt.push(event);
         },
@@ -54,7 +54,7 @@
         },
         methods: {
             confirmSet(){
-                this.addHive(0, 'fundsBonusType_btn_confirm');
+                this.addHive(0, 'fundsBonusType_btn_confirm',104801);
                 let event = ['_trackEvent', '修改分红方式', 'SHOW', '修改分红方式-确认修改', '修改分红方式-确认修改'];
                 window._hmt.push(event);
                 this.showMessage = true;
@@ -68,24 +68,24 @@
             confirms() {
                 this.showMessage = false;
                 if (this.type == 'confirm') {
-                    this.addHive(0, 'fundsBonusType_modal_confirm');
+                    this.addHive(0, 'fundsBonusType_modal_confirm',104891);
                     let event = ['_trackEvent', '修改分红方式', 'CLICK', '修改分红方式-弹窗-确认', '修改分红方式-弹窗-确认'];
                     window._hmt.push(event);
                     this.setDividendMethod();
                 } else if (this.type == 'success') {
-                    this.addHive(0, 'fundsBonusType_modal_confirmSucc');
+                    this.addHive(0, 'fundsBonusType_modal_confirmSucc',104891);
                     let event = ['_trackEvent', '修改分红方式', 'CLICK', '修改分红方式-弹窗-修改成功确认', '修改分红方式-弹窗-修改成功确认'];
                     window._hmt.push(event);
                     this.$router.back();
                 } else {
-                    this.addHive(0, 'fundsBonusType_modal_confirmFail');
+                    this.addHive(0, 'fundsBonusType_modal_confirmFail',104891);
                     let event = ['_trackEvent', '修改分红方式', 'CLICK', '修改分红方式-弹窗-修改失败确认', '修改分红方式-弹窗-修改失败确认'];
                     window._hmt.push(event);
                     this.$router.back();
                 }
             },
             cancel(){
-                this.addHive(0, 'fundsBonusType_modal_cancel');
+                this.addHive(0, 'fundsBonusType_modal_cancel',104891);
                 let event = ['_trackEvent', '修改分红方式', 'CLICK', '修改分红方式-弹窗-取消', '修改分红方式-弹窗-取消'];
                 window._hmt.push(event);
                 this.showMessage = false
@@ -119,7 +119,7 @@
         mounted() {
         },
         destroyed() {
-            this.addHive(1, 'fundsBonusType');
+            this.addHive(1, 'fundsBonusType',1048);
         }
     }
 </script>
