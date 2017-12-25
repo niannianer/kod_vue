@@ -115,7 +115,7 @@
         },
         created(){
             this.getAccountTransactionList('refresh');
-            this.addHive(1, 'account-detail');
+            this.addHive(1, 'account-detail',1002);
             let event = ['_trackEvent', '账户明细', 'SHOW', '进入账户明细页面', '进入账户明细页面'];
             window._hmt.push(event);
         },
@@ -127,23 +127,23 @@
         methods: {
             rotateTriangle(){
                 this.isRotate = !this.isRotate;
-                this.addHive(0, 'accountDetail_icon_triangle');
+                this.addHive(0, 'accountDetail_icon_triangle',100201);
             },
             loadMore(){
                 console.log('loading');
                 this.loading = true;
-                this.addHive(0, 'accountDetail_scroll_loading');
+                this.addHive(0, 'accountDetail_scroll_loading',100202);
                 this.getAccountTransactionList('loadMore');
             },
             selectAll(){
                 this.toggleAll = !this.toggleAll;
-                this.addHive(0, 'accountDetail_btn_selectAll');
+                this.addHive(0, 'accountDetail_btn_selectAll',100203);
                 this.items.map(item => {
                     item.active = this.toggleAll;
                 });
             },
             selectItem(index){
-                this.addHive(0, 'accountDetail_btn_select');
+                this.addHive(0, 'accountDetail_btn_select',100204);
                 if (this.toggleAll) {
                     this.toggleAll = false;
                     this.items.map(item => {
@@ -156,7 +156,6 @@
             },
             getByType(){
                 this.isRotate = false;
-                this.addHive(0, 'accountDetail_btn_getType');
                 if (this.toggleAll) {
                     this.types = ['全部'];
                     this.getAccountTransactionList('refresh');
@@ -221,7 +220,7 @@
             }
         },
         destroyed(){
-            this.addHive(2, 'account-detail');
+            this.addHive(2, 'account-detail',1002);
         }
     }
 </script>

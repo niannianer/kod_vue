@@ -41,7 +41,7 @@
             }
         },
         created(){
-            this.addHive(1, 'assessment-result');
+            this.addHive(1, 'assessment-result',1004);
             if ($device.isWeixin) {
                 this.getShare();
             }
@@ -85,7 +85,7 @@
                 });
             },
             reSubmit(){
-                this.addHive(0, 'assessmentResult_btn_test');
+                this.addHive(0, 'assessmentResult_btn_test',100401);
                 if (this.isApp) {
                     this.$router.replace({
                         path: '/risk-assessment/app',
@@ -104,7 +104,7 @@
 
             },
             done(){
-                this.addHive(0, 'assessmentResult_btn_complete');
+                this.addHive(0, 'assessmentResult_btn_complete',100402);
                 if (this.isApp) {
                     requestHybrid({
                         tagname: 'back',
@@ -144,7 +144,7 @@
             }
         },
         destroyed(){
-            this.addHive(2, 'assessment-result');
+            this.addHive(2, 'assessment-result',1004);
         }
     }
 </script>

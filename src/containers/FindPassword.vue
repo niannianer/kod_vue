@@ -64,7 +64,7 @@
             }
         },
         created(){
-            this.addHive(1, 'find-password');
+            this.addHive(1, 'find-password',1011);
         },
         computed: {},
         methods: {
@@ -111,7 +111,7 @@
                 return true;
             },
             getVerify(){
-                this.addHive(0, 'findPassword_btn_verify');
+                this.addHive(0, 'findPassword_btn_verify',101101);
                 if (!this.checkPhone()) {
                     return false
                 }
@@ -169,7 +169,7 @@
                 }
             },
             resetPassword(){
-                this.addHive(0, 'findPassword_btn_reset');
+                this.addHive(0, 'findPassword_btn_reset',101102);
                 if (!this.checkPhone()) {
                     return false;
                 }
@@ -216,7 +216,7 @@
             this.$refs.login.style.height = heigth+'px';
         },
         destroyed(){
-            this.addHive(2, 'find-password');
+            this.addHive(2, 'find-password',1011);
         }
     }
 </script>

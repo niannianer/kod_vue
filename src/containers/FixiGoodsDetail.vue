@@ -200,7 +200,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fixi-goods-detail');
+            this.addHive(1, 'fixi-goods-detail',1013);
             this.$store.dispatch('getAccountBaofoo');
             this.productUuid = this.$route.query.productUuid;
             this.getGoodsDetail();
@@ -264,7 +264,7 @@
         },
         methods: {
             setExpend(index){
-                this.addHive(0, 'fixiGoodsDetail_item_expend');
+                this.addHive(0, 'fixiGoodsDetail_item_expend',101301);
                 this.production.productInformation[index].expend = !this.production.productInformation[index].expend;
                 let oper = '收起';
                 if (this.production.productInformation[index].expend) {
@@ -294,12 +294,12 @@
                 if (this.attachmentUp) {
                     oper = '打开';
                 }
-                this.addHive(0, 'fixiGoodsDetail_item_file');
+                this.addHive(0, 'fixiGoodsDetail_item_file',101302);
                 let event = ['_trackEvent', '定期理财详情', 'CLICK', '在定期理财详情页' + oper + '产品附件', '定期理财详情页-' + oper + '产品附件'];
                 window._hmt.push(event);
             },
             openPDF(item){
-                this.addHive(0, 'fixiGoodsDetail_link_pdf');
+                this.addHive(0, 'fixiGoodsDetail_link_pdf',101303);
                 if (item.attachmentLink) {
                     let pdfUrl = item.attachmentLink;
                     let pdfName = item.attachmentName
@@ -442,7 +442,7 @@
                 Toast('产品在预热中，请稍后再进行购买');
             },
             getMasterPage(){
-                this.addHive(0, 'fixiDoodsDetail_link_financialMaster');
+                this.addHive(0, 'fixiDoodsDetail_link_financialMaster',101304);
                 window.location.href = '/land-financial-master.html';
             }
 
@@ -450,7 +450,7 @@
         },
         destroyed()
         {
-            this.addHive(2, 'fixi-goods-detail');
+            this.addHive(2, 'fixi-goods-detail',1013);
         }
     }
 </script>

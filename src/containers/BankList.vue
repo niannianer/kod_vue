@@ -44,7 +44,7 @@
             };
         },
         created(){
-            this.addHive(1, 'bank-list');
+            this.addHive(1, 'bank-list',1006);
             this.getYingmi();
             this.getBaofoo();
             if (this.$route.query.yingmi) {
@@ -79,9 +79,9 @@
                     });
             },
             setBank(item){
-                this.addHive(0, 'bankList_list_bank');
+                this.addHive(0, 'bankList_list_bank',100601);
                 window.sessionStorage.setItem('bank-info', JSON.stringify(item));
-                this.addHive(2, 'bank-list');
+                this.addHive(2, 'bank-list',1006);
                 this.$router.back();
             }
         }

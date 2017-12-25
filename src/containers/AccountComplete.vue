@@ -27,7 +27,7 @@
             Advertise
         },
         created(){
-            this.addHive(1, 'account-complete');
+            this.addHive(1, 'account-complete',1001);
             refreshApp();
         },
         computed: {
@@ -37,7 +37,7 @@
         },
         methods: {
             complete(){
-                this.addHive(0, 'accountComplete_btn_complete');
+                this.addHive(0, 'accountComplete_btn_complete',100101);
 
                 if (window.sessionStorage.getItem('noviceUrl')) {
                     window.location.href = decodeURIComponent(window.sessionStorage.getItem('noviceUrl'));
@@ -53,7 +53,7 @@
         mounted(){
         },
         destroyed(){
-            this.addHive(2, 'account-complete');
+            this.addHive(2, 'account-complete',1001);
         }
     }
 </script>

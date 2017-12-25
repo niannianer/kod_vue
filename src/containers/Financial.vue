@@ -223,7 +223,7 @@
             };
         },
         created(){
-            this.addHive(1, 'financial');
+            this.addHive(1, 'financial', 1010);
             this.tab = this.$route.query.tab || 2;
 
             let goodsDetail = window.sessionStorage.getItem('goodsDetail');
@@ -290,7 +290,14 @@
             },
             changeTab(tab){
                 let type = tab == 1 ? 'prif' : (tab == 2 ? 'fixi' : 'fund');
-                this.addHive(0, 'financial_tab_' + type);
+                let code = 101001;
+                if (tab == 2) {
+                    code = 101002;
+                }
+                if (code == 3) {
+                    code = 101003;
+                }
+                this.addHive(0, 'financial_tab_' + type, code);
                 this.tab = tab;
                 this.$router.replace('/financial?tab=' + this.tab);
                 this.startRow = 0;
@@ -324,7 +331,7 @@
                 }
             },
             loadMore(){
-                this.addHive(0, 'financial_scroll_loading');
+                this.addHive(0, 'financial_scroll_loading',101004);
                 this.loading = true;
                 this.startRow = this.lists.length;
                 this.getGoodsList();
@@ -374,11 +381,11 @@
                 let dom = document.querySelector('.item-list');
                 this.scrollTop = dom.scrollTop;
                 if (url.indexOf('fixi') > -1) {
-                    this.addHive(0, 'financial_list_fixi');
+                    this.addHive(0, 'financial_list_fixi',101005);
                     let event = ['_trackEvent', '产品列表', 'CLICK', '在定期理财列表页点击查看详情', '定期理财列表页-点击详情'];
                     window._hmt.push(event);
                 } else {
-                    this.addHive(0, 'financial_list_prif');
+                    this.addHive(0, 'financial_list_prif',101006);
                     let event = ['_trackEvent', '产品列表', 'CLICK', '在高端理财列表页点击查看详情', '高端理财列表页-点击详情'];
                     window._hmt.push(event);
                 }
@@ -394,8 +401,8 @@
                 wx.getShare(this.settings);
             },
             pathTo(path, boolean){
-                this.addHive(0, 'financial_link' + path.replace('/', ''));
-                this.addHive(2, 'financial');
+                this.addHive(0, 'financial_link' + path.replace('/', ''),101007);
+                this.addHive(2, 'financial',1010);
                 if (boolean) {
                     window.location.href = path;
                     return false;

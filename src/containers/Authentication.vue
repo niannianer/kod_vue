@@ -103,7 +103,7 @@
         created(){
             let event = ['_trackEvent', '实名认证', 'SHOW', '进入实名认证页面', '进入实名认证页面'];
             window._hmt.push(event);
-            this.addHive(1, 'authentication');
+            this.addHive(1, 'authentication',1005);
         },
         computed: {
             ...mapState([
@@ -118,7 +118,7 @@
         methods: {
             //下一步
             btnAction(){
-                this.addHive(0, 'authentication_btn_next');
+                this.addHive(0, 'authentication_btn_next',100501);
                 if (!this.nextClick) {
                     return
                 }
@@ -148,7 +148,7 @@
             },
             //提交数据
             getAccount(){
-                this.addHive(0, 'authentication_btn_submit');
+                this.addHive(0, 'authentication_btn_submit',100502);
                 let {userName, userIdCardNumber, smsCode} = this;
                 let data = {
                     userName: userName, userIdCardNumber: userIdCardNumber
@@ -191,7 +191,7 @@
             },
             //下发按钮
             transmit(){
-                this.addHive(0, 'authentication_btn_sms');
+                this.addHive(0, 'authentication_btn_sms',100503);
                 if (this.btnActive) {
                     $api.get('/sendBaofooAuthSMS', {type: 2}).then(msg => {
                         if (msg.code != 200) {
@@ -210,7 +210,7 @@
             },
             //确定
             sure(){
-                this.addHive(0, 'authentication_ensure');
+                this.addHive(0, 'authentication_ensure',100504);
                 if (this.smsCode.length >= 4) {
                     this.getAccount();
                 } else {
@@ -252,7 +252,7 @@
                 this.userIdCardNumber = text;
             },
             callService(){
-                this.addHive(0, 'authentication_btn_call');
+                this.addHive(0, 'authentication_btn_call',100505);
                 if ($device.kingold) {
                     requestHybrid({
                         tagname: 'tel',

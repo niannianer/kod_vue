@@ -29,7 +29,7 @@
             <dl flex class="bank-card" :style="cardStyle">
                 <dt>储蓄卡卡号</dt>
                 <dd>
-                    <input type="tel" placeholder="请输入银行卡号" @blur="getCardInfo" @keyup="change" v-model="bankCard"
+                    <input type="tel" placeholder="请输入银行卡号" @blur="getCardInfo"   v-model="bankCard"
                            maxlength="24">
                 </dd>
             </dl>
@@ -141,7 +141,7 @@
             refreshApp();
             let event = ['_trackEvent', '绑定银行卡', 'SHOW', '进入绑定银行卡页面', '进入绑定银行卡页面'];
             window._hmt.push(event);
-            this.addHive(1, 'bind-bank-card');
+            this.addHive(1, 'bind-bank-card',1007);
             if (window.sessionStorage.getItem('bind-card-info')) {
                 let bank = JSON.parse(window.sessionStorage.getItem('bind-card-info'));
                 _.forEach(bank, (val, key) => {
@@ -196,7 +196,7 @@
                 recursion();
             },
             transmit(){
-                this.addHive(0, 'bindBankCard_btn_sms');
+                this.addHive(0, 'bindBankCard_btn_sms',100701);
                 if (this.btnActive) {
                     $api.get('/sendBaofooAuthSMS', {type: 1}).then(msg => {
                         if (msg.code == 200) {
@@ -221,7 +221,7 @@
                 }
             },
             submit(){
-                this.addHive(0, 'bindBankCard_btn_submit');
+                this.addHive(0, 'bindBankCard_btn_submit',100702);
                 if (!this.agreement) {
                     Toast({
                         message: '请勾选相关协议',
@@ -272,7 +272,7 @@
                             duration: 5000
                         });
                         let event = ['_trackEvent', '绑卡成功', 'SHOW', '绑卡请求成功', '绑卡请求成功'];
-                        this.addHive(0,'bindBankCard_fetch_succ');
+                        this.addHive(0,'bindBankCard_fetch_succ',100703);
                         window._hmt.push(event);
                         setTimeout(() => {
                             this.loading = false;
@@ -296,7 +296,7 @@
                 });
             },
             getBankList(){
-                this.addHive(0,'bindBankCard_link_bankList')
+                this.addHive(0,'bindBankCard_link_bankList',100704)
                 window.sessionStorage.setItem('bind-card-info', JSON.stringify(this.$data));
                 this.$router.push('/bank-list');
             },
@@ -306,7 +306,7 @@
                 window.location.href = '/baofoo-certification.html';
             },
             showCardTel(){
-                this.addHive(5, 'bindBankCard_modal_mobile');
+                this.addHive(5, 'bindBankCard_modal_mobile',100791);
                 MessageBox({
                     title: '银行预留手机号说明',
                     message: '银行预留手机号是您办理银行卡时所填的手机号码。如忘记手机号请联系银行客服进行处理。',
@@ -314,7 +314,7 @@
                 })
             },
             callService(){
-                this.addHive(0, 'bindBankCard_btn_call');
+                this.addHive(0, 'bindBankCard_btn_call',100705);
                 if ($device.kingold) {
                     requestHybrid({
                         tagname: 'tel',
@@ -332,7 +332,7 @@
         },
         destroyed(){
             MessageBox.close();
-            this.addHive(2, 'bind-bank-card');
+            this.addHive(2, 'bind-bank-card',1007);
         }
     }
 </script>
