@@ -69,7 +69,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fundsRedeem');
+            this.addHive(1, 'fundsRedeem',1062);
             let event = ['_trackEvent', '基金赎回', 'SHOW', '进入基金赎回页面', '进入基金赎回页面'];
             window._hmt.push(event);
             this.getShares();
@@ -120,7 +120,7 @@
                 }, 250);
             },
             redAll(){
-                this.addHive(0, 'fundsRedeem_btn_redeemAll');
+                this.addHive(0, 'fundsRedeem_btn_redeemAll',106201);
                 let event = ['_trackEvent', '基金赎回', 'CLICK', '基金赎回-点击全部赎回', '基金赎回-点击全部赎回'];
                 window._hmt.push(event);
                 this.redShare = this.share;
@@ -128,7 +128,7 @@
             },
             /*赎回*/
             redem(){
-                this.addHive(0, 'fundsRedeem_btn_submit');
+                this.addHive(0, 'fundsRedeem_btn_submit',106202);
                 let event = ['_trackEvent', '基金赎回', 'CLICK', '基金赎回-点击赎回', '基金赎回-点击赎回'];
                 window._hmt.push(event);
                 let fundCode = this.$route.query.code;
@@ -137,7 +137,7 @@
                     .then(res => {
                         if (res.code == 200) {
                             //expectReceivedDate orderId 2017101800007696
-                            this.addHive(2, 'fundsRedeem_to_redeemRsult');
+                            this.addHive(2, 'fundsRedeem_to_redeemRsult',1062);
                             this.$router.push({
                                 path:'/funds/redeem-result',
                                 query:{
@@ -161,7 +161,7 @@
             }
         },
         destroyed(){
-            this.addHive(2, 'fundsRedeem');
+            this.addHive(2, 'fundsRedeem',1062);
         }
     }
 </script>

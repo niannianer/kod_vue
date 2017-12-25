@@ -78,7 +78,7 @@
             }
         },
         created(){
-            this.addHive(1, 'relationListGold');
+            this.addHive(1, 'relationListGold',1035);
             let event = ['_trackEvent', '我的金疙瘩好友', 'SHOW', '进入我的金疙瘩好友页面', '进入我的金疙瘩好友页面'];
             window._hmt.push(event);
             this.loadData();
@@ -97,7 +97,7 @@
                 })
             },
             tab(order, isInvest){
-                this.addHive(0, 'relationListGold_tab_checkTab');
+                this.addHive(0, 'relationListGold_tab_checkTab',103501);
                 let event = ['_trackEvent', '我的金疙瘩好友', 'CLICK', '我的金疙瘩好友-点击tab', '我的金疙瘩好友-点击tab'];
                 window._hmt.push(event);
                 this.list = [];
@@ -146,7 +146,7 @@
             }
         },
         destroyed(){
-            this.addHive(2, 'relationListGold');
+            this.addHive(2, 'relationListGold',1035);
         }
     }
 </script>

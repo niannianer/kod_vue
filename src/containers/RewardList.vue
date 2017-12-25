@@ -21,26 +21,28 @@
 
 <script>
     import '../less/reward-list.less';
+
     export default {
         name: 'reward-list',
-        data(){
+        data() {
             return {}
         },
-        created(){
-            this.addHive(1, 'rewardList');
+        created() {
+            this.addHive(1, 'rewardList', 1042);
             let event = ['_trackEvent', '奖励细则', 'SHOW', '进入奖励细则页面', '进入奖励细则页面'];
             window._hmt.push(event);
         },
         computed: {},
         components: {},
         methods: {
-            toDetail(type){
+            toDetail(type) {
 
                 let oper = type == 0 ? 'rewardShare' : 'rewardMaster'
                 let oper2 = type == 0 ? '邀请奖励细则' : '达人奖励细则'
-                this.addHive(0, 'rewardList_link_' + oper);
-                this.addHive(2, 'rewardList_to_rewardDetail' + type);
-                let event = ['_trackEvent', '奖励细则', 'CLICK', '奖励细则点击'+oper2, '奖励细则点击'+oper2];
+                let oper3 = type == 0 ? 104201 : 104202
+                this.addHive(0, 'rewardList_link_' + oper, oper3);
+                this.addHive(2, 'rewardList_to_rewardDetail' + type, 1042);
+                let event = ['_trackEvent', '奖励细则', 'CLICK', '奖励细则点击' + oper2, '奖励细则点击' + oper2];
                 window._hmt.push(event);
                 this.$router.push({
                     path: 'reward-detail',

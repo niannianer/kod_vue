@@ -96,7 +96,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fundsRelatedRate');
+            this.addHive(1, 'fundsRelatedRate',1064);
             let event = ['_trackEvent', '基金相关费率', 'SHOW', '进入基金相关费率页面', '进入基金相关费率页面'];
             window._hmt.push(event);
             this.purcaseRate();
@@ -166,7 +166,7 @@
             }
         },
         destroyed(){
-            this.addHive(2, 'fundsRelatedRate');
+            this.addHive(2, 'fundsRelatedRate',1064);
         }
     }
 </script>

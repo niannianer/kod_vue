@@ -260,7 +260,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fundsDetail');
+            this.addHive(1, 'fundsDetail',1050);
             let event = ['_trackEvent', '基金详情', 'SHOW', '进入基金详情页面', '进入基金详情页面'];
             window._hmt.push(event);
             this.fundTypes = this.$route.query.type;
@@ -336,14 +336,14 @@
                 }
             },
             activeCheck(num){
-                this.addHive(0, 'fundsDetail_tab_checkTab');
+                this.addHive(0, 'fundsDetail_tab_checkTab',105001);
                 let event = ['_trackEvent', '基金详情', 'CLICK', '基金详情-点击tab', '基金详情-点击tab'];
                 window._hmt.push(event);
                 this.active = num;
                 this.getCharts();
             },
             durationCheck(str){
-                this.addHive(0, 'fundsDetail_tab_checkDurationTab');
+                this.addHive(0, 'fundsDetail_tab_checkDurationTab',105002);
                 let event = ['_trackEvent', '基金详情', 'CLICK', '基金详情-点击时间tab', '基金详情-点击时间tab'];
                 window._hmt.push(event);
                 this.duration = str;
@@ -367,12 +367,12 @@
                     oper = '持仓分析';
                 }
                 if(oper){/*页面点击*/
-                    this.addHive(0, 'fundsDetail_link_' + pathname);
+                    this.addHive(0, 'fundsDetail_link_' + pathname,105003);
                     let event = ['_trackEvent', '基金详情', 'CLICK', '基金详情-点击' + oper, '基金详情-点击' + oper];
                     window._hmt.push(event);
                 }
                 /*页面内逻辑调用*/
-                this.addHive(2, 'fundsDetail_to_' + pathname);
+                this.addHive(2, 'fundsDetail_to_' + pathname,1050);
                 if (q) {
                     this.$router.push({
                         path: path,
@@ -675,7 +675,7 @@
             },
         },
         destroyed(){
-            this.addHive(2, 'fundsDetail');
+            this.addHive(2, 'fundsDetail',1050);
         }
     }
 </script>

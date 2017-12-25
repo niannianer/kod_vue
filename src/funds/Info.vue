@@ -85,7 +85,7 @@
             KingoldPicker
         },
         created(){
-            this.addHive(1, 'fundsInfo');
+            this.addHive(1, 'fundsInfo',1053);
             let event = ['_trackEvent', '适当性信息录入', 'SHOW', '进入适当性信息录入页面', '进入适当性信息录入页面'];
             window._hmt.push(event);
             this.getArea();
@@ -97,7 +97,7 @@
         },
         methods: {
             setData(){
-                this.addHive(0, 'fundsInfo_btn_submit');
+                this.addHive(0, 'fundsInfo_btn_submit',105301);
                 let event = ['_trackEvent', '适当性信息录入', 'CLICK', '适当性信息录入-点击提交', '适当性信息录入-点击提交'];
                 window._hmt.push(event);
                 if (!this.checkWord()) {
@@ -117,7 +117,7 @@
                 }).then((resp) => {
                     if (resp.code == 200) {
                         this.$store.dispatch('getAccountInfo');
-                        this.addHive(2, 'fundsInfo_to_lastPage');
+                        this.addHive(2, 'fundsInfo_to_lastPage',1053);
                         this.$router.back();
                     } else {
                         Toast(resp.msg);
@@ -155,12 +155,12 @@
             },
             selecting(t){
                 if (t == 'address') {
-                    this.addHive(0, 'fundsInfo_btn_selectAddress');
+                    this.addHive(0, 'fundsInfo_btn_selectAddress',105302);
                     let event = ['_trackEvent', '适当性信息录入', 'CLICK', '适当性信息录入-选择地址', '适当性信息录入-选择地址'];
                     window._hmt.push(event);
                     this.isPick = true;
                 } else {
-                    this.addHive(0, 'fundsInfo_btn_selectCareer');
+                    this.addHive(0, 'fundsInfo_btn_selectCareer',105303);
                     let event = ['_trackEvent', '适当性信息录入', 'CLICK', '适当性信息录入-选择职业', '适当性信息录入-选择职业'];
                     window._hmt.push(event);
                     this.careerPick = true;
@@ -277,7 +277,7 @@
             this.$refs.info.style.minHeight = window.innerHeight + 'px';
         },
         destroyed(){
-            this.addHive(2, 'fundsInfo');
+            this.addHive(2, 'fundsInfo',1053);
         }
     }
 </script>

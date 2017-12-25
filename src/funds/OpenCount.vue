@@ -101,7 +101,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fundsOpenCount');
+            this.addHive(1, 'fundsOpenCount',1057);
             let event = ['_trackEvent', '基金开户', 'SHOW', '进入基金开户页面', '进入基金开户页面'];
             window._hmt.push(event);
             this.getPickerList();
@@ -145,8 +145,8 @@
                     });
             },
             getBankList(){
-                this.addHive(0, 'fundsOpenCount_link_bankList');
-                this.addHive(2, 'fundsOpenCount_to_bankList');
+                this.addHive(0, 'fundsOpenCount_link_bankList',105701);
+                this.addHive(2, 'fundsOpenCount_to_bankList',1057);
                 let event = ['_trackEvent', '基金开户', 'CLICK', '基金开户-点击支持的银行', '基金开户-点击支持的银行'];
                 window._hmt.push(event);
                 window.sessionStorage.setItem('open-count', JSON.stringify(this.$data));
@@ -228,7 +228,7 @@
                 return true
             },
             openCount(){
-                this.addHive(0, 'fundsOpenCount_btn_submit');
+                this.addHive(0, 'fundsOpenCount_btn_submit',105702);
                 let event = ['_trackEvent', '基金开户', 'CLICK', '基金开户-点击确认开户', '基金开户-点击确认开户'];
                 window._hmt.push(event);
                 let type = 1;
@@ -264,7 +264,7 @@
                 })
                     .then(resp => {
                         if (resp.code == 200) {
-                            this.addHive(2, 'fundsOpenCount_to_fundsOpencountVerify');
+                            this.addHive(2, 'fundsOpenCount_to_fundsOpencountVerify',1057);
                             this.$router.replace({
                                 path: '/funds/verify',
                                 query: {
@@ -303,7 +303,7 @@
             this.$refs.openCount.style.minHeight = window.innerHeight + 'px';
         },
         destroyed(){
-            this.addHive(2, 'fundsOpenCount');
+            this.addHive(2, 'fundsOpenCount',1057);
         }
     }
 </script>

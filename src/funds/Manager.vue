@@ -18,7 +18,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fundsManager');
+            this.addHive(1, 'fundsManager',1055);
             let event = ['_trackEvent', '基金经理', 'SHOW', '进入基金经理页面', '进入基金经理页面'];
             window._hmt.push(event);
             $api.get('/fund/info/manager', {
@@ -33,7 +33,7 @@
         computed: {},
         methods: {},
         destroyed(){
-            this.addHive(2, 'fundsManager');
+            this.addHive(2, 'fundsManager',1055);
         }
     }
 </script>

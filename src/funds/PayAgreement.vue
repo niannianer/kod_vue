@@ -84,7 +84,7 @@
         },
         components: {},
         created(){
-            this.addHive(1, 'fundsPayAgreement');
+            this.addHive(1, 'fundsPayAgreement',1058);
             let event = ['_trackEvent', '基金委托支付协议', 'SHOW', '进入基金委托支付协议页面', '进入基金委托支付协议页面'];
             window._hmt.push(event);
         },
@@ -94,7 +94,7 @@
         mounted(){
         },
         destroyed(){
-            this.addHive(2, 'fundsPayAgreement');
+            this.addHive(2, 'fundsPayAgreement',1058);
         }
     }
 </script>

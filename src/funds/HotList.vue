@@ -67,7 +67,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fundsHotList');
+            this.addHive(1, 'fundsHotList',1052);
             let event = ['_trackEvent', '基金热销榜', 'SHOW', '进入基金热销榜页面', '进入基金热销榜页面'];
             window._hmt.push(event);
             this.loadData();
@@ -75,8 +75,8 @@
         computed: {},
         methods: {
             pathTo(code, type){
-                this.addHive(0, 'fundsHotList_item_fundsDetail');
-                this.addHive(2, 'fundsHotList_to_fundsDetail');
+                this.addHive(0, 'fundsHotList_item_fundsDetail',105201);
+                this.addHive(2, 'fundsHotList_to_fundsDetail',1052);
                 let event = ['_trackEvent', '基金热销榜', 'CLICK', '基金热销榜-点击详情', '基金热销榜-点击详情'];
                 window._hmt.push(event);
                 this.$router.push({
@@ -114,12 +114,12 @@
             loadMore(){
                 this.loading = true;
                 this.currentPage++;
-                this.addHive(0,'fundsHotList_scroll_loading');
+                this.addHive(0,'fundsHotList_scroll_loading',105202);
                 this.loadData();
             }
         },
         destroyed(){
-            this.addHive(2,'fundsHotList');
+            this.addHive(2,'fundsHotList',1052);
         }
     }
 </script>

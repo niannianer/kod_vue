@@ -31,7 +31,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fundsBulletin');
+            this.addHive(1, 'fundsBulletin',1049);
             let event = ['_trackEvent', '基金公告', 'SHOW', '进入基金公告页面', '进入基金公告页面'];
             window._hmt.push(event);
             this.loadData();
@@ -62,7 +62,7 @@
                 this.loadData();
             },
             openPDF(item){
-                this.addHive(0, 'fundsBulletin_item_openPdf');
+                this.addHive(0, 'fundsBulletin_item_openPdf',104901);
                 let event = ['_trackEvent', '基金公告', 'CLICK', '基金公告-点击详情', '基金公告-点击详情'];
                 window._hmt.push(event);
                 $api.get('/fund/info/noticeFileUri',{
@@ -83,7 +83,7 @@
             },
         },
         destroyed(){
-            this.addHive(2, 'fundsBulletin');
+            this.addHive(2, 'fundsBulletin',1049);
         }
     }
 </script>
