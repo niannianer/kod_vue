@@ -222,7 +222,7 @@
             }
         },
         created(){
-            this.addHive(1, 'goods-detail-prif');
+            this.addHive(1, 'goods-detail-prif',1014);
             this.productUuid = this.$route.query.productUuid;
             this.getDetail();
             if ($device.isWeixin) {
@@ -255,7 +255,7 @@
             toggle(num){
                 let oper = '收起';
                 let item = '';
-                this.addHive(0, 'goodsDetailPrif_icon_expend');
+                this.addHive(0, 'goodsDetailPrif_icon_expend',101401);
                 if (num == 1) {
                     this.tab1 = !this.tab1;
                     item = '投资范围';
@@ -285,7 +285,7 @@
                 window._hmt.push(event);
             },
             link(message, productUuid){
-                this.addHive(0, 'goodsDetailPrif_link_makeAppointment');
+                this.addHive(0, 'goodsDetailPrif_link_makeAppointment',101402);
                 if (message == '预热中') {
                     Toast('产品在预热中，请稍后再尝试预约');
                 } else if (message == '立即预约') {
@@ -301,7 +301,7 @@
                 }
             },
             linkpdf(item){
-                this.addHive(0, 'goodsDetailPrif_link_pdf');
+                this.addHive(0, 'goodsDetailPrif_link_pdf',101403);
                 if (item.attachmentLink) {
                     let pdfUrl = item.attachmentLink;
                     let pdfName = item.attachmentName
@@ -340,7 +340,7 @@
             }
         },
         destroyed(){
-            this.addHive(2, 'goods-detail-prif');
+            this.addHive(2, 'goods-detail-prif',1014);
         }
     }
 </script>
