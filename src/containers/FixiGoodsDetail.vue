@@ -442,7 +442,7 @@
                 Toast('产品在预热中，请稍后再进行购买');
             },
             getMasterPage(){
-                this.addHive(0, 'fixiDoodsDetail_link_financialMaster',101305);
+                this.addHive(0, 'fixiDoodsDetail_link_financialMaster',101304);
                 window.location.href = '/land-financial-master.html';
             }
 
