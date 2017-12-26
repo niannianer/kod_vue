@@ -67,7 +67,6 @@
         },
         computed: {},
         created(){
-            this.addHive(1, 'totalAssets');
         },
         methods: {
             pieChart(svgObj, data, width, height, colors){

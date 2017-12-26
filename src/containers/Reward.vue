@@ -143,8 +143,6 @@
                 }
                 else{
                     let oper = path.replace('/','');
-                    this.addHive(0, 'reward_link_'+oper,104004);
-                    this.addHive(2, 'reward_to_'+oper,1040);
                     let event = ['_trackEvent', '我的奖励', 'CLICK', '我的奖励-'+oper, '我的奖励-'+oper];
                     window._hmt.push(event);
                 }

@@ -191,7 +191,7 @@
         mounted(){
         },
         destroyed(){
-            this.addHive(2, 'relation',103303)
+            this.addHive(2, 'relation',1033)
         }
     }
 </script>
