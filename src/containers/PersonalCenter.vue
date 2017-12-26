@@ -222,6 +222,7 @@
             }
         },
         created(){
+            this.addHive(1,'personal-center',1070);
             this.mode = window.localStorage.getItem('mode') == 'true' ? true : false;
             if ($device.isWeixin) {
                 this.getShare();
@@ -295,6 +296,7 @@
             // 开户流程
             goStep(){
                 let {userVerifyStatus} = this;
+                this.addHive(0,'personal-center',107001);
                 switch (userVerifyStatus) {
                     case 0:
                         this.$router.push('/authentication');
@@ -318,6 +320,7 @@
                 }
             },
             switchMode(){
+                this.addHive(0,'personal-center',107015);
                 this.mode = !this.mode
                 window.localStorage.setItem('mode', this.mode);
             },
@@ -325,6 +328,7 @@
                 this.$router.replace('/login');
             },
             logout(){
+                this.addHive(0,'personal-center',107002);
                 let event = ['_trackEvent', '个人中心', 'CLICK', '个人中心-退出登录-点击', '在个人中心点击退出登录'];
                 window._hmt.push(event);
                 $api.post('/logout')
@@ -341,37 +345,45 @@
                 let lable = '个人中心-我的资产-点击';
                 let value = '在个人中心点击我的资产';
                 if (path == '/reward') {
+                    this.addHive(0,'personal-center',107003);
                     lable = '个人中心-我的奖励-点击';
                     value = '在个人中心点击我的奖励';
                 }
                 if (path == '/relation') {
+                    this.addHive(0,'personal-center',107004);
                     lable = '个人中心-我的好友-点击';
                     value = '在个人中心点击我的好友';
                 }
                 if (path == '/reserve-list') {
                     lable = '个人中心-预约管理-点击';
                     value = '在个人中心点击预约管理';
+                    this.addHive(0,'personal-center',107007);
                 }
                 if (path == '/invest-list') {
+                    this.addHive(0,'personal-center',107005);
                     lable = '个人中心-我的投资-点击';
                     value = '在个人中心点击我的投资';
                 }
                 if (path == '/land-about-us.html') {
+                    this.addHive(0,'personal-center',107006);
                     lable = '个人中心-关于我们-点击';
                     value = '在个人中心点击关于我们';
                 }
                 if (path == '/funds/my-fund') {
                     lable = '个人中心-我的基金-点击';
                     value = '在个人中心点击我的基金';
+                    this.addHive(0,'personal-center',107008);
                 }
                 if (path == '/land-share.html') {
                     lable = '个人中心-一起赚-点击';
                     value = '在个人中心点击一起赚';
+                    this.addHive(0,'personal-center',107009);
                 }
 
                 if (path == '/financial?tab=FIXI' || path == '/financial') {
                     lable = '个人中心-定期理财-点击';
                     value = '在个人中心点击定期理财';
+                    this.addHive(0,'personal-center',107010);
                 }
                 if (path == '/financial?tab=PRIF') {
                     lable = '个人中心-高端理财-点击';
@@ -380,6 +392,7 @@
                 if (path == appUrl) {
                     lable = '从个人中心进入app下载页';
                     value = '从个人中心进入app下载页';
+                    this.addHive(0,'personal-center',107011);
                 }
                 let event = ['_trackEvent', '个人中心', 'CLICK', lable, value];
                 window._hmt.push(event);
@@ -388,8 +401,16 @@
                     return false
                 }
                 if (path == '/recharge' || path == '/withdraw') {
+                    if(path == '/recharge'){
+                        this.addHive(0,'personal-center',107012);
+                    }
+                    else {
+                        this.addHive(0,'personal-center',107013);
+                    }
+
                     if (this.userVerifyStatus != 9) {
                         this.showModal = true;
+                        this.addHive(5,'personal-center',1070);
                         let event = ['_trackEvent', '个人中心', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
                         window._hmt.push(event);
                         return false;
@@ -444,6 +465,7 @@
             Modal
         },
         destroyed(){
+            this.addHive(2,'personal-center',1070);
             clearInterval(timer)
         }
     }
