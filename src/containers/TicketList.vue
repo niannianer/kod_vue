@@ -207,7 +207,11 @@
                                 })
                                 return false;
                             }
-                            Toast('现金券可用产品已售罄，请选择其他现金券');
+                            let text = '加息券';
+                            if (this.msgCode == 1) {
+                                text = '现金券';
+                            }
+                            Toast(text + '可用产品已售罄，请选择其他' + text);
                         } else {
                             Toast(resp.msg);
                         }
