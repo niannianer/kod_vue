@@ -6,8 +6,22 @@
             <div class="title">{{title}}
                 <span class="close" @click.stop="close">×</span>
             </div>
-            <div class="account-text">账户余额</div>
-            <div class="account-amount">{{cashAmount | currencyFormat}}元</div>
+            <div class="account-info">
+                <div class="text" flex>
+                    <span>起投金额{{minInvest}}元   {{stepValue}}元递增</span>
+                </div>
+                <div class="text">
+                    <span>当前本产品投资上限  100元</span>
+                </div>
+                <div class="text">
+                    <span>剩余额度   {{remainAmount}}元</span>
+                </div>
+                <div class="text">
+                    <span>预计收益:   {{shouyi}}</span>
+                </div>
+            </div>
+            <!--   <div class="account-text">账户余额</div>
+               <div class="account-amount">{{cashAmount | currencyFormat}}元</div>-->
             <div class="min-invest">{{hintText}}</div>
             <div class="input-content" flex>
                 <div class="amount" flex-box="1" flex="main:jusitfy">
@@ -71,6 +85,7 @@
                 passwords: [],
                 hintText: '',
                 timer: null,
+                shouyi: '',
                 disabled: true,
                 keyboads: [
                     {
@@ -143,24 +158,29 @@
                 this.timer = setTimeout(() => {
                     if (isNaN(this.amount)) {
                         this.disabled = true;
+                        this.shouyi = '';
                         return false;
                     }
                     if (this.amount < this.minInvest) {
                         this.hintText = `起投金额${this.minInvest}元`;
                         this.disabled = true;
+                        this.shouyi = '';
                     } else if (this.amount > this.remainAmount) {
                         this.hintText = `投资金额不可大于剩余额度`;
                         this.disabled = true;
+                        this.shouyi = '';
                     }
                     else {
                         let dis = this.amount - this.minInvest;
                         if (dis % this.stepValue) {
                             this.hintText = `投资金额需以${this.stepValue}元递增`;
                             this.disabled = true;
+                            this.shouyi = '';
                         } else {
                             let shouyi = this.amount * parseFloat(this.rate) * parseInt(this.period) / 365;
                             shouyi = currencyFormat(shouyi);
-                            this.hintText = `预期收益${shouyi}元`;
+                            this.shouyi = shouyi+'元';
+                            this.hintText = ``;
                             this.disabled = false;
                         }
 
@@ -225,3 +245,12 @@
 
     }
 </script>
+<style lang="less" scoped>
+    .account-info {
+        position: relative;
+        padding: .5rem .8rem;
+        .text {
+
+        }
+    }
+</style>
