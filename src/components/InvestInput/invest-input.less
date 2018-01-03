@@ -1,6 +1,6 @@
 @charset "UTF-8";
+@app-bg-color: linear-gradient(-1deg, #7C4F2B 0%, #8F6441 24%, #D8BD7E 70%, #EECE83 100%);
 .invest-input {
-    position: absolute;
     position: absolute;
     left: 0;
     bottom: 0;
@@ -11,7 +11,6 @@
     .body {
         background-color: #fff;
         .title {
-
             position: relative;
             padding: .5rem .8rem;
             font-size: .9rem;
@@ -62,13 +61,14 @@
                 padding-right: .4rem;
             }
             .btn-next{
-                background-color: #1D72C0;
+                background-image: @app-bg-color;
                 color: #fff;
                 height: 2.8rem;
                 width: 8.2rem;
                 border-radius: 0;
                 &:disabled{
                     background-color: #d8d8d8;
+                    background-image: none;
                 }
             }
         }
