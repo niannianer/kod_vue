@@ -186,7 +186,7 @@ export let remainTime = (end, now) => {
     }
     let hours = Math.floor(remainTime / 60 / 60);
     if (hours > 0) {
-        return hours + '时过期'
+        return hours + '小时过期'
     }
     let minutes = Math.floor(remainTime / 60);
     if ((remainTime / 60) < 1) {
