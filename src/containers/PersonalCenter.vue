@@ -245,6 +245,8 @@
             this.getUnread();
             // 获取投资好友人数
             this.getMaster();
+            // 更新个人账户
+            this.$store.dispatch('getPersonalCenterMsg');
             let event = ['_trackEvent', '个人中心', 'SHOW', '进入个人中心页面且已登录', '进入已登录个人中心'];
             window._hmt.push(event);
             // 是否是充值回来
