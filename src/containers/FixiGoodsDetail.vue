@@ -154,11 +154,12 @@
                 <button class="do-invest" @click.stop="preInvest">立即投资</button>
             </div>
             <div v-else="production.canBuy">
-                <div v-if="production.productStatusCode==1" class="can-not-buy" style="background: #1D72C0"
+                <!--预热中-->
+                <div v-if="production.productStatusCode==1" class="can-not-buy" style="background: #FF6A37"
                      @click.stop="hot">
                     {{production.productStatus}}
                 </div>
-                <div v-else class="can-not-buy">{{production.productStatus}}</div>
+                <div  class="can-not-buy" v-else>{{production.productStatus}}</div>
             </div>
         </div>
 
@@ -171,6 +172,7 @@
                       :uid="productUuid"
                       :rate="production.expcRate"
                       :period="production.productPeriod"
+                      :myInvestMax="myInvestMax"
                       @callBack="inputBack"></invest-input>
     </div>
 </template>
@@ -200,7 +202,7 @@
             }
         },
         created(){
-            this.addHive(1, 'fixi-goods-detail',1013);
+            this.addHive(1, 'fixi-goods-detail', 1013);
             this.$store.dispatch('getAccountBaofoo');
             this.productUuid = this.$route.query.productUuid;
             this.getGoodsDetail();
@@ -260,11 +262,18 @@
             },
             productAttachment(){
                 return this.production.productAttachment && this.production.productAttachment.length > 0;
+            },
+            myInvestMax(){
+                if (!this.production.productMaxInvestmentValue) {
+                    return 0;
+                }
+                return Math.floor(this.production.productMaxInvestmentValue - this.production.investAmount)
+
             }
         },
         methods: {
             setExpend(index){
-                this.addHive(0, 'fixiGoodsDetail_item_expend',101301);
+                this.addHive(0, 'fixiGoodsDetail_item_expend', 101301);
                 this.production.productInformation[index].expend = !this.production.productInformation[index].expend;
                 let oper = '收起';
                 if (this.production.productInformation[index].expend) {
@@ -294,12 +303,12 @@
                 if (this.attachmentUp) {
                     oper = '打开';
                 }
-                this.addHive(0, 'fixiGoodsDetail_item_file',101302);
+                this.addHive(0, 'fixiGoodsDetail_item_file', 101302);
                 let event = ['_trackEvent', '定期理财详情', 'CLICK', '在定期理财详情页' + oper + '产品附件', '定期理财详情页-' + oper + '产品附件'];
                 window._hmt.push(event);
             },
             openPDF(item){
-                this.addHive(0, 'fixiGoodsDetail_link_pdf',101303);
+                this.addHive(0, 'fixiGoodsDetail_link_pdf', 101303);
                 if (item.attachmentLink) {
                     let pdfUrl = item.attachmentLink;
                     let pdfName = item.attachmentName
@@ -442,7 +451,7 @@
                 Toast('产品在预热中，请稍后再进行购买');
             },
             getMasterPage(){
-                this.addHive(0, 'fixiDoodsDetail_link_financialMaster',101304);
+                this.addHive(0, 'fixiDoodsDetail_link_financialMaster', 101304);
                 window.location.href = '/land-financial-master.html';
             }
 
@@ -450,7 +459,7 @@
         },
         destroyed()
         {
-            this.addHive(2, 'fixi-goods-detail',1013);
+            this.addHive(2, 'fixi-goods-detail', 1013);
         }
     }
 </script>

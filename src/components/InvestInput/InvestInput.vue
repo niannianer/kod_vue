@@ -11,7 +11,7 @@
                     起投金额<span class="info-text">{{minInvest}}元   {{stepValue}}元递增</span>
                 </div>
                 <div class="text">
-                    投资上限<span class="info-text">100元</span>
+                    投资上限<span class="info-text">{{myInvestMax}}元</span>
                 </div>
                 <div class="text">
                     剩余额度<span class="info-text">{{remainAmount}}元</span>
@@ -79,7 +79,8 @@
     import './invest-input.less';
     export default {
         name: 'invest-input',
-        props: ['uid', 'title', 'cashAmount', 'minInvest', 'remainAmount', 'stepValue', 'rate', 'period'],
+        props: ['uid', 'title', 'cashAmount', 'minInvest',
+            'remainAmount', 'stepValue', 'rate', 'period','myInvestMax'],
         data(){
             return {
                 passwords: [],
