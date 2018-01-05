@@ -21,7 +21,7 @@
                 </div>
                 <div flex class="item-bottom">
                     <p flex-box="0">
-                        {{item.createTime | timeFormat('day')}}
+                        {{(item.publishTime || item.createTime) | timeFormat('day')}}
                     </p>
                     <p flex-box="1" class="detail" @click.stop="msgDetail(item.id)">
                         查看详情
@@ -48,7 +48,7 @@
                 currentPage: 0,
                 msgList: [],
                 loading: true,
-                pageSize: 10,
+                pageSize: 20,
                 hasUnread: 1,
                 msgCode: 3,
                 scrollTop: 0,

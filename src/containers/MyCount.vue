@@ -11,17 +11,30 @@
                 </div>
                 <div class="item2" flex>
                     <div class="item-left" flex-box="1">证件号码</div>
-                    <div class="item-right" flex-box="0">
+                    <div class="item-right idCard" flex-box="0">
                         {{investorIdCardNo | idCardFormat}}
                     </div>
                 </div>
             </div>
-            <p>银行卡信息</p>
             <div class="bank">
-                <div class="bank-name">
-                    <img :src="bankImg" class="bank-logo"/>
-                    <span class="name">{{bankName}}</span>
-                    <div class="bank-info">{{bankUserCardNo | bankCardNoFormat}}</div>
+                <div class="bank-name bf-card" flex v-if="baofooCard.bankName">
+                    <div flex-box="0">
+                        <img :src="baofooCard.bankImg" class="bank-logo"/>
+                    </div>
+                    <div flex-box="1">
+                        <span class="name">{{baofooCard.bankName}}</span>
+                        <div class="bank-info">{{baofooCard.bankUserCardNo | bankCardNoFormat}}</div>
+                    </div>
+                </div>
+                <div class="bank-name ym-card" flex v-if="yingmiCard.name">
+                    <img src="../images/fund/jijin-text.png" class="jj-text"/>
+                    <div flex-box="0">
+                        <img :src="yingmiCard.bankImg" class="bank-logo"/>
+                    </div>
+                    <div flex-box="1">
+                        <span class="name">{{yingmiCard.name}}</span>
+                        <div class="bank-info">{{yingmiCard.paymentNo | bankCardNoFormat}}</div>
+                    </div>
                 </div>
             </div>
             <div class="tel-info">
@@ -40,25 +53,34 @@
         name: 'my-count',
         data(){
             return {
-                telNumber
+                telNumber,
+                yingmiCard: {},
+                baofooCard: {}
             }
         },
         computed: {
             ...mapState([
-                'bankUserCardNo',
-                'bankCode',
-                'bankName',
                 'investorRealName',
                 'investorIdCardNo',
                 'bankUserPhone']),
-            bankImg(){
-                return imgUrls[this.bankCode];
-            }
         },
         created(){
             let event = ['_trackEvent', '我的银行卡', 'SHOW', '进入我的银行卡页面', '进入我的银行卡页面'];
             window._hmt.push(event);
             this.addHive(1, 'my-count',1028);
+            this.bankCardAll();
+        },
+        methods: {
+            bankCardAll(){
+                $api.get('/getUserBankCardAll').then(resp => {
+                    if(resp.code == 200){
+                        this.yingmiCard = resp.data.yingmiCard;
+                        this.yingmiCard.bankImg = imgUrls.yingmi[this.yingmiCard.paymentType||'bank:003'];
+                        this.baofooCard = resp.data.baofooCard;
+                        this.baofooCard.bankImg = imgUrls[this.baofooCard.bankCode];
+                    }
+                });
+            }
         }
     }
 </script>
