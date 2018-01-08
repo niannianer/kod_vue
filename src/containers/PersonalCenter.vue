@@ -139,7 +139,7 @@
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
-                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/funds/my-fund')">
+                    <div class="item" :class="{'bl': hasAdvt}" flex-box="1" flex="cross:center" @click.stop="getPath('/funds/my-fund')">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/fund.png" alt="my-fund">
                         </div>
@@ -147,6 +147,13 @@
                         <div flex-box="0">
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
+                    </div>
+                    <div class="item" flex-box="1" flex="dir:top" v-show="hasAdvt">
+                        <div flex-box="0" flex="cross:center">
+                            <img class="logo" src="../images/personal-center/advertise-icon.png" alt="my-fund">
+                            <span>活动</span>
+                        </div>
+                        <advertise :pagetype="'WDJL'"></advertise>
                     </div>
                 </div>
 
@@ -202,6 +209,8 @@
     import $api from '../tools/api';
     import wx from '../tools/wx';
     import $device from '../tools/device';
+    import Advertise from '../components/Advertise';
+    import EventBus from '../tools/event-bus';
     import '../less/personal-center.less';
     import {submitAuthorization} from '../tools/operation';
     let timer = null;
@@ -218,7 +227,8 @@
                 interestCouponUnreadMessage: 0,
                 articleUnreadMessage: 0,
                 relationInvest: 0,//投资好友人数,
-                currentIndex: 0 //达人当前展示文案
+                currentIndex: 0, //达人当前展示文案
+                hasAdvt: false
             }
         },
         created(){
@@ -271,6 +281,9 @@
                 }
                 return ['理财达人，长期奖励', `还需${5 - this.relationInvest}个投资好友`, '额外奖励   收益加速']
             }
+        },
+        components:{
+            Modal, Advertise
         },
         methods: {
             getMaster(){
@@ -463,8 +476,10 @@
                     });
             }
         },
-        components: {
-            Modal
+        mounted(){
+            EventBus.$on('advertise', (picUrl) => {
+                this.hasAdvt = picUrl;
+            });
         },
         destroyed(){
             this.addHive(2,'personal-center',1070);

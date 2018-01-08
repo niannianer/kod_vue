@@ -8,6 +8,7 @@
     import {Swipe, SwipeItem} from 'mint-ui';
     import Vue from 'vue';
     import $api from '../../tools/api';
+    import EventBus from '../../tools/event-bus';
     import './advertise.less';
     Vue.component(Swipe.name, Swipe);
     Vue.component(SwipeItem.name, SwipeItem);
@@ -31,6 +32,7 @@
                                     this.pictureUrl = item.pictureUrl;
                                     this.skipLinkUrl = item.skipLinkUrl;
                                     this.skipLinkTitle = item.skipLinkTitle;
+                                    EventBus.$emit('advertise',this.pictureUrl);
                                 }
                             })
                         }
