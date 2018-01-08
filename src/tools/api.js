@@ -112,7 +112,10 @@ let getNode = (path, data = {}) => {
     })
 };
 let post = (path, data = {}, indicator = '') => {
-    data.callSystemID = '1003';
+    let params = {
+        callSystemID: '1003',
+        deviceID: getDeviceID()
+    }
     let url = `${serverUrl + path}`;
     Indicator.open(indicator);
     return axios({
@@ -121,9 +124,7 @@ let post = (path, data = {}, indicator = '') => {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        params: {
-            t: new Date().getTime()
-        },
+        params,
         withCredentials: true,
         data: doEncrypt ? $query(data) : query(data)
     }).then(response => {
