@@ -267,7 +267,7 @@
                 if (!this.production.productMaxInvestmentValue) {
                     return 0;
                 }
-                return Math.floor(this.production.productMaxInvestmentValue - this.production.investAmount)
+                return Math.floor(this.production.productMaxInvestmentValue - (this.production.investAmount||0))
 
             }
         },
