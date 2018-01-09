@@ -121,8 +121,8 @@ let post = (path, data = {}, indicator = '') => {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        params: {
-            t: new Date().getTime()
+        params:{
+            deviceID: getDeviceID()
         },
         withCredentials: true,
         data: doEncrypt ? $query(data) : query(data)
