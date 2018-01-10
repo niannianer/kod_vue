@@ -38,6 +38,11 @@
             margin-bottom: .4rem;
             background-color: @bg-content;
             overflow: hidden;
+            &.rgl-item{
+                padding: 1rem 1rem 0;
+                border-bottom: 1px solid #eee;
+                border-top: 1px solid #eee;
+            }
             &.novice-label {
                 padding: 0;
                 .title-part {
@@ -57,6 +62,12 @@
                 .m-part {
                     padding: .3rem .8rem .8rem .8rem;
                 }
+            }
+            .daren{
+                width: 2.5rem;
+                height: .8rem;
+                margin-left: .4rem;
+                padding-top: 0.15rem;
             }
             .ticket-wrap {
                 .ticket-item {
@@ -84,7 +95,7 @@
                 color: #fff;
                 text-align: center;
                 &.hot {
-                    background-color: @color-active; //预热
+                    background-color: @app-ticket-context; //预热
                 }
                 &.raise {
                     background-color: @app-red; //募集
@@ -101,6 +112,17 @@
                 color: @color-text;
                 max-width: 80%;
                 font-weight: bold;
+            }
+            .time-text{
+                background: #FF6A37;
+                border-radius: 67px;
+                color: #fff;
+                display: inline-block;
+                padding: .05rem .5rem;
+                font-size: .6rem;
+                margin-top: .2rem;
+                transform: scale(.8);
+                margin-left: -.6rem;
             }
             .fund-middle {
                 margin-top: .5rem;
@@ -135,7 +157,7 @@
                     //line-height: 1.2rem;
                     line-height: 50px;
                     &.hot {
-                        color: @color-active;
+                        color: @app-ticket-context;
                     }
                     &.raise {
                         color: @app-red;
@@ -190,8 +212,8 @@
                         text-align: center;
                         color: #FFF;
                         &.hot {
-                            background-color: @color-active;
-                            box-shadow: 0 0 10px @color-active;
+                            background-color: @app-ticket-context;
+                            box-shadow: 0 0 10px @app-ticket-context;
                         }
                         &.raise {
                             background-color: @app-red;
@@ -215,7 +237,7 @@
                         background: @app-progress;
                         height: 100%;
                         &.hot {
-                            background-color: @color-active;
+                            background-color: @app-ticket-context;
                         }
                         &.raise {
                             background-color: @color-interest;
@@ -258,7 +280,8 @@
             .buttom {
                 font-size: .7rem;
                 position: relative;
-                padding: 0 0 0 1rem;
+                padding: .6rem 0 .6rem 1rem;
+                border-top: 1px solid #eee;
                 &:before {
                     content: '';
                     position: absolute;
