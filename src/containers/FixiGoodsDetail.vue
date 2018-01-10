@@ -1,7 +1,13 @@
 <template>
     <div class="fixi-goods-detail">
         <div class="warp">
-            <div class="master-hint" flex="cross:center main:justify" v-if="production.talentAwardMaxRate">
+            <!--达人产品-->
+            <div class="master-hint" flex="cross:center main:justify" v-if="production.vipFlag">
+                <span>如何享受此产品购买权？</span>
+                <span class="how" @click.stop="getMasterPage">去看看</span>
+            </div>
+            <!--达人系数-->
+            <div class="master-hint" flex="cross:center main:justify" v-if="!production.vipFlag&&production.talentAwardMaxRate">
                 <span>达人奖励系数{{production.talentAwardMaxRate}}</span>
                 <span class="how" @click.stop="getMasterPage">如何获得达人奖励</span>
             </div>
@@ -16,7 +22,7 @@
                     </div>
                     <div class="item" flex-box="1">
                         <div class="item-text">剩余额度(元)</div>
-                        <div class="item-number">{{production.productRemainAmountValue}}</div>
+                        <div class="item-number">{{production.productRemainAmountValue||0}}</div>
                     </div>
                 </div>
                 <div class="progress-warp" flex="cross:center">
@@ -159,7 +165,7 @@
                      @click.stop="hot">
                     {{production.productStatus}}
                 </div>
-                <div  class="can-not-buy" v-else>{{production.productStatus}}</div>
+                <div class="can-not-buy" v-else>{{production.productStatus}}</div>
             </div>
         </div>
 
@@ -224,7 +230,8 @@
                 'accountTotalInterests',
                 'accountCashAmount',
                 'userId',
-                'investorRiskScore'
+                'investorRiskScore',
+                'investorType'
             ]),
             productPeriod(){
                 if (this.production.productPeriod) {
@@ -267,7 +274,7 @@
                 if (!this.production.productMaxInvestmentValue) {
                     return 0;
                 }
-                return Math.floor(this.production.productMaxInvestmentValue - (this.production.investAmount||0))
+                return Math.floor(this.production.productMaxInvestmentValue - (this.production.investAmount || 0))
 
             }
         },
@@ -444,6 +451,24 @@
                         }
                     });
                 } else {
+                    if (this.production.vipFlag == 1) {
+                        // 达人产品
+                        if (this.investorType != 12) {
+                            MessageBox({
+                                title: '提示',
+                                showCancelButton: true,
+                                message: '您还未开启理财达人特权，无法购买此产品',
+                                confirmButtonText: '开启特权',
+                                cancelButtonText: '暂不开启'
+                            }).then(action => {
+                                if (action == 'confirm') {
+                                    window.location.href = '/land-financial-master.html'
+                                }
+                            })
+                            return false;
+                        }
+
+                    }
                     this.showInvest = true;
                 }
             },

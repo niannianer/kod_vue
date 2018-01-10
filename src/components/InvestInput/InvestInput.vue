@@ -11,10 +11,12 @@
                     起投金额<span class="info-text">{{minInvest}}元   {{stepValue}}元递增</span>
                 </div>
                 <div class="text">
-                    投资上限<span class="info-text">{{myInvestMax}}元</span>
+                    投资上限
+                    <span class="info-text" v-if="myInvestMax>0">{{myInvestMax}}元</span>
+                    <span class="info-text" v-if="myInvestMax<=0">已达上限</span>
                 </div>
                 <div class="text">
-                    剩余额度<span class="info-text">{{remainAmount}}元</span>
+                    剩余额度<span class="info-text">{{remainAmount||0}}元</span>
                 </div>
                 <div class="text" v-show="shouyi">
                     预计收益<span class="info-text">{{shouyi}}</span>
