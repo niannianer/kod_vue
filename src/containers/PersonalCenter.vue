@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="body">
-                <div class="section seperate" flex="cross:center" @click.stop="getPath('/risk-assessment/wechat')"
+                <div class="section seperate assm" flex="cross:center" @click.stop="getPath('/risk-assessment/wechat')"
                      v-if="!investorRiskScore">
                     <p class="assessment" flex-box="1">
                         您未进行风险承受能力评估，为不影响投资请立即评估
@@ -139,7 +139,7 @@
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
-                    <div class="item" :class="{'bl': hasAdvt}" flex-box="1" flex="cross:center" @click.stop="getPath('/funds/my-fund')">
+                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/funds/my-fund')">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/fund.png" alt="my-fund">
                         </div>
@@ -148,17 +148,15 @@
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
-                    <div class="item" flex-box="1" flex="dir:top" v-show="hasAdvt">
+                </div>
+                <div class="section seperate" flex="dir:top">
+                    <div class="item bl" flex-box="1" flex="dir:top" v-show="hasAdvt">
                         <div flex-box="0" flex="cross:center">
                             <img class="logo" src="../images/personal-center/advertise-icon.png" alt="my-fund">
                             <span>活动</span>
                         </div>
                         <advertise :pagetype="'GRZX'"></advertise>
                     </div>
-                </div>
-
-
-                <div class="section seperate" flex="dir:top">
                     <div class="item" flex-box="1" flex="cross:center"
                          @click.stop="getPath('/land-about-us.html',true)">
                         <div flex-box="0">
