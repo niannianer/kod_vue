@@ -153,7 +153,7 @@
                             <img class="logo" src="../images/personal-center/advertise-icon.png" alt="my-fund">
                             <span>活动</span>
                         </div>
-                        <advertise :pagetype="'WDJL'"></advertise>
+                        <advertise :pagetype="'GRZX'"></advertise>
                     </div>
                 </div>
 
