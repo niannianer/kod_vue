@@ -201,7 +201,7 @@ export let postHive = () => {
         body: body
     }];
     session.setItem('hiveSend', true);
-    local.removeItem('hives');
+    local.removeItem('post_hives');
     return axios({
         url,
         method: 'post',
