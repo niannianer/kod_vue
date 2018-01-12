@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="bank">
-                <div class="bank-name bf-card" flex v-if="baofooCard.bankName">
+                <div class="bank-name bf-card" flex="cross:center" v-if="baofooCard.bankName">
                     <div flex-box="0">
                         <img :src="baofooCard.bankImg" class="bank-logo"/>
                     </div>
@@ -26,7 +26,7 @@
                         <div class="bank-info">{{baofooCard.bankUserCardNo | bankCardNoFormat}}</div>
                     </div>
                 </div>
-                <div class="bank-name ym-card" flex v-if="yingmiCard.name" :class="{'shadow': baofooCard.bankName}">
+                <div class="bank-name ym-card" flex="cross:center" v-if="yingmiCard.name" :class="{'shadow': baofooCard.bankName}">
                     <img src="../images/fund/jijin-text.png" class="jj-text"/>
                     <div flex-box="0">
                         <img :src="yingmiCard.bankImg" class="bank-logo"/>
