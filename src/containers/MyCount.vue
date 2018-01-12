@@ -26,7 +26,7 @@
                         <div class="bank-info">{{baofooCard.bankUserCardNo | bankCardNoFormat}}</div>
                     </div>
                 </div>
-                <div class="bank-name ym-card" flex v-if="yingmiCard.name">
+                <div class="bank-name ym-card" flex v-if="yingmiCard.name" :class="{'shadow': baofooCard.bankName}">
                     <img src="../images/fund/jijin-text.png" class="jj-text"/>
                     <div flex-box="0">
                         <img :src="yingmiCard.bankImg" class="bank-logo"/>
@@ -74,9 +74,9 @@
             bankCardAll(){
                 $api.get('/getUserBankCardAll').then(resp => {
                     if(resp.code == 200){
-                        this.yingmiCard = resp.data.yingmiCard;
+                        this.yingmiCard = resp.data.yingmiCard || {};
                         this.yingmiCard.bankImg = imgUrls.yingmi[this.yingmiCard.paymentType||'bank:003'];
-                        this.baofooCard = resp.data.baofooCard;
+                        this.baofooCard = resp.data.baofooCard || {};
                         this.baofooCard.bankImg = imgUrls[this.baofooCard.bankCode];
                     }
                 });
