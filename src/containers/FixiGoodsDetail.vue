@@ -7,7 +7,8 @@
                 <span class="how" @click.stop="getMasterPage">去看看</span>
             </div>
             <!--达人系数-->
-            <div class="master-hint" flex="cross:center main:justify" v-if="!production.vipFlag&&production.talentAwardMaxRate">
+            <div class="master-hint" flex="cross:center main:justify"
+                 v-if="!production.vipFlag&&production.talentAwardMaxRate">
                 <span>达人奖励系数{{production.talentAwardMaxRate}}</span>
                 <span class="how" @click.stop="getMasterPage">如何获得达人奖励</span>
             </div>
@@ -22,7 +23,7 @@
                     </div>
                     <div class="item" flex-box="1">
                         <div class="item-text">剩余额度(元)</div>
-                        <div class="item-number">{{production.productRemainAmountValue||0}}</div>
+                        <div class="item-number">{{production.productRemainAmountValue || 0}}</div>
                     </div>
                 </div>
                 <div class="progress-warp" flex="cross:center">
@@ -272,7 +273,7 @@
             },
             myInvestMax(){
                 if (!this.production.productMaxInvestmentValue) {
-                    return 0;
+                    return -1;
                 }
                 return Math.floor(this.production.productMaxInvestmentValue - (this.production.investAmount || 0))
 

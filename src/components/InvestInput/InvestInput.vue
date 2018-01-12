@@ -10,7 +10,7 @@
                 <div class="text" flex>
                     起投金额<span class="info-text">{{minInvest}}元   {{stepValue}}元递增</span>
                 </div>
-                <div class="text">
+                <div class="text" v-if="myInvestMax>-1">
                     投资上限
                     <span class="info-text" v-if="myInvestMax>0">{{myInvestMax}}元</span>
                     <span class="info-text" v-if="myInvestMax<=0">已达上限</span>
