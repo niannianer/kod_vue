@@ -1,0 +1,191 @@
+@charset "UTF-8";
+@import "../variables";
+
+.gold-index{
+    .card{
+        margin-bottom: .7rem;
+        background: #fff;
+        .title{
+            font-size: .9rem;
+            color: @color-text;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            padding-left: .8rem;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+        }
+        .footer{
+            font-size: .8rem;
+            height: 2.2rem;
+            line-height: 2.2rem;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+    }
+    .header{
+        background: url("../../images/gold/header-bg.png") no-repeat;
+        background-size: contain;
+        width: 100%;
+        height: 16.8rem;
+        color: #fff;
+        padding: 0 1.5rem 0 .7rem;
+        position: relative;
+        .gold-btn{
+            position: absolute;
+            top: .75rem;
+            right: .7rem;
+            background: url("../../images/gold/btn-radius.png") no-repeat;
+            background-size: contain;
+            border-radius: 5rem;
+            color: #565451;
+            height: 1.4rem;
+            width: 4rem;
+            padding-bottom: .15rem;
+            font-weight: 600;
+            font-size: .6rem;
+        }
+        .item{
+            text-align: center;
+            position: relative;
+            margin: 4rem 0 1rem;
+            &.bt-1{
+                margin-top: 3rem;
+            }
+            &.bt-2{
+                margin-top: 2.6rem;
+            }
+            .tt-msg{
+                height: 1rem;
+                margin-bottom: .25rem;
+                .msg{
+                    background-image: linear-gradient(180deg, #FAD961 0%, #F76B1C 100%);
+                    border-radius: 4px;
+                    font-size: .6rem;
+                    padding: .1rem .3rem;
+                    min-width: 2rem;
+                    display: inline-block;
+                }
+            }
+            .gold-img{
+                width: 1.9rem;
+            }
+        }
+        .pig-wrap{
+            text-align: center;
+            padding-top: .2rem;
+            .pig-img{
+                width: 6rem;
+                margin: 0 auto;
+            }
+            .link{
+                font-size: .8rem;
+                color: #FEE056;
+                border-bottom: 1px solid #FEE056;
+                padding-bottom: 1px;
+                margin: .9rem auto 0;
+            }
+        }
+    }
+    .advant{
+        background: #fff;
+        padding: .8rem 0;
+        .advertise{
+            margin-top: 0;
+        }
+    }
+    .fir-trend{
+        .trend-list{
+            padding: .7rem;
+            font-size: .65rem;
+            .item{
+                margin-bottom: .2rem;
+                &:last-child{
+                    margin: 0;
+                }
+                .name{
+                    color: @color-text;
+                    margin-right: .8rem;
+                    font-weight: 600;
+                }
+                .time{
+                    font-size: .7rem;
+                }
+            }
+        }
+    }
+    .sort{
+        font-size: .8rem;
+        .item{
+            margin: 0 0 0 .8rem;
+            border-bottom: 1px solid #eee;
+            padding: .7rem .7rem .7rem 0;
+            position: relative;
+            .num-img{
+                width: 1.1rem;
+                height: 1.4rem;
+            }
+            .head-img{
+                width: 2.1rem;
+                height: 1.9rem;
+                border-radius: .2rem;
+                position: relative;
+                margin: 0 .5rem 0 .3rem;
+                .daren{
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    background: rgba(0,0,0,.37);
+                    border-radius: 0 0 .2rem .2rem;
+                    font-size: .6rem;
+                    text-align: center;
+                    right: 0;
+                    color: #fff;
+                    .inner{
+                        transform: scale(.8);
+                    }
+                }
+            }
+            &:nth-child(1){
+                .daren{
+                    background: rgba(245,166,35,.37);
+                }
+            }
+            &:nth-child(2){
+                .daren{
+                    background: rgba(213,226,242,.37);
+                }
+            }
+            &:nth-child(3){
+                .daren{
+                    background: rgba(168,128,62,.37);
+                }
+            }
+            .point-msg{
+                position: absolute;
+                right: 0;
+                top: 0;
+                background: #F5A623;
+                border-radius: 5rem 0 0 5rem;
+                padding: .1rem .2rem .1rem .4rem;
+                font-size: .6rem;
+                color: #fff;
+                min-width: 1.8rem;
+                text-align: center;
+                .hand-img{
+                    width: .8rem;
+                    height: auto;
+                }
+            }
+            .yao-btn{
+                background: url("../../images/gold/btn-bg.png") no-repeat;
+                background-size: 100%;
+                color: #565451;
+                height: 1.5rem;
+                width: 3.9rem;
+                padding-bottom: .15rem;
+                font-weight: 600;
+                font-size: .6rem;
+            }
+        }
+    }
+}

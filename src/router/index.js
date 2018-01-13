@@ -660,7 +660,9 @@ routes.map(route => {
     };
 });
 import fundRoutes from './fund';
+import goldRoutes from './gold';
 routes = routes.concat(fundRoutes);
+routes = routes.concat(goldRoutes);
 routes.push({
     path: '*',
     redirect: '/personal-center'
