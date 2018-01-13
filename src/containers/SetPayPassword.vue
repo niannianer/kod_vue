@@ -130,6 +130,8 @@
                                 //完成录入适当性管理信息，跳基金详情页
                                 this.addHive(2, 'setPayPassword_to_fundsDetail',1044);
                                 this.$router.back();
+                            } else if(window.sessionStorage.getItem('newHandUrl')){
+                                window.location.href = decodeURIComponent(window.sessionStorage.getItem('newHandUrl'));
                             } else {
                                 this.addHive(2, 'setPayPassword_to_accountComplete',1044);
                                 this.$router.replace({
