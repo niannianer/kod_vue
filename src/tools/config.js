@@ -15,7 +15,7 @@ let terminal_id = '100000701';
 let logUrl = 'http://39.106.42.180:50000';
 
 /*test env*/
-if (process.env.kingold == 'test'||1) {
+if (process.env.kingold == 'test') {
     apiUrl = `${protocol}//weixin-test.zj-hf.cn`;
     baofooUrl = 'https://paytest.baofoo.com/baofoo-custody/custody/';
     baofooCallUrl = `${protocol}//notify-test.zj-hf.cn`;
