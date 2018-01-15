@@ -20,6 +20,7 @@ let beforeEach = ((to, from, next) => {
 
 const Gold = () => import('../containers/Gold');
 const Index = () => import('../golds/Index');
+const Task = () => import('../golds/Task')
 const CollectList = () => import('../golds/CollectList');
 const ActivityList = () => import('../golds/ActivityList');
 const GoldDetail = () => import('../golds/GoldDetail');
@@ -40,6 +41,13 @@ let goldRoutes = [
                 component: Index,
                 meta: {
                     title: '我的金币空间'
+                }
+            }, {
+                path: 'task',
+                name: 'task',
+                component: Task,
+                meta: {
+                    title: '任务列表'
                 }
             },{
                 path: 'collect-list',
