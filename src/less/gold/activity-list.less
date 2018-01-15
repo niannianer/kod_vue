@@ -1,0 +1,24 @@
+@charset "UTF-8";
+@import "../variables";
+
+.activity-list{
+    padding: .7rem;
+    font-size: .65rem;
+    background: #fff;
+    min-height: 100%;
+    width: 100%;
+    .item{
+        margin-bottom: .2rem;
+        &:last-child{
+            margin: 0;
+        }
+        .name{
+            color: @color-text;
+            margin-right: .8rem;
+            font-weight: 600;
+        }
+        .time{
+            font-size: .7rem;
+        }
+    }
+}

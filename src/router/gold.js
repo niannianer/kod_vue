@@ -4,12 +4,26 @@
 import store from '../store';
 import {logout, setTitle} from '../tools/operation';
 let beforeEach = ((to, from, next) => {
-
-})
+    if (store.state.userId) {
+        next()
+    } else {
+        store.dispatch('getAccountBaofoo')
+            .then(data => {
+                if (data.code == '401') {
+                    logout();
+                } else {
+                    next()
+                }
+            });
+    }
+});
 
 const Gold = () => import('../containers/Gold');
 const Index = () => import('../golds/Index');
 const Task = () => import('../golds/Task')
+const CollectList = () => import('../golds/CollectList');
+const ActivityList = () => import('../golds/ActivityList');
+const GoldDetail = () => import('../golds/GoldDetail');
 
 let goldRoutes = [
     {
@@ -34,6 +48,27 @@ let goldRoutes = [
                 component: Task,
                 meta: {
                     title: '任务列表'
+                }
+            },{
+                path: 'collect-list',
+                name: 'collect-list',
+                component: CollectList,
+                meta: {
+                    title: '收取排行榜'
+                }
+            },{
+                path: 'activity-list',
+                name: 'activity-list',
+                component: ActivityList,
+                meta: {
+                    title: '好友动态'
+                }
+            },{
+                path: 'gold-detail',
+                name: 'gold-detail',
+                component: GoldDetail,
+                meta: {
+                    title: '金币明细'
                 }
             }]
     }

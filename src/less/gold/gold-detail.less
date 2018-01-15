@@ -1,0 +1,82 @@
+@charset "UTF-8";
+@import "../variables";
+
+.gold-detail{
+    padding: .7rem;
+    font-size: .65rem;
+    background: #fff;
+    .item{
+        margin-bottom: .2rem;
+        border-bottom: 1px solid #eee;
+        padding: .7rem .7rem .7rem 0;
+        position: relative;
+        font-size: .8rem;
+        &:last-child{
+            margin: 0;
+        }
+        .num-img{
+            width: 1.1rem;
+            height: 1.4rem;
+        }
+        .head-img{
+            width: 2.1rem;
+            height: 1.9rem;
+            border-radius: .2rem;
+            position: relative;
+            margin: 0 .5rem 0 .3rem;
+            .daren{
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background: rgba(0,0,0,.37);
+                border-radius: 0 0 .2rem .2rem;
+                font-size: .6rem;
+                text-align: center;
+                right: 0;
+                color: #fff;
+                .inner{
+                    transform: scale(.8);
+                }
+            }
+        }
+        &:nth-child(1){
+            .daren{
+                background: rgba(245,166,35,.37);
+            }
+        }
+        &:nth-child(2){
+            .daren{
+                background: rgba(213,226,242,.37);
+            }
+        }
+        &:nth-child(3){
+            .daren{
+                background: rgba(168,128,62,.37);
+            }
+        }
+        .point-msg{
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: #F5A623;
+            border-radius: 5rem 0 0 5rem;
+            padding: .1rem .2rem .1rem .4rem;
+            font-size: .6rem;
+            color: #fff;
+            min-width: 1.8rem;
+            text-align: center;
+            .hand-img{
+                width: .8rem;
+                height: auto;
+            }
+        }
+        .name{
+            color: @color-text;
+            margin-right: .8rem;
+            font-weight: 600;
+        }
+        .time{
+            font-size: .7rem;
+        }
+    }
+}
