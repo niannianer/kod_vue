@@ -28,54 +28,74 @@
         width: 100%;
         height: 16.8rem;
         color: #fff;
-        padding: 0 1.5rem 0 .7rem;
+        padding: .7rem;
         position: relative;
-        .gold-btn{
-            position: absolute;
-            top: .75rem;
-            right: .7rem;
-            background: url("../../images/gold/btn-radius.png") no-repeat;
-            background-size: contain;
-            border-radius: 5rem;
-            color: #565451;
-            height: 1.4rem;
-            width: 4rem;
-            padding-bottom: .15rem;
-            font-weight: 600;
-            font-size: .6rem;
-        }
-        .item{
-            text-align: center;
-            position: relative;
-            margin: 4rem 0 1rem;
-            &.bt-1{
-                margin-top: 3rem;
-            }
-            &.bt-2{
-                margin-top: 2.6rem;
-            }
-            .tt-msg{
-                height: 1rem;
-                margin-bottom: .25rem;
-                .msg{
-                    background-image: linear-gradient(180deg, #FAD961 0%, #F76B1C 100%);
-                    border-radius: 4px;
-                    font-size: .6rem;
-                    padding: .1rem .3rem;
-                    min-width: 2rem;
-                    display: inline-block;
+        .header-top{
+            .head-info{
+                background: rgba(50,50,50,.29);
+                color: #fff;
+                font-size: .6rem;
+                height: 1.7rem;
+                line-height: 1.7rem;
+                padding-right: .8rem;
+                border-radius: 5rem;
+                font-weight: bold;
+                .head-img{
+                    width: 1.7rem;
+                    height: 1.7rem;
+                    border-radius: 50%;
+                    margin-right: .4rem;
                 }
             }
-            .gold-img{
-                width: 1.9rem;
+            .gold-btn{
+                background: url("../../images/gold/btn-radius.png") no-repeat;
+                background-size: contain;
+                border-radius: 5rem;
+                color: #565451;
+                height: 1.4rem;
+                width: 4rem;
+                padding-bottom: .15rem;
+                font-weight: 600;
+                font-size: .6rem;
+            }
+        }
+        .gold-item{
+            padding-right: .8rem;
+            .item{
+                text-align: center;
+                position: relative;
+                margin: 1.5rem 0 1rem;
+                &.bt-1{
+                    margin-top: .5rem;
+                }
+                &.bt-2{
+                    margin-top: 0;
+                }
+                .tt-msg{
+                    height: 1rem;
+                    margin-bottom: .25rem;
+                    .msg{
+                        background-image: linear-gradient(180deg, #FAD961 0%, #F76B1C 100%);
+                        border-radius: 4px;
+                        font-size: .6rem;
+                        padding: .1rem .3rem;
+                        min-width: 2rem;
+                        display: inline-block;
+                    }
+                }
+                .gold-img{
+                    width: 1.9rem;
+                }
             }
         }
         .pig-wrap{
             text-align: center;
-            padding-top: .2rem;
+            padding-top: .4rem;
             .pig-img{
-                width: 6rem;
-                margin: 0 auto;
+                .img{
+                    width: 6rem;
+                    margin-right: 1rem;
+                }
             }
             .link{
                 font-size: .8rem;

@@ -1,7 +1,16 @@
 <template>
     <div class="gold-index">
         <div class="header card">
-            <button class="gold-btn">金币任务</button>
+            <div class="header-top" flex="main:justify">
+                <div class="head-info">
+                    <img src="" class="head-img"/>
+                    1000金币
+                </div>
+                <div>
+                    <button class="gold-btn">金币任务</button>
+                </div>
+            </div>
+
             <div class="gold-item" flex="box:mean">
                 <div class="item">
                     <div flex-box="1" class="tt-msg">
@@ -40,7 +49,7 @@
                 </div>
             </div>
             <div class="pig-wrap" flex="dir:top">
-                <img src="../images/gold/pig.png" class="pig-img"/>
+                <div class="pig-img"><img src="../images/gold/pig.png" class="img"/></div>
                 <div class="link"><a router-link="">金币明细</a></div>
             </div>
         </div>
