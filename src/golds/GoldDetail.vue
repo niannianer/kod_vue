@@ -1,42 +1,27 @@
 <template>
     <div class="gold-detail">
         <div class="header" flex="main:center cross:center">
-            5000
+            {{currentAmount}}
             <span class="gold"><img src="../images/gold/gold.png"/></span>
         </div>
         <div class="detail-list">
-            <div flex="cross:center" class="item">
+            <div flex="cross:center" class="item" v-for="item,index in detailList">
                 <div flex-box="1" flex="dir:top">
                     <div class="name" flex-box="1">
-                        领金币-场景名称
+                        {{item.ctRemark}}
                     </div>
                     <div class="time" flex-box="0">
-                        2017-11-29 17:08
+                        {{item.updateTime | timeFormat('yyyy-MM-dd hh:mm')}}
                     </div>
                 </div>
-                <div flex-box="0" class="add-num" v-if="true">
-                    +12000金币
+                <div flex-box="0" class="add-num" v-if="item.ctType=='0' || item.ctType=='3'">
+                    +{{item.ctAmount}}金币
                 </div>
                 <div flex-box="0" class="reduce-num" v-else>
-                    -12000金币
+                    {{item.ctAmount}}金币
                 </div>
             </div>
-            <div flex="cross:center" class="item">
-                <div flex-box="1" flex="dir:top">
-                    <div class="name" flex-box="1">
-                        领金币-场景名称
-                    </div>
-                    <div class="time" flex-box="0">
-                        2017-11-29 17:08
-                    </div>
-                </div>
-                <div flex-box="0" class="add-num" v-if="true">
-                    +12000金币
-                </div>
-                <div flex-box="0" class="reduce-num" v-else>
-                    -12000金币
-                </div>
-            </div>
+            <div v-if="!detailList.length" class="fmsg">暂无内容~</div>
         </div>
     </div>
 </template>
@@ -52,10 +37,12 @@
                 startRow: 0,
                 pageSize: 20,
                 loading: true,
-                collectList: []
+                detailList: [],
+                currentAmount: 0
             }
         },
         created(){
+            this.currentAmount = sessionStorage.getItem('currentAmount');
             this.getList();
         },
         components:{
@@ -68,23 +55,58 @@
                 this.startRow += this.pageSize;
                 this.getList();
             },
+            //明细列表
             getList(){
                 $api.get('/coinTransaction/list',{
                     startRow: this.startRow,
-                    pageSize: this.pageSize
+                    pageSize: this.pageSize,
+                    coinType: '00'
                 }).then(resp => {
                     if(resp.code == 200){
                         resp.data.list.map(val => {
                             val.name = val.nickName ? val.nickName : val.username ? val.username : val.mobile;
                         });
-                        this.collectList = this.collectList.concat(resp.data.list || []);
-                        if (resp.data.count <= this.collectList.length) {
+                        this.detailList = this.detailList.concat(resp.data.list || []);
+                        if (resp.data.count <= this.detailList.length) {
                             this.loading = true;
                         } else {
                             this.loading = false;
                         }
                     }
                 })
+            },
+            //收入场景名称
+            sceneText(scene){
+                let out = '';
+                switch (scene){
+                    case 1:
+                        out = '注册';
+                        break;
+                    case 2:
+                        out = '实名';
+                        break;
+                    case 3:
+                        out = '首次绑卡';
+                        break;
+                    case 4:
+                        out = '首次充值';
+                        break;
+                    case 5:
+                        out = '首次投资';
+                        break;
+                    case 6:
+                        out = '邀请好友首次投资';
+                        break;
+                    case 7:
+                        out = '复投';
+                        break;
+                    case 8:
+                        out = '邀请好友注册';
+                        break;
+                    default:
+                        break;
+                }
+                return out;
             }
         },
         destroyed(){

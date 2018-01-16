@@ -60,11 +60,10 @@
             }
         }
         .gold-item{
-            padding-right: .8rem;
             .item{
                 text-align: center;
                 position: relative;
-                margin: 1.5rem 0 1rem;
+                margin: 1.5rem 1rem 1rem 0;
                 &.bt-1{
                     margin-top: .5rem;
                 }
@@ -79,8 +78,9 @@
                         border-radius: 4px;
                         font-size: .6rem;
                         padding: .1rem .3rem;
-                        min-width: 2rem;
+                        min-width: 2.7rem;
                         display: inline-block;
+                        text-align: center;
                     }
                 }
                 .gold-img{
@@ -103,6 +103,9 @@
                 border-bottom: 1px solid #FEE056;
                 padding-bottom: 1px;
                 margin: .9rem auto 0;
+                a{
+                    color: #FEE056;
+                }
             }
         }
     }
@@ -209,16 +212,48 @@
         }
     }
     .step-wrap{
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0,0,0,.5);
         .step-btn{
             width: 7rem;
             height: 1.75rem;
+            position: absolute;
+            top: 12.8rem;
+            left: 6rem;
+            z-index: 1;
+        }
+        &.step_1{
+            background: url("../../images/gold/step/guid-1.png") no-repeat;
+            background-size: 100%;
+            .step-btn{
+                top: 12.8rem;
+                left: 6rem;
+            }
+        }
+        &.step_2{
+            background: url("../../images/gold/step/guid-2.png") no-repeat;
+            background-size: 100%;
+            .step-btn{
+                top: 12.8rem;
+                left: 6rem;
+            }
+        }
+        &.step_3{
+            background: url("../../images/gold/step/guid-3.png") no-repeat;
+            background-size: 100%;
+            .step-btn{
+                left: 6rem;
+                top: 21rem;
+            }
         }
 
+
+    }
+    .empty-text{
+        padding: .5rem;
+        text-align: center;
     }
 }

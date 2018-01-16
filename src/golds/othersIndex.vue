@@ -54,7 +54,6 @@
                     </div>
                     <div flex-box="0" class="time">12-23</div>
                 </div>
-                <div class="empty-text">暂时没有好友动态~</div>
             </div>
             <div class="footer" @click.stop="toPath('/golds/activity-list')">
                 <span>查看更多</span>
@@ -114,10 +113,12 @@
                 showGuide: false,
                 step: 1,
                 userCoin: {},
-                friendList: []
+                friendList: [],
+                friendUuid: ''
             }
         },
         created(){
+            this.friendUuid = this.$query.uuid;
             this.getGoldCoin();
             this.getFriendList();
         },
@@ -149,7 +150,9 @@
             },
             //获取用户总信息
             getGoldCoin(){
-                $api.get('/goldCoin/getTotalInfo').then(resp => {
+                $api.get('/goldCoin/getTotalInfo',{
+                    friendUuid: this.friendUuid
+                }).then(resp => {
                     if(resp.code == 200){
                         resp.data.list.map(item => {
                             //好友投资
