@@ -29,16 +29,12 @@
                     </div>
                 </div>
             </div>
-            <div class="pig-wrap" flex="dir:top">
-                <div class="pig-img"><img src="../images/gold/pig.png" class="img"/></div>
-                <div class="link"><router-link to="/golds/gold-detail">金币明细</router-link></div>
-            </div>
         </div>
         <div class="advant card">
             <advertise :pagetype="'WDHYY'"></advertise>
         </div>
         <div class="fir-trend card">
-            <div class="title">好友动态</div>
+            <div class="title">TA的动态</div>
             <div class="trend-list">
                 <div flex class="item">
                     <div flex-box="1">
@@ -55,44 +51,8 @@
                     <div flex-box="0" class="time">12-23</div>
                 </div>
             </div>
-            <div class="footer" @click.stop="toPath('/golds/activity-list')">
-                <span>查看更多</span>
-            </div>
         </div>
-        <div class="sort card">
-            <div class="title">收取排行榜</div>
-            <div class="trend-list">
-                <div flex="cross:center" class="item" v-for="item,index in friendList" :key="index">
-                    <div flex-box="1" flex="cross:center">
-                        <div class="num-img">
-                            <img src="../images/gold/num-1.png" v-if="index == 0"/>
-                            <img src="../images/gold/num-2.png" v-if="index == 1"/>
-                            <img src="../images/gold/num-3.png" v-if="index == 2"/>
-                            <span v-else>{{index + 1}}</span>
-                        </div>
-                        <div class="head-img">
-                            <img :src="item.headImageUrl"/>
-                            <div class="daren" v-if="item.investorType >= 12">
-                                <div class="inner">达人</div>
-                            </div>
-                        </div>
-                        <div>{{item.name}}</div>
-                    </div>
-                    <div flex-box="0" class="time">
-                        {{item.coinTotalNum}}
-                    </div>
-                    <div class="point-msg" v-if="item.userNextValidCoinTime">
-                        {{item.userNextValidCoinTime}}
-                    </div>
-                    <div class="point-msg" v-if="item.userValidCoinAmount"><img src="../images/gold/hand.png" class="hand-img"/></div>
-                </div>
-                <div class="empty-text">暂时没有排行信息~</div>
-            </div>
-            <div class="footer" @click.stop="toPath('collect-list')" v-if="friendList.length">
-                <span>查看更多</span>
-            </div>
-        </div>
-        <div class="step-wrap" v-if="showGuide" :class="'step_'+step">
+        <div class="step-wrap step-4" v-if="showGuide" >
             <button class="step-btn" @click.stop="nextGuide"></button>
         </div>
     </div>
@@ -100,6 +60,7 @@
 
 <script>
     import $api from '../tools/api';
+    import {Toast} from 'mint-ui';
     import '../less/gold/index.less';
     import Advertise from '../components/Advertise';
     const goldLight = require('../images/gold/gold.png');
@@ -111,7 +72,6 @@
                 goldLight,
                 goldGray,
                 showGuide: false,
-                step: 1,
                 userCoin: {},
                 friendList: [],
                 friendUuid: ''
@@ -130,9 +90,6 @@
         methods: {
             //收金币
             coinCollect(item){
-                if(!item.hasActiveGoldCoin){
-                    return;
-                }
                 $api.post('/goldCoin/collect',{
                     gcActiveUuids: item.gcUserGenerateActiveUuids.join(','),
                     gcApplyScene: item.gcApplyScene,
@@ -140,6 +97,8 @@
                 }).then(resp => {
                     if(resp.code == 200){
                         this.getGoldCoin();
+                    }else{
+                        Toast('你已经偷过TA的金币了，请两小时后再试哦~');
                     }
                 })
             },
@@ -165,27 +124,9 @@
                     }
                 })
             },
-            //收取排行榜
-            getFriendList(){
-                $api.get('/coin/getFriendList',{
-                    startRow: 0,
-                    pageSize: 10
-                }).then(resp => {
-                    if(resp.code == 200){
-                        resp.data.list.map(val => {
-                            val.name = val.nickName ? val.nickName : val.username ? val.username : val.mobile;
-                        });
-                        this.friendList = resp.data.list;
-                    }
-                })
-            },
             //用户引导
             nextGuide(){
-                if(this.step >= 3){
-                    this.showGuide = false;
-                }else{
-                    this.step ++;
-                }
+                this.showGuide = false;
             },
             sceneText(scene){
                 let out = '';

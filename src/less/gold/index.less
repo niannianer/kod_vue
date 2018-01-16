@@ -64,11 +64,17 @@
                 text-align: center;
                 position: relative;
                 margin: 1.5rem 1rem 1rem 0;
+                &:last-child{
+                    margin-right: 0;
+                }
                 &.bt-1{
-                    margin-top: .5rem;
+                    margin-top: .2rem;
                 }
                 &.bt-2{
                     margin-top: 0;
+                }
+                &.bt-3{
+                    margin-top: .7rem;
                 }
                 .tt-msg{
                     height: 1rem;
@@ -89,8 +95,9 @@
             }
         }
         .pig-wrap{
-            text-align: center;
-            padding-top: .4rem;
+            position: absolute;
+            bottom: 1rem;
+            left: 5.7rem;
             .pig-img{
                 .img{
                     width: 6rem;
@@ -247,6 +254,14 @@
             .step-btn{
                 left: 6rem;
                 top: 21rem;
+            }
+        }
+        &.step-4{
+            background: url("../../images/gold/step/guid-4.png") no-repeat;
+            background-size: 100%;
+            .step-btn{
+                top: 12.8rem;
+                left: 6rem;
             }
         }
 

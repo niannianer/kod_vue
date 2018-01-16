@@ -12,15 +12,19 @@
             </div>
 
             <div class="gold-item" flex="main:center">
-                <div class="item" v-for="item,index in userCoin.list" :key="index"
+                <div class="item" v-for="item,index in userCoinList" :key="index"
                      v-if="item.hasActiveGoldCoin || item.residueAmount"
+                     :class="{'bt-1': (index == 0 && userCoinList.length == 2) || (index == 1 && userCoinList.length >= 3),
+                     'bt-2': (index == 1 && userCoinList.length == 2) || (index == 0 && userCoinList.length == 1) || (index == 2 && userCoinList.length == 4),
+                     'bt-3': index == 2 && userCoinList.length == 3}"
+
                     @click.stop="coinCollect(item)">
                     <!--未被收取的总数量中的可收取数量-->
                     <div flex-box="1" class="tt-msg" v-if="item.hasActiveGoldCoin">
                         <div class="msg">{{item.gcUserGenerateSumActiveAmount}}可收</div>
                     </div>
                     <!--未被收取的总数量中的不可收取数量-->
-                    <div flex-box="1" class="tt-msg" v-if="item.residueAmount">
+                    <div flex-box="1" class="tt-msg" v-else-if="item.residueAmount">
                         <div class="msg">{{item.latestRemainTimeToGet}}</div>
                     </div>
                     <div flex-box="0">
@@ -31,7 +35,7 @@
             </div>
             <div class="pig-wrap" flex="dir:top">
                 <div class="pig-img"><img src="../images/gold/pig.png" class="img"/></div>
-                <div class="link"><router-link to="/golds/gold-detail">金币明细</router-link></div>
+                <div class="link" @click.stop="toPath('/golds/gold-detail',userCoin.currentUsableAmount)">金币明细</div>
             </div>
         </div>
         <div class="advant card">
@@ -87,7 +91,7 @@
                     </div>
                     <div class="point-msg" v-if="item.userValidCoinAmount"><img src="../images/gold/hand.png" class="hand-img"/></div>
                 </div>
-                <div class="empty-text">暂时没有排行信息~</div>
+                <div class="empty-text" v-if="!friendList.length">暂时没有排行信息~</div>
             </div>
             <div class="footer" @click.stop="toPath('collect-list')" v-if="friendList.length">
                 <span>查看更多</span>
@@ -114,7 +118,8 @@
                 showGuide: false,
                 step: 1,
                 userCoin: {},
-                friendList: []
+                friendList: [],
+                userCoinList: []
             }
         },
         created(){
@@ -142,9 +147,12 @@
                     }
                 })
             },
-            toPath(path){
+            toPath(path,q){
                 this.$router.push({
-                    path: path
+                    path: path,
+                    query: {
+                        amount: q
+                    }
                 })
             },
             //获取用户总信息
@@ -155,10 +163,14 @@
                             //好友投资
                             if (item.gcApplyScene == 13 || item.gcApplyScene == 14) {
                                 item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
+                                if(item.hasActiveGoldCoin || item.residueAmount){
+                                    this.userCoinList.push(item);
+                                }
+                            }else if(item.hasActiveGoldCoin ){
+                                this.userCoinList.push(item);
                             }
                         });
                         this.userCoin = resp.data;
-                        sessionStorage.setItem('currentAmount', this.userCoin.currentUsableAmount);
                     }
                 })
             },

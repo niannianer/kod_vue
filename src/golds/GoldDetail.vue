@@ -1,6 +1,7 @@
 <template>
     <div class="gold-detail">
         <div class="header" flex="main:center cross:center">
+            <router-link class="to-rule" to="/golds/rules">详细规则</router-link>
             {{currentAmount}}
             <span class="gold"><img src="../images/gold/gold.png"/></span>
         </div>
@@ -42,7 +43,7 @@
             }
         },
         created(){
-            this.currentAmount = sessionStorage.getItem('currentAmount');
+            this.currentAmount = this.$route.query.amount;
             this.getList();
         },
         components:{

@@ -25,6 +25,7 @@ const Task = () => import('../golds/Task');
 const CollectList = () => import('../golds/CollectList');
 const ActivityList = () => import('../golds/ActivityList');
 const GoldDetail = () => import('../golds/GoldDetail');
+const Rules = () => import('../golds/Rules');
 
 let goldRoutes = [
     {
@@ -78,6 +79,13 @@ let goldRoutes = [
                 component: GoldDetail,
                 meta: {
                     title: '金币明细'
+                }
+            },{
+                path: 'rules',
+                name: 'rules',
+                component: Rules,
+                meta: {
+                    title: '详细规则'
                 }
             }]
     }
