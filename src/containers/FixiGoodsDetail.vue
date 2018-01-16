@@ -3,7 +3,7 @@
         <div class="warp">
             <!--达人产品-->
             <div class="master-hint" flex="cross:center main:justify" v-if="production.vipFlag">
-                <span>如何享受此产品购买权？</span>
+                <span>如何享有此产品购买权？</span>
                 <span class="how" @click.stop="getMasterPage">去看看</span>
             </div>
             <!--达人系数-->
