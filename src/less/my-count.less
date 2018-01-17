@@ -11,9 +11,15 @@
 		p{
 			padding:.6rem 0 .6rem .8rem;
 		}
+        .title{
+            font-size: .9rem;
+            color: @color-text;
+            margin-top: .6rem;
+        }
 		.info{
 			padding-left:.8rem;
 			background-color:@bg-content;
+            font-size: .8rem;
 			.item1{
 				padding:.7rem .8rem .7rem 0;
 				border-bottom:1px solid @color-split;
@@ -21,52 +27,60 @@
 			.item2{
 				padding:.7rem .8rem .7rem 0;
 			}
+            .idCard{
+                font-size: .8rem;
+            }
 		}
 		.bank{
-			background-color:@bg-content;
 			padding: 0 .8rem;
+            margin-top: 1.5rem;
 			.bank-name{
                 position: relative;
-				height:5rem;
-                border-radius:.4rem ;
-                background: linear-gradient(to left, #aa6732,#fdcfa9, #aa6732);
-                &:after{
-                    content: '';
-                    position: absolute;
-                    right: 0;
-                    bottom: 0px;
-                    width: 1.6rem;
-                    height: 1.6rem;
-                    background-image: url("../images/bank/bank-icon.png");
-                    background-size: cover;
+				height:5.5rem;
+                border-radius:.25rem ;
+                padding: 0 .7rem;
+                &.bf-card{
+                    background-image: linear-gradient(90deg, #F98A60 0%, #FF5757 100%);
+                }
+                &.ym-card{
+                    background-image: linear-gradient(90deg, #F9C060 0%, #F7835F 100%);
+                    position: relative;
+                    &.shadow{
+                        box-shadow: 0 -4px 5px rgba(0,0,0,0.4);
+                        margin-top: -1rem;
+                    }
+                    .jj-text{
+                        position: absolute;
+                        width: 4rem;
+                        right: .8rem;
+                        top: .6rem;
+                    }
                 }
 				.bank-logo{
-					width:1.8rem;
-					height:1.8rem;
-					margin:.8rem 0 0 .8rem;
+					width:2.5rem;
+					height:2.5rem;
+                    margin-right: .9rem;
 				}
 				.name{
 					display:inline-block;
-					margin-top:1.3rem;
-					color:#000;
-					font-size:.8rem;
-					text-shadow:.05rem .05rem 0 #ddd;
+                    font-size: 1rem;
+                    color: #fff;
 				}
 				.bank-info{
-					width:10.45rem;
-					height:0.9rem;
-					margin:.85rem auto;
-					color: #2E1702;
-					text-shadow:.05rem .05rem 0 #ddd;
+					color: #fff;
+                    font-size: 1.1rem;
+                    margin-top: .2rem;
 				}
 			}
 		}
 		.tel-info{
 			width: 12.9rem;
-			margin: .8rem  auto;
-			font-size: 0.7rem;
+			margin: 2.3rem  auto 0;
+			font-size: 0.6rem;
+            color: #999;
+            text-align: center;
 			.span{
-				color: #0F5391;
+				color: #9ABAFB;
 				cursor: pointer;
 			}
 		}

@@ -38,8 +38,8 @@
             </div>
             <div class="section seprate">
                 <div class="item" flex @click.stop="showTicketList">
-                    <p flex-box="1" class="blue">活动券</p>
-                    <div flex-box="0" class="blue" flex="cross:center">
+                    <p flex-box="1" class="orange">活动券</p>
+                    <div flex-box="0" class="orange" flex="cross:center">
                         <p v-if="ticketList.length">{{faceValueText}}</p>
                         <p v-else>暂无可用</p>
                         <img src="../images/arraw-down.png" alt="" :class="{'rotate':ticketListBoolean}"

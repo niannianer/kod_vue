@@ -27,9 +27,9 @@
                     <img src="../images/relation/jiang.png" class="img"/>
                     <div>我的奖励</div>
                 </div>
-                <div @click.stop="pathTo('/land-rank.html',true)">
-                    <img src="../images/relation/bang.png" class="img"/>
-                    <div>理财排行榜</div>
+                <div @click.stop="pathTo('/land-diary.html',true)">
+                    <img src="../images/relation/zhuan.png" class="img"/>
+                    <div>赚钱日记</div>
                 </div>
                 <div @click.stop="pathTo('/land-financial-master.html',true)">
                     <img src="../images/relation/quan.png" class="img"/>

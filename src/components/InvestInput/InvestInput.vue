@@ -6,9 +6,25 @@
             <div class="title">{{title}}
                 <span class="close" @click.stop="close">×</span>
             </div>
-            <div class="account-text">账户余额</div>
-            <div class="account-amount">{{cashAmount | currencyFormat}}元</div>
-            <div class="min-invest">{{hintText}}</div>
+            <div class="account-info">
+                <div class="text" flex>
+                    起投金额<span class="info-text">{{minInvest}}元   {{stepValue}}元递增</span>
+                </div>
+                <div class="text" v-if="myInvestMax>-1">
+                    投资上限
+                    <span class="info-text" v-if="myInvestMax>0">{{myInvestMax}}元</span>
+                    <span class="info-text" v-if="myInvestMax<=0">已达上限</span>
+                </div>
+                <div class="text">
+                    剩余额度<span class="info-text">{{remainAmount||0}}元</span>
+                </div>
+                <div class="text" v-show="shouyi">
+                    预计收益<span class="info-text">{{shouyi}}</span>
+                </div>
+                <div class="text min-invest" v-show="hintText">{{hintText}}</div>
+            </div>
+            <!--   <div class="account-text">账户余额</div>
+               <div class="account-amount">{{cashAmount | currencyFormat}}元</div>-->
             <div class="input-content" flex>
                 <div class="amount" flex-box="1" flex="main:jusitfy">
                     <span flex-box="1">{{amount}} </span>
@@ -65,12 +81,14 @@
     import './invest-input.less';
     export default {
         name: 'invest-input',
-        props: ['uid', 'title', 'cashAmount', 'minInvest', 'remainAmount', 'stepValue', 'rate', 'period'],
+        props: ['uid', 'title', 'cashAmount', 'minInvest',
+            'remainAmount', 'stepValue', 'rate', 'period','myInvestMax'],
         data(){
             return {
                 passwords: [],
                 hintText: '',
                 timer: null,
+                shouyi: '',
                 disabled: true,
                 keyboads: [
                     {
@@ -143,24 +161,29 @@
                 this.timer = setTimeout(() => {
                     if (isNaN(this.amount)) {
                         this.disabled = true;
+                        this.shouyi = '';
                         return false;
                     }
                     if (this.amount < this.minInvest) {
                         this.hintText = `起投金额${this.minInvest}元`;
                         this.disabled = true;
+                        this.shouyi = '';
                     } else if (this.amount > this.remainAmount) {
                         this.hintText = `投资金额不可大于剩余额度`;
                         this.disabled = true;
+                        this.shouyi = '';
                     }
                     else {
                         let dis = this.amount - this.minInvest;
                         if (dis % this.stepValue) {
                             this.hintText = `投资金额需以${this.stepValue}元递增`;
                             this.disabled = true;
+                            this.shouyi = '';
                         } else {
                             let shouyi = this.amount * parseFloat(this.rate) * parseInt(this.period) / 365;
                             shouyi = currencyFormat(shouyi);
-                            this.hintText = `预期收益${shouyi}元`;
+                            this.shouyi = shouyi+'元';
+                            this.hintText = ``;
                             this.disabled = false;
                         }
 
@@ -225,3 +248,12 @@
 
     }
 </script>
+<style lang="less" scoped>
+    .account-info {
+        position: relative;
+        padding: .5rem .8rem;
+        .text {
+
+        }
+    }
+</style>

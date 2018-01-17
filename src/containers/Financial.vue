@@ -61,13 +61,17 @@
                          infinite-scroll-disabled="disLoad"
                          infinite-scroll-distance="70">
 
-                        <div class="item" v-for="(item,index) in lists"
+                        <div class="item rgl-item" v-for="(item,index) in lists"
                              @click.stop="getDetail(item,'/fixi-goods-detail')"
                              :class="{'stat': item.productStatus =='已告罄','novice-label':item.isNoviceLabelProduct  }">
                             <!--新手标-->
                             <div v-if="item.isNoviceLabelProduct">
                                 <div flex="cross:center" class="title-part">
-                                    <div class="fund-name ellipsis" flex-box="1">{{item.productName}}</div>
+                                    <div flex-box="1" flex>
+                                        <div class="fund-name ellipsis">{{item.productName}}</div>
+                                        <div class="daren" v-if="item.vipFlag == 1"><img src="../images/daren.png"/></div>
+                                    </div>
+                                    <div class="time-text" v-if="item.vipFlag == 1 && item.productStatusCode == 1">{{item.buttonText}}</div>
                                     <div class="ticket-wrap" v-if="item.productLabel" flex flex-box="0">
                                         <div class="ticket-item" style="margin:0 0 0 .4rem"
                                              v-if="index==0"
@@ -102,7 +106,11 @@
 
                             </div>
                             <div v-else><!--非新手标-->
-                                <div class="fund-name ellipsis">{{item.productName}}</div>
+                                <div flex-box="1" flex>
+                                    <div class="fund-name ellipsis">{{item.productName}}</div>
+                                    <div class="daren" v-if="item.vipFlag == 1"><img src="../images/daren.png"/></div>
+                                </div>
+                                <div class="time-text" v-if="item.vipFlag == 1 && item.productStatusCode == 1">{{item.buttonText}}</div>
                                 <div class="ticket-wrap" v-if="item.productLabel" flex>
                                     <div class="ticket-item"
                                          :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
