@@ -21,10 +21,12 @@
             <div flex-box="0" class="time">
                 {{item.coinTotalNum}}
             </div>
-            <div class="point-msg" v-if="item.userNextValidCoinTime">
-                {{item.userNextValidCoinTime}}
+            <div class="point-msg" v-if="item.userValidCoinAmount">
+                <img src="../images/gold/hand.png" class="hand-img"/>
             </div>
-            <div class="point-msg" v-if="item.userValidCoinAmount"><img src="../images/gold/hand.png" class="hand-img"/></div>
+            <div class="point-msg" v-else-if="item.userNextValidCoinTime">
+                {{item.userNextValidCoinTime | secondToTime}}
+            </div>
         </div>
         <div v-if="!collectList.length" class="fmsg">暂无内容~</div>
     </div>

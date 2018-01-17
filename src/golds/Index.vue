@@ -4,7 +4,7 @@
             <div class="header-top" flex="main:justify">
                 <div class="head-info">
                     <img :src="userCoin.headImageUrl" class="head-img"/>
-                    {{userCoin.currentUsableAmount}}金币
+                    {{userCoin.currentUsableAmount || 0}}金币
                 </div>
                 <div>
                     <button class="gold-btn" @click.stop="toPath('/golds/task')">金币任务</button>
@@ -17,7 +17,6 @@
                      :class="{'bt-1': (index == 0 && userCoinList.length == 2) || (index == 1 && userCoinList.length >= 3),
                      'bt-2': (index == 1 && userCoinList.length == 2) || (index == 0 && userCoinList.length == 1) || (index == 2 && userCoinList.length == 4),
                      'bt-3': index == 2 && userCoinList.length == 3}"
-
                     @click.stop="coinCollect(item)">
                     <!--未被收取的总数量中的可收取数量-->
                     <div flex-box="1" class="tt-msg" v-if="item.hasActiveGoldCoin">
@@ -67,7 +66,7 @@
         <div class="sort card">
             <div class="title">收取排行榜</div>
             <div class="trend-list">
-                <div flex="cross:center" class="item" v-for="item,index in friendList" :key="index">
+                <div flex="cross:center" class="item" v-for="item,index in friendList" :key="index" @click.stop="toDetail(item)">
                     <div flex-box="1" flex="cross:center">
                         <div class="num-img">
                             <img src="../images/gold/num-1.png" v-if="index == 0"/>
@@ -76,7 +75,7 @@
                             <span v-else>{{index + 1}}</span>
                         </div>
                         <div class="head-img">
-                            <img :src="item.headImageUrl"/>
+                            <img :src="item.headImageUrl" alt="头像"/>
                             <div class="daren" v-if="item.investorType >= 12">
                                 <div class="inner">达人</div>
                             </div>
@@ -86,10 +85,12 @@
                     <div flex-box="0" class="time">
                         {{item.coinTotalNum}}
                     </div>
-                    <div class="point-msg" v-if="item.userNextValidCoinTime">
-                        {{item.userNextValidCoinTime}}
+                    <div class="point-msg" v-if="item.userValidCoinAmount">
+                        <img src="../images/gold/hand.png" class="hand-img"/>
                     </div>
-                    <div class="point-msg" v-if="item.userValidCoinAmount"><img src="../images/gold/hand.png" class="hand-img"/></div>
+                    <div class="point-msg" v-else-if="item.userNextValidCoinTime">
+                        {{item.userNextValidCoinTime | secondToTime}}
+                    </div>
                 </div>
                 <div class="empty-text" v-if="!friendList.length">暂时没有排行信息~</div>
             </div>
@@ -147,6 +148,14 @@
                     }
                 })
             },
+            toDetail(item){
+                this.$router.push({
+                    path: '/golds/others-index',
+                    query: {
+                        uuid: item.userUuid
+                    }
+                })
+            },
             toPath(path,q){
                 this.$router.push({
                     path: path,
@@ -158,10 +167,11 @@
             //获取用户总信息
             getGoldCoin(){
                 $api.get('/goldCoin/getTotalInfo').then(resp => {
+                    this.userCoinList = [];
                     if(resp.code == 200){
                         resp.data.list.map(item => {
                             //好友投资
-                            if (item.gcApplyScene == 13 || item.gcApplyScene == 14) {
+                            if (item.gcApplyScene == 13 || item.gcApplyScene == 8) {
                                 item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
                                 if(item.hasActiveGoldCoin || item.residueAmount){
                                     this.userCoinList.push(item);
@@ -219,6 +229,7 @@
                 }
                 return out;
             }
+
         },
         destroyed(){
 

@@ -12,8 +12,11 @@
             </div>
 
             <div class="gold-item" flex="main:center">
-                <div class="item" v-for="item,index in userCoin.list" :key="index"
+                <div class="item" v-for="item,index in userCoinList" :key="index"
                      v-if="item.hasActiveGoldCoin || item.residueAmount"
+                     :class="{'bt-1': (index == 0 && userCoinList.length == 2) || (index == 1 && userCoinList.length >= 3),
+                     'bt-2': (index == 1 && userCoinList.length == 2) || (index == 0 && userCoinList.length == 1) || (index == 2 && userCoinList.length == 4),
+                     'bt-3': index == 2 && userCoinList.length == 3}"
                     @click.stop="coinCollect(item)">
                     <!--未被收取的总数量中的可收取数量-->
                     <div flex-box="1" class="tt-msg" v-if="item.hasActiveGoldCoin">
@@ -73,14 +76,13 @@
                 goldGray,
                 showGuide: false,
                 userCoin: {},
-                friendList: [],
-                friendUuid: ''
+                friendUuid: '',
+                userCoinList: []
             }
         },
         created(){
-            this.friendUuid = this.$query.uuid;
+            this.friendUuid = this.$route.query.uuid;
             this.getGoldCoin();
-            this.getFriendList();
         },
         components:{
             Advertise
@@ -88,17 +90,21 @@
         computed: {
         },
         methods: {
-            //收金币
+            //偷金币
             coinCollect(item){
-                $api.post('/goldCoin/collect',{
+                if(!item.hasActiveGoldCoin && item.residueAmount){
+                    Toast('你已经偷过TA的金币了，请两小时后再试哦~');
+                }
+                $api.post('/goldCoin/steal',{
                     gcActiveUuids: item.gcUserGenerateActiveUuids.join(','),
                     gcApplyScene: item.gcApplyScene,
                     gcCreateUserUuid: this.userCoin.gcCreateUserUuid
                 }).then(resp => {
                     if(resp.code == 200){
+                        Toast(`成功偷取${resp.data.stealAmount}个金币`);
                         this.getGoldCoin();
                     }else{
-                        Toast('你已经偷过TA的金币了，请两小时后再试哦~');
+                        Toast(resp.msg);
                     }
                 })
             },
@@ -112,15 +118,20 @@
                 $api.get('/goldCoin/getTotalInfo',{
                     friendUuid: this.friendUuid
                 }).then(resp => {
+                    this.userCoinList = [];
                     if(resp.code == 200){
                         resp.data.list.map(item => {
                             //好友投资
-                            if (item.gcApplyScene == 13 || item.gcApplyScene == 14) {
+                            if (item.gcApplyScene == 13 || item.gcApplyScene == 8) {
                                 item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
+                                if(item.hasActiveGoldCoin || item.residueAmount){
+                                    this.userCoinList.push(item);
+                                }
+                            }else if(item.hasActiveGoldCoin ){
+                                this.userCoinList.push(item);
                             }
                         });
                         this.userCoin = resp.data;
-                        sessionStorage.setItem('currentAmount', this.userCoin.currentUsableAmount);
                     }
                 })
             },
