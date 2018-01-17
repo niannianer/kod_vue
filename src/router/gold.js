@@ -20,10 +20,12 @@ let beforeEach = ((to, from, next) => {
 
 const Gold = () => import('../containers/Gold');
 const Index = () => import('../golds/Index');
-const Task = () => import('../golds/Task')
+const othersIndex = () => import('../golds/othersIndex');
+const Task = () => import('../golds/Task');
 const CollectList = () => import('../golds/CollectList');
 const ActivityList = () => import('../golds/ActivityList');
 const GoldDetail = () => import('../golds/GoldDetail');
+const Rules = () => import('../golds/Rules');
 
 let goldRoutes = [
     {
@@ -35,6 +37,14 @@ let goldRoutes = [
         },
         component: Gold,
         children: [
+            {
+                path: 'others-index',
+                name: 'others-index',
+                component: othersIndex,
+                meta: {
+                    title: '我的金币空间'
+                }
+            },
             {
                 path: 'index',
                 name: 'index',
@@ -69,6 +79,13 @@ let goldRoutes = [
                 component: GoldDetail,
                 meta: {
                     title: '金币明细'
+                }
+            },{
+                path: 'rules',
+                name: 'rules',
+                component: Rules,
+                meta: {
+                    title: '详细规则'
                 }
             }]
     }

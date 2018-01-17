@@ -1,71 +1,114 @@
 <template>
     <div class="gold-detail">
-        <div flex="cross:center" class="item">
-            <div flex-box="1" flex="cross:center">
-                <div class="num-img"><img src="../images/gold/num-1.png"/></div>
-                <div class="head-img">
-                    <img src=""/>
-                    <div class="daren">
-                        <div class="inner">达人</div>
-                    </div>
-                </div>
-                <div>金葵花</div>
-            </div>
-            <div flex-box="0" class="time">
-                12000
-            </div>
-            <div class="point-msg">1:00</div>
+        <div class="header" flex="main:center cross:center">
+            <router-link class="to-rule" to="/golds/rules">详细规则</router-link>
+            {{currentAmount}}
+            <span class="gold"><img src="../images/gold/gold.png"/></span>
         </div>
-        <div flex="cross:center" class="item">
-            <div flex-box="1" flex="cross:center">
-                <div class="num-img"><img src="../images/gold/num-2.png" class="num-img"/></div>
-                <div class="head-img">
-                    <img src=""/>
-                    <div class="daren">
-                        <div class="inner">达人</div>
+        <div class="detail-list">
+            <div flex="cross:center" class="item" v-for="item,index in detailList">
+                <div flex-box="1" flex="dir:top">
+                    <div class="name" flex-box="1">
+                        {{item.ctRemark}}
+                    </div>
+                    <div class="time" flex-box="0">
+                        {{item.updateTime | timeFormat('yyyy-MM-dd hh:mm')}}
                     </div>
                 </div>
-                <div>金葵花</div>
-            </div>
-            <div flex-box="0" class="time">
-                12000
-            </div>
-            <div class="point-msg"><img src="../images/gold/hand.png" class="hand-img"/></div>
-        </div>
-        <div flex="cross:center" class="item">
-            <div flex-box="1" flex="cross:center">
-                <div class="num-img"><img src="../images/gold/num-3.png" class="num-img"/></div>
-                <div class="head-img">
-                    <img src=""/>
-                    <div class="daren">
-                        <div class="inner">达人</div>
-                    </div>
+                <div flex-box="0" class="add-num" v-if="item.ctType=='0' || item.ctType=='3'">
+                    +{{item.ctAmount}}金币
                 </div>
-                <div>金葵花</div>
+                <div flex-box="0" class="reduce-num" v-else>
+                    {{item.ctAmount}}金币
+                </div>
             </div>
-            <div flex-box="0" class="time">
-                <button class="yao-btn">邀请</button>
-            </div>
+            <div v-if="!detailList.length" class="fmsg">暂无内容~</div>
         </div>
     </div>
 </template>
 
 <script>
+    import {InfiniteScroll} from 'mint-ui';
+    import $api from '../tools/api';
     import '../less/gold/gold-detail.less';
     export default {
         name: 'collect-list',
         data(){
             return {
-
+                startRow: 0,
+                pageSize: 20,
+                loading: true,
+                detailList: [],
+                currentAmount: 0
             }
         },
         created(){
+            this.currentAmount = this.$route.query.amount;
+            this.getList();
         },
         components:{
         },
         computed: {
         },
         methods: {
+            loadMore(){
+                this.loading = true;
+                this.startRow += this.pageSize;
+                this.getList();
+            },
+            //明细列表
+            getList(){
+                $api.get('/coinTransaction/list',{
+                    startRow: this.startRow,
+                    pageSize: this.pageSize,
+                    coinType: '00'
+                }).then(resp => {
+                    if(resp.code == 200){
+                        resp.data.list.map(val => {
+                            val.name = val.nickName ? val.nickName : val.username ? val.username : val.mobile;
+                        });
+                        this.detailList = this.detailList.concat(resp.data.list || []);
+                        if (resp.data.count <= this.detailList.length) {
+                            this.loading = true;
+                        } else {
+                            this.loading = false;
+                        }
+                    }
+                })
+            },
+            //收入场景名称
+            sceneText(scene){
+                let out = '';
+                switch (scene){
+                    case 1:
+                        out = '注册';
+                        break;
+                    case 2:
+                        out = '实名';
+                        break;
+                    case 3:
+                        out = '首次绑卡';
+                        break;
+                    case 4:
+                        out = '首次充值';
+                        break;
+                    case 5:
+                        out = '首次投资';
+                        break;
+                    case 6:
+                        out = '邀请好友首次投资';
+                        break;
+                    case 7:
+                        out = '复投';
+                        break;
+                    case 8:
+                        out = '邀请好友注册';
+                        break;
+                    default:
+                        break;
+                }
+                return out;
+            }
         },
         destroyed(){
 
