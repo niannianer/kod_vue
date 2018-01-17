@@ -37,29 +37,22 @@
                 <div class="link" @click.stop="toPath('/golds/gold-detail',userCoin.currentUsableAmount)">金币明细</div>
             </div>
         </div>
-        <div class="advant card">
+        <div class="advant card" v-show="hasAdvt">
             <advertise :pagetype="'WDHYY'"></advertise>
         </div>
         <div class="fir-trend card">
             <div class="title">好友动态</div>
             <div class="trend-list">
-                <div flex class="item">
+                <div flex class="item" v-for="item,index in trendList">
                     <div flex-box="1">
                         <span class="name">金葵花</span>
                         偷走2金币
                     </div>
                     <div flex-box="0" class="time">12-23</div>
                 </div>
-                <div flex class="item">
-                    <div flex-box="1">
-                        <span class="name">金葵花</span>
-                        偷走2金币
-                    </div>
-                    <div flex-box="0" class="time">12-23</div>
-                </div>
-                <div class="empty-text">暂时没有好友动态~</div>
+                <div class="empty-text" v-if="!trendCount">暂时没有好友动态~</div>
             </div>
-            <div class="footer" @click.stop="toPath('/golds/activity-list')">
+            <div class="footer" @click.stop="toPath('/golds/activity-list')" v-if="trendCount > 2">
                 <span>查看更多</span>
             </div>
         </div>
@@ -80,7 +73,7 @@
                                 <div class="inner">达人</div>
                             </div>
                         </div>
-                        <div>{{item.name}}</div>
+                        <div>{{item.nickName}}</div>
                     </div>
                     <div flex-box="0" class="time">
                         {{item.coinTotalNum}}
@@ -94,7 +87,7 @@
                 </div>
                 <div class="empty-text" v-if="!friendList.length">暂时没有排行信息~</div>
             </div>
-            <div class="footer" @click.stop="toPath('collect-list')" v-if="friendList.length">
+            <div class="footer" @click.stop="toPath('collect-list')" v-if="friendCount > 10">
                 <span>查看更多</span>
             </div>
         </div>
@@ -108,6 +101,7 @@
     import $api from '../tools/api';
     import '../less/gold/index.less';
     import Advertise from '../components/Advertise';
+    import EventBus from '../tools/event-bus';
     const goldLight = require('../images/gold/gold.png');
     const goldGray = require('../images/gold/gold-gray.png');
     export default {
@@ -119,8 +113,12 @@
                 showGuide: false,
                 step: 1,
                 userCoin: {},
+                userCoinList: [],
+                hasAdvt: false,
+                friendCount: 0,
                 friendList: [],
-                userCoinList: []
+                trendList: [],
+                trendCount: 0
             }
         },
         created(){
@@ -191,10 +189,8 @@
                     pageSize: 10
                 }).then(resp => {
                     if(resp.code == 200){
-                        resp.data.list.map(val => {
-                            val.name = val.nickName ? val.nickName : val.username ? val.username : val.mobile;
-                        });
                         this.friendList = resp.data.list;
+                        this.friendCount = resp.data.count;
                     }
                 })
             },
@@ -230,6 +226,11 @@
                 return out;
             }
 
+        },
+        mounted(){
+            EventBus.$on('advertise', (picUrl) => {
+                this.hasAdvt = picUrl;
+            });
         },
         destroyed(){
 

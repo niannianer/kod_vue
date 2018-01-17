@@ -43,7 +43,7 @@
             }
         },
         created(){
-            this.currentAmount = this.$route.query.amount;
+            this.currentAmount = this.$route.query.amount || 0;
             this.getList();
         },
         components:{

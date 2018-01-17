@@ -2,7 +2,7 @@
     <div class="collect-list"
          v-infinite-scroll="loadMore" flex-box="1" infinite-scroll-disabled="loading"
          infinite-scroll-distance="10" ref="scroll">
-        <div flex="cross:center" class="item" v-for="item,index in collectList" :key="index">
+        <div flex="cross:center" class="item" v-for="item,index in collectList" :key="index" @click.stop="toDetail(item)">
             <div flex-box="1" flex="cross:center">
                 <div class="num-img">
                     <img src="../images/gold/num-1.png" v-if="index == 0"/>
@@ -16,7 +16,7 @@
                         <div class="inner">达人</div>
                     </div>
                 </div>
-                <div>{{item.name}}</div>
+                <div>{{item.nickName}}</div>
             </div>
             <div flex-box="0" class="time">
                 {{item.coinTotalNum}}
@@ -55,6 +55,15 @@
 
         },
         methods: {
+            //进入好友金币页
+            toDetail(item){
+                this.$router.push({
+                    path: '/golds/others-index',
+                    query: {
+                        uuid: item.userUuid
+                    }
+                })
+            },
             loadMore(){
                 this.loading = true;
                 this.startRow += this.pageSize;
@@ -66,9 +75,6 @@
                     pageSize: this.pageSize
                 }).then(resp => {
                     if(resp.code == 200){
-                        resp.data.list.map(val => {
-                            val.name = val.nickName ? val.nickName : val.username ? val.username : val.mobile;
-                        });
                         this.collectList = this.collectList.concat(resp.data.list || []);
                         if (resp.data.count <= this.collectList.length) {
                             this.loading = true;

@@ -66,6 +66,7 @@
     import {Toast} from 'mint-ui';
     import '../less/gold/index.less';
     import Advertise from '../components/Advertise';
+    import {setTitle} from '../tools/operation';
     const goldLight = require('../images/gold/gold.png');
     const goldGray = require('../images/gold/gold-gray.png');
     export default {
@@ -93,7 +94,8 @@
             //偷金币
             coinCollect(item){
                 if(!item.hasActiveGoldCoin && item.residueAmount){
-                    Toast('你已经偷过TA的金币了，请两小时后再试哦~');
+                    //Toast('你已经偷过TA的金币了，请两小时后再试哦~');
+                    return;
                 }
                 $api.post('/goldCoin/steal',{
                     gcActiveUuids: item.gcUserGenerateActiveUuids.join(','),
@@ -120,6 +122,7 @@
                 }).then(resp => {
                     this.userCoinList = [];
                     if(resp.code == 200){
+                        setTitle(`${resp.data.nickName}的小金库`);
                         resp.data.list.map(item => {
                             //好友投资
                             if (item.gcApplyScene == 13 || item.gcApplyScene == 8) {
