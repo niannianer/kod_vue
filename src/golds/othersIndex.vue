@@ -3,7 +3,7 @@
         <div class="header card">
             <div class="header-top" flex="main:justify">
                 <div class="head-info">
-                    <img :src="userCoin.headImageUrl" class="head-img"/>
+                    <img :src="userCoin.headImageUrl || logo" class="head-img"/>
                     {{userCoin.currentUsableAmount}}金币
                 </div>
                 <div>
@@ -55,8 +55,10 @@
                 </div>
             </div>
         </div>
-        <div class="step-wrap step-4" v-if="showGuide" >
-            <button class="step-btn" @click.stop="nextGuide"></button>
+        <div class="step-wrap" v-if="showGuide" >
+            <div class="step_4">
+                <button class="step-btn" @click.stop="nextGuide"></button>
+            </div>
         </div>
     </div>
 </template>
@@ -69,10 +71,12 @@
     import {setTitle} from '../tools/operation';
     const goldLight = require('../images/gold/gold.png');
     const goldGray = require('../images/gold/gold-gray.png');
+    const logo = require('../images/gold/logo.png');
     export default {
         name: 'gold-index',
         data(){
             return {
+                logo,
                 goldLight,
                 goldGray,
                 showGuide: false,
@@ -82,6 +86,7 @@
             }
         },
         created(){
+            this.showGuide = !window.localStorage.getItem('closeOthersGuide');
             this.friendUuid = this.$route.query.uuid;
             this.getGoldCoin();
         },
@@ -140,6 +145,7 @@
             },
             //用户引导
             nextGuide(){
+                window.localStorage.setItem('closeOthersGuide',true);
                 this.showGuide = false;
             },
             sceneText(scene){

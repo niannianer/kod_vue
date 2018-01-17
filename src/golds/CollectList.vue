@@ -5,9 +5,9 @@
         <div flex="cross:center" class="item" v-for="item,index in collectList" :key="index" @click.stop="toDetail(item)">
             <div flex-box="1" flex="cross:center">
                 <div class="num-img">
-                    <img src="../images/gold/num-1.png" v-if="index == 0"/>
-                    <img src="../images/gold/num-2.png" v-if="index == 1"/>
-                    <img src="../images/gold/num-3.png" v-if="index == 2"/>
+                    <img src="../images/gold/num-1.png" v-if="index == 0" class="img"/>
+                    <img src="../images/gold/num-2.png" v-else-if="index == 1" class="img"/>
+                    <img src="../images/gold/num-3.png" v-else-if="index == 2" class="img"/>
                     <span v-else>{{index + 1}}</span>
                 </div>
                 <div class="head-img">

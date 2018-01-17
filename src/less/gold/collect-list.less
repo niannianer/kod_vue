@@ -12,26 +12,31 @@
     }
     .item{
         border-bottom: 1px solid #eee;
-        padding: .7rem 1.75rem .7rem .2rem;
+        padding: .7rem 1.75rem .7rem 0;
         position: relative;
         font-size: .8rem;
         &:last-child{
             border: none;
         }
         .num-img{
-            width: 1.1rem;
+            min-width: 2rem;
             height: 1.4rem;
             line-height: 1.4rem;
             text-align: center;
             font-size: 1rem;
             color: #757575;
+            .img{
+                width: 1.1rem;
+                height: 1.4rem;
+            }
         }
         .head-img{
             width: 2.1rem;
             height: 1.9rem;
             border-radius: .2rem;
             position: relative;
-            margin: 0 .5rem 0 .3rem;
+            margin: 0 .5rem 0 .1rem;
+            border: 1px solid #eee;
             .daren{
                 position: absolute;
                 bottom: 0;

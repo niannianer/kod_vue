@@ -3,7 +3,7 @@
         <div class="header card">
             <div class="header-top" flex="main:justify">
                 <div class="head-info">
-                    <img :src="userCoin.headImageUrl" class="head-img"/>
+                    <img :src="userCoin.headImageUrl || logo" class="head-img"/>
                     {{userCoin.currentUsableAmount || 0}}金币
                 </div>
                 <div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="empty-text" v-if="!trendCount">暂时没有好友动态~</div>
             </div>
-            <div class="footer" @click.stop="toPath('/golds/activity-list')" v-if="trendCount > 2">
+            <div class="footer" @click.stop="toPath('/golds/activity-list')" v-if="trendCount >= 2">
                 <span>查看更多</span>
             </div>
         </div>
@@ -68,7 +68,7 @@
                             <span v-else>{{index + 1}}</span>
                         </div>
                         <div class="head-img">
-                            <img :src="item.headImageUrl" alt="头像"/>
+                            <img :src="item.headImageUrl || logo" alt="头像"/>
                             <div class="daren" v-if="item.investorType >= 12">
                                 <div class="inner">达人</div>
                             </div>
@@ -87,12 +87,14 @@
                 </div>
                 <div class="empty-text" v-if="!friendList.length">暂时没有排行信息~</div>
             </div>
-            <div class="footer" @click.stop="toPath('collect-list')" v-if="friendCount > 10">
+            <div class="footer" @click.stop="toPath('collect-list')" v-if="friendCount >= 10">
                 <span>查看更多</span>
             </div>
         </div>
-        <div class="step-wrap" v-if="showGuide" :class="'step_'+step">
-            <button class="step-btn" @click.stop="nextGuide"></button>
+        <div class="step-wrap" v-if="showGuide">
+            <div :class="'step_'+step">
+                <button class="step-btn" @click.stop="nextGuide"></button>
+            </div>
         </div>
     </div>
 </template>
@@ -104,10 +106,12 @@
     import EventBus from '../tools/event-bus';
     const goldLight = require('../images/gold/gold.png');
     const goldGray = require('../images/gold/gold-gray.png');
+    const logo = require('../images/gold/logo.png');
     export default {
         name: 'gold-index',
         data(){
             return {
+                logo,
                 goldLight,
                 goldGray,
                 showGuide: false,
@@ -122,6 +126,7 @@
             }
         },
         created(){
+            this.showGuide = !window.localStorage.getItem('closeIndexGuide');
             this.getGoldCoin();
             this.getFriendList();
         },
@@ -143,6 +148,7 @@
                 }).then(resp => {
                     if(resp.code == 200){
                         this.getGoldCoin();
+                        this.getFriendList();
                     }
                 })
             },
@@ -198,6 +204,7 @@
             nextGuide(){
                 if(this.step >= 3){
                     this.showGuide = false;
+                    window.localStorage.setItem('closeIndexGuide', true);
                 }else{
                     this.step ++;
                 }
