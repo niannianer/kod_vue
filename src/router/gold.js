@@ -26,6 +26,7 @@ const CollectList = () => import('../golds/CollectList');
 const ActivityList = () => import('../golds/ActivityList');
 const GoldDetail = () => import('../golds/GoldDetail');
 const Rules = () => import('../golds/Rules');
+const ReceiveRank = () => import('../golds/ReceiveRank')
 
 let goldRoutes = [
     {
@@ -59,33 +60,40 @@ let goldRoutes = [
                 meta: {
                     title: '任务列表'
                 }
-            },{
+            }, {
                 path: 'collect-list',
                 name: 'collect-list',
                 component: CollectList,
                 meta: {
                     title: '收取排行榜'
                 }
-            },{
+            }, {
                 path: 'activity-list',
                 name: 'activity-list',
                 component: ActivityList,
                 meta: {
                     title: '好友动态'
                 }
-            },{
+            }, {
                 path: 'gold-detail',
                 name: 'gold-detail',
                 component: GoldDetail,
                 meta: {
                     title: '金币明细'
                 }
-            },{
+            }, {
                 path: 'rules',
                 name: 'rules',
                 component: Rules,
                 meta: {
                     title: '详细规则'
+                }
+            }, {
+                path: 'receive-rank',
+                name: 'receive-rank',
+                component: ReceiveRank,
+                meta: {
+                    title: '收取排好榜'
                 }
             }]
     }

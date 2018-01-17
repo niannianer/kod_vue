@@ -3,18 +3,19 @@
         <div class="items" v-for="item in items" flex>
             <div class="item-left" flex-box="0" flex="main:center cross:center">
                 <div class="left-text">
-                    <p>20</p>
+                    <p>{{item.coinTaskAmount}}</p>
                     <p>金币</p>
                 </div>
             </div>
             <div class="item-center" flex-box="1">
-                <h3 class="main-text">每日登录签到</h3>
-                <p class="sub-text">每日访问金疙瘩app或微信 每日登录签到</p>
+                <h3 class="main-text">{{item.coinTaskName}}</h3>
+                <p class="sub-text">{{item.coinTaskMark}}</p>
 
             </div>
             <div class="item-right" flex-box="0" flex="main:center cross:center">
-                <button class="btn-default btn-act" :class="{'disabled':item.disabled}">签到</button>
-                <div class="press-text">12/20</div>
+                <button v-if="item.disabled" class="btn-default btn-act disabled">已完成</button>
+                <button class="btn-default btn-act" @click.stop="makeTask(item)" v-else>{{item.mcName}}</button>
+                <div class="press-text">{{item.coinTaskCompleteNum}}/{{item.coinTaskLimit}}</div>
             </div>
         </div>
         <div class="text-info">
@@ -29,7 +30,8 @@
 <script>
     import requestHybrid from '../tools/hybrid';
     import $device from '../tools/device';
-    import {telNumber} from '../tools/config'
+    import {telNumber} from '../tools/config';
+    import $api from '../tools/api';
     export default {
         name: 'golds-task',
         data(){
@@ -40,9 +42,49 @@
         },
         components: {},
         created(){
+            this.getTasks();
         },
         computed: {},
         methods: {
+            // 任务列表
+            getTasks(){
+                return $api.get('/coin/getMarketCampaignList')
+                    .then(res => {
+                        if (res.code == 200) {
+                            //
+                            ( res.data.list || []).map(item => {
+                                item.disabled = item.coinTaskCompleteNum >= item.coinTaskLimit;
+                            })
+                            this.items = res.data.list || [];
+                        }
+                    })
+            },
+            // params: 任务类型
+            // 做任务
+            makeTask(item){
+                switch (item.applyScene) {
+                    case 8:
+                        //邀请好友-> 跳转邀请有礼
+                        window.location.href = '/land-share.html';
+                        break;
+                    case 10:
+                        // 签到
+                        break;
+                    case 13:
+                        //金疙瘩好友投资 -> 跳转邀请有礼
+                        window.location.href = '/land-share.html';
+                        break;
+                    case 14:
+                        //自己投资 ->跳转理财列表
+                        this.$router.push('/financial')
+                        break;
+                    default:
+                        //-> 跳转邀请有礼
+                        window.location.href = '/land-share.html';
+                }
+
+            },
+            // 打电话
             makeCall(){
                 if ($device.kingold) {
                     requestHybrid({
@@ -106,6 +148,7 @@
                 .btn-act {
                     width: 4.4rem;
                     height: 1.6rem;
+                    padding: 0;
                     font-size: .65rem;
                     color: #4E4E4E;
                     border-radius: 5rem;

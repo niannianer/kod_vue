@@ -100,17 +100,16 @@
             text-decoration: none;
         }
         &:before {
-            content: '!';
+            content: '';
             display: inline-block;
             text-align: center;
-            margin-right: .25rem;
+            margin-right: .15rem;
             width: .6rem;
             height: .6rem;
             line-height: .6rem;
-            border-radius: 50%;
-            background-color: @bg-primary;
             color: #fff;
-
+            background: url("../images/gt.png") center no-repeat;
+            background-size: contain;
         }
     }
     .recharge-ensure {
@@ -120,6 +119,10 @@
             margin: auto;
             width: 80%;
             height: 2.2rem;
+            background-image: @app-bg-color;
+            &:disabled {
+                color: #ddd;
+            }
         }
     }
 }

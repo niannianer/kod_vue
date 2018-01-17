@@ -22,7 +22,7 @@
             </div>
             <div class="item" flex>
                 <div class="item-left" flex-box="1">我的银行卡</div>
-                <div class="item-right" flex-box="0" v-if="userVerifyStatus<3" @click.stop="addBankCard">
+                <div class="item-right" flex-box="0" v-if="userVerifyStatus<3 && accountStatus < 1" @click.stop="addBankCard">
                     添加银行卡
                 </div>
                 <div class="item-right" flex-box="0" v-else @click.stop="getBank">
@@ -93,7 +93,8 @@
             'userVerifyStatus',
             'accountTotalAssets',
             'accountTotalInterests',
-            'accountCashAmount']),
+            'accountCashAmount',
+            'accountStatus']),
         methods: {
             getBaofoo(){
                 this.$store.dispatch('getAccountBaofoo');

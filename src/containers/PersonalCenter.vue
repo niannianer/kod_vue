@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="body">
-                <div class="section seperate" flex="cross:center" @click.stop="getPath('/risk-assessment/wechat')"
+                <div class="section seperate assm" flex="cross:center" @click.stop="getPath('/risk-assessment/wechat')"
                      v-if="!investorRiskScore">
                     <p class="assessment" flex-box="1">
                         您未进行风险承受能力评估，为不影响投资请立即评估
@@ -149,9 +149,14 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="section seperate" flex="dir:top">
+                    <div class="item bl" flex-box="1" flex="dir:top" v-show="hasAdvt">
+                        <div flex-box="0" flex="cross:center">
+                            <img class="logo" src="../images/personal-center/advertise-icon.png" alt="my-fund">
+                            <span>活动</span>
+                        </div>
+                        <advertise :pagetype="'GRZX'"></advertise>
+                    </div>
                     <div class="item" flex-box="1" flex="cross:center"
                          @click.stop="getPath('/land-about-us.html',true)">
                         <div flex-box="0">
@@ -202,6 +207,8 @@
     import $api from '../tools/api';
     import wx from '../tools/wx';
     import $device from '../tools/device';
+    import Advertise from '../components/Advertise';
+    import EventBus from '../tools/event-bus';
     import '../less/personal-center.less';
     import {submitAuthorization} from '../tools/operation';
     let timer = null;
@@ -218,7 +225,8 @@
                 interestCouponUnreadMessage: 0,
                 articleUnreadMessage: 0,
                 relationInvest: 0,//投资好友人数,
-                currentIndex: 0 //达人当前展示文案
+                currentIndex: 0, //达人当前展示文案
+                hasAdvt: false
             }
         },
         created(){
@@ -235,6 +243,8 @@
             this.getUnread();
             // 获取投资好友人数
             this.getMaster();
+            // 更新个人账户
+            this.$store.dispatch('getPersonalCenterMsg');
             let event = ['_trackEvent', '个人中心', 'SHOW', '进入个人中心页面且已登录', '进入已登录个人中心'];
             window._hmt.push(event);
             // 是否是充值回来
@@ -269,6 +279,9 @@
                 }
                 return ['理财达人，长期奖励', `还需${5 - this.relationInvest}个投资好友`, '额外奖励   收益加速']
             }
+        },
+        components:{
+            Modal, Advertise
         },
         methods: {
             getMaster(){
@@ -461,8 +474,10 @@
                     });
             }
         },
-        components: {
-            Modal
+        mounted(){
+            EventBus.$on('advertise', (picUrl) => {
+                this.hasAdvt = picUrl;
+            });
         },
         destroyed(){
             this.addHive(2,'personal-center',1070);

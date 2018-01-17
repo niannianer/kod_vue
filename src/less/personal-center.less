@@ -136,10 +136,13 @@
         .section {
             background-color: @bg-content;
             padding: 0 .8rem;
-            .assessment {
-                font-size: .6rem;
-                padding: .6rem 0;
-                color: @color-text
+            &.assm{
+                background: #FFF8E7;
+                color: #854D36;
+                .assessment {
+                    font-size: .6rem;
+                    padding: .6rem 0;
+                }
             }
             .arrow {
                 width: .5rem;
@@ -153,8 +156,8 @@
             .item {
                 padding: .6rem 0;
                 .logo {
-                    width: 1.3rem;
-                    height: 1.3rem;
+                    width: 1.2rem;
+                    height: 1.2rem;
                     margin-right: .6rem;
                 }
                 p,span {
@@ -164,6 +167,11 @@
             }
         }
         .seperate {
+            margin-top: .5rem;
+            border-top: 1px solid #EEEEEE;
+            border-bottom: 1px solid #EEEEEE;
+        }
+        .advertise{
             margin-top: .5rem;
         }
     }
