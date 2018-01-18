@@ -3,7 +3,8 @@
         <div class="items" v-for="item in items" flex>
             <div class="item-left" flex-box="0" flex="main:center cross:center">
                 <div class="left-text">
-                    <p>{{item.coinTaskAmount}}</p>
+                    <p v-if="isMaster">{{item.coinTaskDrAmount}}</p>
+                    <p v-else>{{item.coinTaskAmount}}</p>
                     <p>金币</p>
                 </div>
             </div>
@@ -29,9 +30,11 @@
 
 <script>
     import requestHybrid from '../tools/hybrid';
+    import{mapState} from 'vuex';
     import $device from '../tools/device';
     import {telNumber} from '../tools/config';
     import $api from '../tools/api';
+    import {Toast} from 'mint-ui';
     export default {
         name: 'golds-task',
         data(){
@@ -44,7 +47,12 @@
         created(){
             this.getTasks();
         },
-        computed: {},
+        computed: {
+            ...mapState(['investorType']),
+            isMaster(){
+                return this.investorType == 12;
+            }
+        },
         methods: {
             // 任务列表
             getTasks(){
@@ -69,6 +77,8 @@
                         break;
                     case 10:
                         // 签到
+
+                        this.checkIn();
                         break;
                     case 13:
                         //金疙瘩好友投资 -> 跳转邀请有礼
@@ -98,6 +108,19 @@
                 if ($device.mobile) {
                     window.open('tel:' + telNumber.replace(/-/g, ''));
                 }
+            },
+            checkIn(){
+                Toast('checkIn')
+                return $api.post('/checkIn/create')
+                    .then(res => {
+                        if (res.code == 200) {
+                            //
+                            Toast('签到成功');
+                            this.getTasks();
+                            return false
+                        }
+                        Toast(res.msg);
+                    })
             }
         },
         mounted(){
