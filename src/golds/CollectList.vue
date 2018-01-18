@@ -11,7 +11,7 @@
                     <span v-else>{{index + 1}}</span>
                 </div>
                 <div class="head-img">
-                    <img :src="item.headImageUrl"/>
+                    <img :src="item.headImageUrl || defaultHead"/>
                     <div class="daren" v-if="item.investorType >= 12">
                         <div class="inner">达人</div>
                     </div>
@@ -33,13 +33,17 @@
 </template>
 
 <script>
+    import Vue from 'vue';
     import {InfiniteScroll} from 'mint-ui';
     import $api from '../tools/api';
     import '../less/gold/collect-list.less';
+    Vue.use(InfiniteScroll);
+    const defaultHead = require('../images/gold/default-head.png');
     export default {
         name: 'collect-list',
         data(){
             return {
+                defaultHead,
                 startRow: 0,
                 pageSize: 20,
                 loading: true,

@@ -43,7 +43,7 @@ let goldRoutes = [
                 name: 'others-index',
                 component: othersIndex,
                 meta: {
-                    title: '我的金币空间'
+                    title: '好友的小金库'
                 }
             },
             {

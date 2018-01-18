@@ -1,5 +1,7 @@
 <template>
-    <div class="activity-list">
+    <div class="activity-list"
+         v-infinite-scroll="loadMore" flex-box="1" infinite-scroll-disabled="loading"
+         infinite-scroll-distance="10" ref="scroll">
         <div flex class="item">
             <div flex-box="1">
                 <span class="name">金葵花</span>
@@ -18,6 +20,10 @@
 </template>
 
 <script>
+    import Vue from 'vue';
+    import {InfiniteScroll} from 'mint-ui';
+    import $api from '../tools/api';
+    Vue.use(InfiniteScroll);
     import '../less/gold/activity-list.less';
     export default {
         name: 'activity-list',
@@ -33,6 +39,9 @@
         computed: {
         },
         methods: {
+            loadMore(){
+
+            }
         },
         destroyed(){
 

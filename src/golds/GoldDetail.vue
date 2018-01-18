@@ -12,7 +12,7 @@
                         {{item.ctRemark}}
                     </div>
                     <div class="time" flex-box="0">
-                        {{item.updateTime | timeFormat('yyyy-MM-dd hh:mm')}}
+                        {{item.updateTime | timeFormater('yyyy-MM-dd hh:mm')}}
                     </div>
                 </div>
                 <div flex-box="0" class="add-num" v-if="item.ctType=='0' || item.ctType=='3'">

@@ -3,16 +3,13 @@
         <div class="header card">
             <div class="header-top" flex="main:justify">
                 <div class="head-info">
-                    <img :src="userCoin.headImageUrl || logo" class="head-img"/>
-                    {{userCoin.currentUsableAmount}}金币
-                </div>
-                <div>
-                    <button class="gold-btn" @click.stop="toPath('/golds/task')">金币任务</button>
+                    <img :src="userCoin.headImageUrl || defaultHead" class="head-img"/>
+                    {{userCoin.currentUsableAmount || 0}}金币
                 </div>
             </div>
 
             <div class="gold-item" flex="main:center">
-                <div class="item" v-for="item,index in userCoinList" :key="index"
+                <div class="item itemo" v-for="item,index in userCoinList" :key="index"
                      v-if="item.hasActiveGoldCoin || item.residueAmount"
                      :class="{'bt-1': (index == 0 && userCoinList.length == 2) || (index == 1 && userCoinList.length >= 3),
                      'bt-2': (index == 1 && userCoinList.length == 2) || (index == 0 && userCoinList.length == 1) || (index == 2 && userCoinList.length == 4),
@@ -34,7 +31,7 @@
             </div>
         </div>
         <div class="advant card">
-            <advertise :pagetype="'WDHYY'"></advertise>
+            <advertise pagetype="JBYX"></advertise>
         </div>
         <div class="fir-trend card">
             <div class="title">TA的动态</div>
@@ -71,12 +68,12 @@
     import {setTitle} from '../tools/operation';
     const goldLight = require('../images/gold/gold.png');
     const goldGray = require('../images/gold/gold-gray.png');
-    const logo = require('../images/gold/logo.png');
+    const defaultHead = require('../images/gold/default-head.png');
     export default {
         name: 'gold-index',
         data(){
             return {
-                logo,
+                defaultHead,
                 goldLight,
                 goldGray,
                 showGuide: false,
@@ -115,11 +112,6 @@
                     }
                 })
             },
-            toPath(path){
-                this.$router.push({
-                    path: path
-                })
-            },
             //获取用户总信息
             getGoldCoin(){
                 $api.get('/goldCoin/getTotalInfo',{
@@ -127,7 +119,7 @@
                 }).then(resp => {
                     this.userCoinList = [];
                     if(resp.code == 200){
-                        setTitle(`${resp.data.nickName}的小金库`);
+                        setTitle(`${resp.data.nickName || '好友'}的小金库`);
                         resp.data.list.map(item => {
                             //好友投资
                             if (item.gcApplyScene == 13 || item.gcApplyScene == 8) {
@@ -171,6 +163,9 @@
                 }
                 return out;
             }
+        },
+        mounted(){
+
         },
         destroyed(){
 
