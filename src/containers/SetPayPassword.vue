@@ -132,7 +132,7 @@
                                 this.$router.back();
                             } else if(window.sessionStorage.getItem('newHandUrl')){
                                 window.location.href = decodeURIComponent(window.sessionStorage.getItem('newHandUrl'));
-                            } else {
+                            }else{
                                 this.addHive(2, 'setPayPassword_to_accountComplete',1044);
                                 this.$router.replace({
                                     path: '/account-complete'
