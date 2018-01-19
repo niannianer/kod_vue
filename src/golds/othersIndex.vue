@@ -4,7 +4,7 @@
             <div class="header-top" flex="main:justify">
                 <div class="head-info">
                     <img :src="userCoin.headImageUrl || defaultHead" class="head-img"/>
-                    {{userCoin.currentUsableAmount || 0}}金币
+                    {{userCoin.nickName}}
                 </div>
             </div>
 
@@ -17,14 +17,15 @@
                     @click.stop="coinCollect(item)">
                     <!--未被收取的总数量中的可收取数量-->
                     <div flex-box="1" class="tt-msg" v-if="item.hasActiveGoldCoin && !item.isStealFreezingTime">
-                        <div class="msg">{{item.gcUserGenerateSumActiveAmount}}可收</div>
+                        <div class="msg" :class="{'gray-msg': !canSteal}">{{item.gcUserGenerateSumActiveAmount}}可收</div>
                     </div>
                     <!--未被收取的总数量中的不可收取数量-->
                     <div flex-box="1" class="tt-msg" v-else-if="item.residueAmount" :class="{'nvisable': !item.showMsg}">
                         <div class="msg">{{item.latestRemainTimeToGet}}</div>
                     </div>
                     <div flex-box="0">
-                        <img :src="(item.hasActiveGoldCoin && canSteal) ? goldLight : goldGray" class="gold-img"/>
+                        <img :src="goldLight" class="gold-img" v-if="item.hasActiveGoldCoin && canSteal" />
+                        <img :src="goldGray" class="gold-img-gray" v-else @click="showMsg(item)"/>
                         <div>{{sceneText(item.gcApplyScene)}}</div>
                     </div>
                 </div>
@@ -95,6 +96,9 @@
         },
         methods: {
             showMsg(item){
+                if(!this.canSteal){
+                    return;
+                }
                 item.showMsg = !item.showMsg;
             },
             //偷金币
@@ -109,7 +113,7 @@
                     gcCreateUserUuid: this.userCoin.gcCreateUserUuid
                 }).then(resp => {
                     if(resp.code == 200){
-                        Toast(`成功偷取${resp.data.stealAmount}个金币`);
+                        Toast(`偷到${resp.data.stealAmount}金币`);
                         this.getGoldCoin();
                     }else{
                         Toast(resp.msg);
@@ -127,14 +131,12 @@
                         this.canSteal = resp.data.canSteal;
                         resp.data.list.map(item => {
                             //好友投资
-                            if (item.gcApplyScene == 13 || item.gcApplyScene == 8) {
+                            item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
+                            if (item.hasActiveGoldCoin || item.residueAmount) {
                                 item.showMsg = false;
-                                item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
                                 if(item.hasActiveGoldCoin || item.residueAmount){
                                     this.userCoinList.push(item);
                                 }
-                            }else if(item.hasActiveGoldCoin ){
-                                this.userCoinList.push(item);
                             }
                         });
                         this.userCoin = resp.data;

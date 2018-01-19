@@ -78,7 +78,8 @@
                                 <div class="inner">达人</div>
                             </div>
                         </div>
-                        <div>{{item.nickName}}</div>
+                        <div v-if="userUuid == item.userUuid">我</div>
+                        <div v-else>{{item.nickName}}</div>
                     </div>
                     <div flex-box="0" class="time">
                         {{item.coinTotalNum}}
@@ -146,15 +147,7 @@
         methods: {
             //收金币
             coinCollect(item,e,index){
-
-                this.enterPig(item,e,index);
-                setTimeout(()=>{
-                    item.hasActiveGoldCoin = false;
-                    this.$set(this.userCoinList,index,item);
-                },2500)
-                //this.getGoldCoin();
-                //this.getFriendList();
-                /*if(!item.hasActiveGoldCoin){
+                if(!item.hasActiveGoldCoin){
                     return;
                 }
                 $api.post('/goldCoin/collect',{
@@ -164,13 +157,15 @@
                 }).then(resp => {
                     if(resp.code == 200){
                         Toast('收取金币成功');
-                        item.hasActiveGoldCoin = false;
-                        this.$set(this.userCoinList,index,item);
                         this.enterPig(item,e,index);
+                        setTimeout(()=>{
+                            item.hasActiveGoldCoin = false;
+                            this.$set(this.userCoinList,index,item);
+                        },2500)
                         //this.getGoldCoin();
                         this.getFriendList();
                     }
-                })*/
+                })
             },
             toDetail(item){
                 if(item.userUuid == this.userUuid){
@@ -199,18 +194,20 @@
                     if(resp.code == 200){
                         resp.data.list.map(item => {
                             //好友投资
-                            if (item.gcApplyScene == 13 || item.gcApplyScene == 8) {
-                                item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
+                            item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
+                            if (item.hasActiveGoldCoin || item.residueAmount) {
                                 item.showMsg = false;
                                 item.hasGot = false;
                                 item.position = {};
                                 if(item.hasActiveGoldCoin || item.residueAmount){
                                     this.userCoinList.push(item);
+                                    this.userCoinList.push(item);
+                                    this.userCoinList.push(item);
                                 }
-                            }else if(item.hasActiveGoldCoin ){
+                            }/*else if(item.hasActiveGoldCoin ){
                                 item.hasGot = false;
                                 this.userCoinList.push(item);
-                            }
+                            }*/
                         });
                         this.userCoin = resp.data;
                     }
@@ -275,7 +272,7 @@
                     ], {
                         duration: 500,
                         iteration: 4,
-                        delay: 1000,
+                        delay: 100,
                         fill: "forwards"
                     });
                 },1000);
