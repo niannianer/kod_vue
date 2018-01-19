@@ -2,7 +2,7 @@
     <div class="gold-detail">
         <div class="header" flex="main:center cross:center">
             <router-link class="to-rule" to="/golds/rules">详细规则</router-link>
-            {{currentAmount}}
+            {{coinCashAmount}}
             <span class="gold"><img src="../images/gold/gold.png"/></span>
         </div>
         <div class="detail-list">
@@ -39,11 +39,10 @@
                 pageSize: 20,
                 loading: true,
                 detailList: [],
-                currentAmount: 0
+                coinCashAmount: 0
             }
         },
         created(){
-            this.currentAmount = this.$route.query.amount || 0;
             this.getList();
         },
         components:{
@@ -64,9 +63,7 @@
                     coinType: '00'
                 }).then(resp => {
                     if(resp.code == 200){
-                        resp.data.list.map(val => {
-                            val.name = val.nickName ? val.nickName : val.username ? val.username : val.mobile;
-                        });
+                        this.coinCashAmount = resp.data.coinCashAmount;
                         this.detailList = this.detailList.concat(resp.data.list || []);
                         if (resp.data.count <= this.detailList.length) {
                             this.loading = true;

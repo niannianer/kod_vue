@@ -17,24 +17,29 @@
                      :class="{'bt-1': (index == 0 && userCoinList.length == 2) || (index == 1 && userCoinList.length >= 3),
                      'bt-2': (index == 1 && userCoinList.length == 2) || (index == 0 && userCoinList.length == 1) || (index == 2 && userCoinList.length == 4),
                      'bt-3': index == 2 && userCoinList.length == 3}"
-                    @click.stop="coinCollect(item)">
+                    @click.stop="coinCollect(item,$event,index)">
+
                     <!--未被收取的总数量中的可收取数量-->
                     <div flex-box="1" class="tt-msg" v-if="item.hasActiveGoldCoin">
                         <div class="msg">{{item.gcUserGenerateSumActiveAmount}}可收</div>
                     </div>
                     <!--未被收取的总数量中的不可收取数量-->
-                    <div flex-box="1" class="tt-msg" v-else-if="item.residueAmount">
+                    <div flex-box="1" class="tt-msg" v-else-if="item.residueAmount" :class="{'nvisable': !item.showMsg}">
                         <div class="msg">{{item.latestRemainTimeToGet}}</div>
                     </div>
                     <div flex-box="0">
-                        <img :src="item.hasActiveGoldCoin ? goldLight : goldGray" class="gold-img"/>
+                        <img :src="goldLight" class="gold-img" v-if="item.hasActiveGoldCoin" :class="{'rotate': item.hasGot}"/>
+                        <img :src="goldGray" class="gold-img-gray" v-else @click.stop="showMsg(item)"/>
+                        <div class="fly-box" :style="{left: item.position.left+'px',bottom:item.position.bottom+'px',opacity: 0}" v-if="item.hasGot">
+                            <img :src="goldLight" class="fly-gold" v-for="n in 5"/>
+                        </div>
                         <div>{{sceneText(item.gcApplyScene)}}</div>
                     </div>
                 </div>
             </div>
-            <div class="pig-wrap" flex="dir:top">
+            <div class="pig-wrap" flex="dir:top" id="test">
                 <div class="pig-img"><img src="../images/gold/pig.png" class="img"/></div>
-                <div class="link" @click.stop="toPath('/golds/gold-detail',userCoin.currentUsableAmount)">金币明细</div>
+                <div class="link" @click.stop="toPath('/golds/gold-detail')">金币明细</div>
             </div>
         </div>
         <div class="advant card" v-show="hasAdvt">
@@ -104,6 +109,8 @@
     import '../less/gold/index.less';
     import Advertise from '../components/Advertise';
     import EventBus from '../tools/event-bus';
+    import {mapState} from 'vuex';
+    import {Toast} from 'mint-ui';
     const goldLight = require('../images/gold/gold.png');
     const goldGray = require('../images/gold/gold-gray.png');
     const defaultHead = require('../images/gold/default-head.png');
@@ -134,11 +141,20 @@
             Advertise
         },
         computed: {
+            ...mapState(['userUuid']),
         },
         methods: {
             //收金币
-            coinCollect(item){
-                if(!item.hasActiveGoldCoin){
+            coinCollect(item,e,index){
+
+                this.enterPig(item,e,index);
+                setTimeout(()=>{
+                    item.hasActiveGoldCoin = false;
+                    this.$set(this.userCoinList,index,item);
+                },2500)
+                //this.getGoldCoin();
+                //this.getFriendList();
+                /*if(!item.hasActiveGoldCoin){
                     return;
                 }
                 $api.post('/goldCoin/collect',{
@@ -147,12 +163,19 @@
                     gcCreateUserUuid: this.userCoin.gcCreateUserUuid
                 }).then(resp => {
                     if(resp.code == 200){
-                        this.getGoldCoin();
+                        Toast('收取金币成功');
+                        item.hasActiveGoldCoin = false;
+                        this.$set(this.userCoinList,index,item);
+                        this.enterPig(item,e,index);
+                        //this.getGoldCoin();
                         this.getFriendList();
                     }
-                })
+                })*/
             },
             toDetail(item){
+                if(item.userUuid == this.userUuid){
+                    return;
+                }
                 this.$router.push({
                     path: '/golds/others-index',
                     query: {
@@ -160,13 +183,14 @@
                     }
                 })
             },
-            toPath(path,q){
+            toPath(path){
                 this.$router.push({
-                    path: path,
-                    query: {
-                        amount: q
-                    }
+                    path: path
                 })
+            },
+            showMsg(item){
+                item.hasGot = true;
+                item.showMsg = !item.showMsg;
             },
             //获取用户总信息
             getGoldCoin(){
@@ -177,10 +201,14 @@
                             //好友投资
                             if (item.gcApplyScene == 13 || item.gcApplyScene == 8) {
                                 item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
+                                item.showMsg = false;
+                                item.hasGot = false;
+                                item.position = {};
                                 if(item.hasActiveGoldCoin || item.residueAmount){
                                     this.userCoinList.push(item);
                                 }
                             }else if(item.hasActiveGoldCoin ){
+                                item.hasGot = false;
                                 this.userCoinList.push(item);
                             }
                         });
@@ -231,8 +259,27 @@
                         break;
                 }
                 return out;
+            },
+            enterPig(item,e,index){
+                let rect = e.target.getBoundingClientRect();
+                let x = rect.left;
+                let y = rect.top;
+                item.hasGot = true;
+                this.$set(this.userCoinList,index,item);
+                let height = document.getElementsByClassName('header')[0].offsetHeight;
+                item.position = {left: x+38,top: y, bottom: height - y -50};
+                setTimeout(()=>{
+                    document.getElementsByClassName('fly-box')[0].animate([
+                        {opacity: 1,left: item.position.left+'px',bottom:item.position.bottom+'px',width: '80px'},
+                        {opacity: 1,left: 224+'px',bottom:143+'px',width: '35px'},
+                    ], {
+                        duration: 500,
+                        iteration: 4,
+                        delay: 1000,
+                        fill: "forwards"
+                    });
+                },1000);
             }
-
         },
         mounted(){
             EventBus.$on('advertise', (picUrl) => {

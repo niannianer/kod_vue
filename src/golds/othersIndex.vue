@@ -16,15 +16,15 @@
                      'bt-3': index == 2 && userCoinList.length == 3}"
                     @click.stop="coinCollect(item)">
                     <!--未被收取的总数量中的可收取数量-->
-                    <div flex-box="1" class="tt-msg" v-if="item.hasActiveGoldCoin">
+                    <div flex-box="1" class="tt-msg" v-if="item.hasActiveGoldCoin && !item.isStealFreezingTime">
                         <div class="msg">{{item.gcUserGenerateSumActiveAmount}}可收</div>
                     </div>
                     <!--未被收取的总数量中的不可收取数量-->
-                    <div flex-box="1" class="tt-msg" v-if="item.residueAmount">
+                    <div flex-box="1" class="tt-msg" v-else-if="item.residueAmount" :class="{'nvisable': !item.showMsg}">
                         <div class="msg">{{item.latestRemainTimeToGet}}</div>
                     </div>
                     <div flex-box="0">
-                        <img :src="item.hasActiveGoldCoin ? goldLight : goldGray" class="gold-img"/>
+                        <img :src="(item.hasActiveGoldCoin && canSteal) ? goldLight : goldGray" class="gold-img"/>
                         <div>{{sceneText(item.gcApplyScene)}}</div>
                     </div>
                 </div>
@@ -79,7 +79,8 @@
                 showGuide: false,
                 userCoin: {},
                 friendUuid: '',
-                userCoinList: []
+                userCoinList: [],
+                canSteal: false
             }
         },
         created(){
@@ -93,10 +94,13 @@
         computed: {
         },
         methods: {
+            showMsg(item){
+                item.showMsg = !item.showMsg;
+            },
             //偷金币
             coinCollect(item){
-                if(!item.hasActiveGoldCoin && item.residueAmount){
-                    //Toast('你已经偷过TA的金币了，请两小时后再试哦~');
+                if(!this.canSteal){
+                    Toast('你已经偷过TA的金币了，请两小时后再试哦~');
                     return;
                 }
                 $api.post('/goldCoin/steal',{
@@ -120,9 +124,11 @@
                     this.userCoinList = [];
                     if(resp.code == 200){
                         setTitle(`${resp.data.nickName || '好友'}的小金库`);
+                        this.canSteal = resp.data.canSteal;
                         resp.data.list.map(item => {
                             //好友投资
                             if (item.gcApplyScene == 13 || item.gcApplyScene == 8) {
+                                item.showMsg = false;
                                 item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
                                 if(item.hasActiveGoldCoin || item.residueAmount){
                                     this.userCoinList.push(item);

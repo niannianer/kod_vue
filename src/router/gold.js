@@ -86,7 +86,7 @@ let goldRoutes = [
                 name: 'rules',
                 component: Rules,
                 meta: {
-                    title: '详细规则'
+                    title: '金币规则'
                 }
             }, {
                 path: 'receive-rank',
