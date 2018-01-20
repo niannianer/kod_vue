@@ -1,13 +1,33 @@
 <template>
     <div class="golds-rules">
-        <div class="items" v-for="item in rules" flex="dir:top">
+        <div class="items" flex="dir:top">
             <div class="q-text" flex>
                 <div class="type">Q</div>
-                <div v-html="item.qus"></div>
+                <div v-html="rules[0].qus"></div>
             </div>
             <div class="a-text" flex>
                 <div class="type">A</div>
-                <div v-html="item.ans">金币可以在礼券中心兑换商品</div>
+                <div v-html="rules[0].ans"></div>
+            </div>
+        </div>
+        <div class="items" flex="dir:top">
+            <div class="q-text" flex>
+                <div class="type">Q</div>
+                <div>金币如何产生？</div>
+            </div>
+            <div class="a-text" flex>
+                <div class="type">A</div>
+                <div>完成金币任务后，可以获得相应数量的金币。具体任务请查看<router-link to="/golds/task" class="link">任务列表</router-link></div>
+            </div>
+        </div>
+        <div class="items" v-for="item,index in rules" flex="dir:top" v-if="index !=0">
+            <div class="q-text" flex>
+                <div class="type">Q</div>
+                <div v-html="item.qus" ></div>
+            </div>
+            <div class="a-text" flex>
+                <div class="type">A</div>
+                <div v-html="item.ans"></div>
             </div>
         </div>
     </div>
@@ -16,7 +36,8 @@
 <script>
     import requestHybrid from '../tools/hybrid';
     import $device from '../tools/device';
-    import {telNumber} from '../tools/config'
+    import {telNumber} from '../tools/config';
+    import Vue from 'vue';
     export default {
         name: 'golds-rules',
         data(){
@@ -24,10 +45,6 @@
                 rules: [{
                     qus: '金币有什么用途？',
                     ans: '金币可以用来在金币商城兑换礼品，礼品会不定期更换，具体请以金币商城规则为准。'
-                },{
-                    qus: '金币如何产生？',
-                    ans: '完成金币任务后，可以获得相应数量的金币。\n' +
-                    '具体任务请查看<span @click.stop="toTask">任务列表</span>'
                 },{
                     qus: '金币如何收取？',
                     ans: '金币产生后，需要等待一定时间后，点击金币进行收取，未及时收取的金币可能被好友偷走。'
@@ -42,22 +59,28 @@
                     qus: '偷金币有哪些限制？',
                     ans: '同一个好友的金币，偷取后两个小时之后才能再次进行偷取。\n' +
                     '每个用户每天偷金币的总次数最多为20次。'
-                }]
+                }],
+                templateRender: null
             }
+        },
+        render(){
+          if(this.templateRender){
+             return this.templateRender();
+          }
         },
         components: {},
         created(){
-
         },
         computed: {},
         methods: {
-            toTask(path){
+            toTask(){
                 this.$router.push({
-                    path: path
+                    path: '/golds/task'
                 })
             }
         },
         mounted(){
+
         },
         destroyed(){
 
@@ -82,6 +105,10 @@
                 color: #333;
                 margin-bottom: .5rem;
             }
+        }
+        .link{
+            color: #F76B1C;
+            border-bottom: 1px solid #F76B1C;
         }
     }
 </style>

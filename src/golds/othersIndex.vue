@@ -31,26 +31,20 @@
                 </div>
             </div>
         </div>
-        <div class="advant card">
+        <div class="advant card" v-show="hasAdvt">
             <advertise pagetype="JBYX"></advertise>
         </div>
         <div class="fir-trend card">
             <div class="title">TA的动态</div>
             <div class="trend-list">
-                <div flex class="item">
+                <div flex class="item" v-for="item,index in friendSteal">
                     <div flex-box="1">
-                        <span class="name">金葵花</span>
-                        偷走2金币
+                        <span class="name">{{item.nickName}}</span>
+                        偷走{{item.ctAmount}}金币
                     </div>
-                    <div flex-box="0" class="time">12-23</div>
+                    <div flex-box="0" class="time">{{item.updateTime | timeFormater('MM-dd')}}</div>
                 </div>
-                <div flex class="item">
-                    <div flex-box="1">
-                        <span class="name">金葵花</span>
-                        偷走2金币
-                    </div>
-                    <div flex-box="0" class="time">12-23</div>
-                </div>
+                <div class="empty-text" v-if="!friendStealCount">暂时没有动态~</div>
             </div>
         </div>
         <div class="step-wrap" v-if="showGuide" >
@@ -67,6 +61,7 @@
     import '../less/gold/index.less';
     import Advertise from '../components/Advertise';
     import {setTitle} from '../tools/operation';
+    import EventBus from '../tools/event-bus';
     const goldLight = require('../images/gold/gold.png');
     const goldGray = require('../images/gold/gold-gray.png');
     const defaultHead = require('../images/gold/default-head.png');
@@ -78,16 +73,20 @@
                 goldLight,
                 goldGray,
                 showGuide: false,
+                hasAdvt: false,
                 userCoin: {},
                 friendUuid: '',
                 userCoinList: [],
-                canSteal: false
+                canSteal: false,
+                friendSteal: {},
+                friendStealCount: 0
             }
         },
         created(){
             this.showGuide = !window.localStorage.getItem('closeOthersGuide');
             this.friendUuid = this.$route.query.uuid;
             this.getGoldCoin();
+            this.getFriendSteal();
         },
         components:{
             Advertise
@@ -105,6 +104,9 @@
             coinCollect(item){
                 if(!this.canSteal){
                     Toast('你已经偷过TA的金币了，请两小时后再试哦~');
+                    return;
+                }
+                else if(!item.hasActiveGoldCoin){
                     return;
                 }
                 $api.post('/goldCoin/steal',{
@@ -143,6 +145,19 @@
                     }
                 })
             },
+            //TA的动态
+            getFriendSteal(){
+                $api.get('/coinTransaction/listFriendStealUser',{
+                    startRow: 0,
+                    pageSize: 2,
+                    friendUuid: this.friendUuid
+                }).then(resp => {
+                    if(resp.code == 200){
+                        this.friendSteal = resp.data.list;
+                        this.friendStealCount = resp.data.count;
+                    }
+                })
+            },
             //用户引导
             nextGuide(){
                 window.localStorage.setItem('closeOthersGuide',true);
@@ -173,7 +188,9 @@
             }
         },
         mounted(){
-
+            EventBus.$on('advertise', (picUrl) => {
+                this.hasAdvt = picUrl;
+            });
         },
         destroyed(){
 

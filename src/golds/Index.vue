@@ -48,16 +48,16 @@
         <div class="fir-trend card">
             <div class="title">好友动态</div>
             <div class="trend-list">
-                <div flex class="item" v-for="item,index in trendList">
+                <div flex class="item" v-for="item,index in friendSteal">
                     <div flex-box="1">
-                        <span class="name">金葵花</span>
-                        偷走2金币
+                        <span class="name" @click.stop="toDetail(item)">{{item.nickName}}</span>
+                        偷走{{item.ctAmount}}金币
                     </div>
-                    <div flex-box="0" class="time">12-23</div>
+                    <div flex-box="0" class="time">{{item.updateTime | timeFormater('MM-dd')}}</div>
                 </div>
-                <div class="empty-text" v-if="!trendCount">暂时没有好友动态~</div>
+                <div class="empty-text" v-if="!friendStealCount">暂时没有好友动态~</div>
             </div>
-            <div class="footer" @click.stop="toPath('/golds/activity-list')" v-if="trendCount > 2">
+            <div class="footer" @click.stop="toPath('/golds/activity-list')" v-if="friendStealCount > 2">
                 <span>查看更多</span>
             </div>
         </div>
@@ -84,10 +84,10 @@
                     <div flex-box="0" class="time">
                         {{item.coinTotalNum}}
                     </div>
-                    <div class="point-msg" v-if="item.userValidCoinAmount">
+                    <div class="point-msg" v-if="item.userValidCoinAmount && !item.isStealFreezingTime">
                         <img src="../images/gold/hand.png" class="hand-img"/>
                     </div>
-                    <div class="point-msg" v-else-if="item.userNextValidCoinTime">
+                    <div class="point-msg" v-else-if="item.userNextValidCoinTime && !item.isStealFreezingTime">
                         {{item.userNextValidCoinTime | secondToTime}}
                     </div>
                 </div>
@@ -129,14 +129,15 @@
                 hasAdvt: false,
                 friendCount: 0,
                 friendList: [],
-                trendList: [],
-                trendCount: 0
+                friendSteal: [],
+                friendStealCount: 0
             }
         },
         created(){
             this.showGuide = !window.localStorage.getItem('closeIndexGuide');
             this.getGoldCoin();
             this.getFriendList();
+            this.getFriendSteal();
         },
         components:{
             Advertise
@@ -161,7 +162,7 @@
                         setTimeout(()=>{
                             item.hasActiveGoldCoin = false;
                             this.$set(this.userCoinList,index,item);
-                        },2500)
+                        },1000);
                         //this.getGoldCoin();
                         this.getFriendList();
                     }
@@ -201,8 +202,6 @@
                                 item.position = {};
                                 if(item.hasActiveGoldCoin || item.residueAmount){
                                     this.userCoinList.push(item);
-                                    this.userCoinList.push(item);
-                                    this.userCoinList.push(item);
                                 }
                             }/*else if(item.hasActiveGoldCoin ){
                                 item.hasGot = false;
@@ -222,6 +221,18 @@
                     if(resp.code == 200){
                         this.friendList = resp.data.list;
                         this.friendCount = resp.data.count;
+                    }
+                })
+            },
+            //好友动态
+            getFriendSteal(){
+                $api.get('/coinTransaction/listFriendStealUser',{
+                    startRow: 0,
+                    pageSize: 2
+                }).then(resp => {
+                    if(resp.code == 200){
+                        this.friendSteal = resp.data.list;
+                        this.friendStealCount = resp.data.count;
                     }
                 })
             },
