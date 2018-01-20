@@ -96,6 +96,7 @@
         methods: {
             showMsg(item){
                 if(!this.canSteal){
+                    Toast('你已经偷过TA的金币了，请两小时后再试哦~');
                     return;
                 }
                 item.showMsg = !item.showMsg;

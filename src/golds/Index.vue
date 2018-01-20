@@ -29,7 +29,7 @@
                     </div>
                     <div flex-box="0">
                         <img :src="goldLight" class="gold-img" v-if="item.hasActiveGoldCoin" :class="{'rotate': item.hasGot}"/>
-                        <img :src="goldGray" class="gold-img-gray" v-else @click.stop="showMsg(item)"/>
+                        <img :src="goldGray" class="gold-img-gray" v-else @click="showMsg(item)"/>
                         <div class="fly-box" :style="{left: item.position.left+'px',bottom:item.position.bottom+'px',opacity: 0}" v-if="item.hasGot">
                             <img :src="goldLight" class="fly-gold" v-for="n in 5"/>
                         </div>
@@ -160,11 +160,13 @@
                         Toast('收取金币成功');
                         this.enterPig(item,e,index);
                         setTimeout(()=>{
-                            item.hasActiveGoldCoin = false;
-                            this.$set(this.userCoinList,index,item);
-                        },1000);
-                        //this.getGoldCoin();
-                        this.getFriendList();
+                            //item.hasActiveGoldCoin = false;
+                            //this.$set(this.userCoinList,index,item);
+                            this.getGoldCoin();
+                            this.getFriendList();
+                        },1700);
+                    }else{
+                        Toast(resp.msg);
                     }
                 })
             },
@@ -286,7 +288,7 @@
                         delay: 100,
                         fill: "forwards"
                     });
-                },1000);
+                },800);
             }
         },
         mounted(){

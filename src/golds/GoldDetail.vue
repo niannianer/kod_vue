@@ -1,5 +1,7 @@
 <template>
-    <div class="gold-detail">
+    <div class="gold-detail"
+         v-infinite-scroll="loadMore" flex-box="1" infinite-scroll-disabled="loading"
+         infinite-scroll-distance="10">
         <div class="header" flex="main:center cross:center">
             <router-link class="to-rule" to="/golds/rules">详细规则</router-link>
             {{coinCashAmount}}
@@ -22,14 +24,16 @@
                     {{item.ctAmount}}金币
                 </div>
             </div>
-            <div v-if="!detailList.length" class="fmsg">暂无内容~</div>
+            <div class="fmsg">{{detailList.length ? '已经到底了~' : '暂无内容~'}}</div>
         </div>
     </div>
 </template>
 
 <script>
+    import Vue from 'vue';
     import {InfiniteScroll} from 'mint-ui';
     import $api from '../tools/api';
+    Vue.use(InfiniteScroll);
     import '../less/gold/gold-detail.less';
     export default {
         name: 'collect-list',

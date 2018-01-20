@@ -16,7 +16,8 @@
                         <div class="inner">达人</div>
                     </div>
                 </div>
-                <div>{{item.nickName}}</div>
+                <div v-if="userUuid == item.userUuid">我</div>
+                <div v-else>{{item.nickName}}</div>
             </div>
             <div flex-box="0" class="time">
                 {{item.coinTotalNum}}
@@ -28,7 +29,7 @@
                 {{item.userNextValidCoinTime | secondToTime}}
             </div>
         </div>
-        <div v-if="!collectList.length" class="fmsg">暂无内容~</div>
+        <div class="fmsg">{{collectList.length ? '已经到底了~' : '暂无内容~'}}</div>
     </div>
 </template>
 
@@ -36,6 +37,7 @@
     import Vue from 'vue';
     import {InfiniteScroll} from 'mint-ui';
     import $api from '../tools/api';
+    import {mapState} from 'vuex';
     import '../less/gold/collect-list.less';
     Vue.use(InfiniteScroll);
     const defaultHead = require('../images/gold/default-head.png');
@@ -56,11 +58,14 @@
         components:{
         },
         computed: {
-
+            ...mapState(['userUuid']),
         },
         methods: {
             //进入好友金币页
             toDetail(item){
+                if(item.userUuid == this.userUuid){
+                    return;
+                }
                 this.$router.push({
                     path: '/golds/others-index',
                     query: {

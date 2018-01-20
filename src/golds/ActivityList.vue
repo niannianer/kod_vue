@@ -9,7 +9,7 @@
             </div>
             <div flex-box="0" class="time">{{item.updateTime | timeFormater('MM-dd')}}</div>
         </div>
-        <div class="empty-text" v-if="!friendSteal.length">暂时没有好友动态~</div>
+        <div class="empty-text">{{friendSteal.length ? '已经到底了~' : '暂无内容~'}}</div>
     </div>
 </template>
 
@@ -46,7 +46,7 @@
             getFriendSteal(){
                 $api.get('/coinTransaction/listFriendStealUser',{
                     startRow: 0,
-                    pageSize: 2
+                    pageSize: 20
                 }).then(resp => {
                     if(resp.code == 200){
                         this.friendSteal = this.friendSteal.concat(resp.data.list || []);

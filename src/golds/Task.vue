@@ -110,7 +110,6 @@
                 }
             },
             checkIn(){
-                Toast('checkIn')
                 return $api.post('/checkIn/create')
                     .then(res => {
                         if (res.code == 200) {
