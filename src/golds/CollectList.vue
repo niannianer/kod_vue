@@ -22,14 +22,14 @@
             <div flex-box="0" class="time">
                 {{item.coinTotalNum}}
             </div>
-            <div class="point-msg" v-if="item.userValidCoinAmount">
+            <div class="point-msg" v-if="item.userValidCoinAmount && !item.isStealFreezingTime">
                 <img src="../images/gold/hand.png" class="hand-img"/>
             </div>
-            <div class="point-msg" v-else-if="item.userNextValidCoinTime">
+            <div class="point-msg" v-else-if="item.userNextValidCoinTime && !item.isStealFreezingTime">
                 {{item.userNextValidCoinTime | secondToTime}}
             </div>
         </div>
-        <div class="fmsg">{{collectList.length ? '已经到底了~' : '暂无内容~'}}</div>
+        <div class="fmsg">{{initing ? '加载中~' : (collectList.length ? '已经到底了~' : '暂无内容~')}}</div>
     </div>
 </template>
 
@@ -49,7 +49,8 @@
                 startRow: 0,
                 pageSize: 20,
                 loading: true,
-                collectList: []
+                collectList: [],
+                initing: true
             }
         },
         created(){
@@ -83,6 +84,7 @@
                     startRow: this.startRow,
                     pageSize: this.pageSize
                 }).then(resp => {
+                    this.initing = false;
                     if(resp.code == 200){
                         this.collectList = this.collectList.concat(resp.data.list || []);
                         if (resp.data.count <= this.collectList.length) {

@@ -9,7 +9,7 @@
             </div>
             <div flex-box="0" class="time">{{item.updateTime | timeFormater('MM-dd')}}</div>
         </div>
-        <div class="empty-text">{{friendSteal.length ? '已经到底了~' : '暂无内容~'}}</div>
+        <div class="empty-text">{{initing ? '加载中~':(friendSteal.length ? '已经到底了~' : '暂无内容~')}}</div>
     </div>
 </template>
 
@@ -26,7 +26,8 @@
                 friendSteal: [],
                 loading: true,
                 startRow: 0,
-                pageSize: 20
+                pageSize: 20,
+                initing: true
             }
         },
         created(){
@@ -48,6 +49,7 @@
                     startRow: 0,
                     pageSize: 20
                 }).then(resp => {
+                    this.initing = false;
                     if(resp.code == 200){
                         this.friendSteal = this.friendSteal.concat(resp.data.list || []);
                         if (resp.data.count <= this.friendSteal.length) {
