@@ -79,12 +79,12 @@
                 </div>
                 <div class="section seperate" flex="dir:top">
                     <div class="item bl" flex-box="1" flex="cross:center"
-                         @click.stop="getPath('/land-share.html',true)">
+                         @click.stop="getPath('/golds/index')" >
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/gold-icon.png" alt="share">
                         </div>
                         <span flex-box="1">我的小金库</span>
-                        <span flex-box="0" @click.stop="getPath('/golds/index')" class="f7">
+                        <span flex-box="0" class="f7">
                             小金币 大用途
                         </span>
                         <div flex-box="0">
