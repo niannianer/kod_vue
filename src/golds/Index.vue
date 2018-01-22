@@ -64,7 +64,7 @@
         <div class="sort card">
             <div class="title">收取排行榜</div>
             <div class="trend-list">
-                <div flex="cross:center" class="item" v-for="item,index in friendList" :key="index" @click.stop="toDetail(item,'trend')">
+                <div flex="cross:center" class="item" v-for="item,index in friendList" :key="index" @click.stop="toDetail(item)">
                     <div flex-box="1" flex="cross:center">
                         <div class="num-img">
                             <img src="../images/gold/num-1.png" v-if="index == 0" class="img"/>
