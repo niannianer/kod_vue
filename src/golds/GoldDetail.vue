@@ -3,7 +3,7 @@
          v-infinite-scroll="loadMore" flex-box="1" infinite-scroll-disabled="loading"
          infinite-scroll-distance="10">
         <div class="header" flex="main:center cross:center">
-            <router-link class="to-rule" to="/golds/rules">详细规则</router-link>
+            <span class="to-rule" @click.stop="toRule">详细规则</span>
             {{coinCashAmount}}
             <span class="gold"><img src="../images/gold/gold.png"/></span>
         </div>
@@ -47,6 +47,7 @@
             }
         },
         created(){
+            this.addHive(1,'/golds/gold-detail',1083);
             this.getList();
         },
         components:{
@@ -54,6 +55,12 @@
         computed: {
         },
         methods: {
+            toRule(){
+                this.addHive(0,'/golds/gold-detail',108301);
+                this.$router.push({
+                    path: '/golds/rules'
+                })
+            },
             loadMore(){
                 this.loading = true;
                 this.startRow += this.pageSize;
@@ -67,7 +74,7 @@
                     coinType: '00'
                 }).then(resp => {
                     if(resp.code == 200){
-                        this.coinCashAmount = resp.data.coinCashAmount;
+                        this.coinCashAmount = resp.data.coinCashAmount || 0;
                         this.detailList = this.detailList.concat(resp.data.list || []);
                         if (resp.data.count <= this.detailList.length) {
                             this.loading = true;
@@ -76,43 +83,10 @@
                         }
                     }
                 })
-            },
-            //收入场景名称
-            sceneText(scene){
-                let out = '';
-                switch (scene){
-                    case 1:
-                        out = '注册';
-                        break;
-                    case 2:
-                        out = '实名';
-                        break;
-                    case 3:
-                        out = '首次绑卡';
-                        break;
-                    case 4:
-                        out = '首次充值';
-                        break;
-                    case 5:
-                        out = '首次投资';
-                        break;
-                    case 6:
-                        out = '邀请好友首次投资';
-                        break;
-                    case 7:
-                        out = '复投';
-                        break;
-                    case 8:
-                        out = '邀请好友注册';
-                        break;
-                    default:
-                        break;
-                }
-                return out;
             }
         },
         destroyed(){
-
+            this.addHive(2,'/golds/gold-detail',1083);
         }
     }
 </script>

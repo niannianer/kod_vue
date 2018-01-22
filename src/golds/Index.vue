@@ -7,7 +7,7 @@
                     {{userCoin.currentUsableAmount || 0}}金币
                 </div>
                 <div>
-                    <button class="gold-btn" @click.stop="toPath('/golds/task')">金币任务</button>
+                    <button class="gold-btn" @click.stop="toPath('/golds/task',108102)">金币任务</button>
                 </div>
             </div>
 
@@ -39,7 +39,7 @@
             </div>
             <div class="pig-wrap" flex="dir:top" id="test">
                 <div class="pig-img"><img src="../images/gold/pig.png" class="img"/></div>
-                <div class="link" @click.stop="toPath('/golds/gold-detail')">金币明细</div>
+                <div class="link" @click.stop="toPath('/golds/gold-detail',108101)">金币明细</div>
             </div>
         </div>
         <div class="advant card" v-show="hasAdvt">
@@ -57,14 +57,14 @@
                 </div>
                 <div class="empty-text" v-if="!friendStealCount">暂时没有好友动态~</div>
             </div>
-            <div class="footer" @click.stop="toPath('/golds/activity-list')" v-if="friendStealCount > 2">
+            <div class="footer" @click.stop="toPath('/golds/activity-list',108104)" v-if="friendStealCount > 2">
                 <span>查看更多</span>
             </div>
         </div>
         <div class="sort card">
             <div class="title">收取排行榜</div>
             <div class="trend-list">
-                <div flex="cross:center" class="item" v-for="item,index in friendList" :key="index" @click.stop="toDetail(item)">
+                <div flex="cross:center" class="item" v-for="item,index in friendList" :key="index" @click.stop="toDetail(item,'trend')">
                     <div flex-box="1" flex="cross:center">
                         <div class="num-img">
                             <img src="../images/gold/num-1.png" v-if="index == 0" class="img"/>
@@ -82,7 +82,7 @@
                         <div v-else>{{item.nickName}}</div>
                     </div>
                     <div flex-box="0" class="time">
-                        {{item.coinTotalNum}}
+                        {{item.coinTotalNum || 0}}
                     </div>
                     <div class="point-msg" v-if="item.userValidCoinAmount && !item.isStealFreezingTime">
                         <img src="../images/gold/hand.png" class="hand-img"/>
@@ -93,7 +93,7 @@
                 </div>
                 <div class="empty-text" v-if="!friendList.length">暂时没有排行信息~</div>
             </div>
-            <div class="footer" @click.stop="toPath('collect-list')" v-if="friendCount > 10">
+            <div class="footer" @click.stop="toPath('collect-list',108103)" v-if="friendCount > 10">
                 <span>查看更多</span>
             </div>
         </div>
@@ -134,6 +134,7 @@
             }
         },
         created(){
+            this.addHive(1,'/golds/index',1081);
             this.showGuide = !window.localStorage.getItem('closeIndexGuide');
             this.getGoldCoin();
             this.getFriendList();
@@ -151,6 +152,7 @@
                 if(!item.hasActiveGoldCoin){
                     return;
                 }
+                this.addHive(0,'/golds/index',108106);
                 $api.post('/goldCoin/collect',{
                     gcActiveUuids: item.gcUserGenerateActiveUuids.join(','),
                     gcApplyScene: item.gcApplyScene,
@@ -178,7 +180,11 @@
                     }
                 })
             },
-            toDetail(item){
+            //进入好友金币页面
+            toDetail(item,trend){
+                if(trend){
+                    this.addHive(0,'/golds/index',108105);
+                }
                 if(item.userUuid == this.userUuid){
                     return;
                 }
@@ -189,11 +195,13 @@
                     }
                 })
             },
-            toPath(path){
+            toPath(path,code){
+                this.addHive(0,'/golds/index',code);
                 this.$router.push({
                     path: path
                 })
             },
+            //不可收金币显示隐藏可收时间
             showMsg(item){
                 //item.hasGot = true;
                 item.showMsg = !item.showMsg;
@@ -302,7 +310,7 @@
             });
         },
         destroyed(){
-
+            this.addHive(2,'/golds/index',1081);
         }
     }
 </script>

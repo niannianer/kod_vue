@@ -31,6 +31,7 @@
             }
         },
         created(){
+            this.addHive(1,'/golds/collect-list',1085);
             this.getFriendSteal();
         },
         components:{
@@ -45,6 +46,7 @@
             },
             //好友动态
             getFriendSteal(){
+                this.initing = true;
                 $api.get('/coinTransaction/listFriendStealUser',{
                     startRow: 0,
                     pageSize: 20
@@ -70,7 +72,7 @@
             }
         },
         destroyed(){
-
+            this.addHive(2,'/golds/activity-list',1085);
         }
     }
 </script>

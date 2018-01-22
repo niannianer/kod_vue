@@ -83,6 +83,7 @@
             }
         },
         created(){
+            this.addHive(1,'/golds/others-index',1087);
             this.showGuide = !window.localStorage.getItem('closeOthersGuide');
             this.friendUuid = this.$route.query.uuid;
             this.getGoldCoin();
@@ -95,6 +96,7 @@
         },
         methods: {
             showMsg(item){
+                this.addHive(0,'/golds/others-index',108701);
                 if(!this.canSteal){
                     Toast('你已经偷过TA的金币了，请两小时后再试哦~');
                     return;
@@ -194,7 +196,7 @@
             });
         },
         destroyed(){
-
+            this.addHive(2,'/golds/others-index',1087);
         }
     }
 </script>

@@ -20,7 +20,7 @@
                 <div v-else>{{item.nickName}}</div>
             </div>
             <div flex-box="0" class="time">
-                {{item.coinTotalNum}}
+                {{item.coinTotalNum || 0}}
             </div>
             <div class="point-msg" v-if="item.userValidCoinAmount && !item.isStealFreezingTime">
                 <img src="../images/gold/hand.png" class="hand-img"/>
@@ -54,6 +54,7 @@
             }
         },
         created(){
+            this.addHive(0,'/golds/collect-list',1086);
             this.getList();
         },
         components:{
@@ -80,6 +81,7 @@
                 this.getList();
             },
             getList(){
+                this.initing = true;
                 $api.get('/coin/getFriendList',{
                     startRow: this.startRow,
                     pageSize: this.pageSize
@@ -97,7 +99,7 @@
             }
         },
         destroyed(){
-
+            this.addHive(2,'/golds/collect-list',1086);
         }
     }
 </script>
