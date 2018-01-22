@@ -134,6 +134,7 @@
             }
         },
         created(){
+            this.addHive(1, '/golds/index',1081);
             this.showGuide = !window.localStorage.getItem('closeIndexGuide');
             this.getGoldCoin();
             this.getFriendList();
