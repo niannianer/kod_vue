@@ -161,13 +161,13 @@
                         this.enterPig(item,e,index);
                         setTimeout(()=>{
                             item.hasActiveGoldCoin = false;
-                            this.$set(this.userCoinList,index,item);
+                            this.userCoin.currentUsableAmount = (this.userCoin.currentUsableAmount || 0) + resp.data.collectTotalAmount;
                             for(let i = 0;i < this.friendList.length;i++){
                                 let val = this.friendList[i];
                                 if(val.userUuid == this.userUuid){
                                     val.hasActiveGoldCoin = false;
                                     val.isStealFreezingTime = true;
-                                    this.$set(this.friendList,i,val);
+                                    val.userValidCoinAmount += resp.data.collectTotalAmount;
                                     break;
                                 }
                             }
@@ -195,7 +195,7 @@
                 })
             },
             showMsg(item){
-                item.hasGot = true;
+                //item.hasGot = true;
                 item.showMsg = !item.showMsg;
             },
             //获取用户总信息
