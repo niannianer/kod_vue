@@ -262,7 +262,7 @@
                         out = '分享';
                         break;
                     case 10:
-                        out = '签到';
+                        out = '每日签到';
                         break;
                     case 13:
                         out = '好友投资';
