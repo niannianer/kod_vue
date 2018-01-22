@@ -29,7 +29,7 @@
                     </div>
                     <div flex-box="0">
                         <img :src="goldLight" class="gold-img" v-if="item.hasActiveGoldCoin" :class="{'rotate': item.hasGot}"/>
-                        <img :src="goldGray" class="gold-img-gray" v-else @click="showMsg(item)"/>
+                        <img :src="goldGray" class="gold-img" v-else @click="showMsg(item)" :class="{'rotate': item.hasGot}"/>
                         <div class="fly-box" :style="{left: item.position.left+'px',bottom:item.position.bottom+'px',opacity: 0}" v-if="item.hasGot">
                             <img :src="goldLight" class="fly-gold" v-for="n in 5"/>
                         </div>
@@ -160,10 +160,18 @@
                         Toast('收取金币成功');
                         this.enterPig(item,e,index);
                         setTimeout(()=>{
-                            //item.hasActiveGoldCoin = false;
-                            //this.$set(this.userCoinList,index,item);
-                            this.getGoldCoin();
-                            this.getFriendList();
+                            item.hasActiveGoldCoin = false;
+                            this.$set(this.userCoinList,index,item);
+                            for(let i = 0;i < this.friendList.length;i++){
+                                let val = this.friendList[i];
+                                if(val.userUuid == this.userUuid){
+                                    val.hasActiveGoldCoin = false;
+                                    val.isStealFreezingTime = true;
+                                    this.$set(this.friendList,i,val);
+                                    break;
+                                }
+                            }
+                            //this.getGoldCoin();
                         },1700);
                     }else{
                         Toast(resp.msg);
@@ -205,10 +213,7 @@
                                 if(item.hasActiveGoldCoin || item.residueAmount){
                                     this.userCoinList.push(item);
                                 }
-                            }/*else if(item.hasActiveGoldCoin ){
-                                item.hasGot = false;
-                                this.userCoinList.push(item);
-                            }*/
+                            }
                         });
                         this.userCoin = resp.data;
                     }
