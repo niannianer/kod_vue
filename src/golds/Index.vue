@@ -73,7 +73,7 @@
                             <span v-else>{{index + 1}}</span>
                         </div>
                         <div class="head-img">
-                            <img :src="item.headImageUrl || defaultHead" alt="头像"/>
+                            <img :src="item.headImageUrl || defaultHead" alt="头像" class="img"/>
                             <div class="daren" v-if="item.investorType >= 12">
                                 <div class="inner">达人</div>
                             </div>
@@ -130,7 +130,8 @@
                 friendCount: 0,
                 friendList: [],
                 friendSteal: [],
-                friendStealCount: 0
+                friendStealCount: 0,
+                timer: null
             }
         },
         created(){
@@ -161,7 +162,8 @@
                     if(resp.code == 200){
                         Toast('收取金币成功');
                         this.enterPig(item,e,index);
-                        setTimeout(()=>{
+                        if(this.timer) clearTimeout(this.timer);
+                        this.timer = setTimeout(()=>{
                             item.hasActiveGoldCoin = false;
                             this.userCoin.currentUsableAmount = (this.userCoin.currentUsableAmount || 0) + resp.data.collectTotalAmount;
                             for(let i = 0;i < this.friendList.length;i++){
@@ -174,6 +176,7 @@
                                 }
                             }
                             //this.getGoldCoin();
+                            //this.getFriendList();
                         },1700);
                     }else{
                         Toast(resp.msg);

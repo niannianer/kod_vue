@@ -126,9 +126,15 @@ export let timeFormater = (timeStamp, fmt = 'yyyy-MM-dd hh:mm:ss.S') => {
 //秒转成时分
 export let secondToTime = (input) => {
     let hh = parseInt(input/3600);
-    if(hh<10) hh = "0" + hh;
     let mm = parseInt((input-hh*3600)/60);
+    let ss = input-hh*3600-mm*60;
+    if(ss > 0) mm = mm + 1;
     if(mm<10) mm = "0" + mm;
+    if(mm == 60) {
+        hh = hh +1;
+        mm = '00';
+    }
+    if(hh<10) hh = "0" + hh;
     return hh+':' + mm;
 }
 export let periodType = (input) => {
