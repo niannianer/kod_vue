@@ -119,6 +119,7 @@
                 }).then(resp => {
                     if(resp.code == 200){
                         Toast(`偷到${resp.data.stealAmount}金币`);
+                        this.getGoldCoin();
                         this.getFriendSteal();
                     }else{
                         Toast(resp.msg);
