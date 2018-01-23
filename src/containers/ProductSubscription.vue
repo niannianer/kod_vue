@@ -82,6 +82,8 @@
                         </div>
                         <div v-if="isLack">
                             我已同意<span class="agreement" @click.stop="agreement(2)">《宝付科技电子支付账户协议》</span>
+                            <span @click.stop="agreement(0)" class="agreement">《产品认购相关协议》</span>
+                            <span @click.stop="agreement(1)" class="agreement">《入会申请及承诺》</span>
                         </div>
                     </div>
                 </div>
