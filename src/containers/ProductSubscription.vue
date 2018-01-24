@@ -363,7 +363,7 @@
             rechargeHandle(){
                 this.addHive(0, 'productSubscription_btn_recharge',103003);
                 if (!this.enable) {
-                    Toast('请勾选同意《宝付科技电子支付账户协议》');
+                    Toast('请勾选同意相关协议');
                     return false;
                 }
                 this.rechargeNum = this.checkRechargeNum(this.rechargeNum);
