@@ -14,7 +14,7 @@
 
             </div>
             <div class="item-right" flex-box="0" flex="main:center cross:center">
-                <button v-if="item.disabled" class="btn-default btn-act disabled">已完成</button>
+                <button v-if="item.disabled" class="btn-default btn-act disabled">{{item.applyScene==10?"已签到":"已完成"}}</button>
                 <button class="btn-default btn-act" @click.stop="makeTask(item)" v-else>{{item.mcName}}</button>
                 <div class="press-text">{{item.coinTaskCompleteNum}}/{{item.coinTaskLimit}}</div>
             </div>
