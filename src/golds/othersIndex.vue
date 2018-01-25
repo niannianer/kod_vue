@@ -2,9 +2,8 @@
     <div class="gold-index">
         <div class="header card">
             <div class="header-top" flex="main:justify">
-                <div class="head-info">
+                <div class="head-info others-head">
                     <img :src="userCoin.headImageUrl || defaultHead" class="head-img"/>
-                    {{userCoin.nickName}}
                 </div>
             </div>
 

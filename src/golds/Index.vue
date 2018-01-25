@@ -39,7 +39,7 @@
             </div>
             <div class="pig-wrap" flex="dir:top" id="test">
                 <div class="pig-img"><img src="../images/gold/pig.png" class="img"/></div>
-                <div class="link" @click.stop="toPath('/golds/gold-detail',108101)">金币明细</div>
+                <span class="link" @click.stop="toPath('/golds/gold-detail',108101)">金币明细</span>
             </div>
         </div>
         <div class="advant card" v-show="hasAdvt">
@@ -153,6 +153,7 @@
                 if(!item.hasActiveGoldCoin){
                     return;
                 }
+
                 this.addHive(0,'/golds/index',108106);
                 $api.post('/goldCoin/collect',{
                     gcActiveUuids: item.gcUserGenerateActiveUuids.join(','),
@@ -161,7 +162,9 @@
                 }).then(resp => {
                     if(resp.code == 200){
                         Toast('收取金币成功');
-                        this.enterPig(item,e,index);
+                        //this.enterPig(item,e,index);
+                        item.hasGot = true;
+                        this.$set(this.userCoinList,index,item);
                         if(this.timer) clearTimeout(this.timer);
                         this.timer = setTimeout(()=>{
                             item.hasActiveGoldCoin = false;
@@ -293,11 +296,13 @@
                 item.hasGot = true;
                 this.$set(this.userCoinList,index,item);
                 let height = document.getElementsByClassName('header')[0].offsetHeight;
-                item.position = {left: x+38,top: y, bottom: height - y -50};
+                let clientWidth = document.documentElement.clientWidth;
+                item.position = {left: x+38,top: y, bottom: height - y -50};console.log(clientWidth)
+                let left = clientWidth * 0.5;
                 setTimeout(()=>{
                     document.getElementsByClassName('fly-box')[0].animate([
                         {opacity: 1,left: item.position.left+'px',bottom:item.position.bottom+'px',width: '80px'},
-                        {opacity: 1,left: 224+'px',bottom:143+'px',width: '35px'},
+                        {opacity: 1,left: left+'px', bottom:143+'px',width: '35px'},
                     ], {
                         duration: 500,
                         iteration: 4,

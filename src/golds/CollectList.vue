@@ -22,11 +22,13 @@
             <div flex-box="0" class="time">
                 {{item.coinTotalNum || 0}}
             </div>
-            <div class="point-msg" v-if="item.userValidCoinAmount && !item.isStealFreezingTime">
-                <img src="../images/gold/hand.png" class="hand-img"/>
-            </div>
-            <div class="point-msg" v-else-if="item.userNextValidCoinTime && !item.isStealFreezingTime">
-                {{item.userNextValidCoinTime | secondToTime}}
+            <div v-if="userUuid && userUuid != item.userUuid && !item.isStealFreezingTime">
+                <div class="point-msg" v-if="item.userValidCoinAmount">
+                    <img src="../images/gold/hand.png" class="hand-img"/>
+                </div>
+                <div class="point-msg" v-else-if="item.userNextValidCoinTime">
+                    {{item.userNextValidCoinTime | secondToTime}}
+                </div>
             </div>
         </div>
         <div class="fmsg">{{initing ? '加载中~' : (collectList.length ? '已经到底了~' : '暂无内容~')}}</div>
