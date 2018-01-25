@@ -265,7 +265,6 @@
                     bankUserPhone: bankUserPhone,
                     verifyCode: verifyCode
                 }).then(msg => {
-
                     if (msg.code == 200) {
                         Toast({
                             message: '绑卡成功',
