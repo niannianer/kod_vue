@@ -3,7 +3,7 @@
         <div class="header card">
             <div class="header-top" flex="main:justify">
                 <div class="head-info">
-                    <img :src="userCoin.headImageUrl || defaultHead" class="head-img"/>
+                    <img :src="headImageUrl || defaultHead" class="head-img"/>
                     {{userCoin.currentUsableAmount || 0}}金币
                 </div>
                 <div>
@@ -17,20 +17,25 @@
                      :class="{'bt-1': (index == 0 && userCoinList.length == 2) || (index == 1 && userCoinList.length >= 3),
                      'bt-2': (index == 1 && userCoinList.length == 2) || (index == 0 && userCoinList.length == 1) || (index == 2 && userCoinList.length == 4),
                      'bt-3': index == 2 && userCoinList.length == 3}"
-                    @click.stop="coinCollect(item,$event,index)">
+                     @click.stop="coinCollect(item,$event,index)">
 
                     <!--未被收取的总数量中的可收取数量-->
                     <div flex-box="1" class="tt-msg" v-if="item.hasActiveGoldCoin">
                         <div class="msg">{{item.gcUserGenerateSumActiveAmount}}可收</div>
                     </div>
                     <!--未被收取的总数量中的不可收取数量-->
-                    <div flex-box="1" class="tt-msg" v-else-if="item.residueAmount" :class="{'nvisable': !item.showMsg}">
+                    <div flex-box="1" class="tt-msg" v-else-if="item.residueAmount"
+                         :class="{'nvisable': !item.showMsg}">
                         <div class="msg">{{item.latestRemainTimeToGet}}</div>
                     </div>
                     <div flex-box="0">
-                        <img :src="goldLight" class="gold-img" v-if="item.hasActiveGoldCoin" :class="{'rotate': item.hasGot}"/>
-                        <img :src="goldGray" class="gold-img" v-else @click="showMsg(item)" :class="{'rotate': item.hasGot}"/>
-                        <div class="fly-box" :style="{left: item.position.left+'px',bottom:item.position.bottom+'px',opacity: 0}" v-if="item.hasGot">
+                        <img :src="goldLight" class="gold-img" v-if="item.hasActiveGoldCoin"
+                             :class="{'rotate': item.hasGot}"/>
+                        <img :src="goldGray" class="gold-img" v-else @click="showMsg(item)"
+                             :class="{'rotate': item.hasGot}"/>
+                        <div class="fly-box"
+                             :style="{left: item.position.left+'px',bottom:item.position.bottom+'px',opacity: 0}"
+                             v-if="item.hasGot">
                             <img :src="goldLight" class="fly-gold" v-for="n in 5"/>
                         </div>
                         <div>{{sceneText(item.gcApplyScene)}}</div>
@@ -64,7 +69,8 @@
         <div class="sort card">
             <div class="title">收取排行榜</div>
             <div class="trend-list">
-                <div flex="cross:center" class="item" v-for="item,index in friendList" :key="index" @click.stop="toDetail(item)">
+                <div flex="cross:center" class="item" v-for="item,index in friendList" :key="index"
+                     @click.stop="toDetail(item)">
                     <div flex-box="1" flex="cross:center">
                         <div class="num-img">
                             <img src="../images/gold/num-1.png" v-if="index == 0" class="img"/>
@@ -137,43 +143,44 @@
             }
         },
         created(){
-            this.addHive(1,'/golds/index',1081);
+            this.addHive(1, '/golds/index', 1081);
             this.showGuide = !window.localStorage.getItem('closeIndexGuide');
             this.getGoldCoin();
             this.getFriendList();
             this.getFriendSteal();
+            this.$store.dispatch('getOauth');
         },
-        components:{
+        components: {
             Advertise
         },
         computed: {
-            ...mapState(['userUuid']),
+            ...mapState(['userUuid', 'headImageUrl', 'nickName']),
         },
         methods: {
             //收金币
-            coinCollect(item,e,index){
-                if(!item.hasActiveGoldCoin){
+            coinCollect(item, e, index){
+                if (!item.hasActiveGoldCoin) {
                     return;
                 }
 
-                this.addHive(0,'/golds/index',108106);
-                $api.post('/goldCoin/collect',{
+                this.addHive(0, '/golds/index', 108106);
+                $api.post('/goldCoin/collect', {
                     gcActiveUuids: item.gcUserGenerateActiveUuids.join(','),
                     gcApplyScene: item.gcApplyScene,
                     gcCreateUserUuid: this.userCoin.gcCreateUserUuid
                 }).then(resp => {
-                    if(resp.code == 200){
+                    if (resp.code == 200) {
                         Toast('收取金币成功');
                         //this.enterPig(item,e,index);
                         item.hasGot = true;
-                        this.$set(this.userCoinList,index,item);
-                        if(this.timer) clearTimeout(this.timer);
-                        this.timer = setTimeout(()=>{
+                        this.$set(this.userCoinList, index, item);
+                        if (this.timer) clearTimeout(this.timer);
+                        this.timer = setTimeout(() => {
                             item.hasActiveGoldCoin = false;
                             this.userCoin.currentUsableAmount = (this.userCoin.currentUsableAmount || 0) + resp.data.collectTotalAmount;
-                            for(let i = 0;i < this.friendList.length;i++){
+                            for (let i = 0; i < this.friendList.length; i++) {
                                 let val = this.friendList[i];
-                                if(val.userUuid == this.userUuid){
+                                if (val.userUuid == this.userUuid) {
                                     val.hasActiveGoldCoin = false;
                                     val.isStealFreezingTime = true;
                                     val.userValidCoinAmount += resp.data.collectTotalAmount;
@@ -182,18 +189,18 @@
                             }
                             //this.getGoldCoin();
                             //this.getFriendList();
-                        },1700);
-                    }else{
+                        }, 1700);
+                    } else {
                         Toast(resp.msg);
                     }
                 })
             },
             //进入好友金币页面
-            toDetail(item,trend){
-                if(trend){
-                    this.addHive(0,'/golds/index',108105);
+            toDetail(item, trend){
+                if (trend) {
+                    this.addHive(0, '/golds/index', 108105);
                 }
-                if(item.userUuid == this.userUuid){
+                if (item.userUuid == this.userUuid) {
                     return;
                 }
                 this.$router.push({
@@ -203,8 +210,8 @@
                     }
                 })
             },
-            toPath(path,code){
-                this.addHive(0,'/golds/index',code);
+            toPath(path, code){
+                this.addHive(0, '/golds/index', code);
                 this.$router.push({
                     path: path
                 })
@@ -218,7 +225,7 @@
             getGoldCoin(){
                 $api.get('/goldCoin/getTotalInfo').then(resp => {
                     this.userCoinList = [];
-                    if(resp.code == 200){
+                    if (resp.code == 200) {
                         resp.data.list.map(item => {
                             //好友投资
                             item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
@@ -226,7 +233,7 @@
                                 item.showMsg = false;
                                 item.hasGot = false;
                                 item.position = {};
-                                if(item.hasActiveGoldCoin || item.residueAmount){
+                                if (item.hasActiveGoldCoin || item.residueAmount) {
                                     this.userCoinList.push(item);
                                 }
                             }
@@ -237,11 +244,11 @@
             },
             //收取排行榜
             getFriendList(){
-                $api.get('/coin/getFriendList',{
+                $api.get('/coin/getFriendList', {
                     startRow: 0,
                     pageSize: 10
                 }).then(resp => {
-                    if(resp.code == 200){
+                    if (resp.code == 200) {
                         this.friendList = resp.data.list;
                         this.friendCount = resp.data.count;
                     }
@@ -249,11 +256,11 @@
             },
             //好友动态
             getFriendSteal(){
-                $api.get('/coinTransaction/listFriendStealUser',{
+                $api.get('/coinTransaction/listFriendStealUser', {
                     startRow: 0,
                     pageSize: 2
                 }).then(resp => {
-                    if(resp.code == 200){
+                    if (resp.code == 200) {
                         this.friendSteal = resp.data.list;
                         this.friendStealCount = resp.data.count;
                     }
@@ -261,16 +268,16 @@
             },
             //用户引导
             nextGuide(){
-                if(this.step >= 3){
+                if (this.step >= 3) {
                     this.showGuide = false;
                     window.localStorage.setItem('closeIndexGuide', true);
-                }else{
-                    this.step ++;
+                } else {
+                    this.step++;
                 }
             },
             sceneText(scene){
                 let out = '';
-                switch (scene){
+                switch (scene) {
                     case 8:
                         out = '好友注册';
                         break;
@@ -291,27 +298,33 @@
                 }
                 return out;
             },
-            enterPig(item,e,index){
+            enterPig(item, e, index){
                 let rect = e.target.getBoundingClientRect();
                 let x = rect.left;
                 let y = rect.top;
                 item.hasGot = true;
-                this.$set(this.userCoinList,index,item);
+                this.$set(this.userCoinList, index, item);
                 let height = document.getElementsByClassName('header')[0].offsetHeight;
                 let clientWidth = document.documentElement.clientWidth;
-                item.position = {left: x+38,top: y, bottom: height - y -50};console.log(clientWidth)
+                item.position = {left: x + 38, top: y, bottom: height - y - 50};
+                console.log(clientWidth)
                 let left = clientWidth * 0.5;
-                setTimeout(()=>{
+                setTimeout(() => {
                     document.getElementsByClassName('fly-box')[0].animate([
-                        {opacity: 1,left: item.position.left+'px',bottom:item.position.bottom+'px',width: '80px'},
-                        {opacity: 1,left: left+'px', bottom:143+'px',width: '35px'},
+                        {
+                            opacity: 1,
+                            left: item.position.left + 'px',
+                            bottom: item.position.bottom + 'px',
+                            width: '80px'
+                        },
+                        {opacity: 1, left: left + 'px', bottom: 143 + 'px', width: '35px'},
                     ], {
                         duration: 500,
                         iteration: 4,
                         delay: 100,
                         fill: "forwards"
                     });
-                },800);
+                }, 800);
             }
         },
         mounted(){
@@ -320,7 +333,7 @@
             });
         },
         destroyed(){
-            this.addHive(2,'/golds/index',1081);
+            this.addHive(2, '/golds/index', 1081);
         }
     }
 </script>

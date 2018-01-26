@@ -79,7 +79,7 @@
                 </div>
                 <div class="section seperate" flex="dir:top">
                     <div class="item bl" flex-box="1" flex="cross:center"
-                         @click.stop="getPath('/golds/index')">
+                         @click.stop="playGame">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/gold-icon.png" alt="share">
                         </div>
@@ -287,6 +287,7 @@
                 'rewardSum',
                 'relationCount',
                 'interestCouponCount',
+                'nickName'
             ]),
             masterList(){
                 // 投资好友大于10人
@@ -488,7 +489,15 @@
                         }
 
                     });
+            },
+            playGame(){
+                if (this.nickName) {
+                    this.getPath('/golds/index');
+                    return false;
+                }
+
             }
+
         },
         mounted(){
             EventBus.$on('advertise', (picUrl) => {
