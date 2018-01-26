@@ -20,11 +20,11 @@
                     @click.stop="coinCollect(item,$event,index)">
 
                     <!--未被收取的总数量中的可收取数量-->
-                    <div flex-box="1" class="tt-msg" v-if="item.hasActiveGoldCoin">
+                    <div flex-box="1" class="tt-msg" v-if="item.currCoinStatus==2">
                         <div class="msg">{{item.gcUserGenerateSumActiveAmount}}可收</div>
                     </div>
                     <!--未被收取的总数量中的不可收取数量-->
-                    <div flex-box="1" class="tt-msg" v-else-if="item.residueAmount" :class="{'nvisable': !item.showMsg}">
+                    <div flex-box="1" class="tt-msg" v-else-if="item.currCoinStatus==1" :class="{'nvisable': !item.showMsg}">
                         <div class="msg">{{item.latestRemainTimeToGet}}</div>
                     </div>
                     <div flex-box="0">
@@ -112,7 +112,6 @@
     import '../less/gold/index.less';
     import Advertise from '../components/Advertise';
     import EventBus from '../tools/event-bus';
-    import {mapState} from 'vuex';
     import {Toast} from 'mint-ui';
     const goldLight = require('../images/gold/gold.png');
     const goldGray = require('../images/gold/gold-gray.png');
@@ -133,7 +132,8 @@
                 friendList: [],
                 friendSteal: [],
                 friendStealCount: 0,
-                timer: null
+                timer: null,
+                userUuid: ''
             }
         },
         created(){
@@ -147,7 +147,6 @@
             Advertise
         },
         computed: {
-            ...mapState(['userUuid']),
         },
         methods: {
             //收金币
@@ -219,6 +218,7 @@
                 $api.get('/goldCoin/getTotalInfo').then(resp => {
                     this.userCoinList = [];
                     if(resp.code == 200){
+                        this.userUuid = resp.data.gcCreateUserUuid;
                         resp.data.list.map(item => {
                             //好友投资
                             item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;

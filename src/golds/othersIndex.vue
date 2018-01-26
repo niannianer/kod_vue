@@ -9,17 +9,17 @@
 
             <div class="gold-item" flex="main:center">
                 <div class="item itemo" v-for="item,index in userCoinList" :key="index"
-                     v-if="item.hasActiveGoldCoin || item.residueAmount"
+                     v-if="item.currCoinStatus > 0"
                      :class="{'bt-1': (index == 0 && userCoinList.length == 2) || (index == 1 && userCoinList.length >= 3),
                      'bt-2': (index == 1 && userCoinList.length == 2) || (index == 0 && userCoinList.length == 1) || (index == 2 && userCoinList.length == 4),
                      'bt-3': index == 2 && userCoinList.length == 3}"
                     @click.stop="coinCollect(item)">
                     <!--未被收取的总数量中的可收取数量-->
-                    <div flex-box="1" class="tt-msg" v-if="item.hasActiveGoldCoin && !item.isStealFreezingTime">
+                    <div flex-box="1" class="tt-msg" v-if="item.currCoinStatus==2">
                         <div class="msg" :class="{'gray-msg': !canSteal}">{{item.gcUserGenerateSumActiveAmount}}可收</div>
                     </div>
                     <!--未被收取的总数量中的不可收取数量-->
-                    <div flex-box="1" class="tt-msg" v-else-if="item.residueAmount" :class="{'nvisable': !item.showMsg}">
+                    <div flex-box="1" class="tt-msg" v-else-if="item.currCoinStatus==1" :class="{'nvisable': !item.showMsg}">
                         <div class="msg">{{item.latestRemainTimeToGet}}</div>
                     </div>
                     <div flex-box="0">
