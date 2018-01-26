@@ -495,6 +495,10 @@
                     this.getPath('/golds/index');
                     return false;
                 }
+                // 微信授权认证
+                let backUrl = window.location.origin + '/golds/index';
+                backUrl = encodeURIComponent(backUrl);
+                window.location.href = window.location.origin + '/land-auth-blank?backUrl=' + backUrl
 
             }
 
