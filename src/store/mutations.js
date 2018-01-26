@@ -73,14 +73,14 @@ mutations.setEligibleInvestor = (state, data) => {
     state.isEligibleInvestor = data;
 };
 
-mutations.setExperienceSum = (state,data) =>{
+mutations.setExperienceSum = (state, data) => {
     _.forEach(state, (value, key) => {
         if (data.hasOwnProperty(key)) {
             state[key] = data[key];
         }
     });
 };
-mutations.setPersonalCenterMsg = (state,data) =>{
+mutations.setPersonalCenterMsg = (state, data) => {
     _.forEach(state, (value, key) => {
         if (data.hasOwnProperty(key)) {
             state[key] = data[key];
@@ -88,12 +88,18 @@ mutations.setPersonalCenterMsg = (state,data) =>{
     });
 
 };
-mutations.setRiskInfo = (state,data) =>{
+mutations.setRiskInfo = (state, data) => {
     _.forEach(state, (value, key) => {
         if (data.hasOwnProperty(key)) {
             state[key] = data[key];
         }
     });
-
+};
+mutations.setOauth = (state, data) => {
+    _.forEach(state, (value, key) => {
+        if (data.hasOwnProperty(key)) {
+            state[key] = data[key];
+        }
+    });
 };
 export default  mutations;

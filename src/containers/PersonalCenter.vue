@@ -79,7 +79,7 @@
                 </div>
                 <div class="section seperate" flex="dir:top">
                     <div class="item bl" flex-box="1" flex="cross:center"
-                         @click.stop="getPath('/golds/index')" >
+                         @click.stop="getPath('/golds/index')">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/gold-icon.png" alt="share">
                         </div>
@@ -99,9 +99,9 @@
                         <span flex-box="0">一起赚</span>
                         <div flex-box="1">
                             <div class="slide-warp">
-                                    <div class="silde-up">
-                                        分享即得加息券
-                                    </div>
+                                <div class="silde-up">
+                                    分享即得加息券
+                                </div>
 
                             </div>
 
@@ -110,7 +110,8 @@
                             <img class="arrow" src="../images/arrow-right.png" alt="arrow">
                         </div>
                     </div>
-                    <div class="item" flex-box="1" flex="cross:center" @click.stop="getPath('/land-financial-master.html',true)">
+                    <div class="item" flex-box="1" flex="cross:center"
+                         @click.stop="getPath('/land-financial-master.html',true)">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/master-icon.png" alt="master">
                         </div>
@@ -243,7 +244,7 @@
             }
         },
         created(){
-            this.addHive(1,'personal-center',1070);
+            this.addHive(1, 'personal-center', 1070);
             this.mode = window.localStorage.getItem('mode') == 'true' ? true : false;
             if ($device.isWeixin) {
                 this.getShare();
@@ -252,6 +253,8 @@
                 let len = this.masterList.length;
                 this.currentIndex = (this.currentIndex + 1) % len;
             }, 4000);
+            // 获取第三方信息
+            this.$store.dispatch('getOauth');
             // 获取未读
             this.getUnread();
             // 获取投资好友人数
@@ -293,7 +296,7 @@
                 return ['理财达人，长期奖励', `还需${5 - this.relationInvest}个投资好友`, '额外奖励   收益加速']
             }
         },
-        components:{
+        components: {
             Modal, Advertise
         },
         methods: {
@@ -322,7 +325,7 @@
             // 开户流程
             goStep(){
                 let {userVerifyStatus} = this;
-                this.addHive(0,'personal-center',107001);
+                this.addHive(0, 'personal-center', 107001);
                 switch (userVerifyStatus) {
                     case 0:
                         this.$router.push('/authentication');
@@ -346,7 +349,7 @@
                 }
             },
             switchMode(){
-                this.addHive(0,'personal-center',107015);
+                this.addHive(0, 'personal-center', 107015);
                 this.mode = !this.mode
                 window.localStorage.setItem('mode', this.mode);
             },
@@ -354,7 +357,7 @@
                 this.$router.replace('/login');
             },
             logout(){
-                this.addHive(0,'personal-center',107002);
+                this.addHive(0, 'personal-center', 107002);
                 let event = ['_trackEvent', '个人中心', 'CLICK', '个人中心-退出登录-点击', '在个人中心点击退出登录'];
                 window._hmt.push(event);
                 $api.post('/logout')
@@ -371,45 +374,45 @@
                 let lable = '个人中心-我的资产-点击';
                 let value = '在个人中心点击我的资产';
                 if (path == '/reward') {
-                    this.addHive(0,'personal-center',107003);
+                    this.addHive(0, 'personal-center', 107003);
                     lable = '个人中心-我的奖励-点击';
                     value = '在个人中心点击我的奖励';
                 }
                 if (path == '/relation') {
-                    this.addHive(0,'personal-center',107004);
+                    this.addHive(0, 'personal-center', 107004);
                     lable = '个人中心-我的好友-点击';
                     value = '在个人中心点击我的好友';
                 }
                 if (path == '/reserve-list') {
                     lable = '个人中心-预约管理-点击';
                     value = '在个人中心点击预约管理';
-                    this.addHive(0,'personal-center',107007);
+                    this.addHive(0, 'personal-center', 107007);
                 }
                 if (path == '/invest-list') {
-                    this.addHive(0,'personal-center',107005);
+                    this.addHive(0, 'personal-center', 107005);
                     lable = '个人中心-我的投资-点击';
                     value = '在个人中心点击我的投资';
                 }
                 if (path == '/land-about-us.html') {
-                    this.addHive(0,'personal-center',107006);
+                    this.addHive(0, 'personal-center', 107006);
                     lable = '个人中心-关于我们-点击';
                     value = '在个人中心点击关于我们';
                 }
                 if (path == '/funds/my-fund') {
                     lable = '个人中心-我的基金-点击';
                     value = '在个人中心点击我的基金';
-                    this.addHive(0,'personal-center',107008);
+                    this.addHive(0, 'personal-center', 107008);
                 }
                 if (path == '/land-share.html') {
                     lable = '个人中心-一起赚-点击';
                     value = '在个人中心点击一起赚';
-                    this.addHive(0,'personal-center',107009);
+                    this.addHive(0, 'personal-center', 107009);
                 }
 
                 if (path == '/financial?tab=FIXI' || path == '/financial') {
                     lable = '个人中心-定期理财-点击';
                     value = '在个人中心点击定期理财';
-                    this.addHive(0,'personal-center',107010);
+                    this.addHive(0, 'personal-center', 107010);
                 }
                 if (path == '/financial?tab=PRIF') {
                     lable = '个人中心-高端理财-点击';
@@ -418,7 +421,7 @@
                 if (path == appUrl) {
                     lable = '从个人中心进入app下载页';
                     value = '从个人中心进入app下载页';
-                    this.addHive(0,'personal-center',107011);
+                    this.addHive(0, 'personal-center', 107011);
                 }
                 let event = ['_trackEvent', '个人中心', 'CLICK', lable, value];
                 window._hmt.push(event);
@@ -427,16 +430,16 @@
                     return false
                 }
                 if (path == '/recharge' || path == '/withdraw') {
-                    if(path == '/recharge'){
-                        this.addHive(0,'personal-center',107012);
+                    if (path == '/recharge') {
+                        this.addHive(0, 'personal-center', 107012);
                     }
                     else {
-                        this.addHive(0,'personal-center',107013);
+                        this.addHive(0, 'personal-center', 107013);
                     }
 
                     if (this.userVerifyStatus != 9) {
                         this.showModal = true;
-                        this.addHive(5,'personal-center',1070);
+                        this.addHive(5, 'personal-center', 1070);
                         let event = ['_trackEvent', '个人中心', 'SHOW', '弹出开户弹窗', '弹出开户弹窗'];
                         window._hmt.push(event);
                         return false;
@@ -493,7 +496,7 @@
             });
         },
         destroyed(){
-            this.addHive(2,'personal-center',1070);
+            this.addHive(2, 'personal-center', 1070);
             clearInterval(timer)
         }
     }

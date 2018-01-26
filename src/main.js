@@ -17,7 +17,6 @@ new Vue({
     store,
     render: h => h(App)
 });
-store.dispatch('getAccountBaofoo');
 store.dispatch('getBankInfo');
 store.dispatch('getPersonalCenterMsg').then((resp) => {
     if (resp.code == 200) {
@@ -29,9 +28,7 @@ store.dispatch('getPersonalCenterMsg').then((resp) => {
 });
 store.dispatch('getAccountInfo');
 store.dispatch('getPaymentInfo');
-
 import {postHive} from './tools/api';
-
 window.onload = () => {
     FastClick.attach(document.body);
     setTimeout(() => {
