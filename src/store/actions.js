@@ -139,4 +139,23 @@ actions.getRiskInfo = ({commit}) => {
             return data;
         });
 };
+// 第三方绑定信息
+let getOauth = () => {
+    let params = {
+        oauthType: 10
+    };
+    return $api.get('/getOauth', params)
+};
+actions.getOauth = ({commit}) => {
+    return getOauth().then(res => {
+        if (res.code == 200) {
+            let {oauthList} = res.data;
+            if (oauthList && oauthList.length) {
+                commit('setOauth', oauthList[0])
+            }
+
+        }
+        return res;
+    });
+};
 export default actions;

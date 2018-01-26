@@ -61,6 +61,7 @@
     import Advertise from '../components/Advertise';
     import {setTitle} from '../tools/operation';
     import EventBus from '../tools/event-bus';
+    import {local} from '../tools/store';
     const goldLight = require('../images/gold/gold.png');
     const goldGray = require('../images/gold/gold-gray.png');
     const defaultHead = require('../images/gold/default-head.png');
@@ -83,7 +84,7 @@
         },
         created(){
             this.addHive(1,'/golds/others-index',1087);
-            this.showGuide = !window.localStorage.getItem('closeOthersGuide');
+            this.showGuide = !local.getItem('closeOthersGuide');
             this.friendUuid = this.$route.query.uuid;
             this.getGoldCoin();
             this.getFriendSteal();
@@ -163,7 +164,7 @@
             },
             //用户引导
             nextGuide(){
-                window.localStorage.setItem('closeOthersGuide',true);
+                local.setItem('closeOthersGuide',true);
                 this.showGuide = false;
             },
             sceneText(scene){
