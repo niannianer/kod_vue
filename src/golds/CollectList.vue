@@ -22,12 +22,12 @@
             <div flex-box="0" class="time">
                 {{item.coinTotalNum || 0}}
             </div>
-            <div v-if="userUuid && userUuid != item.userUuid && !item.isStealFreezingTime">
-                <div class="point-msg" v-if="item.userValidCoinAmount">
+            <div v-if="userUuid && userUuid != item.userUuid">
+                <div class="point-msg" v-if="item.coinStatus == 2">
                     <img src="../images/gold/hand.png" class="hand-img"/>
                 </div>
-                <div class="point-msg" v-else-if="item.userNextValidCoinTime">
-                    {{item.userNextValidCoinTime | secondToTime}}
+                <div class="point-msg" v-else-if="item.coinStatus == 1">
+                    {{item.latestRemainTimeToGet}}
                 </div>
             </div>
         </div>

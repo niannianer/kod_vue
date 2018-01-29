@@ -123,20 +123,7 @@ export let timeFormater = (timeStamp, fmt = 'yyyy-MM-dd hh:mm:ss.S') => {
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
-//秒转成时分
-export let secondToTime = (input) => {
-    let hh = parseInt(input/3600);
-    let mm = parseInt((input-hh*3600)/60);
-    let ss = input-hh*3600-mm*60;
-    if(ss > 0) mm = mm + 1;
-    if(mm<10) mm = "0" + mm;
-    if(mm == 60) {
-        hh = hh +1;
-        mm = '00';
-    }
-    if(hh<10) hh = "0" + hh;
-    return hh+':' + mm;
-}
+
 export let periodType = (input) => {
     if (!input) {
         return '';
