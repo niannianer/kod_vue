@@ -113,7 +113,6 @@
                     return;
                 }
                 $api.post('/goldCoin/steal',{
-                    gcActiveUuids: item.gcUserGenerateActiveUuids.join(','),
                     gcApplyScene: item.gcApplyScene,
                     gcCreateUserUuid: this.userCoin.gcCreateUserUuid
                 }).then(resp => {

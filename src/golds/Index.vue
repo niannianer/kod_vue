@@ -166,7 +166,6 @@
 
                 this.addHive(0, '/golds/index', 108106);
                 $api.post('/goldCoin/collect', {
-                    gcActiveUuids: item.gcUserGenerateActiveUuids.join(','),
                     gcApplyScene: item.gcApplyScene,
                     gcCreateUserUuid: this.userCoin.gcCreateUserUuid
                 }).then(resp => {
@@ -177,9 +176,7 @@
                         this.$set(this.userCoinList, index, item);
                         if (this.timer) clearTimeout(this.timer);
                         this.timer = setTimeout(() => {
-                            item.hasActiveGoldCoin = false;
-                            this.userCoin.currentUsableAmount = (this.userCoin.currentUsableAmount || 0) + resp.data.collectTotalAmount;
-                            for (let i = 0; i < this.friendList.length; i++) {
+                            /*for (let i = 0; i < this.friendList.length; i++) {
                                 let val = this.friendList[i];
                                 if (val.userUuid == this.userUuid) {
                                     val.hasActiveGoldCoin = false;
@@ -187,9 +184,9 @@
                                     val.userValidCoinAmount += resp.data.collectTotalAmount;
                                     break;
                                 }
-                            }
-                            //this.getGoldCoin();
-                            //this.getFriendList();
+                            }*/
+                            this.getGoldCoin();
+                            this.getFriendList();
                         }, 1700);
                     } else {
                         Toast(resp.msg);
