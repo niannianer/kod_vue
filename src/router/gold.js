@@ -51,7 +51,7 @@ let goldRoutes = [
                 name: 'index',
                 component: Index,
                 meta: {
-                    title: '我的金币空间'
+                    title: '我的小金库'
                 }
             }, {
                 path: 'task',
