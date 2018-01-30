@@ -23,7 +23,7 @@
                         <div class="msg">{{item.latestRemainTimeToGet}}</div>
                     </div>
                     <div flex-box="0">
-                        <img :src="goldLight" class="gold-img" v-if="item.hasActiveGoldCoin && canSteal" />
+                        <img :src="goldLight" class="gold-img" v-if="item.currCoinStatus==2 && canSteal" />
                         <img :src="goldGray" class="gold-img-gray" v-else @click="showMsg(item)"/>
                         <div>{{sceneText(item.gcApplyScene)}}</div>
                     </div>
@@ -79,7 +79,8 @@
                 userCoinList: [],
                 canSteal: false,
                 friendSteal: {},
-                friendStealCount: 0
+                friendStealCount: 0,
+                collecting: false
             }
         },
         created(){
@@ -109,13 +110,15 @@
                     Toast('你已经偷过TA的金币了，请两小时后再试哦~');
                     return;
                 }
-                else if(!item.hasActiveGoldCoin){
+                else if(item.currCoinStatus!=2 || this.collecting){
                     return;
                 }
+                this.collecting = true;
                 $api.post('/goldCoin/steal',{
                     gcApplyScene: item.gcApplyScene,
                     gcCreateUserUuid: this.userCoin.gcCreateUserUuid
                 }).then(resp => {
+                    this.collecting = false;
                     if(resp.code == 200){
                         Toast(`偷到${resp.data.stealAmount}金币`);
                         this.getGoldCoin();
@@ -136,12 +139,9 @@
                         this.canSteal = resp.data.canSteal;
                         resp.data.list.map(item => {
                             //好友投资
-                            item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
-                            if (item.hasActiveGoldCoin || item.residueAmount) {
+                            if (item.currCoinStatus > 0) {
                                 item.showMsg = false;
-                                if(item.hasActiveGoldCoin || item.residueAmount){
-                                    this.userCoinList.push(item);
-                                }
+                                this.userCoinList.push(item);
                             }
                         });
                         this.userCoin = resp.data;

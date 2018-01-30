@@ -28,7 +28,7 @@
                         <div class="msg">{{item.latestRemainTimeToGet}}</div>
                     </div>
                     <div flex-box="0">
-                        <img :src="goldLight" class="gold-img" v-if="item.hasActiveGoldCoin"
+                        <img :src="goldLight" class="gold-img" v-if="item.currCoinStatus==2"
                              :class="{'rotate': item.hasGot}"/>
                         <img :src="goldGray" class="gold-img" v-else @click="showMsg(item)"
                              :class="{'rotate': item.hasGot}"/>
@@ -87,7 +87,7 @@
                         <div v-else>{{item.nickName}}</div>
                     </div>
                     <div flex-box="0" class="time">
-                        {{item.coinTotalNum || 0}}
+                        {{item.gameStatus ? item.coinTotalNum || 0 : '未开启'}}
                     </div>
                     <div v-if="userUuid && userUuid != item.userUuid">
                         <div class="point-msg" v-if="item.coinStatus == 2">
@@ -140,7 +140,8 @@
                 friendSteal: [],
                 friendStealCount: 0,
                 timer: null,
-                userUuid: ''
+                userUuid: '',
+                collecting: false
             }
         },
         created(){
@@ -160,15 +161,16 @@
         methods: {
             //收金币
             coinCollect(item, e, index){
-                if (!item.hasActiveGoldCoin) {
+                if (item.currCoinStatus!=2 || this.collecting) {
                     return;
                 }
-
+                this.collecting = true;
                 this.addHive(0, '/golds/index', 108106);
                 $api.post('/goldCoin/collect', {
                     gcApplyScene: item.gcApplyScene,
                     gcCreateUserUuid: this.userCoin.gcCreateUserUuid
                 }).then(resp => {
+                    this.collecting = false;
                     if (resp.code == 200) {
                         Toast('收取金币成功');
                         //this.enterPig(item,e,index);
@@ -198,7 +200,7 @@
                 if (trend) {
                     this.addHive(0, '/golds/index', 108105);
                 }
-                if (item.userUuid == this.userUuid) {
+                if (item.userUuid == this.userUuid || !item.gameStatus) {
                     return;
                 }
                 this.$router.push({
@@ -227,14 +229,11 @@
                         this.userUuid = resp.data.gcCreateUserUuid;
                         resp.data.list.map(item => {
                             //好友投资
-                            item.residueAmount = item.gcUserGenerateSumAmount - item.gcUserGenerateSumActiveAmount;
-                            if (item.hasActiveGoldCoin || item.residueAmount) {
+                            if (item.currCoinStatus > 0) {
                                 item.showMsg = false;
                                 item.hasGot = false;
                                 item.position = {};
-                                if (item.hasActiveGoldCoin || item.residueAmount) {
-                                    this.userCoinList.push(item);
-                                }
+                                this.userCoinList.push(item);
                             }
                         });
                         this.userCoin = resp.data;

@@ -20,7 +20,7 @@
                 <div v-else>{{item.nickName}}</div>
             </div>
             <div flex-box="0" class="time">
-                {{item.coinTotalNum || 0}}
+                {{item.gameStatus ? item.coinTotalNum || 0 : '未开启'}}
             </div>
             <div v-if="userUuid && userUuid != item.userUuid">
                 <div class="point-msg" v-if="item.coinStatus == 2">
@@ -67,7 +67,7 @@
         methods: {
             //进入好友金币页
             toDetail(item){
-                if(item.userUuid == this.userUuid){
+                if(item.userUuid == this.userUuid || !item.gameStatus){
                     return;
                 }
                 this.$router.push({
