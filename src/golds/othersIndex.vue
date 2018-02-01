@@ -99,18 +99,14 @@
             showMsg(item){
                 this.addHive(0,'/golds/others-index',108701);
                 if(!this.canSteal){
-                    Toast('你已经偷过TA的金币了，请两小时后再试哦~');
+                    //Toast('你已经偷过TA的金币了，请两小时后再试哦~');
                     return;
                 }
                 item.showMsg = !item.showMsg;
             },
             //偷金币
             coinCollect(item){
-                if(!this.canSteal){
-                    Toast('你已经偷过TA的金币了，请两小时后再试哦~');
-                    return;
-                }
-                else if(item.currCoinStatus!=2 || this.collecting){
+                if(item.currCoinStatus!=2 || this.collecting){
                     return;
                 }
                 this.collecting = true;
