@@ -51,8 +51,12 @@
 
                         </div>
                         <!--非新手标-->
-                        <div v-else>
-                            <div class="fund-name ellipsis">{{item.productName}}</div>
+                        <div v-else><!--非新手标-->
+                            <div flex-box="1" flex>
+                                <div class="fund-name ellipsis">{{item.productName}}</div>
+                                <div class="daren" v-if="item.vipFlag == 1"><img src="../images/daren.png"/></div>
+                            </div>
+                            <div class="time-text" v-if="item.vipFlag == 1 && item.productStatusCode == 1">{{item.buttonText}}</div>
                             <div class="ticket-wrap" v-if="item.productLabel" flex>
                                 <div class="ticket-item"
                                      :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
@@ -60,16 +64,24 @@
                                 </div>
                             </div>
                             <div flex="dir:left" class="fund-middle-fix"
-                                 :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
+                                 :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2),'padding-top':item.couponMaxProfit}"
+                            >
                                 <div class="rate" flex-box="1"
                                      :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                    <div>
-                                        {{item.annualInterestRate}}
-                                        <span v-if="item.couponMaxProfit">
+                                    <div flex style="position: relative">
+                                            <span>
+                                                {{item.annualInterestRate}}
+                                            </span>
+                                        <span v-if="item.couponMaxProfit" class="max-profit">
                                                 +{{item.couponMaxProfit}}
                                             </span>
+                                        <div class="float-tip" v-if="item.increaseInterestRateDescribe">
+                                            {{item.increaseInterestRateDescribe}}
+                                            <img src="../images/tri.png" alt="" class="tri">
+                                        </div>
                                     </div>
                                     <div class="sub-text">预计年化收益率</div>
+
                                 </div>
                                 <div class="cycle" flex-box="3"
                                      :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
