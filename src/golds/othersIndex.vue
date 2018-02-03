@@ -24,7 +24,7 @@
                     </div>
                     <div flex-box="0">
                         <img :src="goldLight" class="gold-img" v-if="item.currCoinStatus==2 && canSteal" />
-                        <img :src="goldGray" class="gold-img-gray" v-else @click="showMsg(item)"/>
+                        <img :src="goldGray" class="gold-img-gray" v-else/>
                         <div>{{sceneText(item.gcApplyScene)}}</div>
                     </div>
                 </div>
@@ -96,16 +96,13 @@
         computed: {
         },
         methods: {
-            showMsg(item){
-                this.addHive(0,'/golds/others-index',108701);
-                if(!this.canSteal){
-                    //Toast('你已经偷过TA的金币了，请两小时后再试哦~');
-                    return;
-                }
-                item.showMsg = !item.showMsg;
-            },
             //偷金币
             coinCollect(item){
+                this.addHive(0,'/golds/others-index',108701);
+                if(item.currCoinStatus==1){
+                    item.showMsg = !item.showMsg;
+                    return;
+                }
                 if(item.currCoinStatus!=2 || this.collecting){
                     return;
                 }

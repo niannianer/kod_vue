@@ -30,11 +30,11 @@
                     <div flex-box="0">
                         <img :src="goldLight" class="gold-img" v-if="item.currCoinStatus==2"
                              :class="{'rotate': item.hasGot}"/>
-                        <img :src="goldGray" class="gold-img" v-else @click="showMsg(item)"
+                        <img :src="goldGray" class="gold-img" v-else
                              :class="{'rotate': item.hasGot}"/>
                         <div class="fly-box"
                              :style="{left: item.position.left+'px',bottom:item.position.bottom+'px',opacity: 0}"
-                             v-if="item.hasGot">
+                             >
                             <img :src="goldLight" class="fly-gold" v-for="n in 5"/>
                         </div>
                         <div>{{sceneText(item.gcApplyScene)}}</div>
@@ -161,6 +161,10 @@
         methods: {
             //收金币
             coinCollect(item, e, index){
+                //不可收金币显示隐藏可收时间 currCoinStatus = 1: 有代收时间未到金币 2：有时间已到可收金币 0：没有金币
+                if(item.currCoinStatus==1){
+                    item.showMsg = !item.showMsg;
+                }
                 if (item.currCoinStatus!=2 || this.collecting) {
                     return;
                 }
@@ -178,16 +182,7 @@
                         this.$set(this.userCoinList, index, item);
                         if (this.timer) clearTimeout(this.timer);
                         this.timer = setTimeout(() => {
-                            /*for (let i = 0; i < this.friendList.length; i++) {
-                                let val = this.friendList[i];
-                                if (val.userUuid == this.userUuid) {
-                                    val.hasActiveGoldCoin = false;
-                                    val.isStealFreezingTime = true;
-                                    val.userValidCoinAmount += resp.data.collectTotalAmount;
-                                    break;
-                                }
-                            }*/
-                            this.getGoldCoin();
+                            this.getGoldCoin(item.gcApplyScene);
                             this.getFriendList();
                         }, 1700);
                     } else {
@@ -216,22 +211,21 @@
                     path: path
                 })
             },
-            //不可收金币显示隐藏可收时间
-            showMsg(item){
-                //item.hasGot = true;
-                item.showMsg = !item.showMsg;
-            },
             //获取用户总信息
-            getGoldCoin(){
+            getGoldCoin(gcApplyScene){
                 $api.get('/goldCoin/getTotalInfo').then(resp => {
                     this.userCoinList = [];
                     if (resp.code == 200) {
                         this.userUuid = resp.data.gcCreateUserUuid;
                         resp.data.list.map(item => {
                             //好友投资
-                            if (item.currCoinStatus > 0) {
+                            if (item.currCoinStatus > 0 ) {
                                 item.showMsg = false;
                                 item.hasGot = false;
+                                //收取金币后，还有未到时间的金币，不反转
+                                if(item.gcApplyScene == gcApplyScene){
+                                    item.hasGot = true;
+                                }
                                 item.position = {};
                                 this.userCoinList.push(item);
                             }
