@@ -32,11 +32,11 @@
                              :class="{'rotate': item.hasGot}"/>
                         <img :src="goldGray" class="gold-img" v-else
                              :class="{'rotate': item.hasGot}"/>
-                        <div class="fly-box"
+                        <!--<div class="fly-box"
                              :style="{left: item.position.left+'px',bottom:item.position.bottom+'px',opacity: 0}"
                              >
                             <img :src="goldLight" class="fly-gold" v-for="n in 5"/>
-                        </div>
+                        </div>-->
                         <div>{{sceneText(item.gcApplyScene)}}</div>
                     </div>
                 </div>
@@ -120,6 +120,7 @@
     import {Toast} from 'mint-ui';
     import {mapState} from 'vuex';
     import {local} from '../tools/store';
+    import {logout} from '../tools/operation';
     const goldLight = require('../images/gold/gold.png');
     const goldGray = require('../images/gold/gold-gray.png');
     const defaultHead = require('../images/gold/default-head.png');
@@ -164,6 +165,7 @@
                 //不可收金币显示隐藏可收时间 currCoinStatus = 1: 有代收时间未到金币 2：有时间已到可收金币 0：没有金币
                 if(item.currCoinStatus==1){
                     item.showMsg = !item.showMsg;
+                    return;
                 }
                 if (item.currCoinStatus!=2 || this.collecting) {
                     return;
@@ -231,6 +233,8 @@
                             }
                         });
                         this.userCoin = resp.data;
+                    }else if(resp.code == 401){
+                        logout();
                     }
                 })
             },
