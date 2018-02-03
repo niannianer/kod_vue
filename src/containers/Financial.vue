@@ -122,19 +122,20 @@
                                 >
                                     <div class="rate" flex-box="1"
                                          :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
-                                        <div flex>
+                                        <div flex style="position: relative">
                                             <span>
                                                 {{item.annualInterestRate}}
                                             </span>
                                             <span v-if="item.couponMaxProfit" class="max-profit">
                                                 +{{item.couponMaxProfit}}
                                             </span>
+                                            <div class="float-tip" v-if="item.increaseInterestRateDescribe">
+                                                {{item.increaseInterestRateDescribe}}
+                                                <img src="../images/tri.png" alt="" class="tri">
+                                            </div>
                                         </div>
                                         <div class="sub-text">预计年化收益率</div>
-                                        <div class="float-tip" v-if="item.couponMaxProfit">
-                                            现金劵最大加息
-                                            <img src="../images/tri.png" alt="" class="tri">
-                                        </div>
+
                                     </div>
                                     <div class="cycle" flex-box="3"
                                          :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
