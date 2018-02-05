@@ -9,12 +9,14 @@
                 </div>
             </div>
             <div class="item-center" flex-box="1">
-                <h3 class="main-text">{{item.coinTaskName}}</h3>
+                <h3 class="main-text ellipsis">{{item.coinTaskName}}</h3>
                 <p class="sub-text">{{item.coinTaskMark}}</p>
 
             </div>
             <div class="item-right" flex-box="0" flex="main:center cross:center">
-                <button v-if="item.disabled" class="btn-default btn-act disabled">{{item.applyScene==10?"已签到":"已完成"}}</button>
+                <button v-if="item.disabled" class="btn-default btn-act disabled">
+                    {{item.applyScene == 10 ? "已签到" : "已完成"}}
+                </button>
                 <button class="btn-default btn-act" @click.stop="makeTask(item)" v-else>{{item.mcName}}</button>
                 <div class="press-text">{{item.coinTaskCompleteNum}}/{{item.coinTaskLimit}}</div>
             </div>
@@ -45,7 +47,7 @@
         },
         components: {},
         created(){
-            this.addHive(1,'gold/task',1084);
+            this.addHive(1, 'gold/task', 1084);
             this.getTasks();
         },
         computed: {
@@ -74,17 +76,17 @@
                 switch (item.applyScene) {
                     case 8:
                         //邀请好友-> 跳转邀请有礼
-                        this.addHive(0,'gold/task',108402);
+                        this.addHive(0, 'gold/task', 108402);
                         window.location.href = '/land-share.html';
                         break;
                     case 10:
                         // 签到
-                        this.addHive(0,'gold/task',108401);
+                        this.addHive(0, 'gold/task', 108401);
                         this.checkIn();
                         break;
                     case 13:
                         //金疙瘩好友投资 -> 跳转邀请有礼
-                        this.addHive(0,'gold/task',108402);
+                        this.addHive(0, 'gold/task', 108402);
                         window.location.href = '/land-share.html';
                         break;
                     case 14:
@@ -93,7 +95,7 @@
                         break;
                     default:
                         //-> 跳转邀请有礼
-                        this.addHive(0,'gold/task',108402);
+                        this.addHive(0, 'gold/task', 108402);
                         window.location.href = '/land-share.html';
                 }
 
@@ -129,7 +131,7 @@
         mounted(){
         },
         destroyed(){
-            this.addHive(2,'gold/task',1084);
+            this.addHive(2, 'gold/task', 1084);
         }
     }
 </script>
@@ -165,6 +167,8 @@
                     font-size: .6rem;
                     color: #666;
                     line-height: 1.2rem;
+                    max-height: 2.4rem;
+                    overflow: hidden;
                 }
             }
             .item-right {
