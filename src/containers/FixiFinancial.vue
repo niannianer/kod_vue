@@ -69,13 +69,13 @@
                                 <div class="rate" flex-box="1"
                                      :class="{'sell-out':(item.productStatusCode!=1&&item.productStatusCode!=2)}">
                                     <div flex style="position: relative">
-                                            <span>
-                                                {{item.annualInterestRate}}
+                                        <div flex-box="0">
+                                                 <span flex="0">
+                                                {{item.annualInterestRate}}{{item.couponMaxProfit ? '+'+item.couponMaxProfit:''}}
                                             </span>
-                                        <span v-if="item.couponMaxProfit" class="max-profit">
-                                                +{{item.couponMaxProfit}}
-                                            </span>
-                                        <div class="float-tip" v-if="item.increaseInterestRateDescribe">
+                                        </div>
+
+                                        <div class="float-tip" v-if="item.increaseInterestRateDescribe"  flex="1" style="overflow: visible">
                                             {{item.increaseInterestRateDescribe}}
                                             <img src="../images/tri.png" alt="" class="tri">
                                         </div>
