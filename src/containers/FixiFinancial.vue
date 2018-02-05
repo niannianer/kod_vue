@@ -75,7 +75,7 @@
                                         <span v-if="item.couponMaxProfit" class="max-profit">
                                                 +{{item.couponMaxProfit}}
                                             </span>
-                                        <div class="float-tip ellipsis" v-if="item.increaseInterestRateDescribe">
+                                        <div class="float-tip" v-if="item.increaseInterestRateDescribe">
                                             {{item.increaseInterestRateDescribe}}
                                             <img src="../images/tri.png" alt="" class="tri">
                                         </div>
