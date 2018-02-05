@@ -131,6 +131,7 @@
                     font-size: .9rem;
                     color: @app-red;
                     line-height: 50px;
+                    width: 4rem;
                     .sub-text {
                         padding-top: .1rem;
                         font-size: .6rem;
@@ -154,7 +155,7 @@
                 .rate, .cycle {
                     font-size: .9rem;
                     color: @app-red;
-                    //line-height: 1.2rem;
+                    width: 4rem;
                     line-height: 50px;
                     &.hot {
                         color: @app-ticket-context;
@@ -186,6 +187,7 @@
                         height: 1rem;
                         line-height: 1rem;
                         padding: 0 .3rem;
+                        max-width: 6rem;
                         .tri {
                             position: absolute;
                             width: .4rem;
@@ -201,14 +203,15 @@
                         transform: rotate(-30deg);
                     }*/
                 .status {
-                    margin-right: .1rem;
-                    margin-top: .1rem;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
                     span {
                         width: 3.3rem;
                         display: inline-block;
                         height: 1.5rem;
                         line-height: 1.5rem;
-                        border-radius: 3px;
+                        border-radius: 0;
                         text-align: center;
                         color: #FFF;
                         &.hot {
