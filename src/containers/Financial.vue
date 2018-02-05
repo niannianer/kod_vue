@@ -81,9 +81,11 @@
                                     </div>
                                 </div>
                                 <div class="rate-part">
-                                    <div  class="newhand-tip" v-if="item.increaseInterestRateDescribe" >
+                                    <div  class="newhand-tip"  :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
+                                          v-if="item.increaseInterestRateDescribe" >
                                         {{item.increaseInterestRateDescribe}}
-                                        <img src="../images/tri.png" alt="" class="tri">
+                                        <img src="../images/tri-disable.png" alt="" class="tri" v-if="item.productStatusCode!=1&&item.productStatusCode!=2">
+                                        <img src="../images/tri.png" alt="" class="tri" v-else>
                                     </div>
                                     <p class="rate">{{item.annualInterestRate}}</p>
                                     <p>{{item.productPeriod}}限期</p>
@@ -133,9 +135,12 @@
                                             </span>
                                             </div>
 
-                                            <div class="float-tip" v-if="item.increaseInterestRateDescribe"  flex="1" style="overflow: visible">
+                                            <div class="float-tip" v-if="item.increaseInterestRateDescribe"
+                                                 :class="{'disable':(item.productStatusCode!=1&&item.productStatusCode!=2)}"
+                                                 flex="1" style="overflow: visible">
                                                 {{item.increaseInterestRateDescribe}}
-                                                <img src="../images/tri.png" alt="" class="tri">
+                                                <img src="../images/tri-disable.png" alt="" class="tri" v-if="item.productStatusCode!=1&&item.productStatusCode!=2">
+                                                <img src="../images/tri.png" alt="" class="tri" v-else>
                                             </div>
                                         </div>
                                         <div class="sub-text">预计年化收益率</div>
