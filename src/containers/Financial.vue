@@ -81,6 +81,10 @@
                                     </div>
                                 </div>
                                 <div class="rate-part">
+                                    <div  class="newhand-tip" v-if="item.increaseInterestRateDescribe" >
+                                        {{item.increaseInterestRateDescribe}}
+                                        <img src="../images/tri.png" alt="" class="tri">
+                                    </div>
                                     <p class="rate">{{item.annualInterestRate}}</p>
                                     <p>{{item.productPeriod}}限期</p>
                                     <div class="progress-part">
