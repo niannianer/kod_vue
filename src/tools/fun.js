@@ -49,7 +49,7 @@ export let valiRealName = (realName) => {
     }
 };
 export let checkPhone = (phone) => {
-    let regPhone = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+    let regPhone = /^1[3|4|5|6|7|8|9]\d{9}$/;
     if (regPhone.test(phone)) {
         return true;
     } else {

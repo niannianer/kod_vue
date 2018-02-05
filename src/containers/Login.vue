@@ -188,7 +188,7 @@
                     Toast('请输入手机号码');
                     return false;
                 }
-                let reg = /^1[3|4|5|7|8]\d{9}$/;
+                let reg = /^1[3|4|5|6|7|8|9]\d{9}$/;
                 if (!reg.test(this.username.replace(/\D/g, ''))) {
                     Toast('请输入正确的手机号码');
                     return false;
