@@ -1,6 +1,6 @@
 <template>
     <div flex="dir:top" flex-box="1" class="invitation-reward-list">
-        <div class="header">
+        <div class="header" flex-box="0">
             <div class="header-info">
                 <div class="right" @click.stop="$router.push('/reward-detail')">奖励细则</div>
                 <ul flex class="ul">

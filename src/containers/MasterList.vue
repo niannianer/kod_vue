@@ -1,13 +1,13 @@
 <template>
     <div flex="dir:top" flex-box="1" class="master-list">
-        <div class="header">
+        <div class="header" flex-box="0">
             <ul class="tabs" flex="mean:center" >
                 <li flex-box="1" :class="{'active': rewardType == 11,'br': rewardType == 12}" @click.stop="toTab(11)">一级奖励</li>
                 <li flex-box="1" :class="{'active': rewardType == 12,'bl': rewardType == 11,'br': rewardType == 13}" @click.stop="toTab(12)">二级奖励</li>
                 <li flex-box="1" :class="{'active': rewardType == 13,'bl': rewardType == 12}" @click.stop="toTab(13)">三级奖励</li>
             </ul>
         </div>
-        <div class="count-info" v-if="investorType == 12">
+        <div class="count-info" flex-box="0" v-if="investorType == 12">
             <div class="header-info">
                 <div class="right" @click.stop="$router.push('/reward-list')">奖励细则</div>
                 <ul flex class="ul">

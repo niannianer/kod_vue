@@ -1,6 +1,6 @@
 <template>
     <div flex="dir:top" flex-box="1" class="invitation-allowance-list">
-        <div class="header">
+        <div class="header" flex-box="0">
             <ul class="tabs" flex="mean:center">
                 <li flex-box="1" :class="{'active': tab == 1,'br': tab == 2}" @click.stop="changeTab(1)">直接邀请津贴</li>
                 <li flex-box="1" :class="{'active': tab == 2,'bl': tab == 1}" @click.stop="changeTab(2)">间接邀请津贴</li>
@@ -46,7 +46,7 @@
                         </li>
                         <li flex>
                             <div flex-box="0">投资时间：</div>
-                            <div flex-box="0">{{item.createTime|timeFormat}}</div>
+                            <div flex-box="0">{{item.createTime | timeFormat}}</div>
                         </li>
                     </ul>
                     <span class="icon" :class='item.rewardStatus == 2 ? "finish" : "cancel"'></span>
@@ -95,7 +95,7 @@
             }
         },
         created(){
-            this.addHive(1, 'invitation-allowance-list',1020);
+            this.addHive(1, 'invitation-allowance-list', 1020);
             this.getRewardList('refresh');
 
         },
@@ -106,14 +106,14 @@
         },
         methods: {
             changeTab(tab){
-                this.addHive(0, 'invitationAllowanceList_tab_status',102001);
+                this.addHive(0, 'invitationAllowanceList_tab_status', 102001);
                 this.tab = tab;
                 this.pageNo = 1;
                 this.getRewardList('refresh')
 
             },
             loadMore(){
-                this.addHive(0, 'invitationAllowanceList_scroll_loading',102002);
+                this.addHive(0, 'invitationAllowanceList_scroll_loading', 102002);
                 if (this.loading) {
                     return false;
                 }
