@@ -17,7 +17,7 @@
                 <button v-if="item.disabled" class="btn-default btn-act disabled">
                     {{item.applyScene == 10 ? "已签到" : "已完成"}}
                 </button>
-                <button class="btn-default btn-act" @click.stop="makeTask(item)" v-else>{{item.mcName}}</button>
+                <button class="btn-default btn-act" @click.stop="makeTask(item)" v-else> {{item.applyScene == 10 ? "签到" : "去完成"}}</button>
                 <div class="press-text">{{item.coinTaskCompleteNum}}/{{item.coinTaskLimit}}</div>
             </div>
         </div>
