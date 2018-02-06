@@ -28,15 +28,9 @@
                         <div class="msg">{{item.latestRemainTimeToGet}}</div>
                     </div>
                     <div flex-box="0">
-                        <img :src="goldLight" class="gold-img" v-if="item.currCoinStatus==2"
+                        <img :src="goldLight" v-if="item.currCoinStatus==2" class="gold-img"
                              :class="{'rotate': item.hasGot}"/>
-                        <img :src="goldGray" class="gold-img" v-else
-                             :class="{'rotate': item.hasGot}"/>
-                        <!--<div class="fly-box"
-                             :style="{left: item.position.left+'px',bottom:item.position.bottom+'px',opacity: 0}"
-                             >
-                            <img :src="goldLight" class="fly-gold" v-for="n in 5"/>
-                        </div>-->
+                        <img :src="goldGray" class="gold-img" v-else />
                         <div>{{sceneText(item.gcApplyScene)}}</div>
                     </div>
                 </div>
@@ -184,9 +178,9 @@
                         this.$set(this.userCoinList, index, item);
                         if (this.timer) clearTimeout(this.timer);
                         this.timer = setTimeout(() => {
-                            this.getGoldCoin(item.gcApplyScene);
+                            this.getGoldCoin();
                             this.getFriendList();
-                        }, 1700);
+                        }, 2510);
                     } else {
                         Toast(resp.msg);
                     }
@@ -214,7 +208,7 @@
                 })
             },
             //获取用户总信息
-            getGoldCoin(gcApplyScene){
+            getGoldCoin(){
                 $api.get('/goldCoin/getTotalInfo').then(resp => {
                     this.userCoinList = [];
                     if (resp.code == 200) {
@@ -223,11 +217,8 @@
                             //好友投资
                             if (item.currCoinStatus > 0 ) {
                                 item.showMsg = false;
-                                item.hasGot = false;
                                 //收取金币后，还有未到时间的金币，不反转
-                                if(item.gcApplyScene == gcApplyScene){
-                                    item.hasGot = true;
-                                }
+                                item.hasGot = false;
                                 item.position = {};
                                 this.userCoinList.push(item);
                             }
@@ -293,34 +284,6 @@
                         break;
                 }
                 return out;
-            },
-            enterPig(item, e, index){
-                let rect = e.target.getBoundingClientRect();
-                let x = rect.left;
-                let y = rect.top;
-                item.hasGot = true;
-                this.$set(this.userCoinList, index, item);
-                let height = document.getElementsByClassName('header')[0].offsetHeight;
-                let clientWidth = document.documentElement.clientWidth;
-                item.position = {left: x + 38, top: y, bottom: height - y - 50};
-                console.log(clientWidth)
-                let left = clientWidth * 0.5;
-                setTimeout(() => {
-                    document.getElementsByClassName('fly-box')[0].animate([
-                        {
-                            opacity: 1,
-                            left: item.position.left + 'px',
-                            bottom: item.position.bottom + 'px',
-                            width: '80px'
-                        },
-                        {opacity: 1, left: left + 'px', bottom: 143 + 'px', width: '35px'},
-                    ], {
-                        duration: 500,
-                        iteration: 4,
-                        delay: 100,
-                        fill: "forwards"
-                    });
-                }, 800);
             }
         },
         mounted(){
