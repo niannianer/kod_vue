@@ -287,14 +287,15 @@
                 'rewardSum',
                 'relationCount',
                 'interestCouponCount',
-                'nickName'
+                'nickName',
+                'investorType'
             ]),
             masterList(){
-                // 投资好友大于10人
-                if (this.relationInvest >= 5) {
-                    return ['理财达人，长期奖励', '额外奖励   收益加速']
+                // 已开启特权
+                if (this.investorType >= 12) {
+                    return ['理财达人，长期奖励', '额外奖励   收益加速'];
                 }
-                return ['理财达人，长期奖励', `还需${5 - this.relationInvest}个投资好友`, '额外奖励   收益加速']
+                return ['理财达人，长期奖励', `还需${10 - this.relationInvest}个投资好友`, '额外奖励   收益加速'];
             }
         },
         components: {
