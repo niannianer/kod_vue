@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="section seperate" flex="dir:top">
-                    <div class="item bl" flex-box="1" flex="cross:center"
+                    <div class="item bl" flex-box="1" flex="cross:center" v-if="!isWM"
                          @click.stop="playGame">
                         <div flex-box="0">
                             <img class="logo" src="../images/personal-center/gold-icon.png" alt="share">
@@ -225,10 +225,11 @@
     import EventBus from '../tools/event-bus';
     import '../less/personal-center.less';
     import {submitAuthorization} from '../tools/operation';
+
     let timer = null;
     export default {
         name: 'personal-center',
-        data(){
+        data() {
             return {
                 telNumber,
                 mode: true,
@@ -240,10 +241,15 @@
                 articleUnreadMessage: 0,
                 relationInvest: 0,//投资好友人数,
                 currentIndex: 0, //达人当前展示文案
-                hasAdvt: false
+                hasAdvt: false,
+                isWM: false
             }
         },
-        created(){
+        created() {
+            let host = window.location.host;
+            if (host.indexOf('zj-wm.cn') > -1) {
+                this.isWM = true;
+            }
             this.addHive(1, 'personal-center', 1070);
             this.mode = window.localStorage.getItem('mode') == 'true' ? true : false;
             if ($device.isWeixin) {
@@ -290,7 +296,7 @@
                 'nickName',
                 'investorType'
             ]),
-            masterList(){
+            masterList() {
                 // 投资好友已到10人
                 if (this.relationInvest >= 10) {
                     return ['理财达人，长期奖励', '额外奖励   收益加速'];
@@ -302,7 +308,7 @@
             Modal, Advertise
         },
         methods: {
-            getMaster(){
+            getMaster() {
                 return $api.get('/user/achievement')
                     .then(res => {
                         if (res.code == 200) {
@@ -311,7 +317,7 @@
                         }
                     })
             },
-            getUnread(){
+            getUnread() {
                 $api.get('/user/unread')
                     .then(resp => {
                         if (resp.code == 200) {
@@ -321,11 +327,11 @@
                         }
                     })
             },
-            getBaofoo(){
+            getBaofoo() {
                 this.$store.dispatch('getAccountBaofoo');
             },
             // 开户流程
-            goStep(){
+            goStep() {
                 let {userVerifyStatus} = this;
                 this.addHive(0, 'personal-center', 107001);
                 switch (userVerifyStatus) {
@@ -344,21 +350,21 @@
                     default:
                 }
             },
-            callBack(result){
+            callBack(result) {
                 this.showModal = false;
                 if (result) {
                     this.goStep();
                 }
             },
-            switchMode(){
+            switchMode() {
                 this.addHive(0, 'personal-center', 107015);
                 this.mode = !this.mode
                 window.localStorage.setItem('mode', this.mode);
             },
-            login(){
+            login() {
                 this.$router.replace('/login');
             },
-            logout(){
+            logout() {
                 this.addHive(0, 'personal-center', 107002);
                 let event = ['_trackEvent', '个人中心', 'CLICK', '个人中心-退出登录-点击', '在个人中心点击退出登录'];
                 window._hmt.push(event);
@@ -372,7 +378,7 @@
 
                     })
             },
-            getPath(path, boolean){
+            getPath(path, boolean) {
                 let lable = '个人中心-我的资产-点击';
                 let value = '在个人中心点击我的资产';
                 if (path == '/reward') {
@@ -451,12 +457,12 @@
                 this.$router.push(path);
 
             },
-            getShare(){
+            getShare() {
                 wx.getShare({
                     title: '金疙瘩——个人中心'
                 });
             },
-            getTradeRecharge(){
+            getTradeRecharge() {
                 if (!this.orderBillCode) {
                     return false;
                 }
@@ -491,7 +497,7 @@
 
                     });
             },
-            playGame(){
+            playGame() {
                 if (this.nickName) {
                     this.getPath('/golds/index');
                     return false;
@@ -504,12 +510,12 @@
             }
 
         },
-        mounted(){
+        mounted() {
             EventBus.$on('advertise', (picUrl) => {
                 this.hasAdvt = picUrl;
             });
         },
-        destroyed(){
+        destroyed() {
             this.addHive(2, 'personal-center', 1070);
             clearInterval(timer)
         }
