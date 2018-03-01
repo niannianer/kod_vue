@@ -228,7 +228,7 @@
                             ticks: {
                                 beginAtZero: false,
                                 callback: function (value, index, values) {
-                                    return value.toFixed(2)+'';
+                                    return value+'元';
                                 }
                             },
                             gridLines: {
